@@ -10,10 +10,11 @@ import { NarrativeZoom, Stuck, ZoomRequest } from './NarrativeZoom';
 import { TrailView, HistoryView, TrashView } from './Records';
 import { SettingsView } from './SettingsView';
 import { CaptureDialog } from './CaptureDialog';
+import { FilesView } from './FilesView';
 
-export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'settings';
+export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings';
 const VIEW_NAMES: Record<View, string> = {
-  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', settings: 'Settings',
+  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings',
 };
 
 export interface Ctx {
@@ -141,7 +142,7 @@ export function App() {
         <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
         <span className="title">{project.title}</span>
         <nav aria-label="Views">
-          {(['home', 'write', 'brain', 'zoom', 'conversations', 'search', 'history', 'trash', 'settings'] as View[]).map((v) => (
+          {(['home', 'write', 'brain', 'zoom', 'conversations', 'search', 'history', 'trash', 'files', 'settings'] as View[]).map((v) => (
             <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>
           ))}
         </nav>
@@ -160,6 +161,7 @@ export function App() {
         {view === 'trail' && <TrailView ctx={ctx} />}
         {view === 'history' && <HistoryView ctx={ctx} />}
         {view === 'trash' && <TrashView ctx={ctx} />}
+        {view === 'files' && <FilesView ctx={ctx} />}
         {view === 'settings' && <SettingsView ctx={ctx} />}
       </main>
       {stuck && <Stuck ctx={ctx} onClose={() => setStuck(false)} />}

@@ -39,6 +39,7 @@ const ARCHIVE_TABLES: { table: string; scope: string }[] = [
   { table: 'writing_sessions', scope: 'project_id = :p' },
   { table: 'arrangements', scope: 'project_id = :p' },
   { table: 'finding_notes', scope: 'project_id = :p' },
+  { table: 'imports', scope: 'project_id = :p' },
 ];
 
 /** Columns holding ids of other rows, remapped when importing as a copy. */

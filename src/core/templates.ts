@@ -26,6 +26,8 @@ const f = (group: string, field: string, label: string, extra: Partial<FieldDef>
 
 const CHARACTER: FieldDef[] = [
   f('Role in the story', 'role', 'Role', { prompt: 'Co-lead, B-story lead, hidden engine, supporting, narrator, secret-keeper…' }),
+  f('Role in the story', 'essence', 'Who they are', { prompt: 'In a sentence or two, who this person is.' }),
+  f('Role in the story', 'facts', 'Other facts about them', { multi: true }),
   f('Role in the story', 'importance', 'Narrative importance', { prompt: 'Main, supporting or minor. Depth is judged against this, never against how many fields are filled.' }),
   f('Role in the story', 'narrates', 'Narrates?', { prompt: 'Whether and how this character narrates (viewpoint, grammatical person).' }),
   f('Role in the story', 'pov_withheld_until', 'Viewpoint withheld until', { prompt: 'For a secret keeper: the beat or moment before which we never get inside their head.' }),

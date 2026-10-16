@@ -127,6 +127,12 @@ export class Structure {
     return this.beats(projectId);
   }
 
+  /** Her placement profiles: the two from her sheets, plus any she imported or made for this novel. */
+  profiles(projectId: string): Profile[] {
+    const custom = (this.brain.project(projectId).profile.placement_profiles as Profile[] | undefined) ?? [];
+    return [...PROFILES, ...custom];
+  }
+
   /** The book's length for placement: target words, or the drafted total when no target is set. */
   private length(projectId: string) {
     const s = settingsOf(this.brain.project(projectId).profile);
@@ -146,11 +152,11 @@ export class Structure {
     return {
       length: len,
       unit: '% of the manuscript',
-      profiles: PROFILES.map((p) => ({ key: p.key, name: p.name, source: p.source })),
+      profiles: this.profiles(projectId).map((p) => ({ key: p.key, name: p.name, source: p.source })),
       beats: beats.map((b) => {
         const key = b.attrs.template_key as string;
         const custom = b.attrs.placement as Record<string, [number, number]> | undefined;
-        const at = Object.fromEntries(PROFILES.map((p) => {
+        const at = Object.fromEntries(this.profiles(projectId).map((p) => {
           const r = custom?.[p.key] ?? p.at[key];
           if (!r) return [p.key, null];
           const words = [Math.round(r[0] * len.words), Math.round(r[1] * len.words)];
@@ -249,7 +255,7 @@ export class Structure {
     const mp = polarity('midpoint'), ail = polarity('all_is_lost');
     if (mp && ail && mp === ail) out.push({ beatId: byKey('all_is_lost')!.element.id as string, text: `Your Midpoint and All Is Lost are both "${mp}". Your rule says they are the inverse of each other. Intended?` });
     const lm = this.landmarks(projectId);
-    const prof = PROFILES.find((p) => p.key === profileKey)!;
+    const prof = this.profiles(projectId).find((p) => p.key === profileKey) ?? PROFILES[0]!;
     for (const b of lm.beats) {
       const win = prof.windows?.[b.key];
       if (win && b.written?.percent != null && b.written.percent / 100 > win.max) out.push({ beatId: b.id as string, text: `${b.name} starts at ${b.written.percent}% of the manuscript. Your sheet says: "${win.text}" Intended?` });

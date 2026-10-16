@@ -1,5 +1,6 @@
 // HTTP routes for the core services. Each handler validates input with zod before touching data.
 
+import { AppError } from '../core/store.js';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import type { Services } from './app.js';
@@ -48,6 +49,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       ownedLabel: z.string().max(120).optional(),
       reservedMarkers: z.array(z.string().max(60)).max(30).optional(),
       nextWritingAction: z.string().max(500).optional(),
+      importLabels: z.array(z.object({ label: z.string().min(1).max(80), status: z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']) })).max(80).optional(),
     }).strict());
     return brain.updateSettings(params(req, P).id, b);
   });
@@ -228,7 +230,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.get('/api/projects/:id/landmarks', async (req) => structure.landmarks(params(req, P).id));
   app.get('/api/projects/:id/board', async (req) => structure.board(params(req, P).id));
   app.get('/api/beats/:id', async (req) => structure.beatDetail(params(req, P).id));
-  app.get('/api/projects/:id/structure-questions', async (req) => structure.questions(params(req, P).id, query(req, z.object({ profile: z.enum(['brody', 'snyder']).optional() })).profile));
+  app.get('/api/projects/:id/structure-questions', async (req) => structure.questions(params(req, P).id, query(req, z.object({ profile: z.string().max(60).optional() })).profile));
   app.post('/api/projects/:id/cards', async (req) => structure.addCard(params(req, P).id, body(req, z.object({ title: z.string().min(1).max(300), beatId: id.nullable().optional(), mode: z.enum(['decide', 'candidate']).optional() }))));
   app.post('/api/elements/:id/place', async (req) => { const b = body(req, z.object({ beatId: id, mode: z.enum(['decide', 'candidate']).optional() })); return structure.place(params(req, P).id, b.beatId, b.mode); });
   app.post('/api/elements/:id/write-scene', async (req) => {
@@ -323,6 +325,68 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/batches/:id/undo', async (req) => {
     const b = body(req, z.object({ force: z.boolean().optional() }));
     return store.revert(params(req, P).id, 'author', { force: b.force });
+  });
+
+  // ----- import: files come in, she reviews, then applies (R-B-068 to R-B-075) -----
+  const fileBody = z.object({ name: z.string().min(1).max(260), data: z.string().max(80_000_000) });
+  const decode = (b64: string) => { const buf = Buffer.from(b64, 'base64'); if (!buf.length) throw new AppError('invalid', 'The file is empty.'); return buf; };
+  app.get('/api/projects/:id/imports', async (req) => svc.importer.list(params(req, P).id));
+  app.post('/api/projects/:id/imports', async (req) => {
+    const pid = params(req, P).id;
+    const b = body(req, fileBody.extend({ kind: z.enum(['manuscript', 'document', 'sheet']), docKind: z.enum(['story_bible', 'archive', 'document']).optional(), madeAt: z.string().datetime().nullable().optional() }));
+    const file = { name: b.name, data: decode(b.data) };
+    if (b.kind === 'manuscript') return svc.importer.startManuscript(pid, file);
+    if (b.kind === 'sheet') return svc.importer.startSheet(pid, file);
+    return svc.importer.startDocument(pid, { ...file, kind: b.docKind, madeAt: b.madeAt ?? null });
+  });
+  app.get('/api/imports/:id', async (req) => svc.importer.get(params(req, P).id));
+  const flag = z.object({ title: z.string().max(200).optional(), include: z.boolean().optional(), joinPrevious: z.boolean().optional() });
+  app.patch('/api/imports/:id', async (req) => {
+    const b = body(req, z.object({
+      version: z.number().int().optional(),
+      chapters: z.record(z.string(), flag).optional(), scenes: z.record(z.string(), flag).optional(),
+      docDate: z.string().datetime().nullable().optional(),
+      items: z.record(z.string(), z.object({ include: z.boolean().optional(), elementId: id.nullable().optional(), field: z.string().max(64).nullable().optional(), status: z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside', 'unlabeled']).optional(), arc: z.boolean().optional() })).optional(),
+      newElements: z.record(z.string(), z.object({ title: z.string().max(200).optional(), kind: z.string().max(40).optional() })).optional(),
+      density: z.number().int().optional(), useCorrections: z.boolean().optional(), profileName: z.string().max(120).optional(), keepGuidance: z.boolean().optional(),
+    }).strict());
+    const { version, ...edits } = b;
+    return svc.importer.edit(params(req, P).id, edits, version);
+  });
+  app.post('/api/imports/:id/apply', async (req) => svc.importer.apply(params(req, P).id));
+  app.post('/api/imports/:id/discard', async (req) => svc.importer.discard(params(req, P).id));
+  app.get('/api/projects/:id/documents', async (req) => svc.importer.sources(params(req, P).id));
+  app.get('/api/sources/:id', async (req) => svc.importer.source(params(req, P).id));
+
+  // ----- export: choose, see what a format cannot keep, then a checked file (R-B-076 to R-B-081) -----
+  const exportReq = z.object({
+    format: z.enum(['docx', 'rtf', 'txt', 'md', 'pdf', 'epub', 'odt', 'html', 'json']),
+    manuscript: z.boolean(),
+    chapterIds: z.array(id).max(2000).nullable().optional(),
+    sections: z.array(z.enum(['characters', 'beats', 'places', 'set_pieces', 'open_decisions', 'setups_payoffs', 'timeline', 'all_records'])).max(8),
+    includePrivate: z.boolean().default(false),
+    includeExamples: z.boolean().default(true),
+    chapterHeading: z.enum(['number_title', 'number', 'title']).default('number_title'),
+    options: z.object({ sceneBreak: z.string().min(1).max(20).optional(), sceneTitles: z.boolean().optional(), titlePage: z.boolean().optional(), manuscriptFormat: z.boolean().optional(), chapterOnNewPage: z.boolean().optional() }).default({}),
+  });
+  app.get('/api/projects/:id/export/presets', async (req) => svc.exporter.presets(params(req, P).id));
+  app.post('/api/projects/:id/export/presets', async (req) => { const b = body(req, z.object({ name: z.string().min(1).max(80), description: z.string().max(300).optional(), request: exportReq.partial() })); return svc.exporter.savePreset(params(req, P).id, b); });
+  app.delete('/api/projects/:id/export/presets/:key', async (req) => { const q = z.object({ id: id, key: z.string().max(60) }).parse(req.params); return svc.exporter.deletePreset(q.id, q.key); });
+  app.post('/api/projects/:id/export/preview', async (req) => {
+    const pid = params(req, P).id;
+    const r = body(req, exportReq);
+    const book = svc.exporter.book(pid, r);
+    const { lossesFor, FORMAT_INFO } = await import('../core/io/writers.js');
+    return { losses: r.format === 'json' ? [] : lossesFor(book, r.format), label: r.format === 'json' ? 'Data (.json)' : FORMAT_INFO[r.format].label, chapters: book.chapters.map((c) => ({ number: c.number, heading: c.heading, scenes: c.scenes.length })), sections: book.extras.map((e) => e.heading) };
+  });
+  app.post('/api/projects/:id/export', async (req) => {
+    const r = await svc.exporter.export(params(req, P).id, body(req, exportReq));
+    return { filename: r.filename, mime: r.mime, data: r.data.toString('base64'), bytes: r.data.length, losses: r.losses, verification: r.verification };
+  });
+  app.post('/api/projects/:id/export/beat-sheet', async (req) => {
+    const b = body(req, z.object({ profile: z.string().max(60).default('brody') }));
+    const r = await svc.exporter.beatSheet(params(req, P).id, b.profile);
+    return { filename: r.filename, mime: r.mime, data: r.data.toString('base64'), bytes: r.data.length, losses: r.losses, verification: r.verification };
   });
 
   // ----- backups and archives -----

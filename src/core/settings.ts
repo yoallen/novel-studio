@@ -21,6 +21,43 @@ export const DEFAULT_SCENE_LADDER: LadderStep[] = [
 export type Guidance = 'quiet' | 'advisory' | 'deep';
 export type GoalType = 'none' | 'words' | 'scenes' | 'time' | 'milestones';
 
+export interface ImportLabel { label: string; status: 'established' | 'developing' | 'unanswered' | 'illustrative' | 'proposed' | 'set_aside' }
+/** Her Story Bible's labels, then the program's own words, then common ones. Longest match wins. */
+export const DEFAULT_IMPORT_LABELS: ImportLabel[] = [
+  { label: 'Decided in spirit', status: 'developing' },
+  { label: 'Decided', status: 'established' },
+  { label: 'One way I could play it, not a decision yet', status: 'illustrative' },
+  { label: 'One way I could play it', status: 'illustrative' },
+  { label: 'One way it could be done', status: 'illustrative' },
+  { label: "Here's a suggestion", status: 'proposed' },
+  { label: 'Example', status: 'illustrative' },
+  { label: 'Weak', status: 'illustrative' },
+  { label: 'Strong', status: 'illustrative' },
+  { label: 'Over to me', status: 'unanswered' },
+  { label: 'My move', status: 'unanswered' },
+  { label: 'My turn', status: 'unanswered' },
+  { label: 'Now I write', status: 'unanswered' },
+  { label: "Here's where I take over", status: 'unanswered' },
+  { label: 'Hand it to me', status: 'unanswered' },
+  { label: 'Still open', status: 'unanswered' },
+  { label: 'Open', status: 'unanswered' },
+  { label: 'Developing', status: 'developing' },
+  { label: 'What it is', status: 'developing' },
+  { label: 'Set aside', status: 'set_aside' },
+  // Labels used in her decision archives.
+  { label: 'Author-established story-bible foundation', status: 'established' },
+  { label: 'New author statements', status: 'developing' },
+  { label: 'Exact keeper', status: 'established' },
+  { label: 'Author correction (emphatic)', status: 'established' },
+  { label: 'Author correction', status: 'established' },
+  { label: 'Author direction', status: 'established' },
+  { label: 'Developing author concept', status: 'developing' },
+  { label: 'Developing author scene', status: 'developing' },
+  { label: 'Exact author line', status: 'developing' },
+  { label: 'Editorial possibility', status: 'proposed' },
+  { label: 'Editorial caution', status: 'proposed' },
+];
+
 export interface ProjectSettings {
   authorName: string;
   sceneLadder: LadderStep[];
@@ -33,6 +70,8 @@ export interface ProjectSettings {
   ownedLabel: string;
   reservedMarkers: string[];
   nextWritingAction: string;
+  /** The words her own documents use for status, read on import (R-B-069). */
+  importLabels: ImportLabel[];
 }
 
 export const DEFAULT_RESERVED_MARKERS = ['Mine to write', 'Mine to build', 'Mine to design', 'Mine to choreograph', 'Mine to time', 'Mine to escalate', 'Mine to settle'];
@@ -52,6 +91,7 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
     ownedLabel: s.ownedLabel ?? DEFAULT_OWNED_LABEL,
     reservedMarkers: Array.isArray(s.reservedMarkers) && s.reservedMarkers.length ? s.reservedMarkers : DEFAULT_RESERVED_MARKERS,
     nextWritingAction: typeof s.nextWritingAction === 'string' ? s.nextWritingAction : '',
+    importLabels: Array.isArray(s.importLabels) && s.importLabels.length ? s.importLabels : DEFAULT_IMPORT_LABELS,
   };
 }
 

@@ -380,4 +380,28 @@ CREATE TABLE finding_notes (
 CREATE INDEX finding_notes_project ON finding_notes(project_id, finding_key);
 `,
   },
+  {
+    version: 5,
+    name: 'import review queues and passage details',
+    sql: `
+CREATE TABLE imports (
+  id TEXT PRIMARY KEY,
+  project_id TEXT NOT NULL REFERENCES projects(id),
+  kind TEXT NOT NULL,
+  source_id TEXT REFERENCES sources(id),
+  name TEXT NOT NULL,
+  plan_json TEXT NOT NULL,
+  report_json TEXT NOT NULL DEFAULT '{}',
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','applied','discarded')),
+  created_at TEXT NOT NULL,
+  applied_at TEXT,
+  version INTEGER NOT NULL DEFAULT 1
+);
+CREATE INDEX imports_project ON imports(project_id, status);
+ALTER TABLE excerpts ADD COLUMN attrs_json TEXT NOT NULL DEFAULT '{}';
+ALTER TABLE excerpts ADD COLUMN position INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE excerpts ADD COLUMN text_hash TEXT;
+CREATE INDEX excerpts_hash ON excerpts(source_id, text_hash);
+`,
+  },
 ];

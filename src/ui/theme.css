@@ -74,9 +74,9 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 
 /* app frame */
 .app { display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); height: 100%; }
-.topbar { display: flex; flex-wrap: wrap; min-width: 0; align-items: center; gap: 0.5rem 0.75rem; padding: 0.5rem 1rem; border-bottom: 1px solid var(--line); background: var(--bg); min-height: 52px; }
+.topbar { display: flex; flex-wrap: nowrap; min-width: 0; align-items: center; gap: 0.5rem 0.75rem; padding: 0.5rem 1rem; border-bottom: 1px solid var(--line); background: var(--bg); min-height: 52px; }
 .topbar .title { max-width: 30ch; font-family: var(--prose); color: var(--struct); font-weight: 600; font-size: 1.0625rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.topbar nav { display: flex; gap: 0.25rem; flex-wrap: nowrap; overflow-x: auto; min-width: 0; max-width: 100%; scrollbar-width: thin; }
+.topbar nav { display: flex; flex: 0 1 auto; gap: 0.25rem; flex-wrap: nowrap; overflow-x: auto; min-width: 0; max-width: 100%; scrollbar-width: thin; }
 .topbar nav button { white-space: nowrap; }
 .topbar nav button { border: 0; background: none; padding: 0.35em 0.6em; border-radius: var(--r-sm); cursor: pointer; color: var(--muted); }
 .topbar nav button[aria-current='page'] { color: var(--struct); background: var(--wash); }
@@ -160,3 +160,8 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
   .binder, .panel { display: none; }
   .page { padding: 1.5rem 1.25rem; margin: 1rem; }
 }
+
+/* A radio or checkbox with a title and a line of explanation beside it. */
+.choice { display: grid; grid-template-columns: auto 1fr; gap: 0 0.6rem; align-items: start; cursor: pointer; padding: 0.35rem 0; }
+.choice > input { margin-top: 0.3em; }
+.choice small { display: block; color: var(--muted); font-size: 0.875rem; line-height: 1.4; }

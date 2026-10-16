@@ -16,6 +16,8 @@ import { Ripple } from '../core/ripple.js';
 import { Zoom } from '../core/zoom.js';
 import { Continuity } from '../core/continuity.js';
 import { Collaborator, AiClient, anthropicClientFactory } from '../core/ai.js';
+import { Importer } from '../core/io/importer.js';
+import { Exporter } from '../core/io/exporter.js';
 import { registerRoutes } from './routes.js';
 import { snapshot } from '../core/backup.js';
 
@@ -45,6 +47,8 @@ export interface Services {
   zoom: Zoom;
   continuity: Continuity;
   ai: Collaborator;
+  importer: Importer;
+  exporter: Exporter;
   opts: AppOptions;
 }
 
@@ -62,7 +66,9 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
   const structure = new Structure(store, brain, ms), ripple = new Ripple(store, brain, ms, structure);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, opts };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, opts };
+  services.importer = new Importer(store, brain, ms, structure);
+  services.exporter = new Exporter(store, brain, ms, structure, services.continuity);
   services.ai = new Collaborator(store, brain, ms, services.convs, services.continuity, opts.aiClientFactory ?? anthropicClientFactory());
   services.ai.setKey(opts.aiKey ?? null);
   const app = Fastify({ logger: opts.logger ?? false, bodyLimit: 60 * 1024 * 1024 });
