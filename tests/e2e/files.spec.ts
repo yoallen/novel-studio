@@ -117,6 +117,8 @@ test("an editor's tracked changes come back and she decides each one (R-B-083)",
   const h = { 'x-studio-token': 'e2etoken0123456789', 'content-type': 'application/json' };
   const projects = await (await request.get('/api/projects', { headers: h })).json();
   const pid = projects.find((p: any) => p.title === 'Editor Test').id;
+  // The page commits its words when she leaves it; wait until they are in before exporting.
+  await expect.poll(async () => (await (await request.get(`/api/projects/${pid}/outline`, { headers: h })).json()).totalWords).toBe(7);
   const ex = await (await request.post(`/api/projects/${pid}/export`, { headers: h, data: { format: 'docx', manuscript: true, sections: [], options: { titlePage: false } } })).json();
   const JSZip = (await import('jszip')).default;
   const zip = await JSZip.loadAsync(Buffer.from(ex.data, 'base64'));
