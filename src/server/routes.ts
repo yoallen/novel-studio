@@ -354,10 +354,11 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.get('/api/projects/:id/imports', async (req) => svc.importer.list(params(req, P).id));
   app.post('/api/projects/:id/imports', async (req) => {
     const pid = params(req, P).id;
-    const b = body(req, fileBody.extend({ kind: z.enum(['manuscript', 'document', 'sheet']), docKind: z.enum(['story_bible', 'archive', 'document']).optional(), madeAt: z.string().datetime().nullable().optional() }));
+    const b = body(req, fileBody.extend({ kind: z.enum(['manuscript', 'document', 'sheet', 'roundtrip']), docKind: z.enum(['story_bible', 'archive', 'document']).optional(), madeAt: z.string().datetime().nullable().optional() }));
     const file = { name: b.name, data: decode(b.data) };
     if (b.kind === 'manuscript') return svc.importer.startManuscript(pid, file);
     if (b.kind === 'sheet') return svc.importer.startSheet(pid, file);
+    if (b.kind === 'roundtrip') return svc.importer.startRoundtrip(pid, file);
     return svc.importer.startDocument(pid, { ...file, kind: b.docKind, madeAt: b.madeAt ?? null });
   });
   app.get('/api/imports/:id', async (req) => svc.importer.get(params(req, P).id));
@@ -370,6 +371,8 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       items: z.record(z.string(), z.object({ include: z.boolean().optional(), elementId: id.nullable().optional(), field: z.string().max(64).nullable().optional(), status: z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside', 'unlabeled']).optional(), arc: z.boolean().optional() })).optional(),
       newElements: z.record(z.string(), z.object({ title: z.string().max(200).optional(), kind: z.string().max(40).optional() })).optional(),
       density: z.number().int().optional(), useCorrections: z.boolean().optional(), profileName: z.string().max(120).optional(), keepGuidance: z.boolean().optional(),
+      keepComments: z.boolean().optional(),
+      roundtrip: z.record(z.string().max(60), z.object({ useEditor: z.boolean().optional(), all: z.enum(['accept', 'reject', 'clear']).optional(), decisions: z.record(z.string().max(200), z.enum(['accept', 'reject']).nullable()).optional() })).optional(),
     }).strict());
     const { version, ...edits } = b;
     return svc.importer.edit(params(req, P).id, edits, version);

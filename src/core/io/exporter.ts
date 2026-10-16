@@ -63,7 +63,7 @@ export class Exporter {
         number: n, title, heading,
         scenes: (c.scenes as Row[]).map((s) => {
           const full = this.ms.scene(s.id as string);
-          return { title: full.title as string, blocks: docToBlocks(JSON.parse(full.doc_json as string)) };
+          return { id: full.id as string, title: full.title as string, blocks: docToBlocks(JSON.parse(full.doc_json as string)) };
         }),
       };
     });

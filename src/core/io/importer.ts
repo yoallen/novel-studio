@@ -3,6 +3,7 @@
 import { Store, Row, NotFoundError, ValidationError, ConflictError, nowIso, newId } from '../store.js';
 import { Brain } from '../brain.js';
 import { Manuscript, docToText } from '../manuscript.js';
+import type { WritingDesk } from '../writing.js';
 import { Structure, SAVE_THE_CAT } from '../structure.js';
 import { settingsOf } from '../settings.js';
 import { blocksToDoc } from './blocks.js';
@@ -10,6 +11,16 @@ import { readBlocks } from './readers.js';
 import { planManuscript, finalShape, expectedText, ManuscriptPlan } from './manuscript-import.js';
 import { readPassages, splitByFields, dateFromName, Passage, ImportStatus } from './document-import.js';
 import { readBeatSheet, profileFromSheet, SheetRead } from './spreadsheet.js';
+import { readTracked, readComments, groupChanges, decide, scenesIn, originalText, revisedText, Para, ChangeGroup } from './roundtrip.js';
+
+export interface RoundtripScene {
+  sceneId: string; title: string; chapter: string; baseVersion: number;
+  status: 'unchanged' | 'tracked' | 'untracked' | 'diverged';
+  paras: Para[]; groups: ChangeGroup[];
+  editorText?: string; appText?: string; useEditor: boolean;
+  comments: { author: string; text: string; near: string }[];
+}
+export interface RoundtripPlan { scenes: RoundtripScene[]; keepComments: boolean; missing: string[]; outside: number; sceneBreak: string }
 
 export interface SheetPlan { read: SheetRead; density: number; useCorrections: boolean; corrections: Record<string, [number, number]>; profileName: string; keepGuidance: boolean }
 
@@ -39,6 +50,8 @@ export interface ImportEdits {
   items?: Record<string, { include?: boolean; elementId?: string | null; field?: string | null; status?: ImportStatus; arc?: boolean }>;
   newElements?: Record<string, { title?: string; kind?: string }>;
   density?: number; useCorrections?: boolean; profileName?: string; keepGuidance?: boolean;
+  keepComments?: boolean;
+  roundtrip?: Record<string, { useEditor?: boolean; all?: 'accept' | 'reject' | 'clear'; decisions?: Record<string, 'accept' | 'reject' | null> }>;
 }
 
 export interface DocumentPlan {
@@ -57,7 +70,7 @@ const nameLike = (s: string) => {
 const low = (s: string) => s.toLowerCase().replace(/[’]/g, "'");
 
 export class Importer {
-  constructor(private store: Store, private brain: Brain, private ms: Manuscript, private structure: Structure) {}
+  constructor(private store: Store, private brain: Brain, private ms: Manuscript, private structure: Structure, private desk?: WritingDesk) {}
 
   private save(projectId: string, kind: string, name: string, sourceId: string | null, plan: unknown, report: unknown) {
     const id = newId();
@@ -112,6 +125,16 @@ export class Importer {
       }
       for (const ne of dp.newElements) { const e = edits.newElements?.[ne.key]; if (e?.title) ne.title = e.title.slice(0, 200); if (e?.kind) ne.kind = e.kind; }
       for (const it of dp.items) if (it.newElement) it.newElement = dp.newElements.find((n) => n.key === it.newElement!.key) ?? it.newElement;
+    } else if (r.kind === 'roundtrip') {
+      const rp = plan as unknown as RoundtripPlan;
+      if (edits.keepComments !== undefined) rp.keepComments = edits.keepComments;
+      for (const sc of rp.scenes) {
+        const e = edits.roundtrip?.[sc.sceneId];
+        if (!e) continue;
+        if (e.useEditor !== undefined) sc.useEditor = e.useEditor;
+        if (e.all) for (const g of sc.groups) g.decision = e.all === 'clear' ? null : e.all;
+        for (const [gid, dec] of Object.entries(e.decisions ?? {})) { const g = sc.groups.find((x) => x.id === gid); if (g) g.decision = dec; }
+      }
     } else if (r.kind === 'sheet') {
       const sp = plan as unknown as SheetPlan;
       if (edits.density !== undefined) { if (!sp.read.densities.includes(edits.density)) throw new ValidationError('That sheet has no columns for that many words per page.'); sp.density = edits.density; }
@@ -125,6 +148,7 @@ export class Importer {
 
   apply(id: string) {
     const r = this.get(id);
+    if (r.kind === 'roundtrip') return this.applyRoundtrip(id);
     if (r.kind === 'manuscript') return this.applyManuscript(id);
     if (r.kind === 'document') return this.applyDocument(id);
     return this.applySheet(id);
@@ -165,6 +189,94 @@ export class Importer {
     const report = { ...r.report, chapters: made.length, scenes: made.reduce((a, m) => a + m.sceneIds.length, 0), words: made.reduce((a, m) => a + m.sceneIds.reduce((b, sid) => b + (this.ms.scene(sid).word_count as number), 0), 0), verified: ok, verification: ok ? 'Every character of the accepted text is in the novel.' : 'The text in the novel does not match the file exactly. Nothing was removed; compare the chapters before writing on.' };
     this.store.db.prepare("UPDATE imports SET status='applied', applied_at=?, report_json=? WHERE id=?").run(nowIso(), JSON.stringify(report), id);
     return { import: this.get(id), made, verified: ok };
+  }
+
+  // ---------- an editor's revised Word file (R-B-083) ----------
+
+  async startRoundtrip(projectId: string, file: { name: string; data: Buffer }) {
+    this.brain.project(projectId);
+    if (!/\.docx$/i.test(file.name)) throw new ValidationError("Bring back the editor's Word file (.docx).");
+    const JSZip = (await import('jszip')).default;
+    let zip;
+    try { zip = await JSZip.loadAsync(file.data); } catch { throw new ValidationError('That Word file could not be opened.'); }
+    const xml = await zip.file('word/document.xml')?.async('string');
+    if (!xml) throw new ValidationError('That file has no document in it.');
+    const comments = readComments(await zip.file('word/comments.xml')?.async('string'));
+    const { paras, changes } = readTracked(xml);
+    const byScene = scenesIn(paras);
+    if (!byScene.size) throw new ValidationError('This Word file has no scene markers, so its changes cannot be matched to scenes. Only files exported from Story Canon as Word can come back this way; to bring in other files, import them as a manuscript.');
+    const outline = this.ms.outline(projectId);
+    const scenes: RoundtripScene[] = [];
+    const missing: string[] = [];
+    const norm = (t: string) => t.replace(/\s+/g, ' ').trim();
+    for (const [sceneId, ps] of byScene) {
+      const sc = this.store.get('scenes', sceneId);
+      if (!sc || sc.deleted_at || sc.project_id !== projectId) { missing.push(sceneId); continue; }
+      const chapter = outline.find((c) => c.id === sc.chapter_id);
+      const groups = groupChanges(ps, changes);
+      const orig = norm(originalText(ps)), rev = norm(revisedText(ps));
+      const app = norm(String(sc.text).replace(/\* \* \*/g, ''));
+      const origCmp = norm(orig.replace(/\* \* \*|#/g, ''));
+      const appMatches = origCmp.replace(/\s/g, '') === app.replace(/\s/g, '');
+      let status: RoundtripScene['status'] = groups.length ? 'tracked' : 'unchanged';
+      if (!appMatches) status = groups.length ? 'diverged' : 'untracked';
+      const near = (p: Para) => p.segs.filter((s) => s.kind !== 'del').map((s) => s.text).join('').slice(0, 80);
+      scenes.push({
+        sceneId, title: sc.title as string, chapter: (chapter?.title as string) ?? '', baseVersion: sc.prose_version as number, status, paras: ps, groups,
+        ...(status === 'untracked' || status === 'diverged' ? { editorText: revisedText(ps), appText: String(sc.text) } : {}), useEditor: false,
+        comments: ps.flatMap((p) => p.comments.map((id) => ({ ...(comments.get(id) ?? { author: 'Editor', text: '' }), near: near(p) }))).filter((c) => c.text),
+      });
+    }
+    const inScene = new Set([...byScene.values()].flat());
+    const outside = paras.filter((p) => !inScene.has(p) && p.segs.some((s) => s.kind !== 'same')).length;
+    const plan: RoundtripPlan = { scenes, keepComments: true, missing, outside, sceneBreak: '* * *' };
+    const changed = scenes.filter((s) => s.status !== 'unchanged');
+    return this.save(projectId, 'roundtrip', file.name, null, plan, {
+      scenes: scenes.length, changed: changed.length, changes: scenes.reduce((a, s) => a + s.groups.length, 0), comments: scenes.reduce((a, s) => a + s.comments.length, 0),
+      findings: [
+        ...(missing.length ? [`${missing.length} scene${missing.length === 1 ? ' in the file is' : 's in the file are'} no longer in this novel and ${missing.length === 1 ? 'was' : 'were'} left out.`] : []),
+        ...(outside ? [`${outside} changed paragraph${outside === 1 ? '' : 's'} sit outside any scene (a chapter heading or title page). Chapter titles are changed in the binder, not here.`] : []),
+        ...(scenes.some((s) => s.status === 'untracked') ? ['Some scenes were changed without Track Changes. You can compare them and choose the editor\'s version or keep yours.'] : []),
+        ...(scenes.some((s) => s.status === 'diverged') ? ['Some scenes have changed in the program since they were exported. Their tracked changes can still be read, but applying them would replace your later writing, so those scenes need your choice.'] : []),
+      ],
+    });
+  }
+
+  /** Apply her decisions. Each changed scene gets a new version; the earlier one stays in its history. */
+  applyRoundtrip(id: string) {
+    const r = this.get(id);
+    if (r.status !== 'pending') throw new ConflictError('That import was already finished.');
+    const pid = r.project_id;
+    const plan = r.plan as RoundtripPlan;
+    const done: { sceneId: string; title: string; accepted: number; rejected: number; undecided: number }[] = [];
+    const skipped: { title: string; why: string }[] = [];
+    this.store.batch({ projectId: pid, actor: 'author', reason: `Editor's changes from "${r.name}"` }, () => {
+      for (const s of plan.scenes) {
+        const sc = this.store.get('scenes', s.sceneId);
+        if (!sc || sc.deleted_at) { skipped.push({ title: s.title, why: 'the scene was deleted' }); continue; }
+        const accepted = s.groups.filter((g) => g.decision === 'accept').length;
+        const wantsEditor = (s.status === 'untracked' || s.status === 'diverged') && s.useEditor;
+        if (!accepted && !wantsEditor) { if (s.comments.length && plan.keepComments) this.keepComments(pid, s, r.name); continue; }
+        if (sc.prose_version !== s.baseVersion) { skipped.push({ title: s.title, why: 'it was edited in the program after this file came in; bring the file in again to review it against the latest writing' }); continue; }
+        if (s.status === 'diverged' && !wantsEditor) { skipped.push({ title: s.title, why: 'it changed in the program after export; choose the editor\'s version or keep yours' }); continue; }
+        const groups = wantsEditor ? s.groups.map((g) => ({ ...g, decision: g.decision ?? 'accept' as const })) : s.groups;
+        const blocks = decide(s.paras, groups, plan.sceneBreak);
+        this.ms.saveScene(s.sceneId, { doc: blocksToDoc(blocks), expectVersion: sc.prose_version as number, reason: `Editor's changes from "${r.name}"` });
+        if (s.comments.length && plan.keepComments) this.keepComments(pid, s, r.name);
+        done.push({ sceneId: s.sceneId, title: s.title, accepted: wantsEditor ? groups.length : accepted, rejected: s.groups.filter((g) => g.decision === 'reject').length, undecided: wantsEditor ? 0 : s.groups.filter((g) => !g.decision).length });
+      }
+    });
+    const report = { ...r.report, applied: done, skipped };
+    this.store.db.prepare("UPDATE imports SET status='applied', applied_at=?, report_json=? WHERE id=?").run(nowIso(), JSON.stringify(report), id);
+    return { import: this.get(id) };
+  }
+
+  private keepComments(pid: string, s: RoundtripScene, file: string) {
+    for (const c of s.comments) {
+      const text = `${c.author} (in "${file}") on "${c.near}${c.near.length >= 80 ? '…' : ''}": ${c.text}`;
+      if (this.desk) this.desk.captureForScene(s.sceneId, text);
+      else this.brain.capture(pid, text, { kind: 'thought' });
+    }
   }
 
   // ---------- plotting spreadsheets ----------

@@ -7,7 +7,7 @@ import { Block, Run, plain, blockText } from './blocks.js';
 
 export type ExportFormat = 'docx' | 'rtf' | 'txt' | 'md' | 'pdf' | 'epub' | 'odt' | 'html';
 
-export interface BookScene { title: string; blocks: Block[] }
+export interface BookScene { title: string; blocks: Block[]; id?: string }
 export interface BookChapter { number: number; title: string; heading: string; scenes: BookScene[] }
 export interface Book {
   title: string;
@@ -198,24 +198,31 @@ export function toRtf(book: Book, o: WriteOptions) {
 // ---------- Word ----------
 export async function toDocx(book: Book, o: WriteOptions): Promise<Buffer> {
   const d = await import('docx');
-  const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Header, PageNumber, LineRuleType } = d;
+  const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Header, PageNumber, LineRuleType, Bookmark } = d;
   const ms = o.manuscriptFormat;
   const spacing = ms ? { line: 480, lineRule: LineRuleType.AUTO } : { line: 300, lineRule: LineRuleType.AUTO, after: 0 };
   const runs = (rs: Run[]) => rs.flatMap((r) => r.text.split('\n').map((t, k) => new TextRun({ text: t, italics: !!r.i, bold: !!r.b, underline: r.u ? {} : undefined, strike: !!r.s, break: k > 0 ? 1 : undefined })));
   const children: InstanceType<typeof Paragraph>[] = [];
   const breakPara = () => new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 240, after: 240 }, children: [new TextRun(o.sceneBreak)] });
-  const blk = (bs: Block[]) => {
+  // Each scene is marked with a start and an end bookmark, so a revised copy can be matched back scene by scene (R-B-083).
+  const blk = (bs: Block[], sceneId?: string) => {
     let first = true;
+    const made: { opts: Record<string, unknown>; kids: unknown[] }[] = [];
     for (const b of bs) {
-      if (b.type === 'break') { children.push(breakPara()); first = true; continue; }
-      if (b.type === 'h') { children.push(new Paragraph({ heading: b.level <= 1 ? HeadingLevel.HEADING_3 : HeadingLevel.HEADING_4, children: runs(b.runs) })); first = true; continue; }
-      children.push(new Paragraph({
-        children: runs(b.runs), spacing,
+      if (b.type === 'break') { made.push({ opts: { alignment: AlignmentType.CENTER, spacing: { before: 240, after: 240 } }, kids: [new TextRun(o.sceneBreak)] }); first = true; continue; }
+      if (b.type === 'h') { made.push({ opts: { heading: b.level <= 1 ? HeadingLevel.HEADING_3 : HeadingLevel.HEADING_4 }, kids: runs(b.runs) }); first = true; continue; }
+      made.push({ opts: {
+        spacing,
         alignment: b.align === 'center' ? AlignmentType.CENTER : b.align === 'right' ? AlignmentType.RIGHT : undefined,
         indent: b.quote ? { left: 720, right: 720 } : (first || b.align) ? undefined : { firstLine: ms ? 720 : 360 },
-      }));
+      }, kids: runs(b.runs) });
       first = false;
     }
+    if (sceneId && made.length) {
+      made[0]!.kids.unshift(new Bookmark({ id: `sc_${sceneId}`, children: [] }));
+      made[made.length - 1]!.kids.push(new Bookmark({ id: `se_${sceneId}`, children: [] }));
+    }
+    for (const m of made) children.push(new Paragraph({ ...m.opts, children: m.kids as never }));
   };
   if (o.titlePage) {
     children.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 4000 }, heading: HeadingLevel.TITLE, children: [new TextRun(book.title)] }));
@@ -226,7 +233,7 @@ export async function toDocx(book: Book, o: WriteOptions): Promise<Buffer> {
     c.scenes.forEach((s, i) => {
       if (i > 0) children.push(breakPara());
       if (o.sceneTitles && s.title) children.push(new Paragraph({ heading: HeadingLevel.HEADING_2, children: [new TextRun(s.title)] }));
-      blk(s.blocks);
+      blk(s.blocks, s.id);
     });
   });
   for (const e of book.extras) { children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, pageBreakBefore: children.length > 0, children: [new TextRun(e.heading)] })); blk(e.blocks); }

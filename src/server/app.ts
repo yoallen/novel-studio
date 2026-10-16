@@ -73,7 +73,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, opts };
   services.lenses = new Lenses(store, brain, ms, structure, services.continuity);
   services.setup = new Setup(store, brain, structure, services.continuity);
-  services.importer = new Importer(store, brain, ms, structure);
+  services.importer = new Importer(store, brain, ms, structure, services.desk);
   services.exporter = new Exporter(store, brain, ms, structure, services.continuity);
   services.ai = new Collaborator(store, brain, ms, services.convs, services.continuity, opts.aiClientFactory ?? anthropicClientFactory());
   services.ai.setKey(opts.aiKey ?? null);

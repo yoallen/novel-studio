@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { statusWord, when } from './status';
+import { diffWords } from './diff';
 
 type Tab = 'in' | 'out' | 'documents';
 
@@ -37,7 +38,7 @@ function readFile(f: File): Promise<string> {
 function ImportPanel({ ctx }: { ctx: Ctx }) {
   const [list, setList] = useState<any[]>([]);
   const [openId, setOpenId] = useState<string | null>(null);
-  const [kind, setKind] = useState<'manuscript' | 'document' | 'sheet'>('manuscript');
+  const [kind, setKind] = useState<'manuscript' | 'document' | 'sheet' | 'roundtrip'>('manuscript');
   const [docKind, setDocKind] = useState<'story_bible' | 'archive' | 'document'>('story_bible');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -68,6 +69,7 @@ function ImportPanel({ ctx }: { ctx: Ctx }) {
             ['manuscript', 'Chapters of my manuscript', 'Word, RTF, Markdown, OpenDocument or plain text. Chapters and scenes are proposed for you to check.'],
             ['document', 'A planning document', 'A story bible, an archive of decisions, character notes. Your status words are read exactly.'],
             ['sheet', 'A plotting spreadsheet', 'Your beat sheet in Excel. Its placements become one of your placement choices.'],
+            ['roundtrip', "My editor's changes", 'A Word file you exported from here, revised with Track Changes. You decide each change.'],
           ] as const).map(([k, title, sub]) => (
             <label key={k} className="choice">
               <input type="radio" name="import-kind" checked={kind === k} onChange={() => setKind(k)} />
@@ -84,7 +86,7 @@ function ImportPanel({ ctx }: { ctx: Ctx }) {
         )}
         <label className="btn write" style={{ marginTop: '1rem', display: 'inline-block' }} aria-disabled={busy}>
           {busy ? 'Reading the file…' : 'Choose a file'}
-          <input type="file" hidden disabled={busy} aria-label="File to bring in" accept={kind === 'sheet' ? '.xlsx' : kind === 'document' ? '.docx,.rtf,.md,.txt,.odt' : '.docx,.rtf,.md,.markdown,.txt,.odt'} onChange={(e) => { void pick(e.target.files?.[0]); e.target.value = ''; }} />
+          <input type="file" hidden disabled={busy} aria-label="File to bring in" accept={kind === 'sheet' ? '.xlsx' : kind === 'roundtrip' ? '.docx' : kind === 'document' ? '.docx,.rtf,.md,.txt,.odt' : '.docx,.rtf,.md,.markdown,.txt,.odt'} onChange={(e) => { void pick(e.target.files?.[0]); e.target.value = ''; }} />
         </label>
       </section>
       {pending.length > 0 && (
@@ -104,7 +106,7 @@ function ImportPanel({ ctx }: { ctx: Ctx }) {
     </>
   );
 }
-const kindName = (k: string) => (k === 'manuscript' ? 'manuscript' : k === 'sheet' ? 'plotting sheet' : 'planning document');
+const kindName = (k: string) => (k === 'manuscript' ? 'manuscript' : k === 'sheet' ? 'plotting sheet' : k === 'roundtrip' ? "editor's changes" : 'planning document');
 
 function ImportReview({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () => void }) {
   const [r, setR] = useState<any>(null);
@@ -130,8 +132,9 @@ function ImportReview({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
       {r.kind === 'manuscript' && <ManuscriptReview plan={r.plan} edit={edit} />}
       {r.kind === 'document' && <DocumentReview ctx={ctx} r={r} edit={edit} />}
       {r.kind === 'sheet' && <SheetReview plan={r.plan} edit={edit} />}
+      {r.kind === 'roundtrip' && <RoundtripReview ctx={ctx} r={r} edit={edit} />}
       <div className="row" style={{ position: 'sticky', bottom: 0, background: 'var(--page)', padding: '0.75rem 0', borderTop: '1px solid var(--line)', marginTop: '1rem' }}>
-        <button className="btn write" onClick={() => void apply()} disabled={r.status !== 'pending'}>{r.kind === 'manuscript' ? 'Add these chapters to my novel' : r.kind === 'sheet' ? 'Use this sheet' : 'Add the checked passages'}</button>
+        <button className="btn write" onClick={() => void apply()} disabled={r.status !== 'pending'}>{r.kind === 'manuscript' ? 'Add these chapters to my novel' : r.kind === 'sheet' ? 'Use this sheet' : r.kind === 'roundtrip' ? 'Make my decisions' : 'Add the checked passages'}</button>
         <span className="small muted">One step. You can undo it from the Story Trail.</span>
         <span className="grow" />
         <button className="btn link small" onClick={() => void discard()}>Don't import this</button>
@@ -159,9 +162,15 @@ function ImportDone({ ctx, r, onBack }: { ctx: Ctx; r: any; onBack: () => void }
           {rep.flagged ? ` ${rep.flagged} need your decision and were left out.` : ''}
         </div>
       )}
+      {r.kind === 'roundtrip' && (
+        <div className="notice" role="status">
+          {(rep.applied ?? []).length ? `${rep.applied.length} scene${rep.applied.length === 1 ? '' : 's'} updated: ${rep.applied.map((a: any) => `${a.title} (${a.accepted} accepted${a.rejected ? `, ${a.rejected} turned down` : ''}${a.undecided ? `, ${a.undecided} left as they were` : ''})`).join('; ')}. Each earlier version is kept in the scene's history.` : 'No scene changed.'}
+          {(rep.skipped ?? []).map((x: any) => <div key={x.title}>{x.title} was not changed: {x.why}.</div>)}
+        </div>
+      )}
       {r.kind === 'sheet' && <div className="notice" role="status">The sheet is now one of your placement choices{rep.profileName ? ` ("${rep.profileName}")` : ''}. {rep.corrected ? `${rep.corrected} flagged number${rep.corrected === 1 ? ' was' : 's were'} corrected.` : ''} See it in Narrative Zoom, Beats and placement.</div>}
       <div className="row">
-        {r.kind === 'manuscript' && <button className="btn write" onClick={() => ctx.go('write')}>Go to the Writing Room</button>}
+        {(r.kind === 'manuscript' || r.kind === 'roundtrip') && <button className="btn write" onClick={() => ctx.go('write')}>Go to the Writing Room</button>}
         {r.kind === 'document' && <button className="btn write" onClick={() => ctx.go('brain')}>Open the Story Brain</button>}
         {r.kind === 'sheet' && <button className="btn write" onClick={() => ctx.go('zoom')}>Open Narrative Zoom</button>}
         <button className="btn link" onClick={onBack}>Bring in something else</button>
@@ -288,6 +297,55 @@ function DocumentReview({ ctx, r, edit }: { ctx: Ctx; r: any; edit: (e: Record<s
         </section>
       ))}
       {!items.length && <p className="muted">Nothing here.</p>}
+    </>
+  );
+}
+
+function RoundtripReview({ ctx, r, edit }: { ctx: Ctx; r: any; edit: (e: Record<string, unknown>) => Promise<void> }) {
+  const plan = r.plan;
+  const changed = plan.scenes.filter((s: any) => s.status !== 'unchanged' || s.comments.length);
+  const set = (sceneId: string, e: Record<string, unknown>) => edit({ roundtrip: { [sceneId]: e } });
+  return (
+    <>
+      <p className="muted">{r.report.changes} change{r.report.changes === 1 ? '' : 's'} in {r.report.changed} scene{r.report.changed === 1 ? '' : 's'}{r.report.comments ? `, and ${r.report.comments} comment${r.report.comments === 1 ? '' : 's'}` : ''}. Nothing changes until you decide. Anything you leave undecided stays as you wrote it.</p>
+      {(r.report.findings ?? []).map((f: string) => <div key={f} className="notice small">{f}</div>)}
+      <label className="row small"><input type="checkbox" checked={plan.keepComments} onChange={(e) => void edit({ keepComments: e.target.checked })} />Keep the editor's comments as notes beside each scene</label>
+      {!changed.length && <p className="muted">The editor did not change anything.</p>}
+      {changed.map((s: any) => (
+        <section key={s.sceneId} className="section" aria-label={`Changes in ${s.title}`}>
+          <div className="row"><h2 style={{ margin: 0 }} className="grow">{s.title}</h2><span className="small faint">{s.chapter}</span>
+            {s.groups.length > 0 && <><button className="btn small" onClick={() => void set(s.sceneId, { all: 'accept' })}>Accept all</button><button className="btn link small" onClick={() => void set(s.sceneId, { all: 'reject' })}>Turn all down</button></>}
+          </div>
+          {s.status === 'diverged' && <div className="notice small">You have changed this scene since you exported it. The editor's changes were made to the earlier text.</div>}
+          {s.groups.map((g: any) => (
+            <div key={g.id} className="row" style={{ alignItems: 'flex-start', borderTop: '1px solid var(--line)', padding: '0.45rem 0' }}>
+              <div className="grow diff" style={{ fontFamily: 'var(--prose)' }}>
+                <span className="faint">…{g.before}</span>{g.removed && <span className="removed">{g.removed}</span>}{g.added && <span className="added">{g.added}</span>}<span className="faint">{g.after}…</span>
+                <div className="small faint" style={{ fontFamily: 'var(--ui)' }}>{g.author}{g.date ? `, ${when(g.date)}` : ''}</div>
+              </div>
+              <div className="row small" role="group" aria-label="Decision">
+                <button className={'btn small' + (g.decision === 'accept' ? ' write' : '')} aria-pressed={g.decision === 'accept'} onClick={() => void set(s.sceneId, { decisions: { [g.id]: g.decision === 'accept' ? null : 'accept' } })}>Accept</button>
+                <button className={'btn small' + (g.decision === 'reject' ? '' : ' link')} aria-pressed={g.decision === 'reject'} onClick={() => void set(s.sceneId, { decisions: { [g.id]: g.decision === 'reject' ? null : 'reject' } })}>Turn down</button>
+              </div>
+            </div>
+          ))}
+          {(s.status === 'untracked' || s.status === 'diverged') && s.editorText && (
+            <details style={{ marginTop: '0.5rem' }} open={s.status === 'untracked'}>
+              <summary className="small">Compare the editor's text with yours</summary>
+              <p className="small muted"><span className="diff"><span className="removed">Struck</span></span> is only in yours; <span className="diff"><span className="added">highlighted</span></span> is only in the editor's.</p>
+              <div className="diff" style={{ maxHeight: '40vh', overflow: 'auto', border: '1px solid var(--line)', padding: '0.6rem', borderRadius: 'var(--r-sm)', fontFamily: 'var(--prose)', whiteSpace: 'pre-wrap' }}>
+                {diffWords(s.appText, s.editorText).map((p: any, i: number) => <span key={i} className={p.kind === 'same' ? '' : p.kind}>{p.text}</span>)}
+              </div>
+              <label className="row small"><input type="checkbox" checked={s.useEditor} onChange={(e) => void set(s.sceneId, { useEditor: e.target.checked })} />Use the editor's version of this scene</label>
+            </details>
+          )}
+          {s.comments.length > 0 && (
+            <div style={{ marginTop: '0.5rem' }}>
+              {s.comments.map((c: any, i: number) => <div key={i} className="small" style={{ borderLeft: '3px solid var(--line-strong)', paddingLeft: '0.5rem', margin: '0.3rem 0' }}><strong>{c.author}:</strong> {c.text} <span className="faint">(near "{c.near.slice(0, 50)}")</span></div>)}
+            </div>
+          )}
+        </section>
+      ))}
     </>
   );
 }

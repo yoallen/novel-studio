@@ -105,3 +105,32 @@ test('a novel can be set up first: genres, story types with ingredients, charact
   await expect(page.getByRole('region', { name: 'Genres' }).getByLabel('Comedy role')).toHaveValue('primary');
   await expect(page.getByRole('region', { name: 'Storytelling toolkit' }).getByLabel('How I use it')).toHaveValue('The spine.');
 });
+
+test("an editor's tracked changes come back and she decides each one (R-B-083)", async ({ page, request }) => {
+  await newNovel(page, 'Editor Test');
+  await page.locator('.hero').getByRole('button', { name: 'Write' }).click();
+  await page.locator('.ProseMirror').click();
+  await page.keyboard.type('Kevin said it was not his fault.');
+  await expect(page.getByRole('status').filter({ hasText: 'Saved' })).toBeVisible({ timeout: 10_000 });
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Import and export' }).click();
+  const h = { 'x-studio-token': 'e2etoken0123456789', 'content-type': 'application/json' };
+  const projects = await (await request.get('/api/projects', { headers: h })).json();
+  const pid = projects.find((p: any) => p.title === 'Editor Test').id;
+  const ex = await (await request.post(`/api/projects/${pid}/export`, { headers: h, data: { format: 'docx', manuscript: true, sections: [], options: { titlePage: false } } })).json();
+  const JSZip = (await import('jszip')).default;
+  const zip = await JSZip.loadAsync(Buffer.from(ex.data, 'base64'));
+  const xml = await zip.file('word/document.xml')!.async('string');
+  zip.file('word/document.xml', xml.replace(/<w:t xml:space="preserve">Kevin said it was not his fault\.<\/w:t>/, '<w:t xml:space="preserve">Kevin said it was not his </w:t></w:r><w:del w:id="1" w:author="Ed"><w:r><w:delText>fault</w:delText></w:r></w:del><w:ins w:id="2" w:author="Ed"><w:r><w:t>doing</w:t></w:r></w:ins><w:r><w:t>.</w:t>'));
+  const edited = await zip.generateAsync({ type: 'nodebuffer' });
+  await page.getByLabel("My editor's changes").check();
+  await page.getByLabel('File to bring in').setInputFiles({ name: 'Editor Test edited.docx', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', buffer: edited });
+  const region = page.getByRole('region', { name: /Changes in/ });
+  await expect(region).toContainText('fault');
+  await expect(region).toContainText('Ed');
+  await region.getByRole('button', { name: 'Accept', exact: true }).click();
+  await expect(region.getByRole('button', { name: 'Accept', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: 'Make my decisions' }).click();
+  await expect(page.getByRole('status')).toContainText('1 scene updated');
+  await page.getByRole('button', { name: 'Go to the Writing Room' }).click();
+  await expect(page.locator('.ProseMirror')).toContainText('Kevin said it was not his doing.');
+});
