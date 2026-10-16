@@ -8,6 +8,7 @@
 import { Store } from './store.js';
 import { Manuscript } from './manuscript.js';
 import { settingsOf, WritingPush } from './settings.js';
+import { pushPace } from './goals.js';
 
 export interface ProgressDay { day: string; words: number; future: boolean; today: boolean }
 
@@ -61,10 +62,12 @@ export class Progress {
     const p = this.store.get('projects', projectId);
     const st = settingsOf(p?.profile_json ? JSON.parse(p.profile_json as string) : {});
     const today = dayIn(opts.tz, opts.now ?? new Date());
-    const daily = st.goal.type === 'words' && st.goal.target ? st.goal.target : null;
     const words = this.dailyWords(projectId, opts.tz);
 
     const push = pushInView(st.push, today) ? st.push! : null;
+    // A push's days are measured against its own pace; any other stretch against the everyday goal.
+    const everyday = st.goal.type === 'words' && st.goal.target ? st.goal.target : null;
+    const daily = push ? (pushPace(push) ?? everyday) : everyday;
     const start = push ? push.start : `${today.slice(0, 8)}01`;
     const end = push ? push.end : addDays(addDays(`${today.slice(0, 8)}01`, 32).slice(0, 8) + '01', -1);
 

@@ -137,3 +137,4 @@ export function mergeSettings(profile: Record<string, unknown>, patch: Partial<P
 }
 
 export { DEFAULT_STATUS_LABELS };
+

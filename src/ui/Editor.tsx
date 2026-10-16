@@ -1,3 +1,4 @@
+import { dailyGoalOn } from '../core/goals';
 import { useEffect, useRef, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -211,7 +212,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
     setConflict(null);
   }
 
-  const target = ctx.settings.goal?.type === 'words' && ctx.settings.goal.target ? ctx.settings.goal.target : null;
+  const target = dailyGoalOn(ctx.settings, localDay());
   return (
     <div className="page" data-opening={opening || undefined}>
       {error && <div className="notice error" role="alert">{error}</div>}
@@ -249,3 +250,6 @@ function countWords(text: string): number {
   const m = text.match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu);
   return m ? m.length : 0;
 }
+
+/** Today's date on this computer, YYYY-MM-DD. */
+function localDay() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }

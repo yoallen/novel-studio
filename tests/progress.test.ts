@@ -1,6 +1,7 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { freshStore } from './helpers.js';
 import { Progress, dayIn } from '../src/core/progress.js';
+import { dailyGoalOn, pushPace } from '../src/core/goals.js';
 
 let env: ReturnType<typeof freshStore>;
 afterEach(() => env?.cleanup());
@@ -90,5 +91,21 @@ describe('drafting progress', () => {
 
   it('a time zone it does not know falls back to the computer’s own', () => {
     expect(dayIn('Not/AZone', new Date('2026-11-01T12:00:00Z'))).toMatch(/^2026-11-0[12]$/);
+  });
+
+  it('the push sets its own pace on its own days; before it, there is no goal unless she keeps an everyday one', () => {
+    const { p, progress } = setup();
+    const push = { name: 'November', start: '2026-11-01', end: '2026-11-30', words: 50000 };
+    env.brain.updateSettings(p.id, { push });
+    expect(pushPace(push)).toBe(1667);
+    const oct16 = progress.progress(p.id, { tz: 'UTC', now: new Date('2026-10-16T12:00:00.000Z') });
+    expect(oct16.push).toBeNull(); // more than two weeks out: this month, and no goal yet
+    expect(oct16.dailyGoal).toBeNull();
+    expect(progress.progress(p.id, { tz: 'UTC', now: new Date('2026-11-05T12:00:00.000Z') }).dailyGoal).toBe(1667);
+    const st = { goal: { type: 'words' as const, target: 500, note: '' }, push };
+    expect(dailyGoalOn(st, '2026-10-16')).toBe(500);
+    expect(dailyGoalOn(st, '2026-11-01')).toBe(1667);
+    expect(dailyGoalOn(st, '2026-12-01')).toBe(500);
+    expect(dailyGoalOn({ goal: { type: 'none', target: null, note: '' }, push }, '2026-10-16')).toBeNull();
   });
 });

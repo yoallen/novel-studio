@@ -16,7 +16,7 @@ test('drafting progress: a push and a daily goal, tracked day by day on Where wa
   await push.getByLabel('Last day').fill(await day(7));
   await push.getByLabel('Words to write in it').fill('50');
   await expect(push).toContainText('about 5 words a day for 10 days');
-  await push.getByRole('button', { name: 'Make that my daily goal' }).click();
+  await expect(push).toContainText('your daily goal on those days only');
   await page.getByRole('button', { name: 'Save settings' }).click();
 
   await views.getByRole('button', { name: 'Where was I' }).click();

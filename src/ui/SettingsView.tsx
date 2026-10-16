@@ -75,7 +75,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
           <select value={s.guidanceWhilePlanning} onChange={(e) => setS({ ...s, guidanceWhilePlanning: e.target.value })}>
             <option value="quiet">Quiet</option><option value="advisory">Advisory</option><option value="deep">Deep Analysis</option>
           </select></label>
-        <label className="field"><span>Goal</span>
+        <label className="field"><span>Everyday goal</span>
           <select value={s.goal.type} onChange={(e) => setS({ ...s, goal: { ...s.goal, type: e.target.value } })}>
             <option value="none">No goals</option><option value="words">Words per day</option><option value="scenes">Scenes per week</option><option value="time">Minutes per day</option><option value="milestones">Milestones</option>
           </select></label>
@@ -97,8 +97,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
             const perDay = days > 0 && s.push.words ? Math.ceil(Number(s.push.words) / days) : 0;
             return (
               <div className="row small">
-                {perDay > 0 && <span>That is about {perDay.toLocaleString()} words a day for {days} days.</span>}
-                {perDay > 0 && !(s.goal.type === 'words' && s.goal.target === perDay) && <button className="btn small" onClick={() => setS({ ...s, goal: { ...s.goal, type: 'words', target: perDay } })}>Make that my daily goal</button>}
+                {perDay > 0 && <span>That is about {perDay.toLocaleString()} words a day for {days} days. It is your daily goal on those days only; the rest of the time, your everyday goal applies.</span>}
                 <button className="btn link small" onClick={() => setS({ ...s, push: null })}>No push</button>
               </div>
             );
