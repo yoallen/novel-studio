@@ -11,6 +11,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
   const [focus, setFocus] = useState(false);
   const [error, setError] = useState('');
   const [tick, setTick] = useState(0);
+  const [live, setLive] = useState<{ id: string; words: number } | null>(null);
 
   const loadOutline = useCallback(() => api.get(`/api/projects/${ctx.projectId}/outline`).then(setOutline).catch((e) => setError(e.message)), [ctx.projectId]);
   useEffect(() => { void loadOutline(); }, [loadOutline, tick]);
@@ -63,21 +64,21 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
           {error && <div className="notice error">{error}</div>}
           {outline && (
             <>
-              <p className="small muted" style={{ margin: '0 0 0.75rem' }}>{outline.totalWords.toLocaleString()} words{ctx.settings.targetWords ? ` of ${Number(ctx.settings.targetWords).toLocaleString()}` : ''}</p>
+              <p className="small muted" style={{ margin: '0 0 0.75rem' }}>{(outline.totalWords + liveDelta(outline, live)).toLocaleString()} words{ctx.settings.targetWords ? ` of ${Number(ctx.settings.targetWords).toLocaleString()}` : ''}</p>
               {outline.chapters.map((c: any) => (
                 <div className="chapter" key={c.id}>
                   <div className="chapter-head">
                     {renaming?.id === c.id
                       ? <input type="text" autoFocus aria-label="Chapter name" value={renaming!.title} onChange={(e) => setRenaming({ id: c.id, title: e.target.value })} onBlur={() => void finishRename()} onKeyDown={(e) => { if (e.key === 'Enter') void finishRename(); if (e.key === 'Escape') setRenaming(null); }} />
                       : <button className="name" onDoubleClick={() => setRenaming({ id: c.id, title: c.title })} title="Double-click to rename">{c.title}</button>}
-                    <span className="faint small">{c.word_count.toLocaleString()}</span>
+                    <span className="faint small">{(c.word_count + (c.scenes.some((x: any) => x.id === live?.id) ? liveDelta(outline, live) : 0)).toLocaleString()}</span>
                   </div>
                   {c.scenes.map((s: any) => (
                     <div key={s.id} className="row" style={{ gap: 0, flexWrap: 'nowrap' }}>
                       <button className="scene-row" aria-current={s.id === sceneId ? 'true' : undefined} onClick={() => ctx.openScene(s.id)}>
                         <span className="mark" data-d={drafted(s.status)} title={ladder.find((x) => x.key === s.status)?.label ?? s.status} />
                         <span className="grow" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.title}</span>
-                        <span className="wc">{s.word_count.toLocaleString()}</span>
+                        <span className="wc">{(live && live.id === s.id ? live.words : s.word_count).toLocaleString()}</span>
                       </button>
                       {s.id === sceneId && (
                         <span className="row" style={{ gap: 0, flexWrap: 'nowrap' }}>
@@ -100,10 +101,16 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
           {!focus && <button className="btn link small" onClick={() => setPanel((p) => !p)}>{panel ? 'Hide scene plan' : 'Show scene plan'}</button>}
           <button className="btn link small" onClick={() => setFocus((f) => !f)} title="Ctrl+Shift+F">{focus ? 'Leave focus' : 'Focus'}</button>
         </div>
-        {sceneId ? <Editor key={sceneId + ':' + editorNonce} ctx={ctx} sceneId={sceneId} onChanged={() => setTick((t) => t + 1)} />
+        {sceneId ? <Editor key={sceneId + ':' + editorNonce} ctx={ctx} sceneId={sceneId} onChanged={() => { setLive(null); setTick((t) => t + 1); }} onWords={(n) => setLive({ id: sceneId, words: n })} />
           : <div className="page"><p className="muted">Choose a scene on the left, or add one, and start writing.</p></div>}
       </div>
       {!focus && panel && sceneId && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
     </div>
   );
+}
+
+function liveDelta(outline: any, live: { id: string; words: number } | null): number {
+  if (!live) return 0;
+  for (const c of outline.chapters) for (const s of c.scenes) if (s.id === live.id) return live.words - s.word_count;
+  return 0;
 }

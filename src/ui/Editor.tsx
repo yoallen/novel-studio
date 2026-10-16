@@ -13,7 +13,7 @@ import { registerFlush } from './flush';
 const JOURNAL_MS = 700;
 const COMMIT_MS = 20_000;
 
-export function Editor({ ctx, sceneId, onChanged }: { ctx: Ctx; sceneId: string; onChanged: () => void }) {
+export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId: string; onChanged: () => void; onWords?: (n: number) => void }) {
   const [scene, setScene] = useState<any>(null);
   const [title, setTitle] = useState('');
   const [words, setWords] = useState(0);
@@ -39,7 +39,8 @@ export function Editor({ ctx, sceneId, onChanged }: { ctx: Ctx; sceneId: string;
     onUpdate: ({ editor: ed }) => {
       latest.current = ed.getJSON();
       dirty.current = true;
-      setWords(countWords(ed.getText({ blockSeparator: '\n' })));
+      const n = countWords(ed.getText({ blockSeparator: '\n' }));
+      setWords(n); onWords?.(n);
       ctx.setSaveState({ state: 'unsaved' });
       if (!sessionStarted.current) { sessionStarted.current = true; api.post(`/api/projects/${ctx.projectId}/sessions/start`).catch(() => {}); }
       window.clearTimeout(journalTimer.current);
