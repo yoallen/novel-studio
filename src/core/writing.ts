@@ -126,8 +126,8 @@ export class WritingDesk {
       lastScene = { id: sc.id as string, title: sc.title as string, chapter: (ch?.title as string) ?? '', tail: text.length > 400 ? '…' + text.slice(-400).replace(/^\S*\s/, '') : text };
     }
     const decisions = this.store.db.prepare(
-      `SELECT s.id, s.field, s.value_json, s.made_at, e.title AS element_title, e.id AS element_id FROM statements s JOIN elements e ON e.id=s.element_id
-       WHERE s.project_id=? AND s.status='established' AND s.speaker_kind='author' AND s.deleted_at IS NULL AND e.deleted_at IS NULL ORDER BY s.made_at DESC, s.created_at DESC LIMIT 5`,
+      `SELECT s.id, s.field, s.value_json, s.made_at, e.title AS element_title, e.id AS element_id, e.kind AS element_kind FROM statements s JOIN elements e ON e.id=s.element_id
+       WHERE s.project_id=? AND s.status='established' AND s.speaker_kind IN ('author','source') AND s.deleted_at IS NULL AND e.deleted_at IS NULL ORDER BY s.made_at DESC, s.created_at DESC LIMIT 5`,
     ).all(projectId) as Row[];
     const openQuestions = this.store.db.prepare(
       "SELECT id, title, body, state, attrs_json, created_at FROM elements WHERE project_id=? AND kind='question' AND state='open' AND deleted_at IS NULL ORDER BY created_at DESC LIMIT 8",
@@ -138,7 +138,7 @@ export class WritingDesk {
     return {
       lastScene,
       nextAction: this.nextWritingAction(projectId),
-      decisions: decisions.map((d) => ({ ...d, value: JSON.parse(d.value_json as string) as unknown })),
+      decisions: decisions.map((d) => ({ ...d, value: JSON.parse(d.value_json as string) as unknown, label: this.brain.fieldsFor(projectId, d.element_kind as string, { all: true }).find((f) => f.field === d.field)?.label ?? String(d.field).replace(/^x_/, '').replace(/_/g, ' ') })),
       openQuestions,
       recentCaptures,
       openTrail: this.ms.openTrail(projectId),

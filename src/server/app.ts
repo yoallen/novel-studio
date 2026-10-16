@@ -36,6 +36,8 @@ export interface AppOptions {
   autoBackupMs?: number;
   /** The collaborator's API client; tests inject a fake. Defaults to the Claude API. */
   aiClientFactory?: (key: string) => AiClient;
+  /** Folder of starting novels that ship with the program (*.storycanon.json). The Library offers each until it is in or set aside. */
+  seedDir?: string;
   /** The API key, handed over by the desktop shell from the operating system's secure storage. */
   aiKey?: string | null;
 }

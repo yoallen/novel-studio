@@ -103,7 +103,8 @@ export class Conversations {
       turns.forEach((t, i) => ins.run(newId(), conv.id, i + 1, t.speaker_kind, t.speaker_name, t.text, t.said_at ?? conv.started_at));
     })();
     const stored = this.store.db.prepare('SELECT COUNT(*) AS n, COALESCE(SUM(LENGTH(text)),0) AS chars FROM turns WHERE conversation_id=?').get(conv.id) as { n: number; chars: number };
-    const expectedChars = turns.reduce((a, t) => a + t.text.length, 0);
+    // SQLite counts characters (code points); JavaScript counts UTF-16 units. Count the same way so an emoji never reads as loss.
+    const expectedChars = turns.reduce((a, t) => a + [...t.text].length, 0);
     return { conversation: this.get(conv.id), format, turnsFound: turns.length, turnsStored: stored.n, charactersKept: stored.chars, complete: stored.n === turns.length && stored.chars === expectedChars, byAuthor: turns.filter((t) => t.speaker_kind === 'author').length };
   }
 

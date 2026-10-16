@@ -18,6 +18,7 @@ const { app } = await buildApp({
   aiKey: process.env.STUDIO_AI_KEY ?? null,
   ...(process.env.STUDIO_AI_FAKE === '1' ? { aiClientFactory: fakeAi } : {}),
   staticDir: process.env.STUDIO_UI ? resolve(process.env.STUDIO_UI) : undefined,
+  seedDir: resolve(process.env.STUDIO_SEEDS ?? 'seed'),
   logger: true,
 });
 await app.listen({ host: '127.0.0.1', port });

@@ -11,6 +11,15 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const load = () => api.get('/api/library').then(setProjects).catch((e) => setError(e.message));
+  const [seeds, setSeeds] = useState<any[]>([]);
+  const [opening, setOpening] = useState('');
+  const loadSeeds = () => api.get('/api/seeds').then(setSeeds).catch(() => setSeeds([]));
+  useEffect(() => { void loadSeeds(); }, []);
+  async function openSeed(file: string) {
+    setOpening(file); setError('');
+    try { const r = await api.post('/api/seeds/open', { file }); await load(); await loadSeeds(); onOpen(r.projectId); }
+    catch (e) { setError((e as Error).message); } finally { setOpening(''); }
+  }
   const [stages, setStages] = useState<string[]>([]);
   useEffect(() => { api.get('/api/stages').then(setStages).catch(() => {}); }, []);
   async function setStage(id: string, stage: string) { try { await api.put(`/api/projects/${id}/stage`, { stage }); await load(); } catch (e) { setError((e as Error).message); } }
@@ -56,6 +65,17 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
         <p className="muted" style={{ fontSize: '1.125rem', margin: 0 }}>Where your story takes shape, and nothing gets lost.</p>
         <p style={{ fontFamily: 'var(--prose)', fontStyle: 'italic', color: 'var(--struct)', margin: '0.75rem 0 0' }}>Story Canon remembers. The author decides.</p>
       </header>
+      {seeds.map((sd) => (
+        <section key={sd.file} className="section seed" aria-label={`${sd.title}, ready to bring in`}>
+          <h2>{sd.title} is ready</h2>
+          <p>Built from your planning: the Story Bible, both Character Breakthrough Archives, the planning conversation and the story data register. {Number(sd.counts.records).toLocaleString()} records, {Number(sd.counts.statements).toLocaleString()} facts, {Number(sd.counts.turns).toLocaleString()} conversation turns and {Number(sd.counts.passages).toLocaleString()} source passages.</p>
+          <p className="small muted">Every fact keeps the status it has in your planning (decided, still developing, open, an example, or a suggestion you never accepted) and shows where it came from. Nothing was decided for you.</p>
+          <div className="row">
+            <button className="btn write" disabled={!!opening} onClick={() => void openSeed(sd.file)}>{opening === sd.file ? 'Bringing it in…' : `Bring in ${sd.title}`}</button>
+            <button className="btn link" onClick={() => void api.post('/api/seeds/dismiss', { file: sd.file }).then(loadSeeds)}>Not now</button>
+          </div>
+        </section>
+      ))}
       <h2>Your novels</h2>
       {error && <div className="notice error" role="alert">{error}</div>}
       {projects && projects.length > 0 && (

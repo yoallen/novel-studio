@@ -327,6 +327,12 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
   if (!d) return <p className="muted">{e || 'Gathering the cast…'}</p>;
   if (!d.rows.length) return <p className="muted">No characters yet. Add them in the Story Brain, and this view shows where each one is in the story.</p>;
   const places: any[] = d.places;
+  if (!places.length) return (
+    <>
+      <h2>The cast across the story</h2>
+      <p className="muted">Nothing has a place in the story's order yet. A scene card counts once it is decided on a beat, and a written scene counts where it sits. Cards that only might go somewhere are not counted, so nothing here is guessed.</p>
+    </>
+  );
   const actStarts = places.map((p, i) => i === 0 || places[i - 1].act !== p.act);
   const go = (p: any) => (p.sceneId ? ctx.openScene(p.sceneId) : p.planId && onOpen({ level: 'card', id: p.planId }));
   const names = (cs: any[]) => (cs.length <= 2 ? cs.map((c) => c.title).join(' and ') : `${cs.slice(0, -1).map((c) => c.title).join(', ')} and ${cs[cs.length - 1].title}`);

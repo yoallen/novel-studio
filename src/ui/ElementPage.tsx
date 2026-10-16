@@ -97,9 +97,10 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
 
       {isChar && <FillOneLine fields={page.fields} onPick={(f) => setOpen({ ...open, [f]: true })} />}
 
-      {Object.entries(groups).map(([group, fields]) => {
+      {/* What is already written comes first; the empty places to write follow, in their usual order. */}
+      {Object.entries(groups).map(([g, fs], i) => ({ g, fs, i, filled: (fs as any[]).some(filledField) })).sort((x, y) => Number(y.filled) - Number(x.filled) || x.i - y.i).map(({ g: group, fs: fields }) => {
         // Empty groups stay folded so a new character never looks like a questionnaire (R-A-069).
-        const hasContent = fields.some((f: any) => f.view.latest || f.view.unanswered.length || f.view.illustrative.length || f.view.currentAll.length);
+        const hasContent = (fields as any[]).some(filledField);
         const isOpen = expanded[group] ?? (hasContent || PRIMARY_GROUPS.has(group) || fields.some((f: any) => open[f.def.field] || f.def.custom) || fields.length <= 2);
         if (!isOpen) return (
           <section key={group} className="section row">
@@ -147,11 +148,23 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
         <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="org-h" onKeyDown={(e) => e.key === 'Escape' && setOrigin(null)}>
           <div className="dialog">
             <h2 id="org-h">Where this came from</h2>
-            {origin.none ? <p>This was entered directly, not from a conversation.</p> : (
-              <>
-                <p className="small muted">{origin.conversationTitle}, message {origin.position}, {origin.speaker} ({origin.speakerKind === 'assistant' ? 'the assistant' : origin.speakerKind === 'author' ? 'you' : 'a source'}), {when(origin.saidAt)}</p>
-                <blockquote className="tail" style={{ whiteSpace: 'pre-wrap', maxHeight: '45vh', overflow: 'auto' }}>{origin.text}</blockquote>
-              </>
+            {origin.none ? <p>This was entered directly, not from a conversation or a document.</p> : (
+              <div style={{ maxHeight: '65vh', overflow: 'auto' }}>
+                {origin.document && (
+                  <>
+                    <p className="small muted">{origin.document.name}{origin.document.locator ? `, ${origin.document.locator}` : ''}{origin.document.madeAt ? `, ${when(origin.document.madeAt)}` : ''}</p>
+                    {origin.document.text && <blockquote className="tail" style={{ whiteSpace: 'pre-wrap' }}>{origin.document.text}</blockquote>}
+                  </>
+                )}
+                {origin.note && <p className="small" style={{ whiteSpace: 'pre-wrap' }}>{origin.note}</p>}
+                {origin.hasTurn !== false && origin.conversationTitle && (
+                  <>
+                    <h3 className="small">In the conversation</h3>
+                    <p className="small muted">{origin.conversationTitle}, message {origin.position}, {origin.speaker} ({origin.speakerKind === 'assistant' ? 'the assistant' : origin.speakerKind === 'author' ? 'you' : 'a source'}), {when(origin.saidAt)}</p>
+                    <blockquote className="tail" style={{ whiteSpace: 'pre-wrap' }}>{origin.text}</blockquote>
+                  </>
+                )}
+              </div>
             )}
             <button className="btn" onClick={() => setOrigin(null)}>Close</button>
           </div>
@@ -160,6 +173,8 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
     </article>
   );
 }
+
+const filledField = (f: any) => !!(f.view.latest || f.view.unanswered.length || f.view.illustrative.length || f.view.currentAll.length);
 
 function FieldBlock({ ctx, elId, f, open, setOpen, showHistory, toggleHistory, add, act, onOrigin }: any) {
   const v = f.view, d = f.def;
@@ -176,7 +191,7 @@ function FieldBlock({ ctx, elId, f, open, setOpen, showHistory, toggleHistory, a
         {st.status !== 'established' && st.status !== 'illustrative' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'established', replaceCurrent: !d.multi }))}>Decide this</button>}
         {st.status === 'established' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'developing' }))}>Not decided after all</button>}
         {st.status !== 'set_aside' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'set_aside' }))}>Set aside</button>}
-        {st.turn_id && <button className="btn link small" onClick={() => onOrigin(st.id)}>Where did this come from?</button>}
+        {(st.turn_id || st.excerpt_id || st.note) && <button className="btn link small" onClick={() => onOrigin(st.id)}>Where did this come from?</button>}
       </div>
     </div>
   );

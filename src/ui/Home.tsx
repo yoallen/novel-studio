@@ -70,7 +70,7 @@ export function Home({ ctx }: { ctx: Ctx }) {
         <section>
           <h3>Latest decisions</h3>
           {w.decisions.length === 0 ? <p className="muted small">No decisions recorded yet.</p> : (
-            <ul className="list">{w.decisions.map((d: any) => <li key={d.id} className="st" data-s="established"><span className="small muted">{d.element_title}, {d.field.replace(/_/g, ' ')}</span><br />{String(d.value)}</li>)}</ul>
+            <ul className="list">{w.decisions.map((d: any) => <li key={d.id} className="st" data-s="established"><span className="small muted">{d.element_title}, {String(d.label ?? d.field).charAt(0).toLowerCase() + String(d.label ?? d.field).slice(1)}</span><br />{String(d.value)}</li>)}</ul>
           )}
         </section>
         <section>

@@ -74,7 +74,8 @@ export class Cast {
     const quiet = Math.max(5, Math.round(places.length * 0.25));
     const where_ = (p: Place) => `${p.chapter ? `Chapter ${p.chapter.number}` : ACT_NAMES[p.act]}, "${p.title}"`;
     const notes: { characterId: string; text: string }[] = [];
-    for (const r of rows) {
+    // Before anything has a place in the story, there is nothing to have gone missing from.
+    for (const r of places.length ? rows : []) {
       if (!r.count) { notes.push({ characterId: r.id, text: `${r.title} has a record but does not appear in any scene yet.` }); continue; }
       const after = places.length - r.last!.index;
       if (r.last && after >= quiet && r.count <= 3) notes.push({ characterId: r.id, text: `${r.title} is introduced in ${where_(r.first!)} and not seen after ${where_(r.last)}, ${after} scene${after === 1 ? '' : 's'} before the end. Intended?` });

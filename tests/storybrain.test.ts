@@ -54,6 +54,14 @@ describe('conversations are kept whole (R-A-054)', () => {
     const hits = env.brain.search(pid, 'notebook wielding fool');
     expect(hits.some((h) => h.hit === 'turn')).toBe(true);
   });
+
+  it('a conversation with emoji and accents still counts as whole', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('IDW').id as string;
+    const conv = new Conversations(env.store, env.brain);
+    const r = conv.importText(pid, { title: 'Laughing', text: '### YOLANDA | 2026-10-14 09:34 ET | text\nHahahahaha! 😂😂 Café.\n\n### CHATGPT | 2026-10-14 09:35 ET | text\nHe would call it 🎙️ The Voice of Reason.' });
+    expect(r).toMatchObject({ turnsFound: 2, turnsStored: 2, complete: true });
+  });
 });
 
 describe('catching what matters inside a conversation (R-A-055, R-A-029)', () => {

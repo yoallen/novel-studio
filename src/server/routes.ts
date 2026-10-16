@@ -1,5 +1,7 @@
 // HTTP routes for the core services. Each handler validates input with zod before touching data.
 
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { AppError } from '../core/store.js';
 import * as methodsLib from '../core/methods.js';
 import { saveTheCatAsBeats } from '../core/structure.js';
@@ -362,7 +364,15 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/conversations/:id/harvested', async (req) => { convs.markHarvested(params(req, P).id); return { ok: true }; });
   app.get('/api/origin', async (req) => {
     const q = query(req, z.object({ statement: id.optional(), element: id.optional() }));
-    return convs.originOf({ statementId: q.statement, elementId: q.element }) ?? { none: true };
+    const turn = convs.originOf({ statementId: q.statement, elementId: q.element });
+    // A fact can also come from a document: the passage it was read from, and what was noted about it.
+    const st = q.statement ? store.get('statements', q.statement) : undefined;
+    const src = st?.source_id ? store.get('sources', st.source_id as string) : undefined;
+    const ex = st?.excerpt_id ? store.get('excerpts', st.excerpt_id as string) : undefined;
+    const document = src && src.kind !== 'conversation' ? { name: src.name, kind: src.kind, madeAt: src.made_at ?? null, locator: ex?.locator ?? null, text: ex?.text ?? null } : null;
+    const note = (st?.note as string | undefined) || null;
+    if (!turn && !document && !note) return { none: true };
+    return { ...(turn ?? {}), hasTurn: !!turn, document, note };
   });
 
   // ----- history -----
@@ -451,6 +461,31 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/archive/import', async (req) => {
     const b = body(req, z.object({ archive: z.unknown(), asCopy: z.boolean().optional() }));
     return importArchive(store, b.archive, { asCopy: b.asCopy });
+  });
+  // ----- starting novels that ship with the program (her own planning, already built) -----
+  const seedFiles = () => {
+    const dir = svc.opts.seedDir;
+    if (!dir || !existsSync(dir)) return [] as string[];
+    return readdirSync(dir).filter((f) => f.endsWith('.storycanon.json'));
+  };
+  const readSeed = (file: string) => {
+    if (!seedFiles().includes(file)) throw new NotFoundError('starting novel');
+    return JSON.parse(readFileSync(join(svc.opts.seedDir!, file), 'utf8')) as { project_id: string; title: string; counts: Record<string, number> };
+  };
+  const dismissedSeeds = () => { const r = store.db.prepare("SELECT value_json FROM settings WHERE key='seeds_dismissed'").get() as { value_json: string } | undefined; return r ? JSON.parse(r.value_json) as string[] : []; };
+  app.get('/api/seeds', async () => seedFiles().filter((f) => !dismissedSeeds().includes(f)).map((file) => {
+    const a = readSeed(file);
+    const present = !!store.db.prepare('SELECT 1 FROM projects WHERE id=?').get(a.project_id);
+    return { file, title: a.title, present, counts: { records: a.counts.elements ?? 0, statements: a.counts.statements ?? 0, turns: a.counts.turns ?? 0, passages: a.counts.excerpts ?? 0 } };
+  }).filter((x) => !x.present));
+  app.post('/api/seeds/open', async (req) => {
+    const b = body(req, z.object({ file: z.string().min(1).max(200) }));
+    return importArchive(store, readSeed(b.file));
+  });
+  app.post('/api/seeds/dismiss', async (req) => {
+    const b = body(req, z.object({ file: z.string().min(1).max(200) }));
+    store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('seeds_dismissed',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify([...new Set([...dismissedSeeds(), b.file])]));
+    return { dismissed: true };
   });
   app.post('/api/backups/snapshot', async () => snapshot(store, svc.opts.backupDir, 'manual', 50));
   app.get('/api/backups', async () => listSnapshots(svc.opts.backupDir));
