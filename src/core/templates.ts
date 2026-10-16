@@ -12,6 +12,7 @@ export interface FieldDef {
   private?: boolean;    // writing aid, never exported as a story fact
   timed?: boolean;      // offers "when is this true" (backstory, start of story, during the story, not decided)
   identity?: boolean;   // shows "Not yet specified" and is never inferred (R-A-071)
+  suggestions?: string[]; // words she can tap to fill in; she can always write her own
   custom?: boolean;
 }
 
@@ -45,16 +46,35 @@ const CHARACTER: FieldDef[] = [
   f('Forces of antagonism', 'force_extra_personal', 'Extra-personal force', { prompt: 'What in the wider world works against them?' }),
   f('Forces of antagonism', 'negation_of_negation', 'The worst form of their value', { prompt: 'Their value at its darkest, set for this book\'s tone.' }),
 
-  f('Identity', 'gender', 'Gender', { identity: true, prompt: 'In your own words. Used for checks such as the Bechdel test; never assumed from a name.' }),
+  // Identity is always in her own words. Suggestions are a convenience, never a list to choose from.
+  f('Identity', 'gender', 'Gender identity', { identity: true, prompt: 'In your own words. Used for checks such as the Bechdel test; never assumed from a name.', suggestions: ['Woman', 'Man', 'Nonbinary', 'Trans woman', 'Trans man', 'Genderqueer', 'Genderfluid', 'Agender', 'Two-Spirit', 'Questioning'] }),
+  f('Identity', 'pronouns', 'Pronouns', { identity: true, timed: true, suggestions: ['she/her', 'he/him', 'they/them', 'she/they', 'he/they', 'ze/zir', 'xe/xem', 'any pronouns', 'name only'] }),
+  f('Identity', 'orientation', 'Sexual orientation', { identity: true, timed: true, prompt: 'Only if it matters to who they are or to the story. Leaving it unsaid is a choice too.', suggestions: ['Straight', 'Gay', 'Lesbian', 'Bisexual', 'Pansexual', 'Asexual', 'Demisexual', 'Queer', 'Questioning'] }),
+  f('Identity', 'romantic_orientation', 'Romantic orientation, if it differs', { identity: true, suggestions: ['Aromantic', 'Biromantic', 'Panromantic', 'Homoromantic', 'Heteroromantic', 'Demiromantic'] }),
+  f('Identity', 'sex_characteristics', 'Intersex or sex characteristics, if it matters', { identity: true, suggestions: ['Intersex'] }),
   f('Identity', 'ethnicity', 'Race or ethnicity', { identity: true }),
+  f('Identity', 'heritage', 'Heritage, nationality and roots', { identity: true, prompt: 'Where their people are from, where they were raised, what they call home.' }),
   f('Identity', 'age', 'Age', { identity: true, timed: true }),
   f('Identity', 'religion', 'Faith or religion', { identity: true }),
   f('Identity', 'culture', 'Culture and community', { identity: true }),
+  f('Identity', 'disability', 'Disability, chronic illness or neurodivergence', { identity: true, timed: true, prompt: 'How it shapes their days, in their terms. Never a plot device by default.' }),
   f('Identity', 'occupation', 'Work', { identity: true, timed: true }),
   f('Identity', 'family', 'Family', { identity: true, timed: true }),
-  f('Identity', 'appearance', 'Appearance', { identity: true }),
 
-  f('Physical', 'physical', 'Physical notes', { multi: true, timed: true, prompt: 'Health, build, how they move, what people notice first.' }),
+  f('Appearance', 'appearance', 'The overall look', { identity: true, prompt: 'What someone notices first, from across a room.' }),
+  f('Appearance', 'skin', 'Skin tone', { identity: true, prompt: 'In your own words: depth, undertone, how light finds it.' }),
+  f('Appearance', 'hair', 'Hair', { identity: true, timed: true, prompt: 'Color, texture, length and how they wear it. Hair changes; mark when.' }),
+  f('Appearance', 'eyes', 'Eyes', { identity: true }),
+  f('Appearance', 'height', 'Height', { identity: true }),
+  f('Appearance', 'build', 'Build and body', { identity: true, timed: true }),
+  f('Appearance', 'features', 'Distinctive features', { identity: true, multi: true, prompt: 'Scars, tattoos, birthmarks, glasses, a gap in the teeth.' }),
+  f('Appearance', 'dress', 'How they dress', { timed: true }),
+
+  f('Language and voice', 'languages', 'Languages they speak', { identity: true, multi: true, prompt: 'And how well: native, fluent, conversational, a few phrases.' }),
+  f('Language and voice', 'accent', 'Accent and how they sound', { identity: true, prompt: 'Rhythm and word choice carry a voice better than spelled-out dialect.' }),
+  f('Language and voice', 'speech', 'Sayings and verbal habits', { multi: true }),
+
+  f('Physical', 'physical', 'Physical notes', { multi: true, timed: true, prompt: 'Health, energy, how they move.' }),
   f('Personality', 'temperament', 'Temperament'),
   f('Personality', 'humor', 'Humor', { prompt: 'What makes them funny, and what do they find funny?' }),
   f('Personality', 'habits', 'Habits and props', { multi: true, prompt: 'Make sure each habit belongs to the right character.' }),
@@ -67,6 +87,14 @@ const CHARACTER: FieldDef[] = [
   f('Psychological', 'desires', 'Desires'),
   f('Psychological', 'beliefs', 'Beliefs'),
 
+  f('Wound and its fallout', 'wound_event', 'The wounding event', { timed: true, prompt: 'What happened, and how old they were. Weiland calls this the Ghost.' }),
+  f('Wound and its fallout', 'wound_belief', 'What they came to believe because of it'),
+  f('Wound and its fallout', 'wound_fear', 'What they fear will happen again'),
+  f('Wound and its fallout', 'wound_guards', 'What they avoid or guard against now', { multi: true }),
+  f('Wound and its fallout', 'wound_behaviors', 'How it shows in what they do', { multi: true }),
+  f('Wound and its fallout', 'wound_triggers', 'What sets it off', { multi: true }),
+  f('Traits and flaws', 'positive_traits', 'Positive traits', { multi: true, prompt: 'Where each one came from, and how it shows without being named.' }),
+  f('Traits and flaws', 'flaws', 'Flaws', { multi: true, prompt: 'What each one protects them from, and what it costs.' }),
   f('Depth lenses', 'motivation_conscious', 'What they think they want', { prompt: 'What does this person want beyond their plot function?' }),
   f('Depth lenses', 'motivation_unconscious', 'What drives them underneath'),
   f('Depth lenses', 'under_pressure', 'Under pressure', { prompt: 'How do they behave under pressure, uncertainty, success and failure?' }),
@@ -211,6 +239,11 @@ const SCENE_PLAN: FieldDef[] = [
   f('Scene and sequel', 'reaction', 'Reaction'),
   f('Scene and sequel', 'dilemma', 'Dilemma'),
   f('Scene and sequel', 'decision', 'Decision', { prompt: 'This becomes the goal of the next scene.' }),
+  f('Emotion on the page', 'pov_emotion', "The viewpoint character's main emotion here"),
+  f('Emotion on the page', 'outward_signals', 'What the body shows', { multi: true, prompt: 'Gestures, posture, voice, actions.' }),
+  f('Emotion on the page', 'inner_sensations', 'What they feel inside', { multi: true }),
+  f('Emotion on the page', 'mental_responses', 'What their thoughts do', { multi: true }),
+  f('Emotion on the page', 'hidden_emotion', 'What they try to hide, and what leaks out'),
   f('Narrator and truth', 'narrator_believes', 'What the narrator believes here'),
   f('Narrator and truth', 'actually_true', 'What is actually true', { prompt: 'The gap between these two is what the reader may or may not catch.' }),
   f('Timeline strand', 'timeline_strand', 'Which timeline', { prompt: 'Then or now, the frame or the tale, or your own names for the strands.' }),

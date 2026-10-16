@@ -27,6 +27,14 @@ export const DEFAULT_SHELF: Omit<ShelfBook, 'key'>[] = [
   { title: 'The Anatomy of Story', author: 'John Truby', useFor: 'Moral argument, the web of characters' },
   { title: 'The Hidden Tools of Comedy', author: 'Steve Kaplan', useFor: 'Comic premise, the non-hero' },
   { title: 'The Moral Premise', author: 'Stanley D. Williams', useFor: 'Vice and virtue as the story\'s equation' },
+  { title: 'The Emotion Thesaurus', author: 'Angela Ackerman and Becca Puglisi', useFor: 'Emotion shown through the body, the senses and the mind' },
+  { title: 'The Emotional Wound Thesaurus', author: 'Angela Ackerman and Becca Puglisi', useFor: 'Wounds, the false beliefs they create, and the behavior that follows' },
+  { title: 'The Positive Trait Thesaurus', author: 'Angela Ackerman and Becca Puglisi', useFor: 'Strengths, where they come from, and how they show' },
+  { title: 'The Negative Trait Thesaurus', author: 'Angela Ackerman and Becca Puglisi', useFor: 'Flaws, what they protect, and what they cost' },
+  { title: 'The Urban Setting Thesaurus', author: 'Angela Ackerman and Becca Puglisi', useFor: 'Places in town, through all five senses' },
+  { title: 'The Rural Setting Thesaurus', author: 'Angela Ackerman and Becca Puglisi', useFor: 'Places in the country, through all five senses' },
+  { title: 'The Occupation Thesaurus', author: 'Angela Ackerman and Becca Puglisi', useFor: 'Jobs as a window into character' },
+  { title: 'The Conflict Thesaurus', author: 'Angela Ackerman and Becca Puglisi', useFor: 'Obstacles and complications, in two volumes' },
 ];
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40) || 'item';

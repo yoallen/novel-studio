@@ -113,3 +113,22 @@ describe('novel setup (R-B-088 to R-B-095)', () => {
     expect(st.beats(blank)).toHaveLength(0);
   });
 });
+
+describe('identity in her words, and the Ackerman and Puglisi thesauri', () => {
+  it('identity, appearance and voice fields are always there, with suggestions she can tap', () => {
+    const { su } = setup();
+    const pid = su.createNovel('Anyone').id as string;
+    const defs = env.brain.fieldsFor(pid, 'character');
+    for (const f of ['gender', 'pronouns', 'orientation', 'sex_characteristics', 'skin', 'hair', 'languages', 'accent', 'disability']) expect(defs.some((d) => d.field === f)).toBe(true);
+    expect(defs.find((d) => d.field === 'pronouns')!.suggestions).toContain('they/them');
+  });
+  it('the thesaurus fields appear only when the thesauri are in the toolkit', () => {
+    const { su } = setup();
+    const pid = su.createNovel('Anyone').id as string;
+    su.update(pid, { frameworks: ['save_the_cat'] });
+    expect(env.brain.fieldsFor(pid, 'character').some((d) => d.field === 'wound_belief')).toBe(false);
+    su.update(pid, { frameworks: ['save_the_cat', 'thesauri'] });
+    expect(env.brain.fieldsFor(pid, 'character').some((d) => d.field === 'wound_belief')).toBe(true);
+    expect(env.brain.fieldsFor(pid, 'scene_plan').some((d) => d.field === 'outward_signals')).toBe(true);
+  });
+});

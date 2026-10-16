@@ -188,4 +188,6 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .cast-mark { border: 0; background: none; padding: 0; cursor: pointer; line-height: 1; color: var(--struct); font-size: 1rem; }
 .cast-mark.named { color: var(--muted); font-size: 0.85rem; }
 .chip.on { background: var(--struct); color: var(--page); border-color: var(--struct); }
+.suggest { display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; margin-top: 0.4rem; }
+.chip[aria-pressed="true"] { background: var(--struct); color: var(--page); border-color: var(--struct); }
 button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.8125rem; }

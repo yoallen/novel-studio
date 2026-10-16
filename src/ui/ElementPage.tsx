@@ -214,6 +214,12 @@ function FieldBlock({ ctx, elId, f, open, setOpen, showHistory, toggleHistory, a
       {open && (
         <form onSubmit={(e) => { e.preventDefault(); void add(elId, d.field, text, status, timing, !!d.multi, v.current?.id).then(() => { setText(''); setOpen(false); }); }} style={{ marginTop: '0.5rem' }}>
           <textarea rows={2} autoFocus value={text} onChange={(e) => setText(e.target.value)} aria-label={d.label} />
+          {d.suggestions?.length > 0 && (
+            <div className="suggest" role="group" aria-label={`Suggestions for ${d.label}`}>
+              {d.suggestions.map((w: string) => <button key={w} type="button" className="chip" aria-pressed={text === w} onClick={() => setText(w)}>{w}</button>)}
+              <span className="faint small">or your own words</span>
+            </div>
+          )}
           <div className="row small" style={{ marginTop: '0.4rem' }}>
             <select value={status} onChange={(e) => setStatus(e.target.value)} style={{ width: 'auto' }} aria-label="Status">
               {AUTHOR_STATUSES.map((s) => <option key={s} value={s}>{statusWord(ctx.settings, s)}</option>)}

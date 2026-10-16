@@ -101,6 +101,7 @@ export const FRAMEWORKS: FrameworkDef[] = [
   { key: 'snowflake', name: 'Snowflake (Ingermanson)', kind: 'method', job: 'The build: grow the novel from one sentence outward, and know each character\'s values, ambition and goal.', fieldGroups: [{ kind: 'character', group: 'Ingermanson' }] },
   { key: 'swain', name: 'Scene and Sequel (Swain)', kind: 'method', job: 'The scene engine: goal, conflict and disaster, then reaction, dilemma and decision.', fieldGroups: [{ kind: 'scene_plan', group: 'Scene and sequel' }] },
   { key: 'moral_premise', name: 'The Moral Premise (Williams)', kind: 'lens', job: 'The thematic truth as an equation: a vice leads to defeat, a virtue leads to success.', fieldGroups: [{ kind: 'storyworld', group: 'Moral premise' }] },
+  { key: 'thesauri', name: 'The Writers Helping Writers thesauri (Ackerman and Puglisi)', kind: 'lens', job: "Show, don't tell: the wound and the behavior it leaves, traits and flaws with their roots, and emotion carried by the body.", fieldGroups: [{ kind: 'character', group: 'Wound and its fallout' }, { kind: 'character', group: 'Traits and flaws' }, { kind: 'scene_plan', group: 'Emotion on the page' }] },
   { key: 'discovery', name: 'I find my story as I write', kind: 'none', job: 'No outline. Write, and let the program keep track of what you discover.' },
 ];
 

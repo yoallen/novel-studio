@@ -42,7 +42,9 @@ export class Cast {
       const bare = title.replace(/^(Miss|Mr\.?|Mrs\.?|Ms\.?|Dr\.?|Rev\.?|Prof\.?|Aunt|Uncle)\s+/i, '');
       const names = [...new Set([title, bare, bare.split(/\s+/)[0]!, ...((attrs.aliases as string[] | undefined) ?? [])].filter((x) => x && x.length >= 2))];
       const g = this.brain.field(e.id as string, 'gender');
-      const gender = (g.current?.value ?? g.latest?.value ?? null) as string | null;
+      const pr = this.brain.field(e.id as string, 'pronouns');
+      // Gender in her words; when only pronouns are given, they speak for it.
+      const gender = (g.current?.value ?? g.latest?.value ?? pr.current?.value ?? pr.latest?.value ?? null) as string | null;
       return { id: e.id as string, title, names, gender };
     });
   }
