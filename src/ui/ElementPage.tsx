@@ -1,3 +1,4 @@
+import { askAbout } from './ConversationsView';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -55,6 +56,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
         </label>
         {el.attrs?.written_by && <span className="chip">Written by {el.attrs.written_by === 'assistant' ? 'the assistant' : 'you'}, kept by you, placement open</span>}
         {el.attrs?.suggested && <span className="chip">Suggested by the assistant</span>}
+        <button className="btn link small" onClick={() => void askAbout(ctx, { title: `About ${el.title}`, elementId: el.id }).catch((e) => setError(e.message))}>Ask about this</button>
         {(el.attrs?.turn_id) && <button className="btn link small" onClick={() => void api.get(`/api/origin?element=${el.id}`).then(setOrigin)}>Where did this come from?</button>}
       </div>
       <label className="field"><span>Notes</span>

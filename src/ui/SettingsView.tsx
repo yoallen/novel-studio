@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { DEFAULT_STATUS_LABELS } from '../core/labels';
@@ -109,6 +109,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
 
       <div className="row" style={{ margin: '1.5rem 0' }}><button className="btn write" onClick={() => void save()}>Save settings</button></div>
 
+      <AiSettings ctx={ctx} />
+
       <section className="section">
         <h2>Appearance</h2>
         <div className="row" role="radiogroup" aria-label="Theme">
@@ -122,5 +124,43 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
         <div className="row"><button className="btn" onClick={() => void snapshot()}>Make a backup now</button><button className="btn" onClick={() => void downloadArchive()}>Save an archive of this novel</button></div>
       </section>
     </div></div>
+  );
+}
+
+// The collaborator is off until she turns it on, per novel; prose is shared only if she says so (R-A-108).
+function AiSettings({ ctx }: { ctx: Ctx }) {
+  const [st, setSt] = useState<any>(null);
+  const [key, setKey] = useState('');
+  const [error, setError] = useState('');
+  const load = () => api.get(`/api/projects/${ctx.projectId}/ai`).then(setSt).catch((e) => setError(e.message));
+  useEffect(() => { void load(); }, [ctx.projectId]);
+  const set = (patch: Record<string, unknown>) => api.patch(`/api/projects/${ctx.projectId}/ai`, patch).then(setSt).catch((e) => setError(e.message));
+  const desktop = (window as any).storyCanon;
+  async function saveKey(k: string | null) {
+    setError('');
+    try {
+      if (desktop?.setApiKey) await desktop.setApiKey(k); else await api.put('/api/ai/key', { key: k });
+      setKey(''); await load();
+    } catch (e) { setError((e as Error).message); }
+  }
+  if (!st) return null;
+  return (
+    <section className="section" aria-label="The collaborator">
+      <h2>The collaborator</h2>
+      <p className="small muted">A thinking partner that reads your decisions, guardrails and open questions before it answers. It never writes into your manuscript, and its suggestions wait for you. It uses your own Claude API key.</p>
+      {error && <div className="notice error" role="alert">{error}</div>}
+      <div className="row">
+        {st.keySet ? <span className="small">Your key is set.</span> : <input type="password" autoComplete="off" placeholder="Claude API key" value={key} onChange={(e) => setKey(e.target.value)} aria-label="Claude API key" style={{ maxWidth: 320 }} />}
+        {st.keySet ? <button className="btn small" onClick={() => void saveKey(null)}>Remove key</button> : <button className="btn small" disabled={!key.trim()} onClick={() => void saveKey(key)}>Save key</button>}
+      </div>
+      <p className="small faint">{desktop?.setApiKey ? 'The key is kept in Windows secure storage.' : 'In this preview the key is kept only while the program is open.'}</p>
+      <label className="row"><input type="checkbox" checked={st.enabled} onChange={(e) => void set({ enabled: e.target.checked })} />Use the collaborator for {ctx.project.title}. Story records you ask about are sent to Claude when you ask.</label>
+      <label className="row"><input type="checkbox" checked={st.shareManuscript} disabled={!st.enabled} onChange={(e) => void set({ shareManuscript: e.target.checked })} />Also share the prose of a scene when I ask about that scene</label>
+      <label className="field" style={{ maxWidth: 320 }}><span>Model</span>
+        <select value={st.model} onChange={(e) => void set({ model: e.target.value })}>
+          {['claude-opus-5-5', 'claude-sonnet-5-5', 'claude-haiku-5-5', 'claude-fable-5-1'].map((m) => <option key={m} value={m}>{m}</option>)}
+        </select>
+      </label>
+    </section>
   );
 }

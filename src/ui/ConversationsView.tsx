@@ -6,6 +6,16 @@ import { when, valueText, statusWord } from './status';
 // Conversations, kept word for word (R-A-054). Select words in any message to keep a line, add a
 // possibility, raise a question or idea, or mark something not canon, in one action (R-A-055).
 // The harvest gathers what came out of it, and nothing is decided for her (R-A-056).
+/** Start a conversation focused on one record or scene and open it (the "Ask about this" entry points). */
+export async function askAbout(ctx: Ctx, input: { title: string; elementId?: string | null; sceneId?: string | null }) {
+  const c = await api.post(`/api/projects/${ctx.projectId}/conversations`, { title: input.title, focusElementId: input.elementId ?? null, mode: 'discuss' });
+  try {
+    sessionStorage.setItem('ns-conv', c.id);
+    if (input.sceneId) sessionStorage.setItem(`ns-conv-scene-${c.id}`, input.sceneId);
+  } catch { /* ignore */ }
+  ctx.go('conversations');
+}
+
 export function ConversationsView({ ctx }: { ctx: Ctx }) {
   const [list, setList] = useState<any[] | null>(null);
   const [openId, setOpenId] = useState<string | null>(() => { try { return sessionStorage.getItem('ns-conv'); } catch { return null; } });
@@ -87,6 +97,23 @@ function Conversation({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
   const [msg, setMsg] = useState('');
   const [speaker, setSpeaker] = useState<'author' | 'assistant'>('author');
   const [note, setNote] = useState('');
+  const [aiStatus, setAiStatus] = useState<any>(null);
+  const [ask, setAsk] = useState('');
+  const [mode, setMode] = useState<string>('discuss');
+  const [about, setAbout] = useState('');
+  const sceneId = useMemo(() => { try { return sessionStorage.getItem(`ns-conv-scene-${id}`); } catch { return null; } }, [id]);
+  useEffect(() => { if (data?.conversation?.focus_element_id) setAbout((a) => a || data.conversation.focus_element_id); }, [data]);
+  const [thinking, setThinking] = useState(false);
+  const [lastSuggestions, setLastSuggestions] = useState<any[]>([]);
+  useEffect(() => { api.get(`/api/projects/${ctx.projectId}/ai`).then(setAiStatus).catch(() => setAiStatus(null)); }, [ctx.projectId]);
+  async function askIt(e: React.FormEvent) {
+    e.preventDefault();
+    if (!ask.trim() || thinking) return;
+    setThinking(true); setError('');
+    try { const r = await api.post(`/api/conversations/${id}/ask`, { text: ask, mode, focusElementId: about || null, sceneId }); setAsk(''); setLastSuggestions(r.suggestions); await load(); }
+    catch (er) { setError((er as Error).message); await load(); }
+    finally { setThinking(false); }
+  }
 
   const load = useCallback(() => api.get(`/api/conversations/${id}`).then(setData).catch((e) => setError(e.message)), [id]);
   useEffect(() => { void load(); api.get(`/api/projects/${ctx.projectId}/elements`).then((e) => setAll(e.filter((x: any) => !['thought', 'guardrail'].includes(x.kind)))).catch(() => {}); }, [load, ctx.projectId]);
@@ -149,8 +176,25 @@ function Conversation({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
           )}
         </section>
       ))}
+      {aiStatus?.enabled && aiStatus?.keySet ? (
+        <form onSubmit={askIt} className="section" aria-label="Ask the collaborator">
+          <div className="row small" role="radiogroup" aria-label="How should it help">
+            {MODES.map(([k, label, hint]) => <label key={k} className="row" title={hint}><input type="radio" name="mode" checked={mode === k} onChange={() => setMode(k)} />{label}</label>)}
+          </div>
+          <div className="row small"><span className="muted">Start from:</span>{PRESETS.map(([label, m, text]) => <button key={label} type="button" className="btn link small" onClick={() => { setMode(m); setAsk(text); }}>{label}</button>)}</div>
+          <label className="field"><span>Ask the collaborator</span><textarea rows={3} value={ask} onChange={(e) => setAsk(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) void askIt(e as unknown as React.FormEvent); }} /></label>
+          <div className="row small">
+            <select value={about} onChange={(e) => setAbout(e.target.value)} style={{ maxWidth: 260 }} aria-label="Focus on"><option value="">Focus on… (optional)</option>{all.map((x) => <option key={x.id} value={x.id}>{x.title}</option>)}</select>
+            <span className="grow" />
+            <button className="btn write" type="submit" disabled={thinking || !ask.trim()}>{thinking ? 'Thinking…' : 'Ask'}</button>
+          </div>
+          {lastSuggestions.length > 0 && <div className="notice small" role="status">{lastSuggestions.length === 1 ? 'One suggestion is' : `${lastSuggestions.length} suggestions are`} waiting for you. Nothing was decided. <button type="button" className="btn link small" onClick={() => ctx.go('brain')}>Look at them in the Story Brain</button></div>}
+        </form>
+      ) : (
+        <p className="small muted section">The collaborator is {aiStatus?.keySet ? 'off for this novel' : 'not set up'}. <button className="btn link small" onClick={() => ctx.go('settings')}>Turn it on in Settings</button> when you are ready. Nothing is sent anywhere until you do.</p>
+      )}
       <form onSubmit={send} className="section">
-        <label className="field"><span>Add a message</span><textarea rows={3} value={msg} onChange={(e) => setMsg(e.target.value)} /></label>
+        <label className="field"><span>Add a message from elsewhere</span><textarea rows={3} value={msg} onChange={(e) => setMsg(e.target.value)} /></label>
         <div className="row small"><label className="row"><input type="radio" checked={speaker === 'author'} onChange={() => setSpeaker('author')} />From me</label><label className="row"><input type="radio" checked={speaker === 'assistant'} onChange={() => setSpeaker('assistant')} />From the assistant</label><button className="btn" type="submit">Add</button></div>
       </form>
 
@@ -184,6 +228,24 @@ function Conversation({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
     </div></div>
   );
 }
+
+const MODES: [string, string, string][] = [
+  ['discuss', 'Talk it through', 'A creative partner; one question at a time'],
+  ['teach', 'Teach it', 'Explain the idea fully, with examples that work and fail'],
+  ['show', 'Show it', 'Two or three examples, each labeled One way it could be done'],
+  ['hand', 'Hand it to me', 'Set up what is decided and open, then give the writing back to you'],
+  ['critique', 'Critique', 'Honest: what works, what does not yet, and why'],
+  ['resources', 'Where to learn more', 'Your shelf first; titles and authors only'],
+];
+
+// Interpretive questions the program cannot check by itself; the answer is interpretation, labeled as such.
+const PRESETS: [string, string, string][] = [
+  ['Does this cause and effect convince?', 'critique', 'Look at the cause and effect around this. Where is a link only asserted, not earned? Separate what the records say from your interpretation.'],
+  ['Where is the dramatic gap?', 'critique', 'Where does what the character expects to happen part from what actually happens? Is the gap wide enough to matter?'],
+  ['Is this character deep enough?', 'critique', 'Question this character the way a demanding editor would: want versus need, the Lie, contradictions, what they would never do. Ask; do not fill in answers.'],
+  ['Do these voices sound different?', 'critique', 'Compare how these characters speak and think. Where would a reader confuse them?'],
+  ['Does the comedy escalate?', 'critique', 'Does each comic beat raise the stakes for the character, or does it repeat? Where could it build?'],
+];
 
 function withMarks(text: string, marks: any[]) {
   if (!marks.length) return text;

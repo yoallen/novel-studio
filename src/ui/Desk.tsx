@@ -1,3 +1,4 @@
+import { askAbout } from './ConversationsView';
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -102,6 +103,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
           {!focus && <button className="btn link small" onClick={() => setPanel((p) => !p)}>{panel ? 'Hide scene plan' : 'Show scene plan'}</button>}
           {!focus && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => ctx.showInMap(sceneId)); }}>Show in Story Map</button>}
           {!focus && <button className="btn link small" onClick={ctx.openStuck}>I'm stuck</button>}
+          {!focus && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => askAbout(ctx, { title: `About the scene ${outline?.chapters?.flatMap((c: any) => c.scenes).find((x: any) => x.id === sceneId)?.title ?? ''}`.trim(), sceneId })); }}>Ask about this scene</button>}
           {!focus && <button className="btn link small" onClick={() => ctx.go('trail')}>Writing Trail</button>}
           <button className="btn link small" onClick={() => setFocus((f) => !f)} title="Ctrl+Shift+F">{focus ? 'Leave focus' : 'Focus'}</button>
         </div>

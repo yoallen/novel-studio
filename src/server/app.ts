@@ -15,6 +15,7 @@ import { Structure } from '../core/structure.js';
 import { Ripple } from '../core/ripple.js';
 import { Zoom } from '../core/zoom.js';
 import { Continuity } from '../core/continuity.js';
+import { Collaborator, AiClient, anthropicClientFactory } from '../core/ai.js';
 import { registerRoutes } from './routes.js';
 import { snapshot } from '../core/backup.js';
 
@@ -27,6 +28,10 @@ export interface AppOptions {
   logger?: boolean;
   /** Automatic verified backups: after this much time with changes since the last one (default 30 min). 0 turns them off. */
   autoBackupMs?: number;
+  /** The collaborator's API client; tests inject a fake. Defaults to the Claude API. */
+  aiClientFactory?: (key: string) => AiClient;
+  /** The API key, handed over by the desktop shell from the operating system's secure storage. */
+  aiKey?: string | null;
 }
 
 export interface Services {
@@ -39,6 +44,7 @@ export interface Services {
   ripple: Ripple;
   zoom: Zoom;
   continuity: Continuity;
+  ai: Collaborator;
   opts: AppOptions;
 }
 
@@ -56,7 +62,9 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
   const structure = new Structure(store, brain, ms), ripple = new Ripple(store, brain, ms, structure);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), opts };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, opts };
+  services.ai = new Collaborator(store, brain, ms, services.convs, services.continuity, opts.aiClientFactory ?? anthropicClientFactory());
+  services.ai.setKey(opts.aiKey ?? null);
   const app = Fastify({ logger: opts.logger ?? false, bodyLimit: 60 * 1024 * 1024 });
 
   const allowedHosts = new Set([`127.0.0.1:${opts.port}`, `localhost:${opts.port}`]);

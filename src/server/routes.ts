@@ -284,6 +284,13 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/projects/:id/review/respond', async (req) => continuity.respond(params(req, P).id, body(req, z.object({ key: z.string().min(1).max(500), status: z.enum(['intentional', 'deferred', 'resolved']), note: z.string().max(5000).optional(), text: z.string().max(5000).optional() }))));
   app.delete('/api/finding-notes/:id', async (req) => { continuity.reopen(params(req, P).id); return { reopened: true }; });
 
+  // ----- the collaborator (off until she turns it on; the key never leaves this process) -----
+  app.get('/api/projects/:id/ai', async (req) => svc.ai.status(params(req, P).id));
+  app.patch('/api/projects/:id/ai', async (req) => svc.ai.configure(params(req, P).id, body(req, z.object({ enabled: z.boolean().optional(), shareManuscript: z.boolean().optional(), model: z.string().regex(/^[a-z0-9.-]{3,60}$/).optional() }))));
+  app.put('/api/ai/key', async (req) => { const b = body(req, z.object({ key: z.string().max(400).nullable() })); svc.ai.setKey(b.key); return { keySet: svc.ai.hasKey() }; });
+  app.get('/api/projects/:id/ai/context', async (req) => { const q = z.object({ element: id.optional(), scene: id.optional() }).parse(req.query); return { text: svc.ai.context(params(req, P).id, q.element ?? null, q.scene ?? null) }; });
+  app.post('/api/conversations/:id/ask', async (req) => svc.ai.ask(params(req, P).id, body(req, z.object({ text: z.string().min(1).max(200_000), mode: z.enum(['discuss', 'teach', 'show', 'hand', 'critique', 'resources']).optional(), focusElementId: id.nullable().optional(), sceneId: id.nullable().optional() }))));
+
   // ----- conversations -----
   app.get('/api/projects/:id/conversations', async (req) => { const pid = params(req, P).id; brain.project(pid); return convs.list(pid); });
   app.post('/api/projects/:id/conversations', async (req) => convs.create(params(req, P).id, body(req, z.object({ title: z.string().max(300), focusElementId: id.nullable().optional(), mode: z.string().max(40).optional() }))));

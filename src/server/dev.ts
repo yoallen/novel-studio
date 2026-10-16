@@ -3,6 +3,7 @@ import { randomBytes } from 'node:crypto';
 import { mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { buildApp } from './app.js';
+import { fakeAi } from './fake-ai.js';
 
 const port = Number(process.env.STUDIO_PORT ?? 47321);
 const dataDir = resolve(process.env.STUDIO_DATA ?? '.studio-data');
@@ -14,6 +15,8 @@ const { app } = await buildApp({
   backupDir: join(dataDir, 'backups'),
   token,
   port,
+  aiKey: process.env.STUDIO_AI_KEY ?? null,
+  ...(process.env.STUDIO_AI_FAKE === '1' ? { aiClientFactory: fakeAi } : {}),
   staticDir: process.env.STUDIO_UI ? resolve(process.env.STUDIO_UI) : undefined,
   logger: true,
 });
