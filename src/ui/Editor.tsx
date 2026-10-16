@@ -101,7 +101,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
           api.get(`/api/projects/${ctx.projectId}/recoveries`),
         ]);
         if (!alive) return;
-        setScene(s); setTitle(s.title); setWords(s.word_count);
+        setScene(s); setTitle(s.title); titleRef.current = s.title; savedTitle.current = s.title; setWords(s.word_count);
         version.current = s.prose_version;
         committedJson.current = JSON.stringify(s.doc);
         editor.commands.setContent(s.doc, { emitUpdate: false });
@@ -148,10 +148,16 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
+  // The title is saved from a ref, so a quick Enter or a click elsewhere can never save a stale value.
+  const titleRef = useRef('');
+  const savedTitle = useRef('');
   async function saveTitle() {
-    if (!scene || title.trim() === scene.title || !title.trim()) { setTitle(scene?.title ?? ''); return; }
-    try { const s = await api.patch(`/api/scenes/${sceneId}`, { title }); setScene({ ...scene, title: s.title }); onChanged(); }
-    catch (e) { setError((e as Error).message); }
+    const t = titleRef.current.trim();
+    if (!t) { setTitle(savedTitle.current); titleRef.current = savedTitle.current; return; }
+    if (t === savedTitle.current) return;
+    savedTitle.current = t;
+    try { await api.patch(`/api/scenes/${sceneId}`, { title: t }); onChanged(); }
+    catch (e) { savedTitle.current = ''; setError((e as Error).message); }
   }
 
   async function useRecovered() {
@@ -204,7 +210,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
     <div className="page">
       {error && <div className="notice error" role="alert">{error}</div>}
       {scene?.reserved && <p className="hers" style={{ marginBottom: '1rem' }}>{scene.reserved}</p>}
-      <input className="scene-title" aria-label="Scene title" disabled={!scene} value={title} onChange={(e) => setTitle(e.target.value)} onBlur={() => void saveTitle()} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); editor?.commands.focus(); } }} />
+      <input className="scene-title" aria-label="Scene title" disabled={!scene} value={title} onChange={(e) => { setTitle(e.target.value); titleRef.current = e.target.value; }} onBlur={() => void saveTitle()} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); void saveTitle(); editor?.commands.focus(); } }} />
       <EditorContent editor={editor} />
       <div className="wordline"><span>{words.toLocaleString()} words in this scene{target ? `, daily goal ${target.toLocaleString()}` : ''}</span></div>
 

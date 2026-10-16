@@ -44,6 +44,7 @@ test('a character holds competing possibilities, decisions with history, and ide
   await page.getByLabel('New Character').fill('Kevin Wickley');
   await page.getByRole('button', { name: 'Add character' }).click();
   await expect(page.getByLabel('Name', { exact: true })).toHaveValue('Kevin Wickley');
+  await page.getByRole('button', { name: 'Identity' }).click();
   await expect(page.getByText('Not yet specified').first()).toBeVisible();
 
   await page.getByRole('button', { name: 'Add an arc' }).click();

@@ -4,6 +4,7 @@ import type { Ctx } from './App';
 import { statusWord, AUTHOR_STATUSES, ownedWord, valueText, when } from './status';
 
 const TIMING = [['', 'Timing'], ['backstory', 'Before the story'], ['story_start', 'True when the story opens'], ['in_story', 'Happens during the story'], ['unknown', 'Timing not decided']] as const;
+const PRIMARY_GROUPS = new Set(['Role in the story', 'Weiland Arc', 'What it does', 'How it happens', 'The line', 'Where it goes', 'Clue', 'Place', 'Thinking it through', 'Notes', 'Where they stand']);
 const RELATIONS = ['relates_to', 'causes', 'enables', 'motivates', 'depends_on', 'plants', 'pays_off', 'reveals', 'conceals', 'foreshadows', 'mirrors', 'contradicts', 'appears_in', 'pov_of', 'located_at', 'knows', 'suspects', 'believes_falsely', 'answers', 'raises', 'inspired_by', 'contains', 'part_of', 'realizes'];
 
 // One story element, with every field showing what is decided, what is being shaped, what is still open
@@ -17,6 +18,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [newField, setNewField] = useState('');
   const [compare, setCompare] = useState('');
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const load = useCallback(() => api.get(`/api/elements/${elementId}/page`).then(setPage).catch((e) => setError(e.message)), [elementId]);
   useEffect(() => { void load(); api.get(`/api/projects/${ctx.projectId}/elements`).then(setAll).catch(() => {}); }, [load, ctx.projectId]);
@@ -93,16 +95,27 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
 
       {isChar && <FillOneLine fields={page.fields} onPick={(f) => setOpen({ ...open, [f]: true })} />}
 
-      {Object.entries(groups).map(([group, fields]) => (
+      {Object.entries(groups).map(([group, fields]) => {
+        // Empty groups stay folded so a new character never looks like a questionnaire (R-A-069).
+        const hasContent = fields.some((f: any) => f.view.latest || f.view.unanswered.length || f.view.illustrative.length || f.view.currentAll.length);
+        const isOpen = expanded[group] ?? (hasContent || PRIMARY_GROUPS.has(group) || fields.some((f: any) => open[f.def.field] || f.def.custom) || fields.length <= 2);
+        if (!isOpen) return (
+          <section key={group} className="section row">
+            <button className="btn link" onClick={() => setExpanded({ ...expanded, [group]: true })} aria-expanded="false">{group}</button>
+            <span className="faint small">{fields.length} place{fields.length === 1 ? '' : 's'} to write, all optional</span>
+          </section>
+        );
+        return (
         <section key={group} className="section">
-          <h2>{group}</h2>
+          <div className="row"><h2 className="grow">{group}</h2>{!hasContent && <button className="btn link small" onClick={() => setExpanded({ ...expanded, [group]: false })} aria-expanded="true">Fold</button>}</div>
           {fields.map((f: any) => (
             <FieldBlock key={f.def.field} ctx={ctx} elId={el.id} f={f} open={!!open[f.def.field]} setOpen={(v: boolean) => setOpen({ ...open, [f.def.field]: v })}
               showHistory={!!showHistory[f.def.field]} toggleHistory={() => setShowHistory({ ...showHistory, [f.def.field]: !showHistory[f.def.field] })}
               add={add} act={act} onOrigin={(sid: string) => void api.get(`/api/origin?statement=${sid}`).then(setOrigin)} />
           ))}
         </section>
-      ))}
+        );
+      })}
 
       <section className="section">
         <h3>Add your own field to every {String(el.kind).replace(/^x_/, '').replace(/_/g, ' ')}</h3>
@@ -207,7 +220,7 @@ function ArcChain({ ctx, arc, onOpen }: { ctx: Ctx; arc: any; onOpen: (id: strin
     if (v.current) return <div className="st" data-s="established">{valueText(v.current.value)}</div>;
     const opts = [...v.possibilities, ...v.unanswered];
     if (!opts.length) return <div className="faint small">Open</div>;
-    return opts.map((o: any) => <div key={o.id} className="st" data-s={o.status}>{valueText(o.value) || 'Still open'} <span className="faint small">({statusWord(ctx.settings, o.status)})</span></div>);
+    return opts.map((o: any) => <div key={o.id} className="st" data-s={o.status}>{valueText(o.value) ? <>{valueText(o.value)} <span className="faint small">({statusWord(ctx.settings, o.status)})</span></> : statusWord(ctx.settings, o.status)}</div>);
   };
   const type = get('arc_type')?.current?.value ?? get('arc_type')?.latest?.value;
   const value = get('arc_value')?.current?.value ?? get('arc_value')?.latest?.value;
