@@ -1,0 +1,166 @@
+{
+ "source": "BS2 Breakdown - Updated December 6 2021.xlsx (Yolanda Allen); example column from BS2 Breakdown - revised with word count for 250 and 300 words per page.xlsx",
+ "groups": {
+  "thesis": {
+   "name": "Thesis World",
+   "description": "This is where we see the world as it is before the adventure starts. It is a full-fledged documentation of the hero's world labeled \"before.\" There is a calm before the storm in this world, and especially in the set-up. If events that follow did not occur, it would pretty much stay this way. But there is a sense in the set-up that a storm's about to hit, because for things to stay as they are...is death. Things must change."
+  },
+  "antithesis": {
+   "name": "Antithesis World",
+   "description": "The act break is the moment where we leave the old wolrd, the thesis statement, behind and prceed into a world that is the upside down version of that, its antithesis. But because these two worlds are so distinct, the act of actually stepping into Act Two must be definite."
+  },
+  "synthesis": {
+   "name": "Synthesis World",
+   "description": "Synthesis being a new world, a new life. The Synthesis beat shows that we can all learn from our mistakes, no matter how embarrassing, and triumph in the end because of them"
+  }
+ },
+ "beats": [
+  {
+   "source_name": "1. Opening Image",
+   "description": "It's the very first impression of what the book is. It gives the starting point of the hero. It gives us a moment to see a \"before\" snapshot of the group of people we are about to follow on this adventure. It has a matching beat - The Final Image, which should be its polar opposite. It sets the tone, mood and style and often introduces the main character. It makes the reader/audience think, \"This is gonna be good!\"",
+   "stc_page": "Page 1 -4",
+   "where": "1%. First scene or chapter of the novel.",
+   "words_300": "0 - 1,200",
+   "scene_type": "Single Scene or Single Chapter. It is ONE piece of information.",
+   "group": "thesis"
+  },
+  {
+   "source_name": "2. Theme Stated",
+   "description": "A character, ususally other than the main one, will pose a question or make a statement (usually to the main character) that is the theme of the movie. \"Be careful what you ask for.\" or \"Pride goeth before a fall\" or \"Family is more imporatnt than money.\". It won't be this obvious, it'll be conversational - offhanded even. The main character will not quite get it in the moment, but it will have far-reaching and meaningful impact later.",
+   "stc_page": "Page 18",
+   "where": "5%. Or somewhere within the first 10% of the novel.",
+   "words_300": "Goes at around word count 5,400",
+   "scene_type": "Single Beat.",
+   "group": "thesis"
+  },
+  {
+   "source_name": "3. Set-up",
+   "description": "This is where you have to grab the reader or risk losing their interest. This is where the writer introduces or hints at every character in the \"A\" story. This is where we also plant every character tic, exhibit every behavior that needs to be addressed later on and show how and why the hero will need to change in order to win.",
+   "stc_page": "Pages 4 - 36",
+   "where": "1% - 10%. This beat takes up the first tenth of the novel.",
+   "words_300": "1,200 - 10,800",
+   "scene_type": "Multi Scene or Multi Chapters",
+   "group": "thesis"
+  },
+  {
+   "source_name": "Stasis = Death",
+   "description": "This means that the audience needs to see that unless something changes for our hero, life is going to be miserable. They’re stuck in a rut. As a writer, it is our job to plant the seed in the reader's mind that CHANGE IS CRUCIAL. That staying in this Status Quo world for much longer is NOT an option.  SOMETHING NEEDS TO HAPPEN (Enter...the Catalyst).\n\nMaybe it’s a relationship that’s going downhill or a dead-end job. Perhaps they’re no closer to achieving their dreams than they were 15 years ago, or are having a midlife crisis. No matter what the problem is, it’s forcing the hero to realize that they’re going nowhere fast.  You can find stasis = death everywhere if you look for it. In Star Wars, Luke is stuck on a moisture farm, longing for a more exciting life.  It’s important to show the hero’s stasis = death predicament in some fashion or another, even when their life seems good on the outside. In Disney/Pixar’s Coco, Miguel has a pretty good life on the outside: he has a loving family, a roof over his head, and a nice community. But even so, we know things must change for him. He desires to play guitar, but is forbidden from doing so. He must hide his passion from his family. That’s no way for a burgeoning artist to live. We need to see the things that need fixing in their lives, and stasis = death can even point us to the story’s theme. Staying where they are is no longer an option because if they stay, they lose something. Maybe it’s their life, maybe it’s their home, maybe it’s an artifact upon which the fate of the world rests. Whatever it is, we know that it’s at risk unless the character DOES something.",
+   "stc_page": "Part of Set Up",
+   "where": "Just before Catalyst",
+   "words_300": "",
+   "scene_type": "",
+   "group": "thesis"
+  },
+  {
+   "source_name": "4. Catalyst",
+   "description": "In the setup, the writer has told what the world is like. With the catlyst, we knock it all down. Boom! Life changing events, often disguised as bad news. The catlyst is not what it seems. It's the opposite of good news, and yet, by the time the adventure is over, it's what leads the hero to happiness. The catlyst point is the first moment when something happens. It's that phone call that informs that someone dies or a telegram that sends someone halfway across the country or when you get dumped or get fired. (Vandy is made to take time off from work by her doctor.)",
+   "stc_page": "Page 36",
+   "where": "10% or earlier.",
+   "words_300": "Around 10,800 or earlier.",
+   "scene_type": "Single Scene or Single Chapter. It is ONE piece of information.",
+   "group": "thesis"
+  },
+  {
+   "source_name": "5. Debate",
+   "description": "The debate section is just that, a debate. It's the last chance for the hero to say \"this is crazy\". And we need him/her to realizze that and ask: \"should I go? Dare I go? Sure it's dangerous out there, but what' smy choice? Stay here? The debate section must ask a question of some kind. In \"Legally Blonde,\" the catylst of the fiance dumping Elle Woods quickly segues to her solution: Go to Harvard Law. \"But can she get in?\" That is the question posed in the debbate section of that movie. The debate section thus becomes hsowing how Elle ansers that question. And when she manages to do well on her LSATs, create a lacivious admissions video, and get accepted, the answer to the question is a clear, Yes! And now Elle can happily march into Act Two. She has answered her debate question and can now proceed.",
+   "stc_page": "Pages 36 - 72",
+   "where": "10% - 20% This beat takes us from Catalyst to End of Act 1.",
+   "words_300": "10,800 - 21,600",
+   "scene_type": "Multi Scene or Multi Chapters",
+   "group": "thesis"
+  },
+  {
+   "source_name": "6. Break into Two (meaning segue into act 2)",
+   "description": "Very often, act two break will start off vaguely. Events will draw the hero into Act Two. This is incorrect. The hero cannot be lured, tricked or drift into Act Two. The hero mus tmake the decision himself. He must be proactive. Take Star Wars. The event that prompts Luke Skywalker on his journey is his parents being killed, but the decision to go on the road is his. Luke cannot wake up on Han Solo's starship wondering how he got there, he has to choose to go. Make sure our hero does likewise.",
+   "stc_page": "Page 72",
+   "where": "20% before you get one-quarter of the way through your novel, there should be an act break.",
+   "words_300": "21600",
+   "scene_type": "Single Scene or Single Chapter. It is ONE piece of information.",
+   "group": "antithesis"
+  },
+  {
+   "source_name": "7. B Story",
+   "description": "The B story of most screenplays is the \"love story\" It's also the story that carries the theme of the movie. It is a little booster rocket that helps smooth over the shockingly obvious A story act break. The B story says, \"Enough already, ow about talking about something else.\" The B story gives us a breather. In Legally Blonde, the B story is Elle's relationship with her manicurist. The B Story is also very often a brand new bunch of characters. We have not alway smet the B story players earlier - we didn't know they existed. They are the upside down versions of the A story characters. The B story provides not only the love stroy and a place to openly discuss the theme of the book/movie, but gives the writer vital \"cutaways\" from the A story.",
+   "stc_page": "Page 80",
+   "where": "22% Usually happens right after the Break into Two, but can come earlier Just make sure it happens in the first 25% of the novel.",
+   "words_300": "23760",
+   "scene_type": "",
+   "group": "antithesis"
+  },
+  {
+   "source_name": "8. Fun and Games",
+   "description": "This section provides the \"promise of the premise.\" It's the core and essence of a movie's poster. It's where most of the trailer moments of a movie are found. And it's where we aren't as concerned with the forward progress of the story - stakes won't be raised until the midpoint - as we are concerned with having \"fun\" This section answers the question: Why did I come to see this move? Why did I pick up this book to read? What makes this cool? This is the heart of the book/movie. The Fun and Games in Die Hard show Bruce Willis first outwitting the terrorists. We take a break from the stakes of the story and see what the idea is about: we see the promise of the premise and need not see anhythinng else. It's called Fun and Games because this section is lighter in tone than the other sections. It's where Jim Carrey gets to walk around and act like God in Bruce Almighty. It's where Tobey Maguire gets to try out his super powers in Spider-Man. It's also where the buddies in all the buddy movies do their most clashing.",
+   "stc_page": "Page 72 - 180",
+   "where": "20% - 50%. This beat spans the entire first half of Act 2.",
+   "words_300": "21,600 - 54,000",
+   "scene_type": "Multi Scene or Multi Chapters",
+   "group": "antithesis"
+  },
+  {
+   "source_name": "9. Midpoint",
+   "description": "There are two halves to every movie or novel and the midpoint is the threshold between them. The midpoint is either \"up\" where the heor seemingly peaks (though it is a false peak) or a \"down\" when the world collapses all around the hero (though it is a false collapse), and it can only get better from here on out. When you decide which midpoint your script/novel requires, it's like naiiling a spike into a wall good and hard. The clothesline that is your story can now be strung securely. The midpoint changes the whole dynamic of the film/novel. The stakes are raised at midpoint. The fun and games are over; it's back to the story. It's the point where, if you have a false victory, where say, the heror has been given an out of the bottle bit of fmagic, he gers everything he thinks he wants. But it's a false victory because the heo has a way sto go before he learns the lesson he really needs. It jusst SEEMS like eveyrthing is great. The midpoint has a matching beat: All Is Lost, which is described as a false defeat. These two beats are the inverse of each other. RULE: It's never as good as it seems to be at the midpoint and it's never as bad as it seems at the All Is Lost. Or vice versa. To reiterate: the midpoint is either false victory or false defeat, and the All Is Lost is the opposite of it.",
+   "stc_page": "Page 180",
+   "where": "0.5",
+   "words_300": "54000",
+   "scene_type": "Single Scene or Single Chapter. It is ONE piece of information.",
+   "group": "antithesis"
+  },
+  {
+   "source_name": "10. Bad Guys Close In",
+   "description": "The term \"bad guys close in\" applies to the situation the hero finds himself in at midpoint. All seems fine, but even though the bad guys - be they people, a phenomenon of a thing - are temporarily defeated, and the heor's team seems to be in perfect sync, we're not done yet. This is the point where the bad guys decide to regroup and send in the heavy artillery. It's the point where internal dissent, doubt and jealousy begin to disintergrate the hero's team. The forces that are aligned against the hero, internal and external, tighten their grip. Evil is not giving up, and there is nowhere for the hero to go for help. He is own his own and must endure. he is headed for a huge fall, and that brings us to ...All Is Lost.",
+   "stc_page": "Page 180 - 270",
+   "where": "50% - 75%",
+   "words_300": "54,000 - 81,000",
+   "scene_type": "Multi Scene or Multi Chapters",
+   "group": "antithesis"
+  },
+  {
+   "source_name": "11. All Is Lost",
+   "description": "We know this section is the opposite of the midpoint in terms of an \"up\" or a \"down\". It's also the point of the novel most often labled \"false defeat,\" for even though all looks bleak, it's just temporary. But it seems like total defeat. All aspects of the hero's life are in shambles. No hope. But there is a trade secret to put in this section for added spice. It's called the whiff of death. So many great movies use the All Is Lost point to kill someone. Obi Wan in Star Wars is the best example - what will Luke do now? All Is Lost is where mentors go to die, presumably so thier students can discover they had it in them all along. The mentor's death clears the way to prove that. Even if there is no mentor to kill or if the story isn't even about death, it doesn't matter. At this section stick in something, anything that involves death. Whether it's integral to the story or just symbolic, hint at something dead here. A flower, a goldfish, news that a beloved aunt passed away. Its all the same. The reason is that this beat is the \"Christ on the crosss\" moment. It's where the old world, the old character, the old way of thinking dies. And it clears the way for the fusion of the thesis - what was - and the antithesis - the upside down version of what was - to become the synthesis. Synthesis being a new world, a new life. And the thing you show dying, even a goldfish, will resonate ane dmake that All is Lost moment all the more poignant. The \"whiff of death\"moment in the movie Elf is when Will Farrell's character pauses on a city bridge and looking down on the water, contemplates suicide.",
+   "stc_page": "Page 270",
+   "where": "0.75",
+   "words_300": "81000",
+   "scene_type": "Single Scene or Single Chapter. It is ONE piece of information.",
+   "group": "antithesis"
+  },
+  {
+   "source_name": "12. Dark Night Of The Soul",
+   "description": "In the middle of the death moment in the All is Lost pint, how does your character experiencing this moment FEEL about it? This question is answered in this \"Dark Night Of The Soul\" section. It can last five seconds or five minutes. Its there - and it's vital. It's the point that is the darkness before the dawn. It's the point just before the hero reaches way deep down and plls out that last, best idea that will save himself and everyone around him. But at this moment, that idea is nowhere in sight. It's the \"Oh Lord, why has though forsaken me?\" moment. We've all been there: hopeless, clueless, drunk and stupid, sitting on the side of the road with a flat tire and four cents, late for an appointment that will save our lives. Then and only then, when we admit our humility and our humanity, and yield our control of events over to Fate, do we find the solution. We must be beaten AND KNOW IT to get the lesson. The dark night of the souls is that point. It's in comedies and dramas because it's real and we all idenetify.",
+   "stc_page": "Page 270 - 288",
+   "where": "75% - 80%",
+   "words_300": "81,000 - 86,400",
+   "scene_type": "Single Scene or Single Chapter. It is ONE piece of information.",
+   "group": "antithesis"
+  },
+  {
+   "source_name": "13. Break into Three (meaning segue into act 3)",
+   "description": "Thanks to the characters found in the B story (the love story), thanks to all the conversations discussing theme in the B story, and thanks to the hero's last best effort to discover a solution to beat the bad guys who've been closing in and winning in the A story, lo and behold, the answer is found! Both in the external story (the A story) and the internal story (the B story) which now  meet andintertwine, the hero has prevailed, passed every test and dug deep to find the solution. Now all he has to do is APPLY IT. The classic fusion of A and B is the heor getting the clue from \"the girl\" that makes him realize how to solve both  beating the bad guys and winning the heart of his beloved. An idea to solve the problem has emerged. The world of synthesis is at hand.",
+   "stc_page": "Page 288",
+   "where": "0.8",
+   "words_300": "86400",
+   "scene_type": "Single Scene or Single Chapter. It is ONE piece of information.",
+   "group": "synthesis"
+  },
+  {
+   "source_name": "14. Finale",
+   "description": "The finale is Act Three. This is where we wrap it up. It's where the lessons learned are applied. It's where the character tics are mastered. It's where A story and B story end in triump for our hero. It's the turning over of the old world and a creation of a new world order - all thanks to the heor, who leads the way based on what he experienced in the upside-down, antithetical world of Act Two. The finale entails the dispatching of the bad guys, in ascending order. Lieutenants and the henchmen die first, then the boss. The chief souce of \"the problem\" - a person or thing - must be dispatched completely for the new world order to exist. The finale is where a new society is born. It's not enough for the hero to triumph, he must change the world. The finale is where it happens. And it must be done in an emotionally satisfying way.",
+   "stc_page": "Page 288 - 360",
+   "where": "80% - 99%",
+   "words_300": "86,400 - 106,920",
+   "scene_type": "Multi Scene or Multi Chapters",
+   "group": "synthesis"
+  },
+  {
+   "source_name": "15. Final Image",
+   "description": "As stated earlier, the final image in a movie/novel is the opposite of the opening image. It is your proof that change has occurred and that it's real. If you don't have that final image, or you can't see how it applies, go back and check your math - there is something not adding up in Act Two.",
+   "stc_page": "Page 360",
+   "where": "99% - 100%",
+   "words_300": "106,920 - 108,000",
+   "scene_type": "Single Scene or Single Chapter. It is ONE piece of information.",
+   "group": "synthesis"
+  }
+ ],
+ "examples": {
+  "1. Opening Image": "Jack Torrance is interviewing for a job at the Overlook Hotel. It's his last chance. He needs the  money. He's been fired and is unwanted at most places. The financial outlook for the family is bleak. His marriage is on the rocks. He's an alcholic with a horrible temper."
+ }
+}

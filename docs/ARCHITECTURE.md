@@ -10,7 +10,15 @@ Components:
 - **The Writing Room**: your dedicated space for drafting, revising, and completing your manuscript. The Writing Trail lives here.
 - **The Story Trail**: retrace the evolution of your ideas, decisions, revisions, and creative breakthroughs.
 
-Conversations, Choices Ahead, the Ripple Effect, the Craft Resource Advisor and the AI collaborator are features within these components.
+Three levels (agreed 2026-10-16): Story Canon is the application; the four components organize it; features and capabilities live inside them or across them. Components never define or limit the feature list. Nothing leaves Phase 2 because it lacks a tab, and nothing counts as built because it has a place here.
+
+| Component | Features |
+| --- | --- |
+| The Story Brain | Conversations, session harvests, Questions and Ideas, Choices Ahead (with competing possibilities, what supports each, and what depends on the choice; defer or decide), character development, canon, competing possibilities, decision history, provenance, connections, continuity records |
+| Narrative Zoom | Story architecture, beat-to-scene mapping, both timelines, relational navigation, breadcrumbs, the Ripple Effect, alternate structures. Designed visual maps and posters are the later phase. |
+| The Writing Room | Drafting, chapters, scenes, autosave, revisions, writing sessions, guidance levels, goals, Return to Writing, the Writing Trail |
+| The Story Trail | How ideas, decisions and revisions evolved; what each harvest produced; recovering earlier thinking |
+| Across the program | The AI collaborator (Teach It, Show It, Hand It to Me, Critique; Quiet, Advisory, Deep; always distinguishes decided, considering and suggested); the Craft Resource Advisor (never invents chapter numbers, page numbers or citations) |
 
 ## Product promise
 
