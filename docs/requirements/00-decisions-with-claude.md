@@ -26,6 +26,8 @@ These come from Yolanda's own messages in the Claude build conversation (October
 | D-19 | Status words on screen: a mix | Mix of her Bible words and ChatGPT's words; which words go where is still to be confirmed. Labels are renamable in Settings either way. | R-A-023 (partly) |
 | D-20 | Beat placement: show both | Brody's novel percentages and Snyder's screenplay-proportional placement side by side, with page ranges at 250 and 300 words per page | R-C-007 to R-C-009, Needs Yolanda B-6, C-2 |
 
+| D-21 | Status words on screen | Decided / Developing / Still open / One way it could be done / "Yolanda, it's on you now" / Here's a suggestion. Set aside keeps its name. The owned marker uses the author's name from Settings so it works for any author. | D-19, R-A-023 |
+
 ## Standing rules (from D-11, D-12, D-14)
 
 A later statement replaces an earlier one only when Yolanda actually changed her mind or explicitly replaced it. It does not replace it when it is a possibility, an example, ChatGPT restating or summarizing (omission never cancels), a ChatGPT proposal she did not accept or did not read, an addition, or about a different subject. When unclear, ask her.
