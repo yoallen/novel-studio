@@ -9,6 +9,7 @@ test('without the app key the window cannot reach any work', async ({ page }) =>
 test('a blank novel goes straight to the page; writing survives a reload (Scenario H, R-B-005)', async ({ page }) => {
   await newNovel(page, 'Blank Start');
   await heroWrite(page).click();
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.type('The first line, with no planning at all.');
   await waitSaved(page);
@@ -20,6 +21,7 @@ test('a blank novel goes straight to the page; writing survives a reload (Scenar
 test('typing that never became a saved version is offered back after a crash, and nothing is lost either way', async ({ page }) => {
   await newNovel(page, 'Crash Test');
   await heroWrite(page).click();
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.type('Saved part. ');
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Search' }).click();
@@ -28,6 +30,7 @@ test('typing that never became a saved version is offered back after a crash, an
   // From here the service refuses to commit versions, as if the program died before it could.
   const block = (r: import('@playwright/test').Route) => r.abort();
   await page.context().route('**/api/scenes/*/prose', block);
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.press('End');
   await page.keyboard.type('Typed just before the power went out.');
@@ -84,6 +87,7 @@ test('two windows on one scene: the stale save is refused and both versions are 
 test('Return to Writing puts the cursor back exactly where it was, through several detours (AC13)', async ({ page }) => {
   await newNovel(page, 'Detours');
   await heroWrite(page).click();
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.type('Before the cursor. After the cursor.');
   for (let i = 0; i < 'After the cursor.'.length; i++) await page.keyboard.press('ArrowLeft');
@@ -103,6 +107,7 @@ test('Return to Writing puts the cursor back exactly where it was, through sever
 test('a thought captured while writing keeps its exact words and waits beside that scene only (R-B-019, R-B-020)', async ({ page }) => {
   await newNovel(page, 'Capture');
   await heroWrite(page).click();
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.type('Scene one text.');
   await page.keyboard.press('Control+Shift+N');
@@ -141,6 +146,7 @@ test('deleting is never final, and any change can be undone (R-B-063)', async ({
   const title = page.getByLabel('Scene title');
   await title.fill('Renamed scene');
   await title.press('Enter');
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.type('Keep these words.');
   page.once('dialog', (d) => d.accept());

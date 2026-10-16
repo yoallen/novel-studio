@@ -109,6 +109,7 @@ test('a novel can be set up first: genres, story types with ingredients, charact
 test("an editor's tracked changes come back and she decides each one (R-B-083)", async ({ page, request }) => {
   await newNovel(page, 'Editor Test');
   await page.locator('.hero').getByRole('button', { name: 'Write' }).click();
+  await expect(page.locator('.ProseMirror')).toHaveAttribute('contenteditable', 'true');
   await page.locator('.ProseMirror').click();
   await page.keyboard.type('Kevin said it was not his fault.');
   await expect(page.getByRole('status').filter({ hasText: 'Saved' })).toBeVisible({ timeout: 10_000 });

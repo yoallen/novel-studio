@@ -6,6 +6,7 @@ const nav = (p: Page) => p.getByRole('navigation', { name: 'Views' });
 test('Read it back shows echoes and watch words and selects them on the page; pacing and names read the whole book', async ({ page }) => {
   await newNovel(page, 'Lens Test');
   await heroWrite(page).click();
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.type('Kevin walked to the window. He walked back and just stood there. Later Marla laughed at Marla and Marlla. ');
   await waitSaved(page);

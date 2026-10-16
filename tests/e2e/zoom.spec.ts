@@ -23,6 +23,7 @@ test('zoom from the whole story to a scene and its page, and back, never losing 
   await expect(crumbs).toContainText('Act One');
   await expect(crumbs).toContainText('Catalyst');
   await page.getByRole('button', { name: 'Write this scene' }).click();
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.type('The smell hit Anthony before the sun did.');
   await page.getByRole('button', { name: 'Show in Story Map' }).click();
