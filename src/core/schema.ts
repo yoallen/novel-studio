@@ -314,4 +314,47 @@ CREATE TABLE arrangements (
 CREATE INDEX arrangements_project ON arrangements(project_id);
 `,
   },
+  {
+    version: 3,
+    name: 'story brain: statement qualifiers and conversation links, custom kinds and fields',
+    sql: `
+ALTER TABLE statements ADD COLUMN turn_id TEXT REFERENCES turns(id);
+ALTER TABLE statements ADD COLUMN qualifiers_json TEXT NOT NULL DEFAULT '{}';
+ALTER TABLE proposals ADD COLUMN conversation_id TEXT REFERENCES conversations(id);
+ALTER TABLE proposals ADD COLUMN turn_id TEXT REFERENCES turns(id);
+ALTER TABLE conversations ADD COLUMN harvested_at TEXT;
+
+CREATE TABLE kinds (
+  id TEXT PRIMARY KEY,
+  project_id TEXT NOT NULL REFERENCES projects(id),
+  key TEXT NOT NULL,
+  label TEXT NOT NULL,
+  plural TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  deleted_at TEXT,
+  version INTEGER NOT NULL DEFAULT 1
+);
+CREATE UNIQUE INDEX kinds_project_key ON kinds(project_id, key) WHERE deleted_at IS NULL;
+
+CREATE TABLE field_defs (
+  id TEXT PRIMARY KEY,
+  project_id TEXT NOT NULL REFERENCES projects(id),
+  kind TEXT NOT NULL,
+  field TEXT NOT NULL,
+  label TEXT NOT NULL,
+  group_name TEXT NOT NULL DEFAULT '',
+  prompt TEXT NOT NULL DEFAULT '',
+  multi INTEGER NOT NULL DEFAULT 0,
+  private INTEGER NOT NULL DEFAULT 0,
+  sort REAL NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  deleted_at TEXT,
+  version INTEGER NOT NULL DEFAULT 1
+);
+CREATE INDEX field_defs_project_kind ON field_defs(project_id, kind);
+`,
+  },
 ];

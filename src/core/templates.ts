@@ -1,0 +1,199 @@
+// Built-in field templates for story elements. Every field is optional (R-A-069, R-A-074): fields are
+// offered as places to put what she knows, and lens questions are prompts, never requirements.
+// The author can add her own kinds and fields per novel (R-A-109); they merge with these.
+// Private fields are off-page writing aids and never leave the program in manuscript exports (R-A-070).
+
+export interface FieldDef {
+  field: string;
+  label: string;
+  group: string;
+  prompt?: string;
+  multi?: boolean;      // several decided values can stand together (e.g. Ingermanson values)
+  private?: boolean;    // writing aid, never exported as a story fact
+  timed?: boolean;      // offers "when is this true" (backstory, start of story, during the story, not decided)
+  identity?: boolean;   // shows "Not yet specified" and is never inferred (R-A-071)
+  custom?: boolean;
+}
+
+export const TIMING = [
+  { key: 'backstory', label: 'Before the story' },
+  { key: 'story_start', label: 'True when the story opens' },
+  { key: 'in_story', label: 'Happens during the story' },
+  { key: 'unknown', label: 'Timing not decided' },
+] as const;
+
+const f = (group: string, field: string, label: string, extra: Partial<FieldDef> = {}): FieldDef => ({ group, field, label, ...extra });
+
+const CHARACTER: FieldDef[] = [
+  f('Role in the story', 'role', 'Role', { prompt: 'Co-lead, B-story lead, hidden engine, supporting, narrator, secret-keeper…' }),
+  f('Role in the story', 'importance', 'Narrative importance', { prompt: 'Main, supporting or minor. Depth is judged against this, never against how many fields are filled.' }),
+  f('Role in the story', 'narrates', 'Narrates?', { prompt: 'Whether and how this character narrates (viewpoint, grammatical person).' }),
+  f('Role in the story', 'last_page', 'Last page, in one line', { prompt: 'If you wrote this character\'s last page in one line, who are they now?' }),
+
+  f('Ingermanson', 'goal', 'Goal', { prompt: 'Concrete and reachable. What would winning look like?' }),
+  f('Ingermanson', 'ambition', 'Ambition', { prompt: 'The abstract hunger underneath the goal. The gap between them is where the truest choices come from.' }),
+  f('Ingermanson', 'values', 'Values', { multi: true, prompt: 'Finish "Nothing is more important than ___" as many ways as you can. The two or three that conflict are the engine.' }),
+  f('Ingermanson', 'conflict', 'Conflict', { prompt: 'What blocks the goal?' }),
+  f('Ingermanson', 'epiphany', 'Epiphany', { prompt: 'What do they learn?' }),
+
+  f('Forces of antagonism', 'core_value', 'The value they live by', { prompt: 'The value under pressure in their own story.' }),
+  f('Forces of antagonism', 'force_inner', 'Inner force', { prompt: 'What inside them works against them?' }),
+  f('Forces of antagonism', 'force_personal', 'Personal force', { prompt: 'Who close to them works against them?' }),
+  f('Forces of antagonism', 'force_extra_personal', 'Extra-personal force', { prompt: 'What in the wider world works against them?' }),
+  f('Forces of antagonism', 'negation_of_negation', 'The worst form of their value', { prompt: 'Their value at its darkest, set for this book\'s tone.' }),
+
+  f('Identity', 'ethnicity', 'Race or ethnicity', { identity: true }),
+  f('Identity', 'age', 'Age', { identity: true, timed: true }),
+  f('Identity', 'religion', 'Faith or religion', { identity: true }),
+  f('Identity', 'culture', 'Culture and community', { identity: true }),
+  f('Identity', 'occupation', 'Work', { identity: true, timed: true }),
+  f('Identity', 'family', 'Family', { identity: true, timed: true }),
+  f('Identity', 'appearance', 'Appearance', { identity: true }),
+
+  f('Physical', 'physical', 'Physical notes', { multi: true, timed: true, prompt: 'Health, build, how they move, what people notice first.' }),
+  f('Personality', 'temperament', 'Temperament'),
+  f('Personality', 'humor', 'Humor', { prompt: 'What makes them funny, and what do they find funny?' }),
+  f('Personality', 'habits', 'Habits and props', { multi: true, prompt: 'Make sure each habit belongs to the right character.' }),
+  f('Personality', 'strengths', 'Strengths'),
+  f('Personality', 'weaknesses', 'Weaknesses'),
+  f('Environmental', 'home', 'Home and neighborhood', { timed: true }),
+  f('Environmental', 'history', 'History', { multi: true, timed: true }),
+  f('Psychological', 'fears', 'Fears'),
+  f('Psychological', 'wounds', 'Wounds', { timed: true }),
+  f('Psychological', 'desires', 'Desires'),
+  f('Psychological', 'beliefs', 'Beliefs'),
+
+  f('Depth lenses', 'motivation_conscious', 'What they think they want', { prompt: 'What does this person want beyond their plot function?' }),
+  f('Depth lenses', 'motivation_unconscious', 'What drives them underneath'),
+  f('Depth lenses', 'under_pressure', 'Under pressure', { prompt: 'How do they behave under pressure, uncertainty, success and failure?' }),
+  f('Depth lenses', 'comic_engine', 'Comic engine', { prompt: 'What reliably makes them funny on the page?' }),
+  f('Depth lenses', 'voice', 'Voice', { prompt: 'Vocabulary, rhythm, what they notice, how they joke. Never dialect as a shortcut.' }),
+  f('Depth lenses', 'with_others', 'With different people', { multi: true, prompt: 'How do they act with a rival, an ally, family, a stranger?' }),
+  f('Depth lenses', 'agency', 'Agency', { prompt: 'What do they make happen, rather than react to?' }),
+
+  f('Contradiction layers', 'public_identity', 'Public identity'),
+  f('Contradiction layers', 'private_identity', 'Private identity'),
+  f('Contradiction layers', 'demonstrated_behavior', 'What they do'),
+  f('Contradiction layers', 'underlying_motivation', 'Why they really do it'),
+
+  f('Comparisons', 'comparisons', 'Like…', { multi: true, prompt: 'A person or character whose qualities you are borrowing. Note which qualities, so it never becomes a literal copy.' }),
+
+  f('Writing aids (private)', 'tuning_fork', 'Casting tuning fork', { private: true, prompt: 'An actor whose voice and tempo help you write them. Never a description of the character.' }),
+  f('Writing aids (private)', 'theme_music', 'Theme music', { private: true }),
+  f('Writing aids (private)', 'playlist', 'Playlist', { private: true, multi: true }),
+];
+
+const ARC: FieldDef[] = [
+  f('Arc', 'arc_value', 'Value this arc is about', { prompt: 'One character can carry more than one arc, each on a different value.' }),
+  f('Arc', 'arc_type', 'Arc type', { prompt: 'Positive Change, Flat, Negative, or not decided.' }),
+  f('Weiland Arc', 'ghost', 'Ghost', { timed: true, prompt: 'The formative experience that explains the Lie. It need not be tragic, but it must be personal and convincing.' }),
+  f('Weiland Arc', 'lie', 'Lie', { prompt: 'The false belief that once felt protective.' }),
+  f('Weiland Arc', 'want', 'Want', { prompt: 'What the Lie makes them chase.' }),
+  f('Weiland Arc', 'need', 'Need', { prompt: 'The Truth that would heal them, usually the opposite of the Want.' }),
+  f('Weiland Arc', 'truth', 'Truth'),
+  f('Arc', 'key_tests', 'Key tests and turns', { multi: true }),
+  f('Arc', 'final_state', 'Who they are at the end'),
+  f('Arc', 'unresolved', 'Still unresolved', { multi: true }),
+];
+
+const RELATIONSHIP: FieldDef[] = [
+  f('Where they stand', 'trust', 'Trust', { timed: true }),
+  f('Where they stand', 'respect', 'Respect', { timed: true }),
+  f('Where they stand', 'intimacy', 'Closeness', { timed: true }),
+  f('Where they stand', 'resentment', 'Resentment', { timed: true }),
+  f('Where they stand', 'dependence', 'Dependence', { timed: true }),
+  f('Where they stand', 'rivalry', 'Rivalry', { timed: true }),
+  f('Where they stand', 'power', 'Balance of power', { timed: true }),
+  f('Underneath', 'shared_need', 'What they share underneath'),
+  f('Underneath', 'external_opposition', 'Opposition on the surface'),
+  f('Underneath', 'emotional_trajectory', 'Where the relationship is really going'),
+  f('Underneath', 'hidden_influence', 'Hidden influence'),
+  f('Underneath', 'false_assumptions', 'False assumptions', { multi: true }),
+  f('Underneath', 'unequal_information', 'Who knows what the other does not', { multi: true }),
+];
+
+const PLACE: FieldDef[] = [
+  f('Place', 'description', 'What it is like'),
+  f('Place', 'atmosphere', 'Atmosphere'),
+  f('Place', 'season', 'Season', { timed: true }),
+  f('Place', 'who_is_here', 'Who is usually here', { multi: true }),
+];
+
+const EVENT: FieldDef[] = [
+  f('What it does', 'function', 'What it must accomplish', { prompt: 'The dramatic job. This can be decided while how it happens stays open.' }),
+  f('How it happens', 'execution', 'How it could happen', { prompt: 'Executions can sit side by side as possibilities until you choose one.' }),
+  f('When', 'story_time', 'When it happens in the story'),
+  f('Truth and knowledge', 'truth', 'What actually happened'),
+  f('Truth and knowledge', 'who_knows', 'Who knows, and when', { multi: true }),
+  f('Truth and knowledge', 'reader_knows', 'What the reader knows or suspects'),
+];
+
+const CLUE: FieldDef[] = [
+  f('Clue', 'truth', 'What it really means'),
+  f('Clue', 'planted', 'Where it is planted', { multi: true }),
+  f('Clue', 'paid_off', 'Where it pays off', { multi: true }),
+  f('Clue', 'misread_as', 'What it is mistaken for'),
+];
+
+const LINE: FieldDef[] = [
+  f('The line', 'speaker', 'Said by (in the story)'),
+  f('The line', 'delivery', 'How it is delivered', { prompt: 'Emphasis, timing, physical business.' }),
+  f('Where it goes', 'placement', 'Where it might go', { multi: true, prompt: 'Keeping a line does not place it. Candidates can sit side by side.' }),
+];
+
+const QUESTION: FieldDef[] = [
+  f('Thinking it through', 'candidate_answer', 'Possible answers', { multi: true }),
+  f('Thinking it through', 'assumption', 'Assumptions behind it', { multi: true }),
+  f('Thinking it through', 'answer', 'Answer'),
+];
+
+const IDEA: FieldDef[] = [
+  f('Thinking it through', 'what_it_changes', 'What it might change', { multi: true }),
+  f('Thinking it through', 'where_it_fits', 'Where it might fit', { multi: true }),
+];
+
+const GENERIC: FieldDef[] = [f('Notes', 'description', 'Description')];
+
+export const TEMPLATES: Record<string, FieldDef[]> = {
+  character: CHARACTER,
+  arc: ARC,
+  relationship: RELATIONSHIP,
+  location: PLACE,
+  event: EVENT,
+  clue: CLUE,
+  reveal: EVENT,
+  payoff: CLUE,
+  line: LINE,
+  question: QUESTION,
+  idea: IDEA,
+};
+
+export const KIND_LABELS: Record<string, { label: string; plural: string }> = {
+  character: { label: 'Character', plural: 'Characters' },
+  arc: { label: 'Arc', plural: 'Arcs' },
+  relationship: { label: 'Relationship', plural: 'Relationships' },
+  storyline: { label: 'Storyline', plural: 'Storylines' },
+  location: { label: 'Place', plural: 'Places' },
+  object: { label: 'Object', plural: 'Objects' },
+  event: { label: 'Event', plural: 'Events' },
+  clue: { label: 'Clue', plural: 'Clues' },
+  reveal: { label: 'Reveal', plural: 'Reveals' },
+  payoff: { label: 'Payoff', plural: 'Payoffs' },
+  theme: { label: 'Theme', plural: 'Themes' },
+  value: { label: 'Value', plural: 'Values' },
+  motif: { label: 'Motif', plural: 'Motifs' },
+  rule: { label: 'Story rule', plural: 'Story rules' },
+  research: { label: 'Research', plural: 'Research' },
+  line: { label: 'Kept line', plural: 'Kept lines' },
+  guardrail: { label: 'Guardrail', plural: 'Guardrails' },
+  question: { label: 'Question', plural: 'Questions I have' },
+  idea: { label: 'Idea', plural: "Things and ideas I'm thinking about" },
+  thought: { label: 'Thought', plural: 'Captured thoughts' },
+  note: { label: 'Note', plural: 'Notes' },
+  act: { label: 'Act', plural: 'Acts' },
+  sequence: { label: 'Sequence', plural: 'Sequences' },
+  beat: { label: 'Beat', plural: 'Beats' },
+  scene_plan: { label: 'Scene plan', plural: 'Scene plans' },
+};
+
+export function templateFor(kind: string): FieldDef[] { return TEMPLATES[kind] ?? GENERIC; }

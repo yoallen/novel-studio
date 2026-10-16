@@ -38,18 +38,18 @@ export function newId(): string {
 export function nowIso(): string { return new Date().toISOString(); }
 
 /** Tables that support soft delete and therefore restore. */
-const SOFT_DELETE = new Set(['projects', 'elements', 'statements', 'links', 'chapters', 'scenes', 'conversations', 'marks', 'arrangements']);
+const SOFT_DELETE = new Set(['projects', 'elements', 'statements', 'links', 'chapters', 'scenes', 'conversations', 'marks', 'arrangements', 'kinds', 'field_defs']);
 /** Tables whose rows carry an optimistic-concurrency version. */
-const VERSIONED = new Set(['projects', 'elements', 'chapters', 'scenes', 'arrangements']);
+const VERSIONED = new Set(['projects', 'elements', 'chapters', 'scenes', 'arrangements', 'kinds', 'field_defs']);
 /** Tables that have an updated_at column. */
-const UPDATED_AT = new Set(['projects', 'elements', 'chapters', 'scenes', 'arrangements']);
+const UPDATED_AT = new Set(['projects', 'elements', 'chapters', 'scenes', 'arrangements', 'kinds', 'field_defs']);
 /** Fields whose history is kept in scene_revisions instead of the journal. */
 /** Prose has its own version (prose_version) so editing a scene's title or status never collides with typing. */
 const UNJOURNALED: Record<string, Set<string>> = { scenes: new Set(['doc_json', 'text', 'word_count', 'prose_version']) };
 
 const ALLOWED_TABLES = new Set([
   'projects', 'sources', 'excerpts', 'elements', 'statements', 'links', 'chapters', 'scenes',
-  'conversations', 'turns', 'marks', 'proposals', 'writing_sessions', 'arrangements',
+  'conversations', 'turns', 'marks', 'proposals', 'writing_sessions', 'arrangements', 'kinds', 'field_defs',
 ]);
 
 function assertTable(table: string) {

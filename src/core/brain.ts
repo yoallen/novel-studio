@@ -2,12 +2,13 @@
 // timeline, links, and capture (thoughts, questions, ideas).
 
 import { settingsOf, mergeSettings, ProjectSettings } from './settings.js';
-import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso } from './store.js';
+import { templateFor, FieldDef, KIND_LABELS } from './templates.js';
+import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId } from './store.js';
 
 export const ELEMENT_KINDS = [
   'character', 'relationship', 'storyline', 'act', 'beat', 'sequence', 'scene_plan', 'event',
   'location', 'object', 'clue', 'reveal', 'payoff', 'theme', 'value', 'motif', 'rule', 'research',
-  'question', 'idea', 'thought', 'note',
+  'question', 'idea', 'thought', 'note', 'arc', 'guardrail', 'line',
 ] as const;
 export type ElementKind = (typeof ELEMENT_KINDS)[number];
 
@@ -42,11 +43,16 @@ export interface StatementInput {
   /** Statement id(s) this one replaces. 'current' replaces the current established statement of the field. */
   supersedes?: string | string[] | 'current' | null;
   note?: string;
+  /** The conversation message this came from, so it can always be traced back (R-A-054). */
+  turnId?: string | null;
+  /** Extra facts about the statement: timing (backstory / in_story ...), accepted_by, layer. */
+  qualifiers?: Record<string, unknown>;
 }
 
 export interface FieldView {
   field: string;
   current: (IdRow & { value: unknown }) | null;          // newest active established statement
+  currentAll: (IdRow & { value: unknown })[];            // every active established statement (multi-value fields)
   latest: (IdRow & { value: unknown }) | null;           // newest active statement of any non-illustrative status
   possibilities: (IdRow & { value: unknown })[];         // active developing / proposed statements (competing options)
   unanswered: (IdRow & { value: unknown })[];
@@ -58,7 +64,7 @@ export interface FieldView {
 const ACTOR_AUTHOR = 'author';
 
 function parseStatement(r: Row): IdRow & { value: unknown } {
-  return withFields(r, { value: JSON.parse(r.value_json as string) as unknown });
+  return withFields(r, { value: JSON.parse(r.value_json as string) as unknown, qualifiers: JSON.parse((r.qualifiers_json as string) ?? '{}') as Record<string, unknown> });
 }
 
 export class Brain {
@@ -144,7 +150,7 @@ export class Brain {
   createElement(projectId: string, input: { kind: string; title: string; body?: string; state?: string; parentId?: string | null; sortKey?: number; attrs?: Record<string, unknown>; reserved?: string | null }, actor = ACTOR_AUTHOR) {
     this.project(projectId);
     const kind = input.kind as ElementKind;
-    if (!ELEMENT_KINDS.includes(kind)) throw new ValidationError(`Unknown element type: ${input.kind}`);
+    if (!ELEMENT_KINDS.includes(kind) && !this.customKind(projectId, input.kind)) throw new ValidationError(`Unknown element type: ${input.kind}`);
     const title = String(input.title ?? '').trim();
     if (!title) throw new ValidationError('Give it a title, even a rough one.');
     const state = input.state ?? (LIFECYCLE[kind]?.[0] ?? '');
@@ -247,6 +253,7 @@ export class Brain {
         speaker_kind: input.speaker.kind, speaker_name: input.speaker.name ?? '',
         source_id: input.sourceId ?? null, excerpt_id: input.excerptId ?? null,
         made_at: input.madeAt ?? nowIso(), supersedes_id: toSupersede[0] ?? null, note: input.note ?? '',
+        turn_id: input.turnId ?? null, qualifiers_json: JSON.stringify(input.qualifiers ?? {}),
       });
       for (const sid of toSupersede) w.update('statements', sid, { superseded_by_id: st.id });
       return parseStatement(this.store.get('statements', st.id)!);
@@ -290,6 +297,7 @@ export class Brain {
     return {
       field,
       current: active.find((r) => r.status === 'established') ?? null,
+      currentAll: active.filter((r) => r.status === 'established'),
       latest: active.find((r) => r.status !== 'illustrative' && r.status !== 'set_aside') ?? null,
       possibilities: active.filter((r) => r.status === 'developing' || r.status === 'proposed'),
       unanswered: active.filter((r) => r.status === 'unanswered'),
@@ -348,6 +356,148 @@ export class Brain {
 
   links(projectId: string) {
     return this.store.db.prepare('SELECT * FROM links WHERE project_id=? AND deleted_at IS NULL').all(projectId) as Row[];
+  }
+
+  // ---------- kinds and fields the author defines (R-A-109) ----------
+  customKind(projectId: string, key: string): Row | undefined {
+    return this.store.db.prepare('SELECT * FROM kinds WHERE project_id=? AND key=? AND deleted_at IS NULL').get(projectId, key) as Row | undefined;
+  }
+
+  defineKind(projectId: string, input: { label: string; plural?: string; description?: string }, actor = ACTOR_AUTHOR) {
+    this.project(projectId);
+    const label = String(input.label ?? '').trim();
+    if (!label) throw new ValidationError('Give the new kind a name.');
+    let key = 'x_' + label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+    if (key === 'x_') key = 'x_kind';
+    if ((ELEMENT_KINDS as readonly string[]).includes(key) || this.customKind(projectId, key)) throw new ConflictError(`There is already a kind called "${label}".`);
+    return this.store.batch({ projectId, actor, reason: `New kind of story element: ${label}` }, (w) =>
+      w.insert('kinds', { project_id: projectId, key, label, plural: (input.plural ?? '').trim() || label + 's', description: input.description ?? '' }));
+  }
+
+  kinds(projectId: string) {
+    this.project(projectId);
+    const builtIn = (ELEMENT_KINDS as readonly string[]).map((k) => ({ key: k, label: KIND_LABELS[k]?.label ?? k, plural: KIND_LABELS[k]?.plural ?? k, custom: false }));
+    const custom = (this.store.db.prepare('SELECT * FROM kinds WHERE project_id=? AND deleted_at IS NULL ORDER BY created_at').all(projectId) as Row[])
+      .map((k) => ({ key: k.key as string, label: k.label as string, plural: k.plural as string, custom: true, id: k.id as string, description: k.description as string }));
+    return [...builtIn, ...custom];
+  }
+
+  defineField(projectId: string, input: { kind: string; label: string; group?: string; prompt?: string; multi?: boolean; private?: boolean }, actor = ACTOR_AUTHOR) {
+    this.project(projectId);
+    if (!(ELEMENT_KINDS as readonly string[]).includes(input.kind) && !this.customKind(projectId, input.kind)) throw new ValidationError('Unknown kind of story element.');
+    const label = String(input.label ?? '').trim();
+    if (!label) throw new ValidationError('Give the new field a name.');
+    let field = 'x_' + label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+    if (field === 'x_') field = 'x_field';
+    const taken = new Set(this.fieldsFor(projectId, input.kind).map((d) => d.field));
+    let n = 2; const base = field; while (taken.has(field)) field = `${base}_${n++}`;
+    return this.store.batch({ projectId, actor, reason: `New field "${label}" for ${input.kind}` }, (w) =>
+      w.insert('field_defs', { project_id: projectId, kind: input.kind, field, label, group_name: (input.group ?? '').trim() || 'My fields', prompt: input.prompt ?? '', multi: input.multi ? 1 : 0, private: input.private ? 1 : 0, sort: Date.now() }));
+  }
+
+  removeField(fieldDefId: string, actor = ACTOR_AUTHOR) {
+    const d = this.store.get('field_defs', fieldDefId);
+    if (!d || d.deleted_at) throw new NotFoundError('field');
+    // Removing a field definition hides it from forms; anything written in it stays in history and search.
+    this.store.batch({ projectId: d.project_id as string, actor, reason: `Remove field "${d.label}"` }, (w) => w.remove('field_defs', fieldDefId));
+  }
+
+  /** Built-in template plus her own fields for this kind in this novel. */
+  fieldsFor(projectId: string, kind: string): FieldDef[] {
+    const custom = (this.store.db.prepare('SELECT * FROM field_defs WHERE project_id=? AND kind=? AND deleted_at IS NULL ORDER BY sort').all(projectId, kind) as Row[])
+      .map((d) => ({ field: d.field as string, label: d.label as string, group: d.group_name as string, prompt: d.prompt as string, multi: !!d.multi, private: !!d.private, custom: true, id: d.id as string }));
+    const builtIn = (ELEMENT_KINDS as readonly string[]).includes(kind) ? templateFor(kind) : [];
+    return [...builtIn, ...custom];
+  }
+
+  /** Everything the element page shows: fields with their status layers, children (such as arcs), links. */
+  elementPage(elementId: string) {
+    const el = this.element(elementId);
+    const pid = el.project_id as string;
+    const defs = this.fieldsFor(pid, el.kind as string);
+    const used = (this.store.db.prepare('SELECT DISTINCT field FROM statements WHERE element_id=? AND deleted_at IS NULL').all(elementId) as Row[]).map((r) => r.field as string);
+    const extra = used.filter((u) => !defs.some((d) => d.field === u)).map((u) => ({ field: u, label: u.replace(/^x_/, '').replace(/_/g, ' '), group: 'Other' } as FieldDef));
+    const fields = [...defs, ...extra].map((d) => ({ def: d, view: this.field(elementId, d.field) }));
+    const children = (this.store.db.prepare('SELECT * FROM elements WHERE parent_id=? AND deleted_at IS NULL ORDER BY sort_key, created_at').all(elementId) as Row[])
+      .map((c) => ({ element: c, fields: this.fieldsFor(pid, c.kind as string).map((d) => ({ def: d, view: this.field(c.id as string, d.field) })) }));
+    const links = this.linksOf(elementId);
+    const guardrails = (this.store.db.prepare("SELECT * FROM elements WHERE kind='guardrail' AND parent_id=? AND deleted_at IS NULL ORDER BY created_at").all(elementId) as Row[]);
+    const pending = this.proposals(pid, 'pending').filter((p) => (p.target as Record<string, unknown>).elementId === elementId);
+    return { element: withFields(el, { attrs: JSON.parse((el.attrs_json as string) || '{}') as Record<string, unknown> }), fields, children: children.filter((c) => c.element.kind !== 'guardrail'), guardrails, links, pending, parent: el.parent_id ? this.store.get('elements', el.parent_id as string) ?? null : null };
+  }
+
+  // ---------- proposals: suggestions wait for her (R-A-024, R-A-060, R-A-097) ----------
+  propose(projectId: string, input: { origin: string; kind: 'statement' | 'element' | 'link'; target: Record<string, unknown>; after: unknown; before?: unknown; rationale?: string; conversationId?: string | null; turnId?: string | null }) {
+    this.project(projectId);
+    const id = newId();
+    this.store.db.prepare('INSERT INTO proposals(id,project_id,origin,kind,target_json,before_json,after_json,rationale,status,created_at,conversation_id,turn_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)')
+      .run(id, projectId, input.origin, input.kind, JSON.stringify(input.target), input.before === undefined ? null : JSON.stringify(input.before), JSON.stringify(input.after ?? null), input.rationale ?? '', 'pending', nowIso(), input.conversationId ?? null, input.turnId ?? null);
+    return this.proposal(id);
+  }
+
+  proposal(id: string) {
+    const r = this.store.db.prepare('SELECT * FROM proposals WHERE id=?').get(id) as Row | undefined;
+    if (!r) throw new NotFoundError('suggestion');
+    return withFields(r, { target: JSON.parse(r.target_json as string) as Record<string, unknown>, after: r.after_json ? JSON.parse(r.after_json as string) as unknown : null, before: r.before_json ? JSON.parse(r.before_json as string) as unknown : null });
+  }
+
+  proposals(projectId: string, status?: string) {
+    const rows = (status
+      ? this.store.db.prepare('SELECT id FROM proposals WHERE project_id=? AND status=? ORDER BY created_at DESC').all(projectId, status)
+      : this.store.db.prepare('SELECT id FROM proposals WHERE project_id=? ORDER BY created_at DESC').all(projectId)) as Row[];
+    return rows.map((r) => this.proposal(r.id as string));
+  }
+
+  /** Accept a suggestion. It is recorded as assistant-written and author-accepted, with the status she chooses. */
+  acceptProposal(id: string, opts: { status?: 'established' | 'developing'; value?: unknown } = {}, actor = ACTOR_AUTHOR) {
+    const p = this.proposal(id);
+    if (p.status === 'accepted') throw new ConflictError('That suggestion was already accepted.');
+    const pid = p.project_id as string;
+    const t = p.target;
+    const after = (opts.value !== undefined ? opts.value : p.after) as Record<string, unknown> | string;
+    let result: unknown = null;
+    if (p.kind === 'statement') {
+      const value = typeof after === 'object' && after && 'value' in after ? (after as Record<string, unknown>).value : after;
+      const st = this.addStatement({ elementId: t.elementId as string, field: t.field as string, value, status: 'proposed', speaker: { kind: 'assistant', name: String(p.origin) }, turnId: (p.turn_id as string) ?? null, note: p.rationale as string });
+      result = this.setStatementStatus(st.id, opts.status ?? 'developing', {}, actor);
+      this.store.db.prepare('UPDATE statements SET qualifiers_json=? WHERE id=?').run(JSON.stringify({ accepted_by: 'author', accepted_at: nowIso(), proposal_id: id }), st.id);
+    } else if (p.kind === 'element') {
+      const a = after as Record<string, unknown>;
+      result = this.createElement(pid, { kind: String(a.kind), title: String(a.title), body: String(a.body ?? ''), attrs: { origin: 'assistant', accepted_by: 'author', proposal_id: id } }, actor);
+    } else if (p.kind === 'link') {
+      result = this.link(pid, { fromId: t.fromId as string, toId: t.toId as string, relation: t.relation as Relation, strength: 'inferred', note: p.rationale as string }, actor);
+    }
+    this.store.db.prepare("UPDATE proposals SET status='accepted', decided_at=? WHERE id=?").run(nowIso(), id);
+    return { proposal: this.proposal(id), result };
+  }
+
+  decideProposal(id: string, status: 'rejected' | 'deferred' | 'pending') {
+    const p = this.proposal(id);
+    if (p.status === 'accepted') throw new ConflictError('That suggestion was already accepted. Undo it from History instead.');
+    this.store.db.prepare('UPDATE proposals SET status=?, decided_at=? WHERE id=?').run(status, status === 'pending' ? null : nowIso(), id);
+    return this.proposal(id);
+  }
+
+  // ---------- open decisions: a map of the choices ahead, never a to-do list (R-A-042) ----------
+  openDecisions(projectId: string) {
+    this.project(projectId);
+    const stillOpen = (this.store.db.prepare(
+      `SELECT s.id, s.field, s.value_json, s.made_at, e.id AS element_id, e.title AS element_title, e.kind AS element_kind FROM statements s JOIN elements e ON e.id=s.element_id
+       WHERE s.project_id=? AND s.status='unanswered' AND s.superseded_by_id IS NULL AND s.deleted_at IS NULL AND e.deleted_at IS NULL ORDER BY e.kind, e.title`,
+    ).all(projectId) as Row[]).map(parseStatement);
+    // Fields with possibilities but no decision yet.
+    const choosing = this.store.db.prepare(
+      `SELECT e.id AS element_id, e.title AS element_title, e.kind AS element_kind, s.field, COUNT(*) AS options FROM statements s JOIN elements e ON e.id=s.element_id
+       WHERE s.project_id=? AND s.status IN ('developing','proposed') AND s.superseded_by_id IS NULL AND s.deleted_at IS NULL AND e.deleted_at IS NULL
+         AND NOT EXISTS (SELECT 1 FROM statements x WHERE x.element_id=s.element_id AND x.field=s.field AND x.status='established' AND x.superseded_by_id IS NULL AND x.deleted_at IS NULL)
+       GROUP BY e.id, s.field ORDER BY e.kind, e.title, s.field`,
+    ).all(projectId) as Row[];
+    const questions = this.store.db.prepare("SELECT id, title, body, attrs_json, created_at FROM elements WHERE project_id=? AND kind='question' AND state='open' AND deleted_at IS NULL ORDER BY created_at").all(projectId) as Row[];
+    const reserved = this.store.db.prepare(
+      "SELECT 'element' AS what, id, title, kind, reserved FROM elements WHERE project_id=? AND reserved IS NOT NULL AND deleted_at IS NULL UNION ALL SELECT 'scene' AS what, id, title, 'scene' AS kind, reserved FROM scenes WHERE project_id=? AND reserved IS NOT NULL AND deleted_at IS NULL",
+    ).all(projectId, projectId) as Row[];
+    const pending = this.proposals(projectId, 'pending');
+    return { stillOpen, choosing, questions, reserved, pending };
   }
 
   // ---------- capture ----------
