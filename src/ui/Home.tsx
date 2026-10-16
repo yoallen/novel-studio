@@ -70,7 +70,7 @@ export function Home({ ctx }: { ctx: Ctx }) {
           {w.recentCaptures.length === 0 ? <p className="muted small">Nothing waiting.</p> : (
             <ul className="list">{w.recentCaptures.map((c: any) => <li key={c.id}>{c.title}</li>)}</ul>
           )}
-          <button className="btn link small" onClick={() => ctx.go('notes')}>All questions and ideas</button>
+          <button className="btn link small" onClick={() => ctx.go('brain')}>All questions and ideas</button>
         </section>
         {w.openTrail.length > 0 && (
           <section>

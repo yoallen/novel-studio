@@ -47,7 +47,7 @@ export function ScenePanel({ ctx, sceneId, onChanged, onReloadPage }: { ctx: Ctx
           <option value="">Not set</option>
           {chars.map((ch) => <option key={ch.id} value={ch.id}>{ch.title}</option>)}
         </select>
-        {chars.length === 0 && <span className="faint small">Add characters in Questions and ideas, or later in the Story Brain.</span>}
+        {chars.length === 0 && <span className="faint small">Add characters in the Story Brain.</span>}
       </label>
       <label className="field"><span>Kept for you to write or decide</span>
         <select value={c.scene.reserved ?? ''} onChange={(e) => void patchScene({ reserved: e.target.value || null })}>

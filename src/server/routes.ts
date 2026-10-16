@@ -3,7 +3,7 @@
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import type { Services } from './app.js';
-import { STATUSES, RELATIONS, ELEMENT_KINDS } from '../core/brain.js';
+import { STATUSES, RELATIONS } from '../core/brain.js';
 import { exportArchive, importArchive, planImport, snapshot, listSnapshots } from '../core/backup.js';
 import { NotFoundError } from '../core/store.js';
 
@@ -18,7 +18,7 @@ function body<T extends z.ZodTypeAny>(req: FastifyRequest, s: T): z.infer<T> { r
 function query<T extends z.ZodTypeAny>(req: FastifyRequest, s: T): z.infer<T> { return s.parse(req.query ?? {}); }
 
 export function registerRoutes(app: FastifyInstance, svc: Services) {
-  const { brain, ms, store, desk } = svc;
+  const { brain, ms, store, desk, convs } = svc;
 
   app.get('/api/health', async () => ({ ok: true, schema: store.schemaVersion() }));
 
@@ -55,11 +55,11 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
 
   // ----- elements -----
   app.get('/api/projects/:id/elements', async (req) => {
-    const q = query(req, z.object({ kind: z.enum(ELEMENT_KINDS).optional() }));
+    const q = query(req, z.object({ kind: z.string().max(60).optional() }));
     return brain.elements(params(req, P).id, q);
   });
   app.post('/api/projects/:id/elements', async (req) => {
-    const b = body(req, z.object({ kind: z.string(), title: z.string().max(500), body: z.string().max(2_000_000).optional(), state: z.string().optional(), parentId: id.nullable().optional(), sortKey: z.number().optional() }));
+    const b = body(req, z.object({ kind: z.string(), title: z.string().max(500), body: z.string().max(2_000_000).optional(), state: z.string().optional(), parentId: id.nullable().optional(), sortKey: z.number().optional(), attrs: json.optional(), reserved: z.string().max(120).nullable().optional() }));
     return brain.createElement(params(req, P).id, b);
   });
   app.get('/api/projects/:id/deleted', async (req) => {
@@ -84,6 +84,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       field: z.string(), value: z.unknown(), status: z.enum(STATUSES), speaker: speaker.optional(),
       sourceId: id.nullable().optional(), excerptId: id.nullable().optional(), madeAt: z.string().datetime().optional(),
       supersedes: z.union([id, z.array(id), z.literal('current')]).nullable().optional(), note: z.string().max(5000).optional(),
+      turnId: id.nullable().optional(), qualifiers: json.optional(),
     }));
     return brain.addStatement({ ...b, elementId: params(req, P).id, speaker: b.speaker ?? { kind: 'author' } });
   });
@@ -204,6 +205,45 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/trail/:id/resolve', async (req) => {
     const b = body(req, z.object({ resolved: z.boolean(), outcome: z.string().max(2000).optional() }));
     ms.resolveTrail(params(req, P).id, b.resolved, b.outcome); return { ok: true };
+  });
+
+  // ----- story brain -----
+  app.get('/api/projects/:id/kinds', async (req) => brain.kinds(params(req, P).id));
+  app.post('/api/projects/:id/kinds', async (req) => brain.defineKind(params(req, P).id, body(req, z.object({ label: z.string().max(80), plural: z.string().max(80).optional(), description: z.string().max(2000).optional() }))));
+  app.get('/api/projects/:id/fields', async (req) => brain.fieldsFor(params(req, P).id, query(req, z.object({ kind: z.string().max(60) })).kind));
+  app.post('/api/projects/:id/fields', async (req) => brain.defineField(params(req, P).id, body(req, z.object({ kind: z.string().max(60), label: z.string().max(80), group: z.string().max(80).optional(), prompt: z.string().max(1000).optional(), multi: z.boolean().optional(), private: z.boolean().optional() }))));
+  app.delete('/api/fields/:id', async (req) => { brain.removeField(params(req, P).id); return { removed: true }; });
+  app.get('/api/elements/:id/page', async (req) => brain.elementPage(params(req, P).id));
+  app.get('/api/projects/:id/open-decisions', async (req) => brain.openDecisions(params(req, P).id));
+  app.get('/api/projects/:id/proposals', async (req) => { const pid = params(req, P).id; brain.project(pid); return brain.proposals(pid, query(req, z.object({ status: z.enum(['pending', 'accepted', 'rejected', 'deferred']).optional() })).status); });
+  app.post('/api/projects/:id/proposals', async (req) => {
+    const b = body(req, z.object({ origin: z.string().max(80), kind: z.enum(['statement', 'element', 'link']), target: json, after: z.unknown(), before: z.unknown().optional(), rationale: z.string().max(10_000).optional(), conversationId: id.nullable().optional(), turnId: id.nullable().optional() }));
+    return brain.propose(params(req, P).id, b);
+  });
+  app.post('/api/proposals/:id/accept', async (req) => brain.acceptProposal(params(req, P).id, body(req, z.object({ status: z.enum(['established', 'developing']).optional(), value: z.unknown().optional() }))));
+  app.post('/api/proposals/:id/decide', async (req) => brain.decideProposal(params(req, P).id, body(req, z.object({ status: z.enum(['rejected', 'deferred', 'pending']) })).status));
+
+  // ----- conversations -----
+  app.get('/api/projects/:id/conversations', async (req) => { const pid = params(req, P).id; brain.project(pid); return convs.list(pid); });
+  app.post('/api/projects/:id/conversations', async (req) => convs.create(params(req, P).id, body(req, z.object({ title: z.string().max(300), focusElementId: id.nullable().optional(), mode: z.string().max(40).optional() }))));
+  app.post('/api/projects/:id/conversations/import', async (req) => {
+    const b = body(req, z.object({ title: z.string().min(1).max(300), text: z.string().min(1).max(50_000_000), focusElementId: id.nullable().optional() }));
+    const pid = params(req, P).id;
+    return convs.importText(pid, { ...b, authorName: brain.settings(pid).authorName });
+  });
+  app.get('/api/conversations/:id', async (req) => convs.full(params(req, P).id));
+  app.post('/api/conversations/:id/turns', async (req) => convs.addTurn(params(req, P).id, body(req, z.object({ speaker_kind: z.enum(['author', 'assistant', 'source']), speaker_name: z.string().max(120).optional(), text: z.string().max(2_000_000), said_at: z.string().datetime().nullable().optional() }))));
+  const range = { start: z.number().int().min(0), end: z.number().int().min(1) };
+  app.post('/api/turns/:id/keep', async (req) => { const b = body(req, z.object({ ...range, linkTo: z.array(id).optional(), note: z.string().max(2000).optional() })); return convs.keep(params(req, P).id, b.start, b.end, b); });
+  app.post('/api/turns/:id/possibility', async (req) => { const b = body(req, z.object({ ...range, elementId: id, field: z.string().max(64) })); return convs.possibility(params(req, P).id, b.start, b.end, b); });
+  app.post('/api/turns/:id/capture', async (req) => { const b = body(req, z.object({ ...range, kind: z.enum(['question', 'idea']), linkTo: z.array(id).optional() })); return convs.capture(params(req, P).id, b.start, b.end, b.kind, b); });
+  app.post('/api/turns/:id/not-canon', async (req) => { const b = body(req, z.object({ ...range, note: z.string().max(2000).optional() })); return convs.notCanon(params(req, P).id, b.start, b.end, b.note); });
+  app.delete('/api/marks/:id', async (req) => { convs.removeMark(params(req, P).id); return { removed: true }; });
+  app.get('/api/conversations/:id/harvest', async (req) => convs.harvest(params(req, P).id));
+  app.post('/api/conversations/:id/harvested', async (req) => { convs.markHarvested(params(req, P).id); return { ok: true }; });
+  app.get('/api/origin', async (req) => {
+    const q = query(req, z.object({ statement: id.optional(), element: id.optional() }));
+    return convs.originOf({ statementId: q.statement, elementId: q.element }) ?? { none: true };
   });
 
   // ----- history -----

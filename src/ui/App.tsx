@@ -4,14 +4,15 @@ import { Library } from './Library';
 import { Home } from './Home';
 import { Desk } from './Desk';
 import { SearchView } from './SearchView';
-import { NotesView } from './NotesView';
+import { StoryBrain } from './StoryBrain';
+import { ConversationsView } from './ConversationsView';
 import { TrailView, HistoryView, TrashView } from './Records';
 import { SettingsView } from './SettingsView';
 import { CaptureDialog } from './CaptureDialog';
 
-export type View = 'home' | 'write' | 'notes' | 'search' | 'trail' | 'history' | 'trash' | 'settings';
+export type View = 'home' | 'write' | 'brain' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'settings';
 const VIEW_NAMES: Record<View, string> = {
-  home: 'Where was I', write: 'Write', notes: 'Questions and ideas', search: 'Search', trail: 'Writing Trail', history: 'History', trash: 'Deleted', settings: 'Settings',
+  home: 'Where was I', write: 'Write', brain: 'Story Brain', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'History', trash: 'Deleted', settings: 'Settings',
 };
 
 export interface Ctx {
@@ -108,6 +109,8 @@ export function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, [projectId, go, returnToWriting]);
 
+  useEffect(() => { const f = () => void returnToWriting(); window.addEventListener('ns-return-to-writing', f); return () => window.removeEventListener('ns-return-to-writing', f); }, [returnToWriting]);
+
   // Close the writing session when the window closes.
   useEffect(() => {
     if (!projectId) return;
@@ -131,7 +134,7 @@ export function App() {
         <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
         <span className="title">{project.title}</span>
         <nav aria-label="Views">
-          {(['home', 'write', 'notes', 'search', 'trail', 'history', 'trash', 'settings'] as View[]).map((v) => (
+          {(['home', 'write', 'brain', 'conversations', 'search', 'trail', 'history', 'trash', 'settings'] as View[]).map((v) => (
             <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>
           ))}
         </nav>
@@ -143,7 +146,8 @@ export function App() {
       <main className="main">
         {view === 'home' && <Home ctx={ctx} />}
         {view === 'write' && <Desk ctx={ctx} sceneId={sceneId} />}
-        {view === 'notes' && <NotesView ctx={ctx} />}
+        {view === 'brain' && <StoryBrain ctx={ctx} />}
+        {view === 'conversations' && <ConversationsView ctx={ctx} />}
         {view === 'search' && <SearchView ctx={ctx} />}
         {view === 'trail' && <TrailView ctx={ctx} />}
         {view === 'history' && <HistoryView ctx={ctx} />}

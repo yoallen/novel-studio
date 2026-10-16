@@ -10,6 +10,7 @@ import { Store, AppError } from '../core/store.js';
 import { Brain } from '../core/brain.js';
 import { Manuscript } from '../core/manuscript.js';
 import { WritingDesk } from '../core/writing.js';
+import { Conversations } from '../core/conversations.js';
 import { registerRoutes } from './routes.js';
 import { snapshot } from '../core/backup.js';
 
@@ -29,6 +30,7 @@ export interface Services {
   brain: Brain;
   ms: Manuscript;
   desk: WritingDesk;
+  convs: Conversations;
   opts: AppOptions;
 }
 
@@ -45,7 +47,7 @@ function safeEqual(a: string, b: string) {
 export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance; services: Services }> {
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), opts };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), opts };
   const app = Fastify({ logger: opts.logger ?? false, bodyLimit: 60 * 1024 * 1024 });
 
   const allowedHosts = new Set([`127.0.0.1:${opts.port}`, `localhost:${opts.port}`]);

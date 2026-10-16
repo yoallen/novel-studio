@@ -1,0 +1,27 @@
+import { DEFAULT_STATUS_LABELS } from '../core/labels';
+
+export type StatusKey = keyof typeof DEFAULT_STATUS_LABELS;
+
+export function statusWord(settings: any, s: string): string {
+  const k = s as StatusKey;
+  return (settings?.statusLabels?.[k] as string) || DEFAULT_STATUS_LABELS[k] || s;
+}
+
+/** The status choices she can make when she writes something down herself. */
+export const AUTHOR_STATUSES: StatusKey[] = ['established', 'developing', 'unanswered', 'illustrative'];
+
+export function ownedWord(settings: any): string {
+  const name = (settings?.authorName ?? '').trim();
+  const label = (settings?.ownedLabel ?? "{author}, it's on you now") as string;
+  return name ? label.replace(/\{author\}/g, name) : label.replace(/\{author\},\s*/g, '').replace(/^./, (c) => c.toUpperCase());
+}
+
+export function valueText(v: unknown): string {
+  if (v == null) return '';
+  return typeof v === 'string' ? v : JSON.stringify(v);
+}
+
+export function when(iso: string): string {
+  const d = new Date(iso);
+  return isNaN(d.getTime()) ? '' : d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+}

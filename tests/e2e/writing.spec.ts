@@ -90,7 +90,7 @@ test('Return to Writing puts the cursor back exactly where it was, through sever
   await page.waitForTimeout(1200);
   const nav = page.getByRole('navigation', { name: 'Views' });
   await nav.getByRole('button', { name: 'Search' }).click();
-  await nav.getByRole('button', { name: 'Questions and ideas' }).click();
+  await nav.getByRole('button', { name: 'Story Brain' }).click();
   await nav.getByRole('button', { name: 'Settings' }).click();
   await page.getByRole('button', { name: 'Return to Writing' }).click();
   await expect(editor(page)).toBeFocused();

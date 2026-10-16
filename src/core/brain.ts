@@ -422,7 +422,8 @@ export class Brain {
       .map((c) => ({ element: c, fields: this.fieldsFor(pid, c.kind as string).map((d) => ({ def: d, view: this.field(c.id as string, d.field) })) }));
     const links = this.linksOf(elementId);
     const guardrails = (this.store.db.prepare("SELECT * FROM elements WHERE kind='guardrail' AND parent_id=? AND deleted_at IS NULL ORDER BY created_at").all(elementId) as Row[]);
-    const pending = this.proposals(pid, 'pending').filter((p) => (p.target as Record<string, unknown>).elementId === elementId);
+    // Suggestions she said "not yet" to come back when she opens the record again (R-A-028).
+    const pending = [...this.proposals(pid, 'pending'), ...this.proposals(pid, 'deferred')].filter((p) => (p.target as Record<string, unknown>).elementId === elementId);
     return { element: withFields(el, { attrs: JSON.parse((el.attrs_json as string) || '{}') as Record<string, unknown> }), fields, children: children.filter((c) => c.element.kind !== 'guardrail'), guardrails, links, pending, parent: el.parent_id ? this.store.get('elements', el.parent_id as string) ?? null : null };
   }
 
@@ -496,7 +497,7 @@ export class Brain {
     const reserved = this.store.db.prepare(
       "SELECT 'element' AS what, id, title, kind, reserved FROM elements WHERE project_id=? AND reserved IS NOT NULL AND deleted_at IS NULL UNION ALL SELECT 'scene' AS what, id, title, 'scene' AS kind, reserved FROM scenes WHERE project_id=? AND reserved IS NOT NULL AND deleted_at IS NULL",
     ).all(projectId, projectId) as Row[];
-    const pending = this.proposals(projectId, 'pending');
+    const pending = [...this.proposals(projectId, 'pending'), ...this.proposals(projectId, 'deferred')];
     return { stillOpen, choosing, questions, reserved, pending };
   }
 
