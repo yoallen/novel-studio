@@ -115,7 +115,7 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .scene-row .wc { margin-left: auto; color: var(--faint); font-size: 0.8125rem; }
 
 /* drafting progress at a glance (R-B-033): outline = idea only, filled = drafted, half = revising */
-.mark { width: 10px; height: 10px; border-radius: 2px; border: 1.5px solid var(--struct); flex: none; }
+.mark { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--struct); flex: none; }
 .mark[data-d='drafted'] { background: var(--struct); }
 .mark[data-d='revising'] { background: linear-gradient(135deg, var(--struct) 50%, transparent 50%); }
 .hers { display: inline-block; border-left: 3px solid var(--hers); padding-left: 0.4em; font-size: 0.8125rem; }

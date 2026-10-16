@@ -135,8 +135,8 @@ function ZoomBody({ ctx, view, go, onMove, refresh }: { ctx: Ctx; view: any; go:
       </div>
       <div className="cols">
         <section><h3>Placement</h3>
-          {view.placement.decided ? <p className="small">On its beat (see the breadcrumb).</p> : <p className="small muted">Not on a beat yet.</p>}
-          {view.placement.candidates.length > 0 && <p className="small muted">{view.placement.candidates.length} other possible beat{view.placement.candidates.length === 1 ? '' : 's'} kept.</p>}
+          {view.placement.decided ? <p className="small st" data-s="established">{view.placement.decided.name}</p> : <p className="small muted">Not on a beat yet.</p>}
+          {view.placement.candidates.map((c: any) => <p key={c.statementId} className="small st" data-s="developing">Might go at {c.name}</p>)}
         </section>
         {view.pov && <section><h3>Viewpoint</h3><button className="btn link" onClick={() => go(view.pov.node)}>{view.pov.label}</button></section>}
         {view.fields.length > 0 && <section><h3>The plan</h3><ul className="list small">{view.fields.map((f: any) => <li key={f.field}><span className="muted">{f.label}:</span> {valueText(f.value)}</li>)}</ul></section>}

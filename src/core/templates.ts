@@ -175,6 +175,20 @@ export const BEAT_BOARD_FIELDS: Record<string, string[]> = {
   midpoint: ['polarity'], all_is_lost: ['polarity', 'whiff_of_death'], break_into_three: ['need'], final_image: ['final_change'],
 };
 
+const SCENE_PLAN: FieldDef[] = [
+  f('The scene', 'purpose', 'What this scene must do'),
+  f('The scene', 'objective', "The viewpoint character's objective"),
+  f('The scene', 'conflict', 'The conflict (><)', { prompt: 'Who the players are, what each wants, what is in the way, and who wins.' }),
+  f('The scene', 'outcome', 'Intended outcome or change'),
+  f('The scene', 'value_start', 'Value at the start (+/-)'),
+  f('The scene', 'value_end', 'Value at the end (+/-)', { prompt: 'Every scene has to turn.' }),
+  f('Around it', 'how_we_got_here', 'How we got here'),
+  f('Around it', 'what_must_follow', 'What must follow'),
+  f('Around it', 'story_time', 'When (story time)'),
+  f('Around it', 'location', 'Where'),
+  f('Around it', 'classification', 'Disaster, discovery or win'),
+];
+
 const GENERIC: FieldDef[] = [f('Notes', 'description', 'Description')];
 
 export const TEMPLATES: Record<string, FieldDef[]> = {
@@ -188,6 +202,7 @@ export const TEMPLATES: Record<string, FieldDef[]> = {
   payoff: CLUE,
   line: LINE,
   beat: BEAT,
+  scene_plan: SCENE_PLAN,
   question: QUESTION,
   idea: IDEA,
 };

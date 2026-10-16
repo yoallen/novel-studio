@@ -422,7 +422,8 @@ export class Brain {
       defs = defs.filter((d) => d.group !== 'On the board' || mine.has(d.field));
     }
     const used = (this.store.db.prepare('SELECT DISTINCT field FROM statements WHERE element_id=? AND deleted_at IS NULL').all(elementId) as Row[]).map((r) => r.field as string);
-    const extra = used.filter((u) => !defs.some((d) => d.field === u)).map((u) => ({ field: u, label: u.replace(/^x_/, '').replace(/_/g, ' '), group: 'Other' } as FieldDef));
+    // 'beat' holds a card's placement; it is shown by Narrative Zoom, not as a text field.
+    const extra = used.filter((u) => u !== 'beat' && !defs.some((d) => d.field === u)).map((u) => ({ field: u, label: u.replace(/^x_/, '').replace(/_/g, ' '), group: 'Other' } as FieldDef));
     const fields = [...defs, ...extra].map((d) => ({ def: d, view: this.field(elementId, d.field) }));
     const children = (this.store.db.prepare('SELECT * FROM elements WHERE parent_id=? AND deleted_at IS NULL ORDER BY sort_key, created_at').all(elementId) as Row[])
       .map((c) => ({ element: c, fields: this.fieldsFor(pid, c.kind as string).map((d) => ({ def: d, view: this.field(c.id as string, d.field) })) }));

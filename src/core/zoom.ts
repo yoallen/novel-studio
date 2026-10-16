@@ -85,7 +85,7 @@ export class Zoom {
         scene: scene ? { id: scene.id, title: scene.title, words: scene.word_count, status: scene.status, opening: (scene.text as string).slice(0, 400) } : null,
         pov: pov ? { node: { level: 'element', id: pov.id } as ZoomNode, label: pov.title as string } : null,
         fields,
-        placement: this.structure.placements(node.id),
+        placement: (() => { const pl = this.structure.placements(node.id); const name = (id: string) => (this.store.get('elements', id)?.title as string) ?? ''; return { decided: pl.decided ? { ...pl.decided, name: name(pl.decided.beatId) } : null, candidates: pl.candidates.map((c) => ({ ...c, name: name(c.beatId) })) }; })(),
         position: idx >= 0 ? { index: idx + 1, of: order.length } : null,
         previous: idx > 0 && order[idx - 1]!.planId ? { node: { level: 'card', id: order[idx - 1]!.planId } as ZoomNode, label: order[idx - 1]!.title } : null,
         next: idx >= 0 && idx < order.length - 1 && order[idx + 1]!.planId ? { node: { level: 'card', id: order[idx + 1]!.planId } as ZoomNode, label: order[idx + 1]!.title } : null,
