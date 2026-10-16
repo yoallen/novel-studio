@@ -1,0 +1,141 @@
+// The cast across the story: where each character is (by your records, viewpoint, and the names on the page),
+// who shares scenes with whom, who has gone quiet, and checks such as the Bechdel test.
+// Everything here points; nothing is decided for her.
+
+import { Store, Row, ValidationError } from './store.js';
+import { Brain } from './brain.js';
+import { Manuscript } from './manuscript.js';
+import { Structure } from './structure.js';
+import { Ripple } from './ripple.js';
+import { WritingDesk } from './writing.js';
+
+type How = 'pov' | 'planned' | 'named';
+export interface Place { key: string; index: number; title: string; sceneId: string | null; planId: string | null; chapter: { id: string; number: number; title: string } | null; act: string; beat: string | null; drafted: boolean }
+
+const ACT_NAMES: Record<string, string> = { I: 'Act One', IIA: 'Act Two (first half)', IIB: 'Act Two (second half)', III: 'Act Three' };
+const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const WOMAN = /\b(woman|women|female|girl|lady|she|her|femme|trans woman)\b/i;
+
+export class Cast {
+  constructor(private store: Store, private brain: Brain, private ms: Manuscript, private structure: Structure, private ripple: Ripple, private desk: WritingDesk) {}
+
+  /** The story in reading order, each place with its chapter and act. Cards not yet drafted sit by their beat. */
+  private places(projectId: string): Place[] {
+    const { units } = this.ripple.placesOf(projectId);
+    const outline = this.ms.outline(projectId);
+    const chapterOf = new Map<string, Place['chapter']>();
+    for (const c of outline) for (const s of c.scenes) chapterOf.set(s.id as string, { id: c.id as string, number: c.number as number, title: c.title as string });
+    const beats = this.structure.beats(projectId);
+    const n = units.length;
+    return units.map((u, i) => {
+      const b = u.beatId ? beats.find((x) => x.element.id === u.beatId) : null;
+      const frac = n > 1 ? i / (n - 1) : 0;
+      const act = (b?.act as string | undefined) ?? (frac < 0.2 ? 'I' : frac < 0.5 ? 'IIA' : frac < 0.75 ? 'IIB' : 'III');
+      return { key: u.key, index: i + 1, title: u.title, sceneId: u.sceneId, planId: u.planId, chapter: u.sceneId ? chapterOf.get(u.sceneId) ?? null : null, act, beat: b ? (b.element.title as string) : null, drafted: !!u.sceneId };
+    });
+  }
+
+  private characters(projectId: string) {
+    return this.brain.elements(projectId, { kind: 'character' }).map((e) => {
+      const attrs = JSON.parse((e.attrs_json as string) || '{}') as Record<string, unknown>;
+      const title = e.title as string;
+      const bare = title.replace(/^(Miss|Mr\.?|Mrs\.?|Ms\.?|Dr\.?|Rev\.?|Prof\.?|Aunt|Uncle)\s+/i, '');
+      const names = [...new Set([title, bare, bare.split(/\s+/)[0]!, ...((attrs.aliases as string[] | undefined) ?? [])].filter((x) => x && x.length >= 2))];
+      const g = this.brain.field(e.id as string, 'gender');
+      const gender = (g.current?.value ?? g.latest?.value ?? null) as string | null;
+      return { id: e.id as string, title, names, gender };
+    });
+  }
+
+  /** Who is where: from her records (appears in, viewpoint) and from the names on the page. */
+  presence(projectId: string) {
+    const places = this.places(projectId);
+    const { where } = this.ripple.placesOf(projectId);
+    const chars = this.characters(projectId);
+    const povOf = new Map<string, string | null>();
+    for (const s of this.store.db.prepare('SELECT s.id, s.pov_element_id, c.pov_element_id AS cpov FROM scenes s JOIN chapters c ON c.id=s.chapter_id WHERE s.project_id=? AND s.deleted_at IS NULL').all(projectId) as Row[]) povOf.set(s.id as string, (s.pov_element_id ?? s.cpov ?? null) as string | null);
+    const text = new Map<string, string>();
+    for (const p of places) if (p.sceneId) text.set(p.key, (this.store.db.prepare('SELECT text FROM scenes WHERE id=?').get(p.sceneId) as Row).text as string);
+    const rows = chars.map((c) => {
+      const res = new Map<string, How>();
+      for (const u of where.get(c.id) ?? []) res.set(u.key, 'planned');
+      const re = new RegExp(`(?<![\\p{L}\\p{N}])(?:${c.names.map(esc).join('|')})(?![\\p{L}\\p{N}])`, 'u');
+      for (const p of places) {
+        if (p.sceneId && povOf.get(p.sceneId) === c.id) { res.set(p.key, 'pov'); continue; }
+        if (!res.has(p.key) && re.test(text.get(p.key) ?? '')) res.set(p.key, 'named');
+      }
+      const at = places.filter((p) => res.has(p.key));
+      const first = at[0] ?? null, last = at[at.length - 1] ?? null;
+      let gap = 0, gapFrom: Place | null = null, gapTo: Place | null = null;
+      for (let i = 1; i < at.length; i++) { const g = at[i]!.index - at[i - 1]!.index - 1; if (g > gap) { gap = g; gapFrom = at[i - 1]!; gapTo = at[i]!; } }
+      return { id: c.id, title: c.title, gender: c.gender, cells: Object.fromEntries([...res.entries()]), count: at.length, first, last, gap: gap ? { scenes: gap, from: gapFrom, to: gapTo } : null };
+    });
+    // Gone quiet: seen early, then not again for a long stretch, or never again.
+    const quiet = Math.max(5, Math.round(places.length * 0.25));
+    const where_ = (p: Place) => `${p.chapter ? `Chapter ${p.chapter.number}` : ACT_NAMES[p.act]}, "${p.title}"`;
+    const notes: { characterId: string; text: string }[] = [];
+    for (const r of rows) {
+      if (!r.count) { notes.push({ characterId: r.id, text: `${r.title} has a record but does not appear in any scene yet.` }); continue; }
+      const after = places.length - r.last!.index;
+      if (r.last && after >= quiet && r.count <= 3) notes.push({ characterId: r.id, text: `${r.title} is introduced in ${where_(r.first!)} and not seen after ${where_(r.last)}, ${after} scene${after === 1 ? '' : 's'} before the end. Intended?` });
+      else if (r.gap && r.gap.scenes >= quiet) notes.push({ characterId: r.id, text: `${r.title} is away for ${r.gap.scenes} scenes, from ${where_(r.gap.from!)} to ${where_(r.gap.to!)}. Intended?` });
+    }
+    return { places, rows, notes, acts: ACT_NAMES };
+  }
+
+  /** How characters meet: every pair that shares a scene, where and how often, with any relationship record. */
+  pairs(projectId: string) {
+    const { places, rows } = this.presence(projectId);
+    const rels = this.brain.elements(projectId, { kind: 'relationship' });
+    const links = this.brain.links(projectId);
+    const relFor = (a: string, b: string) => rels.find((r) => {
+      const ends = new Set(links.filter((l) => l.from_id === r.id || l.to_id === r.id).map((l) => (l.from_id === r.id ? l.to_id : l.from_id) as string));
+      return ends.has(a) && ends.has(b);
+    }) ?? null;
+    const out: { a: { id: string; title: string }; b: { id: string; title: string }; together: Place[]; byAct: Record<string, number>; relationship: { id: string; title: string } | null }[] = [];
+    for (let i = 0; i < rows.length; i++) for (let j = i + 1; j < rows.length; j++) {
+      const A = rows[i]!, B = rows[j]!;
+      const together = places.filter((p) => A.cells[p.key] && B.cells[p.key]);
+      const rel = relFor(A.id, B.id);
+      if (!together.length && !rel) continue;
+      const byAct: Record<string, number> = {};
+      for (const p of together) byAct[p.act] = (byAct[p.act] ?? 0) + 1;
+      out.push({ a: { id: A.id, title: A.title }, b: { id: B.id, title: B.title }, together, byAct, relationship: rel ? { id: rel.id as string, title: rel.title as string } : null });
+    }
+    return out.sort((x, y) => y.together.length - x.together.length);
+  }
+
+  /**
+   * The Bechdel test: at least two named women, who talk to each other, about something other than a man.
+   * The program finds the scenes where two or more women are present; only she can say what they talk about.
+   */
+  bechdel(projectId: string) {
+    const { places, rows } = this.presence(projectId);
+    const women = rows.filter((r) => r.gender && WOMAN.test(r.gender));
+    const unsure = rows.filter((r) => !r.gender).map((r) => ({ id: r.id, title: r.title }));
+    const scenes = places.filter((p) => women.filter((w) => w.cells[p.key]).length >= 2).map((p) => {
+      const plan = p.planId;
+      const v = plan ? this.brain.field(plan, 'bechdel_talk') : null;
+      return { place: p, women: women.filter((w) => w.cells[p.key]).map((w) => ({ id: w.id, title: w.title })), answer: (v?.current?.value as string | undefined) ?? null };
+    });
+    const passes = scenes.filter((s) => s.answer === 'yes');
+    return {
+      women: women.map((w) => ({ id: w.id, title: w.title, scenes: w.count })),
+      unsure, scenes,
+      result: women.length < 2 ? 'not enough named women recorded' : !scenes.length ? 'no scene has two named women together yet' : passes.length ? 'passes' : scenes.some((s) => !s.answer) ? 'waiting for your answers' : 'does not pass yet',
+      passingScenes: passes.length,
+      alone: women.filter((w) => !scenes.some((s) => s.women.some((x) => x.id === w.id))).map((w) => w.title),
+    };
+  }
+
+  /** Her answer for one scene: do these women talk to each other about something other than a man? */
+  answerBechdel(projectId: string, unitKey: string, answer: 'yes' | 'no' | null) {
+    const p = this.places(projectId).find((x) => x.key === unitKey);
+    if (!p) throw new ValidationError('That scene is not in this novel.');
+    const plan = p.planId ?? (p.sceneId ? this.desk.ensurePlan(p.sceneId) : null);
+    if (!plan) throw new ValidationError('That scene has no card to keep the answer on.');
+    if (answer) this.brain.addStatement({ elementId: plan, field: 'bechdel_talk', value: answer, status: 'established', speaker: { kind: 'author' }, supersedes: 'current' });
+    else { const cur = this.brain.field(plan, 'bechdel_talk').current; if (cur) this.brain.setStatementStatus(cur.id as string, 'set_aside'); }
+    return this.bechdel(projectId);
+  }
+}

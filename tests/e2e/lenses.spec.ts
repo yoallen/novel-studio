@@ -25,3 +25,24 @@ test('Read it back shows echoes and watch words and selects them on the page; pa
   await page.getByRole('tab', { name: 'Names' }).click();
   await expect(page.getByRole('region', { name: 'Possible misspellings' })).toContainText('"Marlla" appears 1 time');
 });
+
+test('the cast view: who is where, who meets whom, and the Bechdel test with her answer', async ({ page, request }) => {
+  await newNovel(page, 'Cast Test');
+  const h = { 'x-studio-token': 'e2etoken0123456789', 'content-type': 'application/json' };
+  const pid = (await (await request.get('/api/projects', { headers: h })).json()).find((p: any) => p.title === 'Cast Test').id;
+  for (const [t, g] of [['Francine', 'woman'], ['Gloria', 'woman'], ['Kevin', null]] as const) {
+    const e = await (await request.post(`/api/projects/${pid}/elements`, { headers: h, data: { kind: 'character', title: t } })).json();
+    if (g) await request.post(`/api/elements/${e.id}/statements`, { headers: h, data: { field: 'gender', value: g, status: 'established' } });
+  }
+  const outline = await (await request.get(`/api/projects/${pid}/outline`, { headers: h })).json();
+  const chId = outline.chapters[0].id;
+  await request.post(`/api/chapters/${chId}/scenes`, { headers: h, data: { title: 'Garden', text: 'Francine handed Gloria the shears while Kevin watched.' } });
+  await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
+  await page.getByRole('tab', { name: 'Cast' }).click();
+  await expect(page.getByRole('table', { name: 'Who is where' })).toContainText('Francine');
+  await expect(page.getByRole('region', { name: 'Who meets whom' })).toContainText('Francine and Gloria');
+  const b = page.getByRole('region', { name: 'Bechdel test' });
+  await expect(b).toContainText('Waiting for your answers.');
+  await b.getByRole('button', { name: 'They do' }).click();
+  await expect(b).toContainText('Passes, in 1 scene.');
+});

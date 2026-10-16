@@ -148,7 +148,7 @@ export function App() {
         <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
         <BookSwitcher current={projectId!} title={project.title} onOpen={(id) => setProjectId(id)} />
         <nav aria-label="Views">
-          {(['home', 'write', 'brain', 'zoom', 'conversations', 'search', 'history', 'trash', 'files', 'settings'] as View[]).map((v) => (
+          {(['home', 'write', 'brain', 'zoom', 'conversations', 'search', 'history', 'files', 'settings'] as View[]).map((v) => (
             <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>
           ))}
         </nav>

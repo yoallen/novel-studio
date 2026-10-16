@@ -45,6 +45,7 @@ const CHARACTER: FieldDef[] = [
   f('Forces of antagonism', 'force_extra_personal', 'Extra-personal force', { prompt: 'What in the wider world works against them?' }),
   f('Forces of antagonism', 'negation_of_negation', 'The worst form of their value', { prompt: 'Their value at its darkest, set for this book\'s tone.' }),
 
+  f('Identity', 'gender', 'Gender', { identity: true, prompt: 'In your own words. Used for checks such as the Bechdel test; never assumed from a name.' }),
   f('Identity', 'ethnicity', 'Race or ethnicity', { identity: true }),
   f('Identity', 'age', 'Age', { identity: true, timed: true }),
   f('Identity', 'religion', 'Faith or religion', { identity: true }),

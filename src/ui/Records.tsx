@@ -52,7 +52,7 @@ export function HistoryView({ ctx }: { ctx: Ctx }) {
   }
   return (
     <div className="scroll"><div className="content">
-      <h1>Story Trail</h1>
+      <div className="row"><h1 className="grow">Story Trail</h1><button className="btn link small" onClick={() => ctx.go('trash')}>Deleted things</button></div>
       <p className="muted">How your story evolved: every idea, decision and revision, in order. Undo any one of them without losing what came after.</p>
       {error && <div className="notice error">{error}</div>}
       {blocked && <div className="notice" role="alert">{blocked.message}<div className="row" style={{ marginTop: '0.5rem' }}><button className="btn small" onClick={() => void undo(blocked.id, true)}>Undo anyway</button><button className="btn small" onClick={() => setBlocked(null)}>Leave it</button></div></div>}

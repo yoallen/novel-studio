@@ -306,3 +306,99 @@ export function Pacing({ ctx, tick }: { ctx: Ctx; tick: number }) {
     </>
   );
 }
+
+// ---------- the cast: who is where, who meets whom, who has gone quiet, the Bechdel test ----------
+const MARK: Record<string, { label: string; glyph: string }> = { pov: { label: 'viewpoint', glyph: '●' }, planned: { label: 'in the scene (your records)', glyph: '◉' }, named: { label: 'named on the page', glyph: '○' } };
+
+export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Open }) {
+  const [t, setT] = useState(0);
+  const { d, e } = useData(`/api/projects/${ctx.projectId}/cast`, tick + t);
+  const pairs = useData(`/api/projects/${ctx.projectId}/cast/pairs`, tick + t);
+  const bech = useData(`/api/projects/${ctx.projectId}/cast/bechdel`, tick + t);
+  const [open, setOpen] = useState<string | null>(null);
+  if (!d) return <p className="muted">{e || 'Gathering the cast…'}</p>;
+  if (!d.rows.length) return <p className="muted">No characters yet. Add them in the Story Brain, and this view shows where each one is in the story.</p>;
+  const places: any[] = d.places;
+  const actStarts = places.map((p, i) => i === 0 || places[i - 1].act !== p.act);
+  const go = (p: any) => (p.sceneId ? ctx.openScene(p.sceneId) : p.planId && onOpen({ level: 'card', id: p.planId }));
+  async function relate(a: any, b: any) {
+    const r = await api.post(`/api/projects/${ctx.projectId}/elements`, { kind: 'relationship', title: `${a.title} and ${b.title}` });
+    await api.post(`/api/projects/${ctx.projectId}/links`, { fromId: r.id, toId: a.id, relation: 'relates_to' });
+    await api.post(`/api/projects/${ctx.projectId}/links`, { fromId: r.id, toId: b.id, relation: 'relates_to' });
+    onOpen({ level: 'element', id: r.id });
+  }
+  async function answer(unit: string, a: 'yes' | 'no' | null) { await api.put(`/api/projects/${ctx.projectId}/cast/bechdel`, { unit, answer: a }); setT((x) => x + 1); }
+  return (
+    <>
+      <h2>The cast across the story</h2>
+      <p className="muted small">Where each character is, scene by scene, from your records, the viewpoint, and their names on the page. Click a mark to open the scene.</p>
+      {d.notes.length > 0 && <section className="section" aria-label="Gone quiet">{d.notes.map((n: any) => <div key={n.text} className="notice small">{n.text}</div>)}</section>}
+      <div className="row small" aria-label="Key">{Object.entries(MARK).map(([k, m]) => <span key={k}><span aria-hidden="true" className={`cast-mark ${k}`}>{m.glyph}</span> {m.label}</span>)}</div>
+      <div style={{ overflowX: 'auto', marginTop: '0.5rem' }}>
+        <table className="cast-grid small" aria-label="Who is where">
+          <thead>
+            <tr><th />{places.map((p, i) => actStarts[i] ? <th key={p.key} colSpan={places.slice(i).findIndex((x, k) => k > 0 && x.act !== p.act) === -1 ? places.length - i : places.slice(i).findIndex((x, k) => k > 0 && x.act !== p.act)} className="act">{d.acts[p.act]}</th> : null)}</tr>
+            <tr><th />{places.map((p, i) => <th key={p.key} className={actStarts[i] ? 'edge' : ''} title={`${p.title}${p.chapter ? `, Chapter ${p.chapter.number}` : ''}${p.beat ? `, ${p.beat}` : ''}${p.drafted ? '' : ' (not drafted yet)'}`}>{p.chapter ? p.chapter.number : '·'}</th>)}</tr>
+          </thead>
+          <tbody>
+            {d.rows.map((r: any) => (
+              <tr key={r.id}>
+                <th scope="row"><button className="btn link small" onClick={() => onOpen({ level: 'element', id: r.id })}>{r.title}</button> <span className="faint">{r.count}</span></th>
+                {places.map((p, i) => {
+                  const how = r.cells[p.key];
+                  return <td key={p.key} className={actStarts[i] ? 'edge' : ''}>{how && <button className={`cast-mark ${how}`} aria-label={`${r.title}, ${MARK[how]!.label}, ${p.title}`} title={`${r.title}: ${MARK[how]!.label} in "${p.title}"`} onClick={() => go(p)}>{MARK[how]!.glyph}</button>}</td>;
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <section className="section" aria-label="Who meets whom">
+        <h3>Who meets whom</h3>
+        <p className="small muted">Every pair that shares a scene, how often, and in which acts. A relationship record holds how things stand between them and how that changes.</p>
+        {!pairs.d ? <p className="muted small">…</p> : pairs.d.length === 0 ? <p className="small faint">No two characters share a scene yet.</p> : (
+          <ul className="list small">
+            {pairs.d.map((p: any) => {
+              const k = `${p.a.id}|${p.b.id}`;
+              return (
+                <li key={k}>
+                  <div className="row">
+                    <strong className="grow">{p.a.title} and {p.b.title}</strong>
+                    <span>{p.together.length} scene{p.together.length === 1 ? '' : 's'} together</span>
+                    <span className="faint">{Object.entries(p.byAct).map(([a, n]) => `${d.acts[a]} ${n}`).join(', ')}</span>
+                    {p.together.length > 0 && <button className="btn link small" aria-expanded={open === k} onClick={() => setOpen(open === k ? null : k)}>{open === k ? 'Hide scenes' : 'Show scenes'}</button>}
+                    {p.relationship ? <button className="btn link small" onClick={() => onOpen({ level: 'element', id: p.relationship.id })}>Their relationship</button> : <button className="btn link small" onClick={() => void relate(p.a, p.b)}>Make a relationship record</button>}
+                  </div>
+                  {open === k && <ol className="small" style={{ margin: '0.3rem 0 0 1rem' }}>{p.together.map((pl: any) => <li key={pl.key}><button className="btn link small" onClick={() => go(pl)}>{pl.title}</button> <span className="faint">{pl.chapter ? `Chapter ${pl.chapter.number}, ` : ''}{d.acts[pl.act]}{pl.beat ? `, ${pl.beat}` : ''}</span></li>)}</ol>}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+
+      <section className="section" aria-label="Bechdel test">
+        <h3>The Bechdel test</h3>
+        <p className="small muted">Does the story have at least two named women who talk to each other about something other than a man? The program finds the scenes where two or more women are together; only you can say what they talk about. Gender comes only from what you write on each character's page, never from a name.</p>
+        {bech.d && (
+          <>
+            <p><strong>{bech.d.result === 'passes' ? `Passes, in ${bech.d.passingScenes} scene${bech.d.passingScenes === 1 ? '' : 's'}.` : bech.d.result[0].toUpperCase() + bech.d.result.slice(1) + '.'}</strong></p>
+            {bech.d.unsure.length > 0 && <p className="small muted">No gender recorded for: {bech.d.unsure.map((u: any) => <button key={u.id} className="btn link small" onClick={() => onOpen({ level: 'element', id: u.id })}>{u.title}</button>)}</p>}
+            {bech.d.alone.length > 0 && <p className="small">Never in a scene with another woman: {bech.d.alone.join(', ')}.</p>}
+            {bech.d.scenes.map((s: any) => (
+              <div key={s.place.key} className="row small" style={{ borderTop: '1px solid var(--line)', padding: '0.35rem 0' }}>
+                <button className="btn link small grow" style={{ textAlign: 'left' }} onClick={() => go(s.place)}>{s.place.title}</button>
+                <span className="faint">{s.women.map((w: any) => w.title).join(', ')}</span>
+                <span role="group" aria-label={`Do they talk about something other than a man in ${s.place.title}?`} className="row">
+                  <button className={'btn small' + (s.answer === 'yes' ? ' write' : ' link')} aria-pressed={s.answer === 'yes'} onClick={() => void answer(s.place.key, s.answer === 'yes' ? null : 'yes')}>They do</button>
+                  <button className={'btn small' + (s.answer === 'no' ? '' : ' link')} aria-pressed={s.answer === 'no'} onClick={() => void answer(s.place.key, s.answer === 'no' ? null : 'no')}>Not here</button>
+                </span>
+              </div>
+            ))}
+          </>
+        )}
+      </section>
+    </>
+  );
+}

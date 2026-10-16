@@ -33,6 +33,11 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   });
   app.get('/api/projects/:id/names', async (req) => svc.lenses.names(params(req, P).id));
   app.get('/api/projects/:id/pacing', async (req) => svc.lenses.pacing(params(req, P).id));
+  // ----- the cast across the story -----
+  app.get('/api/projects/:id/cast', async (req) => svc.cast.presence(params(req, P).id));
+  app.get('/api/projects/:id/cast/pairs', async (req) => svc.cast.pairs(params(req, P).id));
+  app.get('/api/projects/:id/cast/bechdel', async (req) => svc.cast.bechdel(params(req, P).id));
+  app.put('/api/projects/:id/cast/bechdel', async (req) => { const b = body(req, z.object({ unit: z.string().max(60), answer: z.enum(['yes', 'no']).nullable() })); return svc.cast.answerBechdel(params(req, P).id, b.unit, b.answer); });
   // ----- many books at once: stages, drafts, the shelf -----
   app.get('/api/library', async () => svc.books.shelf());
   app.get('/api/stages', async () => svc.books.stages());

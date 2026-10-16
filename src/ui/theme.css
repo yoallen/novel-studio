@@ -178,3 +178,10 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .switch-menu button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 0.4rem 0.6rem; border-radius: var(--r-sm); cursor: pointer; font-family: var(--prose); }
 .switch-menu button:hover, .switch-menu button[aria-current='true'] { background: var(--wash); }
 .beat-row { border-top: 1px solid var(--line); padding: 0.5rem 0; display: grid; gap: 0.35rem; }
+.cast-grid { border-collapse: collapse; }
+.cast-grid th, .cast-grid td { padding: 0.15rem 0.2rem; text-align: center; border-bottom: 1px solid var(--line); min-width: 1.4rem; }
+.cast-grid th[scope='row'] { text-align: left; white-space: nowrap; position: sticky; left: 0; background: var(--page); padding-right: 0.6rem; }
+.cast-grid .edge { border-left: 1px solid var(--line-strong); }
+.cast-grid .act { font-weight: 600; color: var(--struct); text-align: left; }
+.cast-mark { border: 0; background: none; padding: 0; cursor: pointer; line-height: 1; color: var(--struct); font-size: 1rem; }
+.cast-mark.named { color: var(--muted); font-size: 0.85rem; }
