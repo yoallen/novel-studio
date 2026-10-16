@@ -31,6 +31,8 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
   // The latest text lives in a ref so it can still be saved after the editor itself is torn down.
   const latest = useRef<unknown>(null);
   const recoveryPending = useRef(false);
+  // Until the page can take typing, say so: nothing typed before then can be lost.
+  const [opening, setOpening] = useState(true);
 
   const editor = useEditor({
     extensions: [StarterKit.configure({ link: false }), Placeholder.configure({ placeholder: 'Write anything. A sentence counts.' })],
@@ -95,6 +97,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
   useEffect(() => {
     let alive = true;
     if (!editor) return;
+    setOpening(true);
     (async () => {
       try {
         const [s, ws, recs] = await Promise.all([
@@ -113,9 +116,10 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
           // Nothing may overwrite kept typing until she has chosen: the page stays read-only meanwhile.
           recoveryPending.current = true;
           setRecovery(await api.get(`/api/scenes/${sceneId}/recovery`));
+          setOpening(false);
           return;
         }
-        editor.setEditable(true);
+        editor.setEditable(true); setOpening(false);
         const cur = ws?.state?.sceneId === sceneId ? ws.state.cursor : null;
         const size = editor.state.doc.content.size;
         if (cur && typeof cur.from === 'number') {
@@ -170,7 +174,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
     recoveryPending.current = false;
     setRecovery(null);
     await commit();
-    editor.setEditable(true); editor.commands.focus('end');
+    editor.setEditable(true); setOpening(false); editor.commands.focus('end');
   }
   async function keepSaved() {
     // The kept typing is saved as an earlier version first, so choosing never discards anything.
@@ -183,7 +187,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
       } catch { /* fall through: the journal entry stays until she decides again */ return; }
     }
     recoveryPending.current = false; setRecovery(null);
-    editor?.setEditable(true); editor?.commands.focus('end');
+    editor?.setEditable(true); setOpening(false); editor?.commands.focus('end');
   }
 
   async function resolveConflict(choice: 'mine' | 'theirs' | 'both') {
@@ -209,8 +213,9 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
 
   const target = ctx.settings.goal?.type === 'words' && ctx.settings.goal.target ? ctx.settings.goal.target : null;
   return (
-    <div className="page">
+    <div className="page" data-opening={opening || undefined}>
       {error && <div className="notice error" role="alert">{error}</div>}
+      {opening && <p className="opening" role="status">Opening the page…</p>}
       {scene?.reserved && <p className="hers" style={{ marginBottom: '1rem' }}>{scene.reserved}</p>}
       <input className="scene-title" aria-label="Scene title" disabled={!scene} value={title} onChange={(e) => { setTitle(e.target.value); titleRef.current = e.target.value; }} onBlur={() => void saveTitle()} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); void saveTitle(); editor?.commands.focus(); } }} />
       <EditorContent editor={editor} />

@@ -1,4 +1,5 @@
 // The import desk: files come in, the program proposes where things go, she approves, and the result is checked.
+import { BRAND } from '../../brand.js';
 
 import { Store, Row, NotFoundError, ValidationError, ConflictError, nowIso, newId } from '../store.js';
 import { Brain } from '../brain.js';
@@ -207,7 +208,7 @@ export class Importer {
     const comments = readComments(await zip.file('word/comments.xml')?.async('string'));
     const { paras, changes } = readTracked(xml);
     const byScene = scenesIn(paras);
-    if (!byScene.size) throw new ValidationError('This Word file has no scene markers, so its changes cannot be matched to scenes. Only files exported from Story Canon as Word can come back this way; to bring in other files, import them as a manuscript.');
+    if (!byScene.size) throw new ValidationError(`This Word file has no scene markers, so its changes cannot be matched to scenes. Only files exported from ${BRAND.name} as Word can come back this way; to bring in other files, import them as a manuscript.`);
     const outline = this.ms.outline(projectId);
     const scenes: RoundtripScene[] = [];
     const missing: string[] = [];

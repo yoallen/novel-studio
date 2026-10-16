@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { BRAND } from '../brand';
 import { api } from './api';
 
 // All novels. A new novel starts from a title and, if she likes, one sentence. No questionnaire (S1-171).
@@ -46,7 +47,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
       const archive = JSON.parse(await f.text());
       const p = await api.post('/api/archive/plan', { archive });
       setPlan({ archive, plan: p });
-    } catch (err) { setError(err instanceof SyntaxError ? 'That file is not a Story Canon archive.' : (err as Error).message); }
+    } catch (err) { setError(err instanceof SyntaxError ? `That file is not a ${BRAND.name} archive.` : (err as Error).message); }
   }
 
   async function doImport(asCopy: boolean) {
@@ -61,10 +62,10 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   return (
     <div className="scroll library"><div className="content titlepage">
       <header className="title-page">
-        <h1>Story Canon</h1>
-        <p className="sub">Where your story takes shape, and nothing gets lost.</p>
+        <h1>{BRAND.name}</h1>
+        <p className="sub">{BRAND.tagline}</p>
         <p className="motto" aria-hidden="true">&#10086;</p>
-        <p className="motto">Story Canon remembers. The author decides.</p>
+        <p className="motto">{BRAND.motto}</p>{BRAND.company && <p className="small muted">{BRAND.company}</p>}
       </header>
       {seeds.map((sd) => (
         <section key={sd.file} className="section seed" aria-label={`${sd.title}, ready to bring in`}>
@@ -113,7 +114,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
 
       <div className="section">
         <h2>Bring in an archive</h2>
-        <p className="muted small">Opens a Story Canon archive file. You will see exactly what it contains before anything is added, and nothing already in your library is overwritten.</p>
+        <p className="muted small">Opens a {BRAND.name} archive file. You will see exactly what it contains before anything is added, and nothing already in your library is overwritten.</p>
         <input ref={fileRef} type="file" accept=".json,application/json" onChange={(e) => e.target.files?.[0] && void pickArchive(e.target.files[0])} />
       </div>
 

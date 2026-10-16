@@ -10,6 +10,9 @@ import '@fontsource/libre-caslon-text/700.css';
 import '@fontsource/libre-caslon-display/400.css';
 import './theme.css';
 import { App } from './App';
+import { BRAND } from '../brand';
+
+document.title = BRAND.name;
 
 try {
   const t = localStorage.getItem('novel-studio-theme');

@@ -4,6 +4,7 @@
 // Numbers that disagree with their own page column are flagged, never silently imported.
 
 import { SAVE_THE_CAT } from '../structure.js';
+import { BRAND } from '../../brand.js';
 
 export interface SheetBeat {
   row: number;
@@ -144,7 +145,7 @@ export async function writeBeatSheet(input: {
 }) {
   const ExcelJS = (await import('exceljs')).default;
   const wb = new ExcelJS.Workbook();
-  wb.creator = 'Story Canon';
+  wb.creator = BRAND.name;
   const ws = wb.addWorksheet('Beat sheet', { views: [{ state: 'frozen', ySplit: 0 }] });
   const head = ['Beats', 'Description', 'Where does it go', ...input.densities.flatMap((w) => [`Approximate page number(s) (${w} words per page)`, `Word count for entire beat (${w} words per page)`]), 'Scene type', `In ${input.title}`, 'Scenes placed'];
   ws.columns = head.map((h, i) => ({ key: `c${i}`, width: i === 1 ? 70 : i === head.length - 2 ? 50 : i === 0 ? 30 : 22 }));

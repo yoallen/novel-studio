@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { BRAND } from '../brand';
 import { api, ApiError } from './api';
 import { Library } from './Library';
 import { Home } from './Home';
@@ -132,7 +133,7 @@ export function App() {
   }, [projectId]);
 
   if (!api.hasToken()) {
-    return <div className="content"><h1>Story Canon</h1><p>Open the program from its desktop shortcut. This window was opened without the app's security key, so it cannot reach your work.</p></div>;
+    return <div className="content"><h1>{BRAND.name}</h1><p>Open the program from its desktop shortcut. This window was opened without the app's security key, so it cannot reach your work.</p></div>;
   }
   if (!projectId) return <Library onOpen={setProjectId} />;
   if (!project || !settings) return <div className="content muted">{error || 'Opening your novel…'}</div>;
@@ -148,7 +149,7 @@ export function App() {
   return (
     <div className="app">
       <Strip projectId={projectId} sceneId={sceneId} refresh={view} onOpen={() => go('zoom')} />
-      <div className="colophon" aria-hidden="true">Story Canon</div>
+      <div className="colophon" aria-hidden="true">{BRAND.company ? `${BRAND.name}, ${BRAND.company}` : BRAND.name}</div>
       <div className="leaf" data-view={view}>
         <header className="running">
           {view !== 'write' && sceneId && (

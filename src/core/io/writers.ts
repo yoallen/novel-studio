@@ -2,6 +2,7 @@
 // Each writer says up front what its format cannot carry (R-B-078).
 
 import { createRequire } from 'node:module';
+import { BRAND } from '../../brand.js';
 import { readFileSync } from 'node:fs';
 import { Block, Run, plain, blockText } from './blocks.js';
 
@@ -238,7 +239,7 @@ export async function toDocx(book: Book, o: WriteOptions): Promise<Buffer> {
   });
   for (const e of book.extras) { children.push(new Paragraph({ heading: HeadingLevel.HEADING_1, pageBreakBefore: children.length > 0, children: [new TextRun(e.heading)] })); blk(e.blocks); }
   const doc = new Document({
-    creator: book.author || 'Story Canon', title: book.title,
+    creator: book.author || BRAND.name, title: book.title,
     styles: {
       default: {
         document: { run: { font: ms ? 'Times New Roman' : 'Georgia', size: 24 } },

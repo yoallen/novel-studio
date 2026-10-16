@@ -1,5 +1,6 @@
 // Development launcher: binds to 127.0.0.1 only, with a fresh random token each launch.
 import { randomBytes } from 'node:crypto';
+import { BRAND } from '../brand.js';
 import { mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { buildApp } from './app.js';
@@ -22,4 +23,4 @@ const { app } = await buildApp({
   logger: true,
 });
 await app.listen({ host: '127.0.0.1', port });
-console.log(`Story Canon service on http://127.0.0.1:${port}  token=${token}`);
+console.log(`${BRAND.name} service on http://127.0.0.1:${port}  token=${token}`);

@@ -133,7 +133,7 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .thumbs .and { font-family: var(--book); font-style: italic; font-size: 0.8125rem; color: var(--cloth-ink); opacity: .75; padding: 0.7rem 0 0.1rem 0.9rem; }
 .thumbs .minor { display: flex; flex-direction: column; gap: 4px; }
 .thumbs .minor button { font-size: 0.8125rem; padding: 0.38rem 0.8rem 0.38rem 0.9rem; background: color-mix(in srgb, var(--cloth-deep) 70%, transparent); }
-.thumbs .minor button[aria-current='page'] { background: var(--page); }
+.thumbs .minor button[aria-current='page'] { background: var(--page); padding-left: 1.75rem; }
 
 /* the book's shape */
 .strip { grid-row: 1; grid-column: 1; margin: 0 0 0 16px; padding: 0 1.25rem 0 1.5rem; display: flex; align-items: flex-end; }
@@ -336,3 +336,16 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .arc-title { border: 0; background: none; padding: 0; cursor: pointer; font-family: var(--book); font-style: italic; font-size: 1.25rem; color: var(--struct); text-align: left; }
 .arc-title:hover { text-decoration: underline; text-underline-offset: 4px; }
 .blank-line { height: 1.4em; border-bottom: 1.5px solid var(--ink); max-width: 12rem; opacity: .7; }
+
+/* While the page is opening it says so, and does not yet invite typing. */
+.opening { font-family: var(--book); font-style: italic; color: var(--margin); margin: 0 0 0.75rem; }
+.page[data-opening] .ProseMirror { opacity: 0.45; }
+.page[data-opening] .ProseMirror p.is-editor-empty:first-child::before { content: none; }
+
+/* An empty Story Trail is a fresh start, not a broken page. */
+.empty-note { font-family: var(--book); font-style: italic; color: var(--margin); font-size: 1.0625rem; max-width: 34em; }
+
+/* Tabs within a view: words with an inked underline, not boxes. */
+[role='tab'].btn { border: 0; background: none; text-decoration: none; color: var(--muted); padding: 0.3em 0.05em; margin-right: 0.9rem; border-radius: 0; border-bottom: 2px solid transparent; }
+[role='tab'].btn:hover { background: none; color: var(--ink); border-bottom-color: var(--line-strong); }
+[role='tab'].btn[aria-selected='true'] { color: var(--struct); font-weight: 700; border-bottom-color: var(--struct); }

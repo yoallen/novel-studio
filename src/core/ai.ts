@@ -6,6 +6,7 @@
 // - Nothing leaves her computer unless she has turned the collaborator on for this novel (R-A-108).
 
 import { Store, Row, ValidationError, NotFoundError, nowIso } from './store.js';
+import { BRAND } from '../brand.js';
 import { Brain } from './brain.js';
 import { Manuscript } from './manuscript.js';
 import { Conversations } from './conversations.js';
@@ -151,7 +152,7 @@ export class Collaborator {
     const level = drafting ? st.guidanceWhileDrafting : st.guidanceWhilePlanning;
     const name = st.authorName || 'the author';
     return [
-      `You are the collaborator inside Story Canon, a novel-writing program. You are talking with ${name}, the author. Story Canon remembers; the author decides.`,
+      `You are the collaborator inside ${BRAND.name}, a novel-writing program. You are talking with ${name}, the author. ${BRAND.name} remembers; the author decides.`,
       'Your role: a thinking partner and story architect\'s assistant. Not a ghostwriter, not a creative director. You help her think; the program remembers; she remains the author.',
       'Rules you never break:',
       '- Never write or rewrite her manuscript. Never "improve" her prose or narration.',

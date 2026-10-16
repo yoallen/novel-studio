@@ -56,6 +56,7 @@ export function HistoryView({ ctx }: { ctx: Ctx }) {
       <p className="muted">How your story evolved: every idea, decision and revision, in order. Undo any one of them without losing what came after.</p>
       {error && <div className="notice error">{error}</div>}
       {blocked && <div className="notice" role="alert">{blocked.message}<div className="row" style={{ marginTop: '0.5rem' }}><button className="btn small" onClick={() => void undo(blocked.id, true)}>Undo anyway</button><button className="btn small" onClick={() => setBlocked(null)}>Leave it</button></div></div>}
+      {hist && hist.length === 0 && <p className="empty-note">Nothing has changed yet. From your first change on, every idea, decision and revision appears here in order, and any one of them can be undone.</p>}
       <ul className="list">
         {hist?.map((h) => (
           <li key={h.id} className="row">
