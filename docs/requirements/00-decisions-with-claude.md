@@ -21,6 +21,11 @@ These come from Yolanda's own messages in the Claude build conversation (October
 | D-15 | The five-dollar bill is not the decision | She corrected Claude: she had changed the five-dollar bill test; the distraction is the concept, the bill one possible execution. | Agrees with her 10-14 statement at transcript L8765 |
 | D-16 | Pages per beat at 250 to 300 words per page | "Most printed books print about 250 to 300 words per page; so I wanted to know approximately what page(s) the particular beat should occupy." | What "250 and 300" means (R-C-007, Needs Yolanda C-12): words per page |
 
+| D-17 | Experimenting with structure: both | A preview of effects before any move, plus named alternate structures she can save, compare side by side, and adopt or discard | R-C-082, Needs Yolanda C-8 |
+| D-18 | AI sample lines only when she asks | Always labeled as an example, never placed in the manuscript, never on anything marked Mine to write | R-A-099, R-B-010, Needs Yolanda A-10, B-21 |
+| D-19 | Status words on screen: a mix | Mix of her Bible words and ChatGPT's words; which words go where is still to be confirmed. Labels are renamable in Settings either way. | R-A-023 (partly) |
+| D-20 | Beat placement: show both | Brody's novel percentages and Snyder's screenplay-proportional placement side by side, with page ranges at 250 and 300 words per page | R-C-007 to R-C-009, Needs Yolanda B-6, C-2 |
+
 ## Standing rules (from D-11, D-12, D-14)
 
 A later statement replaces an earlier one only when Yolanda actually changed her mind or explicitly replaced it. It does not replace it when it is a possibility, an example, ChatGPT restating or summarizing (omission never cancels), a ChatGPT proposal she did not accept or did not read, an addition, or about a different subject. When unclear, ask her.
