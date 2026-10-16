@@ -550,6 +550,10 @@ export class Brain {
       `SELECT t.id, c.project_id, t.conversation_id, t.speaker_kind, t.speaker_name, t.said_at, substr(t.text, max(1, instr(lower(t.text), lower(?)) - 80), 240) AS snippet, c.title AS conversation_title, 'turn' AS hit
        FROM turns t JOIN conversations c ON c.id=t.conversation_id WHERE c.deleted_at IS NULL AND t.text LIKE ? ESCAPE '\\' ${projectId ? 'AND c.project_id=?' : ''} LIMIT ${limit}`,
     ).all(t, ...args(1)) as Row[];
-    return [...els, ...sts.map(parseStatement), ...scenes, ...turns];
+    const passages = this.store.db.prepare(
+      `SELECT x.id, src.project_id, x.locator, substr(x.text, max(1, instr(lower(x.text), lower(?)) - 80), 240) AS snippet, src.name AS source_name, src.id AS source_id, 'passage' AS hit
+       FROM excerpts x JOIN sources src ON src.id=x.source_id WHERE src.kind <> 'conversation' AND x.text LIKE ? ESCAPE '\\' ${projectId ? 'AND src.project_id=?' : ''} ORDER BY x.position LIMIT ${limit}`,
+    ).all(t, ...args(1)) as Row[];
+    return [...els, ...sts.map(parseStatement), ...scenes, ...turns, ...passages];
   }
 }

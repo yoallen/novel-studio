@@ -272,3 +272,15 @@ describe('dates from file names', () => {
     expect(dateFromName('notes v2.docx')).toBeNull();
   });
 });
+
+describe('search finds what stayed in a document', () => {
+  it('a passage that never became a record is still found, with where it sits', async () => {
+    const { pid, im } = setup('Lighthouse');
+    const r = await im.startDocument(pid, { name: 'Lighthouse Bible 10-13-26.docx', data: await bibleDocx() });
+    im.apply(r.id);
+    const hits = env.brain.search(pid, 'whole story in one place');
+    const p = hits.find((h) => h.hit === 'passage')!;
+    expect(p.source_name).toBe('Lighthouse Bible 10-13-26.docx');
+    expect(p.locator).toContain('How to Use This Bible');
+  });
+});

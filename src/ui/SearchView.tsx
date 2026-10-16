@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
+import { statusWord } from './status';
 
 // Search everything in this novel, including an exact remembered line (R-B-009).
 export function SearchView({ ctx }: { ctx: Ctx }) {
@@ -26,7 +27,7 @@ export function SearchView({ ctx }: { ctx: Ctx }) {
     const start = Math.max(0, i - 80);
     return (start ? '…' : '') + text.slice(start, i + q.length + 120) + (i + q.length + 120 < text.length ? '…' : '');
   };
-  const label: Record<string, string> = { scene: 'Manuscript', element: 'Story record', statement: 'Story detail', turn: 'Conversation' };
+  const label: Record<string, string> = { scene: 'Manuscript', element: 'Story record', statement: 'Story detail', turn: 'Conversation', passage: 'Document' };
 
   return (
     <div className="scroll"><div className="content">
@@ -37,10 +38,10 @@ export function SearchView({ ctx }: { ctx: Ctx }) {
       <ul className="list">
         {hits?.map((h, i) => (
           <li key={h.id + i}>
-            <div className="small muted">{label[h.hit] ?? h.hit}{h.kind ? `, ${String(h.kind).replace(/_/g, ' ')}` : ''}{h.status ? `, ${h.status}` : ''}</div>
+            <div className="small muted">{label[h.hit] ?? h.hit}{h.kind ? `, ${String(h.kind).replace(/_/g, ' ')}` : ''}{h.status ? `, ${statusWord(ctx.settings, h.status)}` : ''}{h.hit === 'passage' ? `, ${h.locator}` : ''}</div>
             {h.hit === 'scene'
               ? <button className="btn link" style={{ textAlign: 'left' }} onClick={() => ctx.openScene(h.id)}>{h.title}</button>
-              : <strong>{h.title ?? (h.element_title ? `${h.element_title}, ${String(h.field).replace(/_/g, ' ')}` : h.conversation_title ?? '')}</strong>}
+              : <strong>{h.title ?? (h.element_title ? `${h.element_title}, ${String(h.field).replace(/_/g, ' ')}` : h.conversation_title ?? h.source_name ?? '')}</strong>}
             <div style={{ fontFamily: 'var(--prose)', whiteSpace: 'pre-wrap' }}>{snippet(h.snippet ?? h.body ?? (typeof h.value === 'string' ? h.value : h.value != null ? JSON.stringify(h.value) : ''))}</div>
           </li>
         ))}
