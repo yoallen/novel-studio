@@ -1,3 +1,4 @@
+import { BRAND } from '../brand';
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -156,6 +157,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
         <BackupPlace onMsg={setMsg} onError={setError} />
         <div className="row"><button className="btn" onClick={() => void snapshot()}>Make a backup now</button><button className="btn" onClick={() => void downloadArchive()}>Save an archive of this novel</button></div>
       </section>
+
+      <p className="small faint" style={{ margin: '2rem 0 1rem' }}>{BRAND.name}, version {__APP_VERSION__}</p>
     </div></div>
   );
 }
