@@ -1,0 +1,8 @@
+node_modules
+dist
+dist-electron
+release
+*.sqlite3*
+test-results
+playwright-report
+.env

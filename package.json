@@ -1,0 +1,34 @@
+{
+  "name": "novel-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local-first novel development and writing studio",
+  "author": "Yolanda Allen",
+  "type": "module",
+  "main": "dist-electron/main.cjs",
+  "scripts": {
+    "dev:server": "tsx src/server/dev.ts",
+    "dev:ui": "vite",
+    "build:ui": "vite build",
+    "build:server": "tsc -p tsconfig.server.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0",
+    "better-sqlite3": "^13.0.3",
+    "docx": "^9.11.0",
+    "exceljs": "^4.4.0",
+    "fastify": "^5.12.7",
+    "mammoth": "^1.13.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
