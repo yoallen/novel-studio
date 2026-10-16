@@ -12,6 +12,7 @@ import { Conversations } from './conversations.js';
 import { Continuity } from './continuity.js';
 import { settingsOf } from './settings.js';
 import { statusLabel } from './labels.js';
+import { STORY_TYPES, CHARACTERISTICS, FRAMEWORKS } from './catalog.js';
 
 export type Mode = 'discuss' | 'teach' | 'show' | 'hand' | 'critique' | 'resources';
 
@@ -90,6 +91,14 @@ export class Collaborator {
     lines.push(`Novel: ${p.title}`);
     const prof = p.profile as Record<string, unknown>;
     if (prof.premise_sentence) lines.push(`Her one sentence: ${prof.premise_sentence}`);
+    // How she has set this novel up; guidance uses her chosen frameworks' vocabulary (R-B-094).
+    const setup = (prof.setup ?? {}) as { genres?: { name: string; role: string }[]; storyTypes?: { key: string; role: string }[]; characteristics?: string[]; frameworkNotes?: Record<string, string> };
+    if (setup.genres?.length) lines.push(`Genres: ${setup.genres.map((g) => `${g.name} (${g.role})`).join(', ')}`);
+    if (setup.storyTypes?.length) lines.push(`Blake Snyder story types: ${setup.storyTypes.map((t) => `${STORY_TYPES.find((d) => d.key === t.key)?.name ?? t.key} (${t.role})`).join(', ')}`);
+    if (setup.characteristics?.length) lines.push(`Narrative characteristics: ${setup.characteristics.map((k) => CHARACTERISTICS.find((c) => c.key === k)?.name ?? k).join(', ')}`);
+    const fw = (prof.frameworks as string[] | undefined) ?? [];
+    if (fw.length) lines.push(`Her storytelling toolkit (use these frameworks' terms; combinations are deliberate): ${fw.map((k) => `${FRAMEWORKS.find((f) => f.key === k)?.name ?? k}${setup.frameworkNotes?.[k] ? ` [how she uses it: ${setup.frameworkNotes[k]}]` : ''}`).join('; ')}`);
+    if (fw.includes('discovery')) lines.push('She discovers the story as she writes. Do not push outlines or beat sheets on her.');
     const elements = this.brain.elements(projectId).filter((e) => !['thought', 'scene_plan', 'beat'].includes(e.kind as string));
     const rows = this.store.db.prepare(
       `SELECT s.*, e.title AS element_title, e.kind AS element_kind FROM statements s JOIN elements e ON e.id=s.element_id

@@ -13,14 +13,17 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   const load = () => api.get('/api/projects').then(setProjects).catch((e) => setError(e.message));
   useEffect(() => { void load(); }, []);
 
-  async function create(e: React.FormEvent) {
+  async function create(e: React.FormEvent, thenView?: string) {
     e.preventDefault();
     if (!title.trim()) { setError('Give the novel a working title. You can change it any time.'); return; }
     try {
       const p = await api.post('/api/projects', { title: title.trim(), profile: sentence.trim() ? { premise_sentence: sentence.trim() } : {} });
       if (sentence.trim()) await api.post(`/api/projects/${p.id}/capture`, { text: sentence.trim(), kind: 'idea' });
-      const ch = await api.post(`/api/projects/${p.id}/chapters`, {});
-      await api.post(`/api/chapters/${ch.id}/scenes`, {});
+      if (thenView !== 'files') {
+        const ch = await api.post(`/api/projects/${p.id}/chapters`, {});
+        await api.post(`/api/chapters/${ch.id}/scenes`, {});
+      }
+      if (thenView) try { sessionStorage.setItem('ns-open-view', thenView); } catch { /* ignore */ }
       onOpen(p.id);
     } catch (err) { setError((err as Error).message); }
   }
@@ -68,7 +71,11 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
         <h2>Start a novel</h2>
         <label className="field"><span>Working title</span><input type="text" value={title} onChange={(e) => setTitle(e.target.value)} /></label>
         <label className="field"><span>One sentence about it, if you have one (optional)</span><textarea value={sentence} onChange={(e) => setSentence(e.target.value)} rows={2} /></label>
-        <button className="btn write" type="submit">Start writing</button>
+        <div className="row">
+          <button className="btn write" type="submit">Start writing</button>
+          <button className="btn" type="button" onClick={(e) => void create(e, 'setup')}>Set it up first</button>
+          <button className="btn link" type="button" onClick={(e) => void create(e, 'files')}>Start from a manuscript or story bible</button>
+        </div>
       </form>
 
       <div className="section">

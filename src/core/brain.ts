@@ -1,6 +1,7 @@
 // The Story Brain: projects, story elements, statements with provenance and a decision
 // timeline, links, and capture (thoughts, questions, ideas).
 
+import { CONDITIONAL_GROUPS, CHARACTERISTIC_FIELDS, STORY_TYPES } from './catalog.js';
 import { settingsOf, mergeSettings, ProjectSettings } from './settings.js';
 import { templateFor, FieldDef, KIND_LABELS, BEAT_BOARD_FIELDS } from './templates.js';
 import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId } from './store.js';
@@ -403,10 +404,32 @@ export class Brain {
   }
 
   /** Built-in template plus her own fields for this kind in this novel. */
-  fieldsFor(projectId: string, kind: string): FieldDef[] {
+  fieldsFor(projectId: string, kind: string, opts: { all?: boolean } = {}): FieldDef[] {
     const custom = (this.store.db.prepare('SELECT * FROM field_defs WHERE project_id=? AND kind=? AND deleted_at IS NULL ORDER BY sort').all(projectId, kind) as Row[])
       .map((d) => ({ field: d.field as string, label: d.label as string, group: d.group_name as string, prompt: d.prompt as string, multi: !!d.multi, private: !!d.private, custom: true, id: d.id as string }));
-    const builtIn = (ELEMENT_KINDS as readonly string[]).includes(kind) ? templateFor(kind) : [];
+    let builtIn = (ELEMENT_KINDS as readonly string[]).includes(kind) ? templateFor(kind) : [];
+    if (!opts.all) {
+      // Configuration drives what is offered (R-B-094): a framework's or characteristic's fields appear when it is chosen.
+      const p = this.project(projectId).profile;
+      const on = new Set<string>([...((p.frameworks as string[] | undefined) ?? []), ...(((p.setup as Record<string, unknown> | undefined)?.characteristics as string[] | undefined) ?? [])]);
+      const configured = !!(p.setup as Record<string, unknown> | undefined)?.configured;
+      const characteristicKeys = new Set(Object.keys(CHARACTERISTIC_FIELDS));
+      builtIn = builtIn.filter((d) => {
+        const cond = CONDITIONAL_GROUPS.find((g) => g.kind === kind && g.group === d.group);
+        if (!cond) return true;
+        if (cond.by.some((k) => on.has(k))) return true;
+        const byCharacteristicOnly = cond.by.every((k) => characteristicKeys.has(k));
+        return !configured && !byCharacteristicOnly;
+      });
+    }
+    if (kind === 'storyworld') {
+      // Each chosen Snyder story type brings its three ingredients (R-B-090, R-B-094).
+      const types = (((this.project(projectId).profile.setup as Record<string, unknown> | undefined)?.storyTypes as { key: string }[] | undefined) ?? []);
+      for (const t of types) {
+        const def = STORY_TYPES.find((d) => d.key === t.key);
+        if (def) builtIn = [...builtIn, ...def.ingredients.map((i) => ({ field: `st_${def.key}_${i.key}`, label: i.label, group: def.name, prompt: i.prompt }))];
+      }
+    }
     return [...builtIn, ...custom];
   }
 
@@ -423,7 +446,8 @@ export class Brain {
     }
     const used = (this.store.db.prepare('SELECT DISTINCT field FROM statements WHERE element_id=? AND deleted_at IS NULL').all(elementId) as Row[]).map((r) => r.field as string);
     // 'beat' holds a card's placement; it is shown by Narrative Zoom, not as a text field.
-    const extra = used.filter((u) => u !== 'beat' && !defs.some((d) => d.field === u)).map((u) => ({ field: u, label: u.replace(/^x_/, '').replace(/_/g, ' '), group: 'Other' } as FieldDef));
+    const hidden = this.fieldsFor(pid, el.kind as string, { all: true });
+    const extra = used.filter((u) => u !== 'beat' && !defs.some((d) => d.field === u)).map((u) => hidden.find((d) => d.field === u) ?? ({ field: u, label: u.replace(/^x_/, '').replace(/_/g, ' '), group: 'Other' } as FieldDef));
     const fields = [...defs, ...extra].map((d) => ({ def: d, view: this.field(elementId, d.field) }));
     const children = (this.store.db.prepare('SELECT * FROM elements WHERE parent_id=? AND deleted_at IS NULL ORDER BY sort_key, created_at').all(elementId) as Row[])
       .map((c) => ({ element: c, fields: this.fieldsFor(pid, c.kind as string).map((d) => ({ def: d, view: this.field(c.id as string, d.field) })) }));

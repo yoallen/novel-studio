@@ -11,10 +11,11 @@ import { TrailView, HistoryView, TrashView } from './Records';
 import { SettingsView } from './SettingsView';
 import { CaptureDialog } from './CaptureDialog';
 import { FilesView } from './FilesView';
+import { NovelSetup } from './NovelSetup';
 
-export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings';
+export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings' | 'setup';
 const VIEW_NAMES: Record<View, string> = {
-  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings',
+  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings', setup: 'Novel setup',
 };
 
 export interface Ctx {
@@ -61,7 +62,10 @@ export function App() {
   }, [projectId]);
 
   useEffect(() => {
-    setProject(null); setSettings(null); setSceneId(null); setView('home');
+    setProject(null); setSettings(null); setSceneId(null);
+    let first: View = 'home';
+    try { const v = sessionStorage.getItem('ns-open-view'); if (v) { first = v as View; sessionStorage.removeItem('ns-open-view'); } } catch { /* ignore */ }
+    setView(first);
     try { if (projectId) localStorage.setItem('novel-studio-last-project', projectId); else localStorage.removeItem('novel-studio-last-project'); } catch { /* ignore */ }
     void refreshProject();
     if (projectId) api.get(`/api/projects/${projectId}/writing-state`).then((w) => { if (w.state?.sceneId) setSceneId(w.state.sceneId); }).catch(() => {});
@@ -163,6 +167,7 @@ export function App() {
         {view === 'trash' && <TrashView ctx={ctx} />}
         {view === 'files' && <FilesView ctx={ctx} />}
         {view === 'settings' && <SettingsView ctx={ctx} />}
+        {view === 'setup' && <NovelSetup ctx={ctx} />}
       </main>
       {stuck && <Stuck ctx={ctx} onClose={() => setStuck(false)} />}
       {capturing && <CaptureDialog ctx={ctx} sceneId={view === 'write' ? sceneId : null} onClose={() => setCapturing(false)} />}

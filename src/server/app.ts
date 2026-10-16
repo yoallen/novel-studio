@@ -18,6 +18,7 @@ import { Continuity } from '../core/continuity.js';
 import { Collaborator, AiClient, anthropicClientFactory } from '../core/ai.js';
 import { Importer } from '../core/io/importer.js';
 import { Exporter } from '../core/io/exporter.js';
+import { Setup } from '../core/setup.js';
 import { registerRoutes } from './routes.js';
 import { snapshot } from '../core/backup.js';
 
@@ -49,6 +50,7 @@ export interface Services {
   ai: Collaborator;
   importer: Importer;
   exporter: Exporter;
+  setup: Setup;
   opts: AppOptions;
 }
 
@@ -66,7 +68,8 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
   const structure = new Structure(store, brain, ms), ripple = new Ripple(store, brain, ms, structure);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, opts };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, opts };
+  services.setup = new Setup(store, brain, structure, services.continuity);
   services.importer = new Importer(store, brain, ms, structure);
   services.exporter = new Exporter(store, brain, ms, structure, services.continuity);
   services.ai = new Collaborator(store, brain, ms, services.convs, services.continuity, opts.aiClientFactory ?? anthropicClientFactory());

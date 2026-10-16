@@ -199,15 +199,15 @@ export class Importer {
     const prof = profileFromSheet(plan.read, plan.density, plan.useCorrections ? forDensity : {});
     const key = `sheet-${id.slice(0, 8)}`;
     this.store.batch({ projectId: pid, actor: 'author', reason: `Import plotting sheet "${r.name}"` }, () => {
-      if (!this.structure.beats(pid).length) this.structure.applySaveTheCat(pid);
+      if (!this.structure.beats(pid, 'save_the_cat').length) this.structure.applySaveTheCat(pid);
       if (prof) {
         const p = this.brain.project(pid);
         const list = ((p.profile.placement_profiles as unknown[]) ?? []) as { key: string }[];
-        const entry = { key, name: plan.profileName || r.name, source: `Your sheet "${r.name}" at ${plan.density} words per page${plan.useCorrections && Object.keys(forDensity).length ? ', with the flagged numbers corrected' : ''}`, at: prof.at, windows: prof.windows };
+        const entry = { key, template: 'save_the_cat', name: plan.profileName || r.name, source: `Your sheet "${r.name}" at ${plan.density} words per page${plan.useCorrections && Object.keys(forDensity).length ? ', with the flagged numbers corrected' : ''}`, at: prof.at, windows: prof.windows };
         this.brain.updateProject(pid, { profile: { ...p.profile, placement_profiles: [...list, entry] } });
       }
       if (plan.keepGuidance) {
-        const beats = this.structure.beats(pid);
+        const beats = this.structure.beats(pid, 'save_the_cat');
         for (const b of plan.read.beats) {
           if (!b.key) continue;
           const el = beats.find((x) => x.attrs.template_key === b.key);
@@ -262,7 +262,7 @@ export class Importer {
 
   private placeDocument(pid: string, passages: Passage[], excerptIds: Map<string, string>, sourceId: string, docDate: string | null, dateFrom: DocumentPlan['dateFrom']): DocumentPlan {
     const elements = this.brain.elements(pid).filter((e) => !['thought', 'guardrail', 'scene_plan', 'question', 'idea', 'line', 'arc'].includes(e.kind as string));
-    const beats = this.structure.beats(pid);
+    const beats = this.structure.beats(pid, 'save_the_cat');
     const newElements: DocumentPlan['newElements'] = [];
     const findings: string[] = [];
     const ambiguous = new Set<string>();
@@ -310,7 +310,7 @@ export class Importer {
     };
     passages.forEach((p, i) => p.path.forEach((h, d) => consider(h, d, i, p.path)));
 
-    const arcFields = this.brain.fieldsFor(pid, 'arc').map((f) => ({ field: f.field, label: f.label }));
+    const arcFields = this.brain.fieldsFor(pid, 'arc', { all: true }).map((f) => ({ field: f.field, label: f.label }));
     const items: ImportItem[] = [];
     const essenceTaken = new Set<string>();
     let n = 0;
@@ -333,7 +333,7 @@ export class Importer {
         continue;
       }
       if (target.kind === 'character') {
-        const charFields = this.brain.fieldsFor(pid, 'character').map((f) => ({ field: f.field, label: f.label }));
+        const charFields = this.brain.fieldsFor(pid, 'character', { all: true }).map((f) => ({ field: f.field, label: f.label }));
         const pieces = splitByFields(p.text, [...charFields, ...arcFields]);
         if (pieces.length) {
           for (const piece of pieces) {
@@ -402,7 +402,7 @@ export class Importer {
     this.store.batch({ projectId: pid, actor: 'author', reason: `Import "${r.name}"` }, () => {
       if (plan.docDate && plan.docDate !== src.made_at) this.store.db.prepare('UPDATE sources SET made_at=? WHERE id=?').run(plan.docDate, plan.sourceId);
       if (chosen.some((i) => i.beatKey && !i.elementId)) this.structure.applySaveTheCat(pid);
-      const beatIds = Object.fromEntries(this.structure.beats(pid).map((b) => [b.attrs.template_key as string, b.element.id as string]));
+      const beatIds = Object.fromEntries(this.structure.beats(pid, 'save_the_cat').map((b) => [b.attrs.template_key as string, b.element.id as string]));
       const created = new Map<string, string>();
       const arcs = new Map<string, string>();
       for (const it of chosen) {

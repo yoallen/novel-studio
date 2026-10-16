@@ -45,6 +45,9 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
   return (
     <div className="scroll"><div className="content">
       <h1>Settings for this novel</h1>
+      <div className="notice" style={{ borderLeftColor: 'var(--struct)' }}>
+        <strong>Novel setup</strong>: genres, Snyder story types, narrative characteristics and your storytelling toolkit. <button className="btn link small" onClick={() => ctx.go('setup')}>Open novel setup</button>
+      </div>
       {msg && <div className="notice" role="status">{msg}</div>}
       {error && <div className="notice error" role="alert">{error}</div>}
 

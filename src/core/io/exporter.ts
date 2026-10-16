@@ -13,7 +13,7 @@ import { KIND_LABELS } from '../templates.js';
 import { Block, docToBlocks, htmlToBlocks, markdownToBlocks, rtfToBlocks, textToBlocks, plain, blockText } from './blocks.js';
 import { odtToBlocks } from './readers.js';
 import { writeBeatSheet } from './spreadsheet.js';
-import { SAVE_THE_CAT, WORLDS } from '../structure.js';
+import { WORLDS, beatDef } from '../structure.js';
 import { Book, BookChapter, ExportFormat, FORMAT_INFO, WriteOptions, lossesFor, toDocx, toEpub, toHtml, toMarkdown, toOdt, toPdf, toRtf, toText } from './writers.js';
 
 export type Section = 'characters' | 'beats' | 'places' | 'set_pieces' | 'open_decisions' | 'setups_payoffs' | 'timeline' | 'all_records';
@@ -191,7 +191,8 @@ export class Exporter {
     const prof = this.structure.profiles(projectId).find((x) => x.key === profileKey);
     if (!prof) throw new ValidationError('That placement profile is not in this novel.');
     const beats = this.structure.beats(projectId);
-    if (!beats.length) throw new ValidationError('Turn on the Save the Cat beats first.');
+    if (!beats.length) throw new ValidationError('Choose a beat sheet for this novel first.');
+    const stc = this.structure.spine(projectId) === 'save_the_cat';
     const lm = this.structure.landmarks(projectId);
     const target = st.targetWords ?? (lm.length.drafted || 90000);
     const counts = new Map<string, number>();
@@ -199,16 +200,17 @@ export class Exporter {
     const val = (id: string, f: string) => { const v = this.brain.field(id, f); const x = v.current ?? v.latest; return x ? `${String(x.value)}${v.current ? '' : ` (${statusLabel(x.status as never, st.statusLabels, st.authorName)})`}` : ''; };
     const rows = beats.map((b) => {
       const key = b.attrs.template_key as string;
-      const def = SAVE_THE_CAT.find((d) => d.key === key);
+      const def = beatDef((b.attrs.template as string) ?? 'save_the_cat', key);
       const guide = Object.values((b.attrs.sheet_guidance as Record<string, { description: string; where: string; scene_type: string }>) ?? {})[0];
       const custom = (b.attrs.placement as Record<string, [number, number]> | undefined)?.[prof.key];
       return {
-        key, number: (b.attrs.number as number | null) ?? null, name: b.element.title as string, group: (b.group as string) ?? 'thesis',
+        key, number: (b.attrs.number as number | null) ?? null, name: b.element.title as string, group: stc ? ((b.group as string) ?? 'thesis') : (b.act as string),
         description: guide?.description || def?.description || '', where: guide?.where || def?.window || prof.windows?.[key]?.text || '', sceneType: guide?.scene_type || def?.sceneType || '',
         at: custom ?? prof.at[key] ?? null, plan: val(b.element.id as string, 'event') || val(b.element.id as string, 'function'), scenes: counts.get(b.element.id as string) ?? 0,
       };
     });
-    const groups = (['thesis', 'antithesis', 'synthesis'] as const).map((k) => ({ key: k, name: WORLDS[k]?.name ?? k, description: WORLDS[k]?.description ?? '' }));
+    const groups = stc ? (['thesis', 'antithesis', 'synthesis'] as const).map((k) => ({ key: k, name: WORLDS[k]?.name ?? k, description: WORLDS[k]?.description ?? '' }))
+      : [['I', 'Act One'], ['IIA', 'Act Two, first half'], ['IIB', 'Act Two, second half'], ['III', 'Act Three']].map(([k, n]) => ({ key: k!, name: n!, description: '' }));
     const data = await writeBeatSheet({ title: p.title as string, targetWords: target, densities: st.wordsPerPage, groups, beats: rows, profileName: prof.name });
     // Read it back: every beat row must be there.
     const ExcelJS = (await import('exceljs')).default;

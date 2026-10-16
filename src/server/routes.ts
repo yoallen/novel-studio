@@ -26,9 +26,27 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   // ----- projects -----
   app.get('/api/projects', async () => brain.listProjects());
   app.post('/api/projects', async (req) => {
-    const b = body(req, z.object({ title: z.string().min(1).max(300), profile: json.optional() }));
-    return brain.createProject(b.title, b.profile ?? {});
+    const b = body(req, z.object({ title: z.string().min(1).max(300), profile: json.optional(), useDefaults: z.boolean().optional(), frameworks: z.array(z.string().max(60)).max(30).optional(), spine: z.string().max(60).nullable().optional() }));
+    return svc.setup.createNovel(b.title, { profile: b.profile as Record<string, unknown> | undefined, useDefaults: b.useDefaults, frameworks: b.frameworks, spine: b.spine });
   });
+  // ----- novel setup and author profile (R-B-088 to R-B-095) -----
+  const role = z.enum(['primary', 'secondary', 'influence']);
+  app.get('/api/projects/:id/setup', async (req) => svc.setup.get(params(req, P).id));
+  app.patch('/api/projects/:id/setup', async (req) => svc.setup.update(params(req, P).id, body(req, z.object({
+    genres: z.array(z.object({ key: z.string().max(60), name: z.string().max(80), role, parent: z.string().max(60).nullable().optional() })).max(40).optional(),
+    storyTypes: z.array(z.object({ key: z.string().max(60), role })).max(10).optional(),
+    characteristics: z.array(z.string().max(60)).max(60).optional(),
+    customCharacteristics: z.array(z.object({ key: z.string().max(60), name: z.string().max(80), group: z.string().max(40) })).max(40).optional(),
+    frameworks: z.array(z.string().max(60)).max(30).optional(),
+    frameworkNotes: z.record(z.string().max(60), z.string().max(4000)).optional(),
+    customFrameworks: z.array(z.object({ key: z.string().max(60), name: z.string().max(80), job: z.string().max(1000) })).max(20).optional(),
+    spine: z.string().max(60).nullable().optional(),
+    carryPlacements: z.boolean().optional(),
+    premise: z.string().max(600).optional(),
+  }).strict())));
+  app.get('/api/projects/:id/setup/active', async (req) => svc.setup.activeFeatures(params(req, P).id));
+  app.get('/api/author-profile', async () => svc.setup.authorProfile());
+  app.post('/api/projects/:id/setup/save-as-defaults', async (req) => svc.setup.saveAsDefaults(params(req, P).id));
   app.get('/api/projects/:id', async (req) => brain.project(params(req, P).id));
   app.patch('/api/projects/:id', async (req) => {
     const b = body(req, z.object({ title: z.string().max(300).optional(), profile: json.optional(), expectVersion: z.number().int().optional() }));

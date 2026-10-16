@@ -138,6 +138,8 @@ const CLUE: FieldDef[] = [
   f('Clue', 'planted', 'Where it is planted', { multi: true }),
   f('Clue', 'paid_off', 'Where it pays off', { multi: true }),
   f('Clue', 'misread_as', 'What it is mistaken for'),
+  f('Red herring', 'red_herring', 'Is this a red herring?', { prompt: 'A false trail on purpose.' }),
+  f('Red herring', 'hides', 'What it draws attention away from'),
 ];
 
 const LINE: FieldDef[] = [
@@ -204,6 +206,14 @@ const SCENE_PLAN: FieldDef[] = [
   f('Atmosphere', 'consequence', 'What the setting does to the plot', { prompt: 'Mud after rain, heat that intensifies a smell, darkness that limits who can see.' }),
   f('What the reader knows', 'reader_suspects', 'What the reader suspects by the end of this scene'),
   f('What the reader knows', 'layer', 'Visible or hidden story', { prompt: 'Visible: what the viewpoint characters believe is happening. Hidden: what is actually happening.' }),
+  f('Scene and sequel', 'scene_kind', 'Scene or sequel', { prompt: 'A scene: goal, conflict, disaster. A sequel: reaction, dilemma, decision. The decision becomes the next scene\'s goal.' }),
+  f('Scene and sequel', 'reaction', 'Reaction'),
+  f('Scene and sequel', 'dilemma', 'Dilemma'),
+  f('Scene and sequel', 'decision', 'Decision', { prompt: 'This becomes the goal of the next scene.' }),
+  f('Narrator and truth', 'narrator_believes', 'What the narrator believes here'),
+  f('Narrator and truth', 'actually_true', 'What is actually true', { prompt: 'The gap between these two is what the reader may or may not catch.' }),
+  f('Timeline strand', 'timeline_strand', 'Which timeline', { prompt: 'Then or now, the frame or the tale, or your own names for the strands.' }),
+  f('Callbacks', 'callbacks', 'Callbacks and running gags here', { multi: true, prompt: 'Name the gag. Each return should twist it a little further.' }),
 ];
 
 const STORYWORLD: FieldDef[] = [
@@ -213,6 +223,12 @@ const STORYWORLD: FieldDef[] = [
   f('Viewpoint', 'pov_rule', 'Viewpoint rule', { prompt: 'One viewpoint per scene, one per chapter, or no rule.' }),
   f('Viewpoint', 'pov_person', 'Default narrative person'), f('Viewpoint', 'pov_tense', 'Default tense'),
   f('Knowledge', 'hidden_truth', 'Does this book hide a truth from the reader?', { prompt: 'Turns on the reader-knowledge and secret-operations views.' }),
+  f('The core', 'logline', 'The one sentence', { prompt: 'The whole book squeezed until only its central irony is left. About twenty-five words.' }),
+  f('The core', 'paragraph', 'The one paragraph', { prompt: 'Setup, three disasters, and the ending, one sentence each.' }),
+  f('Moral premise', 'vice', 'The vice', { prompt: '[Vice] leads to defeat…' }),
+  f('Moral premise', 'virtue', 'The virtue', { prompt: '…but [virtue] leads to success.' }),
+  f('Moral premise', 'moral_premise', 'The moral premise, as one sentence'),
+  f('Controlling idea', 'controlling_idea', 'Controlling idea', { prompt: 'McKee: the value and the cause that makes it change, in one sentence.' }),
 ];
 
 const HIDDEN_MOVE: FieldDef[] = [

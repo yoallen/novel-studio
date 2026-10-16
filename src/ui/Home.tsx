@@ -37,6 +37,12 @@ export function Home({ ctx }: { ctx: Ctx }) {
         </div>
       </section>
 
+      {!ctx.project?.profile?.setup?.configured && (
+        <div className="notice small" style={{ borderLeftColor: 'var(--struct)' }}>
+          Whenever you like: tell the program what kind of story this is and which methods you use, and it will offer the right tools. <button className="btn link small" onClick={() => ctx.go('setup')}>Set up this novel</button>
+        </div>
+      )}
+
       {w.recoveries.length > 0 && (
         <div className="notice" role="status">
           Unsaved typing was kept for {w.recoveries.map((r: any) => `"${r.title}"`).join(', ')}. Open the scene to choose which version to keep.
