@@ -41,6 +41,21 @@ describe('the collaborator (R-A-089 to R-A-108)', () => {
     expect(ai.status(pid).consentedAt).toBeTruthy();
   });
 
+  it('knows the author only as the author describes themselves', async () => {
+    const { pid, convs, ai, calls } = setup(() => say('Glad to meet you.'));
+    ai.setKey('k'); ai.configure(pid, { enabled: true });
+    const c = convs.create(pid, { title: 'Hello' });
+    await ai.ask(c.id as string, { text: 'Hi' });
+    expect(calls[0]!.system).toContain('use they when unknown');
+    expect(calls[0]!.system).not.toContain('Pronouns:');
+    env.store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('author_profile',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify({ about: { name: 'Sam', pronouns: 'he/they', helpStyle: 'Teach first, then show.' } }));
+    await ai.ask(c.id as string, { text: 'Again' });
+    const sys = calls[calls.length - 1]!.system;
+    expect(sys).toContain('You are talking with Sam');
+    expect(sys).toContain('Pronouns: he/they.');
+    expect(sys).toContain('How they like to be helped: Teach first, then show.');
+  });
+
   it('reads her decisions, guardrails and kept scenes first, and labels assistant-origin facts', async () => {
     const { pid, convs, ai, calls } = setup(() => say('Here is a thought.'));
     const kevin = env.brain.createElement(pid, { kind: 'character', title: 'Kevin' });

@@ -21,7 +21,20 @@ export interface SetupState {
   customFrameworks: { key: string; name: string; job: string }[];
 }
 
+/** Who the author is, in the author's own words. Every line is optional; nothing is ever inferred. */
+export interface AuthorAbout {
+  name?: string;          // what to call them
+  pronouns?: string;      // in their words; when empty the collaborator uses their name, or they
+  approach?: string;      // plotter, pantser, somewhere between, or their own words
+  experience?: string;    // how long they have been writing, books finished
+  helpStyle?: string;     // how they like to be helped and taught
+  avoid?: string;         // what drains them or what to stay away from
+  more?: string;          // anything else they want the collaborator to know
+  asked?: boolean;        // the Library has asked once; it does not ask again
+}
+
 export interface AuthorProfile {
+  about: AuthorAbout;
   authorName: string;
   frameworks: string[];
   frameworkNotes: Record<string, string>;
@@ -142,7 +155,7 @@ export class Setup {
   authorProfile(): AuthorProfile {
     const r = this.store.db.prepare("SELECT value_json FROM settings WHERE key='author_profile'").get() as Row | undefined;
     const v = r ? JSON.parse(r.value_json as string) as Partial<AuthorProfile> : {};
-    return { authorName: v.authorName ?? '', frameworks: v.frameworks ?? [], frameworkNotes: v.frameworkNotes ?? {}, spine: v.spine ?? null, settings: v.settings ?? {} };
+    return { about: v.about ?? {}, authorName: v.authorName ?? '', frameworks: v.frameworks ?? [], frameworkNotes: v.frameworkNotes ?? {}, spine: v.spine ?? null, settings: v.settings ?? {} };
   }
 
   setAuthorProfile(patch: Partial<AuthorProfile>) {

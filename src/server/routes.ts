@@ -60,7 +60,12 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/projects/:id/methods/:key/refresh', async (req) => { const q = z.object({ id, key: z.string().max(60) }).parse(req.params); return structure.applyTemplate(q.id, q.key).length; });
   app.get('/api/shelf', async () => methodsLib.shelf(store));
   app.put('/api/shelf', async (req) => methodsLib.setShelf(store, body(req, z.object({ books: z.array(z.object({ key: z.string().max(80).optional(), title: z.string().max(200), author: z.string().max(120), useFor: z.string().max(500) })).max(200) })).books as never));
-  app.patch('/api/author-profile', async (req) => svc.setup.setAuthorProfile(body(req, z.object({ stages: z.array(z.string().min(1).max(60)).max(40).optional() })) as never));
+  app.patch('/api/author-profile', async (req) => {
+    const t = (n: number) => z.string().max(n).optional();
+    const b = body(req, z.object({ stages: z.array(z.string().min(1).max(60)).max(40).optional(), about: z.object({ name: t(80), pronouns: t(60), approach: t(200), experience: t(300), helpStyle: t(2000), avoid: t(2000), more: t(4000), asked: z.boolean().optional() }).optional() }));
+    if (b.about) b.about = { ...svc.setup.authorProfile().about, ...b.about };
+    return svc.setup.setAuthorProfile(b as never);
+  });
   // ----- novel setup and author profile (R-B-088 to R-B-095) -----
   const role = z.enum(['primary', 'secondary', 'influence']);
   app.get('/api/projects/:id/setup', async (req) => svc.setup.get(params(req, P).id));

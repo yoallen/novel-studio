@@ -349,3 +349,5 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 [role='tab'].btn { border: 0; background: none; text-decoration: none; color: var(--muted); padding: 0.3em 0.05em; margin-right: 0.9rem; border-radius: 0; border-bottom: 2px solid transparent; }
 [role='tab'].btn:hover { background: none; color: var(--ink); border-bottom-color: var(--line-strong); }
 [role='tab'].btn[aria-selected='true'] { color: var(--struct); font-weight: 700; border-bottom-color: var(--struct); }
+.about .field { margin-bottom: 1.1rem; }
+.about .field > label > span { display: block; margin-bottom: 0.25em; }

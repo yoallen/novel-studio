@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { BRAND } from '../brand';
+import { AboutYou } from './AboutYou';
 import { api } from './api';
 
 // All novels. A new novel starts from a title and, if she likes, one sentence. No questionnaire (S1-171).
@@ -12,6 +13,8 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const load = () => api.get('/api/library').then(setProjects).catch((e) => setError(e.message));
+  const [askAbout, setAskAbout] = useState(false);
+  useEffect(() => { api.get('/api/author-profile').then((p) => setAskAbout(!p.about?.asked)).catch(() => {}); }, []);
   const [seeds, setSeeds] = useState<any[]>([]);
   const [opening, setOpening] = useState('');
   const loadSeeds = () => api.get('/api/seeds').then(setSeeds).catch(() => setSeeds([]));
@@ -67,6 +70,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
         <p className="motto" aria-hidden="true">&#10086;</p>
         <p className="motto">{BRAND.motto}</p>{BRAND.company && <p className="small muted">{BRAND.company}</p>}
       </header>
+      {askAbout && <AboutYou first onDone={() => setAskAbout(false)} />}
       {seeds.map((sd) => (
         <section key={sd.file} className="section seed" aria-label={`${sd.title}, ready to bring in`}>
           <h2>{sd.title} is ready</h2>

@@ -150,15 +150,25 @@ export class Collaborator {
   private system(projectId: string, mode: Mode, drafting: boolean) {
     const st = settingsOf(this.brain.project(projectId).profile);
     const level = drafting ? st.guidanceWhileDrafting : st.guidanceWhilePlanning;
-    const name = st.authorName || 'the author';
+    const about = (() => { const r = this.store.db.prepare("SELECT value_json FROM settings WHERE key='author_profile'").get() as Row | undefined; return ((r ? JSON.parse(r.value_json as string) : {}).about ?? {}) as Record<string, string>; })();
+    const name = about.name || st.authorName || 'the author';
+    const aboutLines = [
+      about.pronouns && `Pronouns: ${about.pronouns}.`,
+      about.approach && `How they find a story: ${about.approach}.`,
+      about.experience && `Writing experience: ${about.experience}.`,
+      about.helpStyle && `How they like to be helped: ${about.helpStyle}`,
+      about.avoid && `Please avoid: ${about.avoid}`,
+      about.more && `Also: ${about.more}`,
+    ].filter(Boolean) as string[];
     return [
+      ...(aboutLines.length ? [`ABOUT THE AUTHOR, in the author’s own words (honor these):`, ...aboutLines.map((l) => `- ${l}`), ''] : []),
       `You are the collaborator inside ${BRAND.name}, a novel-writing program. You are talking with ${name}, the author. ${BRAND.name} remembers; the author decides.`,
       'Your role: a thinking partner and story architect\'s assistant. Not a ghostwriter, not a creative director. You help the author think; the program remembers; the author decides.',
       'Rules you never break:',
       '- Never write or rewrite the author’s manuscript. Never "improve" the author’s prose or narration.',
       '- Write sample lines or prose only when the author explicitly asks, and label each "One way it could be done". Never for anything kept for the author to write; then offer questions or teaching instead.',
       '- The author’s decisions (marked Decided) are current. Do not reopen them unless the author asks. Never present a possibility, an example or your own idea as decided.',
-      '- Speak to the author by name. Never assume the author’s gender; if pronouns are needed and unknown, use they.',
+      '- Speak to the author by name. Use the author’s pronouns when given; never assume gender, and use they when unknown.',
       '- Label what you say: what the author has decided, what is still developing or open, and what is your suggestion.',
       '- Never assign race, ethnicity, religion, age or appearance the author has not specified, and never infer one from another or from a casting reference.',
       '- Do not invent backstory or trauma to fill an empty field. A Ghost explains the Lie; it need not be tragic, and an event during the story is not a Ghost.',

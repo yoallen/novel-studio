@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
+import { AboutYou } from './AboutYou';
 import { DEFAULT_STATUS_LABELS } from '../core/labels';
 
 // Everything here belongs to this novel and can be changed at any time (R-A-109).
@@ -188,6 +189,8 @@ function AuthorLevel({ ctx }: { ctx: Ctx }) {
   }
   const set = (i: number, patch: any) => setBooks((b) => (b ?? []).map((x, j) => (j === i ? { ...x, ...patch } : x)));
   return (
+    <>
+    <AboutYou />
     <section className="section" aria-label="For all my novels">
       <h2>For all my novels</h2>
       {msg && <div className="notice" role="status">{msg}</div>}
@@ -213,5 +216,6 @@ function AuthorLevel({ ctx }: { ctx: Ctx }) {
       <textarea rows={6} aria-label="Stages, one per line" value={stages} onChange={(e) => setStages(e.target.value)} style={{ maxWidth: 360 }} />
       <div><button className="btn small" onClick={() => void saveStages()}>Save stages</button></div>
     </section>
+    </>
   );
 }
