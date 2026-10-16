@@ -28,6 +28,7 @@ const CHARACTER: FieldDef[] = [
   f('Role in the story', 'role', 'Role', { prompt: 'Co-lead, B-story lead, hidden engine, supporting, narrator, secret-keeper…' }),
   f('Role in the story', 'importance', 'Narrative importance', { prompt: 'Main, supporting or minor. Depth is judged against this, never against how many fields are filled.' }),
   f('Role in the story', 'narrates', 'Narrates?', { prompt: 'Whether and how this character narrates (viewpoint, grammatical person).' }),
+  f('Role in the story', 'pov_withheld_until', 'Viewpoint withheld until', { prompt: 'For a secret keeper: the beat or moment before which we never get inside their head.' }),
   f('Role in the story', 'last_page', 'Last page, in one line', { prompt: 'If you wrote this character\'s last page in one line, who are they now?' }),
 
   f('Ingermanson', 'goal', 'Goal', { prompt: 'Concrete and reachable. What would winning look like?' }),
@@ -126,10 +127,12 @@ const EVENT: FieldDef[] = [
   f('Truth and knowledge', 'truth', 'What actually happened'),
   f('Truth and knowledge', 'who_knows', 'Who knows, and when', { multi: true }),
   f('Truth and knowledge', 'reader_knows', 'What the reader knows or suspects'),
+  f('Truth and knowledge', 'layer', 'Visible or hidden story'),
 ];
 
 const CLUE: FieldDef[] = [
   f('Clue', 'truth', 'What it really means'),
+  f('Clue', 'significant', 'Significant enough that it must pay off?', { prompt: 'Not every detail needs to pay off. Mark the ones that do.' }),
   f('Clue', 'planted', 'Where it is planted', { multi: true }),
   f('Clue', 'paid_off', 'Where it pays off', { multi: true }),
   f('Clue', 'misread_as', 'What it is mistaken for'),
@@ -187,7 +190,48 @@ const SCENE_PLAN: FieldDef[] = [
   f('Around it', 'story_time', 'When (story time)'),
   f('Around it', 'location', 'Where'),
   f('Around it', 'classification', 'Disaster, discovery or win'),
+  f('Story time', 'story_day', 'Day in the story', { prompt: 'A number on your story clock, such as day 3 of the feud.' }),
+  f('Story time', 'story_date', 'Date'),
+  f('Story time', 'time_of_day', 'Time of day'),
+  f('Story time', 'elapsed', 'Time since the previous scene'),
+  f('Atmosphere', 'season', 'Season'),
+  f('Atmosphere', 'weather', 'Weather'),
+  f('Atmosphere', 'physical_atmosphere', 'Physical atmosphere'),
+  f('Atmosphere', 'emotional_atmosphere', 'Emotional atmosphere'),
+  f('Atmosphere', 'sensory', 'Sensory details', { multi: true }),
+  f('Atmosphere', 'consequence', 'What the setting does to the plot', { prompt: 'Mud after rain, heat that intensifies a smell, darkness that limits who can see.' }),
+  f('What the reader knows', 'reader_suspects', 'What the reader suspects by the end of this scene'),
+  f('What the reader knows', 'layer', 'Visible or hidden story', { prompt: 'Visible: what the viewpoint characters believe is happening. Hidden: what is actually happening.' }),
 ];
+
+const STORYWORLD: FieldDef[] = [
+  f('Time', 'era', 'Era or year'), f('Time', 'season', 'Season'), f('Time', 'atmosphere_now', 'The atmosphere now'),
+  f('Time', 'duration', 'How long the story lasts', { prompt: 'A single week, a season, a year…' }), f('Time', 'day_counter', 'Name of your story clock', { prompt: 'For example: day of the feud.' }),
+  f('Viewpoint', 'pov_approach', 'Viewpoint approach', { prompt: 'For example: alternating first person between two narrators.' }),
+  f('Viewpoint', 'pov_rule', 'Viewpoint rule', { prompt: 'One viewpoint per scene, one per chapter, or no rule.' }),
+  f('Viewpoint', 'pov_person', 'Default narrative person'), f('Viewpoint', 'pov_tense', 'Default tense'),
+  f('Knowledge', 'hidden_truth', 'Does this book hide a truth from the reader?', { prompt: 'Turns on the reader-knowledge and secret-operations views.' }),
+];
+
+const HIDDEN_MOVE: FieldDef[] = [
+  f('The move', 'when', 'When (beat or rough point)'), f('The move', 'move', 'The hidden move'),
+  f('The move', 'others_see', 'What the others see, and how they misread it'), f('The move', 'blame', 'Who takes the blame'),
+];
+
+const SET_PIECE: FieldDef[] = [
+  f('Set piece', 'job', 'The story job it performs'), f('Set piece', 'strands', 'Storylines it moves', { multi: true }),
+  f('Set piece', 'shape', 'One card or a sequence'),
+];
+
+const STORYLINE: FieldDef[] = [
+  f('Storyline', 'letter', 'Letter (A, B, C…)', { prompt: 'Optional. The letter is its role, not its identity.' }),
+  f('Storyline', 'state', 'Where it stands', { prompt: 'Introduced, Developing, Escalating, Temporarily resolved, Dormant, Reopened, Resolved, Intentionally unresolved, or your own.' }),
+  f('Storyline', 'resolution', 'Resolves now, or held open on purpose'),
+  f('Storyline', 'values', 'Values it carries', { multi: true, prompt: 'Values ride the plot lines; they are not threads of their own.' }),
+  f('Storyline', 'promises', 'Promises made to the reader', { multi: true }),
+];
+
+const MOTIF: FieldDef[] = [f('Motif', 'meaning', 'What it means', { multi: true, prompt: 'How its meaning changes across the book.' })];
 
 const GENERIC: FieldDef[] = [f('Notes', 'description', 'Description')];
 
@@ -203,6 +247,11 @@ export const TEMPLATES: Record<string, FieldDef[]> = {
   line: LINE,
   beat: BEAT,
   scene_plan: SCENE_PLAN,
+  storyworld: STORYWORLD,
+  hidden_move: HIDDEN_MOVE,
+  set_piece: SET_PIECE,
+  storyline: STORYLINE,
+  motif: MOTIF,
   question: QUESTION,
   idea: IDEA,
 };
@@ -232,7 +281,10 @@ export const KIND_LABELS: Record<string, { label: string; plural: string }> = {
   act: { label: 'Act', plural: 'Acts' },
   sequence: { label: 'Sequence', plural: 'Sequences' },
   beat: { label: 'Beat', plural: 'Beats' },
-  scene_plan: { label: 'Scene plan', plural: 'Scene plans' },
+  scene_plan: { label: 'Scene card', plural: 'Scene cards' },
+  storyworld: { label: 'Story world', plural: 'Story world' },
+  hidden_move: { label: 'Hidden move', plural: 'Secret operations' },
+  set_piece: { label: 'Set piece', plural: 'Set pieces' },
 };
 
 export function templateFor(kind: string): FieldDef[] { return TEMPLATES[kind] ?? GENERIC; }

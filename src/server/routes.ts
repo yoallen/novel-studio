@@ -18,7 +18,7 @@ function body<T extends z.ZodTypeAny>(req: FastifyRequest, s: T): z.infer<T> { r
 function query<T extends z.ZodTypeAny>(req: FastifyRequest, s: T): z.infer<T> { return s.parse(req.query ?? {}); }
 
 export function registerRoutes(app: FastifyInstance, svc: Services) {
-  const { brain, ms, store, desk, convs, structure, ripple, zoom } = svc;
+  const { brain, ms, store, desk, convs, structure, ripple, zoom, continuity } = svc;
 
   app.get('/api/health', async () => ({ ok: true, schema: store.schemaVersion() }));
 
@@ -267,6 +267,22 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   ]);
   app.post('/api/projects/:id/zoom', async (req) => zoom.view(params(req, P).id, body(req, z.object({ node })).node));
   app.get('/api/scenes/:id/locate', async (req) => { const s = ms.scene(params(req, P).id); return zoom.locateScene(s.project_id as string, s.id as string); });
+
+  // ----- continuity -----
+  app.post('/api/projects/:id/storyworld', async (req) => continuity.storyWorld(params(req, P).id, true));
+  const povShape = z.object({ person: z.string().max(40).optional(), tense: z.string().max(40).optional(), distance: z.string().max(80).optional(), reliability: z.string().max(80).optional(), function: z.string().max(2000).optional(), narrator: id.nullable().optional(), also: z.array(id).max(10).optional() }).strict();
+  app.patch('/api/chapters/:id/pov', async (req) => { const b = body(req, z.object({ povElementId: id.nullable().optional(), pov: povShape.optional() })); return continuity.setChapterPov(params(req, P).id, b); });
+  app.patch('/api/scenes/:id/pov', async (req) => continuity.setScenePov(params(req, P).id, body(req, z.object({ pov: povShape })).pov));
+  app.get('/api/projects/:id/pov', async (req) => continuity.povCoverage(params(req, P).id));
+  app.get('/api/projects/:id/timelines', async (req) => continuity.timelines(params(req, P).id));
+  app.get('/api/projects/:id/knowledge', async (req) => continuity.knowledge(params(req, P).id));
+  app.get('/api/projects/:id/clues', async (req) => continuity.clues(params(req, P).id));
+  app.get('/api/projects/:id/storylines', async (req) => continuity.storylines(params(req, P).id));
+  app.get('/api/projects/:id/secret-log', async (req) => continuity.secretLog(params(req, P).id));
+  app.get('/api/projects/:id/motifs', async (req) => continuity.motifs(params(req, P).id));
+  app.get('/api/projects/:id/review', async (req) => continuity.review(params(req, P).id));
+  app.post('/api/projects/:id/review/respond', async (req) => continuity.respond(params(req, P).id, body(req, z.object({ key: z.string().min(1).max(500), status: z.enum(['intentional', 'deferred', 'resolved']), note: z.string().max(5000).optional(), text: z.string().max(5000).optional() }))));
+  app.delete('/api/finding-notes/:id', async (req) => { continuity.reopen(params(req, P).id); return { reopened: true }; });
 
   // ----- conversations -----
   app.get('/api/projects/:id/conversations', async (req) => { const pid = params(req, P).id; brain.project(pid); return convs.list(pid); });

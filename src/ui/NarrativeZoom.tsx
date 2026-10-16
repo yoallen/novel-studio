@@ -3,6 +3,7 @@ import { api } from './api';
 import type { Ctx } from './App';
 import { ElementPage } from './ElementPage';
 import { valueText } from './status';
+import { Timelines, Viewpoint, Knowledge, Clues, Storylines, Review } from './ContinuityViews';
 
 // Narrative Zoom: the whole story, an act, a beat, a scene, the page, and back, never losing your place
 // (R-C-066, R-C-067); follow a character or object across the story (R-C-068); the board (R-C-004);
@@ -10,7 +11,7 @@ import { valueText } from './status';
 // alternate structures (D-17).
 
 type Node = { level: 'story' } | { level: 'act'; key: string } | { level: 'beat'; id: string } | { level: 'card'; id: string } | { level: 'element'; id: string };
-type Tab = 'zoom' | 'board' | 'beats' | 'alternates';
+type Tab = 'zoom' | 'board' | 'beats' | 'alternates' | 'timelines' | 'viewpoint' | 'knowledge' | 'clues' | 'storylines' | 'review';
 export type ZoomRequest = { node: Node; nonce: number } | null;
 
 export function NarrativeZoom({ ctx, request }: { ctx: Ctx; request: ZoomRequest }) {
@@ -41,6 +42,12 @@ export function NarrativeZoom({ ctx, request }: { ctx: Ctx; request: ZoomRequest
         <span className="grow" />
         <button className="btn small" onClick={ctx.openStuck}>I'm stuck</button>
       </div>
+      <div className="row" role="tablist" aria-label="Continuity" style={{ marginBottom: '1rem', marginTop: '-0.5rem' }}>
+        <span className="small muted">Continuity:</span>
+        {([['timelines', 'Timelines'], ['viewpoint', 'Viewpoint'], ['knowledge', 'Who knows what'], ['clues', 'Setups and payoffs'], ['storylines', 'Storylines'], ['review', 'Story review']] as [Tab, string][]).map(([k, l]) => (
+          <button key={k} role="tab" aria-selected={tab === k} className={'btn small' + (tab === k ? '' : ' link')} onClick={() => setTab(k)}>{l}</button>
+        ))}
+      </div>
       {error && <div className="notice error" role="alert">{error}</div>}
       {tab === 'zoom' && view && (
         <>
@@ -60,6 +67,12 @@ export function NarrativeZoom({ ctx, request }: { ctx: Ctx; request: ZoomRequest
       {tab === 'board' && <Board ctx={ctx} tick={tick} onMove={setMove} onOpen={(n) => { setTab('zoom'); go(n); }} refresh={refresh} />}
       {tab === 'beats' && <Beats ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n); }} />}
       {tab === 'alternates' && <Alternates ctx={ctx} tick={tick} refresh={refresh} />}
+      {tab === 'timelines' && <Timelines ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n); }} />}
+      {tab === 'viewpoint' && <Viewpoint ctx={ctx} tick={tick} refresh={refresh} />}
+      {tab === 'knowledge' && <Knowledge ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n); }} />}
+      {tab === 'clues' && <Clues ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n); }} />}
+      {tab === 'storylines' && <Storylines ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n); }} />}
+      {tab === 'review' && <Review ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n); }} />}
       {move && <MoveDialog ctx={ctx} move={move} onClose={() => setMove(null)} onDone={() => { setMove(null); refresh(); }} />}
     </div></div>
   );

@@ -357,4 +357,27 @@ CREATE TABLE field_defs (
 CREATE INDEX field_defs_project_kind ON field_defs(project_id, kind);
 `,
   },
+  {
+    version: 4,
+    name: 'continuity: chapter and scene viewpoint records, responses to review findings',
+    sql: `
+ALTER TABLE chapters ADD COLUMN pov_element_id TEXT REFERENCES elements(id);
+ALTER TABLE chapters ADD COLUMN pov_json TEXT NOT NULL DEFAULT '{}';
+ALTER TABLE scenes ADD COLUMN pov_json TEXT NOT NULL DEFAULT '{}';
+
+CREATE TABLE finding_notes (
+  id TEXT PRIMARY KEY,
+  project_id TEXT NOT NULL REFERENCES projects(id),
+  finding_key TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('intentional','deferred','resolved')),
+  note TEXT NOT NULL DEFAULT '',
+  finding_text TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  deleted_at TEXT,
+  version INTEGER NOT NULL DEFAULT 1
+);
+CREATE INDEX finding_notes_project ON finding_notes(project_id, finding_key);
+`,
+  },
 ];

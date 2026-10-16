@@ -14,6 +14,7 @@ import { Conversations } from '../core/conversations.js';
 import { Structure } from '../core/structure.js';
 import { Ripple } from '../core/ripple.js';
 import { Zoom } from '../core/zoom.js';
+import { Continuity } from '../core/continuity.js';
 import { registerRoutes } from './routes.js';
 import { snapshot } from '../core/backup.js';
 
@@ -37,6 +38,7 @@ export interface Services {
   structure: Structure;
   ripple: Ripple;
   zoom: Zoom;
+  continuity: Continuity;
   opts: AppOptions;
 }
 
@@ -54,7 +56,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
   const structure = new Structure(store, brain, ms), ripple = new Ripple(store, brain, ms, structure);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), opts };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), opts };
   const app = Fastify({ logger: opts.logger ?? false, bodyLimit: 60 * 1024 * 1024 });
 
   const allowedHosts = new Set([`127.0.0.1:${opts.port}`, `localhost:${opts.port}`]);
