@@ -5,7 +5,7 @@
   "description": "Local-first novel development and writing studio",
   "author": "Yolanda Allen",
   "type": "module",
-  "main": "dist-electron/main.cjs",
+  "main": "dist-electron/main.mjs",
   "scripts": {
     "dev:server": "tsx src/server/dev.ts",
     "dev:ui": "vite",
@@ -14,19 +14,14 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
     "test:e2e": "vite build && playwright test",
-    "start": "vite build && node --import tsx src/server/dev.ts"
+    "start": "vite build && node --import tsx src/server/dev.ts",
+    "build:electron": "esbuild electron/main.ts --bundle --platform=node --format=esm --target=node22 --packages=external --outfile=dist-electron/main.mjs && node -e \"require('fs').copyFileSync('electron/preload.cjs','dist-electron/preload.cjs')\"",
+    "desktop": "npm run build:ui && npm run build:electron && electron .",
+    "dist:win": "npm run build:ui && npm run build:electron && electron-builder --win nsis --publish never"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.135.0",
-    "@fontsource/atkinson-hyperlegible": "^5.3.0",
-    "@fontsource/libre-caslon-display": "^5.3.0",
-    "@fontsource/libre-caslon-text": "^5.3.0",
     "@fontsource/literata": "^5.3.0",
-    "@tiptap/extension-character-count": "^3.32.0",
-    "@tiptap/extension-placeholder": "^3.32.0",
-    "@tiptap/pm": "^3.32.0",
-    "@tiptap/react": "^3.32.0",
-    "@tiptap/starter-kit": "^3.32.0",
     "better-sqlite3": "^13.0.3",
     "docx": "^9.11.0",
     "exceljs": "^4.4.0",
@@ -35,20 +30,82 @@
     "mammoth": "^1.13.0",
     "pdfjs-dist": "^4.10.38",
     "pdfkit": "^0.17.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
+    "@fontsource/libre-caslon-display": "^5.3.0",
+    "@fontsource/libre-caslon-text": "^5.3.0",
     "@playwright/test": "^1.64.1",
+    "@tiptap/extension-character-count": "^3.32.0",
+    "@tiptap/extension-placeholder": "^3.32.0",
+    "@tiptap/pm": "^3.32.0",
+    "@tiptap/react": "^3.32.0",
+    "@tiptap/starter-kit": "^3.32.0",
     "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^26.6.5",
     "@types/pdfkit": "^0.17.6",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^6.1.2",
+    "electron": "^44.8.0",
+    "electron-builder": "^26.15.3",
+    "esbuild": "^0.28.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5"
+  },
+  "productName": "Story Canon",
+  "build": {
+    "appId": "org.yolandaallen.storycanon",
+    "productName": "Story Canon",
+    "copyright": "Copyright 2026 Yolanda Allen",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/ui/**",
+      "dist-electron/**",
+      "build/icon.png",
+      "package.json",
+      "!**/*.map"
+    ],
+    "extraResources": [
+      {
+        "from": "seed",
+        "to": "seed",
+        "filter": [
+          "*.storycanon.json"
+        ]
+      }
+    ],
+    "asarUnpack": [
+      "node_modules/better-sqlite3/**"
+    ],
+    "npmRebuild": false,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png",
+      "artifactName": "Story-Canon-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Story Canon",
+      "deleteAppDataOnUninstall": false
+    }
   }
 }

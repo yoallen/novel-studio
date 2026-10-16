@@ -4,6 +4,7 @@
 //   overwrites: it restores with the original IDs when the novel is absent, or as a copy
 //   with new IDs, and always reports exactly what it will do first.
 
+import { BRAND } from '../brand.js';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, statSync, unlinkSync } from 'node:fs';
 import { join } from 'node:path';
@@ -177,7 +178,7 @@ export function importArchive(store: Store, raw: unknown, opts: { asCopy?: boole
 export async function snapshot(store: Store, dir: string, label = 'auto', keep = 20) {
   mkdirSync(dir, { recursive: true });
   const stamp = nowIso().replace(/[:.]/g, '-');
-  const file = join(dir, `novel-studio-${stamp}-${newId().slice(-6)}-${label}.sqlite3`);
+  const file = join(dir, `${BRAND.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${stamp}-${newId().slice(-6)}-${label}.sqlite3`);
   await store.db.backup(file);
   const check = new Database(file, { readonly: true });
   const ok = (check.pragma('integrity_check', { simple: true }) as string) === 'ok';

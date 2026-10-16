@@ -2,7 +2,7 @@
 // Every route validates its input; errors never expose internals.
 
 import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { extname, join, normalize } from 'node:path';
 import { timingSafeEqual } from 'node:crypto';
 import { z, ZodError } from 'zod';
@@ -40,6 +40,10 @@ export interface AppOptions {
   seedDir?: string;
   /** The API key, handed over by the desktop shell from the operating system's secure storage. */
   aiKey?: string | null;
+  /** Called when she saves or removes her API key, so the desktop shell can keep it in the operating system's secure storage. */
+  onKeyChange?: (key: string | null) => boolean;
+  /** Present only in the desktop app: the window can show the system's folder picker. */
+  desktop?: boolean;
 }
 
 export interface Services {
@@ -60,11 +64,13 @@ export interface Services {
   books: Books;
   cast: Cast;
   opts: AppOptions;
+  /** Where backups go: the folder she chose, or the default beside her library. */
+  backupDir: () => string;
 }
 
 const MIME: Record<string, string> = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.json': 'application/json', '.ico': 'image/x-icon',
+  '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.woff': 'font/woff', '.json': 'application/json', '.ico': 'image/x-icon',
 };
 
 function safeEqual(a: string, b: string) {
@@ -76,7 +82,12 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
   const structure = new Structure(store, brain, ms), ripple = new Ripple(store, brain, ms, structure);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, opts };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, opts, backupDir: () => opts.backupDir };
+  services.backupDir = () => {
+    const r = store.db.prepare("SELECT value_json FROM settings WHERE key='backup_dir'").get() as { value_json: string } | undefined;
+    const chosen = r ? (JSON.parse(r.value_json) as string) : '';
+    return chosen || opts.backupDir;
+  };
   services.cast = new Cast(store, brain, ms, structure, ripple, services.desk);
   services.books = new Books(store, brain, ms, services.desk);
   services.lenses = new Lenses(store, brain, ms, structure, services.continuity);
@@ -137,7 +148,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
       const urlPath = decodeURIComponent((req.url.split('?')[0] ?? '/'));
       let file = normalize(join(root, urlPath));
       if (!file.startsWith(root)) return reply.code(404).send();
-      if (!existsSync(file) || urlPath.endsWith('/')) file = join(root, 'index.html');
+      if (!existsSync(file) || !statSync(file).isFile()) file = join(root, 'index.html');
       if (!existsSync(file)) return reply.code(404).send();
       reply.header('Content-Type', MIME[extname(file)] ?? 'application/octet-stream');
       reply.header('Cache-Control', 'no-store');
@@ -154,7 +165,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const backupNow = async () => {
     if (!changedSince) return;
     changedSince = false; lastBackup = Date.now();
-    try { await snapshot(store, opts.backupDir, 'auto', 20); } catch (e) { changedSince = true; app.log.error(e); }
+    try { await snapshot(store, services.backupDir(), 'auto', 20); } catch (e) { changedSince = true; app.log.error(e); }
   };
   const timer = every > 0 ? setInterval(() => { if (Date.now() - lastBackup >= every) void backupNow(); }, Math.min(every, 60_000)) : null;
   timer?.unref?.();

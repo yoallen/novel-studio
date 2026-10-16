@@ -127,6 +127,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
       <section className="section">
         <h2>Backups</h2>
         <p className="muted small">Backups are also made automatically while you work. An archive is one file with this whole novel and its history, which you can keep anywhere and bring back in from the Library.</p>
+        <BackupPlace onMsg={setMsg} onError={setError} />
         <div className="row"><button className="btn" onClick={() => void snapshot()}>Make a backup now</button><button className="btn" onClick={() => void downloadArchive()}>Save an archive of this novel</button></div>
       </section>
     </div></div>
@@ -141,12 +142,12 @@ function AiSettings({ ctx }: { ctx: Ctx }) {
   const load = () => api.get(`/api/projects/${ctx.projectId}/ai`).then(setSt).catch((e) => setError(e.message));
   useEffect(() => { void load(); }, [ctx.projectId]);
   const set = (patch: Record<string, unknown>) => api.patch(`/api/projects/${ctx.projectId}/ai`, patch).then(setSt).catch((e) => setError(e.message));
-  const desktop = (window as any).storyCanon;
   async function saveKey(k: string | null) {
     setError('');
     try {
-      if (desktop?.setApiKey) await desktop.setApiKey(k); else await api.put('/api/ai/key', { key: k });
+      const r = await api.put('/api/ai/key', { key: k });
       setKey(''); await load();
+      if (k && r.kept === false) setError('Your key works for now, but this computer could not store it securely, so you will need to enter it again next time.');
     } catch (e) { setError((e as Error).message); }
   }
   if (!st) return null;
@@ -159,7 +160,7 @@ function AiSettings({ ctx }: { ctx: Ctx }) {
         {st.keySet ? <span className="small">Your key is set.</span> : <input type="password" autoComplete="off" placeholder="Claude API key" value={key} onChange={(e) => setKey(e.target.value)} aria-label="Claude API key" style={{ maxWidth: 320 }} />}
         {st.keySet ? <button className="btn small" onClick={() => void saveKey(null)}>Remove key</button> : <button className="btn small" disabled={!key.trim()} onClick={() => void saveKey(key)}>Save key</button>}
       </div>
-      <p className="small faint">{desktop?.setApiKey ? 'The key is kept in Windows secure storage.' : 'In this preview the key is kept only while the program is open.'}</p>
+      <p className="small faint">{(window as any).storyCanon?.isDesktop ? 'The key is kept in Windows secure storage.' : 'In this preview the key is kept only while the program is open.'}</p>
       <label className="row"><input type="checkbox" checked={st.enabled} onChange={(e) => void set({ enabled: e.target.checked })} />Use the collaborator for {ctx.project.title}. Story records you ask about are sent to Claude when you ask.</label>
       <label className="row"><input type="checkbox" checked={st.shareManuscript} disabled={!st.enabled} onChange={(e) => void set({ shareManuscript: e.target.checked })} />Also share the prose of a scene when I ask about that scene</label>
       <label className="field" style={{ maxWidth: 320 }}><span>Model</span>
@@ -217,5 +218,41 @@ function AuthorLevel({ ctx }: { ctx: Ctx }) {
       <div><button className="btn small" onClick={() => void saveStages()}>Save stages</button></div>
     </section>
     </>
+  );
+}
+
+/** Where backups go. In the desktop app she picks the folder with the system's own picker; anywhere she can write is fine. */
+function BackupPlace({ onMsg, onError }: { onMsg: (m: string) => void; onError: (m: string) => void }) {
+  const [loc, setLoc] = useState<any>(null);
+  const [typed, setTyped] = useState('');
+  const load = () => api.get('/api/backups/location').then(setLoc).catch((e) => onError(e.message));
+  useEffect(() => { void load(); }, []);
+  const desktop = (window as any).storyCanon;
+  async function use(dir: string | null) {
+    try {
+      const r = await api.put('/api/backups/location', { dir });
+      onMsg(dir ? `Backups now go to ${r.dir}. The first one is already there, checked.` : 'Backups go to the usual place again.');
+      setTyped(''); await load();
+    } catch (e) { onError((e as Error).message); }
+  }
+  async function choose() {
+    const dir = await desktop.chooseFolder();
+    if (dir) await use(dir);
+  }
+  if (!loc) return null;
+  return (
+    <div className="backup-place">
+      <p className="small" style={{ margin: '0 0 0.4rem' }}><span className="muted">Backups go to</span> <code>{loc.dir}</code>{!loc.chosen && <span className="muted">, the usual place</span>}</p>
+      <div className="row">
+        {desktop?.chooseFolder ? <button className="btn small" onClick={() => void choose()}>Choose a folder</button> : (
+          <>
+            <input type="text" aria-label="Backup folder" placeholder="A folder path, such as D:\\Backups" value={typed} onChange={(e) => setTyped(e.target.value)} style={{ maxWidth: 360 }} />
+            <button className="btn small" disabled={!typed.trim()} onClick={() => void use(typed)}>Use this folder</button>
+          </>
+        )}
+        {loc.chosen && <button className="btn link small" onClick={() => void use(null)}>Back to the usual place</button>}
+      </div>
+      <p className="small faint" style={{ margin: '0.3rem 0 0.8rem' }}>A second drive, a USB stick or a synced folder such as OneDrive keeps a copy safe even if this computer is not.</p>
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 // HTTP routes for the core services. Each handler validates input with zod before touching data.
 
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readdirSync, readFileSync, mkdirSync, accessSync, constants as fsConstants } from 'node:fs';
+import { join, isAbsolute } from 'node:path';
 import { AppError } from '../core/store.js';
 import * as methodsLib from '../core/methods.js';
 import { saveTheCatAsBeats } from '../core/structure.js';
@@ -346,7 +346,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   // ----- the collaborator (off until she turns it on; the key never leaves this process) -----
   app.get('/api/projects/:id/ai', async (req) => svc.ai.status(params(req, P).id));
   app.patch('/api/projects/:id/ai', async (req) => svc.ai.configure(params(req, P).id, body(req, z.object({ enabled: z.boolean().optional(), shareManuscript: z.boolean().optional(), model: z.string().regex(/^[a-z0-9.-]{3,60}$/).optional() }))));
-  app.put('/api/ai/key', async (req) => { const b = body(req, z.object({ key: z.string().max(400).nullable() })); svc.ai.setKey(b.key); return { keySet: svc.ai.hasKey() }; });
+  app.put('/api/ai/key', async (req) => { const b = body(req, z.object({ key: z.string().max(400).nullable() })); svc.ai.setKey(b.key); const kept = svc.opts.onKeyChange ? svc.opts.onKeyChange(b.key?.trim() || null) : true; return { keySet: svc.ai.hasKey(), kept }; });
   app.get('/api/projects/:id/ai/context', async (req) => { const q = z.object({ element: id.optional(), scene: id.optional() }).parse(req.query); return { text: svc.ai.context(params(req, P).id, q.element ?? null, q.scene ?? null) }; });
   app.post('/api/conversations/:id/ask', async (req) => svc.ai.ask(params(req, P).id, body(req, z.object({ text: z.string().min(1).max(200_000), mode: z.enum(['discuss', 'teach', 'show', 'hand', 'critique', 'resources']).optional(), focusElementId: id.nullable().optional(), sceneId: id.nullable().optional() }))));
 
@@ -493,8 +493,22 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('seeds_dismissed',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify([...new Set([...dismissedSeeds(), b.file])]));
     return { dismissed: true };
   });
-  app.post('/api/backups/snapshot', async () => snapshot(store, svc.opts.backupDir, 'manual', 50));
-  app.get('/api/backups', async () => listSnapshots(svc.opts.backupDir));
+  app.post('/api/backups/snapshot', async () => snapshot(store, svc.backupDir(), 'manual', 50));
+  app.get('/api/backups', async () => listSnapshots(svc.backupDir()));
+  // Where backups go. She can choose any folder she can write to (a second drive, OneDrive, a USB stick).
+  app.get('/api/backups/location', async () => ({ dir: svc.backupDir(), default: svc.opts.backupDir, chosen: svc.backupDir() !== svc.opts.backupDir, desktop: !!svc.opts.desktop }));
+  app.put('/api/backups/location', async (req) => {
+    const b = body(req, z.object({ dir: z.string().max(1000).nullable() }));
+    const dir = b.dir?.trim() || '';
+    if (dir) {
+      if (!isAbsolute(dir)) throw new AppError('invalid', 'Choose a whole folder path, such as D:\\Backups\\Story Canon.');
+      try { mkdirSync(dir, { recursive: true }); accessSync(dir, fsConstants.W_OK); }
+      catch { throw new AppError('invalid', 'That folder cannot be written to. Choose another, or check that the drive is connected.'); }
+    }
+    store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('backup_dir',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify(dir));
+    const first = await snapshot(store, svc.backupDir(), 'manual', 50);
+    return { dir: svc.backupDir(), first };
+  });
 
   app.all('/api/*', async () => { throw new NotFoundError('endpoint'); });
 }
