@@ -291,7 +291,7 @@ export class Brain {
 
   field(elementId: string, field: string): FieldView {
     const rows = (this.store.db.prepare(
-      'SELECT * FROM statements WHERE element_id=? AND field=? AND deleted_at IS NULL ORDER BY made_at DESC, created_at DESC',
+      'SELECT * FROM statements WHERE element_id=? AND field=? AND deleted_at IS NULL ORDER BY made_at DESC, created_at DESC, rowid DESC',
     ).all(elementId, field) as Row[]).map(parseStatement);
     const active = rows.filter((r) => !r.superseded_by_id);
     return {
@@ -456,6 +456,7 @@ export class Brain {
     const pid = p.project_id as string;
     const t = p.target;
     const after = (opts.value !== undefined ? opts.value : p.after) as Record<string, unknown> | string;
+    return this.store.batch({ projectId: pid, actor, reason: `Accept suggestion${t.field ? ` for ${String(t.field).replace(/_/g, ' ')}` : ''}` }, () => {
     let result: unknown = null;
     if (p.kind === 'statement') {
       const value = typeof after === 'object' && after && 'value' in after ? (after as Record<string, unknown>).value : after;
@@ -470,6 +471,7 @@ export class Brain {
     }
     this.store.db.prepare("UPDATE proposals SET status='accepted', decided_at=? WHERE id=?").run(nowIso(), id);
     return { proposal: this.proposal(id), result };
+    });
   }
 
   decideProposal(id: string, status: 'rejected' | 'deferred' | 'pending') {

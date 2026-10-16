@@ -186,12 +186,22 @@ export class Store {
   }
 
   /** Run fn in one transaction as one journaled batch. */
+  private activeWriter: Writer | null = null;
+
+  /**
+   * Run changes as one batch: one transaction, one history entry, undone together.
+   * A batch started inside another joins it, so a composite action (move a card and its event,
+   * accept a suggestion) is always a single step in the Story Trail.
+   */
   batch<T>(meta: BatchMeta, fn: (w: Writer) => T): T {
+    if (this.activeWriter) return fn(this.activeWriter);
     return this.db.transaction(() => {
       const id = newId();
       this.db.prepare('INSERT INTO batches(id,project_id,actor,reason,created_at) VALUES (?,?,?,?,?)')
         .run(id, meta.projectId ?? null, meta.actor, meta.reason ?? '', nowIso());
-      return fn(new Writer(this, id));
+      const w = new Writer(this, id);
+      this.activeWriter = w;
+      try { return fn(w); } finally { this.activeWriter = null; }
     })();
   }
 
