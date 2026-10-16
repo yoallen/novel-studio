@@ -7,7 +7,8 @@ import { Structure } from './structure.js';
 import { Continuity } from './continuity.js';
 import { settingsOf, ProjectSettings } from './settings.js';
 import { GENRES, STORY_TYPES, CHARACTERISTICS, FRAMEWORKS, Role } from './catalog.js';
-import { STRUCTURE_NAMES } from './structures.js';
+import { methods as myMethods, Method } from './methods.js';
+import { FrameworkDef } from './catalog.js';
 
 export interface GenreChoice { key: string; name: string; role: Role; custom?: boolean; parent?: string | null }
 export interface SetupState {
@@ -33,6 +34,14 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(
 
 export class Setup {
   constructor(private store: Store, private brain: Brain, private structure: Structure, private continuity: Continuity) {}
+
+  /** Built-in frameworks and every method of her own, as one toolkit. */
+  frameworks(): (FrameworkDef & { own?: boolean; method?: Method })[] {
+    return [...FRAMEWORKS, ...myMethods(this.store).map((m) => ({
+      key: m.key, name: m.name, kind: (m.beats.length ? 'structure' : 'method') as FrameworkDef['kind'], job: m.job || (m.source ? `From ${m.source}.` : 'Your own method.'),
+      ...(m.beats.length ? { structure: m.key } : {}), fieldGroups: [...new Set(m.fields.map((f) => f.kind))].map((kind) => ({ kind, group: m.name })), own: true, method: m,
+    }))];
+  }
 
   state(projectId: string): SetupState {
     const p = this.brain.project(projectId).profile;
@@ -63,7 +72,7 @@ export class Setup {
       storyWorldId: world?.id ?? null,
       ingredients,
       asks: st.genres.filter((g) => g.role !== 'influence').flatMap((g) => (GENRES.find((d) => d.key === g.key)?.asks ?? []).map((q) => ({ genre: g.name, question: q }))),
-      catalog: { genres: GENRES.map(({ key, name, leansOn }) => ({ key, name, leansOn })), storyTypes: STORY_TYPES.map(({ key, name, about }) => ({ key, name, about })), characteristics: CHARACTERISTICS, frameworks: FRAMEWORKS, structures: STRUCTURE_NAMES },
+      catalog: { genres: GENRES.map(({ key, name, leansOn }) => ({ key, name, leansOn })), storyTypes: STORY_TYPES.map(({ key, name, about }) => ({ key, name, about })), characteristics: CHARACTERISTICS, frameworks: this.frameworks().map(({ method, ...f }) => ({ ...f, questions: method?.questions ?? [], source: method?.source ?? '' })), structures: this.structure.registry().names },
     };
   }
 
@@ -99,7 +108,7 @@ export class Setup {
       const p = this.brain.project(projectId);
       let frameworks = (p.profile.frameworks as string[] | undefined) ?? [];
       if (patch.frameworks) {
-        const known = new Set([...FRAMEWORKS.map((f) => f.key), ...next.customFrameworks.map((f) => f.key)]);
+        const known = new Set([...this.frameworks().map((f) => f.key), ...next.customFrameworks.map((f) => f.key)]);
         for (const k of patch.frameworks) if (!known.has(k)) throw new ValidationError('Unknown framework.');
         frameworks = [...new Set(patch.frameworks)];
       }
@@ -107,7 +116,16 @@ export class Setup {
       if (patch.premise !== undefined) profile.premise_sentence = patch.premise.slice(0, 600);
       this.brain.updateProject(projectId, { profile });
       // Beat sheets: the spine she chooses, or the first structure she ticked. "Find it as I write" means none.
-      const structures = frameworks.filter((k) => FRAMEWORKS.find((f) => f.key === k)?.kind === 'structure');
+      const all = this.frameworks();
+      const structures = frameworks.filter((k) => all.find((f) => f.key === k)?.kind === 'structure');
+      // A method of her own brings its fields into this novel the first time it is chosen.
+      for (const k of frameworks) {
+        const m = all.find((f) => f.key === k)?.method;
+        if (!m) continue;
+        for (const fd of m.fields) {
+          if (!this.brain.fieldsFor(projectId, fd.kind, { all: true }).some((x) => x.label.toLowerCase() === fd.label.toLowerCase() && x.group === m.name)) this.brain.defineField(projectId, { kind: fd.kind, label: fd.label, group: m.name, prompt: fd.prompt });
+        }
+      }
       let spine = patch.spine !== undefined ? patch.spine : this.structure.spine(projectId);
       if (spine && !structures.includes(spine)) spine = structures[0] ?? null;
       if (!spine && structures.length && patch.spine === undefined) spine = structures[0]!;
@@ -128,8 +146,9 @@ export class Setup {
   }
 
   setAuthorProfile(patch: Partial<AuthorProfile>) {
-    const next = { ...this.authorProfile(), ...patch };
-    if (patch.frameworks) for (const k of patch.frameworks) if (!FRAMEWORKS.some((f) => f.key === k)) throw new ValidationError('Unknown framework.');
+    const raw = (() => { const r = this.store.db.prepare("SELECT value_json FROM settings WHERE key='author_profile'").get() as Row | undefined; return r ? JSON.parse(r.value_json as string) as Record<string, unknown> : {}; })();
+    const next = { ...raw, ...this.authorProfile(), ...patch };
+    if (patch.frameworks) for (const k of patch.frameworks) if (!this.frameworks().some((f) => f.key === k)) throw new ValidationError('Unknown framework.');
     this.store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('author_profile',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify(next));
     return next;
   }
@@ -140,7 +159,7 @@ export class Setup {
     const st = settingsOf(p.profile);
     const s = this.state(projectId);
     return this.setAuthorProfile({
-      authorName: st.authorName, frameworks: ((p.profile.frameworks as string[] | undefined) ?? []).filter((k) => FRAMEWORKS.some((f) => f.key === k)),
+      authorName: st.authorName, frameworks: ((p.profile.frameworks as string[] | undefined) ?? []).filter((k) => this.frameworks().some((f) => f.key === k)),
       frameworkNotes: s.frameworkNotes, spine: this.structure.spine(projectId),
       settings: { guidanceWhileDrafting: st.guidanceWhileDrafting, guidanceWhilePlanning: st.guidanceWhilePlanning, wordsPerPage: st.wordsPerPage, statusLabels: st.statusLabels, ownedLabel: st.ownedLabel, reservedMarkers: st.reservedMarkers, sceneLadder: st.sceneLadder, importLabels: st.importLabels, authorName: st.authorName },
     });
@@ -166,7 +185,7 @@ export class Setup {
     const p = this.brain.project(projectId).profile;
     const fw = (p.frameworks as string[] | undefined) ?? [];
     const out: string[] = [];
-    for (const k of fw) { const f = FRAMEWORKS.find((x) => x.key === k); if (f?.fieldGroups?.length) out.push(`${f.name}: ${f.fieldGroups.map((g) => `${g.group} on ${g.kind === 'scene_plan' ? 'scene cards' : g.kind === 'storyworld' ? 'the story world' : `each ${g.kind}`}`).join('; ')}`); }
+    for (const k of fw) { const f = this.frameworks().find((x) => x.key === k); if (f?.fieldGroups?.length) out.push(`${f.name}: ${f.fieldGroups.map((g) => `${g.group} on ${g.kind === 'scene_plan' ? 'scene cards' : g.kind === 'storyworld' ? 'the story world' : `each ${g.kind}`}`).join('; ')}`); }
     for (const k of st.characteristics) { const c = CHARACTERISTICS.find((x) => x.key === k); if (c?.turnsOn) out.push(`${c.name}: ${c.turnsOn}`); }
     return out;
   }

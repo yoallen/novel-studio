@@ -13,6 +13,7 @@ import { Continuity } from './continuity.js';
 import { settingsOf } from './settings.js';
 import { statusLabel } from './labels.js';
 import { STORY_TYPES, CHARACTERISTICS, FRAMEWORKS } from './catalog.js';
+import { methods as myMethods, shelf as myShelf } from './methods.js';
 
 export type Mode = 'discuss' | 'teach' | 'show' | 'hand' | 'critique' | 'resources';
 
@@ -97,7 +98,10 @@ export class Collaborator {
     if (setup.storyTypes?.length) lines.push(`Blake Snyder story types: ${setup.storyTypes.map((t) => `${STORY_TYPES.find((d) => d.key === t.key)?.name ?? t.key} (${t.role})`).join(', ')}`);
     if (setup.characteristics?.length) lines.push(`Narrative characteristics: ${setup.characteristics.map((k) => CHARACTERISTICS.find((c) => c.key === k)?.name ?? k).join(', ')}`);
     const fw = (prof.frameworks as string[] | undefined) ?? [];
-    if (fw.length) lines.push(`Her storytelling toolkit (use these frameworks' terms; combinations are deliberate): ${fw.map((k) => `${FRAMEWORKS.find((f) => f.key === k)?.name ?? k}${setup.frameworkNotes?.[k] ? ` [how she uses it: ${setup.frameworkNotes[k]}]` : ''}`).join('; ')}`);
+    if (fw.length) lines.push(`Her storytelling toolkit (use these frameworks' terms; combinations are deliberate): ${fw.map((k) => `${FRAMEWORKS.find((f) => f.key === k)?.name ?? myMethods(this.store).find((m) => m.key === k)?.name ?? k}${setup.frameworkNotes?.[k] ? ` [how she uses it: ${setup.frameworkNotes[k]}]` : ''}`).join('; ')}`);
+    for (const m of myMethods(this.store).filter((x) => fw.includes(x.key))) {
+      lines.push(`Her own method "${m.name}"${m.source ? ` (from ${m.source})` : ''}: ${m.job}${m.beats.length ? ` Beats: ${m.beats.map((b) => `${b.name} (${Math.round(b.at[0] * 100)}%)`).join(', ')}.` : ''}${m.questions.length ? ` Questions it asks: ${m.questions.join(' ')}` : ''}`);
+    }
     if (fw.includes('discovery')) lines.push('She discovers the story as she writes. Do not push outlines or beat sheets on her.');
     const elements = this.brain.elements(projectId).filter((e) => !['thought', 'scene_plan', 'beat'].includes(e.kind as string));
     const rows = this.store.db.prepare(
@@ -160,7 +164,7 @@ export class Collaborator {
       '- When she compares a character to someone, treat it as borrowed qualities, not a literal copy. Ask which qualities if unclear.',
       '- Respect every guardrail. If a suggestion would break one, say which.',
       '- To propose a story fact, question or connection, use the suggestion tools; they wait for her. Never claim something was saved or decided.',
-      '- Craft resources: titles and authors only, never chapter or page numbers, never invented citations. Her shelf: ' + CRAFT_SHELF.join('; ') + '.',
+      '- Craft resources: titles and authors only, never chapter or page numbers, never invented citations. Start with her own shelf: ' + myShelf(this.store).map((b) => `${b.title}${b.author ? `, ${b.author}` : ''}${b.useFor ? ` (she uses it for: ${b.useFor})` : ''}`).join('; ') + '.',
       '- Plain, warm language. No em dashes. Short paragraphs. One useful question at most.',
       `Guidance level: ${GUIDANCE_TEXT[level as keyof typeof GUIDANCE_TEXT] ?? GUIDANCE_TEXT.advisory}`,
       `Mode: ${MODE_TEXT[mode]}`,

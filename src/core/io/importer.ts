@@ -11,6 +11,7 @@ import { readBlocks } from './readers.js';
 import { planManuscript, finalShape, expectedText, ManuscriptPlan } from './manuscript-import.js';
 import { readPassages, splitByFields, dateFromName, Passage, ImportStatus } from './document-import.js';
 import { readBeatSheet, profileFromSheet, SheetRead } from './spreadsheet.js';
+import { saveMethod } from '../methods.js';
 import { readTracked, readComments, groupChanges, decide, scenesIn, originalText, revisedText, Para, ChangeGroup } from './roundtrip.js';
 
 export interface RoundtripScene {
@@ -22,7 +23,7 @@ export interface RoundtripScene {
 }
 export interface RoundtripPlan { scenes: RoundtripScene[]; keepComments: boolean; missing: string[]; outside: number; sceneBreak: string }
 
-export interface SheetPlan { read: SheetRead; density: number; useCorrections: boolean; corrections: Record<string, [number, number]>; profileName: string; keepGuidance: boolean }
+export interface SheetPlan { read: SheetRead; density: number; useCorrections: boolean; corrections: Record<string, [number, number]>; profileName: string; keepGuidance: boolean; asMethod: boolean }
 
 export interface ImportItem {
   id: string;
@@ -51,6 +52,7 @@ export interface ImportEdits {
   newElements?: Record<string, { title?: string; kind?: string }>;
   density?: number; useCorrections?: boolean; profileName?: string; keepGuidance?: boolean;
   keepComments?: boolean;
+  asMethod?: boolean;
   roundtrip?: Record<string, { useEditor?: boolean; all?: 'accept' | 'reject' | 'clear'; decisions?: Record<string, 'accept' | 'reject' | null> }>;
 }
 
@@ -141,6 +143,7 @@ export class Importer {
       if (edits.useCorrections !== undefined) sp.useCorrections = edits.useCorrections;
       if (edits.profileName !== undefined) sp.profileName = edits.profileName.slice(0, 120);
       if (edits.keepGuidance !== undefined) sp.keepGuidance = edits.keepGuidance;
+      if (edits.asMethod !== undefined) sp.asMethod = edits.asMethod;
     }
     this.store.db.prepare('UPDATE imports SET plan_json=?, version=version+1 WHERE id=?').run(JSON.stringify(plan), id);
     return this.get(id);
@@ -295,9 +298,31 @@ export class Importer {
       const mine = b.flags.filter((f) => f.startsWith(`At ${d} `));
       if (pg && w && mine.length) corrections[`${b.row}@${d}`] = [mine.some((f) => f.includes('for the start')) ? pg[0] * d : w[0], mine.some((f) => f.includes('for the end')) ? pg[1] * d : w[1]];
     }
-    const plan: SheetPlan = { read, density, useCorrections: true, corrections, profileName: file.name.replace(/\.xlsx$/i, ''), keepGuidance: true };
+    // Mostly Save the Cat rows: a placement choice for those beats. Mostly other names: a beat sheet of her own.
+    const matched = read.beats.filter((b) => b.key).length;
+    const plan: SheetPlan = { read, density, useCorrections: true, corrections, profileName: file.name.replace(/\.xlsx$/i, ''), keepGuidance: true, asMethod: matched < read.beats.length / 2 };
     const flagged = read.beats.reduce((a, b) => a + b.flags.length, 0);
     return this.save(projectId, 'sheet', file.name, null, plan, { beats: read.beats.length, matched: read.beats.filter((b) => b.key).length, densities: read.densities, flagged, findings: read.flags });
+  }
+
+  /** A sheet for another method becomes a beat sheet of her own, usable by every novel. */
+  private applySheetAsMethod(id: string) {
+    const r = this.get(id);
+    const pid = r.project_id;
+    const plan = r.plan as SheetPlan;
+    const rows = plan.read.beats.filter((b) => b.name.trim());
+    const d = String(plan.density);
+    const total = Math.max(0, ...rows.map((b) => b.words[d]?.[1] ?? 0));
+    const beats = rows.map((b, i) => {
+      const w = b.words[d];
+      const at: [number, number] = b.percent ? b.percent : w && total ? [w[0] / total, w[1] / total] : [i / Math.max(1, rows.length - 1), i / Math.max(1, rows.length - 1)];
+      return { name: b.name.replace(/^\s*\d+[.)]\s*/, '').trim(), at: [Math.min(1, Math.max(0, at[0])), Math.min(1, Math.max(0, at[1]))] as [number, number], description: b.description, moment: undefined };
+    });
+    const m = saveMethod(this.store, { name: plan.profileName || r.name, source: r.name, job: `Your beat sheet from "${r.name}".`, beats: beats as never });
+    this.store.batch({ projectId: pid, actor: 'author', reason: `Add your beat sheet "${m.name}"` }, () => { this.structure.applyTemplate(pid, m.key); });
+    const report = { ...r.report, method: m.key, methodName: m.name, beatsMade: m.beats.length };
+    this.store.db.prepare("UPDATE imports SET status='applied', applied_at=?, report_json=? WHERE id=?").run(nowIso(), JSON.stringify(report), id);
+    return { import: this.get(id) };
   }
 
   /** Accept a sheet: its placements become one of her placement profiles, and its teaching text sits with each beat. */
@@ -307,6 +332,7 @@ export class Importer {
     if (r.status !== 'pending') throw new ConflictError('That import was already finished.');
     const pid = r.project_id;
     const plan = r.plan as SheetPlan;
+    if (plan.asMethod) return this.applySheetAsMethod(id);
     const forDensity = Object.fromEntries(Object.entries(plan.corrections).filter(([k]) => k.endsWith(`@${plan.density}`)).map(([k, v]) => [Number(k.split('@')[0]), v]));
     const prof = profileFromSheet(plan.read, plan.density, plan.useCorrections ? forDensity : {});
     const key = `sheet-${id.slice(0, 8)}`;

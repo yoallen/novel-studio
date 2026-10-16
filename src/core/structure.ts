@@ -7,7 +7,10 @@ import { Brain } from './brain.js';
 import { Manuscript } from './manuscript.js';
 import { settingsOf } from './settings.js';
 import sheet from './data/save-the-cat-yolanda.json' with { type: 'json' };
-import { OTHER_STRUCTURES, SAVE_THE_CAT_MOMENTS, STRUCTURE_NAMES, StructBeat } from './structures.js';
+import { SAVE_THE_CAT_MOMENTS, StructBeat, OTHER_STRUCTURES as BUILT_IN } from './structures.js';
+import { structureRegistry } from './methods.js';
+
+type Registry = ReturnType<typeof structureRegistry>;
 
 export interface BeatDef {
   key: string; number: number | null; name: string; aka?: string[]; group: 'thesis' | 'antithesis' | 'synthesis';
@@ -99,6 +102,9 @@ const ACT_NAMES: Record<string, string> = { I: 'Act One', IIA: 'Act Two, first h
 export class Structure {
   constructor(private store: Store, private brain: Brain, private ms: Manuscript) {}
 
+  /** Built-in beat sheets plus her own methods' beat sheets. */
+  registry(): Registry { return structureRegistry(this.store); }
+
   /** The beat sheet that drives this novel's board and placement (R-B-094). Other selected frameworks translate to it. */
   spine(projectId: string): string | null {
     const p = this.brain.project(projectId);
@@ -110,30 +116,38 @@ export class Structure {
   /** Beat elements of this novel in order (the spine's, unless another sheet is named), with their definition. */
   beats(projectId: string, template?: string) {
     const which = template ?? this.spine(projectId);
+    const reg = this.registry();
     const els = this.brain.elements(projectId, { kind: 'beat' });
     return els.map((e) => {
       const attrs = JSON.parse((e.attrs_json as string) || '{}') as Record<string, unknown>;
       const t = (attrs.template as string) ?? 'save_the_cat';
-      const def = beatDef(t, attrs.template_key as string);
+      const def = beatDef(t, attrs.template_key as string, reg);
       return { element: e, attrs: { ...attrs, template: t } as Record<string, unknown>, def, group: (attrs.group as string) ?? def?.group, act: (attrs.act as string) ?? def?.act };
     }).filter((b) => b.attrs.template === which).sort((a, b) => (a.element.sort_key as number) - (b.element.sort_key as number));
   }
 
   /** Turn on a beat sheet: its beats are created once, in order, never duplicated (R-C-013). The first one becomes the spine. */
   applyTemplate(projectId: string, template: string) {
-    const defs = template === 'save_the_cat' ? SAVE_THE_CAT : OTHER_STRUCTURES[template]?.map(toBeatDef);
+    const defs = template === 'save_the_cat' ? SAVE_THE_CAT : this.registry().beats[template]?.map(toBeatDef);
     if (!defs) throw new NotFoundError('beat sheet');
     const mine = this.beats(projectId, template);
     const existing = new Set(mine.map((b) => b.attrs.template_key));
     const keyToId: Record<string, string> = Object.fromEntries(mine.map((b) => [b.attrs.template_key as string, b.element.id as string]));
     defs.forEach((d, i) => {
-      if (existing.has(d.key)) return;
+      if (existing.has(d.key)) {
+        // Her method changed: keep the beat and everything placed on it, and follow its new name and order.
+        const b = mine.find((x) => x.attrs.template_key === d.key)!;
+        if (b.element.title !== d.name || b.element.sort_key !== i + 1 || b.attrs.act !== d.act) this.brain.updateElement(b.element.id as string, { title: d.name, sortKey: i + 1, attrs: { ...b.attrs, act: d.act, number: d.number, point: d.kind === 'point', retired: false } });
+        return;
+      }
       const el = this.brain.createElement(projectId, {
         kind: 'beat', title: d.name, sortKey: i + 1, parentId: d.parent ? keyToId[d.parent] ?? null : null,
         attrs: { template, template_key: d.key, number: d.number, ...(template === 'save_the_cat' ? { group: d.group } : {}), act: d.act, point: d.kind === 'point' },
       });
       keyToId[d.key] = el.id;
     });
+    // Beats no longer in her method stay, with what is placed on them, marked so she can move things off them.
+    for (const b of mine) if (!defs.some((d) => d.key === b.attrs.template_key) && !b.attrs.retired) this.brain.updateElement(b.element.id as string, { attrs: { ...b.attrs, retired: true } });
     const p = this.brain.project(projectId);
     const frameworks = new Set<string>((p.profile.frameworks as string[] | undefined) ?? []);
     frameworks.add(template);
@@ -156,7 +170,7 @@ export class Structure {
   setSpine(projectId: string, template: string | null, carry = false) {
     const old = this.spine(projectId);
     let carried = 0;
-    this.store.batch({ projectId, actor: 'author', reason: template ? `Use ${STRUCTURE_NAMES[template] ?? template} as the spine` : 'Write without a beat sheet' }, () => {
+    this.store.batch({ projectId, actor: 'author', reason: template ? `Use ${this.registry().names[template] ?? template} as the spine` : 'Write without a beat sheet' }, () => {
       if (template) this.applyTemplate(projectId, template);
       const p = this.brain.project(projectId);
       this.brain.updateProject(projectId, { profile: { ...p.profile, spine: template } });
@@ -167,7 +181,7 @@ export class Structure {
           const at = this.decidedBeat(e.id as string);
           const fb = at ? from.find((b) => b.element.id === at) : null;
           if (!fb) continue;
-          const key = translate(old, fb.attrs.template_key as string, template);
+          const key = translate(old, fb.attrs.template_key as string, template, this.registry());
           const tb = key ? target.find((b) => b.attrs.template_key === key) : null;
           if (!tb) continue;
           const already = this.placements(e.id as string).candidates.some((c) => c.beatId === tb.element.id);
@@ -183,8 +197,10 @@ export class Structure {
     const spine = this.spine(projectId) ?? 'save_the_cat';
     const custom = ((this.brain.project(projectId).profile.placement_profiles as (Profile & { template?: string })[] | undefined) ?? []).filter((c) => (c.template ?? 'save_the_cat') === spine);
     if (spine === 'save_the_cat') return [...PROFILES, ...custom];
-    const defs = OTHER_STRUCTURES[spine] ?? [];
-    return [{ key: 'usual', name: 'Usual placement', source: `${STRUCTURE_NAMES[spine] ?? spine} as it is usually taught`, at: Object.fromEntries(defs.map((d) => [d.key, d.at])) }, ...custom];
+    const reg = this.registry();
+    const defs = reg.beats[spine] ?? [];
+    const own = spine.startsWith('method_');
+    return [{ key: 'usual', name: own ? 'Your placement' : 'Usual placement', source: own ? `${reg.names[spine] ?? spine}, as you set it up` : `${reg.names[spine] ?? spine} as it is usually taught`, at: Object.fromEntries(defs.map((d) => [d.key, d.at])) }, ...custom];
   }
 
   /** The book's length for placement: target words, or the drafted total when no target is set. */
@@ -296,9 +312,10 @@ export class Structure {
     const page = this.brain.elementPage(beatId);
     const attrs = page.element.attrs as Record<string, unknown>;
     const template = (attrs.template as string) ?? 'save_the_cat';
-    const def = beatDef(template, attrs.template_key as string);
+    const reg = this.registry();
+    const def = beatDef(template, attrs.template_key as string, reg);
     const pair = template === 'save_the_cat' ? PAIRS.find((p) => p.a === def?.key || p.b === def?.key) ?? null : null;
-    const alsoCalled = Object.keys(STRUCTURE_NAMES).filter((t) => t !== template).map((t) => { const k = translate(template, attrs.template_key as string, t); const d = k ? beatDef(t, k) : null; return d ? { framework: STRUCTURE_NAMES[t]!, name: d.name } : null; }).filter(Boolean);
+    const alsoCalled = Object.keys(reg.names).filter((t) => t !== template).map((t) => { const k = translate(template, attrs.template_key as string, t, reg); const d = k ? beatDef(t, k, reg) : null; return d ? { framework: reg.names[t]!, name: d.name } : null; }).filter(Boolean);
     return { page, def, pair, world: def && template === 'save_the_cat' ? WORLDS[def.group] : null, alsoCalled, template };
   }
 
@@ -330,9 +347,9 @@ export class Structure {
 export function profileByKey(key: string) { const p = PROFILES.find((x) => x.key === key); if (!p) throw new NotFoundError('placement profile'); return p; }
 
 /** A beat's definition in any of the beat sheets. */
-export function beatDef(template: string, key: string): BeatDef | null {
+export function beatDef(template: string, key: string, reg?: Registry): BeatDef | null {
   if (template === 'save_the_cat') return SAVE_THE_CAT.find((d) => d.key === key) ?? null;
-  const d = OTHER_STRUCTURES[template]?.find((x) => x.key === key);
+  const d = (reg?.beats ?? BUILT_IN)[template]?.find((x) => x.key === key);
   return d ? toBeatDef(d) : null;
 }
 
@@ -341,9 +358,16 @@ function toBeatDef(d: StructBeat): BeatDef {
 }
 
 /** The matching beat in another framework, by the moment both name (her Master Translation). */
-export function translate(from: string, key: string, to: string): string | null {
-  const moment = from === 'save_the_cat' ? SAVE_THE_CAT_MOMENTS[key] : OTHER_STRUCTURES[from]?.find((d) => d.key === key)?.moment;
+export function translate(from: string, key: string, to: string, reg?: Registry): string | null {
+  const beats = reg?.beats ?? BUILT_IN;
+  const moment = from === 'save_the_cat' ? SAVE_THE_CAT_MOMENTS[key] : beats[from]?.find((d) => d.key === key)?.moment;
   if (!moment) return null;
   if (to === 'save_the_cat') return Object.entries(SAVE_THE_CAT_MOMENTS).find(([, m]) => m === moment)?.[0] ?? null;
-  return OTHER_STRUCTURES[to]?.find((d) => d.moment === moment)?.key ?? null;
+  return beats[to]?.find((d) => d.moment === moment)?.key ?? null;
+}
+
+/** Save the Cat as a starting point for a method of her own. */
+export function saveTheCatAsBeats(): StructBeat[] {
+  const at = PROFILES[0]!.at;
+  return SAVE_THE_CAT.filter((d) => !d.parent).map((d) => ({ key: d.key, number: d.number, name: d.name, act: d.act, kind: d.kind, at: at[d.key] ?? [0, 0], description: d.description ?? '', test: d.test, moment: SAVE_THE_CAT_MOMENTS[d.key] }));
 }

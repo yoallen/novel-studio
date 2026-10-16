@@ -10,7 +10,10 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   const [plan, setPlan] = useState<{ archive: unknown; plan: any } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const load = () => api.get('/api/projects').then(setProjects).catch((e) => setError(e.message));
+  const load = () => api.get('/api/library').then(setProjects).catch((e) => setError(e.message));
+  const [stages, setStages] = useState<string[]>([]);
+  useEffect(() => { api.get('/api/stages').then(setStages).catch(() => {}); }, []);
+  async function setStage(id: string, stage: string) { try { await api.put(`/api/projects/${id}/stage`, { stage }); await load(); } catch (e) { setError((e as Error).message); } }
   useEffect(() => { void load(); }, []);
 
   async function create(e: React.FormEvent, thenView?: string) {
@@ -56,11 +59,20 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
       <h2>Your novels</h2>
       {error && <div className="notice error" role="alert">{error}</div>}
       {projects && projects.length > 0 && (
-        <ul className="list" style={{ marginBottom: '2rem' }}>
+        <ul className="shelf" aria-label="Your novels">
           {projects.map((p) => (
-            <li key={p.id} className="row">
-              <button className="btn link grow" style={{ textAlign: 'left', fontFamily: 'var(--prose)', fontSize: '1.25rem' }} onClick={() => onOpen(p.id)}>{p.title}</button>
-              <span className="faint small">Last changed {new Date(p.updated_at).toLocaleDateString()}</span>
+            <li key={p.id} className="book">
+              <button className="book-title" onClick={() => onOpen(p.id)}>{p.title}</button>
+              <div className="row small" style={{ gap: '0.4rem 0.75rem' }}>
+                <select aria-label={`Stage of ${p.title}`} value={p.stage ?? ''} onChange={(e) => void setStage(p.id, e.target.value)} style={{ width: 'auto' }}>
+                  <option value="" disabled>Choose a stage</option>
+                  {[...new Set([...(p.stage ? [p.stage] : []), ...stages])].map((s) => <option key={s} value={s}>{s}</option>)}
+                </select>
+                {p.draft.name !== p.stage && <span className="muted">{p.draft.name}</span>}
+                <span className="muted">{Number(p.words).toLocaleString()} words{p.targetWords ? ` of ${Number(p.targetWords).toLocaleString()}` : ''}</span>
+                {p.genres.length > 0 && <span className="faint">{p.genres.join(', ')}</span>}
+              </div>
+              <p className="small" style={{ margin: '0.35rem 0 0' }}><span className="faint">Next:</span> {p.next}</p>
             </li>
           ))}
         </ul>

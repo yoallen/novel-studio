@@ -27,6 +27,8 @@ export interface ExportRequest {
   includeExamples: boolean;              // "one way it could be done" examples, labeled
   chapterHeading: 'number_title' | 'number' | 'title';
   options: Partial<WriteOptions>;
+  /** A kept draft instead of the manuscript as it is now. */
+  draftId?: string | null;
 }
 
 export const PRESETS: { key: string; name: string; description: string; request: Partial<ExportRequest> }[] = [
@@ -51,6 +53,7 @@ export class Exporter {
   book(projectId: string, req: ExportRequest): Book {
     const p = this.brain.project(projectId);
     const st = settingsOf(p.profile);
+    if (req.draftId && req.manuscript) return { title: p.title as string, author: st.authorName, chapters: this.draftChapters(projectId, req), extras: this.sections(projectId, req) };
     const outline = this.ms.outline(projectId);
     const pick = req.chapterIds && req.chapterIds.length ? new Set(req.chapterIds) : null;
     if (pick) for (const id of pick) if (!outline.some((c) => c.id === id)) throw new ValidationError('One of the chosen chapters is not in this novel.');
@@ -68,6 +71,25 @@ export class Exporter {
       };
     });
     return { title: p.title as string, author: st.authorName, chapters, extras: this.sections(projectId, req) };
+  }
+
+  private draftChapters(projectId: string, req: ExportRequest): BookChapter[] {
+    const d = this.store.db.prepare('SELECT * FROM drafts WHERE id=? AND project_id=? AND completed_at IS NOT NULL').get(req.draftId, projectId) as Row | undefined;
+    if (!d) throw new ValidationError('That draft is not a finished draft of this novel.');
+    const rows = this.store.db.prepare('SELECT * FROM draft_scenes WHERE draft_id=? ORDER BY position').all(req.draftId) as Row[];
+    const out: BookChapter[] = [];
+    for (const r of rows) {
+      if (req.chapterIds?.length && !req.chapterIds.includes(r.chapter_id as string)) continue;
+      let c = out.find((x) => x.number === r.chapter_number);
+      if (!c) {
+        const n = r.chapter_number as number, title = (r.chapter_title as string) || '';
+        const generic = !title || /^chapter\s+\d+$/i.test(title.trim());
+        c = { number: n, title, heading: req.chapterHeading === 'number' || generic ? `Chapter ${n}` : req.chapterHeading === 'title' ? title : `Chapter ${n}: ${title}`, scenes: [] };
+        out.push(c);
+      }
+      c.scenes.push({ id: r.scene_id as string, title: r.title as string, blocks: docToBlocks(JSON.parse(r.doc_json as string)) });
+    }
+    return out;
   }
 
   private sections(pid: string, req: ExportRequest): Book['extras'] {
@@ -200,7 +222,7 @@ export class Exporter {
     const val = (id: string, f: string) => { const v = this.brain.field(id, f); const x = v.current ?? v.latest; return x ? `${String(x.value)}${v.current ? '' : ` (${statusLabel(x.status as never, st.statusLabels, st.authorName)})`}` : ''; };
     const rows = beats.map((b) => {
       const key = b.attrs.template_key as string;
-      const def = beatDef((b.attrs.template as string) ?? 'save_the_cat', key);
+      const def = beatDef((b.attrs.template as string) ?? 'save_the_cat', key, this.structure.registry());
       const guide = Object.values((b.attrs.sheet_guidance as Record<string, { description: string; where: string; scene_type: string }>) ?? {})[0];
       const custom = (b.attrs.placement as Record<string, [number, number]> | undefined)?.[prof.key];
       return {

@@ -12,10 +12,12 @@ import { SettingsView } from './SettingsView';
 import { CaptureDialog } from './CaptureDialog';
 import { FilesView } from './FilesView';
 import { NovelSetup } from './NovelSetup';
+import { DraftsView } from './DraftsView';
+import { MethodsView } from './MethodsView';
 
-export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings' | 'setup';
+export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings' | 'setup' | 'drafts' | 'methods';
 const VIEW_NAMES: Record<View, string> = {
-  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings', setup: 'Novel setup',
+  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings', setup: 'Novel setup', drafts: 'Drafts', methods: 'My methods',
 };
 
 export interface Ctx {
@@ -144,7 +146,7 @@ export function App() {
     <div className="app">
       <header className="topbar">
         <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
-        <span className="title">{project.title}</span>
+        <BookSwitcher current={projectId!} title={project.title} onOpen={(id) => setProjectId(id)} />
         <nav aria-label="Views">
           {(['home', 'write', 'brain', 'zoom', 'conversations', 'search', 'history', 'trash', 'files', 'settings'] as View[]).map((v) => (
             <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>
@@ -168,9 +170,30 @@ export function App() {
         {view === 'files' && <FilesView ctx={ctx} />}
         {view === 'settings' && <SettingsView ctx={ctx} />}
         {view === 'setup' && <NovelSetup ctx={ctx} />}
+        {view === 'drafts' && <DraftsView ctx={ctx} />}
+        {view === 'methods' && <MethodsView ctx={ctx} />}
       </main>
       {stuck && <Stuck ctx={ctx} onClose={() => setStuck(false)} />}
       {capturing && <CaptureDialog ctx={ctx} sceneId={view === 'write' ? sceneId : null} onClose={() => setCapturing(false)} />}
     </div>
+  );
+}
+
+/** Move between books without going back to the Library: each one opens where you left it. */
+function BookSwitcher({ current, title, onOpen }: { current: string; title: string; onOpen: (id: string) => void }) {
+  const [books, setBooks] = useState<{ id: string; title: string; stage: string | null }[]>([]);
+  const [open, setOpen] = useState(false);
+  useEffect(() => { if (open) api.get('/api/library').then(setBooks).catch(() => {}); }, [open]);
+  return (
+    <span className="switcher">
+      <button className="title" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((o) => !o)} title="Switch to another novel">{title} <span aria-hidden="true" className="faint">▾</span></button>
+      {open && (
+        <ul role="menu" className="switch-menu" onMouseLeave={() => setOpen(false)}>
+          {books.map((b) => (
+            <li key={b.id} role="none"><button role="menuitem" aria-current={b.id === current ? 'true' : undefined} onClick={() => { setOpen(false); if (b.id !== current) onOpen(b.id); }}>{b.title}{b.stage && <span className="faint small"> {b.stage}</span>}</button></li>
+          ))}
+        </ul>
+      )}
+    </span>
   );
 }

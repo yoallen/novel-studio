@@ -37,6 +37,8 @@ export function Home({ ctx }: { ctx: Ctx }) {
         </div>
       </section>
 
+      <BookLine ctx={ctx} />
+
       {!ctx.project?.profile?.setup?.configured && (
         <div className="notice small" style={{ borderLeftColor: 'var(--struct)' }}>
           Whenever you like: tell the program what kind of story this is and which methods you use, and it will offer the right tools. <button className="btn link small" onClick={() => ctx.go('setup')}>Set up this novel</button>
@@ -99,5 +101,28 @@ export function Home({ ctx }: { ctx: Ctx }) {
         )}
       </div>
     </div></div>
+  );
+}
+
+/** Where this book stands as a whole: its stage and its draft. */
+function BookLine({ ctx }: { ctx: Ctx }) {
+  const [stages, setStages] = useState<string[]>([]);
+  const [draft, setDraft] = useState<string>('');
+  useEffect(() => {
+    api.get('/api/stages').then(setStages).catch(() => {});
+    api.get(`/api/projects/${ctx.projectId}/drafts`).then((d: any[]) => setDraft(d.find((x) => !x.completed_at)?.name ?? '')).catch(() => {});
+  }, [ctx.projectId]);
+  const stage = ctx.project?.profile?.stage ?? '';
+  return (
+    <div className="row small" style={{ marginBottom: '1rem' }} role="group" aria-label="This book">
+      <label className="row">Stage
+        <select value={stage} onChange={(e) => void api.put(`/api/projects/${ctx.projectId}/stage`, { stage: e.target.value }).then((s: any) => { setDraft(s.draft.name); return ctx.refreshProject(); })} style={{ width: 'auto' }}>
+          <option value="" disabled>Choose</option>
+          {[...new Set([...(stage ? [stage] : []), ...stages])].map((s) => <option key={s} value={s}>{s}</option>)}
+        </select>
+      </label>
+      {draft && draft !== stage && <span className="muted">{draft}</span>}
+      <button className="btn link small" onClick={() => ctx.go('drafts')}>Drafts</button>
+    </div>
   );
 }

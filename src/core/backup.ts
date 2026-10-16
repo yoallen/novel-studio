@@ -40,13 +40,15 @@ const ARCHIVE_TABLES: { table: string; scope: string }[] = [
   { table: 'arrangements', scope: 'project_id = :p' },
   { table: 'finding_notes', scope: 'project_id = :p' },
   { table: 'imports', scope: 'project_id = :p' },
+  { table: 'drafts', scope: 'project_id = :p' },
+  { table: 'draft_scenes', scope: 'draft_id IN (SELECT id FROM drafts WHERE project_id = :p)' },
 ];
 
 /** Columns holding ids of other rows, remapped when importing as a copy. */
 const REF_COLUMNS = new Set([
   'id', 'project_id', 'source_id', 'excerpt_id', 'element_id', 'parent_id', 'from_id', 'to_id', 'chapter_id',
   'scene_id', 'pov_element_id', 'plan_element_id', 'conversation_id', 'turn_id', 'statement_id', 'supersedes_id',
-  'superseded_by_id', 'focus_element_id', 'batch_id', 'record_id', 'reverted_by', 'result_batch_id',
+  'superseded_by_id', 'focus_element_id', 'batch_id', 'record_id', 'reverted_by', 'result_batch_id', 'draft_id',
 ]);
 
 function canonical(rows: Row[]): string {

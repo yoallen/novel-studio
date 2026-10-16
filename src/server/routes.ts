@@ -1,6 +1,8 @@
 // HTTP routes for the core services. Each handler validates input with zod before touching data.
 
 import { AppError } from '../core/store.js';
+import * as methodsLib from '../core/methods.js';
+import { saveTheCatAsBeats } from '../core/structure.js';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import type { Services } from './app.js';
@@ -31,6 +33,25 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   });
   app.get('/api/projects/:id/names', async (req) => svc.lenses.names(params(req, P).id));
   app.get('/api/projects/:id/pacing', async (req) => svc.lenses.pacing(params(req, P).id));
+  // ----- many books at once: stages, drafts, the shelf -----
+  app.get('/api/library', async () => svc.books.shelf());
+  app.get('/api/stages', async () => svc.books.stages());
+  app.put('/api/projects/:id/stage', async (req) => svc.books.setStage(params(req, P).id, body(req, z.object({ stage: z.string().min(1).max(60) })).stage));
+  app.get('/api/projects/:id/drafts', async (req) => svc.books.drafts(params(req, P).id));
+  app.post('/api/projects/:id/drafts/complete', async (req) => svc.books.complete(params(req, P).id, body(req, z.object({ note: z.string().max(2000).optional(), nextName: z.string().max(60).optional() }))));
+  app.post('/api/projects/:id/drafts/reopen', async (req) => svc.books.reopenLast(params(req, P).id));
+  app.get('/api/projects/:id/drafts/:draftId/compare', async (req) => { const q = z.object({ id, draftId: id }).parse(req.params); return svc.books.compare(q.id, q.draftId); });
+  app.get('/api/scenes/:id/drafts', async (req) => svc.books.sceneAcross(params(req, P).id));
+  // ----- her own methods and craft shelf (author level, every novel) -----
+  const beatIn = z.object({ key: z.string().max(40).optional(), name: z.string().max(80), at: z.tuple([z.number(), z.number()]), act: z.enum(['I', 'IIA', 'IIB', 'III']).optional(), description: z.string().max(4000).optional(), test: z.string().max(1000).optional(), moment: z.string().max(20).nullable().optional() });
+  app.get('/api/methods', async () => ({ methods: methodsLib.methods(store), moments: methodsLib.MOMENTS }));
+  app.post('/api/methods', async (req) => methodsLib.saveMethod(store, body(req, z.object({ key: z.string().max(60).optional(), name: z.string().min(1).max(80), job: z.string().max(2000).optional(), source: z.string().max(300).optional(), beats: z.array(beatIn).max(60).optional(), questions: z.array(z.string().max(500)).max(40).optional(), fields: z.array(z.object({ kind: z.string().max(60), label: z.string().max(80), prompt: z.string().max(500).optional() })).max(60).optional() })) as never));
+  app.delete('/api/methods/:key', async (req) => { methodsLib.removeMethod(store, z.object({ key: z.string().max(60) }).parse(req.params).key); return { removed: true }; });
+  app.get('/api/methods/start/:key', async (req) => { const k = z.object({ key: z.string().max(60) }).parse(req.params).key; return k === 'save_the_cat' ? { beats: saveTheCatAsBeats(), source: 'Save the Cat' } : methodsLib.startFrom(k); });
+  app.post('/api/projects/:id/methods/:key/refresh', async (req) => { const q = z.object({ id, key: z.string().max(60) }).parse(req.params); return structure.applyTemplate(q.id, q.key).length; });
+  app.get('/api/shelf', async () => methodsLib.shelf(store));
+  app.put('/api/shelf', async (req) => methodsLib.setShelf(store, body(req, z.object({ books: z.array(z.object({ key: z.string().max(80).optional(), title: z.string().max(200), author: z.string().max(120), useFor: z.string().max(500) })).max(200) })).books as never));
+  app.patch('/api/author-profile', async (req) => svc.setup.setAuthorProfile(body(req, z.object({ stages: z.array(z.string().min(1).max(60)).max(40).optional() })) as never));
   // ----- novel setup and author profile (R-B-088 to R-B-095) -----
   const role = z.enum(['primary', 'secondary', 'influence']);
   app.get('/api/projects/:id/setup', async (req) => svc.setup.get(params(req, P).id));
@@ -371,7 +392,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       items: z.record(z.string(), z.object({ include: z.boolean().optional(), elementId: id.nullable().optional(), field: z.string().max(64).nullable().optional(), status: z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside', 'unlabeled']).optional(), arc: z.boolean().optional() })).optional(),
       newElements: z.record(z.string(), z.object({ title: z.string().max(200).optional(), kind: z.string().max(40).optional() })).optional(),
       density: z.number().int().optional(), useCorrections: z.boolean().optional(), profileName: z.string().max(120).optional(), keepGuidance: z.boolean().optional(),
-      keepComments: z.boolean().optional(),
+      keepComments: z.boolean().optional(), asMethod: z.boolean().optional(),
       roundtrip: z.record(z.string().max(60), z.object({ useEditor: z.boolean().optional(), all: z.enum(['accept', 'reject', 'clear']).optional(), decisions: z.record(z.string().max(200), z.enum(['accept', 'reject']).nullable()).optional() })).optional(),
     }).strict());
     const { version, ...edits } = b;
@@ -385,6 +406,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   // ----- export: choose, see what a format cannot keep, then a checked file (R-B-076 to R-B-081) -----
   const exportReq = z.object({
     format: z.enum(['docx', 'rtf', 'txt', 'md', 'pdf', 'epub', 'odt', 'html', 'json']),
+    draftId: id.nullable().optional(),
     manuscript: z.boolean(),
     chapterIds: z.array(id).max(2000).nullable().optional(),
     sections: z.array(z.enum(['characters', 'beats', 'places', 'set_pieces', 'open_decisions', 'setups_payoffs', 'timeline', 'all_records'])).max(8),

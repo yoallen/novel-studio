@@ -130,16 +130,16 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
             <div key={f.key} style={{ borderTop: '1px solid var(--line)', padding: '0.5rem 0' }}>
               <label className="choice">
                 <input type="checkbox" checked={on} onChange={(e) => void save({ frameworks: e.target.checked ? [...fw, f.key] : fw.filter((x) => x !== f.key) }, e.target.checked && f.kind === 'structure' && !structures.length ? `${f.name} is now the beat sheet for this novel.` : '')} />
-                <span><strong>{f.name}</strong><small>{f.job}</small></span>
+                <span><strong>{f.name}</strong>{f.own && <> <span className="chip">yours</span> <button type="button" className="btn link small" onClick={(e) => { e.preventDefault(); ctx.go('methods'); }}>Edit</button></>}<small>{f.job}</small>{on && f.questions?.length > 0 && <small>Asks: {f.questions.join(' ')}</small>}</span>
               </label>
               {on && <label className="field" style={{ margin: '0.4rem 0 0 1.6rem' }}><span>How I use it</span><textarea rows={2} defaultValue={s.frameworkNotes[f.key] ?? ''} onBlur={(e) => { if (e.target.value !== (s.frameworkNotes[f.key] ?? '')) void save({ frameworkNotes: { [f.key]: e.target.value } }); }} /></label>}
             </div>
           );
         })}
-        <form className="row" style={{ marginTop: '0.5rem' }} onSubmit={(e) => { e.preventDefault(); const name = customFw.trim(); if (!name) return; const key = `custom_${name.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 40)}`; void save({ customFrameworks: [...s.customFrameworks, { key, name, job: '' }], frameworks: [...fw, key] }); setCustomFw(''); }}>
-          <input type="text" value={customFw} onChange={(e) => setCustomFw(e.target.value)} placeholder="A method of your own" aria-label="Your own method" style={{ maxWidth: 320 }} />
-          <button className="btn small" type="submit" disabled={!customFw.trim()}>Add</button>
-        </form>
+        <div className="row" style={{ marginTop: '0.5rem' }}>
+          <button className="btn small" onClick={() => ctx.go('methods')}>Make a method of my own</button>
+          <span className="small muted">From any teacher or book: its own beats, questions and fields. Every novel can use it.</span>
+        </div>
         {structures.length > 1 && (
           <div className="row" style={{ marginTop: '1rem' }} role="group" aria-label="Beat sheet">
             <span>The beat sheet that drives the board:</span>

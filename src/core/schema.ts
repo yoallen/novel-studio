@@ -404,4 +404,35 @@ ALTER TABLE excerpts ADD COLUMN text_hash TEXT;
 CREATE INDEX excerpts_hash ON excerpts(source_id, text_hash);
 `,
   },
+  {
+    version: 6,
+    name: 'drafts: each completed draft of a novel kept whole',
+    sql: `
+CREATE TABLE drafts (
+  id TEXT PRIMARY KEY,
+  project_id TEXT NOT NULL REFERENCES projects(id),
+  number INTEGER NOT NULL,
+  name TEXT NOT NULL,
+  started_at TEXT NOT NULL,
+  completed_at TEXT,
+  note TEXT NOT NULL DEFAULT '',
+  words INTEGER
+);
+CREATE INDEX drafts_project ON drafts(project_id, number);
+CREATE TABLE draft_scenes (
+  draft_id TEXT NOT NULL REFERENCES drafts(id),
+  scene_id TEXT NOT NULL,
+  chapter_id TEXT,
+  chapter_title TEXT NOT NULL DEFAULT '',
+  chapter_number INTEGER NOT NULL DEFAULT 0,
+  position INTEGER NOT NULL,
+  title TEXT NOT NULL DEFAULT '',
+  status TEXT NOT NULL DEFAULT '',
+  word_count INTEGER NOT NULL DEFAULT 0,
+  doc_json TEXT NOT NULL,
+  text TEXT NOT NULL,
+  PRIMARY KEY (draft_id, scene_id)
+);
+`,
+  },
 ];

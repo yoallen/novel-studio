@@ -14,6 +14,7 @@ export interface SheetBeat {
   where: string;           // "Where does it go" / tolerance text
   sceneType: string;
   words: Record<string, [number, number] | null>;   // by words-per-page
+  percent?: [number, number] | null;                // a "%" column, as fractions of the book
   pages: Record<string, [number, number] | null>;
   wordsText: Record<string, string>;
   flags: string[];
@@ -69,9 +70,9 @@ export async function readBeatSheet(buf: Buffer): Promise<SheetRead> {
     const lead = cells[first]!;
     const gm = /^(thesis|antithesis|synthesis)\s+world\s*:?\s*(.*)$/i.exec(lead);
     if (gm) { group = gm[1]!.toLowerCase(); groups.push({ key: group, name: `${gm[1]![0]!.toUpperCase()}${gm[1]!.slice(1).toLowerCase()} World`, description: clean(gm[2] || cells.slice(first + 1).find(Boolean) || '') }); continue; }
-    if (/^beats?$/i.test(lead)) { header = cells; for (const h of header) { const m = /(\d{3})\s*words per page/i.exec(h); if (m) densities.add(Number(m[1])); } continue; }
+    if (/^(beats?|stages?|steps?|points?|plot points?)$/i.test(lead)) { header = cells; for (const h of header) { const m = /(\d{3})\s*words per page/i.exec(h); if (m) densities.add(Number(m[1])); } continue; }
     if (!header.length) continue;
-    const nameCol = col(/^beats?$/i);
+    const nameCol = col(/^(beats?|stages?|steps?|points?|plot points?)$/i);
     const name = cells[nameCol] ?? '';
     if (!name) continue;
     const key = matchBeat(name);
@@ -88,6 +89,13 @@ export async function readBeatSheet(buf: Buffer): Promise<SheetRead> {
       const prev = header[i - 1] ?? '';
       if (/page number/i.test(prev)) b.pages[wpp] = parseRange(cells[i - 1] ?? '');
     });
+    const pc = col(/percent|%|where in the book/i);
+    if (pc >= 0 && cells[pc]) {
+      const raw = cells[pc]!;
+      const r = parseRange(raw);
+      if (r) b.percent = /%/.test(raw) || r[0] > 1 || r[1] > 1 ? [r[0] / 100, r[1] / 100] : r;
+    }
+    if (!b.description) b.description = cells[col(/description|what happens|what it is|purpose/i)] ?? '';
     if (!key) b.flags.push(`"${name}" did not match a Save the Cat beat. It is kept as written; choose its beat or leave it out.`);
     for (const [wpp, pg] of Object.entries(b.pages)) {
       const w = b.words[wpp];

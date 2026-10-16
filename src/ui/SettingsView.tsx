@@ -114,6 +114,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
 
       <AiSettings ctx={ctx} />
 
+      <AuthorLevel ctx={ctx} />
+
       <section className="section">
         <h2>Appearance</h2>
         <div className="row" role="radiogroup" aria-label="Theme">
@@ -164,6 +166,52 @@ function AiSettings({ ctx }: { ctx: Ctx }) {
           {['claude-opus-5-5', 'claude-sonnet-5-5', 'claude-haiku-5-5', 'claude-fable-5-1'].map((m) => <option key={m} value={m}>{m}</option>)}
         </select>
       </label>
+    </section>
+  );
+}
+
+// Settings that belong to her, not to one novel: her craft shelf, her methods, and the stages a book can be in.
+function AuthorLevel({ ctx }: { ctx: Ctx }) {
+  const [books, setBooks] = useState<any[] | null>(null);
+  const [stages, setStages] = useState('');
+  const [msg, setMsg] = useState('');
+  const [error, setError] = useState('');
+  useEffect(() => {
+    api.get('/api/shelf').then(setBooks).catch((e) => setError(e.message));
+    api.get('/api/stages').then((s: string[]) => setStages(s.join('\n'))).catch(() => {});
+  }, []);
+  async function saveShelf() {
+    try { setBooks(await api.put('/api/shelf', { books: (books ?? []).filter((b) => b.title.trim()) })); setMsg('Your craft shelf is saved. The collaborator points you here first.'); } catch (e) { setError((e as Error).message); }
+  }
+  async function saveStages() {
+    try { await api.patch('/api/author-profile', { stages: stages.split('\n').map((x) => x.trim()).filter(Boolean) }); setMsg('Stages saved for all your books.'); } catch (e) { setError((e as Error).message); }
+  }
+  const set = (i: number, patch: any) => setBooks((b) => (b ?? []).map((x, j) => (j === i ? { ...x, ...patch } : x)));
+  return (
+    <section className="section" aria-label="For all my novels">
+      <h2>For all my novels</h2>
+      {msg && <div className="notice" role="status">{msg}</div>}
+      {error && <div className="notice error" role="alert">{error}</div>}
+      <h3 className="small">My craft shelf</h3>
+      <p className="small muted">The books and teachers you learn from. The collaborator starts here when it points you to where to learn more, by title and author only.</p>
+      {books && (
+        <div role="group" aria-label="My craft shelf">
+          {books.map((b, i) => (
+            <div key={i} className="row" style={{ marginBottom: '0.3rem' }}>
+              <input type="text" aria-label="Title" value={b.title} onChange={(e) => set(i, { title: e.target.value })} placeholder="Title" style={{ maxWidth: 280 }} />
+              <input type="text" aria-label="Author" value={b.author} onChange={(e) => set(i, { author: e.target.value })} placeholder="Author" style={{ maxWidth: 200 }} />
+              <input type="text" aria-label="I use it for" value={b.useFor} onChange={(e) => set(i, { useFor: e.target.value })} placeholder="What I use it for" className="grow" />
+              <button className="btn link small" onClick={() => setBooks((x) => (x ?? []).filter((_, j) => j !== i))}>Remove</button>
+            </div>
+          ))}
+          <div className="row"><button className="btn small" onClick={() => setBooks((x) => [...(x ?? []), { title: '', author: '', useFor: '' }])}>Add a book</button><button className="btn small write" onClick={() => void saveShelf()}>Save my shelf</button></div>
+        </div>
+      )}
+      <h3 className="small" style={{ marginTop: '1.25rem' }}>My methods</h3>
+      <p className="small muted">Methods from any teacher or book, with their own beats, questions and fields. <button className="btn link small" onClick={() => ctx.go('methods')}>Open my methods</button></p>
+      <h3 className="small" style={{ marginTop: '1.25rem' }}>Stages a book can be in</h3>
+      <textarea rows={6} aria-label="Stages, one per line" value={stages} onChange={(e) => setStages(e.target.value)} style={{ maxWidth: 360 }} />
+      <div><button className="btn small" onClick={() => void saveStages()}>Save stages</button></div>
     </section>
   );
 }

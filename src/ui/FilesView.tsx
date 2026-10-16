@@ -134,7 +134,7 @@ function ImportReview({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
       {r.kind === 'sheet' && <SheetReview plan={r.plan} edit={edit} />}
       {r.kind === 'roundtrip' && <RoundtripReview ctx={ctx} r={r} edit={edit} />}
       <div className="row" style={{ position: 'sticky', bottom: 0, background: 'var(--page)', padding: '0.75rem 0', borderTop: '1px solid var(--line)', marginTop: '1rem' }}>
-        <button className="btn write" onClick={() => void apply()} disabled={r.status !== 'pending'}>{r.kind === 'manuscript' ? 'Add these chapters to my novel' : r.kind === 'sheet' ? 'Use this sheet' : r.kind === 'roundtrip' ? 'Make my decisions' : 'Add the checked passages'}</button>
+        <button className="btn write" onClick={() => void apply()} disabled={r.status !== 'pending'}>{r.kind === 'manuscript' ? 'Add these chapters to my novel' : r.kind === 'sheet' ? (r.plan.asMethod ? 'Make it my beat sheet' : 'Use this sheet') : r.kind === 'roundtrip' ? 'Make my decisions' : 'Add the checked passages'}</button>
         <span className="small muted">One step. You can undo it from the Story Trail.</span>
         <span className="grow" />
         <button className="btn link small" onClick={() => void discard()}>Don't import this</button>
@@ -168,7 +168,8 @@ function ImportDone({ ctx, r, onBack }: { ctx: Ctx; r: any; onBack: () => void }
           {(rep.skipped ?? []).map((x: any) => <div key={x.title}>{x.title} was not changed: {x.why}.</div>)}
         </div>
       )}
-      {r.kind === 'sheet' && <div className="notice" role="status">The sheet is now one of your placement choices{rep.profileName ? ` ("${rep.profileName}")` : ''}. {rep.corrected ? `${rep.corrected} flagged number${rep.corrected === 1 ? ' was' : 's were'} corrected.` : ''} See it in Narrative Zoom, Beats and placement.</div>}
+      {r.kind === 'sheet' && rep.methodName && <div className="notice" role="status">"{rep.methodName}" is now a beat sheet of your own, with {rep.beatsMade} beats, and this novel uses it. Other novels can choose it in Novel setup.</div>}
+      {r.kind === 'sheet' && !rep.methodName && <div className="notice" role="status">The sheet is now one of your placement choices{rep.profileName ? ` ("${rep.profileName}")` : ''}. {rep.corrected ? `${rep.corrected} flagged number${rep.corrected === 1 ? ' was' : 's were'} corrected.` : ''} See it in Narrative Zoom, Beats and placement.</div>}
       <div className="row">
         {(r.kind === 'manuscript' || r.kind === 'roundtrip') && <button className="btn write" onClick={() => ctx.go('write')}>Go to the Writing Room</button>}
         {r.kind === 'document' && <button className="btn write" onClick={() => ctx.go('brain')}>Open the Story Brain</button>}
@@ -355,7 +356,11 @@ function SheetReview({ plan, edit }: { plan: any; edit: (e: Record<string, unkno
   const d = String(plan.density);
   return (
     <>
-      <p className="muted">{read.beats.filter((b: any) => b.key).length} of {read.beats.length} rows matched your beats. The descriptions and "where it goes" notes stay with each beat as your own teaching.</p>
+      <label className="choice" style={{ marginBottom: '0.75rem' }}>
+        <input type="checkbox" checked={plan.asMethod} onChange={(e) => void edit({ asMethod: e.target.checked })} />
+        <span><strong>Make this a beat sheet of my own</strong><small>Each row becomes a beat, placed where the sheet puts it. Every novel can then use it, like Save the Cat.</small></span>
+      </label>
+      <p className="muted">{read.beats.filter((b: any) => b.key).length} of {read.beats.length} rows matched your Save the Cat beats. The descriptions and "where it goes" notes stay with each beat as your own teaching.</p>
       {read.flags.map((f: string) => <div key={f} className="notice small">{f}</div>)}
       <div className="row small" style={{ marginBottom: '0.75rem' }}>
         {read.densities.length > 1 && <span role="radiogroup" aria-label="Words per page" className="row">Use the numbers at {read.densities.map((w: number) => <label key={w} className="row"><input type="radio" checked={plan.density === w} onChange={() => void edit({ density: w })} />{w} words per page</label>)}</span>}
@@ -409,10 +414,12 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
   const [presetName, setPresetName] = useState('');
   const [profiles, setProfiles] = useState<any[]>([]);
   const [profile, setProfile] = useState('brody');
+  const [kept, setKept] = useState<any[]>([]);
   useEffect(() => {
     api.get(`/api/projects/${ctx.projectId}/export/presets`).then(setPresets).catch(() => {});
     api.get(`/api/projects/${ctx.projectId}/outline`).then((o) => setOutline(o.chapters ?? [])).catch(() => {});
-    api.get(`/api/projects/${ctx.projectId}/landmarks`).then((l) => setProfiles(l.profiles ?? [])).catch(() => {});
+    api.get(`/api/projects/${ctx.projectId}/landmarks`).then((l) => { setProfiles(l.profiles ?? []); if (l.profiles?.[0]) setProfile(l.profiles[0].key); }).catch(() => {});
+    api.get(`/api/projects/${ctx.projectId}/drafts`).then((d: any[]) => setKept(d.filter((x) => x.completed_at))).catch(() => {});
   }, [ctx.projectId]);
   useEffect(() => {
     setResult(null);
@@ -461,7 +468,15 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
         <section>
           <h2>What goes in</h2>
           <label className="row"><input type="checkbox" checked={req.manuscript} onChange={(e) => set({ manuscript: e.target.checked })} />The manuscript</label>
-          {req.manuscript && outline.length > 0 && (
+          {req.manuscript && kept.length > 0 && (
+            <label className="row small" style={{ paddingLeft: '1.6rem' }}>Version
+              <select aria-label="Version" value={req.draftId ?? ''} onChange={(e) => set({ draftId: e.target.value || null, chapterIds: null })} style={{ width: 'auto' }}>
+                <option value="">The book as it is now</option>
+                {kept.map((d) => <option key={d.id} value={d.id}>{d.name}, as kept</option>)}
+              </select>
+            </label>
+          )}
+          {req.manuscript && !req.draftId && outline.length > 0 && (
             <div style={{ paddingLeft: '1.6rem', maxHeight: 220, overflow: 'auto' }}>
               <label className="row small"><input type="checkbox" checked={!req.chapterIds} onChange={(e) => set({ chapterIds: e.target.checked ? null : outline.map((c) => c.id) })} />Every chapter</label>
               {req.chapterIds && outline.map((c) => (

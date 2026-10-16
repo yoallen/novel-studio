@@ -2,6 +2,7 @@
 // timeline, links, and capture (thoughts, questions, ideas).
 
 import { CONDITIONAL_GROUPS, CHARACTERISTIC_FIELDS, STORY_TYPES } from './catalog.js';
+import { methods } from './methods.js';
 import { settingsOf, mergeSettings, ProjectSettings } from './settings.js';
 import { templateFor, FieldDef, KIND_LABELS, BEAT_BOARD_FIELDS } from './templates.js';
 import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId } from './store.js';
@@ -408,6 +409,7 @@ export class Brain {
     const custom = (this.store.db.prepare('SELECT * FROM field_defs WHERE project_id=? AND kind=? AND deleted_at IS NULL ORDER BY sort').all(projectId, kind) as Row[])
       .map((d) => ({ field: d.field as string, label: d.label as string, group: d.group_name as string, prompt: d.prompt as string, multi: !!d.multi, private: !!d.private, custom: true, id: d.id as string }));
     let builtIn = (ELEMENT_KINDS as readonly string[]).includes(kind) ? templateFor(kind) : [];
+    let customDefs = custom;
     if (!opts.all) {
       // Configuration drives what is offered (R-B-094): a framework's or characteristic's fields appear when it is chosen.
       const p = this.project(projectId).profile;
@@ -421,6 +423,9 @@ export class Brain {
         const byCharacteristicOnly = cond.by.every((k) => characteristicKeys.has(k));
         return !configured && !byCharacteristicOnly;
       });
+      // Fields from a method of her own appear only while that method is in this novel's toolkit.
+      const off = new Set(methods(this.store).filter((m) => !on.has(m.key)).map((m) => m.name));
+      customDefs = custom.filter((d) => !off.has(d.group));
     }
     if (kind === 'storyworld') {
       // Each chosen Snyder story type brings its three ingredients (R-B-090, R-B-094).
@@ -430,7 +435,7 @@ export class Brain {
         if (def) builtIn = [...builtIn, ...def.ingredients.map((i) => ({ field: `st_${def.key}_${i.key}`, label: i.label, group: def.name, prompt: i.prompt }))];
       }
     }
-    return [...builtIn, ...custom];
+    return [...builtIn, ...customDefs];
   }
 
   /** Everything the element page shows: fields with their status layers, children (such as arcs), links. */
