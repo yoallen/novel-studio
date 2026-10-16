@@ -218,3 +218,91 @@ export function Review({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: 
     </>
   );
 }
+
+// ---------- names: every name the book uses, and the ones that look misspelled ----------
+export function Names({ ctx, tick }: { ctx: Ctx; tick: number }) {
+  const { d, e } = useData(`/api/projects/${ctx.projectId}/names`, tick);
+  if (!d) return <p className="muted">{e || 'Reading the manuscript…'}</p>;
+  return (
+    <>
+      <h2>Names in the book</h2>
+      <p className="muted small">Every capitalized name used in the middle of a sentence, counted. A name spelled two ways is easy to miss on the page and easy to catch here.</p>
+      {d.variants.length > 0 && (
+        <section className="section" aria-label="Possible misspellings">
+          <h3>Spelled another way?</h3>
+          {d.variants.map((x: any) => (
+            <div key={x.name} className="notice small">"{x.name}" appears {x.count} time{x.count === 1 ? '' : 's'}; {x.knownName ? 'your record says' : 'the book mostly says'} "{x.likely}". Intended?
+              <span className="row" style={{ marginTop: '0.25rem' }}>{x.scenes.map((s: any) => <button key={s.id} className="btn link small" onClick={() => ctx.openScene(s.id)}>{s.title}</button>)}</span>
+            </div>
+          ))}
+        </section>
+      )}
+      {d.noRecord.length > 0 && (
+        <section className="section">
+          <h3>Names with no record yet</h3>
+          <p className="small muted">Used three times or more. A record lets the program follow them through the story.</p>
+          <div className="row small">{d.noRecord.map((n: any) => <span key={n.name} className="chip">{n.name} ×{n.count}</span>)}</div>
+        </section>
+      )}
+      <table className="small" style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
+        <thead><tr><th style={th}>Name</th><th style={{ ...th, textAlign: 'right' }}>Times</th><th style={th}>Record</th><th style={th}>Scenes</th></tr></thead>
+        <tbody>{d.names.slice(0, 200).map((n: any) => (
+          <tr key={n.name}><td style={td}>{n.name}</td><td style={{ ...td, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{n.count}</td><td style={td}>{n.record ? n.record.title : <span className="faint">none</span>}</td><td style={td}>{n.scenes.length}</td></tr>
+        ))}</tbody>
+      </table>
+    </>
+  );
+}
+
+// ---------- pacing: the shape of the book, scene by scene ----------
+export function Pacing({ ctx, tick }: { ctx: Ctx; tick: number }) {
+  const { d, e } = useData(`/api/projects/${ctx.projectId}/pacing`, tick);
+  const [hover, setHover] = useState<number | null>(null);
+  if (!d) return <p className="muted">{e || 'Measuring…'}</p>;
+  const rows: any[] = d.rows;
+  if (!rows.length) return <p className="muted">Write a scene or two and the shape of the book appears here.</p>;
+  const max = Math.max(...rows.map((r) => r.words), 1);
+  const W = 860, H = 180, gap = 2, bw = Math.max(3, Math.min(28, (W - gap * rows.length) / rows.length));
+  const h = hover != null ? rows[hover] : null;
+  return (
+    <>
+      <h2>Pacing</h2>
+      <p className="muted small">Each bar is a scene, in reading order, by length. Your usual scene runs about {d.medianWords.toLocaleString()} words. Hover a bar for its viewpoint, beat and turn; click to open it.</p>
+      {d.notes.map((n: string) => <div key={n} className="notice small">{n}</div>)}
+      <div style={{ position: 'relative' }}>
+        <svg role="img" aria-label={`Scene lengths for ${rows.length} scenes`} viewBox={`0 0 ${Math.max(W, rows.length * (bw + gap))} ${H + 20}`} style={{ width: '100%', maxWidth: W, height: 'auto' }}>
+          <line x1={0} x2={rows.length * (bw + gap)} y1={H - (d.medianWords / max) * H} y2={H - (d.medianWords / max) * H} stroke="var(--line-strong)" strokeDasharray="3 3" />
+          {rows.map((r, i) => {
+            const bh = Math.max(2, (r.words / max) * H);
+            const x = i * (bw + gap);
+            const newChapter = i > 0 && rows[i - 1].chapter.id !== r.chapter.id;
+            return (
+              <g key={r.id} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} onClick={() => ctx.openScene(r.id)} style={{ cursor: 'pointer' }}>
+                {newChapter && <line x1={x - gap / 2} x2={x - gap / 2} y1={0} y2={H + 6} stroke="var(--line)" />}
+                <rect x={x} y={0} width={bw + gap} height={H + 20} fill="transparent" />
+                <path d={`M${x},${H} v${-(bh - 2)} q0,-2 2,-2 h${bw - 4} q2,0 2,2 v${bh - 2} z`} fill={hover === i ? 'var(--accent, var(--struct))' : 'var(--struct)'} opacity={hover == null || hover === i ? 1 : 0.55} />
+              </g>
+            );
+          })}
+        </svg>
+        {h && (
+          <div role="status" className="small" style={{ position: 'absolute', top: 0, right: 0, background: 'var(--page)', border: '1px solid var(--line-strong)', borderRadius: 6, padding: '0.4rem 0.6rem', maxWidth: 280 }}>
+            <strong>{h.title}</strong><br />Chapter {h.chapter.number}, {h.words.toLocaleString()} words
+            {h.pov && <><br />Viewpoint: {h.pov}</>}{h.beat && <><br />Beat: {h.beat}</>}{h.kind && <><br />{h.kind}</>}
+            {(h.valueStart || h.valueEnd) && <><br />Turn: {h.valueStart ?? '?'} to {h.valueEnd ?? '?'}</>}
+            <br />About {h.avgSentence} words a sentence, {h.dialoguePercent}% dialogue
+          </div>
+        )}
+      </div>
+      <details style={{ marginTop: '1rem' }}>
+        <summary className="small">As a table</summary>
+        <table className="small" style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead><tr><th style={th}>#</th><th style={th}>Scene</th><th style={th}>Chapter</th><th style={{ ...th, textAlign: 'right' }}>Words</th><th style={th}>Viewpoint</th><th style={th}>Beat</th><th style={th}>Turn</th><th style={{ ...th, textAlign: 'right' }}>Dialogue</th></tr></thead>
+          <tbody>{rows.map((r) => (
+            <tr key={r.id}><td style={td}>{r.index}</td><td style={td}><button className="btn link small" onClick={() => ctx.openScene(r.id)}>{r.title}</button></td><td style={td}>{r.chapter.number}</td><td style={{ ...td, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{r.words.toLocaleString()}</td><td style={td}>{v(r.pov)}</td><td style={td}>{v(r.beat)}</td><td style={td}>{r.valueStart || r.valueEnd ? `${r.valueStart ?? '?'} to ${r.valueEnd ?? '?'}` : <span className="faint">not set</span>}</td><td style={{ ...td, textAlign: 'right' }}>{r.dialoguePercent}%</td></tr>
+          ))}</tbody>
+        </table>
+      </details>
+    </>
+  );
+}

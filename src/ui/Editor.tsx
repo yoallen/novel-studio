@@ -4,7 +4,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import { api, ApiError } from './api';
 import type { Ctx } from './App';
-import { registerFlush } from './flush';
+import { registerFlush, registerEditor } from './flush';
 
 // Saving model (R-B-005, R-B-006):
 //  - every pause of under a second writes the text to the crash-safe journal, and the indicator says Saved;
@@ -57,6 +57,8 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
       }, 800);
     },
   });
+
+  useEffect(() => { registerEditor(editor ?? null); return () => registerEditor(null); }, [editor]);
 
   async function journal(opts: { keepalive?: boolean } = {}) {
     if (!dirty.current || !latest.current || recoveryPending.current) return;

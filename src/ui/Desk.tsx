@@ -1,3 +1,4 @@
+import { ReadBack } from './ReadBack';
 import { askAbout } from './ConversationsView';
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
@@ -9,6 +10,7 @@ import { flushEditor } from './flush';
 // The writing desk: binder, page, and the scene's plan beside it. Focus mode hides everything but the page (R-B-004).
 export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
   const [outline, setOutline] = useState<any>(null);
+  const [reading, setReading] = useState(false);
   const [panel, setPanel] = useState<boolean>(() => { try { return localStorage.getItem('ns-panel') !== '0'; } catch { return true; } });
   const [focus, setFocus] = useState(false);
   const [error, setError] = useState('');
@@ -100,7 +102,8 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
       )}
       <div className="pagewrap">
         <div className="row" style={{ justifyContent: 'flex-end', padding: '0.5rem 1rem 0' }}>
-          {!focus && <button className="btn link small" onClick={() => setPanel((p) => !p)}>{panel ? 'Hide scene plan' : 'Show scene plan'}</button>}
+          {!focus && <button className="btn link small" onClick={() => { setReading(false); setPanel((p) => !(p && !reading)); }}>{panel && !reading ? 'Hide scene plan' : 'Show scene plan'}</button>}
+          {!focus && sceneId && <button className="btn link small" aria-pressed={panel && reading} onClick={() => { if (panel && reading) { setPanel(false); setReading(false); } else { setReading(true); setPanel(true); } }}>Read it back</button>}
           {!focus && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => ctx.showInMap(sceneId)); }}>Show in Story Map</button>}
           {!focus && <button className="btn link small" onClick={ctx.openStuck}>I'm stuck</button>}
           {!focus && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => askAbout(ctx, { title: `About the scene ${outline?.chapters?.flatMap((c: any) => c.scenes).find((x: any) => x.id === sceneId)?.title ?? ''}`.trim(), sceneId })); }}>Ask about this scene</button>}
@@ -110,7 +113,8 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
         {sceneId ? <Editor key={sceneId + ':' + editorNonce} ctx={ctx} sceneId={sceneId} onChanged={() => { setLive(null); setTick((t) => t + 1); }} onWords={(n) => setLive({ id: sceneId, words: n })} />
           : <div className="page"><p className="muted">Choose a scene on the left, or add one, and start writing.</p></div>}
       </div>
-      {!focus && panel && sceneId && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
+      {!focus && panel && sceneId && reading && <aside className="panel" aria-label="Read it back"><ReadBack ctx={ctx} /></aside>}
+      {!focus && panel && sceneId && !reading && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
     </div>
   );
 }

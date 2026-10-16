@@ -29,6 +29,8 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const b = body(req, z.object({ title: z.string().min(1).max(300), profile: json.optional(), useDefaults: z.boolean().optional(), frameworks: z.array(z.string().max(60)).max(30).optional(), spine: z.string().max(60).nullable().optional() }));
     return svc.setup.createNovel(b.title, { profile: b.profile as Record<string, unknown> | undefined, useDefaults: b.useDefaults, frameworks: b.frameworks, spine: b.spine });
   });
+  app.get('/api/projects/:id/names', async (req) => svc.lenses.names(params(req, P).id));
+  app.get('/api/projects/:id/pacing', async (req) => svc.lenses.pacing(params(req, P).id));
   // ----- novel setup and author profile (R-B-088 to R-B-095) -----
   const role = z.enum(['primary', 'secondary', 'influence']);
   app.get('/api/projects/:id/setup', async (req) => svc.setup.get(params(req, P).id));
@@ -67,6 +69,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       ownedLabel: z.string().max(120).optional(),
       reservedMarkers: z.array(z.string().max(60)).max(30).optional(),
       nextWritingAction: z.string().max(500).optional(),
+      watchWords: z.array(z.string().min(1).max(40)).max(100).optional(),
       importLabels: z.array(z.object({ label: z.string().min(1).max(80), status: z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']) })).max(80).optional(),
     }).strict());
     return brain.updateSettings(params(req, P).id, b);

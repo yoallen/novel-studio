@@ -21,6 +21,8 @@ export const DEFAULT_SCENE_LADDER: LadderStep[] = [
 export type Guidance = 'quiet' | 'advisory' | 'deep';
 export type GoalType = 'none' | 'words' | 'scenes' | 'time' | 'milestones';
 
+import { DEFAULT_WATCH_WORDS } from './revise.js';
+
 export interface ImportLabel { label: string; status: 'established' | 'developing' | 'unanswered' | 'illustrative' | 'proposed' | 'set_aside' }
 /** Her Story Bible's labels, then the program's own words, then common ones. Longest match wins. */
 export const DEFAULT_IMPORT_LABELS: ImportLabel[] = [
@@ -72,6 +74,8 @@ export interface ProjectSettings {
   nextWritingAction: string;
   /** The words her own documents use for status, read on import (R-B-069). */
   importLabels: ImportLabel[];
+  /** Words and phrases she wants to keep an eye on when revising. */
+  watchWords: string[];
 }
 
 export const DEFAULT_RESERVED_MARKERS = ['Mine to write', 'Mine to build', 'Mine to design', 'Mine to choreograph', 'Mine to time', 'Mine to escalate', 'Mine to settle'];
@@ -91,6 +95,7 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
     ownedLabel: s.ownedLabel ?? DEFAULT_OWNED_LABEL,
     reservedMarkers: Array.isArray(s.reservedMarkers) && s.reservedMarkers.length ? s.reservedMarkers : DEFAULT_RESERVED_MARKERS,
     nextWritingAction: typeof s.nextWritingAction === 'string' ? s.nextWritingAction : '',
+    watchWords: Array.isArray(s.watchWords) ? s.watchWords : DEFAULT_WATCH_WORDS,
     importLabels: Array.isArray(s.importLabels) && s.importLabels.length ? s.importLabels : DEFAULT_IMPORT_LABELS,
   };
 }
