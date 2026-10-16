@@ -16,8 +16,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with: { node-version: 22, cache: npm }
       - run: npm ci
         env: { ELECTRON_SKIP_BINARY_DOWNLOAD: '1' }
@@ -28,13 +28,33 @@ jobs:
     needs: test
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - run: npm run build:ui
       - run: npm run build:electron
       - run: npx electron-builder --win nsis --publish never
+      # Install it the way she will, start it, and check that her library opens and the page is served.
+      - name: Smoke test the installed app
+        shell: pwsh
+        run: |
+          $setup = Get-ChildItem release\*.exe | Select-Object -First 1
+          Start-Process -FilePath $setup.FullName -ArgumentList '/S' -Wait
+          $exe = Join-Path $env:LOCALAPPDATA 'Programs\Story Canon\Story Canon.exe'
+          if (-not (Test-Path $exe)) { Get-ChildItem (Join-Path $env:LOCALAPPDATA 'Programs') -Recurse -Depth 2 | Select-Object FullName; throw "Not installed where expected" }
+          $p = Start-Process -FilePath $exe -PassThru
+          $ok = $false
+          for ($i = 0; $i -lt 40 -and -not $ok; $i++) {
+            Start-Sleep -Seconds 2
+            try { $r = Invoke-WebRequest -Uri 'http://127.0.0.1:47321/' -UseBasicParsing -TimeoutSec 3; if ($r.StatusCode -eq 200 -and $r.Content -match 'root') { $ok = $true } } catch { }
+          }
+          Get-Content (Join-Path $env:APPDATA 'Story Canon\story-canon.log') -ErrorAction SilentlyContinue
+          if (-not (Test-Path (Join-Path $env:APPDATA 'Story Canon\library.sqlite3'))) { $ok = $false; Write-Host 'Library file missing' }
+          Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+          Get-Process | Where-Object { $_.Path -eq $exe } | Stop-Process -Force -ErrorAction SilentlyContinue
+          if (-not $ok) { throw 'The installed app did not start and serve its page.' }
+          Write-Host 'Installed app started, opened its library and served its page.'
       - uses: actions/upload-artifact@v4
         with:
           name: Story-Canon-Setup
