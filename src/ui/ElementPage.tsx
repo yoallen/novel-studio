@@ -45,7 +45,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
       {error && <div className="notice error" role="alert">{error}</div>}
       {page.parent && <button className="btn link small" onClick={() => onOpen(page.parent.id)}>Back to {page.parent.title}</button>}
       <div className="row" style={{ alignItems: 'baseline' }}>
-        <input className="scene-title grow" aria-label="Name" defaultValue={el.title} onBlur={(e) => { if (e.target.value.trim() && e.target.value !== el.title) void act(api.patch(`/api/elements/${el.id}`, { title: e.target.value })); }} />
+        <input className="record-title grow" aria-label="Name" defaultValue={el.title} onBlur={(e) => { if (e.target.value.trim() && e.target.value !== el.title) void act(api.patch(`/api/elements/${el.id}`, { title: e.target.value })); }} />
       </div>
       <div className="row small" style={{ marginBottom: '1rem' }}>
         <label className="row">Kept for you
@@ -59,8 +59,15 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
         <button className="btn link small" onClick={() => void askAbout(ctx, { title: `About ${el.title}`, elementId: el.id }).catch((e) => setError(e.message))}>Ask about this</button>
         {(el.attrs?.turn_id) && <button className="btn link small" onClick={() => void api.get(`/api/origin?element=${el.id}`).then(setOrigin)}>Where did this come from?</button>}
       </div>
+      <div className="legend" aria-hidden="true">
+        <span className="st" data-s="established">inked: decided</span>
+        <span className="st" data-s="developing">pencil: still developing</span>
+        <span className="st" data-s="unanswered">a blank: still open</span>
+        <span className="st" data-s="illustrative">an example, never canon</span>
+        <span className="legend-slip">a slip: a suggestion, tucked in</span>
+      </div>
       <label className="field"><span>Notes</span>
-        <textarea rows={4} defaultValue={el.body} onBlur={(e) => { if (e.target.value !== el.body) void act(api.patch(`/api/elements/${el.id}`, { body: e.target.value })); }} />
+        <textarea rows={3} defaultValue={el.body} onBlur={(e) => { if (e.target.value !== el.body) void act(api.patch(`/api/elements/${el.id}`, { body: e.target.value })); }} />
       </label>
 
       {page.pending.length > 0 && (
@@ -184,7 +191,7 @@ function FieldBlock({ ctx, elId, f, open, setOpen, showHistory, toggleHistory, a
   const current: any[] = d.multi ? v.currentAll : v.current ? [v.current] : [];
   const nothing = !current.length && !v.possibilities.length && !v.unanswered.length && !v.illustrative.length;
   const row = (st: any, kind: string) => (
-    <div key={st.id} className="st" data-s={kind} style={{ marginBottom: '0.4rem' }}>
+    <div key={st.id} className="st fact" data-s={kind}>
       <div style={{ whiteSpace: 'pre-wrap' }}>{st.status === 'unanswered' && !valueText(st.value) ? <span className="muted">Still open</span> : valueText(st.value)}</div>
       <div className="row small faint">
         <span>{statusWord(ctx.settings, st.status)}{st.speaker_kind === 'assistant' ? ', suggested by the assistant' : st.speaker_kind === 'source' ? `, from ${st.speaker_name || 'a document'}` : ''}{st.qualifiers?.timing ? `, ${TIMING.find((t) => t[0] === st.qualifiers.timing)?.[1] ?? ''}` : ''}{st.qualifiers?.accepted_by ? ', accepted by you' : ''}, {when(st.made_at)}</span>
@@ -196,7 +203,7 @@ function FieldBlock({ ctx, elId, f, open, setOpen, showHistory, toggleHistory, a
     </div>
   );
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <div className="field-block" style={{ marginBottom: '1rem' }}>
       <div className="row"><strong className="grow">{d.label}{d.private ? <span className="faint small"> (private, never exported)</span> : ''}{d.custom ? <span className="faint small"> (your field)</span> : ''}</strong>
         <button className="btn link small" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Add'}</button></div>
       {d.prompt && nothing && <p className="faint small" style={{ margin: 0 }}>{d.prompt}</p>}
@@ -242,14 +249,15 @@ function ArcChain({ ctx, arc, onOpen }: { ctx: Ctx; arc: any; onOpen: (id: strin
     if (!v) return null;
     if (v.current) return <div className="st" data-s="established">{valueText(v.current.value)}</div>;
     const opts = [...v.possibilities, ...v.unanswered];
-    if (!opts.length) return <div className="faint small">Open</div>;
+    if (!opts.length) return <div className="blank-line" aria-label="Open" />;
     return opts.map((o: any) => <div key={o.id} className="st" data-s={o.status}>{valueText(o.value) ? <>{valueText(o.value)} <span className="faint small">({statusWord(ctx.settings, o.status)})</span></> : statusWord(ctx.settings, o.status)}</div>);
   };
   const type = get('arc_type')?.current?.value ?? get('arc_type')?.latest?.value;
   const value = get('arc_value')?.current?.value ?? get('arc_value')?.latest?.value;
   return (
-    <div style={{ border: '1px solid var(--line)', borderRadius: 'var(--r-md)', padding: '0.75rem 1rem', margin: '0.5rem 0' }}>
-      <div className="row"><button className="btn link grow" style={{ textAlign: 'left' }} onClick={() => onOpen(arc.element.id)}>{arc.element.title}</button><span className="small muted">{[type, value && `on ${value}`].filter(Boolean).join(' ') || 'Type and value not set'}</span></div>
+    <div className="arc-sheet">
+      <button className="arc-title" onClick={() => onOpen(arc.element.id)}>{arc.element.title}</button>
+      <p className="small muted" style={{ margin: '0 0 0.75rem' }}>{[type, value && `On ${value}.`].filter(Boolean).join(' ') || 'Type and value not set'}</p>
       <div className="cols" style={{ gap: '0.75rem 1.5rem' }}>
         {[['ghost', 'Ghost'], ['lie', 'Lie'], ['want', 'Want'], ['need', 'Need']].map(([k, l], i) => (
           <div key={k}><div className="small muted">{i > 0 ? 'which leads to the ' : ''}{l}</div>{show(k!)}</div>

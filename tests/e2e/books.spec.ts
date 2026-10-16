@@ -56,5 +56,7 @@ test('a method of her own, from any teacher, with its own beats, becomes a novel
   await expect(kit.getByLabel(/Fichtean Curve/)).toBeChecked();
   await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
   await page.getByRole('tab', { name: 'Board' }).click();
-  await expect(page.getByRole('button', { name: /First crisis/ })).toBeVisible();
+  await expect(page.getByRole('main').getByRole('button', { name: /First crisis/ })).toBeVisible();
+  // The strip above the page follows the new spine too.
+  await expect(page.getByRole('group', { name: /The book's shape/ }).getByRole('button', { name: 'First crisis' })).toBeAttached();
 });

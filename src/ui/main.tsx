@@ -4,6 +4,10 @@ import '@fontsource/literata/400-italic.css';
 import '@fontsource/literata/600.css';
 import '@fontsource/atkinson-hyperlegible/400.css';
 import '@fontsource/atkinson-hyperlegible/700.css';
+import '@fontsource/libre-caslon-text/400.css';
+import '@fontsource/libre-caslon-text/400-italic.css';
+import '@fontsource/libre-caslon-text/700.css';
+import '@fontsource/libre-caslon-display/400.css';
 import './theme.css';
 import { App } from './App';
 

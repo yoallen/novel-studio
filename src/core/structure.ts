@@ -307,6 +307,49 @@ export class Structure {
     return { rows, unplaced, worlds: WORLDS };
   }
 
+  /**
+   * The book's shape in one line, for the strip above every page. With a beat sheet: each beat at its
+   * place, the cards decided there and the ones that only might go there. Without one (she finds the
+   * story as she writes): the chapters as they stand, by words. Either way, where she is now.
+   */
+  strip(projectId: string, sceneId?: string | null) {
+    const top = this.beats(projectId).filter((b) => !b.element.parent_id);
+    const scene = sceneId ? this.store.db.prepare('SELECT id, chapter_id, plan_element_id FROM scenes WHERE id=? AND project_id=? AND deleted_at IS NULL').get(sceneId, projectId) as Row | undefined : undefined;
+    if (top.length) {
+      const cards = this.brain.elements(projectId, { kind: 'scene_plan' }).map((c) => ({ id: c.id as string, p: this.placements(c.id as string) }));
+      const n = top.length;
+      const parentOf = (beatId: string) => { const e = this.store.get('elements', beatId); return (e?.parent_id as string | null) ?? beatId; };
+      const spine = this.spine(projectId);
+      const defs: StructBeat[] = spine === 'save_the_cat' ? saveTheCatAsBeats() : (this.registry().beats[spine ?? ''] ?? []);
+      const hereBeat = scene?.plan_element_id ? this.decidedBeat(scene.plan_element_id as string) : null;
+      return {
+        mode: 'beats' as const,
+        acts: ACT_NAMES,
+        segments: top.map((b, i) => {
+          const at = defs.find((d) => d.key === b.attrs.template_key)?.at ?? [i / n, (i + 1) / n];
+          const id = b.element.id as string;
+          return { id, name: b.element.title as string, act: (b.act as string) ?? 'I', from: at[0], to: Math.max(at[1], at[0]),
+            decided: cards.filter((c) => c.p.decided && parentOf(c.p.decided.beatId) === id).length,
+            maybe: cards.filter((c) => !c.p.decided && c.p.candidates.some((x) => parentOf(x.beatId) === id)).length };
+        }),
+        here: hereBeat ? parentOf(hereBeat) : null,
+      };
+    }
+    const chapters = this.ms.outline(projectId);
+    const total = chapters.reduce((a, c) => a + (c.word_count as number), 0);
+    let run = 0;
+    return {
+      mode: 'chapters' as const,
+      acts: ACT_NAMES,
+      segments: chapters.map((c, i) => {
+        const w = total ? (c.word_count as number) / total : 1 / Math.max(1, chapters.length);
+        const seg = { id: c.id as string, name: (c.title as string) || `Chapter ${i + 1}`, act: '', from: run, to: run + w, decided: c.scenes.length, maybe: 0 };
+        run += w; return seg;
+      }),
+      here: (scene?.chapter_id as string | undefined) ?? null,
+    };
+  }
+
   /** One beat in her teaching format with this book's own fields (R-C-014). */
   beatDetail(beatId: string) {
     const page = this.brain.elementPage(beatId);

@@ -59,11 +59,12 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   }
 
   return (
-    <div className="scroll"><div className="content">
-      <header style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '0.25rem' }}>Story Canon</h1>
-        <p className="muted" style={{ fontSize: '1.125rem', margin: 0 }}>Where your story takes shape, and nothing gets lost.</p>
-        <p style={{ fontFamily: 'var(--prose)', fontStyle: 'italic', color: 'var(--struct)', margin: '0.75rem 0 0' }}>Story Canon remembers. The author decides.</p>
+    <div className="scroll library"><div className="content titlepage">
+      <header className="title-page">
+        <h1>Story Canon</h1>
+        <p className="sub">Where your story takes shape, and nothing gets lost.</p>
+        <p className="motto" aria-hidden="true">&#10086;</p>
+        <p className="motto">Story Canon remembers. The author decides.</p>
       </header>
       {seeds.map((sd) => (
         <section key={sd.file} className="section seed" aria-label={`${sd.title}, ready to bring in`}>

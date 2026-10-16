@@ -49,7 +49,7 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
 
   return (
     <div className="desk no-panel" style={{ gridTemplateColumns: '260px minmax(0, 1fr)' }}>
-      <aside className="binder" aria-label="Story Brain sections">
+      <aside className="binder contents" aria-label="Story Brain sections">
         <button className="scene-row" aria-current={sel.kind === 'notes' ? 'true' : undefined} onClick={() => setSel({ kind: 'notes' })}>Questions and ideas<span className="wc">{count('question') + count('idea') + count('thought')}</span></button>
         <button className="scene-row" aria-current={sel.kind === 'map' ? 'true' : undefined} onClick={() => setSel({ kind: 'map' })}>Choices ahead</button>
         <button className="scene-row" aria-current={sel.kind === 'suggestions' ? 'true' : undefined} onClick={() => setSel({ kind: 'suggestions' })}>Suggestions waiting<span className="wc">{pending.length}</span></button>

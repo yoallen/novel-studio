@@ -142,39 +142,87 @@ export function App() {
     openStuck: () => setStuck(true) };
   const saveText = save.state === 'saving' ? 'Saving…' : save.state === 'saved' ? 'Saved' : save.state === 'unsaved' ? 'Not saved yet' : save.state === 'error' ? (save.message ?? 'Not saved') : '';
 
+  const PRIMARY: View[] = ['home', 'write', 'brain', 'zoom', 'conversations'];
+  const SECONDARY: View[] = ['search', 'history', 'files', 'settings'];
+  const tab = (v: View) => <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>;
   return (
     <div className="app">
-      <header className="topbar">
-        <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
-        <BookSwitcher current={projectId!} title={project.title} onOpen={(id) => setProjectId(id)} />
-        <nav aria-label="Views">
-          {(['home', 'write', 'brain', 'zoom', 'conversations', 'search', 'history', 'files', 'settings'] as View[]).map((v) => (
-            <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>
-          ))}
-        </nav>
-        <span className="spacer" />
-        {view === 'write' && saveText && <span className="saved" data-state={save.state} role="status" aria-live="polite"><span className="dot" />{saveText}</span>}
-        <button className="btn small" onClick={() => setCapturing(true)} title="Capture a thought (Ctrl+Shift+N)">Capture</button>
-        {view !== 'write' && sceneId && <button className="return" onClick={() => void returnToWriting()} title="Ctrl+Shift+W">Return to Writing</button>}
-      </header>
-      <main className="main">
-        {view === 'home' && <Home ctx={ctx} />}
-        {view === 'write' && <Desk ctx={ctx} sceneId={sceneId} />}
-        {view === 'brain' && <StoryBrain ctx={ctx} />}
-        {view === 'zoom' && <NarrativeZoom ctx={ctx} request={zoomReq} />}
-        {view === 'conversations' && <ConversationsView ctx={ctx} />}
-        {view === 'search' && <SearchView ctx={ctx} />}
-        {view === 'trail' && <TrailView ctx={ctx} />}
-        {view === 'history' && <HistoryView ctx={ctx} />}
-        {view === 'trash' && <TrashView ctx={ctx} />}
-        {view === 'files' && <FilesView ctx={ctx} />}
-        {view === 'settings' && <SettingsView ctx={ctx} />}
-        {view === 'setup' && <NovelSetup ctx={ctx} />}
-        {view === 'drafts' && <DraftsView ctx={ctx} />}
-        {view === 'methods' && <MethodsView ctx={ctx} />}
-      </main>
+      <Strip projectId={projectId} sceneId={sceneId} refresh={view} onOpen={() => go('zoom')} />
+      <div className="colophon" aria-hidden="true">Story Canon</div>
+      <div className="leaf" data-view={view}>
+        <header className="running">
+          {view !== 'write' && sceneId && (
+            <button className="ribbon" onClick={() => void returnToWriting()} title="Return to Writing (Ctrl+Shift+W)"><span>Return to Writing</span></button>
+          )}
+          <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
+          <BookSwitcher current={projectId!} title={project.title} onOpen={(id) => setProjectId(id)} />
+          <span className="spacer" />
+          {view === 'write' && saveText && <span className="saved" data-state={save.state} role="status" aria-live="polite"><span className="dot" />{saveText}</span>}
+          <span className="where">{VIEW_NAMES[view]}</span>
+          <button className="btn small" onClick={() => setCapturing(true)} title="Capture a thought (Ctrl+Shift+N)">Capture</button>
+        </header>
+        <main className="main">
+          {view === 'home' && <Home ctx={ctx} />}
+          {view === 'write' && <Desk ctx={ctx} sceneId={sceneId} />}
+          {view === 'brain' && <StoryBrain ctx={ctx} />}
+          {view === 'zoom' && <NarrativeZoom ctx={ctx} request={zoomReq} />}
+          {view === 'conversations' && <ConversationsView ctx={ctx} />}
+          {view === 'search' && <SearchView ctx={ctx} />}
+          {view === 'trail' && <TrailView ctx={ctx} />}
+          {view === 'history' && <HistoryView ctx={ctx} />}
+          {view === 'trash' && <TrashView ctx={ctx} />}
+          {view === 'files' && <FilesView ctx={ctx} />}
+          {view === 'settings' && <SettingsView ctx={ctx} />}
+          {view === 'setup' && <NovelSetup ctx={ctx} />}
+          {view === 'drafts' && <DraftsView ctx={ctx} />}
+          {view === 'methods' && <MethodsView ctx={ctx} />}
+        </main>
+      </div>
+      {/* The views, cut into the fore-edge like a dictionary's thumb index. */}
+      <nav aria-label="Views" className="thumbs">
+        {PRIMARY.map(tab)}
+        <span className="and" aria-hidden="true">and</span>
+        <div className="minor">{SECONDARY.map(tab)}</div>
+      </nav>
       {stuck && <Stuck ctx={ctx} onClose={() => setStuck(false)} />}
       {capturing && <CaptureDialog ctx={ctx} sceneId={view === 'write' ? sceneId : null} onClose={() => setCapturing(false)} />}
+    </div>
+  );
+}
+
+/** The book's shape, always in view: the beats (or, for a book found in the writing, its chapters), what is placed, and where she is. */
+function Strip({ projectId, sceneId, refresh, onOpen }: { projectId: string; sceneId: string | null; refresh: string; onOpen: () => void }) {
+  const [d, setD] = useState<any>(null);
+  useEffect(() => { api.get(`/api/projects/${projectId}/strip${sceneId ? `?scene=${sceneId}` : ''}`).then(setD).catch(() => setD(null)); }, [projectId, sceneId, refresh]);
+  const segs: any[] = d?.segments ?? [];
+  if (!segs.length) return <div className="strip" />;
+  const pct = (x: number) => `${Math.max(0, Math.min(100, x * 100))}%`;
+  const acts = d.mode === 'beats' ? (['I', 'IIA', 'IIB', 'III'] as const).map((a) => { const ss = segs.filter((x) => x.act === a); return ss.length ? { a, from: Math.min(...ss.map((x) => x.from)), to: Math.max(...ss.map((x) => x.to)) } : null; }).filter(Boolean) as { a: string; from: number; to: number }[] : [];
+  const here = segs.find((x) => x.id === d.here);
+  const placed = segs.reduce((n, x) => n + x.decided, 0), maybe = segs.reduce((n, x) => n + x.maybe, 0);
+  const summary = d.mode === 'beats' ? `${placed} card${placed === 1 ? '' : 's'} placed, ${maybe} that might go somewhere${here ? `, you are at ${here.name}` : ''}` : `${segs.length} chapter${segs.length === 1 ? '' : 's'}${here ? `, you are in ${here.name}` : ''}`;
+  return (
+    <div className="strip" role="group" aria-label={`The book's shape: ${summary}`}>
+      <div className="line">
+        {acts.map((x, i) => {
+          const next = acts[i + 1];
+          const to = next ? (x.to + next.from) / 2 : 1;
+          const from = i === 0 ? 0 : (acts[i - 1]!.to + x.from) / 2;
+          return <span key={x.a} className="act" style={{ left: pct(from), width: `calc(${pct(to - from)} - 3px)` }}><em>{d.acts[x.a]}</em></span>;
+        })}
+        {d.mode === 'chapters' && segs.map((x, i) => <span key={x.id} className="act" style={{ left: pct(x.from), width: `calc(${pct(x.to - x.from)} - 3px)` }}>{i === 0 || x.to - x.from > 0.08 ? <em>{x.name}</em> : null}</span>)}
+        {segs.map((x) => {
+          const mid = (x.from + x.to) / 2;
+          const pips = [...Array(Math.min(x.decided, 5)).fill('d'), ...Array(Math.min(x.maybe, Math.max(0, 5 - x.decided))).fill('m')];
+          return (
+            <button key={x.id} className={x.to - x.from > 0.02 ? 'beat span' : 'beat'} style={x.to - x.from > 0.02 ? { left: pct(x.from), width: pct(x.to - x.from) } : { left: pct(mid) }} onClick={onOpen}
+              title={`${x.name}${x.decided ? `, ${x.decided} placed` : ''}${x.maybe ? `, ${x.maybe} might go here` : ''}`} aria-label={x.name}>
+              {pips.map((p, k) => <i key={k} className={`pip ${p}`} style={{ left: `calc(50% + ${(k - (pips.length - 1) / 2) * 7}px)` }} />)}
+            </button>
+          );
+        })}
+        {here && <span className="here" style={{ left: pct((here.from + here.to) / 2) }} title={`You are at ${here.name}`} />}
+      </div>
     </div>
   );
 }

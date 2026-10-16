@@ -1,5 +1,9 @@
-/* Story Canon. Yolanda's palette: purple carries structure, orange is the one action that
-   takes you to the page, magenta marks what is hers alone. Everything else stays quiet. */
+/* Story Canon: a bound book.
+   The program is a page set into purple book cloth. The views are thumb-index tabs cut into the
+   fore-edge; a magenta ribbon marks the place you were writing; the book's shape runs across the top.
+   What is decided is set in ink; what is still developing is in pencil; a suggestion is a slip of
+   paper tucked in, never written in; an open question is a blank line waiting for her.
+   Orange is the one action that takes you to the page. Magenta is hers alone. */
 
 :root {
   --purple: #522875;
@@ -8,11 +12,17 @@
   --cream: #faf5ef;
   --charcoal: #1a1a1a;
 
+  --cloth: var(--purple);
+  --cloth-deep: #3d1d58;
+  --cloth-ink: #eadff2;
   --bg: var(--cream);
-  --page: #fffdf9;
+  --page: var(--cream);
+  --sheet: #fffdf9;            /* a sheet laid on the page: the manuscript, a slip, a dialog */
   --ink: var(--charcoal);
+  --pencil: #6c6474;
   --muted: #5e566a;
   --faint: #8c8496;
+  --margin: #74578d;           /* marginalia */
   --line: rgba(82, 40, 117, 0.16);
   --line-strong: rgba(82, 40, 117, 0.42);
   --wash: rgba(82, 40, 117, 0.06);
@@ -26,19 +36,23 @@
 
   --ui: 'Atkinson Hyperlegible', system-ui, sans-serif;
   --prose: 'Literata', Georgia, serif;
-  --r-sm: 4px;
-  --r-md: 8px;
+  --book: 'Libre Caslon Text', 'Literata', Georgia, serif;
+  --display: 'Libre Caslon Display', 'Libre Caslon Text', Georgia, serif;
+  --r-sm: 2px;
+  --r-md: 3px;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #17131c; --page: #1e1924; --ink: #efe9f4; --muted: #b7adc4; --faint: #8e849c;
+    --cloth: #2a1438; --cloth-deep: #1d0d28; --cloth-ink: #d9c8e6;
+    --bg: #1c1722; --page: #1c1722; --sheet: #241e2b; --ink: #f1ebf5; --pencil: #a99fb3; --muted: #b7adc4; --faint: #8e849c; --margin: #bba2d2;
     --line: rgba(205, 180, 230, 0.16); --line-strong: rgba(205, 180, 230, 0.4); --wash: rgba(205, 180, 230, 0.06);
     --struct: #c9a7ea; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #17131c; --page: #1e1924; --ink: #efe9f4; --muted: #b7adc4; --faint: #8e849c;
+  --cloth: #2a1438; --cloth-deep: #1d0d28; --cloth-ink: #d9c8e6;
+  --bg: #1c1722; --page: #1c1722; --sheet: #241e2b; --ink: #f1ebf5; --pencil: #a99fb3; --muted: #b7adc4; --faint: #8e849c; --margin: #bba2d2;
   --line: rgba(205, 180, 230, 0.16); --line-strong: rgba(205, 180, 230, 0.4); --wash: rgba(205, 180, 230, 0.06);
   --struct: #c9a7ea; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
 }
@@ -50,13 +64,19 @@ button, input, select, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--struct); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
-h1, h2, h3 { font-family: var(--prose); font-weight: 600; color: var(--struct); margin: 0 0 0.5em; line-height: 1.2; }
-h1 { font-size: 2rem; } h2 { font-size: 1.375rem; } h3 { font-size: 1.0625rem; }
+/* Caslon for the book's own voice: titles in the display cut, section heads in the text cut with a
+   rule that runs to the margin, small heads in italic like a marginal note. */
+h1, h2, h3 { color: var(--struct); margin: 0 0 0.5em; line-height: 1.15; font-weight: 400; }
+h1 { font-family: var(--display); font-size: 2.875rem; color: var(--ink); letter-spacing: -0.005em; line-height: 1.02; margin-bottom: 0.4em; }
+h2 { font-family: var(--book); font-weight: 700; font-size: 1.1875rem; display: flex; align-items: baseline; gap: 0.75rem; }
+h2::after { content: ''; flex: 1; height: 1px; background: var(--line); min-width: 1rem; }
+h2.grow::after, .row > h2::after, .dialog h2::after { display: none; }
+h3 { font-family: var(--book); font-style: italic; font-size: 1.0625rem; color: var(--margin); }
 p { margin: 0 0 0.75em; }
 .muted { color: var(--muted); } .faint { color: var(--faint); } .small { font-size: 0.875rem; }
 
 /* buttons: one orange action per screen; the rest are quiet */
-.btn { display: inline-flex; align-items: center; gap: 0.4em; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); padding: 0.4em 0.85em; border-radius: var(--r-sm); cursor: pointer; }
+.btn { display: inline-flex; align-items: center; gap: 0.4em; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); padding: 0.4em 0.85em; border-radius: var(--r-sm); cursor: pointer; transition: background-color .12s; }
 .btn:hover { background: var(--wash); }
 .btn:disabled { opacity: 0.5; cursor: default; }
 .btn.write { background: var(--action); color: var(--action-ink); border-color: var(--action); font-weight: 700; }
@@ -66,21 +86,74 @@ p { margin: 0 0 0.75em; }
 .btn.small { font-size: 0.875rem; padding: 0.2em 0.6em; }
 
 input[type='text'], input[type='number'], input[type='search'], select, textarea {
-  background: var(--page); border: 1px solid var(--line-strong); border-radius: var(--r-sm); padding: 0.45em 0.6em; width: 100%;
+  background: var(--sheet); border: 1px solid var(--line-strong); border-radius: var(--r-sm); padding: 0.45em 0.6em; width: 100%;
 }
 textarea { resize: vertical; min-height: 4.5em; line-height: 1.5; }
 label.field { display: block; margin-bottom: 0.9em; }
 label.field > span { display: block; font-size: 0.875rem; color: var(--muted); margin-bottom: 0.25em; }
 
-/* app frame */
-.app { display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); height: 100%; }
-.topbar { display: flex; flex-wrap: nowrap; min-width: 0; align-items: center; gap: 0.5rem 0.75rem; padding: 0.5rem 1rem; border-bottom: 1px solid var(--line); background: var(--bg); min-height: 52px; }
-.topbar .title { max-width: 22ch; font-family: var(--prose); color: var(--struct); font-weight: 600; font-size: 1.0625rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.topbar nav { display: flex; flex: 0 1 auto; gap: 0.25rem; flex-wrap: nowrap; overflow-x: auto; min-width: 0; max-width: 100%; scrollbar-width: thin; }
-.topbar nav button { white-space: nowrap; }
-.topbar nav button { border: 0; background: none; padding: 0.35em 0.45em; font-size: 0.9375rem; border-radius: var(--r-sm); cursor: pointer; color: var(--muted); }
-.topbar nav button[aria-current='page'] { color: var(--struct); background: var(--wash); }
-.topbar .spacer { flex: 1; }
+/* ---------- the bound book ---------- */
+.app {
+  display: grid; grid-template-columns: minmax(0, 1fr) 176px; grid-template-rows: 48px minmax(0, 1fr); height: 100%;
+  background-color: var(--cloth);
+  background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 1px, transparent 1px 3px);
+}
+.colophon { grid-row: 1; grid-column: 2; align-self: center; padding-left: 18px; font-family: var(--book); font-style: italic; font-size: 0.875rem; color: var(--cloth-ink); opacity: .8; }
+.leaf {
+  grid-row: 2; grid-column: 1; position: relative; min-width: 0; min-height: 0; margin: 0 0 14px 16px;
+  background: var(--page); border-radius: var(--r-md) 0 0 var(--r-md);
+  box-shadow: inset 16px 0 18px -16px rgba(29, 13, 40, .45), 0 1px 0 rgba(0,0,0,.25);
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+}
+.running { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 1.25rem 0.45rem 1.5rem; min-height: 46px; border-bottom: 1px solid var(--line); }
+.running .title { font-family: var(--book); font-style: italic; font-size: 1.0625rem; color: var(--struct); max-width: 26ch; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.running .where { font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.9375rem; white-space: nowrap; }
+.running .spacer { flex: 1; }
+.leaf[data-view='write'] .running .where { display: none; }
+
+/* the ribbon: where she was writing, one touch away. It hangs from the top edge of the page. */
+.running { position: relative; }
+.ribbon { position: relative; align-self: stretch; display: flex; align-items: center; border: 0; background: none; cursor: pointer; padding: 0 0.6rem 0 30px; margin-right: 0.25rem; }
+.ribbon::before {
+  content: ''; position: absolute; left: 0; top: -0.55rem; width: 20px; height: calc(100% + 0.55rem + 14px); background: var(--hers);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); box-shadow: 0 2px 2px rgba(0,0,0,.18); transition: height .18s ease; z-index: 2;
+}
+.ribbon:hover::before, .ribbon:focus-visible::before { height: calc(100% + 0.55rem + 24px); }
+.ribbon span { font-weight: 700; font-size: 0.875rem; color: var(--hers); white-space: nowrap; }
+
+/* thumb index on the fore-edge */
+.thumbs { grid-row: 2; grid-column: 2; display: flex; flex-direction: column; gap: 5px; padding: 26px 0 14px; min-height: 0; overflow-y: auto; scrollbar-width: none; }
+.thumbs button {
+  display: block; width: 162px; text-align: left; border: 0; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  background: var(--cloth-deep); color: var(--cloth-ink); font-size: 0.9375rem; padding: 0.6rem 0.8rem 0.6rem 0.9rem;
+  border-radius: 0 16px 16px 0; box-shadow: inset 7px 0 7px -7px rgba(0,0,0,.5); transition: transform .12s, background-color .12s;
+}
+.thumbs button:hover { transform: translateX(3px); }
+.thumbs button[aria-current='page'] { background: var(--page); color: var(--struct); font-weight: 700; width: 176px; margin-left: -14px; padding-left: 1.75rem; box-shadow: none; transform: none; }
+.thumbs .and { font-family: var(--book); font-style: italic; font-size: 0.8125rem; color: var(--cloth-ink); opacity: .75; padding: 0.7rem 0 0.1rem 0.9rem; }
+.thumbs .minor { display: flex; flex-direction: column; gap: 4px; }
+.thumbs .minor button { font-size: 0.8125rem; padding: 0.38rem 0.8rem 0.38rem 0.9rem; background: color-mix(in srgb, var(--cloth-deep) 70%, transparent); }
+.thumbs .minor button[aria-current='page'] { background: var(--page); }
+
+/* the book's shape */
+.strip { grid-row: 1; grid-column: 1; margin: 0 0 0 16px; padding: 0 1.25rem 0 1.5rem; display: flex; align-items: flex-end; }
+.strip .line { position: relative; flex: 1; height: 36px; }
+.strip .act { position: absolute; bottom: 4px; height: 6px; background: rgba(255,255,255,.14); border-radius: 1px; }
+.strip .act em { position: absolute; top: -27px; left: 0; font-family: var(--book); font-size: 0.75rem; color: var(--cloth-ink); opacity: .85; white-space: nowrap; }
+.strip .beat { position: absolute; bottom: 3px; height: 8px; width: 2px; margin-left: -1px; padding: 0; border: 0; background: rgba(255,255,255,.55); cursor: pointer; }
+.strip .beat.span { margin-left: 0; background: rgba(255,255,255,.08); border-left: 1px solid rgba(255,255,255,.35); }
+.strip .beat:hover, .strip .beat:focus-visible { background: rgba(255,255,255,.7); }
+.strip .pip { position: absolute; bottom: 12px; width: 4px; height: 8px; margin-left: -2px; border-radius: 1px; background: var(--cream); }
+.strip .pip.m { background: transparent; box-shadow: inset 0 0 0 1.25px var(--cream); }
+.strip .here { position: absolute; bottom: 0; width: 2px; height: 26px; margin-left: -1px; background: var(--hers); pointer-events: none; }
+.strip .here::before { content: ''; position: absolute; top: -3px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--hers); }
+
+@media (max-width: 1000px) {
+  .app { grid-template-columns: minmax(0, 1fr) 118px; }
+  .thumbs button { width: 108px; font-size: 0.8125rem; }
+  .thumbs button[aria-current='page'] { width: 118px; }
+}
+
 .saved { font-size: 0.875rem; color: var(--muted); display: inline-flex; align-items: center; gap: 0.4em; white-space: nowrap; }
 .saved .dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--struct); }
 .saved[data-state='saved'] .dot { background: var(--struct); }
@@ -88,6 +161,7 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .saved[data-state='error'] .dot { border-color: var(--danger); }
 
 .main { min-height: 0; overflow: hidden; }
+.leaf > .main { grid-row: 2; }
 .scroll { overflow: auto; height: 100%; }
 .content { max-width: 880px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 
@@ -97,8 +171,8 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .desk.focus { grid-template-columns: minmax(0, 1fr); }
 .binder, .panel { overflow: auto; border-right: 1px solid var(--line); padding: 0.75rem; }
 .panel { border-right: 0; border-left: 1px solid var(--line); }
-.pagewrap { overflow: auto; background: var(--bg); }
-.page { max-width: 68ch; margin: 2rem auto 6rem; background: var(--page); padding: 3rem 3.5rem; border-radius: var(--r-md); box-shadow: 0 0 0 1px var(--line); min-height: 70vh; }
+.pagewrap { overflow: auto; background: var(--page); }
+.page { max-width: 68ch; margin: 2rem auto 6rem; background: var(--sheet); padding: 3.5rem 3.75rem; border-radius: 1px; box-shadow: 0 1px 2px rgba(29,13,40,.08), 0 12px 32px -18px rgba(29,13,40,.35); min-height: 70vh; }
 .desk.focus .page { box-shadow: none; background: transparent; }
 .scene-title { font-family: var(--prose); font-size: 1.5rem; color: var(--struct); border: 0; background: transparent; width: 100%; padding: 0; margin-bottom: 1.25rem; }
 .ProseMirror { font-family: var(--prose); font-size: 1.15rem; line-height: 1.8; outline: none; min-height: 50vh; }
@@ -121,11 +195,34 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .hers { display: inline-block; border-left: 3px solid var(--hers); padding-left: 0.4em; font-size: 0.8125rem; }
 
 /* decision status is shown by the line itself: solid decided, dashed developing, dotted open */
-.st { border-left: 3px solid var(--struct); padding-left: 0.6em; }
-.st[data-s='developing'] { border-left-style: dashed; }
-.st[data-s='unanswered'] { border-left-style: dotted; }
-.st[data-s='illustrative'] { border-left-style: dotted; font-style: italic; border-left-color: var(--faint); }
-.st[data-s='proposed'] { border-left-style: double; border-left-width: 4px; }
+/* Status is shown the way a writer marks a page, never by color alone.
+   Inked: decided. Pencil: still developing. A slip tucked in: a suggestion. A blank line: still open.
+   Italic, introduced as an example: never canon. The mark at the left says the same in shape. */
+.st { position: relative; }
+.st:is(.fact, li, .legend > *) { padding-left: 1.15em; }
+.st:is(.fact, li, .legend > *)::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 7px; height: 7px; background: var(--ink); }
+.st:is(.fact, li, .legend > *)[data-s='developing']::before { width: 10px; height: 0; top: 0.8em; background: none; border-top: 2px dashed var(--pencil); }
+.st[data-s='developing'] { color: var(--pencil); }
+.st[data-s='developing'] > div:first-child { text-decoration: underline dashed 1.25px color-mix(in srgb, var(--pencil) 60%, transparent); text-underline-offset: 5px; }
+.st:is(.fact, li, .legend > *)[data-s='unanswered']::before { width: 10px; height: 0; top: 0.95em; background: none; border-top: 1.5px solid var(--ink); }
+.st[data-s='unanswered'] > div:first-child { display: inline-block; min-width: min(18rem, 100%); border-bottom: 1.5px solid var(--ink); font-family: var(--book); font-style: italic; color: var(--pencil); }
+.st:is(.fact, li, .legend > *)[data-s='illustrative']::before { width: auto; height: auto; background: none; top: 0; content: '\2766'; color: var(--margin); font-size: 0.85em; }
+.st[data-s='illustrative'] > div:first-child { font-family: var(--book); font-style: italic; color: var(--muted); }
+.st[data-s='proposed'] { background: var(--sheet); border: 1px solid var(--line); border-left: 3px solid var(--struct); padding: 0.45rem 0.7rem 0.45rem 0.9rem; transform: rotate(-0.35deg); box-shadow: 1px 2px 0 var(--wash); }
+.st[data-s='proposed']::before { display: none; }
+.st[data-s='set_aside'] { opacity: 0.6; }
+.st[data-s='set_aside'] > div:first-child { text-decoration: line-through 1px; }
+
+/* On a record, each fact keeps its marginalia: status, date, source and actions sit in the outer margin. */
+.st.fact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(11rem, 15rem); column-gap: 1.75rem; margin-bottom: 0.75rem !important; }
+.st.fact > div:first-child { font-size: 1.0625rem; line-height: 1.55; align-self: start; }
+.st.fact > .row { flex-direction: column; align-items: flex-start; gap: 0.1rem; border-left: 1px solid var(--line); padding-left: 0.75rem; font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.8125rem; line-height: 1.35; }
+.st.fact > .row .btn.link { font-family: var(--ui); font-style: normal; font-size: 0.8125rem; padding: 0; text-align: left; }
+.st.fact[data-s='proposed'] { grid-template-columns: minmax(0, 1fr) minmax(10rem, 14rem); }
+@media (max-width: 1100px) { .st.fact { grid-template-columns: minmax(0, 1fr); } .st.fact > .row { flex-direction: row; flex-wrap: wrap; border-left: 0; padding-left: 0; gap: 0.2rem 0.6rem; } }
+
+.legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; font-size: 0.8125rem; color: var(--muted); margin: 0 0 1.25rem; }
+.legend .st { padding-left: 1.25em; }
 .chip { display: inline-block; font-size: 0.75rem; border: 1px solid var(--line-strong); border-radius: 999px; padding: 0 0.55em; color: var(--muted); }
 
 .section { border-top: 1px solid var(--line); padding-top: 0.9rem; margin-top: 0.9rem; }
@@ -191,3 +288,51 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .suggest { display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; margin-top: 0.4rem; }
 .chip[aria-pressed="true"] { background: var(--struct); color: var(--page); border-color: var(--struct); }
 button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.8125rem; }
+
+.record-title { font-family: var(--display); font-size: 2.875rem; line-height: 1.05; color: var(--ink); border: 0; border-bottom: 1px solid transparent; background: transparent; width: 100%; padding: 0.1rem 0; margin: 0 0 0.6rem; }
+.record-title:hover { border-bottom-color: var(--line); }
+.record-title:focus { outline: none; border-bottom-color: var(--struct); }
+.legend-slip { display: inline-flex; align-items: center; gap: 0.4em; }
+.legend-slip::before { content: ''; width: 11px; height: 9px; background: var(--sheet); border: 1px solid var(--line-strong); border-left: 3px solid var(--struct); }
+
+/* A field's name reads like a marginal heading in the book. */
+.field-block > .row > strong { font-family: var(--book); font-style: italic; font-weight: 400; font-size: 1.0625rem; color: var(--margin); }
+.field-block > .row > strong .faint { font-family: var(--ui); font-style: normal; }
+
+/* Section lists read like a book's table of contents: name, dotted leader, number. */
+.contents .scene-row { padding: 0.32em 0.2em 0.32em 0.4em; }
+.contents .scene-row::after { content: ''; flex: 1; order: 1; min-width: 0.75rem; margin: 0 0.4em; border-bottom: 1.5px dotted color-mix(in srgb, var(--ink) 25%, transparent); align-self: flex-end; transform: translateY(-0.45em); }
+.contents .scene-row:not(:has(.wc))::after { display: none; }
+.contents .scene-row .wc { order: 2; margin-left: 0; font-family: var(--book); font-size: 0.9375rem; color: var(--margin); font-variant-numeric: oldstyle-nums; }
+.contents .scene-row[aria-current='true'] { background: none; box-shadow: none; color: var(--struct); font-weight: 700; }
+.contents .scene-row:hover { background: var(--wash); }
+
+/* ---------- the Library: the cover opens to a title page, and the novels stand on a shelf ---------- */
+.library { background-color: var(--cloth); background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 1px, transparent 1px 3px); padding: 28px 16px; }
+.library .titlepage { max-width: 960px; background: var(--page); border-radius: var(--r-md); padding: 3.5rem 4rem 4rem; box-shadow: 0 1px 0 rgba(0,0,0,.25), 0 30px 60px -40px rgba(0,0,0,.6); }
+.title-page { text-align: center; margin: 0 0 3rem; }
+.title-page h1 { font-size: 4.25rem; margin: 0 0 0.35rem; }
+.title-page .sub { font-family: var(--book); font-size: 1.1875rem; color: var(--muted); margin: 0; }
+.title-page .motto { font-family: var(--book); font-style: italic; color: var(--struct); margin: 0.6rem 0 0; }
+.title-page .motto[aria-hidden] { color: var(--margin); font-style: normal; margin-top: 1.1rem; }
+
+.shelf { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1.5rem 1.25rem; align-items: end; }
+.shelf .book {
+  position: relative; min-height: 250px; display: flex; flex-direction: column; gap: 0.5rem; padding: 1.1rem 1rem 0.9rem 1.35rem;
+  border: 0; border-radius: 2px 6px 6px 2px; color: var(--cloth-ink);
+  background-color: var(--cloth);
+  background-image: linear-gradient(90deg, rgba(0,0,0,.28) 0 7px, rgba(255,255,255,.08) 7px 9px, transparent 9px), repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 3px);
+  box-shadow: 0 1px 0 rgba(0,0,0,.3), 6px 10px 18px -10px rgba(29,13,40,.7);
+  transition: transform .15s ease;
+}
+.shelf .book:hover { transform: translateY(-4px) rotate(-.4deg); }
+.shelf .book-title { background: var(--cream); color: var(--charcoal); font-family: var(--display); font-size: 1.3rem; line-height: 1.15; padding: 0.75rem 0.7rem; border-radius: 1px; box-shadow: inset 0 0 0 1px rgba(82,40,117,.35), inset 0 0 0 4px var(--cream), inset 0 0 0 5px rgba(82,40,117,.35); text-align: center; margin: 0.4rem 0 auto; }
+.shelf .book-title:hover { text-decoration: none; }
+.shelf .book select { background: rgba(0,0,0,.2); color: var(--cloth-ink); border-color: rgba(255,255,255,.3); font-size: 0.8125rem; padding: 0.2em 0.4em; }
+.shelf .book .muted, .shelf .book .faint { color: var(--cloth-ink); opacity: .85; }
+.shelf .book p { font-size: 0.8125rem; }
+.section.seed { background: var(--sheet); }
+.arc-sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: 1px; padding: 0.9rem 1.15rem 1rem; margin: 0.6rem 0 0.9rem; box-shadow: 0 10px 24px -20px rgba(29,13,40,.5); }
+.arc-title { border: 0; background: none; padding: 0; cursor: pointer; font-family: var(--book); font-style: italic; font-size: 1.25rem; color: var(--struct); text-align: left; }
+.arc-title:hover { text-decoration: underline; text-underline-offset: 4px; }
+.blank-line { height: 1.4em; border-bottom: 1.5px solid var(--ink); max-width: 12rem; opacity: .7; }

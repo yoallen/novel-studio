@@ -280,6 +280,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/projects/:id/structure/save-the-cat', async (req) => structure.applySaveTheCat(params(req, P).id).length);
   app.get('/api/projects/:id/landmarks', async (req) => structure.landmarks(params(req, P).id));
   app.get('/api/projects/:id/board', async (req) => structure.board(params(req, P).id));
+  app.get('/api/projects/:id/strip', async (req) => structure.strip(params(req, P).id, query(req, z.object({ scene: id.optional() })).scene ?? null));
   app.get('/api/beats/:id', async (req) => structure.beatDetail(params(req, P).id));
   app.get('/api/projects/:id/structure-questions', async (req) => structure.questions(params(req, P).id, query(req, z.object({ profile: z.string().max(60).optional() })).profile));
   app.post('/api/projects/:id/cards', async (req) => structure.addCard(params(req, P).id, body(req, z.object({ title: z.string().min(1).max(300), beatId: id.nullable().optional(), mode: z.enum(['decide', 'candidate']).optional() }))));
