@@ -35,6 +35,7 @@ const ARCHIVE_TABLES: { table: string; scope: string }[] = [
   { table: 'writing_state', scope: 'project_id = :p' },
   { table: 'trail', scope: 'project_id = :p' },
   { table: 'writing_sessions', scope: 'project_id = :p' },
+  { table: 'arrangements', scope: 'project_id = :p' },
 ];
 
 /** Columns holding ids of other rows, remapped when importing as a copy. */
@@ -147,6 +148,9 @@ export function importArchive(store: Store, raw: unknown, opts: { asCopy?: boole
           for (const k of Object.keys(r)) if (REF_COLUMNS.has(k) && r[k] != null && !(table === 'journal' && k === 'id')) r[k] = remap(r[k]);
           if (table === 'journal') delete r.seq;
           if (table === 'projects') r.title = `${r.title} (copy)`;
+          if (table === 'arrangements' && typeof r.order_json === 'string') {
+            r.order_json = JSON.stringify(JSON.parse(r.order_json), (_k, v) => (typeof v === 'string' && map.has(v) ? map.get(v) : v));
+          }
         }
         const cols = Object.keys(r);
         store.db.prepare(`INSERT INTO ${table}(${cols.join(',')}) VALUES (${cols.map(() => '?').join(',')})`).run(...cols.map((c) => r[c] as never));

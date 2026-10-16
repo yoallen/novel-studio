@@ -1,6 +1,7 @@
 // The Story Brain: projects, story elements, statements with provenance and a decision
 // timeline, links, and capture (thoughts, questions, ideas).
 
+import { settingsOf, mergeSettings, ProjectSettings } from './settings.js';
 import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso } from './store.js';
 
 export const ELEMENT_KINDS = [
@@ -92,6 +93,28 @@ export class Brain {
     if (patch.profile !== undefined) row.profile_json = JSON.stringify(patch.profile);
     this.store.batch({ projectId: id, actor, reason: 'Update novel settings' }, (w) => w.update('projects', id, row, { expectVersion }));
     return this.project(id);
+  }
+
+  settings(id: string): ProjectSettings {
+    return settingsOf(this.project(id).profile);
+  }
+
+  /** Change novel settings. A status step still used by scenes cannot be removed (rename it instead). */
+  updateSettings(id: string, patch: Partial<ProjectSettings>, actor = ACTOR_AUTHOR): ProjectSettings {
+    const p = this.project(id);
+    const next = mergeSettings(p.profile, patch);
+    if (patch.sceneLadder) {
+      const keep = new Set(next.sceneLadder.map((x) => x.key));
+      const used = this.store.db.prepare('SELECT status, COUNT(*) AS n FROM scenes WHERE project_id=? AND deleted_at IS NULL GROUP BY status').all(id) as { status: string; n: number }[];
+      const orphan = used.filter((u) => !keep.has(u.status));
+      if (orphan.length) {
+        const old = settingsOf(p.profile).sceneLadder;
+        const names = orphan.map((o) => `${o.n} scene${o.n === 1 ? '' : 's'} marked "${old.find((x) => x.key === o.status)?.label ?? o.status}"`).join(', ');
+        throw new ValidationError(`That step is still in use: ${names}. Move those scenes to another step first, or rename the step instead.`);
+      }
+    }
+    this.updateProject(id, { profile: { ...p.profile, settings: next } }, undefined, actor);
+    return next;
   }
 
   archiveProject(id: string, actor = ACTOR_AUTHOR) {

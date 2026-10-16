@@ -2,9 +2,11 @@
 // plain text. Every committed save makes a revision; keystroke drafts go to an autosave journal
 // so a crash never loses more than a moment of typing.
 
+import { settingsOf } from './settings.js';
 import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId, latestRevisionId, restoreSceneRevision } from './store.js';
 
 const EMPTY_DOC = '{"type":"doc","content":[]}';
+/** Keys of the default ladder. Each novel can rename, add or remove steps in its settings. */
 export const SCENE_STATUSES = ['idea', 'planned', 'ready', 'drafting', 'first_draft', 'revising', 'revised', 'final'] as const;
 
 /** Count words the way writers expect: sequences of letters/digits, joined by apostrophes or hyphens. */
@@ -56,6 +58,17 @@ export class Manuscript {
     const r = this.store.get(table, id);
     if (!r || r.deleted_at) throw new NotFoundError(table === 'chapters' ? 'chapter' : 'scene');
     return r;
+  }
+
+  /** Status keys allowed for this novel (its own ladder). */
+  ladderKeys(projectId: string): string[] {
+    const p = this.store.get('projects', projectId);
+    const profile = p ? JSON.parse(p.profile_json as string) as Record<string, unknown> : {};
+    return settingsOf(profile).sceneLadder.map((x) => x.key);
+  }
+
+  private checkStatus(projectId: string, status: string) {
+    if (!this.ladderKeys(projectId).includes(status)) throw new ValidationError('That status is not on this novel\'s scene status list.');
   }
 
   private nextPosition(table: 'chapters' | 'scenes', where: string, arg: string): number {
@@ -123,7 +136,7 @@ export class Manuscript {
     const title = (input.title ?? '').trim() || `Scene ${count + 1}`;
     const doc = input.doc ? validateDoc(input.doc) : input.text ? textToDoc(input.text) : JSON.parse(EMPTY_DOC);
     const text = docToText(doc);
-    if (input.status && !SCENE_STATUSES.includes(input.status as never)) throw new ValidationError('Unknown scene status.');
+    if (input.status) this.checkStatus(c.project_id as string, input.status);
     let position = this.nextPosition('scenes', 'chapter_id', chapterId);
     if (input.afterSceneId) {
       const a = this.projectOf('scenes', input.afterSceneId);
@@ -134,7 +147,7 @@ export class Manuscript {
     return this.store.batch({ projectId: c.project_id as string, actor, reason: `Add scene "${title}"` }, (w) => {
       const s = w.insert('scenes', {
         project_id: c.project_id, chapter_id: chapterId, title, position, doc_json: JSON.stringify(doc), text,
-        word_count: countWords(text), status: input.status ?? (text ? 'drafting' : 'idea'),
+        word_count: countWords(text), status: input.status ?? this.defaultStatus(c.project_id as string, !!text),
       });
       if (text) {
         const revId = newId();
@@ -144,6 +157,17 @@ export class Manuscript {
       }
       return this.scene(s.id);
     });
+  }
+
+  private profileOf(projectId: string): Record<string, unknown> {
+    const p = this.store.get('projects', projectId);
+    return p ? JSON.parse(p.profile_json as string) as Record<string, unknown> : {};
+  }
+
+  private defaultStatus(projectId: string, hasText: boolean): string {
+    const ladder = settingsOf(this.profileOf(projectId)).sceneLadder;
+    if (hasText) return (ladder.find((x) => x.drafted) ?? ladder[0]!).key;
+    return ladder[0]!.key;
   }
 
   scene(id: string) {
@@ -178,7 +202,11 @@ export class Manuscript {
       }
       const words = countWords(text);
       const patch: Row = { doc_json: docJson, text, word_count: words };
-      if (['idea', 'planned', 'ready'].includes(s.status as string) && words > 0) patch.status = 'drafting';
+      // First words move a not-yet-started scene to the first drafting step, if the novel's ladder has one.
+      const ladder = settingsOf(this.profileOf(s.project_id as string)).sceneLadder;
+      const cur = ladder.find((x) => x.key === s.status);
+      const firstDrafted = ladder.find((x) => x.drafted);
+      if (words > 0 && firstDrafted && cur && !cur.drafted && ladder.indexOf(cur) < ladder.indexOf(firstDrafted)) patch.status = firstDrafted.key;
       w.update('scenes', id, patch, { expectVersion: input.expectVersion });
       const updated = this.store.get('scenes', id)!;
       const revId = newId();
@@ -191,11 +219,14 @@ export class Manuscript {
     });
   }
 
-  updateSceneMeta(id: string, patch: { title?: string; status?: string; povElementId?: string | null; planElementId?: string | null }, expectVersion?: number, actor = 'author') {
+  updateSceneMeta(id: string, patch: { title?: string; status?: string; povElementId?: string | null; planElementId?: string | null; confirmed?: boolean; reserved?: string | null; notes?: string }, expectVersion?: number, actor = 'author') {
     const s = this.projectOf('scenes', id);
     const row: Row = {};
     if (patch.title !== undefined) { if (!patch.title.trim()) throw new ValidationError('Scene title cannot be empty.'); row.title = patch.title.trim(); }
-    if (patch.status !== undefined) { if (!SCENE_STATUSES.includes(patch.status as never)) throw new ValidationError('Unknown scene status.'); row.status = patch.status; }
+    if (patch.status !== undefined) { this.checkStatus(s.project_id as string, patch.status); row.status = patch.status; }
+    if (patch.confirmed !== undefined) row.confirmed = patch.confirmed ? 1 : 0;
+    if (patch.reserved !== undefined) row.reserved = patch.reserved && patch.reserved.trim() ? patch.reserved.trim().slice(0, 120) : null;
+    if (patch.notes !== undefined) row.notes = patch.notes;
     for (const [k, col] of [['povElementId', 'pov_element_id'], ['planElementId', 'plan_element_id']] as const) {
       const v = patch[k];
       if (v !== undefined) {

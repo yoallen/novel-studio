@@ -4,7 +4,6 @@ import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import type { Services } from './app.js';
 import { STATUSES, RELATIONS, ELEMENT_KINDS } from '../core/brain.js';
-import { SCENE_STATUSES } from '../core/manuscript.js';
 import { exportArchive, importArchive, planImport, snapshot, listSnapshots } from '../core/backup.js';
 import { NotFoundError } from '../core/store.js';
 
@@ -33,6 +32,24 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.patch('/api/projects/:id', async (req) => {
     const b = body(req, z.object({ title: z.string().max(300).optional(), profile: json.optional(), expectVersion: z.number().int().optional() }));
     return brain.updateProject(params(req, P).id, b, b.expectVersion);
+  });
+  app.get('/api/projects/:id/settings', async (req) => brain.settings(params(req, P).id));
+  app.patch('/api/projects/:id/settings', async (req) => {
+    const step = z.object({ key: z.string(), label: z.string().max(80), drafted: z.boolean().optional() });
+    const b = body(req, z.object({
+      authorName: z.string().max(80).optional(),
+      sceneLadder: z.array(step).min(1).max(30).optional(),
+      guidanceWhileDrafting: z.enum(['quiet', 'advisory', 'deep']).optional(),
+      guidanceWhilePlanning: z.enum(['quiet', 'advisory', 'deep']).optional(),
+      goal: z.object({ type: z.enum(['none', 'words', 'scenes', 'time', 'milestones']), target: z.number().nullable(), note: z.string().max(500) }).optional(),
+      targetWords: z.number().nullable().optional(),
+      wordsPerPage: z.array(z.number()).min(1).max(4).optional(),
+      statusLabels: z.record(z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']), z.string().max(80)).optional(),
+      ownedLabel: z.string().max(120).optional(),
+      reservedMarkers: z.array(z.string().max(60)).max(30).optional(),
+      nextWritingAction: z.string().max(500).optional(),
+    }).strict());
+    return brain.updateSettings(params(req, P).id, b);
   });
   app.delete('/api/projects/:id', async (req) => { brain.archiveProject(params(req, P).id); return { archived: true }; });
 
@@ -123,12 +140,12 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.delete('/api/chapters/:id', async (req) => { ms.deleteChapter(params(req, P).id); return { deleted: true }; });
   app.post('/api/chapters/:id/restore', async (req) => { ms.restoreChapter(params(req, P).id); return { restored: true }; });
   app.post('/api/chapters/:id/scenes', async (req) => {
-    const b = body(req, z.object({ title: z.string().max(300).optional(), text: z.string().max(20_000_000).optional(), doc: doc.optional(), afterSceneId: id.nullable().optional(), status: z.enum(SCENE_STATUSES).optional() }));
+    const b = body(req, z.object({ title: z.string().max(300).optional(), text: z.string().max(20_000_000).optional(), doc: doc.optional(), afterSceneId: id.nullable().optional(), status: z.string().max(40).optional() }));
     return ms.addScene(params(req, P).id, b);
   });
   app.get('/api/scenes/:id', async (req) => ms.scene(params(req, P).id));
   app.patch('/api/scenes/:id', async (req) => {
-    const b = body(req, z.object({ title: z.string().max(300).optional(), status: z.enum(SCENE_STATUSES).optional(), povElementId: id.nullable().optional(), planElementId: id.nullable().optional(), expectVersion: z.number().int().optional() }));
+    const b = body(req, z.object({ title: z.string().max(300).optional(), status: z.string().max(40).optional(), povElementId: id.nullable().optional(), planElementId: id.nullable().optional(), confirmed: z.boolean().optional(), reserved: z.string().max(120).nullable().optional(), notes: z.string().max(200_000).optional(), expectVersion: z.number().int().optional() }));
     return ms.updateSceneMeta(params(req, P).id, b, b.expectVersion);
   });
   app.put('/api/scenes/:id/prose', async (req) => {

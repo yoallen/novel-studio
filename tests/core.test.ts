@@ -1,3 +1,4 @@
+import { MIGRATIONS } from '../src/core/schema.js';
 import { describe, it, expect, afterEach } from 'vitest';
 import { join } from 'node:path';
 import { freshStore } from './helpers.js';
@@ -13,7 +14,7 @@ describe('storage and migrations', () => {
     const p = env.brain.createProject('I Declare War');
     env.store.close();
     const again = new Store(env.store.path);
-    expect(again.schemaVersion()).toBe(1);
+    expect(again.schemaVersion()).toBe(MIGRATIONS[MIGRATIONS.length - 1]!.version);
     expect((again.get('projects', p.id as string) as { title: string }).title).toBe('I Declare War');
     again.close();
     env.store = new Store(env.store.path); // let cleanup close a live handle

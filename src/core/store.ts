@@ -38,17 +38,17 @@ export function newId(): string {
 export function nowIso(): string { return new Date().toISOString(); }
 
 /** Tables that support soft delete and therefore restore. */
-const SOFT_DELETE = new Set(['projects', 'elements', 'statements', 'links', 'chapters', 'scenes', 'conversations', 'marks']);
+const SOFT_DELETE = new Set(['projects', 'elements', 'statements', 'links', 'chapters', 'scenes', 'conversations', 'marks', 'arrangements']);
 /** Tables whose rows carry an optimistic-concurrency version. */
-const VERSIONED = new Set(['projects', 'elements', 'chapters', 'scenes']);
+const VERSIONED = new Set(['projects', 'elements', 'chapters', 'scenes', 'arrangements']);
 /** Tables that have an updated_at column. */
-const UPDATED_AT = new Set(['projects', 'elements', 'chapters', 'scenes']);
+const UPDATED_AT = new Set(['projects', 'elements', 'chapters', 'scenes', 'arrangements']);
 /** Fields whose history is kept in scene_revisions instead of the journal. */
 const UNJOURNALED: Record<string, Set<string>> = { scenes: new Set(['doc_json', 'text', 'word_count']) };
 
 const ALLOWED_TABLES = new Set([
   'projects', 'sources', 'excerpts', 'elements', 'statements', 'links', 'chapters', 'scenes',
-  'conversations', 'turns', 'marks', 'proposals', 'writing_sessions',
+  'conversations', 'turns', 'marks', 'proposals', 'writing_sessions', 'arrangements',
 ]);
 
 function assertTable(table: string) {
@@ -157,10 +157,20 @@ export class Store {
     }
     for (const m of MIGRATIONS) {
       if (m.version <= current) continue;
-      this.db.transaction(() => {
-        this.db.exec(m.sql);
-        this.db.prepare("INSERT INTO meta(key,value) VALUES('schema_version',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").run(String(m.version));
-      })();
+      // Table rebuilds need foreign keys off for the swap; integrity is checked before commit.
+      if (m.rebuild) this.db.pragma('foreign_keys = OFF');
+      try {
+        this.db.transaction(() => {
+          this.db.exec(m.sql);
+          if (m.rebuild) {
+            const bad = this.db.pragma('foreign_key_check') as unknown[];
+            if (bad.length) throw new AppError('migration_failed', `Upgrade ${m.version} found broken references; nothing was changed.`);
+          }
+          this.db.prepare("INSERT INTO meta(key,value) VALUES('schema_version',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").run(String(m.version));
+        })();
+      } finally {
+        if (m.rebuild) this.db.pragma('foreign_keys = ON');
+      }
     }
   }
 

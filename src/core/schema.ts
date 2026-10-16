@@ -1,7 +1,7 @@
 // Database schema and migrations. Each migration runs once, in order, inside a transaction.
 // Never edit a shipped migration; add a new one.
 
-export const MIGRATIONS: { version: number; name: string; sql: string }[] = [
+export const MIGRATIONS: { version: number; name: string; sql: string; rebuild?: boolean }[] = [
   {
     version: 1,
     name: 'initial',
@@ -258,6 +258,57 @@ CREATE TABLE settings (
   key TEXT PRIMARY KEY,
   value_json TEXT NOT NULL
 );
+`,
+  },
+  {
+    version: 2,
+    name: 'writing environment: custom scene ladder, confirmed drafts, author-reserved markers, element attributes, alternate structures',
+    rebuild: true,
+    sql: `
+CREATE TABLE scenes_v2 (
+  id TEXT PRIMARY KEY,
+  project_id TEXT NOT NULL REFERENCES projects(id),
+  chapter_id TEXT NOT NULL REFERENCES chapters(id),
+  title TEXT NOT NULL,
+  position REAL NOT NULL,
+  doc_json TEXT NOT NULL DEFAULT '{"type":"doc","content":[]}',
+  text TEXT NOT NULL DEFAULT '',
+  word_count INTEGER NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'idea',
+  pov_element_id TEXT REFERENCES elements(id),
+  plan_element_id TEXT REFERENCES elements(id),
+  confirmed INTEGER NOT NULL DEFAULT 0 CHECK (confirmed IN (0,1)),
+  reserved TEXT,
+  notes TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  deleted_at TEXT,
+  version INTEGER NOT NULL DEFAULT 1
+);
+INSERT INTO scenes_v2(id,project_id,chapter_id,title,position,doc_json,text,word_count,status,pov_element_id,plan_element_id,created_at,updated_at,deleted_at,version)
+  SELECT id,project_id,chapter_id,title,position,doc_json,text,word_count,status,pov_element_id,plan_element_id,created_at,updated_at,deleted_at,version FROM scenes;
+DROP TABLE scenes;
+ALTER TABLE scenes_v2 RENAME TO scenes;
+CREATE INDEX scenes_chapter ON scenes(chapter_id, position);
+CREATE INDEX scenes_project ON scenes(project_id);
+
+ALTER TABLE elements ADD COLUMN reserved TEXT;
+ALTER TABLE elements ADD COLUMN attrs_json TEXT NOT NULL DEFAULT '{}';
+ALTER TABLE chapters ADD COLUMN notes TEXT NOT NULL DEFAULT '';
+
+CREATE TABLE arrangements (
+  id TEXT PRIMARY KEY,
+  project_id TEXT NOT NULL REFERENCES projects(id),
+  name TEXT NOT NULL,
+  note TEXT NOT NULL DEFAULT '',
+  kind TEXT NOT NULL CHECK (kind IN ('manuscript','plan')),
+  order_json TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  deleted_at TEXT,
+  version INTEGER NOT NULL DEFAULT 1
+);
+CREATE INDEX arrangements_project ON arrangements(project_id);
 `,
   },
 ];
