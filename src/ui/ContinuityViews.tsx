@@ -316,17 +316,26 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
   const pairs = useData(`/api/projects/${ctx.projectId}/cast/pairs`, tick + t);
   const bech = useData(`/api/projects/${ctx.projectId}/cast/bechdel`, tick + t);
   const [open, setOpen] = useState<string | null>(null);
+  const groups = useData(`/api/projects/${ctx.projectId}/cast/groups`, tick + t);
+  const [pick, setPick] = useState<string[]>([]);
+  const [only, setOnly] = useState(false);
+  const [tog, setTog] = useState<any>(null);
+  useEffect(() => {
+    if (pick.length < 2) { setTog(null); return; }
+    api.post(`/api/projects/${ctx.projectId}/cast/together`, { ids: pick, only }).then(setTog).catch(() => setTog(null));
+  }, [pick.join('|'), only, ctx.projectId, tick, t]);
   if (!d) return <p className="muted">{e || 'Gathering the cast…'}</p>;
   if (!d.rows.length) return <p className="muted">No characters yet. Add them in the Story Brain, and this view shows where each one is in the story.</p>;
   const places: any[] = d.places;
   const actStarts = places.map((p, i) => i === 0 || places[i - 1].act !== p.act);
   const go = (p: any) => (p.sceneId ? ctx.openScene(p.sceneId) : p.planId && onOpen({ level: 'card', id: p.planId }));
-  async function relate(a: any, b: any) {
-    const r = await api.post(`/api/projects/${ctx.projectId}/elements`, { kind: 'relationship', title: `${a.title} and ${b.title}` });
-    await api.post(`/api/projects/${ctx.projectId}/links`, { fromId: r.id, toId: a.id, relation: 'relates_to' });
-    await api.post(`/api/projects/${ctx.projectId}/links`, { fromId: r.id, toId: b.id, relation: 'relates_to' });
+  const names = (cs: any[]) => (cs.length <= 2 ? cs.map((c) => c.title).join(' and ') : `${cs.slice(0, -1).map((c) => c.title).join(', ')} and ${cs[cs.length - 1].title}`);
+  async function relate(...cs: any[]) {
+    const r = await api.post(`/api/projects/${ctx.projectId}/elements`, { kind: 'relationship', title: names(cs) });
+    for (const c of cs) await api.post(`/api/projects/${ctx.projectId}/links`, { fromId: r.id, toId: c.id, relation: 'relates_to' });
     onOpen({ level: 'element', id: r.id });
   }
+  const sceneList = (ps: any[]) => <ol className="small" style={{ margin: '0.3rem 0 0 1rem' }}>{ps.map((pl: any) => <li key={pl.key}><button className="btn link small" onClick={() => go(pl)}>{pl.title}</button> <span className="faint">{pl.chapter ? `Chapter ${pl.chapter.number}, ` : ''}{d.acts[pl.act]}{pl.beat ? `, ${pl.beat}` : ''}</span></li>)}</ol>;
   async function answer(unit: string, a: 'yes' | 'no' | null) { await api.put(`/api/projects/${ctx.projectId}/cast/bechdel`, { unit, answer: a }); setT((x) => x + 1); }
   return (
     <>
@@ -354,9 +363,52 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
         </table>
       </div>
 
+      <section className="section" aria-label="Who is together">
+        <h3>Who is together</h3>
+        <p className="small muted">Choose any two or more characters to see every scene they share. A relationship record can hold how things stand among them, for a pair, a family, a rivalry or a whole group.</p>
+        <div className="row small" role="group" aria-label="Choose characters">
+          {d.rows.map((r: any) => <button key={r.id} className={'chip' + (pick.includes(r.id) ? ' on' : '')} aria-pressed={pick.includes(r.id)} onClick={() => setPick(pick.includes(r.id) ? pick.filter((x) => x !== r.id) : [...pick, r.id])}>{r.title}</button>)}
+          {pick.length > 0 && <button className="btn link small" onClick={() => setPick([])}>Clear</button>}
+        </div>
+        <label className="row small" style={{ marginTop: '0.4rem' }}><input type="checkbox" checked={only} onChange={(e) => setOnly(e.target.checked)} />Only scenes where no one else is there</label>
+        {tog && (
+          <div style={{ marginTop: '0.5rem' }} role="region" aria-label="Scenes together">
+            <div className="row small">
+              <strong className="grow">{names(tog.characters)}: {tog.scenes.length} scene{tog.scenes.length === 1 ? '' : 's'} together{only ? ', on their own' : ''}</strong>
+              <span className="faint">{Object.entries(tog.byAct).map(([a, n]) => `${d.acts[a]} ${n}`).join(', ')}</span>
+              {tog.record ? <button className="btn link small" onClick={() => onOpen({ level: 'element', id: tog.record.id })}>Their relationship</button> : <button className="btn link small" onClick={() => void relate(...tog.characters)}>Make a relationship record</button>}
+            </div>
+            {tog.scenes.length > 0 ? <ol className="small" style={{ margin: '0.3rem 0 0 1rem' }}>{tog.scenes.map((x: any) => <li key={x.place.key}><button className="btn link small" onClick={() => go(x.place)}>{x.place.title}</button> <span className="faint">{x.place.chapter ? `Chapter ${x.place.chapter.number}, ` : ''}{d.acts[x.place.act]}{x.alsoThere.length ? `; also there: ${x.alsoThere.join(', ')}` : ''}</span></li>)}</ol> : <p className="small faint">They are never all in one scene{only ? ' on their own' : ''} yet.</p>}
+          </div>
+        )}
+      </section>
+
+      {groups.d && groups.d.length > 0 && (
+        <section className="section" aria-label="Groups that keep meeting">
+          <h3>Groups that keep meeting</h3>
+          <p className="small muted">Three or more characters who share two or more scenes.</p>
+          <ul className="list small">
+            {groups.d.map((g: any) => {
+              const k = g.characters.map((c: any) => c.id).join('|');
+              return (
+                <li key={k}>
+                  <div className="row">
+                    <strong className="grow">{names(g.characters)}</strong>
+                    <span>{g.scenes.length} scenes together</span>
+                    <button className="btn link small" aria-expanded={open === k} onClick={() => setOpen(open === k ? null : k)}>{open === k ? 'Hide scenes' : 'Show scenes'}</button>
+                    {g.record ? <button className="btn link small" onClick={() => onOpen({ level: 'element', id: g.record.id })}>Their relationship</button> : <button className="btn link small" onClick={() => void relate(...g.characters)}>Make a relationship record</button>}
+                  </div>
+                  {open === k && sceneList(g.scenes)}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
+
       <section className="section" aria-label="Who meets whom">
-        <h3>Who meets whom</h3>
-        <p className="small muted">Every pair that shares a scene, how often, and in which acts. A relationship record holds how things stand between them and how that changes.</p>
+        <h3>Two at a time</h3>
+        <p className="small muted">Every pair that shares a scene, how often, and in which acts.</p>
         {!pairs.d ? <p className="muted small">…</p> : pairs.d.length === 0 ? <p className="small faint">No two characters share a scene yet.</p> : (
           <ul className="list small">
             {pairs.d.map((p: any) => {
@@ -370,7 +422,7 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
                     {p.together.length > 0 && <button className="btn link small" aria-expanded={open === k} onClick={() => setOpen(open === k ? null : k)}>{open === k ? 'Hide scenes' : 'Show scenes'}</button>}
                     {p.relationship ? <button className="btn link small" onClick={() => onOpen({ level: 'element', id: p.relationship.id })}>Their relationship</button> : <button className="btn link small" onClick={() => void relate(p.a, p.b)}>Make a relationship record</button>}
                   </div>
-                  {open === k && <ol className="small" style={{ margin: '0.3rem 0 0 1rem' }}>{p.together.map((pl: any) => <li key={pl.key}><button className="btn link small" onClick={() => go(pl)}>{pl.title}</button> <span className="faint">{pl.chapter ? `Chapter ${pl.chapter.number}, ` : ''}{d.acts[pl.act]}{pl.beat ? `, ${pl.beat}` : ''}</span></li>)}</ol>}
+                  {open === k && sceneList(p.together)}
                 </li>
               );
             })}

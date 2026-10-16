@@ -86,12 +86,7 @@ export class Cast {
   /** How characters meet: every pair that shares a scene, where and how often, with any relationship record. */
   pairs(projectId: string) {
     const { places, rows } = this.presence(projectId);
-    const rels = this.brain.elements(projectId, { kind: 'relationship' });
-    const links = this.brain.links(projectId);
-    const relFor = (a: string, b: string) => rels.find((r) => {
-      const ends = new Set(links.filter((l) => l.from_id === r.id || l.to_id === r.id).map((l) => (l.from_id === r.id ? l.to_id : l.from_id) as string));
-      return ends.has(a) && ends.has(b);
-    }) ?? null;
+    const relFor = (a: string, b: string) => this.recordFor(projectId, [a, b]);
     const out: { a: { id: string; title: string }; b: { id: string; title: string }; together: Place[]; byAct: Record<string, number>; relationship: { id: string; title: string } | null }[] = [];
     for (let i = 0; i < rows.length; i++) for (let j = i + 1; j < rows.length; j++) {
       const A = rows[i]!, B = rows[j]!;
@@ -103,6 +98,56 @@ export class Cast {
       out.push({ a: { id: A.id, title: A.title }, b: { id: B.id, title: B.title }, together, byAct, relationship: rel ? { id: rel.id as string, title: rel.title as string } : null });
     }
     return out.sort((x, y) => y.together.length - x.together.length);
+  }
+
+  /** A relationship record that links exactly these characters (a pair, a family, a gang, a book club). */
+  private recordFor(projectId: string, ids: string[]) {
+    const links = this.brain.links(projectId);
+    return this.brain.elements(projectId, { kind: 'relationship' }).find((r) => {
+      const ends = new Set(links.filter((l) => l.from_id === r.id || l.to_id === r.id).map((l) => (l.from_id === r.id ? l.to_id : l.from_id) as string));
+      return ids.length === ends.size && ids.every((id) => ends.has(id));
+    }) ?? null;
+  }
+
+  /** Any two or more characters: every scene where they are all present, optionally with no one else there. */
+  together(projectId: string, ids: string[], opts: { only?: boolean } = {}) {
+    if (ids.length < 2) throw new ValidationError('Choose at least two characters.');
+    const { places, rows } = this.presence(projectId);
+    const chosen = ids.map((id) => rows.find((r) => r.id === id));
+    if (chosen.some((c) => !c)) throw new ValidationError('One of those characters is not in this novel.');
+    const others = rows.filter((r) => !ids.includes(r.id));
+    const scenes = places.filter((p) => chosen.every((c) => c!.cells[p.key]) && (!opts.only || others.every((o) => !o.cells[p.key])))
+      .map((p) => ({ place: p, alsoThere: others.filter((o) => o.cells[p.key]).map((o) => o.title) }));
+    const byAct: Record<string, number> = {};
+    for (const x of scenes) byAct[x.place.act] = (byAct[x.place.act] ?? 0) + 1;
+    const rec = this.recordFor(projectId, ids);
+    return { characters: chosen.map((c) => ({ id: c!.id, title: c!.title })), scenes, byAct, record: rec ? { id: rec.id as string, title: rec.title as string } : null };
+  }
+
+  /** Groups of three or more who share scenes again and again, largest first. */
+  groups(projectId: string) {
+    const { places, rows } = this.presence(projectId);
+    const counts = new Map<string, Place[]>();
+    for (const p of places) {
+      const here = rows.filter((r) => r.cells[p.key]).map((r) => r.id).sort();
+      if (here.length < 3 || here.length > 12) continue;
+      // Every group of three or more within the scene, so a trio still shows when a fourth person drops by.
+      const n = here.length;
+      for (let mask = 0; mask < 1 << n; mask++) {
+        let bits = 0; for (let m = mask; m; m &= m - 1) bits++;
+        if (bits < 3) continue;
+        const key = here.filter((_, i) => mask & (1 << i)).join('|');
+        counts.set(key, [...(counts.get(key) ?? []), p]);
+      }
+    }
+    const title = (id: string) => rows.find((r) => r.id === id)!.title;
+    const all = [...counts.entries()].filter(([, ps]) => ps.length >= 2).map(([k, ps]) => ({ ids: k.split('|'), scenes: ps }));
+    // Keep a group only if no larger group meets in exactly the same scenes.
+    const kept = all.filter((g) => !all.some((h) => h.ids.length > g.ids.length && g.ids.every((id) => h.ids.includes(id)) && h.scenes.length === g.scenes.length));
+    return kept.map((g) => {
+      const rec = this.recordFor(projectId, g.ids);
+      return { characters: g.ids.map((id) => ({ id, title: title(id) })), scenes: g.scenes, record: rec ? { id: rec.id as string, title: rec.title as string } : null };
+    }).sort((a, b) => b.scenes.length - a.scenes.length || b.characters.length - a.characters.length).slice(0, 40);
   }
 
   /**

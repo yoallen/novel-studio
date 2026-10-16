@@ -75,3 +75,25 @@ describe('names with titles', () => {
     expect(Object.keys(p.rows.find((r) => r.id === pruitt)!.cells)).toHaveLength(1);
   });
 });
+
+describe('more than two at a time', () => {
+  it('any chosen group: scenes they share, on their own or with others; groups that keep meeting; a record for the whole group', () => {
+    const { pid, cast, ch, person } = book();
+    const k = person('Kevin'), a = person('Anthony'), f = person('Francine'), g = person('Gloria');
+    const c = ch();
+    env.ms.addScene(c, { title: 'Block party', text: 'Kevin, Anthony and Francine stood by the pies. Gloria brought napkins.' });
+    env.ms.addScene(c, { title: 'Ledger', text: 'Kevin, Anthony and Francine read the ledger.' });
+    env.ms.addScene(c, { title: 'Garden', text: 'Francine and Gloria weeded.' });
+    const t = cast.together(pid, [k, a, f]);
+    expect(t.scenes.map((x) => x.place.title)).toEqual(['Block party', 'Ledger']);
+    expect(t.scenes[0]!.alsoThere).toEqual(['Gloria']);
+    expect(cast.together(pid, [k, a, f], { only: true }).scenes.map((x) => x.place.title)).toEqual(['Ledger']);
+    const groups = cast.groups(pid);
+    expect(groups.map((x) => x.characters.map((c) => c.title).sort().join(', '))).toEqual(['Anthony, Francine, Kevin']);
+    const rel = env.brain.createElement(pid, { kind: 'relationship', title: 'The feud triangle' });
+    for (const id of [k, a, f]) env.brain.link(pid, { fromId: rel.id, toId: id, relation: 'relates_to' });
+    expect(cast.together(pid, [k, a, f]).record?.title).toBe('The feud triangle');
+    expect(cast.together(pid, [k, a]).record).toBeNull();
+    void g;
+  });
+});

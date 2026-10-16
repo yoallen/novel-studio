@@ -36,6 +36,8 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   // ----- the cast across the story -----
   app.get('/api/projects/:id/cast', async (req) => svc.cast.presence(params(req, P).id));
   app.get('/api/projects/:id/cast/pairs', async (req) => svc.cast.pairs(params(req, P).id));
+  app.post('/api/projects/:id/cast/together', async (req) => { const b = body(req, z.object({ ids: z.array(id).min(2).max(30), only: z.boolean().optional() })); return svc.cast.together(params(req, P).id, b.ids, { only: b.only }); });
+  app.get('/api/projects/:id/cast/groups', async (req) => svc.cast.groups(params(req, P).id));
   app.get('/api/projects/:id/cast/bechdel', async (req) => svc.cast.bechdel(params(req, P).id));
   app.put('/api/projects/:id/cast/bechdel', async (req) => { const b = body(req, z.object({ unit: z.string().max(60), answer: z.enum(['yes', 'no']).nullable() })); return svc.cast.answerBechdel(params(req, P).id, b.unit, b.answer); });
   // ----- many books at once: stages, drafts, the shelf -----
