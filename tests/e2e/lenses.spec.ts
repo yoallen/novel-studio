@@ -15,7 +15,7 @@ test('Read it back shows echoes and watch words and selects them on the page; pa
   const echo = panel.getByRole('region', { name: 'Echoes' }).getByRole('button', { name: /walked ×2/ });
   await expect(echo).toBeVisible();
   await echo.click();
-  expect(await page.evaluate(() => window.getSelection()?.toString())).toBe('walked');
+  await expect.poll(() => page.evaluate(() => window.getSelection()?.toString())).toBe('walked');
   await expect(panel.getByRole('region', { name: 'Your watch words' })).toContainText('just ×1');
 
   await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
