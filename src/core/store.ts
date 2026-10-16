@@ -44,7 +44,8 @@ const VERSIONED = new Set(['projects', 'elements', 'chapters', 'scenes', 'arrang
 /** Tables that have an updated_at column. */
 const UPDATED_AT = new Set(['projects', 'elements', 'chapters', 'scenes', 'arrangements']);
 /** Fields whose history is kept in scene_revisions instead of the journal. */
-const UNJOURNALED: Record<string, Set<string>> = { scenes: new Set(['doc_json', 'text', 'word_count']) };
+/** Prose has its own version (prose_version) so editing a scene's title or status never collides with typing. */
+const UNJOURNALED: Record<string, Set<string>> = { scenes: new Set(['doc_json', 'text', 'word_count', 'prose_version']) };
 
 const ALLOWED_TABLES = new Set([
   'projects', 'sources', 'excerpts', 'elements', 'statements', 'links', 'chapters', 'scenes',
@@ -218,16 +219,19 @@ export class Store {
     if (batch.reverted_by) throw new ConflictError('This change was already undone.');
     const entries = (this.db.prepare('SELECT * FROM journal WHERE batch_id=? ORDER BY seq DESC').all(batchId) as Row[]).map(parseJournal);
     const later = this.db.prepare(
-      'SELECT j.field FROM journal j JOIN batches b ON b.id=j.batch_id WHERE j.table_name=? AND j.record_id=? AND (j.field IS ? OR j.op IN (\'delete\',\'restore\')) AND j.seq > ? AND b.reverted_by IS NULL AND j.batch_id <> ?',
+      'SELECT j.field FROM journal j JOIN batches b ON b.id=j.batch_id WHERE j.table_name=? AND j.record_id=? AND j.field IS ? AND j.op=\'update\' AND j.seq > ? AND b.reverted_by IS NULL AND j.batch_id <> ?',
     );
     const laterAny = this.db.prepare(
       'SELECT j.field FROM journal j JOIN batches b ON b.id=j.batch_id WHERE j.table_name=? AND j.record_id=? AND j.seq > ? AND b.reverted_by IS NULL AND j.batch_id <> ?',
     );
     const conflicts: { table: string; id: string; field: string | null }[] = [];
     for (const e of entries) {
+      // A later delete-then-restore does not block undoing a field edit; editing a record that is
+      // deleted right now does (restore it first).
+      const nowDeleted = e.op === 'update' && !!(this.db.prepare(`SELECT deleted_at FROM ${e.table_name as string} WHERE id=?`).get(e.record_id) as Row | undefined)?.deleted_at;
       const hit = e.op === 'insert'
         ? laterAny.get(e.table_name, e.record_id, e.seq, batchId)
-        : later.get(e.table_name, e.record_id, e.field, e.seq, batchId);
+        : nowDeleted || later.get(e.table_name, e.record_id, e.field, e.seq, batchId);
       if (hit) conflicts.push({ table: e.table_name as string, id: e.record_id as string, field: e.field as string | null });
     }
     if (conflicts.length && !opts.force) {
@@ -276,11 +280,11 @@ export function restoreSceneRevision(store: Store, w: Writer, sceneId: string, r
     doc = rev.doc_json as string; text = rev.text as string; words = rev.word_count as number;
   }
   const prevRev = latestRevisionId(store, sceneId);
-  w.update('scenes', sceneId, { doc_json: doc, text, word_count: words });
+  w.update('scenes', sceneId, { doc_json: doc, text, word_count: words, prose_version: (scene.prose_version as number) + 1 });
   const updated = store.get('scenes', sceneId)!;
   const revId = newId();
   store.db.prepare('INSERT INTO scene_revisions(id,scene_id,version,doc_json,text,word_count,reason,created_at) VALUES (?,?,?,?,?,?,?,?)')
-    .run(revId, sceneId, updated.version, doc, text, words, 'restore', nowIso());
+    .run(revId, sceneId, updated.prose_version, doc, text, words, 'restore', nowIso());
   w.note('scenes', sceneId, 'revision', prevRev, revId);
 }
 

@@ -88,7 +88,7 @@ describe('end-to-end author workflows over HTTP', () => {
     const hist = (await call('GET', `/api/projects/${p.id}/history`)).body;
     const titleBatch = hist[0];
     const cur = (await call('GET', `/api/scenes/${s.id}`)).body;
-    const saved = await call('PUT', `/api/scenes/${s.id}/prose`, { doc: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'first draft plus new words' }] }] }, expectVersion: cur.version });
+    const saved = await call('PUT', `/api/scenes/${s.id}/prose`, { doc: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: 'first draft plus new words' }] }] }, expectVersion: cur.prose_version });
     expect(saved.status).toBe(200);
     expect((await call('POST', `/api/batches/${titleBatch.id}/undo`, {})).status).toBe(200);
     const after = (await call('GET', `/api/scenes/${s.id}`)).body;
@@ -101,8 +101,8 @@ describe('end-to-end author workflows over HTTP', () => {
     const ch = (await call('POST', `/api/projects/${p.id}/chapters`, {})).body;
     const s = (await call('POST', `/api/chapters/${ch.id}/scenes`, { text: 'base' })).body;
     const d = (t: string) => ({ type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: t }] }] });
-    expect((await call('PUT', `/api/scenes/${s.id}/prose`, { doc: d('tab A'), expectVersion: s.version })).status).toBe(200);
-    const stale = await call('PUT', `/api/scenes/${s.id}/prose`, { doc: d('tab B'), expectVersion: s.version });
+    expect((await call('PUT', `/api/scenes/${s.id}/prose`, { doc: d('tab A'), expectVersion: s.prose_version })).status).toBe(200);
+    const stale = await call('PUT', `/api/scenes/${s.id}/prose`, { doc: d('tab B'), expectVersion: s.prose_version });
     expect(stale.status).toBe(409);
     expect(stale.body.detail.current.text).toBe('tab A');
   });

@@ -51,7 +51,7 @@ export class WritingDesk {
     const ids = linked.map((x) => x.id as string);
     const notes = ids.length
       ? (this.store.db.prepare(`SELECT id, kind, title, body, state, attrs_json, created_at FROM elements WHERE id IN (${ids.map(() => '?').join(',')}) AND deleted_at IS NULL AND kind IN ('question','idea','thought','note')`).all(...ids) as Row[])
-        .map((r) => ({ ...r, state: r.state as string, attrs: JSON.parse((r.attrs_json as string) || '{}') as Record<string, unknown> }))
+        .map((r) => ({ ...r, id: r.id as string, kind: r.kind as string, title: r.title as string, state: r.state as string, attrs: JSON.parse((r.attrs_json as string) || '{}') as Record<string, unknown> }))
       : [];
     const valueOf = (f: string) => fields.find((x) => x.field === f)?.latest?.value;
     const has = (v: unknown) => v !== undefined && v !== null && String(v).trim() !== '';
@@ -151,7 +151,9 @@ export class WritingDesk {
     this.brain.project(projectId);
     const since = new Date(now.getTime() - 7 * 86400_000).toISOString();
     const sessions = this.ms.sessions(projectId, 200).filter((x) => (x.started_at as string) >= since);
-    const netWords = sessions.reduce((a, x) => a + (x.net_words ?? 0), 0);
+    const total = this.ms.totalWords(projectId);
+    // An open session counts the words written so far.
+    const netWords = sessions.reduce((a, x) => a + (x.net_words ?? (total - (x.start_words as number))), 0);
     const scenesTouched = new Set(sessions.flatMap((x) => x.scenes));
     const count = (sql: string) => (this.store.db.prepare(sql).get(projectId, since) as { n: number }).n;
     return {

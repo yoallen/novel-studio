@@ -44,7 +44,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       goal: z.object({ type: z.enum(['none', 'words', 'scenes', 'time', 'milestones']), target: z.number().nullable(), note: z.string().max(500) }).optional(),
       targetWords: z.number().nullable().optional(),
       wordsPerPage: z.array(z.number()).min(1).max(4).optional(),
-      statusLabels: z.record(z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']), z.string().max(80)).optional(),
+      statusLabels: z.partialRecord(z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']), z.string().max(80)).optional(),
       ownedLabel: z.string().max(120).optional(),
       reservedMarkers: z.array(z.string().max(60)).max(30).optional(),
       nextWritingAction: z.string().max(500).optional(),
@@ -64,7 +64,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   });
   app.get('/api/projects/:id/deleted', async (req) => {
     const pid = params(req, P).id; brain.project(pid);
-    return { elements: brain.deletedElements(pid), scenes: ms.deletedScenes(pid) };
+    return { elements: brain.deletedElements(pid), scenes: ms.deletedScenes(pid), chapters: ms.deletedChapters(pid) };
   });
   app.get('/api/elements/:id', async (req) => brain.elementView(params(req, P).id));
   app.patch('/api/elements/:id', async (req) => {

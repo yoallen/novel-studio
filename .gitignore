@@ -1,9 +1,11 @@
-node_modules
-dist
-dist-electron
-release
 *.sqlite3*
-test-results
-playwright-report
 .env
 .studio-data/
+dist
+dist-electron
+node_modules
+playwright-report
+playwright-report/
+release
+test-results
+test-results/

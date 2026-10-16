@@ -78,7 +78,7 @@ describe('scene status ladder is the author\'s (R-B-026)', () => {
     const ch = env.ms.addChapter(pid);
     const s = env.ms.addScene(ch.id);
     expect(s.status).toBe('seed');
-    const saved = env.ms.saveScene(s.id as string, { doc: env.doc('First line.'), expectVersion: s.version as number });
+    const saved = env.ms.saveScene(s.id as string, { doc: env.doc('First line.'), expectVersion: s.prose_version as number });
     expect(saved.status).toBe('growing');
   });
 });
@@ -128,7 +128,7 @@ describe('writing desk (R-B-013 to R-B-019, R-B-030)', () => {
     // Reading context never creates records.
     expect(env.brain.elements(pid)).toHaveLength(0);
     // Writing works anyway, with every field empty (Scenario H).
-    const saved = env.ms.saveScene(s.id as string, { doc: env.doc('She wrote anyway.'), expectVersion: s.version as number });
+    const saved = env.ms.saveScene(s.id as string, { doc: env.doc('She wrote anyway.'), expectVersion: s.prose_version as number });
     expect(saved.word_count).toBe(3);
   });
 
@@ -211,5 +211,39 @@ describe('writing desk (R-B-013 to R-B-019, R-B-030)', () => {
     const w = desk().thisWeek(pid);
     expect(w.ideasCaptured).toBe(1);
     expect(w.netWords).toBe(0);
+  });
+});
+
+describe('changing a scene\'s details never collides with typing (regression found in the browser walkthrough)', () => {
+  it('a title, status, marker or capture change leaves the open page able to save', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Any Novel').id as string;
+    const s = env.ms.addScene(env.ms.addChapter(pid).id, { title: 'Opening' });
+    const opened = s.prose_version as number;
+    const d = new WritingDesk(env.store, env.brain, env.ms);
+    env.ms.updateSceneMeta(s.id as string, { title: 'The Opening', status: 'planned', reserved: 'Mine to write' });
+    d.captureForScene(s.id as string, 'what does the key open', { kind: 'question' });
+    d.setPlanField(s.id as string, 'purpose', 'Plant the key');
+    const saved = env.ms.saveScene(s.id as string, { doc: env.doc('The house was quiet.'), expectVersion: opened });
+    expect(saved.text).toBe('The house was quiet.');
+    expect(saved.title).toBe('The Opening');
+  });
+});
+
+describe('undo after delete and restore', () => {
+  it('a later delete-then-restore does not block undoing an earlier edit; a currently deleted record does', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('U').id as string;
+    const s = env.ms.addScene(env.ms.addChapter(pid).id);
+    env.ms.updateSceneMeta(s.id as string, { title: 'Renamed scene' });
+    const rename = env.store.history(pid)[0]!;
+    env.ms.saveScene(s.id as string, { doc: env.doc('Keep these words.'), expectVersion: 1 });
+    env.ms.deleteScene(s.id as string);
+    expect(() => env.store.revert(rename.id as string, 'author')).toThrow(/Newer changes/);
+    env.ms.restoreScene(s.id as string);
+    env.store.revert(rename.id as string, 'author');
+    const after = env.ms.scene(s.id as string);
+    expect(after.title).toBe('Scene 1');
+    expect(after.text).toBe('Keep these words.');
   });
 });

@@ -11,6 +11,7 @@ import { Brain } from '../core/brain.js';
 import { Manuscript } from '../core/manuscript.js';
 import { WritingDesk } from '../core/writing.js';
 import { registerRoutes } from './routes.js';
+import { snapshot } from '../core/backup.js';
 
 export interface AppOptions {
   dataPath: string;          // SQLite file
@@ -19,6 +20,8 @@ export interface AppOptions {
   port: number;              // the port the server will listen on (needed for Host/Origin checks)
   staticDir?: string;        // built UI
   logger?: boolean;
+  /** Automatic verified backups: after this much time with changes since the last one (default 30 min). 0 turns them off. */
+  autoBackupMs?: number;
 }
 
 export interface Services {
@@ -105,7 +108,20 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
     });
   }
 
-  app.addHook('onClose', async () => { store.close(); });
+  // Automatic backups: while there are changes, a verified snapshot every autoBackupMs, and one on close.
+  let changedSince = false, lastBackup = Date.now();
+  app.addHook('onResponse', async (req, reply) => { if (req.method !== 'GET' && reply.statusCode < 400 && req.url.startsWith('/api/')) changedSince = true; });
+  const every = opts.autoBackupMs ?? 30 * 60_000;
+  const backupNow = async () => {
+    if (!changedSince) return;
+    changedSince = false; lastBackup = Date.now();
+    try { await snapshot(store, opts.backupDir, 'auto', 20); } catch (e) { changedSince = true; app.log.error(e); }
+  };
+  const timer = every > 0 ? setInterval(() => { if (Date.now() - lastBackup >= every) void backupNow(); }, Math.min(every, 60_000)) : null;
+  timer?.unref?.();
+  (services as Services & { backupNow?: () => Promise<void> }).backupNow = backupNow;
+
+  app.addHook('onClose', async () => { if (timer) clearInterval(timer); if (every > 0) await backupNow(); store.close(); });
   return { app, services };
 }
 

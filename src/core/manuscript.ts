@@ -185,9 +185,9 @@ export class Manuscript {
     const doc = validateDoc(input.doc);
     const text = docToText(doc);
     const docJson = JSON.stringify(doc);
-    if (s.version !== input.expectVersion) {
+    if (s.prose_version !== input.expectVersion) {
       throw new ConflictError('This scene was changed in another window since you opened it. Both versions are kept; choose which to keep.', {
-        current: { version: s.version, text: s.text, doc: JSON.parse(s.doc_json as string) },
+        current: { version: s.prose_version, text: s.text, doc: JSON.parse(s.doc_json as string) },
       });
     }
     if (docJson === s.doc_json) { this.clearAutosave(id); return this.scene(id); }
@@ -198,20 +198,20 @@ export class Manuscript {
       if (!prevRev && (s.text as string).length) {
         beforeRev = newId();
         this.store.db.prepare('INSERT INTO scene_revisions(id,scene_id,version,doc_json,text,word_count,reason,created_at) VALUES (?,?,?,?,?,?,?,?)')
-          .run(beforeRev, id, s.version, s.doc_json, s.text, s.word_count, 'baseline', nowIso());
+          .run(beforeRev, id, s.prose_version, s.doc_json, s.text, s.word_count, 'baseline', nowIso());
       }
       const words = countWords(text);
-      const patch: Row = { doc_json: docJson, text, word_count: words };
+      const patch: Row = { doc_json: docJson, text, word_count: words, prose_version: (s.prose_version as number) + 1 };
       // First words move a not-yet-started scene to the first drafting step, if the novel's ladder has one.
       const ladder = settingsOf(this.profileOf(s.project_id as string)).sceneLadder;
       const cur = ladder.find((x) => x.key === s.status);
       const firstDrafted = ladder.find((x) => x.drafted);
       if (words > 0 && firstDrafted && cur && !cur.drafted && ladder.indexOf(cur) < ladder.indexOf(firstDrafted)) patch.status = firstDrafted.key;
-      w.update('scenes', id, patch, { expectVersion: input.expectVersion });
+      w.update('scenes', id, patch);
       const updated = this.store.get('scenes', id)!;
       const revId = newId();
       this.store.db.prepare('INSERT INTO scene_revisions(id,scene_id,version,doc_json,text,word_count,reason,created_at) VALUES (?,?,?,?,?,?,?,?)')
-        .run(revId, id, updated.version, docJson, text, words, input.reason ?? 'save', nowIso());
+        .run(revId, id, updated.prose_version, docJson, text, words, input.reason ?? 'save', nowIso());
       w.note('scenes', id, 'revision', beforeRev, revId);
       this.store.db.prepare('DELETE FROM autosave_journal WHERE scene_id=?').run(id);
       this.trackSessionScene(s.project_id as string, id);
@@ -266,6 +266,10 @@ export class Manuscript {
     });
   }
 
+  deletedChapters(projectId: string) {
+    return this.store.db.prepare('SELECT id, title, deleted_at FROM chapters WHERE project_id=? AND deleted_at IS NOT NULL ORDER BY deleted_at DESC').all(projectId) as Row[];
+  }
+
   deletedScenes(projectId: string) {
     return this.store.db.prepare(
       'SELECT s.id, s.title, s.word_count, s.deleted_at, c.title AS chapter_title FROM scenes s JOIN chapters c ON c.id=s.chapter_id WHERE s.project_id=? AND s.deleted_at IS NOT NULL ORDER BY s.deleted_at DESC',
@@ -302,7 +306,7 @@ export class Manuscript {
     this.store.db.prepare(
       'INSERT INTO autosave_journal(scene_id,base_version,doc_json,text,saved_at) VALUES (?,?,?,?,?) ON CONFLICT(scene_id) DO UPDATE SET base_version=excluded.base_version, doc_json=excluded.doc_json, text=excluded.text, saved_at=excluded.saved_at',
     ).run(sceneId, baseVersion, JSON.stringify(d), docToText(d), nowIso());
-    return { savedAt: nowIso(), sceneVersion: s.version };
+    return { savedAt: nowIso(), sceneVersion: s.prose_version };
   }
 
   clearAutosave(sceneId: string) {
@@ -312,7 +316,7 @@ export class Manuscript {
   /** Drafts that were typed but never committed (e.g. after a crash or power loss). */
   pendingRecoveries(projectId: string) {
     return this.store.db.prepare(
-      `SELECT a.scene_id, a.base_version, a.text, a.saved_at, s.title, s.version AS scene_version, s.text AS saved_text
+      `SELECT a.scene_id, a.base_version, a.text, a.saved_at, s.title, s.prose_version AS scene_version, s.text AS saved_text
        FROM autosave_journal a JOIN scenes s ON s.id=a.scene_id WHERE s.project_id=? AND s.deleted_at IS NULL AND a.doc_json <> s.doc_json`,
     ).all(projectId) as Row[];
   }

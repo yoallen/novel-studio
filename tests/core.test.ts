@@ -138,7 +138,7 @@ describe('history and undo (AC16, D2)', () => {
     env.ms.updateSceneMeta(s.id as string, { title: 'New title' });
     const titleBatch = env.store.history(p.id as string)[0]!;
     const cur = env.ms.scene(s.id as string);
-    env.ms.saveScene(s.id as string, { doc: env.doc('first draft plus 2,000 new words of prose'), expectVersion: cur.version as number });
+    env.ms.saveScene(s.id as string, { doc: env.doc('first draft plus 2,000 new words of prose'), expectVersion: cur.prose_version as number });
     env.store.revert(titleBatch.id as string, 'author');
     const after = env.ms.scene(s.id as string);
     expect(after.title).toBe('Old title');
@@ -174,7 +174,7 @@ describe('manuscript (AC12)', () => {
     env = freshStore();
     const p = env.brain.createProject('IDW');
     const s = env.ms.addScene(env.ms.addChapter(p.id as string).id, { text: 'base' });
-    const v = s.version as number;
+    const v = s.prose_version as number;
     env.ms.saveScene(s.id as string, { doc: env.doc('Tab A: 500 words'), expectVersion: v });
     expect(() => env.ms.saveScene(s.id as string, { doc: env.doc('stale tab B'), expectVersion: v })).toThrow(/another window/);
     expect(env.ms.scene(s.id as string).text).toContain('Tab A');
@@ -184,8 +184,8 @@ describe('manuscript (AC12)', () => {
     env = freshStore();
     const p = env.brain.createProject('IDW');
     const s = env.ms.addScene(env.ms.addChapter(p.id as string).id, { text: 'one' });
-    let cur = env.ms.saveScene(s.id as string, { doc: env.doc('two'), expectVersion: s.version as number });
-    cur = env.ms.saveScene(s.id as string, { doc: env.doc('three'), expectVersion: cur.version as number });
+    let cur = env.ms.saveScene(s.id as string, { doc: env.doc('two'), expectVersion: s.prose_version as number });
+    cur = env.ms.saveScene(s.id as string, { doc: env.doc('three'), expectVersion: cur.prose_version as number });
     const revs = env.ms.revisions(s.id as string);
     expect(revs.map((r) => r.preview)).toEqual(['three', 'two', 'one']);
     env.ms.restoreRevision(s.id as string, revs[2]!.id as string);
@@ -197,7 +197,7 @@ describe('manuscript (AC12)', () => {
     env = freshStore();
     const p = env.brain.createProject('IDW');
     const s = env.ms.addScene(env.ms.addChapter(p.id as string).id, { text: 'saved' });
-    env.ms.autosave(s.id as string, env.doc('saved and then 300 more words typed before the power went out'), s.version as number);
+    env.ms.autosave(s.id as string, env.doc('saved and then 300 more words typed before the power went out'), s.prose_version as number);
     env.store.close();
     env.store = new Store(env.store.path);
     const ms2 = new (env.ms.constructor as any)(env.store);
@@ -248,7 +248,7 @@ describe('manuscript (AC12)', () => {
     env = freshStore();
     const p = env.brain.createProject('IDW');
     const s = env.ms.addScene(env.ms.addChapter(p.id as string).id);
-    expect(() => env.ms.saveScene(s.id as string, { doc: null, expectVersion: s.version as number })).toThrow(/document/);
+    expect(() => env.ms.saveScene(s.id as string, { doc: null, expectVersion: s.prose_version as number })).toThrow(/document/);
   });
 
   it('counts words like a writer and extracts plain text from the editor document', () => {

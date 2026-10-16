@@ -17,7 +17,7 @@ function buildNovel() {
   env.brain.link(pid, { fromId: k.id, toId: a.id, relation: 'relates_to' });
   const ch = env.ms.addChapter(pid, 'Chapter 1');
   const s = env.ms.addScene(ch.id, { title: 'Fish guts', text: 'The smell hit Anthony before the sun did. “Yo.” — 😀' });
-  env.ms.saveScene(s.id as string, { doc: env.doc('The smell hit Anthony before the sun did. Revised.'), expectVersion: s.version as number });
+  env.ms.saveScene(s.id as string, { doc: env.doc('The smell hit Anthony before the sun did. Revised.'), expectVersion: s.prose_version as number });
   return { pid, k, a, s };
 }
 

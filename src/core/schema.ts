@@ -277,6 +277,7 @@ CREATE TABLE scenes_v2 (
   status TEXT NOT NULL DEFAULT 'idea',
   pov_element_id TEXT REFERENCES elements(id),
   plan_element_id TEXT REFERENCES elements(id),
+  prose_version INTEGER NOT NULL DEFAULT 1,
   confirmed INTEGER NOT NULL DEFAULT 0 CHECK (confirmed IN (0,1)),
   reserved TEXT,
   notes TEXT NOT NULL DEFAULT '',
@@ -285,8 +286,8 @@ CREATE TABLE scenes_v2 (
   deleted_at TEXT,
   version INTEGER NOT NULL DEFAULT 1
 );
-INSERT INTO scenes_v2(id,project_id,chapter_id,title,position,doc_json,text,word_count,status,pov_element_id,plan_element_id,created_at,updated_at,deleted_at,version)
-  SELECT id,project_id,chapter_id,title,position,doc_json,text,word_count,status,pov_element_id,plan_element_id,created_at,updated_at,deleted_at,version FROM scenes;
+INSERT INTO scenes_v2(id,project_id,chapter_id,title,position,doc_json,text,word_count,status,pov_element_id,plan_element_id,prose_version,created_at,updated_at,deleted_at,version)
+  SELECT id,project_id,chapter_id,title,position,doc_json,text,word_count,status,pov_element_id,plan_element_id,version,created_at,updated_at,deleted_at,version FROM scenes;
 DROP TABLE scenes;
 ALTER TABLE scenes_v2 RENAME TO scenes;
 CREATE INDEX scenes_chapter ON scenes(chapter_id, position);
