@@ -3,7 +3,7 @@
    fore-edge; a magenta ribbon marks the place you were writing; the book's shape runs across the top.
    What is decided is set in ink; what is still developing is in pencil; a suggestion is a slip of
    paper tucked in, never written in; an open question is a blank line waiting for her.
-   Orange is the one action that takes you to the page. Magenta is hers alone. */
+   Orange is the one action that takes you to the page. Magenta (--yours) marks what belongs to the author alone. */
 
 :root {
   --purple: #522875;
@@ -29,7 +29,7 @@
   --struct: var(--purple);
   --action: var(--orange);
   --action-ink: var(--charcoal);
-  --hers: var(--magenta);
+  --yours: var(--magenta);
   --ok: #2f6b45;
   --warn: #8a4b00;
   --danger: #a3123a;
@@ -115,11 +115,11 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .running { position: relative; }
 .ribbon { position: relative; align-self: stretch; display: flex; align-items: center; border: 0; background: none; cursor: pointer; padding: 0 0.6rem 0 30px; margin-right: 0.25rem; }
 .ribbon::before {
-  content: ''; position: absolute; left: 0; top: -0.55rem; width: 20px; height: calc(100% + 0.55rem + 14px); background: var(--hers);
+  content: ''; position: absolute; left: 0; top: -0.55rem; width: 20px; height: calc(100% + 0.55rem + 14px); background: var(--yours);
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); box-shadow: 0 2px 2px rgba(0,0,0,.18); transition: height .18s ease; z-index: 2;
 }
 .ribbon:hover::before, .ribbon:focus-visible::before { height: calc(100% + 0.55rem + 24px); }
-.ribbon span { font-weight: 700; font-size: 0.875rem; color: var(--hers); white-space: nowrap; }
+.ribbon span { font-weight: 700; font-size: 0.875rem; color: var(--yours); white-space: nowrap; }
 
 /* thumb index on the fore-edge */
 .thumbs { grid-row: 2; grid-column: 2; display: flex; flex-direction: column; gap: 5px; padding: 26px 0 14px; min-height: 0; overflow-y: auto; scrollbar-width: none; }
@@ -145,8 +145,8 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .strip .beat:hover, .strip .beat:focus-visible { background: rgba(255,255,255,.7); }
 .strip .pip { position: absolute; bottom: 12px; width: 4px; height: 8px; margin-left: -2px; border-radius: 1px; background: var(--cream); }
 .strip .pip.m { background: transparent; box-shadow: inset 0 0 0 1.25px var(--cream); }
-.strip .here { position: absolute; bottom: 0; width: 2px; height: 26px; margin-left: -1px; background: var(--hers); pointer-events: none; }
-.strip .here::before { content: ''; position: absolute; top: -3px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--hers); }
+.strip .here { position: absolute; bottom: 0; width: 2px; height: 26px; margin-left: -1px; background: var(--yours); pointer-events: none; }
+.strip .here::before { content: ''; position: absolute; top: -3px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--yours); }
 
 @media (max-width: 1000px) {
   .app { grid-template-columns: minmax(0, 1fr) 118px; }
@@ -192,7 +192,7 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .mark { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--struct); flex: none; }
 .mark[data-d='drafted'] { background: var(--struct); }
 .mark[data-d='revising'] { background: linear-gradient(135deg, var(--struct) 50%, transparent 50%); }
-.hers { display: inline-block; border-left: 3px solid var(--hers); padding-left: 0.4em; font-size: 0.8125rem; }
+.hers, .yours { display: inline-block; border-left: 3px solid var(--yours); padding-left: 0.4em; font-size: 0.8125rem; }
 
 /* decision status is shown by the line itself: solid decided, dashed developing, dotted open */
 /* Status is shown the way a writer marks a page, never by color alone.
@@ -226,7 +226,7 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .chip { display: inline-block; font-size: 0.75rem; border: 1px solid var(--line-strong); border-radius: 999px; padding: 0 0.55em; color: var(--muted); }
 
 .section { border-top: 1px solid var(--line); padding-top: 0.9rem; margin-top: 0.9rem; }
-.section.seed { border: 1px solid var(--line); border-left: 4px solid var(--hers); background: var(--page); border-radius: var(--r-md); padding: 1rem 1.25rem; margin: 0 0 1.75rem; }
+.section.seed { border: 1px solid var(--line); border-left: 4px solid var(--yours); background: var(--page); border-radius: var(--r-md); padding: 1rem 1.25rem; margin: 0 0 1.75rem; }
 .section.seed h2 { margin-top: 0; }
 .list { list-style: none; padding: 0; margin: 0; }
 .list > li { padding: 0.5rem 0; border-bottom: 1px solid var(--line); }

@@ -34,24 +34,24 @@ export const CRAFT_SHELF = [
 ];
 
 const MODE_TEXT: Record<Mode, string> = {
-  discuss: 'Talk it through with her as a creative partner. Ask at most one useful question at a time. Help the thinking happen.',
+  discuss: 'Talk it through with the author as a creative partner. Ask at most one useful question at a time. Help the thinking happen.',
   teach: 'Teach it: name the idea, define every term at first use, explain why it works and the common way it fails or is misunderstood, then give a fresh example, ideally one that lands and one that fails. Do not compress.',
   show: 'Show it: give two or three examples in different flavors so there is never one right answer to match. Label every one "One way it could be done". None is a decision.',
-  hand: 'Hand it to me: return the work to her. Set up what is decided, what is open, and a prompt that invites her to write it. Do not write it for her.',
-  critique: 'Critique: be honest, never flattering. Say what works, what does not work yet and why, and how it could be strengthened without taking over her voice. Separate checkable facts from your interpretation. Frame concerns as questions.',
-  resources: 'Craft resources: point her to where to learn more about this craft problem. Start with her own shelf. Name books, authors or well-known sources only. Never give chapter numbers, page numbers or quotations, and never invent a title. If you are not sure a resource exists, say so.',
+  hand: 'Hand it to me: return the work to the author. Set up what is decided, what is open, and a prompt that invites the author to write it. Do not write it for the author.',
+  critique: 'Critique: be honest, never flattering. Say what works, what does not work yet and why, and how it could be strengthened without taking over the author’s voice. Separate checkable facts from your interpretation. Frame concerns as questions.',
+  resources: 'Craft resources: point the author to where to learn more about this craft problem. Start with the author’s own shelf. Name books, authors or well-known sources only. Never give chapter numbers, page numbers or quotations, and never invent a title. If you are not sure a resource exists, say so.',
 };
 
 const GUIDANCE_TEXT = {
-  quiet: 'Quiet. She is in the flow. Answer only what she asked, briefly. Raise nothing else unless it breaks a decision or guardrail.',
-  advisory: 'Advisory. Answer what she asked, and mention at most one thing she may want to look at next.',
-  deep: 'Deep. She wants the full conversation: teach, question, and point out structure, causality and character issues you notice.',
+  quiet: 'Quiet. The author is in the flow. Answer only what the author asked, briefly. Raise nothing else unless it breaks a decision or guardrail.',
+  advisory: 'Advisory. Answer what the author asked, and mention at most one thing the author may want to look at next.',
+  deep: 'Deep. The author wants the full conversation: teach, question, and point out structure, causality and character issues you notice.',
 };
 
 const TOOLS: AiTool[] = [
   { name: 'suggest_fact', description: 'Suggest a value for one field of a story element. It waits for the author to accept, defer or decline. Use only element ids from the context.', input_schema: { type: 'object', properties: { element_id: { type: 'string' }, field: { type: 'string', description: 'lowercase_with_underscores' }, value: { type: 'string' }, rationale: { type: 'string' } }, required: ['element_id', 'field', 'value'] } },
-  { name: 'suggest_question', description: 'Suggest a question for her to consider. It is kept apart from her own questions until she adopts it.', input_schema: { type: 'object', properties: { question: { type: 'string' }, about_element_id: { type: 'string' } }, required: ['question'] } },
-  { name: 'suggest_connection', description: 'Suggest a connection between two story elements (for example causes, plants, pays_off, reveals, appears_in). It waits for her.', input_schema: { type: 'object', properties: { from_id: { type: 'string' }, to_id: { type: 'string' }, relation: { type: 'string' }, rationale: { type: 'string' } }, required: ['from_id', 'to_id', 'relation'] } },
+  { name: 'suggest_question', description: 'Suggest a question for the author to consider. It is kept apart from the author’s own questions until the author adopts it.', input_schema: { type: 'object', properties: { question: { type: 'string' }, about_element_id: { type: 'string' } }, required: ['question'] } },
+  { name: 'suggest_connection', description: 'Suggest a connection between two story elements (for example causes, plants, pays_off, reveals, appears_in). It waits for the author.', input_schema: { type: 'object', properties: { from_id: { type: 'string' }, to_id: { type: 'string' }, relation: { type: 'string' }, rationale: { type: 'string' } }, required: ['from_id', 'to_id', 'relation'] } },
 ];
 
 export class Collaborator {
@@ -92,18 +92,18 @@ export class Collaborator {
     const lines: string[] = [];
     lines.push(`Novel: ${p.title}`);
     const prof = p.profile as Record<string, unknown>;
-    if (prof.premise_sentence) lines.push(`Her one sentence: ${prof.premise_sentence}`);
+    if (prof.premise_sentence) lines.push(`The author’s one sentence: ${prof.premise_sentence}`);
     // How she has set this novel up; guidance uses her chosen frameworks' vocabulary (R-B-094).
     const setup = (prof.setup ?? {}) as { genres?: { name: string; role: string }[]; storyTypes?: { key: string; role: string }[]; characteristics?: string[]; frameworkNotes?: Record<string, string> };
     if (setup.genres?.length) lines.push(`Genres: ${setup.genres.map((g) => `${g.name} (${g.role})`).join(', ')}`);
     if (setup.storyTypes?.length) lines.push(`Blake Snyder story types: ${setup.storyTypes.map((t) => `${STORY_TYPES.find((d) => d.key === t.key)?.name ?? t.key} (${t.role})`).join(', ')}`);
     if (setup.characteristics?.length) lines.push(`Narrative characteristics: ${setup.characteristics.map((k) => CHARACTERISTICS.find((c) => c.key === k)?.name ?? k).join(', ')}`);
     const fw = (prof.frameworks as string[] | undefined) ?? [];
-    if (fw.length) lines.push(`Her storytelling toolkit (use these frameworks' terms; combinations are deliberate): ${fw.map((k) => `${FRAMEWORKS.find((f) => f.key === k)?.name ?? myMethods(this.store).find((m) => m.key === k)?.name ?? k}${setup.frameworkNotes?.[k] ? ` [how she uses it: ${setup.frameworkNotes[k]}]` : ''}`).join('; ')}`);
+    if (fw.length) lines.push(`The author’s storytelling toolkit (use these frameworks' terms; combinations are deliberate): ${fw.map((k) => `${FRAMEWORKS.find((f) => f.key === k)?.name ?? myMethods(this.store).find((m) => m.key === k)?.name ?? k}${setup.frameworkNotes?.[k] ? ` [how the author uses it: ${setup.frameworkNotes[k]}]` : ''}`).join('; ')}`);
     for (const m of myMethods(this.store).filter((x) => fw.includes(x.key))) {
-      lines.push(`Her own method "${m.name}"${m.source ? ` (from ${m.source})` : ''}: ${m.job}${m.beats.length ? ` Beats: ${m.beats.map((b) => `${b.name} (${Math.round(b.at[0] * 100)}%)`).join(', ')}.` : ''}${m.questions.length ? ` Questions it asks: ${m.questions.join(' ')}` : ''}`);
+      lines.push(`The author’s own method "${m.name}"${m.source ? ` (from ${m.source})` : ''}: ${m.job}${m.beats.length ? ` Beats: ${m.beats.map((b) => `${b.name} (${Math.round(b.at[0] * 100)}%)`).join(', ')}.` : ''}${m.questions.length ? ` Questions it asks: ${m.questions.join(' ')}` : ''}`);
     }
-    if (fw.includes('discovery')) lines.push('She discovers the story as she writes. Do not push outlines or beat sheets on her.');
+    if (fw.includes('discovery')) lines.push('The author discovers the story while writing. Do not push outlines or beat sheets on the author.');
     const elements = this.brain.elements(projectId).filter((e) => !['thought', 'scene_plan', 'beat'].includes(e.kind as string));
     const rows = this.store.db.prepare(
       `SELECT s.*, e.title AS element_title, e.kind AS element_kind FROM statements s JOIN elements e ON e.id=s.element_id
@@ -113,7 +113,7 @@ export class Collaborator {
     const privateFields = new Set(['tuning_fork', 'theme_music', 'playlist']);
     const byEl = new Map<string, Row[]>();
     for (const r of rows) { if (privateFields.has(r.field as string)) continue; byEl.set(r.element_id as string, [...(byEl.get(r.element_id as string) ?? []), r]); }
-    lines.push('', 'STORY RECORDS (status in brackets; "Decided" items are hers and current; older versions are omitted; examples are never decisions):');
+    lines.push('', 'STORY RECORDS (status in brackets; "Decided" items are the author’s and current; older versions are omitted; examples are never decisions):');
     for (const e of elements) {
       const st2 = byEl.get(e.id as string) ?? [];
       if (!st2.length && !e.body) continue;
@@ -121,7 +121,7 @@ export class Collaborator {
       if (e.body && ['question', 'idea', 'line'].includes(e.kind as string)) lines.push(`    text: ${String(e.body).slice(0, 600)}`);
       for (const s of st2) {
         const q = JSON.parse((s.qualifiers_json as string) || '{}') as Record<string, unknown>;
-        const who = s.speaker_kind === 'assistant' ? (q.accepted_by ? ', suggested by the assistant and accepted by her' : ', suggested by the assistant') : '';
+        const who = s.speaker_kind === 'assistant' ? (q.accepted_by ? ', suggested by the assistant and accepted by the author' : ', suggested by the assistant') : '';
         lines.push(`    ${s.field} [${label(s.status as string)}${who}${q.timing ? `, timing: ${q.timing}` : ''}]: ${String(JSON.parse(s.value_json as string) ?? '(open)').slice(0, 500)}`);
       }
     }
@@ -140,9 +140,9 @@ export class Collaborator {
     }
     if (sceneId) {
       const s = this.ms.scene(sceneId);
-      lines.push('', `FOCUS SCENE: "${s.title}"${s.reserved ? ` (kept for her: ${s.reserved}; do not draft it)` : ''}`);
-      if (ai.shareManuscript) lines.push('Her prose (do not rewrite it; comment only if asked):', String(s.text).slice(-12000));
-      else lines.push('(She has not chosen to share manuscript prose with the collaborator.)');
+      lines.push('', `FOCUS SCENE: "${s.title}"${s.reserved ? ` (kept for the author: ${s.reserved}; do not draft it)` : ''}`);
+      if (ai.shareManuscript) lines.push("The author’s prose (do not rewrite it; comment only if asked):", String(s.text).slice(-12000));
+      else lines.push('(The author has not chosen to share manuscript prose with the collaborator.)');
     }
     return lines.join('\n');
   }
@@ -153,19 +153,20 @@ export class Collaborator {
     const name = st.authorName || 'the author';
     return [
       `You are the collaborator inside ${BRAND.name}, a novel-writing program. You are talking with ${name}, the author. ${BRAND.name} remembers; the author decides.`,
-      'Your role: a thinking partner and story architect\'s assistant. Not a ghostwriter, not a creative director. You help her think; the program remembers; she remains the author.',
+      'Your role: a thinking partner and story architect\'s assistant. Not a ghostwriter, not a creative director. You help the author think; the program remembers; the author decides.',
       'Rules you never break:',
-      '- Never write or rewrite her manuscript. Never "improve" her prose or narration.',
-      '- Write sample lines or prose only when she explicitly asks, and label each "One way it could be done". Never for anything kept for her to write; then offer questions or teaching instead.',
-      '- Her decisions (marked Decided) are current. Do not reopen them unless she asks. Never present a possibility, an example or your own idea as decided.',
-      '- Label what you say: what she has decided, what is still developing or open, and what is your suggestion.',
-      '- Never assign race, ethnicity, religion, age or appearance she has not specified, and never infer one from another or from a casting reference.',
+      '- Never write or rewrite the author’s manuscript. Never "improve" the author’s prose or narration.',
+      '- Write sample lines or prose only when the author explicitly asks, and label each "One way it could be done". Never for anything kept for the author to write; then offer questions or teaching instead.',
+      '- The author’s decisions (marked Decided) are current. Do not reopen them unless the author asks. Never present a possibility, an example or your own idea as decided.',
+      '- Speak to the author by name. Never assume the author’s gender; if pronouns are needed and unknown, use they.',
+      '- Label what you say: what the author has decided, what is still developing or open, and what is your suggestion.',
+      '- Never assign race, ethnicity, religion, age or appearance the author has not specified, and never infer one from another or from a casting reference.',
       '- Do not invent backstory or trauma to fill an empty field. A Ghost explains the Lie; it need not be tragic, and an event during the story is not a Ghost.',
       '- Honest critique, never flattery. If something does not work yet, say so kindly and specifically.',
-      '- When she compares a character to someone, treat it as borrowed qualities, not a literal copy. Ask which qualities if unclear.',
+      '- When the author compares a character to someone, treat it as borrowed qualities, not a literal copy. Ask which qualities if unclear.',
       '- Respect every guardrail. If a suggestion would break one, say which.',
-      '- To propose a story fact, question or connection, use the suggestion tools; they wait for her. Never claim something was saved or decided.',
-      '- Craft resources: titles and authors only, never chapter or page numbers, never invented citations. Start with her own shelf: ' + myShelf(this.store).map((b) => `${b.title}${b.author ? `, ${b.author}` : ''}${b.useFor ? ` (she uses it for: ${b.useFor})` : ''}`).join('; ') + '.',
+      '- To propose a story fact, question or connection, use the suggestion tools; they wait for the author. Never claim something was saved or decided.',
+      '- Craft resources: titles and authors only, never chapter or page numbers, never invented citations. Start with the author’s own shelf: ' + myShelf(this.store).map((b) => `${b.title}${b.author ? `, ${b.author}` : ''}${b.useFor ? ` (she uses it for: ${b.useFor})` : ''}`).join('; ') + '.',
       '- Plain, warm language. No em dashes. Short paragraphs. One useful question at most.',
       `Guidance level: ${GUIDANCE_TEXT[level as keyof typeof GUIDANCE_TEXT] ?? GUIDANCE_TEXT.advisory}`,
       `Mode: ${MODE_TEXT[mode]}`,

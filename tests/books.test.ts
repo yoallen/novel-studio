@@ -115,7 +115,7 @@ describe('methods of her own, from any teacher or book', () => {
     ai.setKey('k'); ai.configure(pid, { enabled: true });
     await ai.ask(convs.create(pid, { title: 'x' }).id as string, { text: 'Where can I learn about misbelief?', mode: 'resources' });
     expect(calls[0]!.system).toContain('Wired for Story, Lisa Cron');
-    expect(String(calls[0]!.messages[0]!.content)).toContain('Her own method "Story Genius" (from Lisa Cron)');
+    expect(String(calls[0]!.messages[0]!.content)).toContain('The author’s own method "Story Genius" (from Lisa Cron)');
     expect(String(calls[0]!.messages[0]!.content)).toContain('What is the third rail?');
   });
 

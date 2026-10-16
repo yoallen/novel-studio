@@ -168,7 +168,7 @@ function Conversation({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
       {data.turns.map((t: any) => (
         <section key={t.id} className="section" aria-label={`Message ${t.position}`}>
           <div className="small muted">{t.speaker_name || (t.speaker_kind === 'author' ? 'You' : 'Assistant')}, {when(t.said_at)}</div>
-          <div data-turn={t.id} style={{ whiteSpace: 'pre-wrap', fontFamily: t.speaker_kind === 'author' ? 'var(--prose)' : 'var(--ui)', lineHeight: 1.65, borderLeft: t.speaker_kind === 'author' ? '3px solid var(--hers)' : '3px solid var(--line)', paddingLeft: '0.75rem', marginTop: '0.25rem' }}>{withMarks(t.text, marksByTurn[t.id] ?? [])}</div>
+          <div data-turn={t.id} style={{ whiteSpace: 'pre-wrap', fontFamily: t.speaker_kind === 'author' ? 'var(--prose)' : 'var(--ui)', lineHeight: 1.65, borderLeft: t.speaker_kind === 'author' ? '3px solid var(--yours)' : '3px solid var(--line)', paddingLeft: '0.75rem', marginTop: '0.25rem' }}>{withMarks(t.text, marksByTurn[t.id] ?? [])}</div>
           {(marksByTurn[t.id] ?? []).length > 0 && (
             <div className="row small" style={{ marginTop: '0.3rem' }}>
               {(marksByTurn[t.id] ?? []).map((m: any) => <span key={m.id} className="chip" title={m.quote}>{markLabel[m.kind]}: {m.quote.slice(0, 40)}{m.quote.length > 40 ? '…' : ''} <button className="btn link small" aria-label="Remove mark" onClick={() => void api.del(`/api/marks/${m.id}`).then(load)}>×</button></span>)}

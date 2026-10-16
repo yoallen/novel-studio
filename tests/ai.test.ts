@@ -62,7 +62,7 @@ describe('the collaborator (R-A-089 to R-A-108)', () => {
     expect(ctx).toContain('Kevin is never cruel');
     expect(ctx).toContain('Porch talk (Mine to write)');
     expect(ctx).toContain('What is Kevin afraid of?');
-    expect(first.system).toContain('Never write or rewrite her manuscript');
+    expect(first.system).toContain('Never write or rewrite the author’s manuscript');
     expect(first.system).toContain('Teach it');
     expect(first.model).toBe('claude-opus-5-5');
   });
