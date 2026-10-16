@@ -378,6 +378,19 @@ export class Manuscript {
     this.store.db.prepare('UPDATE trail SET returned_at=? WHERE project_id=? AND returned_at IS NULL').run(nowIso(), projectId);
   }
 
+  /** Record whether the issue that prompted a detour was resolved, and what came of it. */
+  resolveTrail(trailId: string, resolved: boolean, outcome = '') {
+    const r = this.store.db.prepare('SELECT id FROM trail WHERE id=?').get(trailId);
+    if (!r) throw new NotFoundError('trail entry');
+    this.store.db.prepare('UPDATE trail SET resolved=?, outcome=? WHERE id=?').run(resolved ? 1 : 0, outcome.slice(0, 2000), trailId);
+  }
+
+  /** The whole Writing Trail, newest first: open detours and recent returns. */
+  trail(projectId: string, limit = 50) {
+    return (this.store.db.prepare('SELECT * FROM trail WHERE project_id=? ORDER BY created_at DESC, id DESC LIMIT ?').all(projectId, limit) as Row[])
+      .map((r) => withFields(r, { from: JSON.parse(r.from_json as string) as unknown, to: JSON.parse(r.to_json as string) as unknown }));
+  }
+
   startSession(projectId: string) {
     const open = this.store.db.prepare('SELECT * FROM writing_sessions WHERE project_id=? AND ended_at IS NULL').get(projectId) as Row | undefined;
     if (open) return open;

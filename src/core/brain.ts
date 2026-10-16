@@ -141,7 +141,7 @@ export class Brain {
   }
 
   // ---------- elements ----------
-  createElement(projectId: string, input: { kind: string; title: string; body?: string; state?: string; parentId?: string | null; sortKey?: number }, actor = ACTOR_AUTHOR) {
+  createElement(projectId: string, input: { kind: string; title: string; body?: string; state?: string; parentId?: string | null; sortKey?: number; attrs?: Record<string, unknown>; reserved?: string | null }, actor = ACTOR_AUTHOR) {
     this.project(projectId);
     const kind = input.kind as ElementKind;
     if (!ELEMENT_KINDS.includes(kind)) throw new ValidationError(`Unknown element type: ${input.kind}`);
@@ -151,7 +151,7 @@ export class Brain {
     if (LIFECYCLE[kind] && !LIFECYCLE[kind]!.includes(state)) throw new ValidationError(`Invalid state for ${kind}`);
     if (input.parentId) this.element(input.parentId, projectId);
     return this.store.batch({ projectId, actor, reason: `Add ${kind} "${title}"` }, (w) =>
-      w.insert('elements', { project_id: projectId, kind, title, body: input.body ?? '', state, parent_id: input.parentId ?? null, sort_key: input.sortKey ?? Date.now() }));
+      w.insert('elements', { project_id: projectId, kind, title, body: input.body ?? '', state, parent_id: input.parentId ?? null, sort_key: input.sortKey ?? Date.now(), attrs_json: JSON.stringify(input.attrs ?? {}), reserved: input.reserved ?? null }));
   }
 
   element(id: string, projectId?: string): IdRow {
@@ -160,7 +160,7 @@ export class Brain {
     return e as IdRow;
   }
 
-  updateElement(id: string, patch: { title?: string; body?: string; state?: string; parentId?: string | null; sortKey?: number }, expectVersion?: number, actor = ACTOR_AUTHOR) {
+  updateElement(id: string, patch: { title?: string; body?: string; state?: string; parentId?: string | null; sortKey?: number; attrs?: Record<string, unknown>; reserved?: string | null }, expectVersion?: number, actor = ACTOR_AUTHOR) {
     const e = this.element(id);
     const row: Row = {};
     if (patch.title !== undefined) { const t = patch.title.trim(); if (!t) throw new ValidationError('Title cannot be empty.'); row.title = t; }
@@ -172,6 +172,8 @@ export class Brain {
     }
     if (patch.parentId !== undefined) { if (patch.parentId) this.element(patch.parentId, e.project_id as string); row.parent_id = patch.parentId; }
     if (patch.sortKey !== undefined) row.sort_key = patch.sortKey;
+    if (patch.attrs !== undefined) row.attrs_json = JSON.stringify({ ...JSON.parse((e.attrs_json as string) ?? '{}'), ...patch.attrs });
+    if (patch.reserved !== undefined) row.reserved = patch.reserved && patch.reserved.trim() ? patch.reserved.trim().slice(0, 120) : null;
     return this.store.batch({ projectId: e.project_id as string, actor, reason: `Edit ${e.kind} "${e.title}"` }, (w) => w.update('elements', id, row, { expectVersion }));
   }
 
@@ -350,12 +352,13 @@ export class Brain {
 
   // ---------- capture ----------
   /** Capture a thought exactly as typed, with no category required. */
-  capture(projectId: string, text: string, opts: { kind?: 'thought' | 'question' | 'idea'; linkTo?: string[] } = {}, actor = ACTOR_AUTHOR) {
+  capture(projectId: string, text: string, opts: { kind?: 'thought' | 'question' | 'idea'; linkTo?: string[]; urgency?: 'now' | 'later' } = {}, actor = ACTOR_AUTHOR) {
     if (typeof text !== 'string' || !text.trim()) throw new ValidationError('Nothing to capture yet.');
     const kind = opts.kind ?? 'thought';
     const firstLine = text.trim().split(/\n/)[0]!;
     const title = firstLine.length > 80 ? firstLine.slice(0, 77).trimEnd() + '…' : firstLine;
-    const el = this.createElement(projectId, { kind, title, body: text }, actor);
+    // The body keeps exactly what was typed or dictated; nothing is corrected (R-B-044).
+    const el = this.createElement(projectId, { kind, title, body: text, attrs: opts.urgency ? { urgency: opts.urgency } : {} }, actor);
     for (const to of opts.linkTo ?? []) this.link(projectId, { fromId: el.id, toId: to, relation: 'relates_to' }, actor);
     return el;
   }

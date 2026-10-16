@@ -110,3 +110,106 @@ describe('labels', () => {
     expect(ownedLabel(undefined, '')).toBe("It's on you now");
   });
 });
+
+import { WritingDesk } from '../src/core/writing.js';
+
+describe('writing desk (R-B-013 to R-B-019, R-B-030)', () => {
+  function desk() { return new WritingDesk(env.store, env.brain, env.ms); }
+
+  it('readiness is information only and lists exactly what is open', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Any Novel').id as string;
+    const ch = env.ms.addChapter(pid);
+    const s = env.ms.addScene(ch.id, { title: 'Driveway' });
+    const d = desk();
+    const ctx = d.sceneContext(s.id as string);
+    expect(ctx.readiness.ready).toBe(false);
+    expect(ctx.readiness.open).toEqual(['Viewpoint character', 'Purpose', "Character's objective", 'Central conflict', 'Intended outcome or change', 'Relationship to the surrounding story']);
+    // Reading context never creates records.
+    expect(env.brain.elements(pid)).toHaveLength(0);
+    // Writing works anyway, with every field empty (Scenario H).
+    const saved = env.ms.saveScene(s.id as string, { doc: env.doc('She wrote anyway.'), expectVersion: s.version as number });
+    expect(saved.word_count).toBe(3);
+  });
+
+  it('plan fields keep history: the newest author statement is current, the earlier one remains', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Any Novel').id as string;
+    const s = env.ms.addScene(env.ms.addChapter(pid).id, { title: 'Fish guts' });
+    const d = desk();
+    d.setPlanField(s.id as string, 'purpose', 'Start the war');
+    d.setPlanField(s.id as string, 'purpose', 'Start the war and hide who did it', 'established');
+    const f = d.sceneContext(s.id as string).fields.find((x) => x.field === 'purpose')!;
+    expect(f.current!.value).toBe('Start the war and hide who did it');
+    const view = env.brain.field(f.current!.element_id as string, 'purpose');
+    expect(view.history.map((h) => h.value)).toEqual(['Start the war']);
+  });
+
+  it('captures while writing keep exact dictated text, attach to the scene, and resurface only there', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Any Novel').id as string;
+    const ch = env.ms.addChapter(pid);
+    const a = env.ms.addScene(ch.id, { title: 'A' });
+    const b = env.ms.addScene(ch.id, { title: 'B' });
+    const d = desk();
+    const raw = 'what if he finds his mama grave  first and then the nieces call';
+    const q = d.captureForScene(a.id as string, raw, { kind: 'question', urgency: 'later' });
+    expect(env.brain.element(q.id).body).toBe(raw);
+    expect(JSON.parse(env.brain.element(q.id).attrs_json as string).urgency).toBe('later');
+    expect(d.sceneContext(a.id as string).openNotes.map((n) => n.id)).toEqual([q.id]);
+    expect(d.sceneContext(b.id as string).openNotes).toHaveLength(0);
+    env.brain.updateElement(q.id, { state: 'answered' });
+    expect(d.sceneContext(a.id as string).openNotes).toHaveLength(0);
+  });
+
+  it('next writing action is concrete: her own words first, then where she was, then the first unstarted scene', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Any Novel').id as string;
+    const d = desk();
+    expect(d.nextWritingAction(pid).text).toBe('Write the first line of your first scene');
+    const ch = env.ms.addChapter(pid, 'Chapter 1');
+    const s1 = env.ms.addScene(ch.id, { title: 'Opening', text: 'Done.' });
+    const s2 = env.ms.addScene(ch.id, { title: 'Driveway' });
+    expect(d.nextWritingAction(pid)).toMatchObject({ text: 'Draft "Driveway" in Chapter 1', sceneId: s2.id });
+    env.ms.setWritingState(pid, { sceneId: s1.id as string, cursor: { from: 3, to: 3 } });
+    expect(d.nextWritingAction(pid).text).toBe('Keep writing "Opening"');
+    env.brain.updateSettings(pid, { nextWritingAction: "Draft Kevin's opening scene in the driveway" });
+    expect(d.nextWritingAction(pid)).toMatchObject({ text: "Draft Kevin's opening scene in the driveway", source: 'author' });
+  });
+
+  it('where-was-I shows last place, decisions and open questions, and never counts days away', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Any Novel').id as string;
+    const s = env.ms.addScene(env.ms.addChapter(pid).id, { title: 'Opening', text: 'The smell hit Anthony before the sun did.' });
+    env.ms.setWritingState(pid, { sceneId: s.id as string });
+    const k = env.brain.createElement(pid, { kind: 'character', title: 'Kevin' });
+    env.brain.addStatement({ elementId: k.id, field: 'lie', value: 'If I let my guard down, I could lose everything again.', status: 'established', speaker: { kind: 'author' } });
+    env.brain.capture(pid, 'Whose notebook is it?', { kind: 'question' });
+    const w = desk().whereWasI(pid);
+    expect(w.lastScene!.tail).toContain('before the sun did');
+    expect(w.decisions[0]!.value).toContain('guard down');
+    expect(w.openQuestions[0]!.title).toBe('Whose notebook is it?');
+    expect(JSON.stringify(w)).not.toMatch(/days? (away|ago)/i);
+  });
+
+  it('the Writing Trail remembers why she left and whether it was resolved', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Any Novel').id as string;
+    const t = env.ms.leave(pid, { sceneId: 's12' }, { sceneId: 's7' }, 'Fix the causal gap in Scene 7');
+    env.ms.resolveTrail(t.id, false, 'Still unconvincing; come back after drafting');
+    env.ms.returnFromTrail(pid);
+    const entry = env.ms.trail(pid)[0]!;
+    expect(entry.reason).toBe('Fix the causal gap in Scene 7');
+    expect(entry.resolved).toBe(0);
+    expect(entry.returned_at).toBeTruthy();
+  });
+
+  it('this week counts thinking work and words in neutral terms', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Any Novel').id as string;
+    env.brain.capture(pid, 'an idea', { kind: 'idea' });
+    const w = desk().thisWeek(pid);
+    expect(w.ideasCaptured).toBe(1);
+    expect(w.netWords).toBe(0);
+  });
+});

@@ -18,7 +18,7 @@ function body<T extends z.ZodTypeAny>(req: FastifyRequest, s: T): z.infer<T> { r
 function query<T extends z.ZodTypeAny>(req: FastifyRequest, s: T): z.infer<T> { return s.parse(req.query ?? {}); }
 
 export function registerRoutes(app: FastifyInstance, svc: Services) {
-  const { brain, ms, store } = svc;
+  const { brain, ms, store, desk } = svc;
 
   app.get('/api/health', async () => ({ ok: true, schema: store.schemaVersion() }));
 
@@ -68,7 +68,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   });
   app.get('/api/elements/:id', async (req) => brain.elementView(params(req, P).id));
   app.patch('/api/elements/:id', async (req) => {
-    const b = body(req, z.object({ title: z.string().max(500).optional(), body: z.string().max(2_000_000).optional(), state: z.string().optional(), parentId: id.nullable().optional(), sortKey: z.number().optional(), expectVersion: z.number().int().optional() }));
+    const b = body(req, z.object({ title: z.string().max(500).optional(), body: z.string().max(2_000_000).optional(), state: z.string().optional(), parentId: id.nullable().optional(), sortKey: z.number().optional(), attrs: json.optional(), reserved: z.string().max(120).nullable().optional(), expectVersion: z.number().int().optional() }));
     return brain.updateElement(params(req, P).id, b, b.expectVersion);
   });
   app.delete('/api/elements/:id', async (req) => { brain.deleteElement(params(req, P).id); return { deleted: true }; });
@@ -116,8 +116,8 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
 
   // ----- capture and search -----
   app.post('/api/projects/:id/capture', async (req) => {
-    const b = body(req, z.object({ text: z.string().max(2_000_000), kind: z.enum(['thought', 'question', 'idea']).optional(), linkTo: z.array(id).optional() }));
-    return brain.capture(params(req, P).id, b.text, { kind: b.kind, linkTo: b.linkTo });
+    const b = body(req, z.object({ text: z.string().max(2_000_000), kind: z.enum(['thought', 'question', 'idea']).optional(), linkTo: z.array(id).optional(), urgency: z.enum(['now', 'later']).optional() }));
+    return brain.capture(params(req, P).id, b.text, { kind: b.kind, linkTo: b.linkTo, urgency: b.urgency });
   });
   app.get('/api/search', async (req) => {
     const q = query(req, z.object({ q: z.string().max(500), project: id.optional() }));
@@ -186,6 +186,25 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/projects/:id/sessions/start', async (req) => { const pid = params(req, P).id; brain.project(pid); return ms.startSession(pid); });
   app.post('/api/projects/:id/sessions/end', async (req) => ms.endSession(params(req, P).id, body(req, z.object({ note: z.string().max(5000).optional() })).note));
   app.get('/api/projects/:id/sessions', async (req) => ms.sessions(params(req, P).id));
+
+  // ----- writing desk -----
+  app.get('/api/scenes/:id/context', async (req) => desk.sceneContext(params(req, P).id));
+  app.post('/api/scenes/:id/plan', async (req) => {
+    const b = body(req, z.object({ field: z.string().max(40), value: z.string().min(1).max(200_000), status: z.enum(['established', 'developing', 'unanswered']).optional() }));
+    return desk.setPlanField(params(req, P).id, b.field, b.value, b.status);
+  });
+  app.post('/api/scenes/:id/capture', async (req) => {
+    const b = body(req, z.object({ text: z.string().max(2_000_000), kind: z.enum(['thought', 'question', 'idea']).optional(), urgency: z.enum(['now', 'later']).optional() }));
+    return desk.captureForScene(params(req, P).id, b.text, b);
+  });
+  app.get('/api/projects/:id/where-was-i', async (req) => desk.whereWasI(params(req, P).id));
+  app.get('/api/projects/:id/next-action', async (req) => desk.nextWritingAction(params(req, P).id));
+  app.get('/api/projects/:id/this-week', async (req) => desk.thisWeek(params(req, P).id));
+  app.get('/api/projects/:id/trail', async (req) => { const pid = params(req, P).id; brain.project(pid); return ms.trail(pid); });
+  app.post('/api/trail/:id/resolve', async (req) => {
+    const b = body(req, z.object({ resolved: z.boolean(), outcome: z.string().max(2000).optional() }));
+    ms.resolveTrail(params(req, P).id, b.resolved, b.outcome); return { ok: true };
+  });
 
   // ----- history -----
   app.get('/api/projects/:id/history', async (req) => { const pid = params(req, P).id; brain.project(pid); return store.history(pid); });

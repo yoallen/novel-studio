@@ -295,6 +295,8 @@ CREATE INDEX scenes_project ON scenes(project_id);
 ALTER TABLE elements ADD COLUMN reserved TEXT;
 ALTER TABLE elements ADD COLUMN attrs_json TEXT NOT NULL DEFAULT '{}';
 ALTER TABLE chapters ADD COLUMN notes TEXT NOT NULL DEFAULT '';
+ALTER TABLE trail ADD COLUMN resolved INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE trail ADD COLUMN outcome TEXT NOT NULL DEFAULT '';
 
 CREATE TABLE arrangements (
   id TEXT PRIMARY KEY,
