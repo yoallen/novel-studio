@@ -180,7 +180,10 @@ export async function snapshot(store: Store, dir: string, label = 'auto', keep =
   const stamp = nowIso().replace(/[:.]/g, '-');
   const file = join(dir, `${BRAND.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${stamp}-${newId().slice(-6)}-${label}.sqlite3`);
   await store.db.backup(file);
-  const check = new Database(file, { readonly: true });
+  // A backup is one self-contained file: switch the copy out of write-ahead mode before checking it,
+  // so no -wal or -shm companion files are left beside it.
+  const check = new Database(file);
+  check.pragma('journal_mode = DELETE');
   const ok = (check.pragma('integrity_check', { simple: true }) as string) === 'ok';
   check.close();
   if (!ok) { unlinkSync(file); throw new AppError('backup_failed', 'The backup did not pass its integrity check.'); }
@@ -189,8 +192,16 @@ export async function snapshot(store: Store, dir: string, label = 'auto', keep =
 }
 
 function rotate(dir: string, label: string, keep: number) {
-  const files = readdirSync(dir).filter((f) => f.endsWith(`-${label}.sqlite3`)).sort();
-  while (files.length > keep) { const f = files.shift()!; try { unlinkSync(join(dir, f)); } catch { /* keep going */ } }
+  const names = readdirSync(dir);
+  const files = names.filter((f) => f.endsWith(`-${label}.sqlite3`)).sort();
+  while (files.length > keep) { const f = files.shift()!; for (const x of [f, `${f}-wal`, `${f}-shm`]) { try { unlinkSync(join(dir, x)); } catch { /* keep going */ } } }
+  // Earlier versions left empty -wal and -shm companions beside each backup. They hold nothing; tidy them away.
+  for (const n of names) {
+    const m = /^(.+-(?:auto|manual)\.sqlite3)-(wal|shm)$/.exec(n);
+    if (!m) continue;
+    const wal = join(dir, `${m[1]}-wal`);
+    try { if (!existsSync(wal) || statSync(wal).size === 0) unlinkSync(join(dir, n)); } catch { /* keep going */ }
+  }
 }
 
 export function listSnapshots(dir: string) {

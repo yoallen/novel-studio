@@ -1,5 +1,6 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { join } from 'node:path';
+import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { freshStore } from './helpers.js';
 import { Store } from '../src/core/store.js';
 import { Brain } from '../src/core/brain.js';
@@ -88,5 +89,20 @@ describe('database snapshots', () => {
     const reopened = new Store(snaps[0]!.file);
     expect(new Brain(reopened).project(pid).title).toBe('I Declare War');
     reopened.close();
+  });
+
+  it('each backup is one file, and empty companions left by earlier versions are tidied away', async () => {
+    env = freshStore();
+    buildNovel();
+    const dir = join(env.dir, 'backups');
+    mkdirSync(dir, { recursive: true });
+    // What an earlier version left: a backup with empty -wal and -shm files beside it.
+    const old = 'story-canon-2026-10-15T10-00-00-000Z-aaaaaa-manual.sqlite3';
+    writeFileSync(join(dir, old), ''); writeFileSync(join(dir, `${old}-wal`), ''); writeFileSync(join(dir, `${old}-shm`), 'x');
+    await snapshot(env.store, dir, 'manual', 50);
+    await snapshot(env.store, dir, 'manual', 50);
+    const names = readdirSync(dir);
+    expect(names.filter((n) => /-(wal|shm)$/.test(n))).toEqual([]);
+    expect(names.filter((n) => n.endsWith('.sqlite3'))).toHaveLength(3);
   });
 });
