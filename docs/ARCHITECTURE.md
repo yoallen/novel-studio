@@ -12,6 +12,7 @@ Every design choice below serves one of four guarantees:
 2. **Nothing is decided for the author.** Assistant output is a proposal until she accepts it. Examples never become canon. The newest author statement is current; older ones remain as history.
 3. **Everything is connected.** One master story model feeds the manuscript, Zoom, analysis, AI context and exports.
 4. **Writing is always one action away.** Planning is never a prerequisite for drafting.
+5. **Every story is first-class.** The app serves any novel, in any genre, now or later. I Declare War is the first story loaded and the richest test case, so it informs how things work, but none of its characters, beats, conventions or decisions are built into the app. Genres, story types, frameworks, beat sheets, fields and vocabularies are project settings. A test (AC01) creates a second novel in a different genre and confirms it starts clean.
 
 ## Stack
 
