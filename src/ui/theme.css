@@ -187,6 +187,8 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .scene-row:hover { background: var(--wash); }
 .scene-row[aria-current='true'] { background: var(--wash); box-shadow: inset 3px 0 0 var(--struct); }
 .scene-row .wc { margin-left: auto; color: var(--faint); font-size: 0.8125rem; }
+/* Word counts in the binder use the book's numerals: the interface face slashes its zero, which read as a delete sign. */
+.binder .wc { font-family: var(--book); font-size: 0.875rem; color: var(--margin); font-variant-numeric: oldstyle-nums; }
 
 /* drafting progress at a glance (R-B-033): outline = idea only, filled = drafted, half = revising */
 .mark { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--struct); flex: none; }

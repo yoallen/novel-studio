@@ -59,6 +59,21 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
     else if (dir === 1 && ci < chapters.length - 1) await api.post(`/api/scenes/${s.id}/move`, { chapterId: chapters[ci + 1].id, index: 0 });
     setTick((t) => t + 1);
   }
+  // Deleting moves things to Deleted things in Story Trail; nothing is lost.
+  async function deleteScene(s: any) {
+    if (!window.confirm(`Move "${s.title}" to Deleted? You can restore it from Story Trail, under Deleted things.`)) return;
+    if (s.id === sceneId) await flushEditor();
+    await api.del(`/api/scenes/${s.id}`).catch((e) => setError(e.message));
+    if (s.id === sceneId) ctx.closeScene();
+    setTick((t) => t + 1);
+  }
+  async function deleteChapter(c: any) {
+    const n = c.scenes.length;
+    if (!window.confirm(`Move "${c.title}"${n ? ` and its ${n} scene${n === 1 ? '' : 's'}` : ''} to Deleted? You can restore it whole from Story Trail, under Deleted things.`)) return;
+    if (c.scenes.some((x: any) => x.id === sceneId)) { await flushEditor(); ctx.closeScene(); }
+    await api.del(`/api/chapters/${c.id}`).catch((e) => setError(e.message));
+    setTick((t) => t + 1);
+  }
 
   const cls = focus ? 'desk focus' : panel ? 'desk' : 'desk no-panel';
   return (
@@ -75,7 +90,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
                     {renaming?.id === c.id
                       ? <input type="text" autoFocus aria-label="Chapter name" value={renaming!.title} onChange={(e) => setRenaming({ id: c.id, title: e.target.value })} onBlur={() => void finishRename()} onKeyDown={(e) => { if (e.key === 'Enter') void finishRename(); if (e.key === 'Escape') setRenaming(null); }} />
                       : <button className="name" onDoubleClick={() => setRenaming({ id: c.id, title: c.title })} title="Double-click to rename">{c.title}</button>}
-                    <span className="faint small">{(c.word_count + (c.scenes.some((x: any) => x.id === live?.id) ? liveDelta(outline, live) : 0)).toLocaleString()}</span>
+                    <span className="wc">{(c.word_count + (c.scenes.some((x: any) => x.id === live?.id) ? liveDelta(outline, live) : 0)).toLocaleString()}</span>
                   </div>
                   {c.scenes.map((s: any) => (
                     <div key={s.id} className="row" style={{ gap: 0, flexWrap: 'nowrap' }}>
@@ -88,11 +103,15 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
                         <span className="row" style={{ gap: 0, flexWrap: 'nowrap' }}>
                           <button className="btn link small" aria-label="Move scene up" onClick={() => void moveScene(s, -1)}>↑</button>
                           <button className="btn link small" aria-label="Move scene down" onClick={() => void moveScene(s, 1)}>↓</button>
+                          <button className="btn link small" aria-label="Delete this scene" title="Move this scene to Deleted" onClick={() => void deleteScene(s)}>Delete</button>
                         </span>
                       )}
                     </div>
                   ))}
-                  <button className="btn link small" onClick={() => void addScene(c.id, c.scenes[c.scenes.length - 1]?.id)}>Add scene</button>
+                  <div className="row" style={{ gap: '0.75rem' }}>
+                    <button className="btn link small" onClick={() => void addScene(c.id, c.scenes[c.scenes.length - 1]?.id)}>Add scene</button>
+                    <button className="btn link small faint" aria-label={`Delete ${c.title}`} onClick={() => void deleteChapter(c)}>Delete chapter</button>
+                  </div>
                 </div>
               ))}
               <button className="btn small" onClick={() => void addChapter()}>Add chapter</button>
