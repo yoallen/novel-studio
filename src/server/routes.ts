@@ -98,6 +98,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       guidanceWhileDrafting: z.enum(['quiet', 'advisory', 'deep']).optional(),
       guidanceWhilePlanning: z.enum(['quiet', 'advisory', 'deep']).optional(),
       goal: z.object({ type: z.enum(['none', 'words', 'scenes', 'time', 'milestones']), target: z.number().nullable(), note: z.string().max(500) }).optional(),
+      push: z.object({ name: z.string().max(60), start: z.string().max(10), end: z.string().max(10), words: z.number().nullable() }).nullable().optional(),
       targetWords: z.number().nullable().optional(),
       wordsPerPage: z.array(z.number()).min(1).max(4).optional(),
       statusLabels: z.partialRecord(z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']), z.string().max(80)).optional(),
@@ -259,6 +260,11 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.get('/api/projects/:id/where-was-i', async (req) => desk.whereWasI(params(req, P).id));
   app.get('/api/projects/:id/next-action', async (req) => desk.nextWritingAction(params(req, P).id));
   app.get('/api/projects/:id/this-week', async (req) => desk.thisWeek(params(req, P).id));
+  app.get('/api/projects/:id/progress', async (req) => {
+    const pid = params(req, P).id; brain.project(pid);
+    const tz = z.object({ tz: z.string().max(64).optional() }).parse(req.query ?? {}).tz;
+    return svc.progress.progress(pid, { tz });
+  });
   app.get('/api/projects/:id/trail', async (req) => { const pid = params(req, P).id; brain.project(pid); return ms.trail(pid); });
   app.post('/api/trail/:id/resolve', async (req) => {
     const b = body(req, z.object({ resolved: z.boolean(), outcome: z.string().max(2000).optional() }));

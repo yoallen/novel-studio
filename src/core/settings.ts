@@ -21,6 +21,9 @@ export const DEFAULT_SCENE_LADDER: LadderStep[] = [
 export type Guidance = 'quiet' | 'advisory' | 'deep';
 export type GoalType = 'none' | 'words' | 'scenes' | 'time' | 'milestones';
 
+/** A stretch of days with a word goal, such as November and 50,000 words. Dates are calendar days, YYYY-MM-DD. */
+export interface WritingPush { name: string; start: string; end: string; words: number | null }
+
 import { DEFAULT_WATCH_WORDS } from './revise.js';
 
 export interface ImportLabel { label: string; status: 'established' | 'developing' | 'unanswered' | 'illustrative' | 'proposed' | 'set_aside' }
@@ -66,6 +69,7 @@ export interface ProjectSettings {
   guidanceWhileDrafting: Guidance;
   guidanceWhilePlanning: Guidance;
   goal: { type: GoalType; target: number | null; note: string };
+  push: WritingPush | null;
   targetWords: number | null;
   wordsPerPage: number[];
   statusLabels: Partial<Record<StatusKey, string>>;
@@ -89,6 +93,7 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
     guidanceWhileDrafting: s.guidanceWhileDrafting ?? 'quiet',
     guidanceWhilePlanning: s.guidanceWhilePlanning ?? 'advisory',
     goal: s.goal ?? { type: 'none', target: null, note: '' },
+    push: s.push && typeof s.push.start === 'string' && typeof s.push.end === 'string' ? s.push : null,
     targetWords: typeof s.targetWords === 'number' ? s.targetWords : (typeof p.target_words === 'number' ? p.target_words : null),
     wordsPerPage: Array.isArray(s.wordsPerPage) && s.wordsPerPage.length ? s.wordsPerPage : [250, 300],
     statusLabels: s.statusLabels ?? {},
@@ -117,6 +122,15 @@ export function mergeSettings(profile: Record<string, unknown>, patch: Partial<P
     if (patch[g] && !['quiet', 'advisory', 'deep'].includes(patch[g]!)) throw new ValidationError('Guidance must be Quiet, Advisory or Deep Analysis.');
   }
   if (patch.goal && !['none', 'words', 'scenes', 'time', 'milestones'].includes(patch.goal.type)) throw new ValidationError('Unknown goal type.');
+  if (patch.push) {
+    const { name, start, end, words } = patch.push;
+    const isDay = (d: string) => /^\d{4}-\d{2}-\d{2}$/.test(d) && !Number.isNaN(Date.parse(`${d}T00:00:00Z`));
+    if (!isDay(start) || !isDay(end)) throw new ValidationError('A writing push needs a first and a last day.');
+    if (end < start) throw new ValidationError('The last day of the push comes before the first.');
+    if ((Date.parse(end) - Date.parse(start)) / 86_400_000 > 366) throw new ValidationError('A writing push can run a year at most.');
+    if (words != null && (!Number.isFinite(words) || words < 1 || words > 2_000_000)) throw new ValidationError('The push goal should be between 1 and 2,000,000 words.');
+    next.push = { name: (name ?? '').trim().slice(0, 60), start, end, words: words ?? null };
+  }
   if (patch.wordsPerPage && patch.wordsPerPage.some((n) => !Number.isFinite(n) || n < 100 || n > 600)) throw new ValidationError('Words per page should be between 100 and 600.');
   if (patch.targetWords != null && (!Number.isFinite(patch.targetWords) || patch.targetWords < 1000 || patch.targetWords > 2_000_000)) throw new ValidationError('Target length should be between 1,000 and 2,000,000 words.');
   return next;

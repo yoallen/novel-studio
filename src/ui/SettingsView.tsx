@@ -16,8 +16,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
     setMsg(''); setError('');
     try {
       if (title.trim() && title !== ctx.project.title) await api.patch(`/api/projects/${ctx.projectId}`, { title });
-      const { sceneLadder, authorName, guidanceWhileDrafting, guidanceWhilePlanning, goal, targetWords, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction } = s;
-      await api.patch(`/api/projects/${ctx.projectId}/settings`, { sceneLadder, authorName, guidanceWhileDrafting, guidanceWhilePlanning, goal, targetWords: targetWords ? Number(targetWords) : null, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction });
+      const { sceneLadder, authorName, guidanceWhileDrafting, guidanceWhilePlanning, goal, push, targetWords, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction } = s;
+      await api.patch(`/api/projects/${ctx.projectId}/settings`, { sceneLadder, authorName, guidanceWhileDrafting, guidanceWhilePlanning, goal, push: push && push.start && push.end ? { ...push, words: push.words ? Number(push.words) : null } : null, targetWords: targetWords ? Number(targetWords) : null, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction });
       await ctx.refreshProject();
       setMsg('Settings saved.');
     } catch (e) { setError((e as Error).message); }
@@ -79,6 +79,32 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
             <option value="none">No goals</option><option value="words">Words per day</option><option value="scenes">Scenes per week</option><option value="time">Minutes per day</option><option value="milestones">Milestones</option>
           </select></label>
         {s.goal.type !== 'none' && s.goal.type !== 'milestones' && <label className="field"><span>Goal amount</span><input type="number" value={s.goal.target ?? ''} onChange={(e) => setS({ ...s, goal: { ...s.goal, target: e.target.value ? Number(e.target.value) : null } })} /></label>}
+      </section>
+
+      <section className="section" aria-labelledby="push-h">
+        <h2 id="push-h">A writing push</h2>
+        <p className="muted small">A stretch of days with a word goal, such as November and 50,000 words. Where was I shows how you are tracking, from two weeks before it starts.</p>
+        {s.push ? (<>
+          <div className="cols">
+            <label className="field"><span>Name it</span><input type="text" value={s.push.name} maxLength={60} onChange={(e) => setS({ ...s, push: { ...s.push, name: e.target.value } })} placeholder="November" /></label>
+            <label className="field"><span>First day</span><input type="date" value={s.push.start} onChange={(e) => setS({ ...s, push: { ...s.push, start: e.target.value } })} /></label>
+            <label className="field"><span>Last day</span><input type="date" value={s.push.end} onChange={(e) => setS({ ...s, push: { ...s.push, end: e.target.value } })} /></label>
+            <label className="field"><span>Words to write in it</span><input type="number" value={s.push.words ?? ''} onChange={(e) => setS({ ...s, push: { ...s.push, words: e.target.value ? Number(e.target.value) : null } })} /></label>
+          </div>
+          {(() => {
+            const days = s.push.start && s.push.end ? Math.round((Date.parse(s.push.end) - Date.parse(s.push.start)) / 86400000) + 1 : 0;
+            const perDay = days > 0 && s.push.words ? Math.ceil(Number(s.push.words) / days) : 0;
+            return (
+              <div className="row small">
+                {perDay > 0 && <span>That is about {perDay.toLocaleString()} words a day for {days} days.</span>}
+                {perDay > 0 && !(s.goal.type === 'words' && s.goal.target === perDay) && <button className="btn small" onClick={() => setS({ ...s, goal: { ...s.goal, type: 'words', target: perDay } })}>Make that my daily goal</button>}
+                <button className="btn link small" onClick={() => setS({ ...s, push: null })}>No push</button>
+              </div>
+            );
+          })()}
+        </>) : (
+          <button className="btn small" onClick={() => { const y = new Date().getMonth() === 11 ? new Date().getFullYear() + 1 : new Date().getFullYear(); setS({ ...s, push: { name: 'November', start: `${y}-11-01`, end: `${y}-11-30`, words: 50000 } }); }}>Plan a writing push</button>
+        )}
       </section>
 
       <section className="section">
