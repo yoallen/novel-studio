@@ -13,7 +13,7 @@ test('a blank novel goes straight to the page; writing survives a reload (Scenar
   await page.keyboard.type('The first line, with no planning at all.');
   await waitSaved(page);
   await page.reload();
-  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Write' }).click();
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   await expect(editor(page)).toContainText('with no planning at all');
 });
 
@@ -37,13 +37,13 @@ test('typing that never became a saved version is offered back after a crash, an
 
   const page2 = await page.context().newPage();
   await open(page2);
-  await page2.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Write' }).click();
+  await page2.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   await expect(page2.getByRole('dialog')).toContainText('was kept');
   await expect(page2.getByRole('dialog')).toContainText('before the power went out');
   await page2.getByRole('button', { name: 'Use the kept typing' }).click();
   await expect(editor(page2)).toContainText('Typed just before the power went out.');
   await page2.reload();
-  await page2.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Write' }).click();
+  await page2.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   await expect(editor(page2)).toContainText('Typed just before the power went out.');
   await expect(page2.getByRole('dialog')).toHaveCount(0);
 });
@@ -60,7 +60,7 @@ test('two windows on one scene: the stale save is refused and both versions are 
 
   const b = await ctx.newPage();
   await open(b);
-  await b.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Write' }).click();
+  await b.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   await expect(editor(b)).toContainText('Base text.');
 
   await editor(a).click(); await a.keyboard.press('End'); await a.keyboard.type('Window A words.');
@@ -96,7 +96,7 @@ test('Return to Writing puts the cursor back exactly where it was, through sever
   await expect(editor(page)).toBeFocused();
   await page.keyboard.type('[HERE] ');
   await expect(editor(page)).toContainText('Before the cursor. [HERE] After the cursor.');
-  await nav.getByRole('button', { name: 'Writing Trail' }).click();
+  await page.getByRole('button', { name: 'Writing Trail' }).click();
   await expect(page.getByText('Went to Search')).toBeVisible();
 });
 
@@ -127,11 +127,11 @@ test('the scene status steps are the author\'s own (R-B-026)', async ({ page }) 
   await page.getByLabel('Step 7 name').fill('Polished');
   await page.getByRole('button', { name: 'Save settings' }).click();
   await expect(page.getByText('Settings saved.')).toBeVisible();
-  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Write' }).click();
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   const status = page.getByRole('complementary', { name: 'Scene plan' }).getByLabel('Status');
   await status.selectOption({ label: 'Polished' });
   await page.reload();
-  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Write' }).click();
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   await expect(page.getByRole('complementary', { name: 'Scene plan' }).getByLabel('Status')).toHaveValue('revised');
 });
 
@@ -148,10 +148,10 @@ test('deleting is never final, and any change can be undone (R-B-063)', async ({
   await expect(page.getByText('Choose a scene on the left')).toBeVisible();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Deleted' }).click();
   await page.getByRole('button', { name: 'Restore', exact: true }).click();
-  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'History' }).click();
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Story Trail' }).click();
   const row = page.locator('li').filter({ hasText: 'Edit scene' }).first();
   await row.getByRole('button', { name: 'Undo' }).click();
-  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Write' }).click();
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   await expect(page.getByLabel('Scene title')).toHaveValue('Scene 1');
   await expect(editor(page)).toContainText('Keep these words.');
 });

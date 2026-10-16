@@ -99,6 +99,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
       <div className="pagewrap">
         <div className="row" style={{ justifyContent: 'flex-end', padding: '0.5rem 1rem 0' }}>
           {!focus && <button className="btn link small" onClick={() => setPanel((p) => !p)}>{panel ? 'Hide scene plan' : 'Show scene plan'}</button>}
+          {!focus && <button className="btn link small" onClick={() => ctx.go('trail')}>Writing Trail</button>}
           <button className="btn link small" onClick={() => setFocus((f) => !f)} title="Ctrl+Shift+F">{focus ? 'Leave focus' : 'Focus'}</button>
         </div>
         {sceneId ? <Editor key={sceneId + ':' + editorNonce} ctx={ctx} sceneId={sceneId} onChanged={() => { setLive(null); setTick((t) => t + 1); }} onWords={(n) => setLive({ id: sceneId, words: n })} />

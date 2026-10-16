@@ -31,7 +31,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
       const archive = JSON.parse(await f.text());
       const p = await api.post('/api/archive/plan', { archive });
       setPlan({ archive, plan: p });
-    } catch (err) { setError(err instanceof SyntaxError ? 'That file is not a Novel Studio archive.' : (err as Error).message); }
+    } catch (err) { setError(err instanceof SyntaxError ? 'That file is not a Story Canon archive.' : (err as Error).message); }
   }
 
   async function doImport(asCopy: boolean) {
@@ -45,7 +45,12 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
 
   return (
     <div className="scroll"><div className="content">
-      <h1>Your novels</h1>
+      <header style={{ marginBottom: '2rem' }}>
+        <h1 style={{ fontSize: '2.5rem', marginBottom: '0.25rem' }}>Story Canon</h1>
+        <p className="muted" style={{ fontSize: '1.125rem', margin: 0 }}>Where your story takes shape, and nothing gets lost.</p>
+        <p style={{ fontFamily: 'var(--prose)', fontStyle: 'italic', color: 'var(--struct)', margin: '0.75rem 0 0' }}>Story Canon remembers. The author decides.</p>
+      </header>
+      <h2>Your novels</h2>
       {error && <div className="notice error" role="alert">{error}</div>}
       {projects && projects.length > 0 && (
         <ul className="list" style={{ marginBottom: '2rem' }}>
@@ -68,7 +73,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
 
       <div className="section">
         <h2>Bring in an archive</h2>
-        <p className="muted small">Opens a Novel Studio archive file. You will see exactly what it contains before anything is added, and nothing already in your library is overwritten.</p>
+        <p className="muted small">Opens a Story Canon archive file. You will see exactly what it contains before anything is added, and nothing already in your library is overwritten.</p>
         <input ref={fileRef} type="file" accept=".json,application/json" onChange={(e) => e.target.files?.[0] && void pickArchive(e.target.files[0])} />
       </div>
 

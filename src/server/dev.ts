@@ -18,4 +18,4 @@ const { app } = await buildApp({
   logger: true,
 });
 await app.listen({ host: '127.0.0.1', port });
-console.log(`Novel Studio service on http://127.0.0.1:${port}  token=${token}`);
+console.log(`Story Canon service on http://127.0.0.1:${port}  token=${token}`);

@@ -28,6 +28,8 @@ These come from Yolanda's own messages in the Claude build conversation (October
 
 | D-21 | Status words on screen | Decided / Developing / Still open / One way it could be done / "Yolanda, it's on you now" / Here's a suggestion. Set aside keeps its name. The owned marker uses the author's name from Settings so it works for any author. | D-19, R-A-023 |
 
+| D-22 | Name and components | Program: **Story Canon**, "Where your story takes shape, and nothing gets lost." Principle: "Story Canon remembers. The author decides." Components: The Story Brain, Narrative Zoom, The Writing Room, The Story Trail (how ideas, decisions and revisions evolved). The Writing Trail (detours) stays as its own feature inside the Writing Room. Conversations, Choices Ahead, the Ripple Effect, the Craft Resource Advisor and the AI collaborator are features within the components. | R-B-055 (name); replaces the rejected "StoryForge" and the working name |
+
 ## Standing rules (from D-11, D-12, D-14)
 
 A later statement replaces an earlier one only when Yolanda actually changed her mind or explicitly replaced it. It does not replace it when it is a possibility, an example, ChatGPT restating or summarizing (omission never cancels), a ChatGPT proposal she did not accept or did not read, an addition, or about a different subject. When unclear, ask her.

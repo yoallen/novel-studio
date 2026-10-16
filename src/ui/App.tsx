@@ -12,7 +12,7 @@ import { CaptureDialog } from './CaptureDialog';
 
 export type View = 'home' | 'write' | 'brain' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'settings';
 const VIEW_NAMES: Record<View, string> = {
-  home: 'Where was I', write: 'Write', brain: 'Story Brain', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'History', trash: 'Deleted', settings: 'Settings',
+  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', settings: 'Settings',
 };
 
 export interface Ctx {
@@ -120,7 +120,7 @@ export function App() {
   }, [projectId]);
 
   if (!api.hasToken()) {
-    return <div className="content"><h1>Novel Studio</h1><p>Open the program from its desktop shortcut. This window was opened without the app's security key, so it cannot reach your work.</p></div>;
+    return <div className="content"><h1>Story Canon</h1><p>Open the program from its desktop shortcut. This window was opened without the app's security key, so it cannot reach your work.</p></div>;
   }
   if (!projectId) return <Library onOpen={setProjectId} />;
   if (!project || !settings) return <div className="content muted">{error || 'Opening your novel…'}</div>;
@@ -134,7 +134,7 @@ export function App() {
         <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
         <span className="title">{project.title}</span>
         <nav aria-label="Views">
-          {(['home', 'write', 'brain', 'conversations', 'search', 'trail', 'history', 'trash', 'settings'] as View[]).map((v) => (
+          {(['home', 'write', 'brain', 'conversations', 'search', 'history', 'trash', 'settings'] as View[]).map((v) => (
             <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>
           ))}
         </nav>

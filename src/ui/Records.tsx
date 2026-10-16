@@ -16,7 +16,7 @@ export function TrailView({ ctx }: { ctx: Ctx }) {
   return (
     <div className="scroll"><div className="content">
       <h1>Writing Trail</h1>
-      <p className="muted">Every time you step away from the page, the trail remembers where you were and why, so a detour never costs you your place.</p>
+      <p className="muted">Part of the Writing Room. Every time you step away from the page, the trail remembers where you were and why, so a detour never costs you your place.</p>
       {error && <div className="notice error">{error}</div>}
       {trail && trail.length === 0 && <p className="muted">No detours yet.</p>}
       <ul className="list">
@@ -52,8 +52,8 @@ export function HistoryView({ ctx }: { ctx: Ctx }) {
   }
   return (
     <div className="scroll"><div className="content">
-      <h1>History</h1>
-      <p className="muted">Every change you make is recorded. Undo any one of them without losing what came after.</p>
+      <h1>Story Trail</h1>
+      <p className="muted">How your story evolved: every idea, decision and revision, in order. Undo any one of them without losing what came after.</p>
       {error && <div className="notice error">{error}</div>}
       {blocked && <div className="notice" role="alert">{blocked.message}<div className="row" style={{ marginTop: '0.5rem' }}><button className="btn small" onClick={() => void undo(blocked.id, true)}>Undo anyway</button><button className="btn small" onClick={() => setBlocked(null)}>Leave it</button></div></div>}
       <ul className="list">

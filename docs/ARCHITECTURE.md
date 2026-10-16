@@ -1,6 +1,16 @@
 # Architecture
 
-Working name: **Novel Studio** (provisional; the author renames it in Settings).
+Name: **Story Canon**. Where your story takes shape, and nothing gets lost.
+
+Principle: **Story Canon remembers. The author decides.**
+
+Components:
+- **The Story Brain**: the central intelligence and memory of your story. Characters, canon, possibilities, decisions, conversations, creative discoveries, and their histories.
+- **Narrative Zoom**: move seamlessly between the entire story, acts, beats, scenes, and individual details without losing your place.
+- **The Writing Room**: your dedicated space for drafting, revising, and completing your manuscript. The Writing Trail lives here.
+- **The Story Trail**: retrace the evolution of your ideas, decisions, revisions, and creative breakthroughs.
+
+Conversations, Choices Ahead, the Ripple Effect, the Craft Resource Advisor and the AI collaborator are features within these components.
 
 ## Product promise
 
