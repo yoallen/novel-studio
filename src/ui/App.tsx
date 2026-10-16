@@ -6,13 +6,14 @@ import { Desk } from './Desk';
 import { SearchView } from './SearchView';
 import { StoryBrain } from './StoryBrain';
 import { ConversationsView } from './ConversationsView';
+import { NarrativeZoom, Stuck, ZoomRequest } from './NarrativeZoom';
 import { TrailView, HistoryView, TrashView } from './Records';
 import { SettingsView } from './SettingsView';
 import { CaptureDialog } from './CaptureDialog';
 
-export type View = 'home' | 'write' | 'brain' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'settings';
+export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'settings';
 const VIEW_NAMES: Record<View, string> = {
-  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', settings: 'Settings',
+  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', settings: 'Settings',
 };
 
 export interface Ctx {
@@ -25,6 +26,8 @@ export interface Ctx {
   go: (v: View) => void;
   setSaveState: (s: SaveState) => void;
   capture: () => void;
+  showInMap: (sceneId: string) => void;
+  openStuck: () => void;
   currentSceneId: string | null;
   cursorRef: React.MutableRefObject<{ from: number; to: number } | null>;
 }
@@ -38,6 +41,8 @@ export function App() {
   const [sceneId, setSceneId] = useState<string | null>(null);
   const [save, setSave] = useState<SaveState>({ state: 'idle' });
   const [capturing, setCapturing] = useState(false);
+  const [zoomReq, setZoomReq] = useState<ZoomRequest>(null);
+  const [stuck, setStuck] = useState(false);
   const [error, setError] = useState<string>('');
   const cursorRef = useRef<{ from: number; to: number } | null>(null);
   const viewRef = useRef<View>('home');
@@ -125,7 +130,9 @@ export function App() {
   if (!projectId) return <Library onOpen={setProjectId} />;
   if (!project || !settings) return <div className="content muted">{error || 'Opening your novel…'}</div>;
 
-  const ctx: Ctx = { projectId, project, settings, refreshProject, openScene, closeScene: () => { setSceneId(null); api.put(`/api/projects/${projectId}/writing-state`, { sceneId: null }).catch(() => {}); }, go, setSaveState: setSave, capture: () => setCapturing(true), currentSceneId: sceneId, cursorRef };
+  const ctx: Ctx = { projectId, project, settings, refreshProject, openScene, closeScene: () => { setSceneId(null); api.put(`/api/projects/${projectId}/writing-state`, { sceneId: null }).catch(() => {}); }, go, setSaveState: setSave, capture: () => setCapturing(true), currentSceneId: sceneId, cursorRef,
+    showInMap: (sid: string) => { void api.get(`/api/scenes/${sid}/locate`).then((node) => { setZoomReq({ node, nonce: Date.now() }); go('zoom'); }).catch((e) => setError(e.message)); },
+    openStuck: () => setStuck(true) };
   const saveText = save.state === 'saving' ? 'Saving…' : save.state === 'saved' ? 'Saved' : save.state === 'unsaved' ? 'Not saved yet' : save.state === 'error' ? (save.message ?? 'Not saved') : '';
 
   return (
@@ -134,7 +141,7 @@ export function App() {
         <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
         <span className="title">{project.title}</span>
         <nav aria-label="Views">
-          {(['home', 'write', 'brain', 'conversations', 'search', 'history', 'trash', 'settings'] as View[]).map((v) => (
+          {(['home', 'write', 'brain', 'zoom', 'conversations', 'search', 'history', 'trash', 'settings'] as View[]).map((v) => (
             <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>
           ))}
         </nav>
@@ -147,6 +154,7 @@ export function App() {
         {view === 'home' && <Home ctx={ctx} />}
         {view === 'write' && <Desk ctx={ctx} sceneId={sceneId} />}
         {view === 'brain' && <StoryBrain ctx={ctx} />}
+        {view === 'zoom' && <NarrativeZoom ctx={ctx} request={zoomReq} />}
         {view === 'conversations' && <ConversationsView ctx={ctx} />}
         {view === 'search' && <SearchView ctx={ctx} />}
         {view === 'trail' && <TrailView ctx={ctx} />}
@@ -154,6 +162,7 @@ export function App() {
         {view === 'trash' && <TrashView ctx={ctx} />}
         {view === 'settings' && <SettingsView ctx={ctx} />}
       </main>
+      {stuck && <Stuck ctx={ctx} onClose={() => setStuck(false)} />}
       {capturing && <CaptureDialog ctx={ctx} sceneId={view === 'write' ? sceneId : null} onClose={() => setCapturing(false)} />}
     </div>
   );

@@ -285,6 +285,9 @@ export class Ripple {
   /** All open structural questions right now (for Choices Ahead and the review list). */
   current(projectId: string) { return this.analyze(projectId, this.world(projectId)); }
 
+  /** Where every element sits in the story, for Narrative Zoom. */
+  placesOf(projectId: string) { const w = this.world(projectId); const p = this.positions(projectId, w); return { units: w.units, pos: p.pos, where: p.where }; }
+
   /** The story's order as Narrative Zoom and the board see it. */
   order(projectId: string) { return this.world(projectId).units.map((u, i) => ({ ...u, index: i + 1 })); }
 

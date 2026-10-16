@@ -2,7 +2,7 @@
 // timeline, links, and capture (thoughts, questions, ideas).
 
 import { settingsOf, mergeSettings, ProjectSettings } from './settings.js';
-import { templateFor, FieldDef, KIND_LABELS } from './templates.js';
+import { templateFor, FieldDef, KIND_LABELS, BEAT_BOARD_FIELDS } from './templates.js';
 import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId } from './store.js';
 
 export const ELEMENT_KINDS = [
@@ -414,7 +414,13 @@ export class Brain {
   elementPage(elementId: string) {
     const el = this.element(elementId);
     const pid = el.project_id as string;
-    const defs = this.fieldsFor(pid, el.kind as string);
+    let defs = this.fieldsFor(pid, el.kind as string);
+    if (el.kind === 'beat') {
+      // Each beat shows only its own board fields (Want at Break into Two, Need at Break into Three, and so on).
+      const key = (JSON.parse((el.attrs_json as string) || '{}') as Record<string, unknown>).template_key as string | undefined;
+      const mine = new Set(key ? BEAT_BOARD_FIELDS[key] ?? [] : []);
+      defs = defs.filter((d) => d.group !== 'On the board' || mine.has(d.field));
+    }
     const used = (this.store.db.prepare('SELECT DISTINCT field FROM statements WHERE element_id=? AND deleted_at IS NULL').all(elementId) as Row[]).map((r) => r.field as string);
     const extra = used.filter((u) => !defs.some((d) => d.field === u)).map((u) => ({ field: u, label: u.replace(/^x_/, '').replace(/_/g, ' '), group: 'Other' } as FieldDef));
     const fields = [...defs, ...extra].map((d) => ({ def: d, view: this.field(elementId, d.field) }));

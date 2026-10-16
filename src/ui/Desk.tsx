@@ -3,6 +3,7 @@ import { api } from './api';
 import type { Ctx } from './App';
 import { Editor } from './Editor';
 import { ScenePanel } from './ScenePanel';
+import { flushEditor } from './flush';
 
 // The writing desk: binder, page, and the scene's plan beside it. Focus mode hides everything but the page (R-B-004).
 export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
@@ -99,6 +100,8 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
       <div className="pagewrap">
         <div className="row" style={{ justifyContent: 'flex-end', padding: '0.5rem 1rem 0' }}>
           {!focus && <button className="btn link small" onClick={() => setPanel((p) => !p)}>{panel ? 'Hide scene plan' : 'Show scene plan'}</button>}
+          {!focus && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => ctx.showInMap(sceneId)); }}>Show in Story Map</button>}
+          {!focus && <button className="btn link small" onClick={ctx.openStuck}>I'm stuck</button>}
           {!focus && <button className="btn link small" onClick={() => ctx.go('trail')}>Writing Trail</button>}
           <button className="btn link small" onClick={() => setFocus((f) => !f)} title="Ctrl+Shift+F">{focus ? 'Leave focus' : 'Focus'}</button>
         </div>

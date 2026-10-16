@@ -152,6 +152,29 @@ const IDEA: FieldDef[] = [
   f('Thinking it through', 'where_it_fits', 'Where it might fit', { multi: true }),
 ];
 
+const BEAT: FieldDef[] = [
+  f('In this book', 'function', 'What this beat does in this book', { prompt: 'The turn it must deliver. This can be decided while the event stays open.' }),
+  f('In this book', 'event', 'What it is (your plan)', { prompt: 'What happens here in this novel.' }),
+  f('In this book', 'execution', 'How it could happen', { multi: true, prompt: 'Executions can sit side by side until you choose.' }),
+  f('In this book', 'example', 'One way it could be done', { multi: true, prompt: 'Examples are never decisions.' }),
+  f('In this book', 'classification', 'Disaster, discovery or win', { prompt: 'A disaster is a reversal, never a win. Finding is not winning.' }),
+  f('In this book', 'caused_by_hero', 'Caused by the hero\'s own efforts?'),
+  f('In this book', 'scene_type', 'Scene type', { prompt: 'Single Scene or Single Chapter; Single Beat; or Multi Scene or Multi Chapters.' }),
+  f('On the board', 'theme_line', 'The line that states the theme'),
+  f('On the board', 'home', 'Home'), f('On the board', 'work', 'Work'), f('On the board', 'play', 'Play'),
+  f('On the board', 'debate_question', 'The Debate question'),
+  f('On the board', 'want', "The hero's WANT"), f('On the board', 'need', "The hero's NEED"),
+  f('On the board', 'polarity', 'False victory or false defeat'),
+  f('On the board', 'whiff_of_death', 'Whiff of death'),
+  f('On the board', 'final_change', 'Hero is changed, or rejects change'),
+];
+
+/** Which board fields each of her beats carries (R-C-018). */
+export const BEAT_BOARD_FIELDS: Record<string, string[]> = {
+  theme_stated: ['theme_line'], setup: ['home', 'work', 'play'], debate: ['debate_question'], break_into_two: ['want'],
+  midpoint: ['polarity'], all_is_lost: ['polarity', 'whiff_of_death'], break_into_three: ['need'], final_image: ['final_change'],
+};
+
 const GENERIC: FieldDef[] = [f('Notes', 'description', 'Description')];
 
 export const TEMPLATES: Record<string, FieldDef[]> = {
@@ -164,6 +187,7 @@ export const TEMPLATES: Record<string, FieldDef[]> = {
   reveal: EVENT,
   payoff: CLUE,
   line: LINE,
+  beat: BEAT,
   question: QUESTION,
   idea: IDEA,
 };

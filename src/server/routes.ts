@@ -18,7 +18,7 @@ function body<T extends z.ZodTypeAny>(req: FastifyRequest, s: T): z.infer<T> { r
 function query<T extends z.ZodTypeAny>(req: FastifyRequest, s: T): z.infer<T> { return s.parse(req.query ?? {}); }
 
 export function registerRoutes(app: FastifyInstance, svc: Services) {
-  const { brain, ms, store, desk, convs } = svc;
+  const { brain, ms, store, desk, convs, structure, ripple, zoom } = svc;
 
   app.get('/api/health', async () => ({ ok: true, schema: store.schemaVersion() }));
 
@@ -222,6 +222,51 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   });
   app.post('/api/proposals/:id/accept', async (req) => brain.acceptProposal(params(req, P).id, body(req, z.object({ status: z.enum(['established', 'developing']).optional(), value: z.unknown().optional() }))));
   app.post('/api/proposals/:id/decide', async (req) => brain.decideProposal(params(req, P).id, body(req, z.object({ status: z.enum(['rejected', 'deferred', 'pending']) })).status));
+
+  // ----- structure, Narrative Zoom, the Ripple Effect -----
+  app.post('/api/projects/:id/structure/save-the-cat', async (req) => structure.applySaveTheCat(params(req, P).id).length);
+  app.get('/api/projects/:id/landmarks', async (req) => structure.landmarks(params(req, P).id));
+  app.get('/api/projects/:id/board', async (req) => structure.board(params(req, P).id));
+  app.get('/api/beats/:id', async (req) => structure.beatDetail(params(req, P).id));
+  app.get('/api/projects/:id/structure-questions', async (req) => structure.questions(params(req, P).id, query(req, z.object({ profile: z.enum(['brody', 'snyder']).optional() })).profile));
+  app.post('/api/projects/:id/cards', async (req) => structure.addCard(params(req, P).id, body(req, z.object({ title: z.string().min(1).max(300), beatId: id.nullable().optional(), mode: z.enum(['decide', 'candidate']).optional() }))));
+  app.post('/api/elements/:id/place', async (req) => { const b = body(req, z.object({ beatId: id, mode: z.enum(['decide', 'candidate']).optional() })); return structure.place(params(req, P).id, b.beatId, b.mode); });
+  app.post('/api/elements/:id/write-scene', async (req) => {
+    const planId = params(req, P).id;
+    const el = brain.element(planId);
+    if (el.kind !== 'scene_plan') throw new NotFoundError('scene card');
+    const existing = store.db.prepare('SELECT id FROM scenes WHERE plan_element_id=? AND deleted_at IS NULL').get(planId) as { id: string } | undefined;
+    if (existing) return ms.scene(existing.id);
+    const b = body(req, z.object({ chapterId: id.optional() }));
+    const pid = el.project_id as string;
+    let chapterId = b.chapterId ?? (ms.outline(pid).at(-1)?.id as string | undefined);
+    if (!chapterId) chapterId = ms.addChapter(pid).id;
+    const sc = ms.addScene(chapterId, { title: el.title as string });
+    ms.updateSceneMeta(sc.id as string, { planElementId: planId });
+    return ms.scene(sc.id as string);
+  });
+  const op = z.discriminatedUnion('type', [
+    z.object({ type: z.literal('moveScene'), sceneId: id, chapterId: id, index: z.number().int().min(0) }),
+    z.object({ type: z.literal('moveCard'), planId: id, beatId: id.nullable(), beforePlanId: id.nullable().optional() }),
+    z.object({ type: z.literal('moveElement'), elementId: id, fromPlanId: id, toPlanId: id }),
+  ]);
+  app.post('/api/projects/:id/ripple/preview', async (req) => ripple.preview(params(req, P).id, body(req, z.object({ op })).op));
+  app.post('/api/projects/:id/ripple/commit', async (req) => ripple.commit(params(req, P).id, body(req, z.object({ op })).op));
+  app.get('/api/projects/:id/ripple/current', async (req) => ripple.current(params(req, P).id));
+  app.get('/api/projects/:id/alternates', async (req) => ripple.alternates(params(req, P).id));
+  app.post('/api/projects/:id/alternates', async (req) => { const b = body(req, z.object({ name: z.string().max(200), ops: z.array(op).min(1).max(50), note: z.string().max(5000).optional() })); return ripple.saveAlternate(params(req, P).id, b.name, b.ops, b.note); });
+  app.get('/api/alternates/:id/compare', async (req) => ripple.compareAlternate(params(req, P).id));
+  app.post('/api/alternates/:id/adopt', async (req) => ripple.adoptAlternate(params(req, P).id));
+  app.delete('/api/alternates/:id', async (req) => { ripple.discardAlternate(params(req, P).id); return { discarded: true }; });
+  const node = z.discriminatedUnion('level', [
+    z.object({ level: z.literal('story') }),
+    z.object({ level: z.literal('act'), key: z.string().max(10) }),
+    z.object({ level: z.literal('beat'), id }),
+    z.object({ level: z.literal('card'), id }),
+    z.object({ level: z.literal('element'), id }),
+  ]);
+  app.post('/api/projects/:id/zoom', async (req) => zoom.view(params(req, P).id, body(req, z.object({ node })).node));
+  app.get('/api/scenes/:id/locate', async (req) => { const s = ms.scene(params(req, P).id); return zoom.locateScene(s.project_id as string, s.id as string); });
 
   // ----- conversations -----
   app.get('/api/projects/:id/conversations', async (req) => { const pid = params(req, P).id; brain.project(pid); return convs.list(pid); });
