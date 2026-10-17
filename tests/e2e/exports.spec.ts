@@ -16,7 +16,10 @@ test('a chat is picked out of a Claude export zip and brought in whole', async (
   await nav(page).getByRole('button', { name: 'Conversations' }).click();
   await page.getByRole('button', { name: 'Bring in from a Claude or ChatGPT export' }).click();
   await page.getByLabel('Choose the export file').setInputFiles({ name: 'data-export.zip', mimeType: 'application/zip', buffer });
-  await page.getByRole('searchbox', { name: 'Find a chat by its name' }).fill('subtext');
+  // Searching what was said finds a chat whose name never mentions it.
+  await page.getByRole('searchbox', { name: 'Find chats by name or by what was said' }).fill('Aretha');
+  await expect(page.getByText('1 chat with "Aretha"')).toBeVisible();
+  await expect(page.getByText('mentions it 1 time')).toBeVisible();
   await page.getByRole('checkbox', { name: 'Writing funny with subtext and depth' }).click();
   await page.getByRole('button', { name: 'Bring in 1 chat' }).click();
   await expect(page.getByRole('status').first()).toContainText('Everything kept');

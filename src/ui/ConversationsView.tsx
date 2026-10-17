@@ -117,12 +117,25 @@ function ExportPicker({ ctx, onClose, onOpen }: { ctx: Ctx; onClose: () => void;
     finally { setReading(''); }
   }
 
-  const shown = useMemo(() => {
-    if (!chats) return [];
-    const t = q.trim().toLowerCase();
-    return (t ? chats.filter((c) => c.title.toLowerCase().includes(t)) : chats).slice(0, 200);
-  }, [chats, q]);
-  const matching = chats ? (q.trim() ? chats.filter((c) => c.title.toLowerCase().includes(q.trim().toLowerCase())).length : chats.length) : 0;
+  // Search looks at names and inside every message. Lowercased once, so typing stays quick on a large export.
+  const lowered = useMemo(() => (chats ?? []).map((c) => ({ title: c.title.toLowerCase(), body: c.messages.map((m) => m.text.toLowerCase()).join('\n') })), [chats]);
+  const [term, setTerm] = useState('');
+  useEffect(() => { const t = window.setTimeout(() => setTerm(q.trim().toLowerCase()), 250); return () => window.clearTimeout(t); }, [q]);
+  const found = useMemo(() => {
+    if (!chats) return [] as { c: ExportChat; inTitle: boolean; mentions: number }[];
+    if (!term) return chats.map((c) => ({ c, inTitle: false, mentions: 0 }));
+    const out: { c: ExportChat; inTitle: boolean; mentions: number }[] = [];
+    chats.forEach((c, i) => {
+      const inTitle = lowered[i]!.title.includes(term);
+      let mentions = 0, at = lowered[i]!.body.indexOf(term);
+      while (at >= 0) { mentions++; at = lowered[i]!.body.indexOf(term, at + term.length); }
+      if (inTitle || mentions) out.push({ c, inTitle, mentions });
+    });
+    return out.sort((a, b) => Number(b.inTitle) - Number(a.inTitle) || b.mentions - a.mentions);
+  }, [chats, lowered, term]);
+  const LIMIT = 1000;
+  const shown = found.slice(0, LIMIT);
+  const matching = found.length;
   const span = useMemo(() => {
     const ds = (chats ?? []).map((c) => c.createdAt).filter(Boolean).sort() as string[];
     const f = (d: string) => new Date(d).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
@@ -163,18 +176,19 @@ function ExportPicker({ ctx, onClose, onOpen }: { ctx: Ctx; onClose: () => void;
       ) : (
         <>
           <p className="small muted">{chats.length.toLocaleString()} chats in this export{span ? `, started between ${span}` : ''}, newest first. Check the ones that belong to this novel. A chat started outside those dates is in a different export.</p>
-          <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Find a chat by its name" aria-label="Find a chat by its name" />
+          <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="A name, a character, a phrase" aria-label="Find chats by name or by what was said" />
+          {term && <p className="small muted" role="status" style={{ margin: '0.4rem 0 0' }}>{matching === 0 ? 'No chat mentions that.' : `${matching.toLocaleString()} chat${matching === 1 ? '' : 's'} with "${q.trim()}", names first, then the most mentions.`}</p>}
           <ul className="export-list" aria-label="Chats in the export">
-            {shown.map((c) => (
+            {shown.map(({ c, mentions }) => (
               <li key={c.origin}>
                 <label className="choice">
                   <input type="checkbox" aria-label={c.title} checked={picked.has(c.origin)} onChange={(e) => { const n = new Set(picked); if (e.target.checked) n.add(c.origin); else n.delete(c.origin); setPicked(n); }} />
-                  <span>{c.title}{have.has(c.origin) && <span className="chip">already here</span>}<small>{c.app}, {day(c.updatedAt ?? c.createdAt)}, {c.messages.length} messages</small></span>
+                  <span>{c.title}{have.has(c.origin) && <span className="chip">already here</span>}<small>{c.app}, {day(c.updatedAt ?? c.createdAt)}, {c.messages.length} messages{mentions ? `, mentions it ${mentions} time${mentions === 1 ? '' : 's'}` : ''}</small></span>
                 </label>
               </li>
             ))}
           </ul>
-          {matching > shown.length && <p className="small faint">Showing {shown.length} of {matching.toLocaleString()}. Type part of a name to find the rest.</p>}
+          {matching > shown.length && <p className="small faint">Showing {shown.length.toLocaleString()} of {matching.toLocaleString()}. Search to narrow the list.</p>}
         </>
       )}
       <div className="row" style={{ marginTop: '1rem' }}>
