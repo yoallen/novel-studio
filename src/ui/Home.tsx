@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { DraftingProgress } from './Progress';
+import { SeedStart } from './SeedStart';
 
 // "Where was I?" (R-B-018) with the Next Writing Action as the one thing that stands out (R-B-015).
 export function Home({ ctx }: { ctx: Ctx }) {
@@ -39,6 +40,8 @@ export function Home({ ctx }: { ctx: Ctx }) {
       </section>
 
       <BookLine ctx={ctx} />
+
+      <SeedStart ctx={ctx} onPlanted={() => ctx.go('brain')} />
 
       <DraftingProgress ctx={ctx} />
 

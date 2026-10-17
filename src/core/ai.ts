@@ -97,7 +97,11 @@ export class Collaborator {
     const setup = (prof.setup ?? {}) as { genres?: { name: string; role: string }[]; storyTypes?: { key: string; role: string }[]; characteristics?: string[]; frameworkNotes?: Record<string, string> };
     if (setup.genres?.length) lines.push(`Genres: ${setup.genres.map((g) => `${g.name} (${g.role})`).join(', ')}`);
     if (setup.storyTypes?.length) lines.push(`Blake Snyder story types: ${setup.storyTypes.map((t) => `${STORY_TYPES.find((d) => d.key === t.key)?.name ?? t.key} (${t.role})`).join(', ')}`);
-    if (setup.characteristics?.length) lines.push(`Narrative characteristics: ${setup.characteristics.map((k) => CHARACTERISTICS.find((c) => c.key === k)?.name ?? k).join(', ')}`);
+    if (setup.characteristics?.length) {
+      const own = ((prof.setup as { customCharacteristics?: { key: string; name: string; group: string }[] } | undefined)?.customCharacteristics) ?? [];
+      const named = (k: string) => { const c = CHARACTERISTICS.find((x) => x.key === k) ?? own.find((x) => x.key === k); return c ? `${c.name} (${c.group})` : k; };
+      lines.push(`Narrative characteristics: ${setup.characteristics.map(named).join(', ')}`);
+    }
     const fw = (prof.frameworks as string[] | undefined) ?? [];
     if (fw.length) lines.push(`The author’s storytelling toolkit (use these frameworks' terms; combinations are deliberate): ${fw.map((k) => `${FRAMEWORKS.find((f) => f.key === k)?.name ?? myMethods(this.store).find((m) => m.key === k)?.name ?? k}${setup.frameworkNotes?.[k] ? ` [how the author uses it: ${setup.frameworkNotes[k]}]` : ''}`).join('; ')}`);
     for (const m of myMethods(this.store).filter((x) => fw.includes(x.key))) {

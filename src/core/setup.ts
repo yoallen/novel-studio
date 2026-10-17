@@ -6,7 +6,7 @@ import { Brain } from './brain.js';
 import { Structure } from './structure.js';
 import { Continuity } from './continuity.js';
 import { settingsOf, ProjectSettings } from './settings.js';
-import { GENRES, STORY_TYPES, CHARACTERISTICS, FRAMEWORKS, Role } from './catalog.js';
+import { GENRES, STORY_TYPES, CHARACTERISTICS, CHARACTERISTIC_GROUPS, FRAMEWORKS, Role } from './catalog.js';
 import { methods as myMethods, Method } from './methods.js';
 import { FrameworkDef } from './catalog.js';
 
@@ -48,6 +48,39 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(
 export class Setup {
   constructor(private store: Store, private brain: Brain, private structure: Structure, private continuity: Continuity) {}
 
+  /** A blank novel's first five answers, kept in pencil: who it is about, what they want, what is in the way,
+   *  what they stand to lose, and how it might end. Every answer is optional. */
+  plantSeed(projectId: string, a: { name?: string; who?: string; want?: string; obstacle?: string; stakes?: string; ending?: string }) {
+    const clean = (x?: string) => (x ?? '').trim().slice(0, 2000);
+    const name = clean(a.name).slice(0, 80), who = clean(a.who), want = clean(a.want), obstacle = clean(a.obstacle), stakes = clean(a.stakes), ending = clean(a.ending);
+    const author = { kind: 'author' as const };
+    const p = this.brain.project(projectId);
+    return this.store.batch({ projectId, actor: 'author', reason: 'Plant the seed' }, () => {
+      let characterId: string | null = null;
+      if (name || who || want || obstacle || stakes) {
+        const c = this.brain.createElement(projectId, { kind: 'character', title: name || 'The lead' });
+        characterId = c.id as string;
+        if (who) this.brain.addStatement({ elementId: characterId, field: 'essence', value: who, status: 'developing', speaker: author });
+        this.brain.addStatement({ elementId: characterId, field: 'role', value: 'Lead', status: 'developing', speaker: author });
+        if (want) this.brain.addStatement({ elementId: characterId, field: 'goal', value: want, status: 'developing', speaker: author });
+        if (obstacle) this.brain.addStatement({ elementId: characterId, field: 'conflict', value: obstacle, status: 'developing', speaker: author });
+        if (stakes) this.brain.addStatement({ elementId: characterId, field: 'stakes', value: stakes, status: 'developing', speaker: author });
+      }
+      if (ending) {
+        const world = this.continuity.storyWorld(projectId, true) as Row;
+        this.brain.addStatement({ elementId: world.id as string, field: 'ending', value: ending, status: 'developing', speaker: author });
+      }
+      this.brain.updateProject(projectId, { profile: { ...p.profile, seedStart: 'planted' } });
+      return { characterId };
+    });
+  }
+
+  /** "Not now" on the guided start: it does not come back for this novel. */
+  skipSeed(projectId: string) {
+    const p = this.brain.project(projectId);
+    this.brain.updateProject(projectId, { profile: { ...p.profile, seedStart: 'skipped' } });
+  }
+
   /** Built-in frameworks and every method of her own, as one toolkit. */
   frameworks(): (FrameworkDef & { own?: boolean; method?: Method })[] {
     return [...FRAMEWORKS, ...myMethods(this.store).map((m) => ({
@@ -85,7 +118,7 @@ export class Setup {
       storyWorldId: world?.id ?? null,
       ingredients,
       asks: st.genres.filter((g) => g.role !== 'influence').flatMap((g) => (GENRES.find((d) => d.key === g.key)?.asks ?? []).map((q) => ({ genre: g.name, question: q }))),
-      catalog: { genres: GENRES.map(({ key, name, leansOn }) => ({ key, name, leansOn })), storyTypes: STORY_TYPES.map(({ key, name, about }) => ({ key, name, about })), characteristics: CHARACTERISTICS, frameworks: this.frameworks().map(({ method, ...f }) => ({ ...f, questions: method?.questions ?? [], source: method?.source ?? '' })), structures: this.structure.registry().names },
+      catalog: { genres: GENRES.map(({ key, name, leansOn }) => ({ key, name, leansOn })), storyTypes: STORY_TYPES.map(({ key, name, about }) => ({ key, name, about })), characteristics: CHARACTERISTICS, characteristicGroups: CHARACTERISTIC_GROUPS, frameworks: this.frameworks().map(({ method, ...f }) => ({ ...f, questions: method?.questions ?? [], source: method?.source ?? '' })), structures: this.structure.registry().names },
     };
   }
 

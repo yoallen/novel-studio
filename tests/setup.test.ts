@@ -131,4 +131,32 @@ describe('identity in her words, and the Ackerman and Puglisi thesauri', () => {
     expect(env.brain.fieldsFor(pid, 'character').some((d) => d.field === 'wound_belief')).toBe(true);
     expect(env.brain.fieldsFor(pid, 'scene_plan').some((d) => d.field === 'outward_signals')).toBe(true);
   });
+
+  it('setup covers any book: genres, tone, heat, tense, readership and tropes, each group taking her own entries', () => {
+    const { su } = setup();
+    const pid = su.createNovel('Till the End of Time').id as string;
+    const d = su.get(pid) as any;
+    const keys = d.catalog.characteristics.map((c: any) => c.key);
+    for (const k of ['bittersweet', 'heat_steamy', 'past_tense', 'adult', 'trope_second_chance', 'cw_death', 'hidden_world']) expect(keys).toContain(k);
+    expect(d.catalog.genres.map((g: any) => g.key)).toEqual(expect.arrayContaining(['magical_realism', 'literary_romance', 'psychological_thriller', 'urban_fantasy']));
+    expect(d.catalog.characteristicGroups.find((g: any) => g.name === 'Tense').one).toBe(true);
+    su.update(pid, { customCharacteristics: [{ key: '', name: 'Aching', group: 'Tone' }] });
+    const own = (su.get(pid) as any).setup.customCharacteristics[0];
+    expect(own).toMatchObject({ name: 'Aching', group: 'Tone' });
+    su.update(pid, { characteristics: ['trope_friends_to_lovers', 'trope_second_chance', own.key, 'heat_sensual'] });
+    expect(su.activeFeatures(pid).join(' ')).toMatch(/heat field/);
+  });
+
+  it('a blank novel can be started from six answers, all kept in pencil', () => {
+    const { su, ct } = setup();
+    const pid = su.createNovel('The Death of Sabrina Sawyer').id as string;
+    const r = su.plantSeed(pid, { name: 'Sabrina Sawyer', who: 'A woman who learned to thrive but never let herself feel it.', want: 'One week off, finally.', ending: 'She forgives every Sabrina, herself included.' });
+    const lead = env.brain.field(r.characterId!, 'goal');
+    expect(lead.current).toBeNull(); // nothing decided
+    expect(lead.possibilities.map((x) => x.value)).toContain('One week off, finally.');
+    expect(env.brain.element(r.characterId!).title).toBe('Sabrina Sawyer');
+    const world = ct.storyWorld(pid) as any;
+    expect(env.brain.field(world.id, 'ending').possibilities[0]!.value).toMatch(/forgives/);
+    expect(env.brain.project(pid).profile.seedStart).toBe('planted');
+  });
 });

@@ -373,3 +373,18 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .drafting-figures dt { font-family: var(--book); font-style: italic; color: var(--margin); font-size: .9375rem; }
 .drafting-figures dd { margin: 0; font-size: 1.0625rem; }
 @media (max-width: 560px) { .tally { --col: 56px; gap: 2px; } .tally-day { font-size: .625rem; } }
+
+/* Novel setup: each group of characteristics as its own small panel. */
+.setup-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem 1.75rem; align-items: start; }
+.setup-group { border: 0; margin: 0; padding: 0; min-width: 0; }
+.setup-group[data-long] { grid-column: span 2; }
+.setup-group[data-long] .setup-options { columns: 2 12rem; column-gap: 1.5rem; }
+.setup-group .setup-options .choice { break-inside: avoid; }
+.setup-group legend { font-family: var(--book); font-weight: 700; color: var(--struct); padding: 0; margin-bottom: 0.15rem; }
+.setup-group > p { margin: 0 0 0.35rem; }
+@media (max-width: 640px) { .setup-group[data-long] { grid-column: auto; } }
+
+/* Plant the seed: a blank novel's first questions. */
+.seed { background: var(--sheet); border: 1px solid var(--line); border-left: 3px solid var(--struct); padding: 1rem 1.25rem; margin: 0 0 2rem; }
+.seed h3 { margin-top: 0; }
+.seed-qs { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0 1.5rem; }

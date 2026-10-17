@@ -65,6 +65,8 @@ export const DEFAULT_IMPORT_LABELS: ImportLabel[] = [
 
 export interface ProjectSettings {
   authorName: string;
+  /** The name on the book: a pen name, or blank to use the author's name. Printed on exported title pages. */
+  byline: string;
   sceneLadder: LadderStep[];
   guidanceWhileDrafting: Guidance;
   guidanceWhilePlanning: Guidance;
@@ -89,6 +91,7 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
   const s = (p.settings ?? {}) as Partial<ProjectSettings>;
   return {
     authorName: typeof s.authorName === 'string' ? s.authorName : '',
+    byline: typeof s.byline === 'string' ? s.byline : '',
     sceneLadder: Array.isArray(s.sceneLadder) && s.sceneLadder.length ? s.sceneLadder : DEFAULT_SCENE_LADDER,
     guidanceWhileDrafting: s.guidanceWhileDrafting ?? 'quiet',
     guidanceWhilePlanning: s.guidanceWhilePlanning ?? 'advisory',
@@ -131,6 +134,7 @@ export function mergeSettings(profile: Record<string, unknown>, patch: Partial<P
     if (words != null && (!Number.isFinite(words) || words < 1 || words > 2_000_000)) throw new ValidationError('The push goal should be between 1 and 2,000,000 words.');
     next.push = { name: (name ?? '').trim().slice(0, 60), start, end, words: words ?? null };
   }
+  if (patch.byline != null) next.byline = String(patch.byline).trim().slice(0, 120);
   if (patch.wordsPerPage && patch.wordsPerPage.some((n) => !Number.isFinite(n) || n < 100 || n > 600)) throw new ValidationError('Words per page should be between 100 and 600.');
   if (patch.targetWords != null && (!Number.isFinite(patch.targetWords) || patch.targetWords < 1000 || patch.targetWords > 2_000_000)) throw new ValidationError('Target length should be between 1,000 and 2,000,000 words.');
   return next;

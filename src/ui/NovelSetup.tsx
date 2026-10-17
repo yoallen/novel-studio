@@ -14,6 +14,7 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
   const [msg, setMsg] = useState('');
   const [customGenre, setCustomGenre] = useState('');
   const [customChar, setCustomChar] = useState('');
+  const [adding, setAdding] = useState<string | null>(null);
   const [customFw, setCustomFw] = useState('');
   const [carry, setCarry] = useState(true);
   const load = () => Promise.all([api.get(`/api/projects/${ctx.projectId}/setup`), api.get(`/api/projects/${ctx.projectId}/setup/active`)]).then(([s, a]) => { setD(s); setActive(a); }).catch((e) => setError(e.message));
@@ -32,8 +33,9 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
   const fw: string[] = d.frameworks;
   const allFw = [...d.catalog.frameworks, ...s.customFrameworks.map((f: any) => ({ ...f, kind: 'custom' }))];
   const structures = fw.filter((k) => d.catalog.frameworks.find((f: any) => f.key === k)?.kind === 'structure');
-  const groups = [...new Set([...d.catalog.characteristics.map((c: any) => c.group), ...s.customCharacteristics.map((c: any) => c.group)])] as string[];
-  const chars = [...d.catalog.characteristics, ...s.customCharacteristics];
+  const groupInfo: Record<string, { about: string; one?: boolean }> = Object.fromEntries((d.catalog.characteristicGroups ?? []).map((g: any) => [g.name, g]));
+  const groupList = [...new Set([...(d.catalog.characteristicGroups ?? []).map((g: any) => g.name), ...d.catalog.characteristics.map((c: any) => c.group), ...s.customCharacteristics.map((c: any) => c.group)])] as string[];
+  const chars = [...d.catalog.characteristics, ...s.customCharacteristics.map((c: any) => ({ ...c, custom: true }))];
 
   return (
     <div className="scroll"><div className="content" style={{ maxWidth: 980 }}>
@@ -100,25 +102,40 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
       </section>
 
       <section className="section" aria-label="Narrative characteristics">
-        <h2>Narrative characteristics</h2>
-        <p className="small muted">How the story is told, apart from what kind of story it is. Some of these switch on tools, shown beside them.</p>
-        <div className="cols" style={{ gap: '0.75rem 1.5rem' }}>
-          {groups.map((g) => (
-            <div key={g}>
-              <h3 className="small" style={{ margin: '0 0 0.25rem' }}>{g}</h3>
-              {chars.filter((c: any) => c.group === g).map((c: any) => (
-                <label key={c.key} className="choice" style={{ padding: '0.15rem 0' }}>
-                  <input type="checkbox" checked={s.characteristics.includes(c.key)} onChange={(e) => void save({ characteristics: e.target.checked ? [...s.characteristics, c.key] : s.characteristics.filter((x: string) => x !== c.key) })} />
-                  <span>{c.name}{c.turnsOn && <small>Turns on: {c.turnsOn}</small>}</span>
-                </label>
-              ))}
-            </div>
-          ))}
+        <h2>How the story is told</h2>
+        <p className="small muted">Everything about the book apart from its genre: viewpoint, tense, setting, readership, tone and more. Some choices switch on tools, shown beside them. Each group takes your own entries too.</p>
+        <div className="setup-groups">
+          {groupList.map((g) => {
+            const one = !!groupInfo[g]?.one;
+            const inGroup = chars.filter((c: any) => c.group === g);
+            const choose = (key: string, on: boolean) => {
+              const others = one ? inGroup.map((c: any) => c.key).filter((k: string) => k !== key) : [];
+              const next = on ? [...s.characteristics.filter((x: string) => !others.includes(x)), key] : s.characteristics.filter((x: string) => x !== key);
+              return save({ characteristics: next });
+            };
+            return (
+              <fieldset key={g} className="setup-group" data-long={inGroup.length > 10 || undefined}>
+                <legend>{g}</legend>
+                {groupInfo[g]?.about && <p className="small muted">{groupInfo[g].about}{one ? ' One choice.' : ''}</p>}
+                <div className="setup-options">
+                  {inGroup.map((c: any) => (
+                    <label key={c.key} className="choice" style={{ padding: '0.15rem 0' }}>
+                      <input type={one ? 'radio' : 'checkbox'} name={one ? `group-${g}` : undefined} checked={s.characteristics.includes(c.key)} onChange={(e) => void choose(c.key, e.target.checked)} onClick={(e) => { if (one && s.characteristics.includes(c.key)) { e.preventDefault(); void choose(c.key, false); } }} />
+                      <span>{c.name}{c.custom && <span className="chip">yours</span>}{c.turnsOn && <small>Turns on: {c.turnsOn}</small>}</span>
+                    </label>
+                  ))}
+                </div>
+                {adding === g ? (
+                  <form className="row" style={{ marginTop: '0.35rem' }} onSubmit={(e) => { e.preventDefault(); const name = customChar.trim(); if (!name) return; const key = `custom_${name.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 40)}`; void save({ customCharacteristics: [...s.customCharacteristics.filter((x: any) => x.key !== key), { key, name, group: g }] }).then(() => choose(key, true)); setCustomChar(''); setAdding(null); }}>
+                    <input type="text" autoFocus value={customChar} onChange={(e) => setCustomChar(e.target.value)} placeholder={`Your own, under ${g}`} aria-label={`Your own ${g.toLowerCase()}`} style={{ maxWidth: 240 }} />
+                    <button className="btn small" type="submit" disabled={!customChar.trim()}>Add</button>
+                    <button className="btn link small" type="button" onClick={() => { setAdding(null); setCustomChar(''); }}>Cancel</button>
+                  </form>
+                ) : <button className="btn link small" onClick={() => { setAdding(g); setCustomChar(''); }}>Add your own</button>}
+              </fieldset>
+            );
+          })}
         </div>
-        <form className="row" style={{ marginTop: '0.5rem' }} onSubmit={(e) => { e.preventDefault(); const name = customChar.trim(); if (!name) return; const key = `custom_${name.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 40)}`; void save({ customCharacteristics: [...s.customCharacteristics, { key, name, group: 'My own' }], characteristics: [...s.characteristics, key] }); setCustomChar(''); }}>
-          <input type="text" value={customChar} onChange={(e) => setCustomChar(e.target.value)} placeholder="A characteristic of your own" aria-label="Your own characteristic" style={{ maxWidth: 320 }} />
-          <button className="btn small" type="submit" disabled={!customChar.trim()}>Add</button>
-        </form>
       </section>
 
       <section className="section" aria-label="Storytelling toolkit">

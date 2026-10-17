@@ -53,7 +53,7 @@ export class Exporter {
   book(projectId: string, req: ExportRequest): Book {
     const p = this.brain.project(projectId);
     const st = settingsOf(p.profile);
-    if (req.draftId && req.manuscript) return { title: p.title as string, author: st.authorName, chapters: this.draftChapters(projectId, req), extras: this.sections(projectId, req) };
+    if (req.draftId && req.manuscript) return { title: p.title as string, author: st.byline || st.authorName, chapters: this.draftChapters(projectId, req), extras: this.sections(projectId, req) };
     const outline = this.ms.outline(projectId);
     const pick = req.chapterIds && req.chapterIds.length ? new Set(req.chapterIds) : null;
     if (pick) for (const id of pick) if (!outline.some((c) => c.id === id)) throw new ValidationError('One of the chosen chapters is not in this novel.');
@@ -70,7 +70,7 @@ export class Exporter {
         }),
       };
     });
-    return { title: p.title as string, author: st.authorName, chapters, extras: this.sections(projectId, req) };
+    return { title: p.title as string, author: st.byline || st.authorName, chapters, extras: this.sections(projectId, req) };
   }
 
   private draftChapters(projectId: string, req: ExportRequest): BookChapter[] {

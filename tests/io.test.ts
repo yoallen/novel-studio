@@ -214,6 +214,14 @@ describe('export (R-B-076 to R-B-081)', () => {
   }
   const base = { manuscript: true, sections: [] as never[], includePrivate: false, includeExamples: true, chapterHeading: 'number_title' as const, options: {} };
 
+  it('a book carries its own author name: the pen name when set, the author\'s name otherwise', () => {
+    const { pid, ex } = novel();
+    env.brain.updateSettings(pid, { authorName: 'Yolanda' });
+    expect(ex.book(pid, { ...base, format: 'md' }).author).toBe('Yolanda');
+    env.brain.updateSettings(pid, { byline: 'Nadia Simone Brooks' });
+    expect(ex.book(pid, { ...base, format: 'md' }).author).toBe('Nadia Simone Brooks');
+  });
+
   it.each(['docx', 'rtf', 'odt', 'epub', 'pdf', 'md', 'txt', 'html'] as const)('%s: read back and checked word for word, chapters in order', async (format) => {
     const { pid, ex } = novel();
     const r = await ex.export(pid, { ...base, format });

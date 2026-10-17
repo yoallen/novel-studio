@@ -94,6 +94,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const step = z.object({ key: z.string(), label: z.string().max(80), drafted: z.boolean().optional() });
     const b = body(req, z.object({
       authorName: z.string().max(80).optional(),
+      byline: z.string().max(120).optional(),
       sceneLadder: z.array(step).min(1).max(30).optional(),
       guidanceWhileDrafting: z.enum(['quiet', 'advisory', 'deep']).optional(),
       guidanceWhilePlanning: z.enum(['quiet', 'advisory', 'deep']).optional(),
@@ -259,6 +260,11 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   });
   app.get('/api/projects/:id/where-was-i', async (req) => desk.whereWasI(params(req, P).id));
   app.get('/api/projects/:id/next-action', async (req) => desk.nextWritingAction(params(req, P).id));
+  app.post('/api/projects/:id/seed', async (req) => {
+    const t = z.string().max(2000).optional();
+    return svc.setup.plantSeed(params(req, P).id, body(req, z.object({ name: z.string().max(80).optional(), who: t, want: t, obstacle: t, stakes: t, ending: t })));
+  });
+  app.post('/api/projects/:id/seed/skip', async (req) => { svc.setup.skipSeed(params(req, P).id); return { skipped: true }; });
   app.get('/api/projects/:id/this-week', async (req) => desk.thisWeek(params(req, P).id));
   app.get('/api/projects/:id/progress', async (req) => {
     const pid = params(req, P).id; brain.project(pid);

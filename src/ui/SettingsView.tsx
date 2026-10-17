@@ -17,8 +17,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
     setMsg(''); setError('');
     try {
       if (title.trim() && title !== ctx.project.title) await api.patch(`/api/projects/${ctx.projectId}`, { title });
-      const { sceneLadder, authorName, guidanceWhileDrafting, guidanceWhilePlanning, goal, push, targetWords, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction } = s;
-      await api.patch(`/api/projects/${ctx.projectId}/settings`, { sceneLadder, authorName, guidanceWhileDrafting, guidanceWhilePlanning, goal, push: push && push.start && push.end ? { ...push, words: push.words ? Number(push.words) : null } : null, targetWords: targetWords ? Number(targetWords) : null, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction });
+      const { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push, targetWords, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction } = s;
+      await api.patch(`/api/projects/${ctx.projectId}/settings`, { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push: push && push.start && push.end ? { ...push, words: push.words ? Number(push.words) : null } : null, targetWords: targetWords ? Number(targetWords) : null, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction });
       await ctx.refreshProject();
       setMsg('Settings saved.');
     } catch (e) { setError((e as Error).message); }
@@ -56,6 +56,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
       <section className="cols">
         <label className="field"><span>Title</span><input type="text" value={title} onChange={(e) => setTitle(e.target.value)} /></label>
         <label className="field"><span>Your first name (used in "{(s.ownedLabel as string).replace('{author}', s.authorName || 'Name')}")</span><input type="text" value={s.authorName} onChange={(e) => setS({ ...s, authorName: e.target.value })} /></label>
+        <label className="field"><span>Author name on this book (your pen name, if it has one)</span><input type="text" value={s.byline ?? ''} placeholder={s.authorName || 'Your name'} onChange={(e) => setS({ ...s, byline: e.target.value })} /><small className="muted">Printed on the title page when you export. Leave it empty to use your own name.</small></label>
         <label className="field"><span>Target length in words (optional)</span><input type="number" value={s.targetWords ?? ''} onChange={(e) => setS({ ...s, targetWords: e.target.value ? Number(e.target.value) : null })} /></label>
         <label className="field"><span>Words per page for page estimates</span><input type="text" value={(s.wordsPerPage as number[]).join(', ')} onChange={(e) => setS({ ...s, wordsPerPage: e.target.value.split(',').map((x) => Number(x.trim())).filter((n) => n > 0) })} /></label>
       </section>

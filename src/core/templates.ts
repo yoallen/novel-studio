@@ -32,6 +32,7 @@ const CHARACTER: FieldDef[] = [
   f('Role in the story', 'importance', 'Narrative importance', { prompt: 'Main, supporting or minor. Depth is judged against this, never against how many fields are filled.' }),
   f('Role in the story', 'narrates', 'Narrates?', { prompt: 'Whether and how this character narrates (viewpoint, grammatical person).' }),
   f('Role in the story', 'pov_withheld_until', 'Viewpoint withheld until', { prompt: 'For a secret keeper: the beat or moment before which we never get inside their head.' }),
+  f('Role in the story', 'stakes', 'What they stand to lose', { prompt: 'If they fail, what is gone for good?' }),
   f('Role in the story', 'last_page', 'Last page, in one line', { prompt: 'If you wrote this character\'s last page in one line, who are they now?' }),
 
   f('Ingermanson', 'goal', 'Goal', { prompt: 'Concrete and reachable. What would winning look like?' }),
@@ -248,6 +249,9 @@ const SCENE_PLAN: FieldDef[] = [
   f('Narrator and truth', 'actually_true', 'What is actually true', { prompt: 'The gap between these two is what the reader may or may not catch.' }),
   f('Timeline strand', 'timeline_strand', 'Which timeline', { prompt: 'Then or now, the frame or the tale, or your own names for the strands.' }),
   f('Callbacks', 'callbacks', 'Callbacks and running gags here', { multi: true, prompt: 'Name the gag. Each return should twist it a little further.' }),
+  f('Tense', 'scene_tense', 'Tense in this scene', { suggestions: ['Past', 'Present'], prompt: 'When a book shifts tense on purpose, say where.' }),
+  f('Heat', 'heat_on_page', 'What is on the page', { prompt: 'How far the scene goes, so the heat stays consistent with the rest of the book.' }),
+  f('Heat', 'heat_changes', 'What the intimacy changes between them', { prompt: 'Every intimate scene should move the relationship, not only the temperature.' }),
 ];
 
 const STORYWORLD: FieldDef[] = [
@@ -259,6 +263,7 @@ const STORYWORLD: FieldDef[] = [
   f('Knowledge', 'hidden_truth', 'Does this book hide a truth from the reader?', { prompt: 'Turns on the reader-knowledge and secret-operations views.' }),
   f('The core', 'logline', 'The one sentence', { prompt: 'The whole book squeezed until only its central irony is left. About twenty-five words.' }),
   f('The core', 'paragraph', 'The one paragraph', { prompt: 'Setup, three disasters, and the ending, one sentence each.' }),
+  f('The core', 'ending', 'How it might end', { prompt: 'A guess is fine. Endings found early give the middle somewhere to go.' }),
   f('Moral premise', 'vice', 'The vice', { prompt: '[Vice] leads to defeat…' }),
   f('Moral premise', 'virtue', 'The virtue', { prompt: '…but [virtue] leads to success.' }),
   f('Moral premise', 'moral_premise', 'The moral premise, as one sentence'),
