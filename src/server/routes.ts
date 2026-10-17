@@ -1,5 +1,6 @@
 // HTTP routes for the core services. Each handler validates input with zod before touching data.
 
+import { INTERVIEW_SETS } from '../core/storytime.js';
 import { existsSync, readdirSync, readFileSync, mkdirSync, accessSync, constants as fsConstants } from 'node:fs';
 import { join, isAbsolute } from 'node:path';
 import { AppError } from '../core/store.js';
@@ -260,6 +261,12 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   });
   app.get('/api/projects/:id/where-was-i', async (req) => desk.whereWasI(params(req, P).id));
   app.get('/api/projects/:id/next-action', async (req) => desk.nextWritingAction(params(req, P).id));
+  app.get('/api/scenes/:id/ages', async (req) => svc.storytime.agesInScene(params(req, P).id));
+  app.get('/api/elements/:id/across-time', async (req) => svc.storytime.character(params(req, P).id));
+  app.get('/api/projects/:id/reader-map', async (req) => { const pid = params(req, P).id; brain.project(pid); return svc.storytime.readerMap(pid); });
+  app.get('/api/projects/:id/soundtrack', async (req) => { const pid = params(req, P).id; brain.project(pid); return svc.storytime.soundtrack(pid); });
+  app.get('/api/interview-sets', async () => INTERVIEW_SETS);
+  app.post('/api/elements/:id/interview', async (req) => svc.storytime.addInterview(params(req, P).id, body(req, z.object({ set: z.string().max(40).optional(), question: z.string().max(300).optional() }))));
   app.post('/api/projects/:id/seed', async (req) => {
     const t = z.string().max(2000).optional();
     return svc.setup.plantSeed(params(req, P).id, body(req, z.object({ name: z.string().max(80).optional(), who: t, want: t, obstacle: t, stakes: t, ending: t })));
@@ -444,7 +451,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     draftId: id.nullable().optional(),
     manuscript: z.boolean(),
     chapterIds: z.array(id).max(2000).nullable().optional(),
-    sections: z.array(z.enum(['characters', 'beats', 'places', 'set_pieces', 'open_decisions', 'setups_payoffs', 'timeline', 'all_records'])).max(8),
+    sections: z.array(z.enum(['characters', 'beats', 'places', 'set_pieces', 'open_decisions', 'setups_payoffs', 'timeline', 'soundtrack', 'all_records'])).max(9),
     includePrivate: z.boolean().default(false),
     includeExamples: z.boolean().default(true),
     chapterHeading: z.enum(['number_title', 'number', 'title']).default('number_title'),

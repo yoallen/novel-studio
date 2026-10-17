@@ -2,6 +2,7 @@
 // Before: say what the format cannot keep. After: read the file back and check every chapter and every word is there (R-B-078).
 // Exporting never changes the novel. Private writing aids stay out unless she ticks them in.
 
+import { StoryTime } from '../storytime.js';
 import { Store, Row, ValidationError, newId } from '../store.js';
 import { Brain } from '../brain.js';
 import { Manuscript } from '../manuscript.js';
@@ -16,7 +17,7 @@ import { writeBeatSheet } from './spreadsheet.js';
 import { WORLDS, beatDef } from '../structure.js';
 import { Book, BookChapter, ExportFormat, FORMAT_INFO, WriteOptions, lossesFor, toDocx, toEpub, toHtml, toMarkdown, toOdt, toPdf, toRtf, toText } from './writers.js';
 
-export type Section = 'characters' | 'beats' | 'places' | 'set_pieces' | 'open_decisions' | 'setups_payoffs' | 'timeline' | 'all_records';
+export type Section = 'characters' | 'beats' | 'places' | 'set_pieces' | 'open_decisions' | 'setups_payoffs' | 'timeline' | 'soundtrack' | 'all_records';
 
 export interface ExportRequest {
   format: ExportFormat | 'json';
@@ -165,6 +166,11 @@ export class Exporter {
         if (t.unplacedInTime) blocks.push(P(`${t.unplacedInTime} scene${t.unplacedInTime === 1 ? ' has' : 's have'} no story time yet.`, { i: true }));
         if (!t.chronological.length) blocks.splice(0, 1);
         out.push({ heading: 'Timeline', blocks: blocks.length ? blocks : [P('No events on the timeline yet.', { i: true })] });
+      }
+      if (s === 'soundtrack') {
+        const songs = new StoryTime(this.store, this.brain, this.ms).soundtrack(pid);
+        const blocks: Block[] = songs.map((x, i) => P(`${i + 1}. ${x.title}${x.artist ? `, ${x.artist}` : ''}${x.carries ? `. ${x.carries}` : ''}${x.plays.length ? ` (${x.plays.map((p) => p.title).join('; ')})` : ''}`));
+        out.push({ heading: 'Soundtrack', blocks: blocks.length ? blocks : [P('No songs recorded yet.', { i: true })] });
       }
       if (s === 'all_records') {
         const kinds = [...new Set(this.brain.elements(pid).map((e) => e.kind as string))].filter((k) => !['thought', 'guardrail', 'scene_plan', 'arc', 'character', 'beat', 'location', 'set_piece'].includes(k));

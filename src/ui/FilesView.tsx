@@ -399,7 +399,7 @@ function download(r: { filename: string; mime: string; data: string }) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-const SECTIONS: [string, string][] = [['characters', 'Character profiles'], ['beats', 'Beat sheet'], ['places', 'Places'], ['set_pieces', 'Set pieces'], ['open_decisions', 'Open decisions'], ['setups_payoffs', 'Setups and payoffs'], ['timeline', 'Timeline'], ['all_records', 'Every other record']];
+const SECTIONS: [string, string][] = [['characters', 'Character profiles'], ['beats', 'Beat sheet'], ['places', 'Places'], ['set_pieces', 'Set pieces'], ['open_decisions', 'Open decisions'], ['setups_payoffs', 'Setups and payoffs'], ['timeline', 'Timeline'], ['soundtrack', 'Soundtrack'], ['all_records', 'Every other record']];
 const FORMATS: [string, string][] = [['docx', 'Word (.docx)'], ['pdf', 'PDF'], ['epub', 'E-book (.epub)'], ['odt', 'OpenDocument (.odt)'], ['rtf', 'Rich Text (.rtf)'], ['md', 'Markdown (.md)'], ['txt', 'Plain text (.txt)'], ['html', 'Web page (.html)'], ['json', 'Data (.json)']];
 
 function ExportPanel({ ctx }: { ctx: Ctx }) {

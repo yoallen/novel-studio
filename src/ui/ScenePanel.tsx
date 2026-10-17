@@ -60,6 +60,8 @@ export function ScenePanel({ ctx, sceneId, onChanged, onReloadPage }: { ctx: Ctx
         <span>Drafted and confirmed: this text outranks the earlier plan</span>
       </label>
 
+      <SceneAges sceneId={sceneId} tick={c} />
+
       <div className="section">
         <h3>Drafting readiness</h3>
         {c.readiness.ready ? <p className="small">Ready to draft.</p> : <p className="small muted">Open questions: {c.readiness.open.join(', ')}. You can write anyway.</p>}
@@ -113,5 +115,20 @@ export function ScenePanel({ ctx, sceneId, onChanged, onReloadPage }: { ctx: Ctx
       </div>
       {showRevs && <RevisionsDialog sceneId={sceneId} onClose={() => setShowRevs(false)} onRestored={() => { setShowRevs(false); onChanged(); onReloadPage(); }} />}
     </div>
+  );
+}
+
+/** Who is in this scene and how old, once the scene has a year or the characters have birth years or fixed ages. */
+function SceneAges({ sceneId, tick }: { sceneId: string; tick: unknown }) {
+  const [d, setD] = useState<any>(null);
+  useEffect(() => { api.get(`/api/scenes/${sceneId}/ages`).then(setD).catch(() => setD(null)); }, [sceneId, tick]);
+  if (!d || (!d.year && !d.people.some((p: any) => p.age != null))) return null;
+  return (
+    <section className="section ages" aria-label="Who is here, and how old">
+      <h3>Who is here{d.year != null ? `, ${d.year}` : ''}</h3>
+      {d.people.length === 0 ? <p className="small muted">Connect characters to this scene (appears in) to see their ages.</p> : (
+        <ul className="list small">{d.people.map((p: any) => <li key={p.id}>{p.title}{p.age != null ? `, ${p.age}` : <span className="faint">, age not known yet</span>}</li>)}</ul>
+      )}
+    </section>
   );
 }

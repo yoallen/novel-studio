@@ -33,6 +33,7 @@
   --ok: #2f6b45;
   --warn: #8a4b00;
   --danger: #a3123a;
+  --tab-profound: #522875; --tab-funny: #ff1493; --tab-relatable: #e3b505; --tab-shocking: #2e8b57;
 
   --ui: 'Atkinson Hyperlegible', system-ui, sans-serif;
   --prose: 'Literata', Georgia, serif;
@@ -47,14 +48,14 @@
     --cloth: #2a1438; --cloth-deep: #1d0d28; --cloth-ink: #d9c8e6;
     --bg: #1c1722; --page: #1c1722; --sheet: #241e2b; --ink: #f1ebf5; --pencil: #a99fb3; --muted: #b7adc4; --faint: #8e849c; --margin: #bba2d2;
     --line: rgba(205, 180, 230, 0.16); --line-strong: rgba(205, 180, 230, 0.4); --wash: rgba(205, 180, 230, 0.06);
-    --struct: #c9a7ea; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
+    --struct: #c9a7ea; --tab-profound: #b48be0; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
   --cloth: #2a1438; --cloth-deep: #1d0d28; --cloth-ink: #d9c8e6;
   --bg: #1c1722; --page: #1c1722; --sheet: #241e2b; --ink: #f1ebf5; --pencil: #a99fb3; --muted: #b7adc4; --faint: #8e849c; --margin: #bba2d2;
   --line: rgba(205, 180, 230, 0.16); --line-strong: rgba(205, 180, 230, 0.4); --wash: rgba(205, 180, 230, 0.06);
-  --struct: #c9a7ea; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
+  --struct: #c9a7ea; --tab-profound: #b48be0; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -388,3 +389,10 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .seed { background: var(--sheet); border: 1px solid var(--line); border-left: 3px solid var(--struct); padding: 1rem 1.25rem; margin: 0 0 2rem; }
 .seed h3 { margin-top: 0; }
 .seed-qs { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0 1.5rem; }
+
+/* Reader response map: one row per chapter, a tab for each response aimed at. */
+.reader-map { list-style: none; padding: 0; margin: 0; max-width: 40rem; }
+.reader-map li { display: grid; grid-template-columns: 2.25rem 1fr auto; align-items: center; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px solid var(--line); }
+.rm-num { font-family: var(--book); color: var(--margin); font-variant-numeric: oldstyle-nums; }
+.rm-tabs { display: flex; gap: 4px; }
+.tab-mark { display: inline-block; width: 10px; height: 18px; border-radius: 1px 1px 3px 3px; }

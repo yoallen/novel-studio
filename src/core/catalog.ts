@@ -99,7 +99,7 @@ export const CHARACTERISTICS: CharacteristicDef[] = [
   { key: 'serial', name: 'Serial, published in parts', group: 'Form' },
   { key: 'past_tense', name: 'Past tense', group: 'Tense' },
   { key: 'present_tense', name: 'Present tense', group: 'Tense' },
-  { key: 'mixed_tense', name: 'Mixed or shifting tense', group: 'Tense', turnsOn: 'A tense field on each scene card' },
+  { key: 'mixed_tense', name: 'Mixed or shifting tense', group: 'Tense', turnsOn: 'Tense set scene by scene in the Viewpoint view' },
   { key: 'contemporary_setting', name: 'Contemporary, our world now', group: 'Setting' },
   { key: 'recent_past', name: 'Recent past (within living memory)', group: 'Setting' },
   { key: 'historical_setting', name: 'Historical', group: 'Setting' },
@@ -216,7 +216,6 @@ export const FRAMEWORKS: FrameworkDef[] = [
 export const CHARACTERISTIC_FIELDS: Record<string, { kind: string; group: string }[]> = {
   unreliable_narrator: [{ kind: 'scene_plan', group: 'Narrator and truth' }],
   dual_timeline: [{ kind: 'scene_plan', group: 'Timeline strand' }],
-  mixed_tense: [{ kind: 'scene_plan', group: 'Tense' }],
   heat_sensual: [{ kind: 'scene_plan', group: 'Heat' }],
   heat_steamy: [{ kind: 'scene_plan', group: 'Heat' }],
   heat_explicit: [{ kind: 'scene_plan', group: 'Heat' }],

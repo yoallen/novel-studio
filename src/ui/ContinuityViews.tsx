@@ -460,3 +460,53 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
     </>
   );
 }
+
+const RESPONSE_COLOR: Record<string, string> = { Profound: 'var(--tab-profound)', Funny: 'var(--tab-funny)', Relatable: 'var(--tab-relatable)', Shocking: 'var(--tab-shocking)' };
+
+/** The reader response map: the tab a reader would reach for, chapter by chapter. */
+export function ReaderMap({ ctx, tick }: { ctx: Ctx; tick: number }) {
+  const { d, e } = useData(`/api/projects/${ctx.projectId}/reader-map`, tick);
+  if (e) return <div className="notice error">{e}</div>;
+  if (!d) return <p className="muted">Gathering the tabs…</p>;
+  const all = [...new Set(['Profound', 'Funny', 'Relatable', 'Shocking', ...Object.keys(d.counts)])];
+  return (
+    <>
+      <h1>Reader response</h1>
+      <p className="muted small">The tab a reader would reach for in each chapter: purple for profound, pink for funny, yellow for relatable, green for shocking, and any of your own. Set them on each scene card, under Reader response. A chapter with no tab may need more.</p>
+      <div className="row small" style={{ gap: '1rem', marginBottom: '1rem' }}>
+        {all.map((r) => <span key={r} className="row" style={{ gap: '0.35rem' }}><span className="tab-mark" style={{ background: RESPONSE_COLOR[r] ?? 'var(--line-strong)' }} />{r}: {d.counts[r] ?? 0} chapter{(d.counts[r] ?? 0) === 1 ? '' : 's'}</span>)}
+      </div>
+      {d.chapters.length === 0 ? <p className="muted small">No chapters yet.</p> : (
+        <ol className="reader-map" aria-label="Chapters and their tabs">
+          {d.chapters.map((c: any) => (
+            <li key={c.chapterId}>
+              <span className="rm-num">{c.number}</span>
+              <span className="rm-title">{c.title}</span>
+              <span className="rm-tabs">{c.responses.length ? c.responses.map((r: string) => <span key={r} className="tab-mark" title={r} aria-label={r} style={{ background: RESPONSE_COLOR[r] ?? 'var(--line-strong)' }} />) : <span className="faint small">no tab yet</span>}</span>
+            </li>
+          ))}
+        </ol>
+      )}
+    </>
+  );
+}
+
+/** The soundtrack: songs in the order they first play in the book. Titles only, never lyrics. */
+export function Soundtrack({ ctx, tick }: { ctx: Ctx; tick: number }) {
+  const { d, e } = useData(`/api/projects/${ctx.projectId}/soundtrack`, tick);
+  if (e) return <div className="notice error">{e}</div>;
+  if (!d) return <p className="muted">Gathering the songs…</p>;
+  return (
+    <>
+      <h1>Soundtrack</h1>
+      <p className="muted small">Add songs in the Story Brain, under Soundtrack, and connect each to the scenes it plays in (plays in) or the character it belongs to (theme song of). Titles and artists only.</p>
+      {d.length === 0 ? <p className="muted small">No songs yet.</p> : (
+        <ol className="list">{d.map((x: any) => (
+          <li key={x.id}><strong>{x.title}</strong>{x.artist ? `, ${x.artist}` : ''}{x.carries ? <span className="muted">. {x.carries}</span> : null}
+            <div className="small faint">{x.plays.length ? `Plays in ${x.plays.map((p: any) => `${p.chapter}, ${p.title}`).join('; ')}` : 'Not placed in a scene yet'}{x.belongsTo.length ? `. Theme song of ${x.belongsTo.join(', ')}` : ''}</div>
+          </li>
+        ))}</ol>
+      )}
+    </>
+  );
+}

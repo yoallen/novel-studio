@@ -10,7 +10,7 @@ import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, Conflict
 export const ELEMENT_KINDS = [
   'character', 'relationship', 'storyline', 'act', 'beat', 'sequence', 'scene_plan', 'event',
   'location', 'object', 'clue', 'reveal', 'payoff', 'theme', 'value', 'motif', 'rule', 'research',
-  'question', 'idea', 'thought', 'note', 'arc', 'guardrail', 'line', 'storyworld', 'hidden_move', 'set_piece',
+  'question', 'idea', 'thought', 'note', 'arc', 'guardrail', 'line', 'storyworld', 'hidden_move', 'set_piece', 'song', 'interview',
 ] as const;
 export type ElementKind = (typeof ELEMENT_KINDS)[number];
 
@@ -28,6 +28,7 @@ export const RELATIONS = [
   'plants', 'pays_off', 'reveals', 'conceals', 'foreshadows', 'mirrors', 'contradicts',
   'appears_in', 'pov_of', 'located_at', 'knows', 'suspects', 'believes_falsely',
   'relates_to', 'answers', 'raises', 'inspired_by', 'advances', 'can_see', 'cannot_see',
+  'same_person_as', 'plays_in', 'theme_song_of',
 ] as const;
 export type Relation = (typeof RELATIONS)[number];
 

@@ -2,6 +2,7 @@
 // Every route validates its input; errors never expose internals.
 
 import { Progress } from '../core/progress.js';
+import { StoryTime } from '../core/storytime.js';
 import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { extname, join, normalize } from 'node:path';
@@ -65,6 +66,7 @@ export interface Services {
   books: Books;
   cast: Cast;
   progress: Progress;
+  storytime: StoryTime;
   opts: AppOptions;
   /** Where backups go: the folder she chose, or the default beside her library. */
   backupDir: () => string;
@@ -84,7 +86,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
   const structure = new Structure(store, brain, ms), ripple = new Ripple(store, brain, ms, structure);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, progress: new Progress(store, ms), opts, backupDir: () => opts.backupDir };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, progress: new Progress(store, ms), storytime: new StoryTime(store, brain, ms), opts, backupDir: () => opts.backupDir };
   services.backupDir = () => {
     const r = store.db.prepare("SELECT value_json FROM settings WHERE key='backup_dir'").get() as { value_json: string } | undefined;
     const chosen = r ? (JSON.parse(r.value_json) as string) : '';

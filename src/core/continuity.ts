@@ -45,7 +45,13 @@ export class Continuity {
 
   povCoverage(projectId: string) {
     const world = this.storyWorld(projectId);
-    const def = { person: world ? this.val(world.id as string, 'pov_person') : null, tense: world ? this.val(world.id as string, 'pov_tense') : null };
+    // The story world's own words win; otherwise the viewpoint and tense chosen in Novel setup.
+    const chosen = ((this.brain.project(projectId).profile.setup as { characteristics?: string[] } | undefined)?.characteristics) ?? [];
+    const pick = (map: Record<string, string>) => Object.entries(map).find(([k]) => chosen.includes(k))?.[1] ?? null;
+    const def = {
+      person: (world ? this.val(world.id as string, 'pov_person') : null) ?? pick({ first_person: 'First person', third_limited: 'Third person limited', third_omniscient: 'Third person omniscient', second_person: 'Second person' }),
+      tense: (world ? this.val(world.id as string, 'pov_tense') : null) ?? pick({ past_tense: 'Past', present_tense: 'Present', mixed_tense: 'Mixed' }),
+    };
     const chapters = this.store.db.prepare('SELECT * FROM chapters WHERE project_id=? AND deleted_at IS NULL ORDER BY position').all(projectId) as Row[];
     const scenes = this.store.db.prepare('SELECT id, chapter_id, title, pov_element_id, pov_json, position FROM scenes WHERE project_id=? AND deleted_at IS NULL ORDER BY position').all(projectId) as Row[];
     const rows = chapters.map((c) => {

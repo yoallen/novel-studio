@@ -19,6 +19,7 @@ export const PLAN_FIELDS = [
   { field: 'how_we_got_here', label: 'How we got here' },
   { field: 'what_must_follow', label: 'What must follow' },
   { field: 'story_time', label: 'When (story time)' },
+  { field: 'story_year', label: 'Year' },
   { field: 'location', label: 'Where' },
 ] as const;
 

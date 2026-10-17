@@ -7,7 +7,7 @@ import { statusWord, valueText } from './status';
 
 // The Story Brain: one trusted place where the story lives (R-A-043). Kinds on the left, the chosen
 // record in the middle. Questions and ideas keep their own spaces (R-A-047 to R-A-050).
-const MAIN = ['character', 'relationship', 'location', 'event', 'clue', 'object', 'storyline', 'theme', 'motif', 'line'];
+const MAIN = ['character', 'relationship', 'location', 'event', 'clue', 'object', 'storyline', 'theme', 'motif', 'line', 'song'];
 type Sel = { kind: 'kind'; key: string } | { kind: 'element'; id: string } | { kind: 'map' } | { kind: 'suggestions' } | { kind: 'notes' };
 
 export function StoryBrain({ ctx }: { ctx: Ctx }) {
@@ -30,7 +30,7 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
   useEffect(() => { try { sessionStorage.setItem('ns-brain-sel', JSON.stringify(sel)); } catch { /* ignore */ } }, [sel]);
 
   const count = (k: string) => els.filter((e) => e.kind === k).length;
-  const hidden = new Set(['scene_plan', 'arc', 'guardrail', 'question', 'idea', 'thought', 'note']);
+  const hidden = new Set(['scene_plan', 'arc', 'guardrail', 'question', 'idea', 'thought', 'note', 'interview']);
   const visibleKinds = kinds.filter((k) => !hidden.has(k.key) && (showAll || MAIN.includes(k.key) || k.custom || count(k.key) > 0));
   const kindLabel = (key: string) => kinds.find((k) => k.key === key);
 

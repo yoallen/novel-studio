@@ -6,7 +6,7 @@ import { statusWord, AUTHOR_STATUSES, ownedWord, valueText, when } from './statu
 
 const TIMING = [['', 'Timing'], ['backstory', 'Before the story'], ['story_start', 'True when the story opens'], ['in_story', 'Happens during the story'], ['unknown', 'Timing not decided']] as const;
 const PRIMARY_GROUPS = new Set(['Storyline', 'Set piece', 'The move', 'Motif', 'Time', 'Viewpoint', 'The scene', 'In this book', 'On the board', 'Role in the story', 'Weiland Arc', 'What it does', 'How it happens', 'The line', 'Where it goes', 'Clue', 'Place', 'Thinking it through', 'Notes', 'Where they stand']);
-const RELATIONS = ['advances', 'can_see', 'cannot_see', 'relates_to', 'causes', 'enables', 'motivates', 'depends_on', 'plants', 'pays_off', 'reveals', 'conceals', 'foreshadows', 'mirrors', 'contradicts', 'appears_in', 'pov_of', 'located_at', 'knows', 'suspects', 'believes_falsely', 'answers', 'raises', 'inspired_by', 'contains', 'part_of', 'realizes'];
+const RELATIONS = ['advances', 'can_see', 'cannot_see', 'relates_to', 'causes', 'enables', 'motivates', 'depends_on', 'plants', 'pays_off', 'reveals', 'conceals', 'foreshadows', 'mirrors', 'contradicts', 'appears_in', 'pov_of', 'located_at', 'knows', 'suspects', 'believes_falsely', 'answers', 'raises', 'inspired_by', 'contains', 'part_of', 'realizes', 'same_person_as', 'plays_in', 'theme_song_of'];
 
 // One story element, with every field showing what is decided, what is being shaped, what is still open
 // and what is only an example, side by side and never merged (R-A-023, R-A-034).
@@ -92,6 +92,10 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
           {compare && <PairedLies a={el.id} b={compare} />}
         </section>
       )}
+
+      {isChar && <AcrossTime elId={el.id} tick={page} onOpen={onOpen} />}
+
+      {isChar && <Interview ctx={ctx} el={el} items={page.children.filter((c: any) => c.element.kind === 'interview')} act={act} />}
 
       {isChar && (
         <section className="section">
@@ -352,5 +356,74 @@ export function Suggestions({ ctx, items, onDone }: { ctx: Ctx; items: any[]; on
         ))}
       </ul>
     </>
+  );
+}
+
+/** A character across the book: their selves, and their age in every scene they are in. */
+function AcrossTime({ elId, tick, onOpen }: { elId: string; tick: unknown; onOpen: (id: string) => void }) {
+  const [d, setD] = useState<any>(null);
+  useEffect(() => { api.get(`/api/elements/${elId}/across-time`).then(setD).catch(() => setD(null)); }, [elId, tick]);
+  if (!d || (!d.selves.length && d.born == null && d.fixedAge == null)) return null;
+  const aged = d.scenes.filter((x: any) => x.age != null);
+  return (
+    <section className="section" aria-label="Across time">
+      <h2>Across time</h2>
+      {d.selves.length > 0 && (
+        <>
+          <h3 className="small">The same person at other ages</h3>
+          <ul className="list">{d.selves.map((x: any) => <li key={x.id}><button className="btn link" style={{ padding: 0 }} onClick={() => onOpen(x.id)}>{x.title}</button>{x.age != null ? `, ${x.age}` : ''}</li>)}</ul>
+        </>
+      )}
+      {(d.born != null || d.fixedAge != null) && (
+        aged.length ? (
+          <>
+            <h3 className="small">Age in each scene</h3>
+            <ul className="list small">{aged.map((x: any) => <li key={x.sceneId}>{x.chapter}, {x.title}{x.year != null ? ` (${x.year})` : ''}: {x.age}</li>)}</ul>
+          </>
+        ) : <p className="small muted">{d.fixedAge != null ? `Always ${d.fixedAge}.` : 'Give scenes a year, and connect this character to them, to see their age in each.'}</p>
+      )}
+    </section>
+  );
+}
+
+/** Interview a character: questions answered in their own voice, kept in pencil. */
+function Interview({ ctx, el, items, act }: { ctx: Ctx; el: any; items: any[]; act: (p: Promise<unknown>) => Promise<unknown> }) {
+  const [sets, setSets] = useState<any[]>([]);
+  const [own, setOwn] = useState('');
+  useEffect(() => { api.get('/api/interview-sets').then(setSets).catch(() => {}); }, []);
+  const latest = (it: any, k: string) => { const v = it.fields.find((f: any) => f.def.field === k)?.view; return v?.current ?? v?.latest ?? v?.possibilities?.[0] ?? null; };
+  const save = (it: any, k: string, value: string) => {
+    const cur = latest(it, k);
+    if ((cur?.value ?? '') === value || (!cur && !value.trim())) return;
+    void act(api.post(`/api/elements/${it.element.id}/statements`, { field: k, value: value.trim() || '(no answer)', status: 'developing', supersedes: cur?.id ?? null }));
+  };
+  const setOf = (it: any) => { try { return (JSON.parse(it.element.attrs_json || '{}').set as string) ?? ''; } catch { return ''; } };
+  const bySet = (key: string) => items.filter((it) => setOf(it) === key);
+  const groups = [...sets.map((x) => ({ key: x.key, name: x.name, about: x.about })), { key: '', name: 'Your own questions', about: '' }].filter((g) => bySet(g.key).length);
+  return (
+    <section className="section" aria-label="Interview">
+      <div className="row"><h2 className="grow">Interview {el.title}</h2></div>
+      {items.length === 0 && <p className="muted small">Ask {el.title} questions and answer in their own voice. Answers stay in pencil.</p>}
+      {groups.map((g) => (
+        <div key={g.key} style={{ marginBottom: '1rem' }}>
+          <h3 className="small">{g.name}</h3>
+          {g.about && <p className="small muted">{g.about}</p>}
+          {bySet(g.key).map((it) => (
+            <div key={it.element.id} className="interview-q">
+              <label className="field"><span>{it.element.title}</span>
+                <textarea rows={2} defaultValue={String(latest(it, 'answer')?.value ?? '').replace(/^\(no answer\)$/, '')} onBlur={(e) => save(it, 'answer', e.target.value)} placeholder={`As ${el.title}…`} />
+              </label>
+            </div>
+          ))}
+        </div>
+      ))}
+      <div className="row">
+        {sets.map((x) => <button key={x.key} className="btn small" onClick={() => void act(api.post(`/api/elements/${el.id}/interview`, { set: x.key }))}>Add: {x.name}</button>)}
+      </div>
+      <form className="row" style={{ marginTop: '0.5rem' }} onSubmit={(e) => { e.preventDefault(); if (own.trim()) void act(api.post(`/api/elements/${el.id}/interview`, { question: own })).then(() => setOwn('')); }}>
+        <input type="text" value={own} onChange={(e) => setOwn(e.target.value)} placeholder="A question of your own" aria-label="Your own interview question" style={{ maxWidth: 360 }} />
+        <button className="btn small" type="submit" disabled={!own.trim()}>Ask</button>
+      </form>
+    </section>
   );
 }

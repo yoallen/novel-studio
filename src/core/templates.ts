@@ -56,6 +56,8 @@ const CHARACTER: FieldDef[] = [
   f('Identity', 'ethnicity', 'Race or ethnicity', { identity: true }),
   f('Identity', 'heritage', 'Heritage, nationality and roots', { identity: true, prompt: 'Where their people are from, where they were raised, what they call home.' }),
   f('Identity', 'age', 'Age', { identity: true, timed: true }),
+  f('Identity', 'born', 'Year born', { prompt: 'With a year on each scene, the program works out their age everywhere.' }),
+  f('Identity', 'fixed_age', 'Age, if it never changes', { prompt: 'For a younger self who stays eight, a ghost, or anyone outside time.' }),
   f('Identity', 'religion', 'Faith or religion', { identity: true }),
   f('Identity', 'culture', 'Culture and community', { identity: true }),
   f('Identity', 'disability', 'Disability, chronic illness or neurodivergence', { identity: true, timed: true, prompt: 'How it shapes their days, in their terms. Never a plot device by default.' }),
@@ -226,6 +228,7 @@ const SCENE_PLAN: FieldDef[] = [
   f('Around it', 'classification', 'Disaster, discovery or win'),
   f('Story time', 'story_day', 'Day in the story', { prompt: 'A number on your story clock, such as day 3 of the feud.' }),
   f('Story time', 'story_date', 'Date'),
+  f('Story time', 'story_year', 'Year', { prompt: 'The year this scene happens. With birth years on characters, it gives everyone\'s age here.' }),
   f('Story time', 'time_of_day', 'Time of day'),
   f('Story time', 'elapsed', 'Time since the previous scene'),
   f('Atmosphere', 'season', 'Season'),
@@ -249,9 +252,21 @@ const SCENE_PLAN: FieldDef[] = [
   f('Narrator and truth', 'actually_true', 'What is actually true', { prompt: 'The gap between these two is what the reader may or may not catch.' }),
   f('Timeline strand', 'timeline_strand', 'Which timeline', { prompt: 'Then or now, the frame or the tale, or your own names for the strands.' }),
   f('Callbacks', 'callbacks', 'Callbacks and running gags here', { multi: true, prompt: 'Name the gag. Each return should twist it a little further.' }),
-  f('Tense', 'scene_tense', 'Tense in this scene', { suggestions: ['Past', 'Present'], prompt: 'When a book shifts tense on purpose, say where.' }),
+  f('Reader response', 'reader_response', 'What you want the reader to feel', { multi: true, suggestions: ['Profound', 'Funny', 'Relatable', 'Shocking'], prompt: 'The tab a reader would reach for here. A chapter with no tab may need more.' }),
   f('Heat', 'heat_on_page', 'What is on the page', { prompt: 'How far the scene goes, so the heat stays consistent with the rest of the book.' }),
   f('Heat', 'heat_changes', 'What the intimacy changes between them', { prompt: 'Every intimate scene should move the relationship, not only the temperature.' }),
+];
+
+const SONG: FieldDef[] = [
+  f('The song', 'artist', 'Artist'),
+  f('The song', 'year', 'Year it came out'),
+  f('The song', 'carries', 'What it carries', { prompt: 'The feeling or memory this song holds in the story. Titles only, never lyrics.' }),
+  f('The song', 'when_it_plays', 'When it plays', { prompt: 'On a radio, in a memory, at the wedding, as a chapter title…' }),
+];
+
+const INTERVIEW: FieldDef[] = [
+  f('Answer', 'answer', 'Their answer, in their own voice', { prompt: 'Answer as the character. Then say it out loud without looking.' }),
+  f('Answer', 'said_aloud', 'Said out loud without looking?', { suggestions: ['Yes, it held', 'Not yet', 'It fell apart'] }),
 ];
 
 const STORYWORLD: FieldDef[] = [
@@ -311,10 +326,14 @@ export const TEMPLATES: Record<string, FieldDef[]> = {
   motif: MOTIF,
   question: QUESTION,
   idea: IDEA,
+  song: SONG,
+  interview: INTERVIEW,
 };
 
 export const KIND_LABELS: Record<string, { label: string; plural: string }> = {
   character: { label: 'Character', plural: 'Characters' },
+  song: { label: 'Song', plural: 'Soundtrack' },
+  interview: { label: 'Interview question', plural: 'Interviews' },
   arc: { label: 'Arc', plural: 'Arcs' },
   relationship: { label: 'Relationship', plural: 'Relationships' },
   storyline: { label: 'Storyline', plural: 'Storylines' },
