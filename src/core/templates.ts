@@ -249,6 +249,9 @@ const SCENE_PLAN: FieldDef[] = [
   f('Emotion on the page', 'mental_responses', 'What their thoughts do', { multi: true }),
   f('Emotion on the page', 'hidden_emotion', 'What they try to hide, and what leaks out'),
   f('Narrator and truth', 'narrator_believes', 'What the narrator believes here'),
+  f('Who tells it', 'apparent_narrator', 'Who seems to be telling this'),
+  f('Who tells it', 'true_narrator', 'Who is really telling it', { prompt: 'A chapter told through someone else\'s memory of a person. The reader learns the difference when you decide.' }),
+  f('Who tells it', 'revealed_at', 'Where the reader finds out'),
   f('Narrator and truth', 'actually_true', 'What is actually true', { prompt: 'The gap between these two is what the reader may or may not catch.' }),
   f('Timeline strand', 'timeline_strand', 'Which timeline', { prompt: 'Then or now, the frame or the tale, or your own names for the strands.' }),
   f('Callbacks', 'callbacks', 'Callbacks and running gags here', { multi: true, prompt: 'Name the gag. Each return should twist it a little further.' }),
@@ -297,6 +300,7 @@ const SET_PIECE: FieldDef[] = [
 
 const STORYLINE: FieldDef[] = [
   f('Storyline', 'letter', 'Letter (A, B, C…)', { prompt: 'Optional. The letter is its role, not its identity.' }),
+  f('Storyline', 'story_type', 'Story type', { prompt: 'Blake Snyder\'s story type for this thread. A book can carry a different one in each storyline.', suggestions: ['Monster in the House', 'Golden Fleece', 'Out of the Bottle', 'Dude with a Problem', 'Rites of Passage', 'Buddy Love', 'Whydunit', 'The Fool Triumphant', 'Institutionalized', 'Superhero'] }),
   f('Storyline', 'state', 'Where it stands', { prompt: 'Introduced, Developing, Escalating, Temporarily resolved, Dormant, Reopened, Resolved, Intentionally unresolved, or your own.' }),
   f('Storyline', 'resolution', 'Resolves now, or held open on purpose'),
   f('Storyline', 'values', 'Values it carries', { multi: true, prompt: 'Values ride the plot lines; they are not threads of their own.' }),

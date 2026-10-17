@@ -396,3 +396,6 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .rm-num { font-family: var(--book); color: var(--margin); font-variant-numeric: oldstyle-nums; }
 .rm-tabs { display: flex; gap: 4px; }
 .tab-mark { display: inline-block; width: 10px; height: 18px; border-radius: 1px 1px 3px 3px; }
+
+/* A part of the book (Part One: Winter) opens above its first chapter. */
+.binder .part-head { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 0.75rem 0.25em 0.25rem; margin-top: 0.25rem; font-family: var(--book); font-style: italic; font-size: 0.9375rem; color: var(--margin); border-top: 1px solid var(--line-strong); cursor: pointer; }

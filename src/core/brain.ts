@@ -28,7 +28,7 @@ export const RELATIONS = [
   'plants', 'pays_off', 'reveals', 'conceals', 'foreshadows', 'mirrors', 'contradicts',
   'appears_in', 'pov_of', 'located_at', 'knows', 'suspects', 'believes_falsely',
   'relates_to', 'answers', 'raises', 'inspired_by', 'advances', 'can_see', 'cannot_see',
-  'same_person_as', 'plays_in', 'theme_song_of',
+  'same_person_as', 'plays_in', 'theme_song_of', 'calls_up',
 ] as const;
 export type Relation = (typeof RELATIONS)[number];
 

@@ -199,6 +199,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const b = body(req, z.object({ title: z.string().max(300), expectVersion: z.number().int().optional() }));
     return ms.renameChapter(params(req, P).id, b.title, b.expectVersion);
   });
+  app.put('/api/chapters/:id/part', async (req) => ms.setPart(params(req, P).id, body(req, z.object({ title: z.string().max(200) })).title));
   app.delete('/api/chapters/:id', async (req) => { ms.deleteChapter(params(req, P).id); return { deleted: true }; });
   app.post('/api/chapters/:id/restore', async (req) => { ms.restoreChapter(params(req, P).id); return { restored: true }; });
   app.post('/api/chapters/:id/scenes', async (req) => {

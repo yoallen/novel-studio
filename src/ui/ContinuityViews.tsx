@@ -22,9 +22,9 @@ export function Timelines({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpe
   if (e) return <div className="notice error">{e}</div>;
   if (!d) return <p className="muted">Lining up the timelines…</p>;
   const row = (r: any) => (
-    <tr key={r.key}><td style={td}>{r.narrative}</td><td style={td}>{r.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: r.planId })}>{r.title}</button> : r.title}</td><td style={td}>{r.beat || <span className="faint">no beat</span>}</td><td style={td}>{v(r.day ?? r.date)}</td><td style={td}>{v(r.time)}</td><td style={td}>{v(r.location)}</td><td style={td}>{v(r.season ?? r.weather)}</td></tr>
+    <tr key={r.key}><td style={td}>{r.narrative}</td><td style={td}>{r.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: r.planId })}>{r.title}</button> : r.title}{(r.callsUp?.length || r.calledUpBy?.length) ? <div className="small faint">{r.callsUp.length ? `Calls up: ${r.callsUp.join('; ')}` : ''}{r.callsUp.length && r.calledUpBy.length ? '. ' : ''}{r.calledUpBy.length ? `Called up by: ${r.calledUpBy.join('; ')}` : ''}</div> : null}</td><td style={td}>{r.beat || <span className="faint">no beat</span>}</td><td style={td}>{v(r.year ?? r.day ?? r.date)}</td><td style={td}>{v(r.time)}</td><td style={td}>{v(r.location)}</td><td style={td}>{v(r.season ?? r.weather)}</td></tr>
   );
-  const head = <thead><tr><th style={th}>Scene</th><th style={th}>Title</th><th style={th}>Beat</th><th style={th}>Day or date</th><th style={th}>Time</th><th style={th}>Where</th><th style={th}>Season, weather</th></tr></thead>;
+  const head = <thead><tr><th style={th}>Scene</th><th style={th}>Title</th><th style={th}>Beat</th><th style={th}>Year, day or date</th><th style={th}>Time</th><th style={th}>Where</th><th style={th}>Season, weather</th></tr></thead>;
   return (
     <>
       <h1>Two timelines</h1>
@@ -175,7 +175,7 @@ export function Storylines({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOp
       <p className="muted small">The strongest scenes move more than one thread. {d.touchPoints.length} scene{d.touchPoints.length === 1 ? ' moves' : 's move'} more than one.</p>
       <div style={{ overflowX: 'auto' }}>
         <table style={{ borderCollapse: 'collapse', fontSize: '0.875rem' }}>
-          <thead><tr><th style={th}>Scene</th>{d.strands.map((s: any) => <th key={s.id} style={th}><button className="btn link small" onClick={() => onOpen({ level: 'element', id: s.id })}>{s.letter ? `${s.letter}: ` : ''}{s.title}</button><div className="faint" style={{ fontWeight: 400 }}>{valueText(s.state) || ''}{s.values.length ? ` carrying ${s.values.map(valueText).join(', ')}` : ''}</div></th>)}</tr></thead>
+          <thead><tr><th style={th}>Scene</th>{d.strands.map((s: any) => <th key={s.id} style={th}><button className="btn link small" onClick={() => onOpen({ level: 'element', id: s.id })}>{s.letter ? `${s.letter}: ` : ''}{s.title}</button><div className="faint" style={{ fontWeight: 400 }}>{s.storyType ? <em>{valueText(s.storyType)}. </em> : null}{valueText(s.state) || ''}{s.values.length ? ` carrying ${s.values.map(valueText).join(', ')}` : ''}</div></th>)}</tr></thead>
           <tbody>{d.grid.map((g: any) => <tr key={g.index}><td style={td}>{g.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: g.planId })}>{g.index}. {g.title}</button> : `${g.index}. ${g.title}`}</td>{d.strands.map((s: any) => <td key={s.id} style={{ ...td, textAlign: 'center' }}>{g.strands.includes(s.id) ? <span className="mark" data-d="drafted" style={{ display: 'inline-block' }} aria-label="moves this storyline" /> : ''}</td>)}</tr>)}</tbody>
         </table>
       </div>

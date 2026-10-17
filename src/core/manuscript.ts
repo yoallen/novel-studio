@@ -122,6 +122,13 @@ export class Manuscript {
     });
   }
 
+  /** A chapter can open a new part of the book (Part One: Winter). An empty title ends the part there. */
+  setPart(id: string, title: string, actor = 'author') {
+    const c = this.projectOf('chapters', id);
+    const t = title.trim().slice(0, 200);
+    return this.store.batch({ projectId: c.project_id as string, actor, reason: t ? `Begin part "${t}" at ${c.title as string}` : `Remove the part at ${c.title as string}` }, (w) => w.update('chapters', id, { part_title: t }));
+  }
+
   /** Reorder chapters to exactly the given order. */
   reorderChapters(projectId: string, orderedIds: string[], actor = 'author') {
     const existing = (this.store.db.prepare('SELECT id FROM chapters WHERE project_id=? AND deleted_at IS NULL').all(projectId) as Row[]).map((r) => r.id as string);

@@ -81,6 +81,8 @@ export const CHARACTERISTICS: CharacteristicDef[] = [
   { key: 'dramatic_irony', name: 'Dramatic irony', group: 'Information', turnsOn: 'What the reader knows that characters do not, scene by scene' },
   { key: 'hidden_truth', name: 'A hidden truth or secret', group: 'Information', turnsOn: 'The secret operations log and visible versus hidden story' },
   { key: 'unreliable_narrator', name: 'Unreliable narrator', group: 'Information', turnsOn: '"What the narrator believes" beside "What is actually true" on each scene' },
+  { key: 'reconstructed_narration', name: 'A narrator who is not who they seem', group: 'Information', turnsOn: 'Who seems to tell each scene beside who really does, and where the reader finds out' },
+  { key: 'memory_triggers', name: 'The present calls up the past', group: 'Time', turnsOn: 'Memory links (calls up) shown beside each scene in Timelines' },
   { key: 'red_herrings', name: 'Misdirection and red herrings', group: 'Information', turnsOn: 'Red herrings tracked with what each one hides' },
   { key: 'linear', name: 'Linear timeline', group: 'Time' },
   { key: 'nonlinear', name: 'Nonlinear or out of order', group: 'Time', turnsOn: 'Story time beside reading order on each scene' },
@@ -215,6 +217,7 @@ export const FRAMEWORKS: FrameworkDef[] = [
 /** Characteristics that switch on field groups. */
 export const CHARACTERISTIC_FIELDS: Record<string, { kind: string; group: string }[]> = {
   unreliable_narrator: [{ kind: 'scene_plan', group: 'Narrator and truth' }],
+  reconstructed_narration: [{ kind: 'scene_plan', group: 'Who tells it' }],
   dual_timeline: [{ kind: 'scene_plan', group: 'Timeline strand' }],
   heat_sensual: [{ kind: 'scene_plan', group: 'Heat' }],
   heat_steamy: [{ kind: 'scene_plan', group: 'Heat' }],

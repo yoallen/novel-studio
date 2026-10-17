@@ -12,6 +12,7 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 - **Typical length by genre and readership,** offered when she sets a target.
 - **A style sheet for each book:** invented words, spellings, capitalization.
 - **A mood board:** pictures and links for places, faces and atmosphere.
+- **Parts in exports.** Parts show in the Writing Room; exported books should also print a part page (Part One: Winter) before its first chapter.
 
 ## AI only if you invite it (closer to selling)
 

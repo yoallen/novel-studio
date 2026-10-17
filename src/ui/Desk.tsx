@@ -60,6 +60,13 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
     setTick((t) => t + 1);
   }
   // Deleting moves things to Deleted things in Story Trail; nothing is lost.
+  const [partEdit, setPartEdit] = useState<{ id: string; title: string } | null>(null);
+  async function savePart() {
+    if (!partEdit) return;
+    const c = outline?.chapters.find((x: any) => x.id === partEdit.id);
+    if (c && partEdit.title.trim() !== (c.part_title ?? '')) await api.put(`/api/chapters/${c.id}/part`, { title: partEdit.title }).catch((e) => setError(e.message));
+    setPartEdit(null); setTick((t) => t + 1);
+  }
   async function deleteScene(s: any) {
     if (!window.confirm(`Move "${s.title}" to Deleted? You can restore it from Story Trail, under Deleted things.`)) return;
     if (s.id === sceneId) await flushEditor();
@@ -86,6 +93,11 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
               <p className="small muted" style={{ margin: '0 0 0.75rem' }}>{(outline.totalWords + liveDelta(outline, live)).toLocaleString()} words{ctx.settings.targetWords ? ` of ${Number(ctx.settings.targetWords).toLocaleString()}` : ''}</p>
               {outline.chapters.map((c: any) => (
                 <div className="chapter" key={c.id}>
+                  {(c.part_title || partEdit?.id === c.id) && (
+                    partEdit?.id === c.id
+                      ? <input type="text" autoFocus aria-label="Part name" value={partEdit!.title} placeholder="Part One: Winter" onChange={(e) => setPartEdit({ id: c.id, title: e.target.value })} onBlur={() => void savePart()} onKeyDown={(e) => { if (e.key === 'Enter') void savePart(); if (e.key === 'Escape') setPartEdit(null); }} />
+                      : <button className="part-head" title="Double-click to rename" onDoubleClick={() => setPartEdit({ id: c.id, title: c.part_title })}>{c.part_title}</button>
+                  )}
                   <div className="chapter-head">
                     {renaming?.id === c.id
                       ? <input type="text" autoFocus aria-label="Chapter name" value={renaming!.title} onChange={(e) => setRenaming({ id: c.id, title: e.target.value })} onBlur={() => void finishRename()} onKeyDown={(e) => { if (e.key === 'Enter') void finishRename(); if (e.key === 'Escape') setRenaming(null); }} />
@@ -111,6 +123,9 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
                   <div className="row" style={{ gap: '0.75rem' }}>
                     <button className="btn link small" onClick={() => void addScene(c.id, c.scenes[c.scenes.length - 1]?.id)}>Add scene</button>
                     <button className="btn link small faint" aria-label={`Delete ${c.title}`} onClick={() => void deleteChapter(c)}>Delete chapter</button>
+                    {c.part_title
+                      ? <button className="btn link small faint" onClick={() => void api.put(`/api/chapters/${c.id}/part`, { title: '' }).then(() => setTick((t) => t + 1))}>End the part here</button>
+                      : <button className="btn link small faint" onClick={() => setPartEdit({ id: c.id, title: '' })}>Start a part here</button>}
                   </div>
                 </div>
               ))}

@@ -89,18 +89,24 @@ export class Continuity {
   // ---------- the two timelines (R-C-049 to R-C-051) ----------
   timelines(projectId: string) {
     const units = this.ripple.order(projectId);
+    const memory = (this.brain.links(projectId) as Row[]).filter((l) => l.relation === 'calls_up');
     const rows = units.map((u) => {
       const id = u.planId;
       const g = (f: string) => (id ? this.val(id, f) : null);
-      return { key: u.key, planId: id, sceneId: u.sceneId, title: u.title, narrative: u.index, beat: this.title(u.beatId), day: g('story_day'), date: g('story_date'), time: g('time_of_day'), elapsed: g('elapsed'), season: g('season'), weather: g('weather'), location: g('location') };
+      // A present scene can call up a past one: the memory link, in both directions.
+      const callsUp = id ? memory.filter((l) => l.from_id === id).map((l) => String(l.to_title ?? this.title(l.to_id as string))) : [];
+      const calledUpBy = id ? memory.filter((l) => l.to_id === id).map((l) => String(l.from_title ?? this.title(l.from_id as string))) : [];
+      return { key: u.key, planId: id, sceneId: u.sceneId, title: u.title, narrative: u.index, beat: this.title(u.beatId), day: g('story_day'), date: g('story_date'), year: g('story_year'), time: g('time_of_day'), elapsed: g('elapsed'), season: g('season'), weather: g('weather'), location: g('location'), callsUp, calledUpBy };
     });
-    const chronological = [...rows].filter((r) => r.day != null || r.date != null).sort((a, b) => {
+    const chronological = [...rows].filter((r) => r.day != null || r.date != null || r.year != null).sort((a, b) => {
+      const ya = Number(a.year), yb = Number(b.year);
+      if (Number.isFinite(ya) && Number.isFinite(yb) && ya !== yb) return ya - yb;
       const da = Number(a.day), db = Number(b.day);
       if (Number.isFinite(da) && Number.isFinite(db) && da !== db) return da - db;
       if (a.date && b.date && a.date !== b.date) return String(a.date).localeCompare(String(b.date));
       return partRank(a.time) - partRank(b.time) || a.narrative - b.narrative;
     });
-    return { narrative: rows, chronological, unplacedInTime: rows.filter((r) => r.day == null && r.date == null).length };
+    return { narrative: rows, chronological, unplacedInTime: rows.filter((r) => r.day == null && r.date == null && r.year == null).length };
   }
 
   // ---------- knowledge (R-C-050, R-C-060, R-C-064) ----------
@@ -150,7 +156,7 @@ export class Continuity {
     const units = this.ripple.order(projectId);
     const links = this.brain.links(projectId);
     const strands = this.brain.elements(projectId, { kind: 'storyline' }).map((s) => ({
-      id: s.id as string, title: s.title as string, letter: this.val(s.id as string, 'letter'), state: this.val(s.id as string, 'state'), resolution: this.val(s.id as string, 'resolution'),
+      id: s.id as string, title: s.title as string, letter: this.val(s.id as string, 'letter'), storyType: this.val(s.id as string, 'story_type'), state: this.val(s.id as string, 'state'), resolution: this.val(s.id as string, 'resolution'),
       values: this.brain.field(s.id as string, 'values').currentAll.map((v) => v.value),
     }));
     const moves = (unitPlan: string | null, strand: string) => !!unitPlan && links.some((l) => l.relation === 'advances' && l.from_id === unitPlan && l.to_id === strand);

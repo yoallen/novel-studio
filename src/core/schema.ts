@@ -435,4 +435,9 @@ CREATE TABLE draft_scenes (
 );
 `,
   },
+  {
+    version: 7,
+    name: 'parts: a chapter can open a new part of the book',
+    sql: `ALTER TABLE chapters ADD COLUMN part_title TEXT NOT NULL DEFAULT '';`,
+  },
 ];

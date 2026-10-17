@@ -29,3 +29,20 @@ test('a scene and a whole chapter are deleted from the list, and a chapter comes
   await expect(binder.locator('.chapter')).toHaveCount(2);
   await expect(binder.locator('.chapter').last().locator('.scene-row')).toHaveCount(1);
 });
+
+// Parts: a chapter can open a part of the book, named and later ended.
+test('a part of the book opens above a chapter in the Writing Room', async ({ page }) => {
+  await newNovel(page, 'Parts');
+  await heroWrite(page).click();
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
+  const binder = page.getByRole('complementary', { name: 'Chapters and scenes' });
+  await binder.getByRole('button', { name: 'Start a part here' }).click();
+  await binder.getByLabel('Part name').fill('Part One: Winter');
+  await binder.getByLabel('Part name').press('Enter');
+  await expect(binder.getByRole('button', { name: 'Part One: Winter' })).toBeVisible();
+  await page.reload();
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
+  await expect(binder.getByRole('button', { name: 'Part One: Winter' })).toBeVisible();
+  await binder.getByRole('button', { name: 'End the part here' }).click();
+  await expect(binder.getByRole('button', { name: 'Part One: Winter' })).toHaveCount(0);
+});
