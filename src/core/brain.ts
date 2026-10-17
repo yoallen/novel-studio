@@ -419,7 +419,7 @@ export class Brain {
       const on = new Set<string>([...((p.frameworks as string[] | undefined) ?? []), ...(((p.setup as Record<string, unknown> | undefined)?.characteristics as string[] | undefined) ?? [])]);
       if (worldbuildingOn(p.setup as never)) on.add('worldbuilding');
       const configured = !!(p.setup as Record<string, unknown> | undefined)?.configured;
-      const characteristicKeys = new Set(Object.keys(CHARACTERISTIC_FIELDS));
+      const characteristicKeys = new Set([...Object.keys(CHARACTERISTIC_FIELDS), 'worldbuilding']);
       builtIn = builtIn.filter((d) => {
         const cond = CONDITIONAL_GROUPS.find((g) => g.kind === kind && g.group === d.group);
         if (!cond) return true;

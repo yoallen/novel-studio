@@ -126,7 +126,7 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
                   ))}
                 </div>
                 {adding === g ? (
-                  <form className="row" style={{ marginTop: '0.35rem' }} onSubmit={(e) => { e.preventDefault(); const name = customChar.trim(); if (!name) return; const key = `custom_${name.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 40)}`; void save({ customCharacteristics: [...s.customCharacteristics.filter((x: any) => x.key !== key), { key, name, group: g }] }).then(() => choose(key, true)); setCustomChar(''); setAdding(null); }}>
+                  <form className="row" style={{ marginTop: '0.35rem' }} onSubmit={(e) => { e.preventDefault(); const name = customChar.trim(); if (!name) return; const key = `custom_${`${g}_${name}`.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 60)}`; void save({ customCharacteristics: [...s.customCharacteristics.filter((x: any) => x.key !== key), { key, name, group: g }] }).then(() => choose(key, true)); setCustomChar(''); setAdding(null); }}>
                     <input type="text" autoFocus value={customChar} onChange={(e) => setCustomChar(e.target.value)} placeholder={`Your own, under ${g}`} aria-label={`Your own ${g.toLowerCase()}`} style={{ maxWidth: 240 }} />
                     <button className="btn small" type="submit" disabled={!customChar.trim()}>Add</button>
                     <button className="btn link small" type="button" onClick={() => { setAdding(null); setCustomChar(''); }}>Cancel</button>

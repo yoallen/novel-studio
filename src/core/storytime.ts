@@ -10,6 +10,15 @@ export const READER_RESPONSES = ['Profound', 'Funny', 'Relatable', 'Shocking'] a
 
 const PRESENT = new Set(['appears_in', 'pov_of']);
 
+/** A year from what she typed: "1970", "March 3, 1970", "Summer 1985", "312 BC". Small numbers count only when allowed (an age). */
+export function parseYear(text: unknown, allowSmall = false): number | null {
+  const t = String(text ?? '');
+  const y = /\b(\d{3,4})\b(\s*(BC|BCE|B\.C\.))?/i.exec(t);
+  if (y) return y[3] ? -Number(y[1]) : Number(y[1]);
+  if (allowSmall) { const m = /\b(\d{1,3})\b/.exec(t); if (m) return Number(m[1]); }
+  return null;
+}
+
 /** Question sets for interviewing a character. She answers in the character's own voice. */
 export const INTERVIEW_SETS: { key: string; name: string; about: string; questions: string[] }[] = [
   {
@@ -46,8 +55,7 @@ export class StoryTime {
     return [...new Set(all.flatMap((x) => (Array.isArray(x) ? x : [x])).map((x) => String(x ?? '').trim()).filter(Boolean))];
   }
   private year(id: string, field: string): number | null {
-    const m = /-?\d{1,6}/.exec(String(this.value(id, field) ?? ''));
-    return m ? Number(m[0]) : null;
+    return parseYear(this.value(id, field), field === 'fixed_age');
   }
 
   /** A character's age in a given story year: a fixed age wins (a younger self who stays eight), else year minus birth year. */
@@ -79,7 +87,7 @@ export class StoryTime {
     const s = this.ms.scene(sceneId);
     const row = this.scenes(s.project_id as string).find((x) => x.sceneId === sceneId);
     if (!row) return { year: null, people: [] };
-    const people = row.people.map((id) => this.brain.element(id)).filter((e) => e.kind === 'character' && !e.deleted_at)
+    const people = row.people.map((id) => this.store.get('elements', id)).filter((e): e is Row => !!e && e.kind === 'character' && !e.deleted_at)
       .map((e) => ({ id: e.id as string, title: e.title as string, ...this.ageIn(e.id as string, row.year) }));
     return { year: row.year, people };
   }
@@ -93,7 +101,7 @@ export class StoryTime {
     const links = this.brain.linksOf(characterId) as Row[];
     const selfIds = new Set<string>();
     for (const l of links) if (l.relation === 'same_person_as') selfIds.add((l.from_id === characterId ? l.to_id : l.from_id) as string);
-    const selves = [...selfIds].map((id) => this.brain.element(id)).filter((e) => !e.deleted_at)
+    const selves = [...selfIds].map((id) => this.store.get('elements', id)).filter((e): e is Row => !!e && !e.deleted_at)
       .map((e) => ({ id: e.id as string, title: e.title as string, ...this.ageIn(e.id as string, null) }))
       .sort((a, b) => (a.age ?? 999) - (b.age ?? 999));
     return { born: this.year(characterId, 'born'), fixedAge: this.year(characterId, 'fixed_age'), scenes, selves };

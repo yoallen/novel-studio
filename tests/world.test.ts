@@ -28,6 +28,9 @@ describe('the worldbuilding kit', () => {
     expect(groups(fantasy, 'location')).toEqual(expect.arrayContaining(['Settlement', 'Between worlds']));
     expect(groups(fantasy, 'character')).toContain('Beyond human');
 
+    const blank = su.createNovel('Not set up yet').id as string;
+    expect(groups(blank, 'location')).not.toContain('Settlement');
+
     const myth = su.createNovel('Scylla').id as string;
     su.update(myth, { characteristics: ['retelling'] });
     expect(groups(myth, 'location')).toContain('Settlement');

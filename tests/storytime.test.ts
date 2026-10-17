@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { freshStore } from './helpers.js';
-import { StoryTime } from '../src/core/storytime.js';
+import { StoryTime, parseYear } from '../src/core/storytime.js';
 
 let env: ReturnType<typeof freshStore>;
 afterEach(() => env?.cleanup());
@@ -72,5 +72,15 @@ describe('ages, selves, reader response and the soundtrack', () => {
     const qs = env.brain.elements(pid, { kind: 'interview' }).filter((e) => e.parent_id === villain);
     expect(qs).toHaveLength(6);
     expect(() => t.addInterview(qs[0]!.id as string, { set: 'know' })).toThrow(/belong to characters/);
+  });
+
+  it('reads years the way she writes them', () => {
+    expect(parseYear('1970')).toBe(1970);
+    expect(parseYear('March 3, 1970')).toBe(1970);
+    expect(parseYear('03/14/1970')).toBe(1970);
+    expect(parseYear('Summer of 1985')).toBe(1985);
+    expect(parseYear('312 BC')).toBe(-312);
+    expect(parseYear('the 2nd summer')).toBeNull();
+    expect(parseYear('8', true)).toBe(8);
   });
 });

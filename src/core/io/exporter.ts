@@ -180,6 +180,13 @@ export class Exporter {
     return out;
   }
 
+  /** Parts show in the Writing Room but are not printed yet; say so before and after exporting. */
+  partsNote(projectId: string, req: ExportRequest): string[] {
+    if (!req.manuscript) return [];
+    const parts = (this.ms.outline(projectId) as unknown as { part_title?: string }[]).filter((c) => c.part_title).length;
+    return parts ? [`Part titles (such as "Part One") are not printed yet. The chapters export without them.`] : [];
+  }
+
   /** Build the file, then read it back and check it. */
   async export(projectId: string, req: ExportRequest) {
     if (!req.manuscript && !req.sections.length) throw new ValidationError('Choose the manuscript, at least one planning section, or both.');
@@ -196,7 +203,7 @@ export class Exporter {
       return { filename: `${safe}${part}.json`, mime: 'application/json', data: buf, losses: [], verification: { ok, chaptersExpected: book.chapters.length, chaptersFound: back.chapters.length, wordsExpected: 0, wordsFound: 0, missing: [] as string[], note: ok ? 'Every chapter and section is in the file.' : 'The file is incomplete.' } };
     }
     const fmt = req.format as ExportFormat;
-    const losses = lossesFor(book, fmt);
+    const losses = [...lossesFor(book, fmt), ...this.partsNote(projectId, req)];
     let data: Buffer;
     switch (fmt) {
       case 'docx': data = await toDocx(book, o); break;

@@ -466,7 +466,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const r = body(req, exportReq);
     const book = svc.exporter.book(pid, r);
     const { lossesFor, FORMAT_INFO } = await import('../core/io/writers.js');
-    return { losses: r.format === 'json' ? [] : lossesFor(book, r.format), label: r.format === 'json' ? 'Data (.json)' : FORMAT_INFO[r.format].label, chapters: book.chapters.map((c) => ({ number: c.number, heading: c.heading, scenes: c.scenes.length })), sections: book.extras.map((e) => e.heading) };
+    return { losses: r.format === 'json' ? [] : [...lossesFor(book, r.format), ...svc.exporter.partsNote(pid, r)], label: r.format === 'json' ? 'Data (.json)' : FORMAT_INFO[r.format].label, chapters: book.chapters.map((c) => ({ number: c.number, heading: c.heading, scenes: c.scenes.length })), sections: book.extras.map((e) => e.heading) };
   });
   app.post('/api/projects/:id/export', async (req) => {
     const r = await svc.exporter.export(params(req, P).id, body(req, exportReq));

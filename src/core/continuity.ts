@@ -2,6 +2,7 @@
 // secret operations, motifs, and one review of every question the program can ask, where her
 // "intentional" note quiets a question for good (R-C-035 to R-C-065, R-C-077, R-B-036).
 
+import { parseYear } from './storytime.js';
 import { Store, Row, NotFoundError, ValidationError } from './store.js';
 import { Brain } from './brain.js';
 import { Manuscript } from './manuscript.js';
@@ -47,7 +48,7 @@ export class Continuity {
     const world = this.storyWorld(projectId);
     // The story world's own words win; otherwise the viewpoint and tense chosen in Novel setup.
     const chosen = ((this.brain.project(projectId).profile.setup as { characteristics?: string[] } | undefined)?.characteristics) ?? [];
-    const pick = (map: Record<string, string>) => Object.entries(map).find(([k]) => chosen.includes(k))?.[1] ?? null;
+    const pick = (map: Record<string, string>) => { const hits = Object.entries(map).filter(([k]) => chosen.includes(k)); return hits.length === 1 ? hits[0]![1] : null; };
     const def = {
       person: (world ? this.val(world.id as string, 'pov_person') : null) ?? pick({ first_person: 'First person', third_limited: 'Third person limited', third_omniscient: 'Third person omniscient', second_person: 'Second person' }),
       tense: (world ? this.val(world.id as string, 'pov_tense') : null) ?? pick({ past_tense: 'Past', present_tense: 'Present', mixed_tense: 'Mixed' }),
@@ -99,8 +100,8 @@ export class Continuity {
       return { key: u.key, planId: id, sceneId: u.sceneId, title: u.title, narrative: u.index, beat: this.title(u.beatId), day: g('story_day'), date: g('story_date'), year: g('story_year'), time: g('time_of_day'), elapsed: g('elapsed'), season: g('season'), weather: g('weather'), location: g('location'), callsUp, calledUpBy };
     });
     const chronological = [...rows].filter((r) => r.day != null || r.date != null || r.year != null).sort((a, b) => {
-      const ya = Number(a.year), yb = Number(b.year);
-      if (Number.isFinite(ya) && Number.isFinite(yb) && ya !== yb) return ya - yb;
+      const ya = parseYear(a.year), yb = parseYear(b.year);
+      if (ya != null && yb != null && ya !== yb) return ya - yb;
       const da = Number(a.day), db = Number(b.day);
       if (Number.isFinite(da) && Number.isFinite(db) && da !== db) return da - db;
       if (a.date && b.date && a.date !== b.date) return String(a.date).localeCompare(String(b.date));
