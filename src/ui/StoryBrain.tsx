@@ -1,3 +1,4 @@
+import { worldbuildingOn, WORLD_KINDS } from '../core/catalog';
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -31,7 +32,8 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
 
   const count = (k: string) => els.filter((e) => e.kind === k).length;
   const hidden = new Set(['scene_plan', 'arc', 'guardrail', 'question', 'idea', 'thought', 'note', 'interview']);
-  const visibleKinds = kinds.filter((k) => !hidden.has(k.key) && (showAll || MAIN.includes(k.key) || k.custom || count(k.key) > 0));
+  const world = worldbuildingOn(ctx.project?.profile?.setup);
+  const visibleKinds = kinds.filter((k) => !hidden.has(k.key) && (showAll || MAIN.includes(k.key) || (world && WORLD_KINDS.includes(k.key)) || k.custom || count(k.key) > 0));
   const kindLabel = (key: string) => kinds.find((k) => k.key === key);
 
   async function addElement(e: React.FormEvent) {

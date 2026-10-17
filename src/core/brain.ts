@@ -1,6 +1,7 @@
 // The Story Brain: projects, story elements, statements with provenance and a decision
 // timeline, links, and capture (thoughts, questions, ideas).
 
+import { worldbuildingOn } from './catalog.js';
 import { CONDITIONAL_GROUPS, CHARACTERISTIC_FIELDS, STORY_TYPES } from './catalog.js';
 import { methods } from './methods.js';
 import { settingsOf, mergeSettings, ProjectSettings } from './settings.js';
@@ -11,6 +12,7 @@ export const ELEMENT_KINDS = [
   'character', 'relationship', 'storyline', 'act', 'beat', 'sequence', 'scene_plan', 'event',
   'location', 'object', 'clue', 'reveal', 'payoff', 'theme', 'value', 'motif', 'rule', 'research',
   'question', 'idea', 'thought', 'note', 'arc', 'guardrail', 'line', 'storyworld', 'hidden_move', 'set_piece', 'song', 'interview',
+  'being', 'magic', 'culture', 'faction', 'belief', 'language', 'source', 'document', 'era',
 ] as const;
 export type ElementKind = (typeof ELEMENT_KINDS)[number];
 
@@ -28,7 +30,7 @@ export const RELATIONS = [
   'plants', 'pays_off', 'reveals', 'conceals', 'foreshadows', 'mirrors', 'contradicts',
   'appears_in', 'pov_of', 'located_at', 'knows', 'suspects', 'believes_falsely',
   'relates_to', 'answers', 'raises', 'inspired_by', 'advances', 'can_see', 'cannot_see',
-  'same_person_as', 'plays_in', 'theme_song_of', 'calls_up',
+  'same_person_as', 'plays_in', 'theme_song_of', 'calls_up', 'is_a', 'member_of', 'retells', 'written_by',
 ] as const;
 export type Relation = (typeof RELATIONS)[number];
 
@@ -415,6 +417,7 @@ export class Brain {
       // Configuration drives what is offered (R-B-094): a framework's or characteristic's fields appear when it is chosen.
       const p = this.project(projectId).profile;
       const on = new Set<string>([...((p.frameworks as string[] | undefined) ?? []), ...(((p.setup as Record<string, unknown> | undefined)?.characteristics as string[] | undefined) ?? [])]);
+      if (worldbuildingOn(p.setup as never)) on.add('worldbuilding');
       const configured = !!(p.setup as Record<string, unknown> | undefined)?.configured;
       const characteristicKeys = new Set(Object.keys(CHARACTERISTIC_FIELDS));
       builtIn = builtIn.filter((d) => {

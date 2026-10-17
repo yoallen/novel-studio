@@ -56,6 +56,9 @@ const CHARACTER: FieldDef[] = [
   f('Identity', 'ethnicity', 'Race or ethnicity', { identity: true }),
   f('Identity', 'heritage', 'Heritage, nationality and roots', { identity: true, prompt: 'Where their people are from, where they were raised, what they call home.' }),
   f('Identity', 'age', 'Age', { identity: true, timed: true }),
+  f('Beyond human', 'being', 'Kind of being', { prompt: 'Connect them to its record (is a) for everything their kind shares.' }),
+  f('Beyond human', 'powers', 'Their own powers or abilities', { multi: true }),
+  f('Beyond human', 'own_limits', 'Their own limits and weaknesses', { multi: true }),
   f('Identity', 'born', 'Year born', { prompt: 'With a year on each scene, the program works out their age everywhere.' }),
   f('Identity', 'fixed_age', 'Age, if it never changes', { prompt: 'For a younger self who stays eight, a ghost, or anyone outside time.' }),
   f('Identity', 'religion', 'Faith or religion', { identity: true }),
@@ -145,6 +148,8 @@ const RELATIONSHIP: FieldDef[] = [
   f('Underneath', 'hidden_influence', 'Hidden influence'),
   f('Underneath', 'false_assumptions', 'False assumptions', { multi: true }),
   f('Underneath', 'unequal_information', 'Who knows what the other does not', { multi: true }),
+  f('Between them', 'their_names', 'What they call each other', { multi: true, prompt: 'The names nobody else uses. Tabs and Tee.' }),
+  f('Between them', 'private_words', 'Words only they share', { multi: true, prompt: 'Their private language: the word, and what it means to them.' }),
 ];
 
 const PLACE: FieldDef[] = [
@@ -152,6 +157,18 @@ const PLACE: FieldDef[] = [
   f('Place', 'atmosphere', 'Atmosphere'),
   f('Place', 'season', 'Season', { timed: true }),
   f('Place', 'who_is_here', 'Who is usually here', { multi: true }),
+  f('Settlement', 'governs', 'Who governs, and how'),
+  f('Settlement', 'economy', 'How people earn a living'),
+  f('Settlement', 'water_food', 'Water and food'),
+  f('Settlement', 'roads_power', 'Roads, travel and power', { prompt: 'How people and goods move, and what keeps the lights (or fires) on.' }),
+  f('Settlement', 'defense', 'Defenses'),
+  f('Settlement', 'districts', 'Neighborhoods and districts', { multi: true }),
+  f('Settlement', 'rich_poor', 'Who is rich and who is poor, and where each lives'),
+  f('Settlement', 'population', 'Who lives here, and how many'),
+  f('Settlement', 'senses', 'What it sounds and smells like'),
+  f('Between worlds', 'which_world', 'Which world this place is in', { prompt: 'Our world, the hidden one inside it, or a world of its own.' }),
+  f('Between worlds', 'crossings', 'Doorways and crossing points', { multi: true }),
+  f('Between worlds', 'crossing_rules', 'The rules for crossing, and what it costs'),
 ];
 
 const EVENT: FieldDef[] = [
@@ -272,6 +289,89 @@ const INTERVIEW: FieldDef[] = [
   f('Answer', 'said_aloud', 'Said out loud without looking?', { suggestions: ['Yes, it held', 'Not yet', 'It fell apart'] }),
 ];
 
+const BEING: FieldDef[] = [
+  f('The kind', 'what_they_are', 'What they are'),
+  f('The kind', 'origin', 'Where they come from'),
+  f('The kind', 'body_senses', 'Body and senses', { prompt: 'What they see, hear or feel that humans cannot, and what they cannot.' }),
+  f('The kind', 'lifespan', 'Lifespan'),
+  f('The kind', 'abilities', 'Abilities', { multi: true }),
+  f('The kind', 'limits', 'Limits and weaknesses', { multi: true, prompt: 'Limits make better stories than powers. What can they never do?' }),
+  f('Among others', 'see_humans', 'How they see humans'),
+  f('Among others', 'seen_by_humans', 'How humans see them'),
+  f('Among others', 'among_them', 'How they live among their own'),
+];
+
+const MAGIC: FieldDef[] = [
+  f('The power', 'source', 'Where it comes from'),
+  f('The power', 'who_can', 'Who can use it, and how they learn'),
+  f('The power', 'cost', 'What it costs the one who uses it'),
+  f('The power', 'never', 'What it can never do', { multi: true, prompt: 'A magic system\'s limits make better stories than its powers. Readers enjoy a solution only when they understood the rules before it.' }),
+  f('The power', 'misuse', 'What happens when it is misused'),
+  f('The power', 'signs', 'What it looks, sounds or feels like'),
+  f('The power', 'known_by', 'Who knows it exists'),
+];
+
+const CULTURE: FieldDef[] = [
+  f('The people', 'customs', 'Customs', { multi: true }),
+  f('The people', 'values', 'What they value most', { multi: true }),
+  f('The people', 'taboos', 'Taboos', { multi: true }),
+  f('The people', 'food', 'Food and drink'),
+  f('The people', 'dress', 'Dress'),
+  f('The people', 'celebrations', 'Celebrations and rites', { multi: true }),
+  f('The people', 'outsiders', 'How they treat outsiders'),
+  f('The people', 'speech', 'Their language and way of speaking'),
+];
+
+const FACTION: FieldDef[] = [
+  f('The group', 'wants', 'What they want'),
+  f('The group', 'leader', 'Who leads them'),
+  f('The group', 'controls', 'What they control'),
+  f('The group', 'power_over', 'Who they hold power over, and who holds power over them'),
+  f('The group', 'methods', 'How they get what they want'),
+  f('The group', 'secrets', 'What they hide', { multi: true }),
+];
+
+const BELIEF: FieldDef[] = [
+  f('The faith', 'gods', 'Gods, spirits or powers'),
+  f('The faith', 'core', 'What believers hold true'),
+  f('The faith', 'rituals', 'Rituals', { multi: true }),
+  f('The faith', 'speaks_for', 'Who speaks for it'),
+  f('The faith', 'heresies', 'Heresies and doubts', { multi: true }),
+  f('The faith', 'daily_life', 'How it shapes daily life'),
+];
+
+const LANGUAGE: FieldDef[] = [
+  f('The language', 'sound', 'How it sounds'),
+  f('The language', 'names', 'Naming patterns'),
+  f('The language', 'words', 'Words and their meanings', { multi: true, prompt: 'One at a time: the word, then what it means.' }),
+  f('The language', 'who_speaks', 'Who speaks it, and how well'),
+];
+
+const SOURCE: FieldDef[] = [
+  f('The original', 'tradition', 'Where it comes from', { prompt: 'The myth, tradition, culture or author.' }),
+  f('The original', 'original', 'What happens in the original'),
+  f('The original', 'public_domain', 'Is the original in the public domain?', { suggestions: ['Yes', 'No', 'Not sure'] }),
+  f('Your version', 'keeps', 'What you keep', { multi: true }),
+  f('Your version', 'changes', 'What you change, and why', { multi: true }),
+  f('Your version', 'honoring', 'How you honor the source', { prompt: 'Especially for a living tradition or a culture not your own.' }),
+];
+
+const DOCUMENT: FieldDef[] = [
+  f('The document', 'form', 'What kind it is', { suggestions: ['Diary', 'Letter', 'Lore', 'Epigraph', 'Transcript', 'Report', 'Scripture'] }),
+  f('The document', 'written_by', 'Who wrote it'),
+  f('The document', 'when_written', 'When it was written'),
+  f('The document', 'reveals', 'What it reveals'),
+  f('The document', 'reliable', 'Can it be trusted?'),
+  f('The document', 'placement', 'Where it appears in the book'),
+];
+
+const ERA: FieldDef[] = [
+  f('The era', 'span', 'When', { prompt: 'Years, an age, or "before the Breaking".' }),
+  f('The era', 'what_happened', 'What happened'),
+  f('The era', 'legacy', 'What it left that the story still feels'),
+  f('The era', 'who_remembers', 'Who remembers it, and how', { multi: true }),
+];
+
 const STORYWORLD: FieldDef[] = [
   f('Time', 'era', 'Era or year'), f('Time', 'season', 'Season'), f('Time', 'atmosphere_now', 'The atmosphere now'),
   f('Time', 'duration', 'How long the story lasts', { prompt: 'A single week, a season, a year…' }), f('Time', 'day_counter', 'Name of your story clock', { prompt: 'For example: day of the feud.' }),
@@ -332,11 +432,29 @@ export const TEMPLATES: Record<string, FieldDef[]> = {
   idea: IDEA,
   song: SONG,
   interview: INTERVIEW,
+  being: BEING,
+  magic: MAGIC,
+  culture: CULTURE,
+  faction: FACTION,
+  belief: BELIEF,
+  language: LANGUAGE,
+  source: SOURCE,
+  document: DOCUMENT,
+  era: ERA,
 };
 
 export const KIND_LABELS: Record<string, { label: string; plural: string }> = {
   character: { label: 'Character', plural: 'Characters' },
   song: { label: 'Song', plural: 'Soundtrack' },
+  being: { label: 'Kind of being', plural: 'Kinds of beings' },
+  magic: { label: 'Magic or power', plural: 'Magic and powers' },
+  culture: { label: 'Culture', plural: 'Cultures and peoples' },
+  faction: { label: 'Faction', plural: 'Factions and institutions' },
+  belief: { label: 'Belief', plural: 'Beliefs and faiths' },
+  language: { label: 'Language', plural: 'Languages' },
+  source: { label: 'Source', plural: 'Sources and retellings' },
+  document: { label: 'In-world document', plural: 'In-world documents' },
+  era: { label: 'Era', plural: 'World history' },
   interview: { label: 'Interview question', plural: 'Interviews' },
   arc: { label: 'Arc', plural: 'Arcs' },
   relationship: { label: 'Relationship', plural: 'Relationships' },

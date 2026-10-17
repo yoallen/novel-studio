@@ -99,6 +99,7 @@ export const CHARACTERISTICS: CharacteristicDef[] = [
   { key: 'short_stories', name: 'Short story collection', group: 'Form' },
   { key: 'linked_stories', name: 'Linked stories', group: 'Form' },
   { key: 'serial', name: 'Serial, published in parts', group: 'Form' },
+  { key: 'retelling', name: 'A retelling of a myth, legend or classic', group: 'Form', turnsOn: 'Source records: the original, your version, and every change' },
   { key: 'past_tense', name: 'Past tense', group: 'Tense' },
   { key: 'present_tense', name: 'Present tense', group: 'Tense' },
   { key: 'mixed_tense', name: 'Mixed or shifting tense', group: 'Tense', turnsOn: 'Tense set scene by scene in the Viewpoint view' },
@@ -227,10 +228,22 @@ export const CHARACTERISTIC_FIELDS: Record<string, { kind: string; group: string
   red_herrings: [{ kind: 'clue', group: 'Red herring' }],
 };
 
+/** Genres and characteristics that open the worldbuilding kit: beings, magic, cultures, factions, beliefs, languages,
+ *  sources, in-world documents, world history, settlements and the ways between worlds. */
+export const WORLD_GENRES = ['fantasy', 'science_fiction', 'urban_fantasy', 'paranormal', 'paranormal_romance', 'magical_realism', 'dystopian', 'gothic', 'horror'];
+export const WORLD_CHARACTERISTICS = ['invented_world', 'hidden_world', 'retelling', 'far_future'];
+export const WORLD_KINDS = ['being', 'magic', 'culture', 'faction', 'belief', 'language', 'source', 'document', 'era'];
+export function worldbuildingOn(setup: { genres?: { key: string }[]; characteristics?: string[] } | undefined): boolean {
+  return !!setup && ((setup.genres ?? []).some((g) => WORLD_GENRES.includes(g.key)) || (setup.characteristics ?? []).some((c) => WORLD_CHARACTERISTICS.includes(c)));
+}
+
 /** Field groups that appear only when a framework or characteristic asks for them, once a novel's toolkit is set. */
 export const CONDITIONAL_GROUPS: { kind: string; group: string; by: string[] }[] = [
   ...FRAMEWORKS.flatMap((f) => (f.fieldGroups ?? []).map((g) => ({ ...g, by: [f.key] }))),
   ...Object.entries(CHARACTERISTIC_FIELDS).flatMap(([k, gs]) => gs.map((g) => ({ ...g, by: [k] }))),
+  { kind: 'location', group: 'Settlement', by: ['worldbuilding'] },
+  { kind: 'location', group: 'Between worlds', by: ['worldbuilding'] },
+  { kind: 'character', group: 'Beyond human', by: ['worldbuilding'] },
 ].reduce((acc, g) => {
   const same = acc.find((x) => x.kind === g.kind && x.group === g.group);
   if (same) same.by.push(...g.by); else acc.push({ ...g, by: [...g.by] });

@@ -6,7 +6,7 @@ import { statusWord, AUTHOR_STATUSES, ownedWord, valueText, when } from './statu
 
 const TIMING = [['', 'Timing'], ['backstory', 'Before the story'], ['story_start', 'True when the story opens'], ['in_story', 'Happens during the story'], ['unknown', 'Timing not decided']] as const;
 const PRIMARY_GROUPS = new Set(['Storyline', 'Set piece', 'The move', 'Motif', 'Time', 'Viewpoint', 'The scene', 'In this book', 'On the board', 'Role in the story', 'Weiland Arc', 'What it does', 'How it happens', 'The line', 'Where it goes', 'Clue', 'Place', 'Thinking it through', 'Notes', 'Where they stand']);
-const RELATIONS = ['advances', 'can_see', 'cannot_see', 'relates_to', 'causes', 'enables', 'motivates', 'depends_on', 'plants', 'pays_off', 'reveals', 'conceals', 'foreshadows', 'mirrors', 'contradicts', 'appears_in', 'pov_of', 'located_at', 'knows', 'suspects', 'believes_falsely', 'answers', 'raises', 'inspired_by', 'contains', 'part_of', 'realizes', 'same_person_as', 'plays_in', 'theme_song_of', 'calls_up'];
+const RELATIONS = ['advances', 'can_see', 'cannot_see', 'relates_to', 'causes', 'enables', 'motivates', 'depends_on', 'plants', 'pays_off', 'reveals', 'conceals', 'foreshadows', 'mirrors', 'contradicts', 'appears_in', 'pov_of', 'located_at', 'knows', 'suspects', 'believes_falsely', 'answers', 'raises', 'inspired_by', 'contains', 'part_of', 'realizes', 'same_person_as', 'plays_in', 'theme_song_of', 'calls_up', 'is_a', 'member_of', 'retells', 'written_by'];
 
 // One story element, with every field showing what is decided, what is being shaped, what is still open
 // and what is only an example, side by side and never merged (R-A-023, R-A-034).
