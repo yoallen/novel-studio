@@ -123,6 +123,11 @@ function ExportPicker({ ctx, onClose, onOpen }: { ctx: Ctx; onClose: () => void;
     return (t ? chats.filter((c) => c.title.toLowerCase().includes(t)) : chats).slice(0, 200);
   }, [chats, q]);
   const matching = chats ? (q.trim() ? chats.filter((c) => c.title.toLowerCase().includes(q.trim().toLowerCase())).length : chats.length) : 0;
+  const span = useMemo(() => {
+    const ds = (chats ?? []).map((c) => c.createdAt).filter(Boolean).sort() as string[];
+    const f = (d: string) => new Date(d).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
+    return ds.length ? `${f(ds[0]!)} and ${f(ds[ds.length - 1]!)}` : '';
+  }, [chats]);
   const day = (d: string | null) => (d ? new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '');
 
   async function bringIn() {
@@ -133,7 +138,7 @@ function ExportPicker({ ctx, onClose, onOpen }: { ctx: Ctx; onClose: () => void;
       setBusy(`Bringing in ${i + 1} of ${list.length}: ${c.title}`);
       try {
         const r = await api.post(`/api/projects/${ctx.projectId}/conversations/import-chat`, { title: c.title, app: c.app, origin: c.origin, turns: c.messages });
-        out.push({ title: c.title, id: r.conversation.id, ok: r.complete, note: `${r.turnsStored} messages (${r.byAuthor} from you)${c.left ? `; ${c.left} tool step${c.left === 1 ? '' : 's'} left out` : ''}` });
+        out.push({ title: c.title, id: r.conversation.id, ok: r.complete, note: `${r.turnsStored} messages (${r.byAuthor} from you)${c.left ? `; ${c.left} behind-the-scenes step${c.left === 1 ? '' : 's'} (tools, reasoning) left out` : ''}` });
       } catch (e) { out.push({ title: c.title, ok: false, note: (e as Error).message }); }
     }
     setBusy(''); setDone(out); setPicked(new Set());
@@ -157,7 +162,7 @@ function ExportPicker({ ctx, onClose, onOpen }: { ctx: Ctx; onClose: () => void;
         </>
       ) : (
         <>
-          <p className="small muted">{chats.length.toLocaleString()} chats in this export, newest first. Check the ones that belong to this novel.</p>
+          <p className="small muted">{chats.length.toLocaleString()} chats in this export{span ? `, started between ${span}` : ''}, newest first. Check the ones that belong to this novel. A chat started outside those dates is in a different export.</p>
           <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Find a chat by its name" aria-label="Find a chat by its name" />
           <ul className="export-list" aria-label="Chats in the export">
             {shown.map((c) => (

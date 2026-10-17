@@ -31,7 +31,7 @@ export function exportKind(data: unknown): 'Claude' | 'ChatGPT' | null {
 }
 
 // ---------- Claude ----------
-interface ClaudeBlock { type?: string; text?: string }
+interface ClaudeBlock { type?: string; text?: string; title?: string }
 interface ClaudeMsg { uuid?: string; sender?: string; text?: string; content?: ClaudeBlock[]; created_at?: string; attachments?: { file_name?: string; extracted_content?: string }[]; files?: { file_name?: string }[] }
 interface ClaudeChat { uuid?: string; name?: string; created_at?: string; updated_at?: string; chat_messages?: ClaudeMsg[] }
 
@@ -42,6 +42,9 @@ function claudeText(m: ClaudeMsg): { text: string; left: number } {
     const parts: string[] = [];
     for (const b of m.content) {
       if (b.type === 'text' && typeof b.text === 'string') parts.push(b.text);
+      else if (b.type === 'document') parts.push(`[Attached: ${b.title || 'a file'}]`);
+      else if (b.type === 'image') parts.push('[Image]');
+      else if (b.type === 'injected_prompt_block') continue; // the app's own notes to Claude, never part of the chat
       else left++;
     }
     body = parts.join('\n\n');
@@ -52,7 +55,7 @@ function claudeText(m: ClaudeMsg): { text: string; left: number } {
     if (a.extracted_content) extra.push(`[Attached: ${a.file_name || 'pasted text'}]\n${a.extracted_content}`);
     else if (a.file_name) extra.push(`[Attached: ${a.file_name}]`);
   }
-  for (const f of m.files ?? []) if (f.file_name) extra.push(`[File: ${f.file_name}]`);
+  for (const f of m.files ?? []) if (f.file_name && !body.includes(`[Attached: ${f.file_name}]`)) extra.push(`[File: ${f.file_name}]`);
   return { text: [body, ...extra].filter((x) => x.trim()).join('\n\n'), left };
 }
 

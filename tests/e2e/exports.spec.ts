@@ -20,7 +20,7 @@ test('a chat is picked out of a Claude export zip and brought in whole', async (
   await page.getByRole('checkbox', { name: 'Writing funny with subtext and depth' }).click();
   await page.getByRole('button', { name: 'Bring in 1 chat' }).click();
   await expect(page.getByRole('status').first()).toContainText('Everything kept');
-  await expect(page.getByRole('status').first()).toContainText('2 messages (1 from you); 3 tool steps left out');
+  await expect(page.getByRole('status').first()).toContainText('2 messages (1 from you); 3 behind-the-scenes steps (tools, reasoning) left out');
   await expect(page.getByText('already here')).toBeVisible();
   await page.getByRole('dialog').getByRole('button', { name: 'Writing funny with subtext and depth' }).click();
   await expect(page.getByText('People would respect you more if you gave them something to respect!')).toBeVisible();
