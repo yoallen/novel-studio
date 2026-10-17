@@ -45,6 +45,8 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.put('/api/projects/:id/cast/bechdel', async (req) => { const b = body(req, z.object({ unit: z.string().max(60), answer: z.enum(['yes', 'no']).nullable() })); return svc.cast.answerBechdel(params(req, P).id, b.unit, b.answer); });
   // ----- many books at once: stages, drafts, the shelf -----
   app.get('/api/library', async () => svc.books.shelf());
+  app.get('/api/library/removed', async () => brain.removedProjects());
+  app.post('/api/projects/:id/restore', async (req) => brain.restoreProject(params(req, P).id));
   app.get('/api/stages', async () => svc.books.stages());
   app.put('/api/projects/:id/stage', async (req) => svc.books.setStage(params(req, P).id, body(req, z.object({ stage: z.string().min(1).max(60) })).stage));
   app.get('/api/projects/:id/drafts', async (req) => svc.books.drafts(params(req, P).id));
@@ -112,7 +114,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     }).strict());
     return brain.updateSettings(params(req, P).id, b);
   });
-  app.delete('/api/projects/:id', async (req) => { brain.archiveProject(params(req, P).id); return { archived: true }; });
+  app.delete('/api/projects/:id', async (req) => brain.removeProject(params(req, P).id));
 
   // ----- elements -----
   app.get('/api/projects/:id/elements', async (req) => {

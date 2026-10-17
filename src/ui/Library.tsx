@@ -27,7 +27,16 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   const [stages, setStages] = useState<string[]>([]);
   useEffect(() => { api.get('/api/stages').then(setStages).catch(() => {}); }, []);
   async function setStage(id: string, stage: string) { try { await api.put(`/api/projects/${id}/stage`, { stage }); await load(); } catch (e) { setError((e as Error).message); } }
-  useEffect(() => { void load(); }, []);
+  const [removed, setRemoved] = useState<{ id: string; title: string; removedAt: string }[]>([]);
+  const loadRemoved = () => api.get('/api/library/removed').then(setRemoved).catch(() => setRemoved([]));
+  useEffect(() => { void load(); void loadRemoved(); }, []);
+  async function removeBook(p: any) {
+    if (!window.confirm(`Take "${p.title}" off your shelf? Nothing in it is deleted. It waits under Removed novels at the bottom of this page, and you can put it back any time.`)) return;
+    try { await api.del(`/api/projects/${p.id}`); await load(); await loadRemoved(); } catch (e) { setError((e as Error).message); }
+  }
+  async function restoreBook(id: string) {
+    try { await api.post(`/api/projects/${id}/restore`); await load(); await loadRemoved(); } catch (e) { setError((e as Error).message); }
+  }
 
   async function create(e: React.FormEvent, thenView?: string) {
     e.preventDefault();
@@ -99,6 +108,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
                 {p.genres.length > 0 && <span className="faint">{p.genres.join(', ')}</span>}
               </div>
               <p className="small" style={{ margin: '0.35rem 0 0' }}><span className="faint">Next:</span> {p.next}</p>
+              <button className="btn link remove-book" aria-label={`Remove ${p.title} from the shelf`} onClick={() => void removeBook(p)}>Remove from shelf</button>
             </li>
           ))}
         </ul>
@@ -121,6 +131,22 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
         <p className="muted small">Opens a {BRAND.name} archive file. You will see exactly what it contains before anything is added, and nothing already in your library is overwritten.</p>
         <input ref={fileRef} type="file" accept=".json,application/json" onChange={(e) => e.target.files?.[0] && void pickArchive(e.target.files[0])} />
       </div>
+
+      {removed.length > 0 && (
+        <section className="section" aria-label="Removed novels">
+          <h2>Removed novels</h2>
+          <p className="muted small">Taken off the shelf, with everything in them kept. Put one back and it returns exactly as it was.</p>
+          <ul className="removed-books">
+            {removed.map((r) => (
+              <li key={r.id} className="row small">
+                <span>{r.title}</span>
+                <span className="faint">removed {new Date(r.removedAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                <button className="btn link small" aria-label={`Put ${r.title} back on the shelf`} onClick={() => void restoreBook(r.id)}>Put back on the shelf</button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {plan && (
         <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="imp-h">

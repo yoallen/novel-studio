@@ -399,3 +399,9 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 
 /* A part of the book (Part One: Winter) opens above its first chapter. */
 .binder .part-head { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 0.75rem 0.25em 0.25rem; margin-top: 0.25rem; font-family: var(--book); font-style: italic; font-size: 0.9375rem; color: var(--margin); border-top: 1px solid var(--line-strong); cursor: pointer; }
+
+/* Novels taken off the shelf: a plain list, put back with one click. */
+.removed-books { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+.removed-books li { gap: 0.4rem 0.75rem; padding: 0.35rem 0; border-top: 1px solid var(--line); }
+.shelf .book .remove-book { align-self: flex-start; padding: 0; font-size: 0.75rem; color: var(--cloth-ink); opacity: .7; }
+.shelf .book .remove-book:hover, .shelf .book .remove-book:focus-visible { opacity: 1; }

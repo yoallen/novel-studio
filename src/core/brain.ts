@@ -97,6 +97,27 @@ export class Brain {
       .map((p) => withFields(p, { profile: JSON.parse(p.profile_json as string) as Record<string, any> }));
   }
 
+  /** Take a novel off the shelf. Nothing inside it is touched, and it can be put back. */
+  removeProject(id: string, actor = ACTOR_AUTHOR) {
+    const p = this.project(id);
+    this.store.batch({ projectId: id, actor, reason: `Remove novel "${p.title}" from the shelf` }, (w) => w.remove('projects', id));
+    return { removed: true };
+  }
+
+  /** Novels taken off the shelf, most recently removed first. */
+  removedProjects() {
+    return (this.store.db.prepare('SELECT id, title, deleted_at FROM projects WHERE deleted_at IS NOT NULL ORDER BY deleted_at DESC').all() as Row[])
+      .map((p) => ({ id: p.id as string, title: p.title as string, removedAt: p.deleted_at as string }));
+  }
+
+  /** Put a removed novel back on the shelf, exactly as it was. */
+  restoreProject(id: string, actor = ACTOR_AUTHOR) {
+    const p = this.store.get('projects', id);
+    if (!p) throw new NotFoundError('novel');
+    this.store.batch({ projectId: id, actor, reason: `Put novel "${p.title}" back on the shelf` }, (w) => w.restore('projects', id));
+    return this.project(id);
+  }
+
   updateProject(id: string, patch: { title?: string; profile?: Record<string, unknown> }, expectVersion?: number, actor = ACTOR_AUTHOR) {
     this.project(id);
     const row: Row = {};
@@ -128,10 +149,8 @@ export class Brain {
     return next;
   }
 
-  archiveProject(id: string, actor = ACTOR_AUTHOR) {
-    this.project(id);
-    this.store.batch({ projectId: id, actor, reason: 'Archive novel' }, (w) => w.remove('projects', id));
-  }
+  /** Older name for removeProject. */
+  archiveProject(id: string, actor = ACTOR_AUTHOR) { this.removeProject(id, actor); }
 
   // ---------- sources ----------
   addSource(projectId: string, src: { kind: string; name: string; madeAt?: string | null; fileHash?: string | null; notes?: string }, actor = ACTOR_AUTHOR) {

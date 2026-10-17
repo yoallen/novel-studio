@@ -37,6 +37,22 @@ describe('many books at once, each at its own stage', () => {
     expect(Object.fromEntries(shelf.map((x) => [x.title, x.draft.name]))).toEqual({ 'I Declare War': 'First draft', 'The Replacement': 'First draft', 'Midnight Blues': 'Third draft' });
   });
 
+  it('a novel taken off the shelf keeps everything and comes back exactly as it was', () => {
+    const { su, books } = setup();
+    const keep = su.createNovel('I Declare War').id as string;
+    const test = su.createNovel('Test novel').id as string;
+    const ch = env.ms.addChapter(test); env.ms.addScene(ch.id as string, { title: 'Fake', text: 'Just trying things out.' });
+    env.brain.removeProject(test);
+    expect(books.shelf().map((x) => x.title)).toEqual(['I Declare War']);
+    expect(env.brain.removedProjects().map((x) => x.title)).toEqual(['Test novel']);
+    expect(() => env.brain.project(test)).toThrow();
+    env.brain.restoreProject(test);
+    expect(books.shelf().map((x) => x.title).sort()).toEqual(['I Declare War', 'Test novel']);
+    expect(books.shelf().find((x) => x.title === 'Test novel')!.words).toBe(4);
+    expect(env.brain.removedProjects()).toEqual([]);
+    void keep;
+  });
+
   it('finishing a draft keeps the book exactly as it stood; scenes compare across drafts; a kept draft exports as it was', async () => {
     const { su, books, ex } = setup();
     const pid = su.createNovel('Drafted').id as string;
