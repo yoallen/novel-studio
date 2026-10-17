@@ -95,8 +95,19 @@ export class Conversations {
   /** Import a whole conversation verbatim. Reports what it found so she can confirm nothing was lost. */
   importText(projectId: string, input: { title: string; text: string; authorName?: string; focusElementId?: string | null }) {
     const { turns, format } = parseConversation(input.text, input.authorName ?? '');
+    return this.importTurns(projectId, { title: input.title, turns, format, focusElementId: input.focusElementId });
+  }
+
+  /** Chats already brought in from a Claude or ChatGPT export, by their export id. */
+  origins(projectId: string): string[] {
+    return (this.store.db.prepare(`SELECT s.notes FROM sources s JOIN conversations c ON c.source_id=s.id AND c.deleted_at IS NULL WHERE s.project_id=? AND s.kind='conversation' AND s.notes LIKE 'export:%'`).all(projectId) as { notes: string }[]).map((r) => r.notes.slice(7));
+  }
+
+  /** Import already-separated messages (from an export file) verbatim, with the same completeness check. */
+  importTurns(projectId: string, input: { title: string; turns: ParsedTurn[]; format: string; origin?: string; focusElementId?: string | null }) {
+    const { turns, format } = input;
     if (!turns.length || turns.every((t) => !t.text.trim())) throw new ValidationError('There is nothing to import in that text.');
-    const src = this.brain.addSource(projectId, { kind: 'conversation', name: input.title, madeAt: turns.find((t) => t.said_at)?.said_at ?? null });
+    const src = this.brain.addSource(projectId, { kind: 'conversation', name: input.title, madeAt: turns.find((t) => t.said_at)?.said_at ?? null, notes: input.origin ? `export:${input.origin}` : undefined });
     const conv = this.create(projectId, { title: input.title, sourceId: src.id, focusElementId: input.focusElementId ?? null, startedAt: turns.find((t) => t.said_at)?.said_at ?? nowIso() });
     this.store.db.transaction(() => {
       const ins = this.store.db.prepare('INSERT INTO turns(id,conversation_id,position,speaker_kind,speaker_name,text,said_at) VALUES (?,?,?,?,?,?,?)');

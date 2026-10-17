@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { when, valueText, statusWord } from './status';
+import { readExport, type ExportChat } from '../core/io/chat-exports';
 
 // Conversations, kept word for word (R-A-054). Select words in any message to keep a line, add a
 // possibility, raise a question or idea, or mark something not canon, in one action (R-A-055).
@@ -20,6 +21,7 @@ export function ConversationsView({ ctx }: { ctx: Ctx }) {
   const [list, setList] = useState<any[] | null>(null);
   const [openId, setOpenId] = useState<string | null>(() => { try { return sessionStorage.getItem('ns-conv'); } catch { return null; } });
   const [importing, setImporting] = useState(false);
+  const [fromExport, setFromExport] = useState(false);
   const [error, setError] = useState('');
   const load = useCallback(() => api.get(`/api/projects/${ctx.projectId}/conversations`).then(setList).catch((e) => setError(e.message)), [ctx.projectId]);
   useEffect(() => { void load(); }, [load]);
@@ -32,6 +34,7 @@ export function ConversationsView({ ctx }: { ctx: Ctx }) {
       <p className="muted">Every conversation is kept whole, word for word. What you keep from it links back to the exact message.</p>
       {error && <div className="notice error">{error}</div>}
       <div className="row" style={{ marginBottom: '1rem' }}>
+        <button className="btn" onClick={() => setFromExport(true)}>Bring in from a Claude or ChatGPT export</button>
         <button className="btn" onClick={() => setImporting(true)}>Bring in a conversation</button>
         <button className="btn" onClick={() => void api.post(`/api/projects/${ctx.projectId}/conversations`, { title: `Conversation, ${new Date().toLocaleDateString()}` }).then((c) => setOpenId(c.id)).catch((e) => setError(e.message))}>Start a new one</button>
       </div>
@@ -44,6 +47,7 @@ export function ConversationsView({ ctx }: { ctx: Ctx }) {
           </li>
         ))}
       </ul>
+      {fromExport && <ExportPicker ctx={ctx} onClose={() => { setFromExport(false); void load(); }} onOpen={(id) => { setFromExport(false); setOpenId(id); }} />}
       {importing && <ImportDialog ctx={ctx} onClose={() => setImporting(false)} onDone={(id) => { setImporting(false); setOpenId(id); }} />}
     </div></div>
   );
@@ -80,6 +84,99 @@ function ImportDialog({ ctx, onClose, onDone }: { ctx: Ctx; onClose: () => void;
           <button className="btn write" onClick={() => onDone(report.conversation.id)}>Open it</button>
         </>
       )}
+    </div></div>
+  );
+}
+
+/** Pick chats out of a Claude or ChatGPT data export and bring each in whole, word for word. */
+function ExportPicker({ ctx, onClose, onOpen }: { ctx: Ctx; onClose: () => void; onOpen: (id: string) => void }) {
+  const [chats, setChats] = useState<ExportChat[] | null>(null);
+  const [reading, setReading] = useState('');
+  const [error, setError] = useState('');
+  const [q, setQ] = useState('');
+  const [picked, setPicked] = useState<Set<string>>(new Set());
+  const [have, setHave] = useState<Set<string>>(new Set());
+  const [busy, setBusy] = useState('');
+  const [done, setDone] = useState<{ title: string; id?: string; ok: boolean; note: string }[]>([]);
+  useEffect(() => { api.get(`/api/projects/${ctx.projectId}/conversations/origins`).then((o: string[]) => setHave(new Set(o))).catch(() => {}); }, [ctx.projectId]);
+
+  async function pick(f: File) {
+    setError(''); setChats(null); setReading(`Reading ${f.name}…`);
+    try {
+      const me = String(ctx.settings?.authorName || 'You');
+      let all: ExportChat[] = [];
+      if (/\.zip$/i.test(f.name)) {
+        const JSZip = (await import('jszip')).default;
+        const zip = await JSZip.loadAsync(f);
+        const files = Object.values(zip.files).filter((z) => !z.dir && /(^|\/)conversations(-\d+)?\.json$/i.test(z.name));
+        if (!files.length) throw new Error('That zip has no conversations file in it. Choose the export zip itself, as it arrived.');
+        for (const z of files) all = all.concat(readExport(JSON.parse(await z.async('string')), me));
+      } else all = readExport(JSON.parse(await f.text()), me);
+      setChats(all.sort((a, b) => (b.updatedAt ?? b.createdAt ?? '').localeCompare(a.updatedAt ?? a.createdAt ?? '')));
+    } catch (e) { setError(e instanceof SyntaxError ? 'That file could not be read as an export. Choose the .zip as it arrived, or the conversations.json inside it.' : (e as Error).message); }
+    finally { setReading(''); }
+  }
+
+  const shown = useMemo(() => {
+    if (!chats) return [];
+    const t = q.trim().toLowerCase();
+    return (t ? chats.filter((c) => c.title.toLowerCase().includes(t)) : chats).slice(0, 200);
+  }, [chats, q]);
+  const matching = chats ? (q.trim() ? chats.filter((c) => c.title.toLowerCase().includes(q.trim().toLowerCase())).length : chats.length) : 0;
+  const day = (d: string | null) => (d ? new Date(d).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '');
+
+  async function bringIn() {
+    if (!chats) return;
+    const list = chats.filter((c) => picked.has(c.origin));
+    const out: typeof done = [];
+    for (const [i, c] of list.entries()) {
+      setBusy(`Bringing in ${i + 1} of ${list.length}: ${c.title}`);
+      try {
+        const r = await api.post(`/api/projects/${ctx.projectId}/conversations/import-chat`, { title: c.title, app: c.app, origin: c.origin, turns: c.messages });
+        out.push({ title: c.title, id: r.conversation.id, ok: r.complete, note: `${r.turnsStored} messages (${r.byAuthor} from you)${c.left ? `; ${c.left} tool step${c.left === 1 ? '' : 's'} left out` : ''}` });
+      } catch (e) { out.push({ title: c.title, ok: false, note: (e as Error).message }); }
+    }
+    setBusy(''); setDone(out); setPicked(new Set());
+    api.get(`/api/projects/${ctx.projectId}/conversations/origins`).then((o: string[]) => setHave(new Set(o))).catch(() => {});
+  }
+
+  return (
+    <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="ex-h"><div className="dialog wide">
+      <h2 id="ex-h">Bring in from a Claude or ChatGPT export</h2>
+      {error && <div className="notice error" role="alert">{error}</div>}
+      {done.length > 0 && (
+        <div className="notice" role="status">
+          <ul className="export-done">{done.map((d) => <li key={d.title + d.note}>{d.ok ? 'Everything kept' : 'Check this one'}: {d.id ? <button className="btn link" onClick={() => onOpen(d.id!)}>{d.title}</button> : d.title}, {d.note}.</li>)}</ul>
+        </div>
+      )}
+      {!chats ? (
+        <>
+          <p className="small muted">Both apps can send you a copy of all your chats as a .zip file. Choose that file here, as it arrived (or the conversations.json inside it). It is read on this computer; only the chats you pick are added, each one word for word, with who said what and when.</p>
+          <input type="file" accept=".zip,.json,application/zip,application/json" aria-label="Choose the export file" onChange={(e) => e.target.files?.[0] && void pick(e.target.files[0])} />
+          {reading && <p className="small muted" role="status">{reading}</p>}
+        </>
+      ) : (
+        <>
+          <p className="small muted">{chats.length.toLocaleString()} chats in this export, newest first. Check the ones that belong to this novel.</p>
+          <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Find a chat by its name" aria-label="Find a chat by its name" />
+          <ul className="export-list" aria-label="Chats in the export">
+            {shown.map((c) => (
+              <li key={c.origin}>
+                <label className="choice">
+                  <input type="checkbox" aria-label={c.title} checked={picked.has(c.origin)} onChange={(e) => { const n = new Set(picked); if (e.target.checked) n.add(c.origin); else n.delete(c.origin); setPicked(n); }} />
+                  <span>{c.title}{have.has(c.origin) && <span className="chip">already here</span>}<small>{c.app}, {day(c.updatedAt ?? c.createdAt)}, {c.messages.length} messages</small></span>
+                </label>
+              </li>
+            ))}
+          </ul>
+          {matching > shown.length && <p className="small faint">Showing {shown.length} of {matching.toLocaleString()}. Type part of a name to find the rest.</p>}
+        </>
+      )}
+      <div className="row" style={{ marginTop: '1rem' }}>
+        {chats && <button className="btn write" disabled={!picked.size || !!busy} onClick={() => void bringIn()}>{picked.size ? `Bring in ${picked.size} chat${picked.size === 1 ? '' : 's'}` : 'Check a chat to bring in'}</button>}
+        <button className="btn" onClick={onClose} disabled={!!busy}>{done.length ? 'Done' : 'Cancel'}</button>
+        {busy && <span className="small muted" role="status">{busy}</span>}
+      </div>
     </div></div>
   );
 }

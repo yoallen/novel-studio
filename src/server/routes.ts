@@ -380,6 +380,12 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const pid = params(req, P).id;
     return convs.importText(pid, { ...b, authorName: brain.settings(pid).authorName });
   });
+  app.get('/api/projects/:id/conversations/origins', async (req) => convs.origins(params(req, P).id));
+  app.post('/api/projects/:id/conversations/import-chat', async (req) => {
+    const turn = z.object({ speaker_kind: z.enum(['author', 'assistant']), speaker_name: z.string().max(120), text: z.string().max(5_000_000), said_at: z.string().datetime().nullable() });
+    const b = body(req, z.object({ title: z.string().min(1).max(300), app: z.enum(['Claude', 'ChatGPT']), origin: z.string().min(1).max(300), turns: z.array(turn).min(1).max(20_000) }));
+    return convs.importTurns(params(req, P).id, { title: b.title, turns: b.turns, format: `${b.app} export`, origin: b.origin });
+  });
   app.get('/api/conversations/:id', async (req) => convs.full(params(req, P).id));
   app.post('/api/conversations/:id/turns', async (req) => convs.addTurn(params(req, P).id, body(req, z.object({ speaker_kind: z.enum(['author', 'assistant', 'source']), speaker_name: z.string().max(120).optional(), text: z.string().max(2_000_000), said_at: z.string().datetime().nullable().optional() }))));
   const range = { start: z.number().int().min(0), end: z.number().int().min(1) };
