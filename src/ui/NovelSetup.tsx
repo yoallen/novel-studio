@@ -53,12 +53,12 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
       <section className="section" aria-label="Genres">
         <h2>Genres</h2>
         <p className="small muted">Conventional genres. Mark one or more as primary, secondary, or an influence you borrow from without taking on its conventions.</p>
-        <div className="cols" style={{ gap: '0.25rem 1.5rem' }}>
+        <div className="cols" style={{ gap: '0.25rem 1.5rem', alignItems: 'start' }}>
           {[...d.catalog.genres, ...s.genres.filter((g: any) => g.custom)].map((g: any) => {
             const cur = genreOf(g.key);
             return (
-              <div key={g.key} className="row">
-                <label className="row grow"><input type="checkbox" checked={!!cur} onChange={(e) => void setGenre(g.key, g.name, e.target.checked ? 'secondary' : null)} />{g.name}{g.custom && <span className="chip">yours</span>}</label>
+              <div key={g.key} className="row" style={{ alignItems: 'start' }}>
+                <label className="choice grow"><input type="checkbox" aria-label={g.name} aria-describedby={g.about ? `about-g-${g.key}` : undefined} checked={!!cur} onChange={(e) => void setGenre(g.key, g.name, e.target.checked ? 'secondary' : null)} /><span>{g.name}{g.custom && <span className="chip">yours</span>}{g.about && <small id={`about-g-${g.key}`}>{g.about}</small>}</span></label>
                 {cur && <select aria-label={`${g.name} role`} value={cur.role} onChange={(e) => void setGenre(g.key, g.name, e.target.value)} style={{ width: 'auto' }}>{Object.entries(ROLE_NAMES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>}
               </div>
             );
@@ -120,8 +120,8 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
                 <div className="setup-options">
                   {inGroup.map((c: any) => (
                     <label key={c.key} className="choice" style={{ padding: '0.15rem 0' }}>
-                      <input type={one ? 'radio' : 'checkbox'} name={one ? `group-${g}` : undefined} checked={s.characteristics.includes(c.key)} onChange={(e) => void choose(c.key, e.target.checked)} onClick={(e) => { if (one && s.characteristics.includes(c.key)) { e.preventDefault(); void choose(c.key, false); } }} />
-                      <span>{c.name}{c.custom && <span className="chip">yours</span>}{c.turnsOn && <small>Turns on: {c.turnsOn}</small>}</span>
+                      <input type={one ? 'radio' : 'checkbox'} aria-label={c.name} aria-describedby={c.about ? `about-c-${c.key}` : undefined} name={one ? `group-${g}` : undefined} checked={s.characteristics.includes(c.key)} onChange={(e) => void choose(c.key, e.target.checked)} onClick={(e) => { if (one && s.characteristics.includes(c.key)) { e.preventDefault(); void choose(c.key, false); } }} />
+                      <span>{c.name}{c.custom && <span className="chip">yours</span>}{c.about && <small id={`about-c-${c.key}`}>{c.about}</small>}{c.turnsOn && <small className="turns-on">Turns on: {c.turnsOn}</small>}</span>
                     </label>
                   ))}
                 </div>

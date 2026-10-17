@@ -118,7 +118,7 @@ export class Setup {
       storyWorldId: world?.id ?? null,
       ingredients,
       asks: st.genres.filter((g) => g.role !== 'influence').flatMap((g) => (GENRES.find((d) => d.key === g.key)?.asks ?? []).map((q) => ({ genre: g.name, question: q }))),
-      catalog: { genres: GENRES.map(({ key, name, leansOn }) => ({ key, name, leansOn })), storyTypes: STORY_TYPES.map(({ key, name, about }) => ({ key, name, about })), characteristics: CHARACTERISTICS, characteristicGroups: CHARACTERISTIC_GROUPS, frameworks: this.frameworks().map(({ method, ...f }) => ({ ...f, questions: method?.questions ?? [], source: method?.source ?? '' })), structures: this.structure.registry().names },
+      catalog: { genres: GENRES.map(({ key, name, leansOn, about }) => ({ key, name, leansOn, about })), storyTypes: STORY_TYPES.map(({ key, name, about }) => ({ key, name, about })), characteristics: CHARACTERISTICS, characteristicGroups: CHARACTERISTIC_GROUPS, frameworks: this.frameworks().map(({ method, ...f }) => ({ ...f, questions: method?.questions ?? [], source: method?.source ?? '' })), structures: this.structure.registry().names },
     };
   }
 

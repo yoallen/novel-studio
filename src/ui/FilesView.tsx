@@ -544,6 +544,14 @@ function DocumentsPanel({ ctx }: { ctx: Ctx }) {
   const [open, setOpen] = useState<any>(null);
   const [q, setQ] = useState('');
   useEffect(() => { api.get(`/api/projects/${ctx.projectId}/documents`).then(setDocs).catch(() => {}); }, [ctx.projectId]);
+  // Arriving from Search: open the document and bring the passage into view.
+  const [found] = useState<string | null>(() => { try { const x = sessionStorage.getItem('ns-doc-passage'); sessionStorage.removeItem('ns-doc-passage'); return x; } catch { return null; } });
+  useEffect(() => {
+    let src: string | null = null;
+    try { src = sessionStorage.getItem('ns-doc-open'); sessionStorage.removeItem('ns-doc-open'); } catch { /* ignore */ }
+    if (src) void api.get(`/api/sources/${src}`).then(setOpen).catch(() => {});
+  }, []);
+  useEffect(() => { if (open && found) document.getElementById(`passage-${found}`)?.scrollIntoView({ block: 'center' }); }, [open, found]);
   if (open) {
     const ps = open.passages.filter((p: any) => !q || p.text.toLowerCase().includes(q.toLowerCase()));
     return (
@@ -553,7 +561,7 @@ function DocumentsPanel({ ctx }: { ctx: Ctx }) {
         <p className="small muted">{open.passages.length} passages, kept word for word{open.source.made_at ? `, dated ${new Date(open.source.made_at).toLocaleDateString()}` : ''}.</p>
         <input type="search" placeholder="Find in this document" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Find in this document" style={{ maxWidth: 360, marginBottom: '1rem' }} />
         {ps.map((p: any) => (
-          <div key={p.id} style={{ borderTop: '1px solid var(--line)', padding: '0.5rem 0' }}>
+          <div key={p.id} id={`passage-${p.id}`} className={found === p.id ? 'found' : undefined} style={{ borderTop: '1px solid var(--line)', padding: '0.5rem 0' }}>
             <div className="small faint">{p.locator}</div>
             <div style={{ fontFamily: 'var(--prose)', whiteSpace: 'pre-wrap' }}>{p.text}</div>
             {p.became.length > 0 && <div className="row small" style={{ marginTop: '0.25rem' }}>{p.became.map((b: any) => <span key={b.id} className="chip">{b.element_title}, {String(b.field).replace(/_/g, ' ')}: {statusWord(ctx.settings, b.status)}</span>)}</div>}

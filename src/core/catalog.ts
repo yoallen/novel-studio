@@ -1,6 +1,8 @@
 // What a novel can be set up with (R-B-088 to R-B-095). Every list is optional and every list accepts her own entries.
 // Selections are never decoration: each one switches on fields, views, questions or guidance somewhere in the program.
 
+import { GENRE_ABOUT, CHARACTERISTIC_ABOUT } from './descriptions.js';
+
 export type Role = 'primary' | 'secondary' | 'influence';
 
 export interface GenreDef {
@@ -10,6 +12,7 @@ export interface GenreDef {
   asks: string[];
   /** Parts of the program this genre leans on. */
   leansOn: string[];
+  about?: string;
 }
 
 export const GENRES: GenreDef[] = [
@@ -66,7 +69,7 @@ export const STORY_TYPES: StoryTypeDef[] = [
   { key: 'superhero', name: 'Superhero', about: 'Someone extraordinary in an ordinary world, and what it costs them.', ingredients: [{ key: 'power', label: 'A special power', prompt: 'What sets them apart?' }, { key: 'nemesis', label: 'A nemesis', prompt: 'Who matches them, and how are they alike?' }, { key: 'curse', label: 'A curse', prompt: 'What does being special cost?' }] },
 ];
 
-export interface CharacteristicDef { key: string; name: string; group: string; turnsOn?: string }
+export interface CharacteristicDef { key: string; name: string; group: string; turnsOn?: string; about?: string }
 
 /** Narrative characteristics, separate from genre (R-B-092). turnsOn names what the selection switches on. */
 export const CHARACTERISTICS: CharacteristicDef[] = [
@@ -92,7 +95,7 @@ export const CHARACTERISTICS: CharacteristicDef[] = [
   { key: 'running_gags', name: 'Running gags and callbacks', group: 'Technique', turnsOn: 'Callbacks on each scene, checked like setups and payoffs' },
   { key: 'foreshadowing', name: 'Foreshadowing', group: 'Technique', turnsOn: 'Setups and payoffs checked both ways' },
   { key: 'intrusive_narrator', name: 'Intrusive narrator', group: 'Technique' },
-  { key: 'chapter_titles', name: 'Titled chapters ("In which…")', group: 'Technique' },
+  { key: 'chapter_titles', name: 'Titled chapters', group: 'Technique' },
   { key: 'epistolary', name: 'Letters, documents or transcripts', group: 'Form' },
   { key: 'series', name: 'Part of a series', group: 'Form' },
   { key: 'novella', name: 'Novella length', group: 'Form' },
@@ -171,6 +174,9 @@ export const CHARACTERISTICS: CharacteristicDef[] = [
   { key: 'trope_ghost', name: 'Love across life and death', group: 'Romance tropes' },
   { key: 'trope_age_gap', name: 'Age gap', group: 'Romance tropes' },
 ];
+
+for (const c of CHARACTERISTICS) c.about = CHARACTERISTIC_ABOUT[c.key];
+for (const g of GENRES) g.about = GENRE_ABOUT[g.key];
 
 /** How each group of characteristics reads in setup. A "one choice" group keeps a single answer at a time. */
 export const CHARACTERISTIC_GROUPS: { name: string; about: string; one?: boolean }[] = [

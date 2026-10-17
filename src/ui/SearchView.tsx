@@ -28,20 +28,28 @@ export function SearchView({ ctx }: { ctx: Ctx }) {
     return (start ? '…' : '') + text.slice(start, i + q.length + 120) + (i + q.length + 120 < text.length ? '…' : '');
   };
   const label: Record<string, string> = { scene: 'Manuscript', element: 'Story record', statement: 'Story detail', turn: 'Conversation', passage: 'Document' };
+  const remember = (k: string, v: string) => { try { sessionStorage.setItem(k, v); } catch { /* ignore */ } };
+  /** Open a result where it lives: the scene, the record, the message in its conversation, or the passage in its document. */
+  function openHit(h: any) {
+    if (h.hit === 'scene') { ctx.openScene(h.id); return; }
+    if (h.hit === 'element' || h.hit === 'statement') { remember('ns-brain-sel', JSON.stringify({ kind: 'element', id: h.hit === 'element' ? h.id : h.element_id })); ctx.go('brain'); return; }
+    if (h.hit === 'turn') { remember('ns-conv', h.conversation_id); remember('ns-conv-turn', h.id); ctx.go('conversations'); return; }
+    if (h.hit === 'passage') { remember('ns-files-tab', 'documents'); remember('ns-doc-open', h.source_id); remember('ns-doc-passage', h.id); ctx.go('files'); }
+  }
+  const heading = (h: any) => h.title ?? (h.element_title ? `${h.element_title}, ${String(h.field).replace(/_/g, ' ')}` : h.conversation_title ?? h.source_name ?? '');
 
   return (
     <div className="scroll"><div className="content">
       <h1>Search</h1>
       <input ref={ref} type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="A name, a phrase, a line you remember" aria-label="Search this novel" />
+      <p className="small faint" style={{ marginTop: '0.4rem' }}>Searches everything inside this novel: your pages, records, the conversations and documents you brought in. Chats that live only in Claude or ChatGPT are not here until you bring them in from Conversations.</p>
       {error && <div className="notice error">{error}</div>}
       {hits && <p className="muted small" style={{ marginTop: '0.75rem' }}>{hits.length === 0 ? 'Nothing matches that yet.' : `${hits.length} found`}</p>}
       <ul className="list">
         {hits?.map((h, i) => (
           <li key={h.id + i}>
             <div className="small muted">{label[h.hit] ?? h.hit}{h.kind ? `, ${String(h.kind).replace(/_/g, ' ')}` : ''}{h.status ? `, ${statusWord(ctx.settings, h.status)}` : ''}{h.hit === 'passage' ? `, ${h.locator}` : ''}</div>
-            {h.hit === 'scene'
-              ? <button className="btn link" style={{ textAlign: 'left' }} onClick={() => ctx.openScene(h.id)}>{h.title}</button>
-              : <strong>{h.title ?? (h.element_title ? `${h.element_title}, ${String(h.field).replace(/_/g, ' ')}` : h.conversation_title ?? h.source_name ?? '')}</strong>}
+            <button className="btn link" style={{ textAlign: 'left', padding: 0 }} onClick={() => openHit(h)}>{heading(h) || 'Open'}</button>
             <div style={{ fontFamily: 'var(--prose)', whiteSpace: 'pre-wrap' }}>{snippet(h.snippet ?? h.body ?? (typeof h.value === 'string' ? h.value : h.value != null ? JSON.stringify(h.value) : ''))}</div>
           </li>
         ))}

@@ -405,3 +405,7 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .removed-books li { gap: 0.4rem 0.75rem; padding: 0.35rem 0; border-top: 1px solid var(--line); }
 .shelf .book .remove-book { align-self: flex-start; padding: 0; font-size: 0.75rem; color: var(--cloth-ink); opacity: .7; }
 .shelf .book .remove-book:hover, .shelf .book .remove-book:focus-visible { opacity: 1; }
+
+/* The thing Search found, marked where it lives, like a slip of paper tucked at the line. */
+.found { box-shadow: -10px 0 0 -6px var(--magenta); background: color-mix(in srgb, var(--magenta) 7%, transparent); }
+.choice small.turns-on { color: var(--margin); font-style: italic; margin-top: 0.1rem; }

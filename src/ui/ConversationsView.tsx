@@ -116,6 +116,13 @@ function Conversation({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
   }
 
   const load = useCallback(() => api.get(`/api/conversations/${id}`).then(setData).catch((e) => setError(e.message)), [id]);
+  // Arriving from Search: bring the found message into view and mark it.
+  const [found, setFound] = useState<string | null>(() => { try { const t = sessionStorage.getItem('ns-conv-turn'); sessionStorage.removeItem('ns-conv-turn'); return t; } catch { return null; } });
+  useEffect(() => {
+    if (!found || !data) return;
+    const el = document.querySelector(`[data-turn="${found}"]`);
+    if (el) el.closest('section')?.scrollIntoView({ block: 'center' });
+  }, [found, data]);
   useEffect(() => { void load(); api.get(`/api/projects/${ctx.projectId}/elements`).then((e) => setAll(e.filter((x: any) => !['thought', 'guardrail'].includes(x.kind)))).catch(() => {}); }, [load, ctx.projectId]);
   useEffect(() => {
     const el = all.find((x) => x.id === target.elementId);
@@ -166,7 +173,7 @@ function Conversation({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
       <p className="muted small">{data.turns.length} messages, kept word for word. Select any words to keep them, explore them, or mark them not canon.</p>
       {error && <div className="notice error" role="alert">{error}</div>}
       {data.turns.map((t: any) => (
-        <section key={t.id} className="section" aria-label={`Message ${t.position}`}>
+        <section key={t.id} className={'section' + (found === t.id ? ' found' : '')} aria-label={`Message ${t.position}`} onClick={() => found === t.id && setFound(null)}>
           <div className="small muted">{t.speaker_name || (t.speaker_kind === 'author' ? 'You' : 'Assistant')}, {when(t.said_at)}</div>
           <div data-turn={t.id} style={{ whiteSpace: 'pre-wrap', fontFamily: t.speaker_kind === 'author' ? 'var(--prose)' : 'var(--ui)', lineHeight: 1.65, borderLeft: t.speaker_kind === 'author' ? '3px solid var(--yours)' : '3px solid var(--line)', paddingLeft: '0.75rem', marginTop: '0.25rem' }}>{withMarks(t.text, marksByTurn[t.id] ?? [])}</div>
           {(marksByTurn[t.id] ?? []).length > 0 && (
