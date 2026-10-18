@@ -188,32 +188,6 @@ The common mistake: Entering an age once and forgetting it changes. If the story
 
 Example: Lands: "Sixty-eight; old enough to remember the last keeper." Fails: she is sixty-eight in chapter one and remembers a war she would have been too young to see.
 
-### Characters: Beyond human
-
-*For characters who are not simply human. Link them to their kind's record for what their people share, and note their own powers and limits here.*
-
-**Kind of being.** What kind of being this character is, if not simply human: an elf, a ghost, an android, a selkie. Connect them to that kind's own record with an "is a" link. Only for some books. The kind's record holds what their people share, written once. This field holds only what is special about this one, which keeps your world consistent.
-
-The common mistake: Only for fantasy, science fiction, paranormal and similar books. The mistake is repeating the whole kind's rules on every character, then changing them in one place and not the other.
-
-Example: Lands: Wren "is a" selkie; the selkie record says they cannot stay ashore past a year. Fails: Wren's own record says six months, a different selkie's says a year.
-
-**Their own powers or abilities.** This character's own abilities, beyond what their kind shares. A gift, a skill, a magic they alone have. Only for some books. Powers shape what the character can do and what the plot must work around. Listing them keeps you from forgetting one in a crisis, when the reader will ask why she didn't just use it.
-
-The common mistake: Only for books with special abilities. The mistake is adding a power when the plot needs it. Readers enjoy a solution only when they knew about the power before it.
-
-Example: Lands: "Can hear lies as a ringing in her teeth," shown in chapter two, used in chapter thirty. Fails: in the climax she suddenly can stop time.
-
-**Their own limits and weaknesses.** What this character can't do, and what weakens them. Their personal cost or limit, beyond their kind's. Only for some books. Limits make better stories than powers. A limit forces creative choices and creates real danger. A character with powers and no limits has no tension.
-
-The common mistake: Only for characters with powers. The mistake is a limit that never actually bites.
-
-Example: Lands: "Hearing lies gives her a migraine that lasts a day; she rations it." Fails: "Using her power makes her tired," and she is never tired.
-
-### Characters: Identity
-
-*Who this character is in the world: gender, pronouns, orientation, race, heritage, age, faith, culture, disability, work and family. Fill what matters to this person and this book; leaving something unsaid is a choice too.*
-
 **Year born.** The year this character was born. Useful for many books. If each scene has a year, Story Canon works out the character's age in every scene. That matters for books that span decades, timelines that jump, or families with many generations.
 
 The common mistake: Doing the math in your head and getting it wrong in one chapter. Or entering a birth year that clashes with an event they remember.
@@ -255,6 +229,28 @@ Example: Lands: "Tow-truck driver; reads people by how they act when they are st
 The common mistake: Listing names without the relationships. Who calls whom? Who isn't speaking?
 
 Example: Lands: "Two brothers; she talks to the younger every Sunday and hasn't spoken to the older since the will." Fails: "Two brothers."
+
+### Characters: Beyond human
+
+*For characters who are not simply human. Link them to their kind's record for what their people share, and note their own powers and limits here.*
+
+**Kind of being.** What kind of being this character is, if not simply human: an elf, a ghost, an android, a selkie. Connect them to that kind's own record with an "is a" link. Only for some books. The kind's record holds what their people share, written once. This field holds only what is special about this one, which keeps your world consistent.
+
+The common mistake: Only for fantasy, science fiction, paranormal and similar books. The mistake is repeating the whole kind's rules on every character, then changing them in one place and not the other.
+
+Example: Lands: Wren "is a" selkie; the selkie record says they cannot stay ashore past a year. Fails: Wren's own record says six months, a different selkie's says a year.
+
+**Their own powers or abilities.** This character's own abilities, beyond what their kind shares. A gift, a skill, a magic they alone have. Only for some books. Powers shape what the character can do and what the plot must work around. Listing them keeps you from forgetting one in a crisis, when the reader will ask why she didn't just use it.
+
+The common mistake: Only for books with special abilities. The mistake is adding a power when the plot needs it. Readers enjoy a solution only when they knew about the power before it.
+
+Example: Lands: "Can hear lies as a ringing in her teeth," shown in chapter two, used in chapter thirty. Fails: in the climax she suddenly can stop time.
+
+**Their own limits and weaknesses.** What this character can't do, and what weakens them. Their personal cost or limit, beyond their kind's. Only for some books. Limits make better stories than powers. A limit forces creative choices and creates real danger. A character with powers and no limits has no tension.
+
+The common mistake: Only for characters with powers. The mistake is a limit that never actually bites.
+
+Example: Lands: "Hearing lies gives her a migraine that lasts a day; she rations it." Fails: "Using her power makes her tired," and she is never tired.
 
 ### Characters: Appearance
 
@@ -634,6 +630,24 @@ The common mistake: Assuming every arc must be Positive. Flat arcs drive many gr
 
 Example: Lands: Positive, the baker learns to accept help. Flat, the new pastor already believes in mercy and changes a hard town. Fails: a Flat arc where the character is just unchanged and also changes nothing.
 
+**Key tests and turns.** The moments that test and turn this arc: where the character chooses between the Lie and the Truth, fails, and tries again. One entry per test. Most books need this. Change has to happen in steps the reader can see. Each test shows how far the character has come and how far they still have to go. Without them, the change at the end feels sudden.
+
+The common mistake: Making every test a success. A character should fail some tests, or the change feels easy.
+
+Example: Lands: she refuses help from her sister (fails), then accepts a loan from her rival (passes), then backslides when the oven breaks. Fails: one scene where she suddenly understands.
+
+**Who they are at the end.** Who this character is at the end of this arc. Most books need this. It names the destination. Every test should point toward it, or away from it if the arc is Negative.
+
+The common mistake: Writing the plot outcome instead of the inner state.
+
+Example: Lands: "Lets people in, even when it is inconvenient." Fails: "She wins the contest."
+
+**Still unresolved.** What is still unresolved in this arc: open questions, threads you haven't tied, or things the character never fully fixes. Useful for many books. Tracking loose ends keeps you from forgetting them. Some should be tied off; others may stay open on purpose, which can make an ending feel true.
+
+The common mistake: Leaving loose ends by accident. Decide which ones you mean.
+
+Example: Lands: "She still hasn't forgiven her mother. That stays open on purpose." Fails: a subplot about her mother that simply disappears.
+
 ### Arcs: Weiland Arc
 
 *K.M. Weiland's arc framework: the Ghost (the wound), the Lie it created, the Want the Lie chases, the Need that would heal it, and the Truth that replaces the Lie.*
@@ -671,28 +685,6 @@ Example: Lands: she needs to let her neighbors help, even if it costs her the wi
 The common mistake: Making the Truth a slogan. It should be the exact answer to this character's Lie.
 
 Example: Lands: Lie, "If people knew me, they would leave." Truth, "The people who stay are the ones who know me." Fails: "Love conquers all."
-
-### Arcs: Arc
-
-*The arc's shape: the value it is about, its type, the tests along the way, and where it ends.*
-
-**Key tests and turns.** The moments that test and turn this arc: where the character chooses between the Lie and the Truth, fails, and tries again. One entry per test. Most books need this. Change has to happen in steps the reader can see. Each test shows how far the character has come and how far they still have to go. Without them, the change at the end feels sudden.
-
-The common mistake: Making every test a success. A character should fail some tests, or the change feels easy.
-
-Example: Lands: she refuses help from her sister (fails), then accepts a loan from her rival (passes), then backslides when the oven breaks. Fails: one scene where she suddenly understands.
-
-**Who they are at the end.** Who this character is at the end of this arc. Most books need this. It names the destination. Every test should point toward it, or away from it if the arc is Negative.
-
-The common mistake: Writing the plot outcome instead of the inner state.
-
-Example: Lands: "Lets people in, even when it is inconvenient." Fails: "She wins the contest."
-
-**Still unresolved.** What is still unresolved in this arc: open questions, threads you haven't tied, or things the character never fully fixes. Useful for many books. Tracking loose ends keeps you from forgetting them. Some should be tied off; others may stay open on purpose, which can make an ending feel true.
-
-The common mistake: Leaving loose ends by accident. Decide which ones you mean.
-
-Example: Lands: "She still hasn't forgiven her mother. That stays open on purpose." Fails: a subplot about her mother that simply disappears.
 
 ## Relationships: every field
 
@@ -1198,6 +1190,12 @@ The common mistake: Letting the narrator's belief shift between scenes for no re
 
 Example: "She believes her brother left town because of the gambling debt."
 
+**What is actually true.** What is actually true here, whatever the narrator believes. The gap between the two is what the reader may or may not catch. Only for some books. Writing the truth beside the belief lets you plant fair hints a careful reader can spot, especially on a second read.
+
+The common mistake: Hiding the truth with no clues at all, so the twist feels like a cheat.
+
+Example: Lands: he left to protect her from the man he owed, and the scene shows him checking the window twice. Fails: no sign of it until the last chapter.
+
 ### Scene cards: Who tells it
 
 *For scenes where the voice we seem to hear isn't the real teller, and where the reader finds out.*
@@ -1219,16 +1217,6 @@ Example: Lands: it's really the sailor's account of her father, which explains d
 The common mistake: Revealing so early it does nothing, or never revealing it, so the setup is wasted.
 
 Example: Lands: at All Is Lost, when the reader most needs to know whom to trust. Fails: in an epilogue, after every question is settled.
-
-### Scene cards: Narrator and truth
-
-*For narrators who are wrong, lying or blind to something: what the narrator believes here, set against what is actually true.*
-
-**What is actually true.** What is actually true here, whatever the narrator believes. The gap between the two is what the reader may or may not catch. Only for some books. Writing the truth beside the belief lets you plant fair hints a careful reader can spot, especially on a second read.
-
-The common mistake: Hiding the truth with no clues at all, so the twist feels like a cheat.
-
-Example: Lands: he left to protect her from the man he owed, and the scene shows him checking the window twice. Fails: no sign of it until the last chapter.
 
 ### Scene cards: Timeline strand
 

@@ -29,7 +29,10 @@ for (const kind of ORDER) {
     if (a.mistake) out.push(`**The common mistake.** ${mistake(a.mistake)}`, '');
     if (a.example) out.push(`**Example.** ${a.example}`, '');
   }
-  const fields = TEMPLATES[kind] ?? [];
+  // Fields of one group together, in the order the groups first appear, so each group has one heading.
+  const raw = TEMPLATES[kind] ?? [];
+  const groupOrder = [...new Set(raw.map((f) => f.group))];
+  const fields = groupOrder.flatMap((g) => raw.filter((f) => f.group === g));
   let group = '';
   for (const f of fields) {
     const ft = t.fields?.[f.field];
