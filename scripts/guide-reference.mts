@@ -3,10 +3,10 @@
 // Run: npx tsx scripts/guide-reference.mts
 import { writeFileSync } from 'node:fs';
 import { TEMPLATES, KIND_LABELS } from '../src/core/templates.ts';
-import people from '../src/ui/teach/people.json' with { type: 'json' };
-import structure from '../src/ui/teach/structure.json' with { type: 'json' };
-import world from '../src/ui/teach/world.json' with { type: 'json' };
-import extra from '../src/ui/teach/extra.json' with { type: 'json' };
+import people from '../src/ui/fieldteach/people.json' with { type: 'json' };
+import structure from '../src/ui/fieldteach/structure.json' with { type: 'json' };
+import world from '../src/ui/fieldteach/world.json' with { type: 'json' };
+import extra from '../src/ui/fieldteach/extra.json' with { type: 'json' };
 
 const TEACH: Record<string, any> = { ...people, ...structure, ...world, ...extra };
 const NEED: Record<string, string> = { core: 'Most books need this.', useful: 'Useful for many books.', situational: 'Only for some books.' };

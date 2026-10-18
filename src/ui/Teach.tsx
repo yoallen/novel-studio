@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TEACH, NEED_WORDS, teachField } from './teach';
+import { TEACH, NEED_WORDS, teachField } from './fieldteach';
 import { LearnMore } from './Help';
 
 /** The heading already says "The common mistake", so the sentence need not say it again. */

@@ -32,12 +32,6 @@ The common mistake: Listing facts instead of a person. Age, job and hair color a
 
 Example: Lands: "A baker who feeds the whole street and never lets anyone feed her." Fails: "Rosa, 42, a baker with brown hair who lives in Ohio."
 
-**Other facts about them.** A catch-all list for anything true about this character that has no field of its own: a birthday, a car, an allergy, the name of a childhood dog. Useful for many books. Small facts are where continuity errors hide. Write them once and the dog stays named Biscuit in chapter three and chapter thirty.
-
-The common mistake: Letting it become the whole character. If a fact shapes who they are, such as a fear or a wound, give it its proper field so the program can connect it.
-
-Example: Lands: "Drives a 1994 pickup with no working radio. Allergic to shellfish. Left-handed." Fails: "Afraid of water since her brother drowned," which belongs in Wounds.
-
 **Narrative importance.** How central this person is to the book: main, supporting or minor. It is a measure of weight, not of worth. Most books need this. It sets how deep you need to go. A main character needs an inner life, a wound and an arc; a minor one may need only a name, a want and a voice. Story Canon judges depth against this, never against how many fields are filled.
 
 The common mistake: Feeling you must fill every field for everyone. A walk-on with a backstory the book never uses wastes your time and the reader's.
@@ -74,6 +68,8 @@ Example: Lands: "A man who keeps the light burning for strangers, not for a ghos
 
 **Goal.** From Randy Ingermanson: the concrete, reachable thing the character is trying to get in this story. You should be able to picture the moment they win it. Most books need this. A goal gives the plot a spine. It tells the reader what to root for and gives each scene a direction. A character with no goal waits for things to happen to them.
 
+How it differs: Goal is the concrete thing they chase in this plot. What they think they want is the wish they would admit to; Desires are longings of every size; the arc's Want is the chase the Lie drives.
+
 The common mistake: Stating a feeling instead of a target. "To be happy" is not a goal; nobody can see it happen.
 
 Example: Lands: "Win the county pie contest and keep the bakery open past spring." Fails: "To feel successful."
@@ -91,6 +87,8 @@ The common mistake: Listing nice virtues that never compete. Honesty, family and
 Example: Lands: "Nothing is more important than loyalty to my brother" and "Nothing is more important than the truth," then her brother lies to the police. Fails: a list of five values that never meet.
 
 **Conflict.** From Randy Ingermanson: what stands between the character and the goal. It can be a person, a force, a circumstance or something inside them. Most books need this. Conflict is what makes a goal hard, and hard is what makes it interesting. It creates scenes, because every attempt meets resistance. Without it, the character gets what they want on page ten.
+
+How it differs: What blocks the goal, in a line. What works against them (McKee) breaks the opposition into inner, personal and wider forces.
 
 The common mistake: Choosing conflict that can be solved with one phone call. If one honest conversation would end the problem, the reader gets impatient.
 
@@ -113,6 +111,8 @@ The common mistake: Picking a value that is too broad to test. "Goodness" is har
 Example: Lands: the baker's value is independence; the bank, her own pride and her sister all push on it. Fails: the value is "happiness" and nothing in particular threatens it.
 
 **Inner force.** From Robert McKee: what inside the character works against them. A fear, a habit, a flaw, a belief. Most books need this. Inner forces make a character complicit in their own trouble, which makes them human. Readers forgive outer obstacles but stay up late for a person fighting herself. Without an inner force, the conflict is all weather and no climate.
+
+How it differs: One of three layers of opposition. Conflict, under Goal and motive, is the single obstacle in a line.
 
 The common mistake: Naming an inner force that never actually costs them a scene. It has to make them do the wrong thing at least once.
 
@@ -320,6 +320,8 @@ Example: Lands: "Spanish at home, English at school, and her grandmother's Zapot
 
 **Accent and how they sound.** How this character sounds: accent, rhythm, pitch, and the words they choose. Useful for many books. Rhythm and word choice carry a voice better than spelled-out dialect. Readers hear the character without tripping over apostrophes.
 
+How it differs: The sound of their speech. Voice, under Depth lenses, is the whole of how they talk and think.
+
 The common mistake: Writing dialect phonetically ("Ah'm gwine"). It's hard to read and often turns into caricature.
 
 Example: Lands: "Slow and low, drops the ends of questions so they sound like statements." Fails: dropping every g with an apostrophe.
@@ -386,6 +388,8 @@ Example: Lands: "A rented upstairs apartment over the laundromat; always smells 
 
 **History.** Key events in this character's past, one per entry: what happened before the story begins. Useful for many books. History explains why a character is who they are now. It gives you material for memories, secrets and reveals. Tracking it keeps your backstory consistent.
 
+How it differs: Past events of any kind, hurtful or not. Wounds are the hurts; the arc's Ghost is the one behind the Lie.
+
 The common mistake: Putting all of it on the page. History is for you; the reader needs only the pieces that change a scene.
 
 Example: Lands: "At nineteen, left nursing school when her father got sick." Fails: three pages of her history before the story starts.
@@ -402,11 +406,15 @@ Example: Lands: "Afraid of being needed and failing," and the story puts a sick 
 
 **Wounds.** Old hurts this character still carries: losses, betrayals, humiliations. For the single defining one, use the Wound and its fallout group. Useful for many books. Wounds explain behavior that would otherwise seem odd. They make readers patient with a character's flaws. Angela Ackerman and Becca Puglisi's Emotional Wound Thesaurus is a strong guide to how wounds shape a person.
 
+How it differs: Every old hurt they carry. The arc's Ghost is the single event behind one arc's Lie.
+
 The common mistake: Making every wound tragic, or adding wounds that never shape a choice.
 
 Example: Lands: "Her best friend took credit for her design in college." She now signs every sketch. Fails: a list of five tragedies that never come up.
 
 **Desires.** What this character longs for: small cravings and big dreams, spoken and secret. Useful for many books. Desire is what moves a character forward. Knowing what someone wants, beyond the plot goal, makes them feel alive and gives scenes pull.
+
+How it differs: Longings of every size, spoken or secret. Goal is the one concrete target in this plot.
 
 The common mistake: Listing desires that are all for the plot. People also want naps, peace and a good tomato.
 
@@ -423,6 +431,8 @@ Example: Lands: "Believes family is the only people you can trust," and her brot
 *One defining wound traced through its effects: the event (K.M. Weiland's Ghost), what they came to believe, what they fear, how they guard against it, and what sets it off. Angela Ackerman and Becca Puglisi's Emotional Wound Thesaurus is a strong companion here.*
 
 **The wounding event.** The wounding event: what happened, and how old they were. K.M. Weiland calls this the Ghost, the past event that haunts the character. Most books need this. The wound is the root of the false belief that drives the arc. A specific event makes the character's later choices make sense. Angela Ackerman and Becca Puglisi's Emotional Wound Thesaurus explores how wounds shape people.
+
+How it differs: Weiland calls this the Ghost. If it is already on the arc, there is no need to write it here too.
 
 The common mistake: Making it vague or too big. It doesn't have to be tragic, but it must be personal and convincing.
 
@@ -480,6 +490,8 @@ Example: Lands: "Stubborn: protects her from being talked out of what she knows.
 
 **What they think they want.** What this character thinks they want, beyond their plot function. The want they would tell you about. Useful for many books. It gives the character a life outside the plot. It also sets up the gap between what they think they want and what drives them underneath.
 
+How it differs: The wish they would admit to. Goal is the concrete target in this plot; the arc's Want is the chase the Lie drives.
+
 The common mistake: Repeating the plot goal. Ask what they want as a person, not as a piece of the story.
 
 Example: Lands: "Wants her mother to finally say she's proud." Fails: "Wants to solve the case."
@@ -503,6 +515,8 @@ The common mistake: Most useful in comedies and romantic comedies, or for a comi
 Example: Lands: "Treats every small problem like a military campaign." Fails: "She makes witty remarks."
 
 **Voice.** How this character sounds in thought and speech: vocabulary, rhythm, what they notice, how they joke. Most books need this. Voice makes a character recognizable without a dialogue tag. It also shows their education, mood and mind.
+
+How it differs: How they sound as a whole. Language and voice holds the pieces: the languages they speak, their accent, and their sayings.
 
 The common mistake: Using dialect as a shortcut. Voice lives in word choice, sentence length and attention, not spelling.
 
@@ -570,6 +584,8 @@ Example: Lands: "The pace of a weary newscaster." Fails: the character ends up w
 
 **Theme music.** A song or piece of music that captures this character's mood or essence for you. Private, for you only. Only for some books. Music can put you back in a character's head fast, especially after a break. It holds a feeling better than notes can.
 
+How it differs: A private mood note for you. To put a song in the book, add it to the Soundtrack and connect it with is the theme song of.
+
 The common mistake: Helpful if music moves you. The mistake is quoting lyrics in the book; keep it to titles only.
 
 Example: Lands: an old blues song you play before every chapter from her point of view. Fails: printing the lyrics in the epigraph.
@@ -579,6 +595,18 @@ Example: Lands: an old blues song you play before every chapter from her point o
 The common mistake: Helpful if music moves you. The mistake is spending more time on the playlist than on the pages.
 
 Example: Lands: three songs, one for before, during and after her loss. Fails: sixty songs and no chapters.
+
+### Characters: Other facts
+
+*Facts that came in from your planning without a place of their own, and anything that fits nowhere else. Kept here, last, so the page above stays in order.*
+
+**Other facts about them.** A catch-all list for anything true about this character that has no field of its own: a birthday, a car, an allergy, the name of a childhood dog. Useful for many books. Small facts are where continuity errors hide. Write them once and the dog stays named Biscuit in chapter three and chapter thirty.
+
+How it differs: A catch-all. A fact that has its own place on this page is easier to find there.
+
+The common mistake: Letting it become the whole character. If a fact shapes who they are, such as a fear or a wound, give it its proper field so the program can connect it.
+
+Example: Lands: "Drives a 1994 pickup with no working radio. Allergic to shellfish. Left-handed." Fails: "Afraid of water since her brother drowned," which belongs in Wounds.
 
 ## Arcs: every field
 
@@ -612,6 +640,8 @@ Example: Lands: Positive, the baker learns to accept help. Flat, the new pastor 
 
 **Ghost.** K.M. Weiland's Ghost: the formative experience that explains the Lie. It need not be tragic, but it must be personal and convincing. Also called the wound. Most books need this. The Ghost makes the Lie believable. Readers forgive a character's mistakes when they understand where the mistakes come from. Without it, the Lie seems arbitrary.
 
+How it differs: The Ghost is the one past event behind this arc's Lie. Wounds, on the character page, hold every old hurt; History holds past events of any kind.
+
 The common mistake: Making it melodramatic for its own sake, or leaving it so vague that it explains nothing.
 
 Example: Lands: "At twelve, she trusted a friend with her diary and found it read aloud at school." Fails: "Something bad happened to her once."
@@ -623,6 +653,8 @@ The common mistake: Writing a Lie that is just a mistake about facts. It must be
 Example: Lands: "If people really knew me, they would leave." Fails: "She thinks the bank is closed on Tuesdays."
 
 **Want.** K.M. Weiland's Want: what the Lie makes the character chase. Usually an outer goal they believe will fix things. Most books need this. The Want drives the plot and gives the reader something to root for. Its gap from the Need is what makes the story mean something.
+
+How it differs: The Want belongs to this arc and is driven by the Lie. The character's Goal is the concrete target in the plot, often the same thing seen from outside.
 
 The common mistake: Making the Want and Need the same. If getting what they want also heals them, there is no inner conflict.
 
@@ -674,7 +706,7 @@ A Relationship record tracks what is between two characters: where they stand, w
 
 ### Relationships: Where they stand
 
-*Gauges of the relationship right now: trust, respect, closeness, resentment, dependence, rivalry and power. Version them as they change.*
+*Gauges of the relationship right now: trust, respect, closeness, resentment, dependence, rivalry and power. A word or a short line is enough, such as "high, and slipping." Add a new entry as it changes, and mark when each is true.*
 
 **Trust.** How much these two believe each other and count on each other right now. A measure that can rise and fall over the book. Most books need this. Trust decides what they will tell each other, what they will risk, and how hard a betrayal lands. Tracking it lets you plan the moments it breaks or grows. Without it, trust can jump without a reason.
 
@@ -946,7 +978,7 @@ The common mistake: Giving a life wish ("to be loved") instead of something she 
 
 Example: Lands: the baker wants the health inspector gone before he opens the back fridge. Fails: the baker wants her shop to succeed.
 
-**The conflict (><).** The opposition: who the players are, what each wants, what's in the way, and who wins. The >< mark is shorthand for two forces pushing against each other. Most books need this. Conflict is what turns a goal into a scene. If nothing resists the goal, the character simply gets it, and the reader has no reason to lean in.
+**The conflict.** The opposition: who the players are, what each wants, what's in the way, and who wins. The >< mark is shorthand for two forces pushing against each other. Most books need this. Conflict is what turns a goal into a scene. If nothing resists the goal, the character simply gets it, and the reader has no reason to lean in.
 
 The common mistake: Thinking conflict means arguing. It can be quiet: a locked door, a polite refusal, the character's own fear.
 
@@ -958,13 +990,13 @@ The common mistake: Letting her get the goal cleanly with nothing complicated. A
 
 Example: Lands: the inspector leaves without opening the fridge, but he's written down her supplier's name. Fails: he leaves and everything is fine.
 
-**Value at the start (+/-).** The charge of the scene's key value at the start: positive (+) or negative (-). A value is something the character cares about that can flip, such as trust and betrayal, safety and danger, hope and despair. Most books need this. Robert McKee teaches that a scene works when it turns a value. Marking the starting charge makes the turn easy to see, and easy to miss if it isn't there.
+**Value at the start.** The charge of the scene's key value at the start: positive (+) or negative (-). A value is something the character cares about that can flip, such as trust and betrayal, safety and danger, hope and despair. Most books need this. Robert McKee teaches that a scene works when it turns a value. Marking the starting charge makes the turn easy to see, and easy to miss if it isn't there.
 
 The common mistake: Naming a mood with no opposite. Pick a value that can actually flip.
 
 Example: Lands: trust between two sisters (+), planning the reunion together. Fails: "a nice afternoon."
 
-**Value at the end (+/-).** The charge of the same value at the end. If it matches the start, the scene hasn't turned. Most books need this. McKee's test: a scene that ends where it began is filler, and readers feel it even if they can't name it. A string of turns, scene after scene, is what builds an arc.
+**Value at the end.** The charge of the same value at the end. If it matches the start, the scene hasn't turned. Most books need this. McKee's test: a scene that ends where it began is filler, and readers feel it even if they can't name it. A string of turns, scene after scene, is what builds an arc.
 
 The common mistake: Turning the value by announcing it ("now she felt hopeless") instead of through something that happens.
 
@@ -1408,11 +1440,15 @@ Example: Lands: the missing gas can is marked significant and pays off at the re
 
 **Where it is planted.** Each place the clue appears before the reveal. A clue planted more than once is easier for a reader to recall later. Most books need this. Tracking plantings lets you confirm each one comes before the reveal and that the clue gets enough weight.
 
+How it differs: This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with is planted in.
+
 The common mistake: Planting it only once, in a busy scene, so no reader remembers it.
 
 Example: Lands: the sleeve in chapter 4, the smell of fuel on his jacket in chapter 9. Fails: one mention, buried in a crowd scene.
 
 **Where it pays off.** Where the clue pays off: where its meaning becomes clear. Most books need this. A clue that never pays off frustrates readers. Pairing plant and payoff makes gaps easy to find.
+
+How it differs: This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with pays off in.
 
 The common mistake: Paying it off in narration nobody notices, so the reader never feels the click.
 
@@ -1652,6 +1688,8 @@ Example: Lands: she says it without looking up, still wiping the counter. Fails:
 
 **Where it might go.** Where the line might go. Candidates can sit side by side until you choose. Useful for many books. A line's power depends on placement. The same words can open a chapter, end one or return as a callback.
 
+How it differs: Notes on where it might go. To tie the line to a scene, connect it under Connections with appears in.
+
 The common mistake: Placing it at the first chance instead of the best one.
 
 Example: Candidates: the opening scene, the All Is Lost, the Final Image. Lands: saved for the Final Image, where it echoes. Fails: used in chapter 1, then nothing to echo.
@@ -1726,7 +1764,7 @@ The common mistake: Treating the assumption as a fact of the story.
 
 Example: Question: how does she pay the rent? Assumption: she has to pay it. Lands: what if her mother owned the building, and the lease was always a lie?
 
-**Answer.** The answer, once you decide it. Useful for many books. A decided answer becomes something the rest of the story can rely on. Mark it decided when you're sure, and update the records it affects.
+**Answer.** The answer, once you know it. When you mark it Decided, the question moves to Answered. Useful for many books. A decided answer becomes something the rest of the story can rely on. Mark it decided when you're sure, and update the records it affects.
 
 The common mistake: Answering here and forgetting to carry the answer into the records it changes.
 
@@ -1806,7 +1844,7 @@ A Place record holds one location in your story: a kitchen, a harbor town, a who
 
 ### Places: Place
 
-*The basics of any location, large or small: what it is like, the mood it gives off, the season you see it in, and who you usually find there. Fill these for every place that hosts a scene.*
+*The basics of any location, large or small: what it is like, the mood it gives off, the season you see it in, and who you usually find there, details to reuse, and what it means to the story. Fill these for every place that hosts a scene.*
 
 **What it is like.** The physical facts of the place: size, layout, materials, light, what you see when you walk in. Most books need this. This is your reference so the back door stays on the left in chapter three and chapter thirty. Without it, readers catch the contradictions and stop trusting the page.
 
@@ -1831,6 +1869,14 @@ Example: Lands: "Late October. The ferry stops running after the fifteenth, so a
 The common mistake: Leaving places empty except for the main characters, which makes the world feel staged.
 
 Example: "The diner at 6 a.m.: two retired cops at the counter, the night nurse in the corner booth, and the owner's son pretending to do homework."
+
+**Details to reuse.** Small, concrete things about this place you can bring back: a cracked step, a smell, a sound at night. Useful for many books. A detail that returns makes a place feel lived in, and a detail that changes shows time passing without a word of explanation.
+
+Example: The porch light that buzzes before it comes on. By the last chapter someone has fixed it.
+
+**What it means to the story.** Why the story happens here and not somewhere else: what this place stands for, to the people in it and to the book. Useful for many books. A place that means something does work in every scene set there. It can stand for safety, shame, or the life someone wants.
+
+Example: The garden is the one thing the widow next door still controls. Every scene there is about control.
 
 ### Places: Settlement
 
@@ -1922,6 +1968,60 @@ The Story world record holds the facts that cover the whole book: when it happen
 
 **Example.** A writer starts a novel about two rival florists with only a hunch: "pride ruins them, generosity saves them." That hunch becomes the moral premise, and it tells her the ending: one florist gives the other her best customer.
 
+### Story world: The core
+
+*The heart of the book in compressed form. The one sentence and one paragraph come from Randy Ingermanson's Snowflake Method, which grows a novel outward from a single sentence.*
+
+**The one sentence.** One sentence of about twenty-five words that captures the whole book. Randy Ingermanson's Snowflake Method starts here. Blake Snyder adds that a strong logline carries irony: a built-in contradiction that makes the premise intriguing. Most books need this. If you can say the book in one sentence, you know what it is about, and the draft stays on course.
+
+The common mistake: Cramming in every subplot and name. Stick to the central situation.
+
+Example: Lands: "A lighthouse keeper who has never saved anyone must keep a shipwreck survivor alive through a winter storm, though he may be the man who drowned her brother." Fails: "A story about grief and hope on an island."
+
+**The one paragraph.** Five sentences: the setup, three disasters, and the ending. In Ingermanson's Snowflake Method this is the second step, growing the one sentence into the shape of the book. A disaster here means a turning point that makes things much worse and forces a new choice. Most books need this. Three disasters give the book a spine, so each act knows what it builds toward.
+
+The common mistake: Disasters that are just bad luck. Each should force a harder choice.
+
+Example: Setup: a baker opens on the same street as her old boss. Disaster one: he steals her recipe. Two: she copies his to retaliate and gets caught. Three: the street votes to close one shop. Ending: she wins by confessing.
+
+**How it might end.** Your best current guess at how the story ends: who wins, who loses, and what is true at the end that was not true at the start. Most books need this. An ending found early gives the middle somewhere to go. Every scene can then build toward it, and the setup can plant what the ending needs.
+
+The common mistake: Refusing to guess until the draft is finished, which often produces a sagging middle that wanders.
+
+Example: "She keeps the lighthouse but loses the man." Even as a guess (marked Developing), this tells you the book needs to make both the lighthouse and the man precious.
+
+### Story world: Moral premise
+
+*From Stanley D. Williams's moral premise: the theme stated as an equation, where a vice leads to defeat and a virtue leads to success. It helps every subplot argue the same truth.*
+
+**The vice.** In Stanley D. Williams's moral premise, the vice is the wrong value or behavior that leads characters to defeat. It is the first half of the equation "[vice] leads to defeat, but [virtue] leads to success." Useful for many books. Naming the vice gives you a way to test every subplot: the characters who cling to it should suffer for it. It turns theme from a slogan into consequences.
+
+The common mistake: Choosing a vice that is a crime or a cartoon ("murder") instead of a temptation real people feel ("control," "pride," "hiding").
+
+Example: Lands: "Keeping score." Both rival florists track every slight, and it costs each of them something. Fails: "Being evil."
+
+**The virtue.** The virtue is the right value or behavior that leads to success, the second half of Williams's moral premise. It is usually the opposite of the vice. Useful for many books. The virtue is what your hero must learn or choose by the end. It shows you what the climax must test.
+
+The common mistake: Picking a virtue that does not truly oppose the vice, so the theme splits in two.
+
+Example: Lands: vice "keeping score," virtue "giving without counting." The climax: one florist gives away her best arrangement with no hope of return. Fails: vice "pride," virtue "courage."
+
+**The moral premise, as one sentence.** The full moral premise in one sentence: "[Vice] leads to [defeat], but [virtue] leads to [success]." Stanley D. Williams argues that every successful story argues one such truth. Useful for many books. One sentence lets you check any scene: does it show the vice failing or the virtue working? Scenes that do neither may not belong.
+
+The common mistake: Writing a sermon. The premise guides you; the story should prove it through events, never announce it.
+
+Example: "Keeping score leads to loneliness, but giving without counting leads to belonging." The two florists then embody each half until one changes.
+
+### Story world: Controlling idea
+
+*From Robert McKee: the meaning of the story in one sentence, naming the value at stake and the cause that changes it.*
+
+**Controlling idea.** Robert McKee's controlling idea: the meaning of the story in one sentence, naming the value at the end (love, justice, life) and the cause that brought it there. A value is something characters care about that can swing positive or negative. Useful for many books. It forces you to say both what happens to the value and why. That cause is your theme in action, and it keeps the climax honest.
+
+The common mistake: Naming only a topic ("grief") instead of a value and a cause.
+
+Example: Lands: "Love returns when we stop guarding our old wounds." Fails: "This book is about love."
+
 ### Story world: Time
 
 *When the story happens and how long it lasts. These fields anchor the calendar so dates, seasons and ages stay consistent.*
@@ -1993,60 +2093,6 @@ Example: "Past tense throughout, except the prologue, which is present tense bec
 The common mistake: Hiding a truth by having a viewpoint character simply not think about it, which readers feel as a cheat.
 
 Example: Lands: the baker's mentor is secretly her father, and three small clues are planted before the reveal. Fails: the truth appears from nowhere in the last chapter.
-
-### Story world: The core
-
-*The heart of the book in compressed form. The one sentence and one paragraph come from Randy Ingermanson's Snowflake Method, which grows a novel outward from a single sentence.*
-
-**The one sentence.** One sentence of about twenty-five words that captures the whole book. Randy Ingermanson's Snowflake Method starts here. Blake Snyder adds that a strong logline carries irony: a built-in contradiction that makes the premise intriguing. Most books need this. If you can say the book in one sentence, you know what it is about, and the draft stays on course.
-
-The common mistake: Cramming in every subplot and name. Stick to the central situation.
-
-Example: Lands: "A lighthouse keeper who has never saved anyone must keep a shipwreck survivor alive through a winter storm, though he may be the man who drowned her brother." Fails: "A story about grief and hope on an island."
-
-**The one paragraph.** Five sentences: the setup, three disasters, and the ending. In Ingermanson's Snowflake Method this is the second step, growing the one sentence into the shape of the book. A disaster here means a turning point that makes things much worse and forces a new choice. Most books need this. Three disasters give the book a spine, so each act knows what it builds toward.
-
-The common mistake: Disasters that are just bad luck. Each should force a harder choice.
-
-Example: Setup: a baker opens on the same street as her old boss. Disaster one: he steals her recipe. Two: she copies his to retaliate and gets caught. Three: the street votes to close one shop. Ending: she wins by confessing.
-
-**How it might end.** Your best current guess at how the story ends: who wins, who loses, and what is true at the end that was not true at the start. Most books need this. An ending found early gives the middle somewhere to go. Every scene can then build toward it, and the setup can plant what the ending needs.
-
-The common mistake: Refusing to guess until the draft is finished, which often produces a sagging middle that wanders.
-
-Example: "She keeps the lighthouse but loses the man." Even as a guess (marked Developing), this tells you the book needs to make both the lighthouse and the man precious.
-
-### Story world: Moral premise
-
-*From Stanley D. Williams's moral premise: the theme stated as an equation, where a vice leads to defeat and a virtue leads to success. It helps every subplot argue the same truth.*
-
-**The vice.** In Stanley D. Williams's moral premise, the vice is the wrong value or behavior that leads characters to defeat. It is the first half of the equation "[vice] leads to defeat, but [virtue] leads to success." Useful for many books. Naming the vice gives you a way to test every subplot: the characters who cling to it should suffer for it. It turns theme from a slogan into consequences.
-
-The common mistake: Choosing a vice that is a crime or a cartoon ("murder") instead of a temptation real people feel ("control," "pride," "hiding").
-
-Example: Lands: "Keeping score." Both rival florists track every slight, and it costs each of them something. Fails: "Being evil."
-
-**The virtue.** The virtue is the right value or behavior that leads to success, the second half of Williams's moral premise. It is usually the opposite of the vice. Useful for many books. The virtue is what your hero must learn or choose by the end. It shows you what the climax must test.
-
-The common mistake: Picking a virtue that does not truly oppose the vice, so the theme splits in two.
-
-Example: Lands: vice "keeping score," virtue "giving without counting." The climax: one florist gives away her best arrangement with no hope of return. Fails: vice "pride," virtue "courage."
-
-**The moral premise, as one sentence.** The full moral premise in one sentence: "[Vice] leads to [defeat], but [virtue] leads to [success]." Stanley D. Williams argues that every successful story argues one such truth. Useful for many books. One sentence lets you check any scene: does it show the vice failing or the virtue working? Scenes that do neither may not belong.
-
-The common mistake: Writing a sermon. The premise guides you; the story should prove it through events, never announce it.
-
-Example: "Keeping score leads to loneliness, but giving without counting leads to belonging." The two florists then embody each half until one changes.
-
-### Story world: Controlling idea
-
-*From Robert McKee: the meaning of the story in one sentence, naming the value at stake and the cause that changes it.*
-
-**Controlling idea.** Robert McKee's controlling idea: the meaning of the story in one sentence, naming the value at the end (love, justice, life) and the cause that brought it there. A value is something characters care about that can swing positive or negative. Useful for many books. It forces you to say both what happens to the value and why. That cause is your theme in action, and it keeps the climax honest.
-
-The common mistake: Naming only a topic ("grief") instead of a value and a cause.
-
-Example: Lands: "Love returns when we stop guarding our old wounds." Fails: "This book is about love."
 
 ## Story rules: every field
 
