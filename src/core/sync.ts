@@ -4,44 +4,47 @@
 // changed, adds a compressed, checksummed copy of that novel to the shared folder. It never writes
 // into a file another computer made, so the folder service can never corrupt anything.
 //
-// Decisions never depend on clocks. Every copy carries its lineage: the copies it was built on.
-// Another computer's copy is taken in only when it builds on what this computer already has and
-// this computer has nothing new of its own. In every other case (both changed, or the histories
-// went separate ways) the other version comes in beside hers as its own novel, named for where it
-// came from, and nothing is overwritten.
+// Who has what is kept as a count per computer (how many times each computer has shared this novel
+// that this copy includes), never as clock times. Story Canon acts on its own only when there is no
+// choice to make: another computer's copy includes everything this one has and this one has nothing
+// new. When both computers changed the novel since they last agreed, it stops and asks her which
+// version stays the main one; the other is kept beside it, on both computers, either way.
 
 import { createHash, randomUUID } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import { hostname } from 'node:os';
 import { join } from 'node:path';
 import { gunzipSync, gzipSync } from 'node:zlib';
 import { Store, Row, ValidationError, nowIso } from './store.js';
 import { Archive, ARCHIVE_TABLES, exportArchive, importArchive, replaceProject } from './backup.js';
 
-export interface SyncConfig { dir: string; device: { id: string; name: string; host?: string } }
+export interface SyncConfig { dir: string; device: { id: string; name: string; host?: string }; ask?: boolean }
+type Vector = Record<string, number>;
 interface NovelState {
-  based: string | null;      // the copy this computer's novel was last shared as, or taken from
-  lineage: string[];         // every copy this computer's novel already contains (based first)
-  basedHash: string | null;  // the novel's content fingerprint at that moment
-  seen: string[];            // other computers' copies already dealt with (taken, or kept beside)
+  vector: Vector;            // what this computer's novel includes, counted per computer
+  basedHash: string | null;  // the content fingerprint when this computer last shared or took it
   sharedAt: string | null; tookAt: string | null;
+  keptBeside?: { from: string } | null; // this novel is a version kept beside another; it travels to every computer
 }
-export interface SharedCopy { file: string; projectId: string; deviceId: string; deviceName: string; title: string; sharedAt: string; basedOn: string | null; lineage: string[]; contentHash: string; sha: string; bytes: number }
+export interface SharedCopy { file: string; projectId: string; deviceId: string; deviceName: string; title: string; sharedAt: string; vector: Vector; contentHash: string; sha: string; bytes: number; keptBeside?: boolean; removed?: boolean }
 interface Presence { name: string; lastSeen: string; open: string | null; unshared: string[] }
-export type TakeResult = { result: 'nothing' | 'took' | 'kept_both' | 'retry'; from?: string; copyId?: string; copyTitle?: string };
+export type TakeResult = { result: 'nothing' | 'took' | 'same' | 'diverged' | 'retry' | 'kept_both'; from?: string; copyId?: string; copyTitle?: string };
 
 const ROOT = 'Story Canon shared';
 const KEEP = 10;            // copies kept per computer per novel
-const LINEAGE = 200;        // how far back each copy remembers its ancestry
-// Where she is looking, not what she wrote. Excluded from "has this novel changed?".
-const NOISE = new Set(['writing_state', 'trail']);
+// Not part of what she wrote: where she is looking, and typing kept for crash recovery on this computer only.
+const NOISE = new Set(['writing_state', 'trail', 'autosave_journal']);
 const ID = /^[A-Za-z0-9_-]{6,64}$/;
 
 const sha = (b: Buffer | string) => createHash('sha256').update(b).digest('hex');
-const empty = (): NovelState => ({ based: null, lineage: [], basedHash: null, seen: [], sharedAt: null, tookAt: null });
+const empty = (): NovelState => ({ vector: {}, basedHash: null, sharedAt: null, tookAt: null });
+/** a includes nothing that b lacks */
+export const within = (a: Vector, b: Vector) => Object.entries(a).every(([k, n]) => (b[k] ?? 0) >= n);
+const merge = (a: Vector, b: Vector) => { const o = { ...a }; for (const [k, n] of Object.entries(b)) o[k] = Math.max(o[k] ?? 0, n); return o; };
+const when = (iso: string) => new Date(iso).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 
-/** A fingerprint of what she made in a novel, the same on every computer for the same content
- *  (journal numbering, which differs between libraries, is left out). */
+/** A fingerprint of what she made in a novel, the same on every computer for the same content. */
 export function contentHash(a: Archive): string {
   const parts: string[] = [];
   for (const { table } of ARCHIVE_TABLES) {
@@ -50,7 +53,7 @@ export function contentHash(a: Archive): string {
     const kept = table === 'writing_sessions' ? (a.tables[table] ?? []).filter((r) => r.scenes_json !== '[]' || String(r.note ?? '').trim()) : (a.tables[table] ?? []);
     const rows = kept.map((r) => {
       const o = { ...r } as Row;
-      if (table === 'journal') delete o.seq;
+      if (table === 'journal') delete o.seq; // numbering differs between libraries; order does not
       return Object.keys(o).sort().reduce((x, k) => { x[k] = o[k]; return x; }, {} as Row);
     });
     parts.push(`${table}:${sha(JSON.stringify(rows))}`);
@@ -81,16 +84,12 @@ export class Sync {
   config(): SyncConfig | null {
     const c = this.get<SyncConfig>('sync');
     if (!c?.dir) return null;
-    if (c.device.host && c.device.host !== hostname()) { c.device = { ...c.device, id: randomUUID(), host: hostname() }; this.put('sync', c); }
+    if (c.device.host !== hostname()) { c.device = { ...c.device, id: c.device.host ? randomUUID() : c.device.id, host: hostname() }; this.put('sync', c); }
     return c;
   }
   private states(): Record<string, NovelState> { return this.get<Record<string, NovelState>>('sync_state') ?? {}; }
   private state(pid: string): NovelState { return { ...empty(), ...(this.states()[pid] ?? {}) }; }
-  private setState(pid: string, patch: Partial<NovelState>) {
-    const all = this.states(); const next = { ...this.state(pid), ...patch };
-    next.seen = next.seen.slice(-500); next.lineage = [...new Set(next.lineage)].slice(0, LINEAGE);
-    all[pid] = next; this.put('sync_state', all);
-  }
+  private setState(pid: string, patch: Partial<NovelState>) { const all = this.states(); all[pid] = { ...this.state(pid), ...patch }; this.put('sync_state', all); }
 
   /** Turn sharing on with a folder, and name this computer. Its identity stays the same if turned off and on. */
   configure(input: { dir: string; name?: string }) {
@@ -98,11 +97,14 @@ export class Sync {
     if (!dir || !existsSync(dir) || !statSync(dir).isDirectory()) throw new ValidationError('That folder could not be found on this computer.');
     const prev = this.get<SyncConfig>('sync');
     const name = (input.name ?? prev?.device.name ?? hostname()).trim().slice(0, 60) || 'This computer';
-    const cfg: SyncConfig = { dir, device: { id: prev?.device.id ?? randomUUID(), name, host: hostname() } };
+    const cfg: SyncConfig = { dir, device: { id: prev?.device.id ?? randomUUID(), name, host: hostname() }, ask: prev?.ask ?? true };
     mkdirSync(join(dir, ROOT, 'computers'), { recursive: true });
     this.put('sync', cfg);
     return cfg;
   }
+  /** Ask before bringing in another computer's work (the default), or bring it in on its own when there is no choice to make. */
+  asking() { return this.get<SyncConfig>('sync')?.ask !== false; }
+  setAsking(ask: boolean) { const c = this.get<SyncConfig>('sync'); if (c) this.put('sync', { ...c, ask }); }
   turnOff() { const c = this.get<SyncConfig>('sync'); if (c) this.put('sync', { ...c, dir: '' }); }
 
   private root() { const c = this.config(); return c ? join(c.dir, ROOT) : null; }
@@ -110,7 +112,7 @@ export class Sync {
   /** Novel folders in the shared folder; anything else there (desktop.ini, stray files) is ignored. */
   private remoteIds(): string[] {
     const root = this.root(); if (!root || !existsSync(root)) return [];
-    return readdirSync(root, { withFileTypes: true }).filter((d) => d.isDirectory() && d.name !== 'computers' && ID.test(d.name)).map((d) => d.name);
+    try { return readdirSync(root, { withFileTypes: true }).filter((d) => d.isDirectory() && d.name !== 'computers' && ID.test(d.name)).map((d) => d.name); } catch { return []; }
   }
 
   // ---------- what has changed ----------
@@ -120,21 +122,20 @@ export class Sync {
   // ---------- the shared folder ----------
   copies(pid: string): SharedCopy[] {
     const dir = this.novelDir(pid);
-    if (!existsSync(dir)) return [];
-    const out: SharedCopy[] = [];
     let names: string[] = [];
     try { names = readdirSync(dir); } catch { return []; }
+    const out: SharedCopy[] = [];
     for (const f of names) {
       if (!f.endsWith('.meta.json')) continue;
       try {
         const m = JSON.parse(readFileSync(join(dir, f), 'utf8')) as SharedCopy;
-        if (m.projectId === pid && Array.isArray(m.lineage) && existsSync(join(dir, m.file))) out.push(m);
+        if (m.projectId === pid && m.vector && typeof m.vector === 'object' && names.includes(m.file)) out.push(m);
       } catch { /* a copy still arriving: try again next time */ }
     }
-    return out.sort((a, b) => a.sharedAt.localeCompare(b.sharedAt) || a.file.localeCompare(b.file));
+    return out.sort((a, b) => a.file.localeCompare(b.file));
   }
-  private read(c: SharedCopy): Archive {
-    const buf = readFileSync(join(this.novelDir(c.projectId), c.file));
+  private async read(c: SharedCopy): Promise<Archive> {
+    const buf = await readFile(join(this.novelDir(c.projectId), c.file));
     if (sha(buf) !== c.sha) throw new ValidationError('A shared copy is incomplete. It may still be arriving; Story Canon will try again.');
     return JSON.parse(gunzipSync(buf).toString('utf8')) as Archive;
   }
@@ -145,87 +146,130 @@ export class Sync {
     const fp = contentHash(archive);
     const st = this.state(pid);
     if (!force && fp === st.basedHash) return { shared: false };
+    const me = cfg.device.id;
+    const vector = { ...st.vector, [me]: (st.vector[me] ?? 0) + 1 };
     const gz = gzipSync(Buffer.from(JSON.stringify(archive), 'utf8'));
     const sharedAt = nowIso();
-    const base = `${sharedAt.replace(/[:.]/g, '-')}--${cfg.device.id}`;
+    const base = `${sharedAt.replace(/[:.]/g, '-')}--${me}`;
     const dir = this.novelDir(pid); mkdirSync(dir, { recursive: true });
-    const lineage = [...new Set(st.based ? [st.based, ...st.lineage] : st.lineage)].slice(0, LINEAGE);
-    const meta: SharedCopy = { file: `${base}.novel.gz`, projectId: pid, deviceId: cfg.device.id, deviceName: cfg.device.name, title: archive.title, sharedAt, basedOn: st.based, lineage, contentHash: fp, sha: sha(gz), bytes: gz.length };
+    const meta: SharedCopy = { file: `${base}.novel.gz`, projectId: pid, deviceId: me, deviceName: cfg.device.name, title: archive.title, sharedAt, vector, contentHash: fp, sha: sha(gz), bytes: gz.length, keptBeside: !!st.keptBeside, removed: !!(archive.tables.projects?.[0] as Row | undefined)?.deleted_at };
     // Written under a temporary name first, so another computer never sees half a file.
     writeFileSync(join(dir, `${meta.file}.part`), gz); renameSync(join(dir, `${meta.file}.part`), join(dir, meta.file));
     writeFileSync(join(dir, `${base}.meta.part`), JSON.stringify(meta)); renameSync(join(dir, `${base}.meta.part`), join(dir, `${base}.meta.json`));
-    this.setState(pid, { based: meta.file, lineage, basedHash: fp, sharedAt });
-    this.prune(pid, cfg.device.id);
+    this.setState(pid, { vector, basedHash: fp, sharedAt });
+    this.prune(pid, me);
     return { shared: true, copy: meta };
   }
   private prune(pid: string, deviceId: string) {
     const dir = this.novelDir(pid);
-    const mine = this.copies(pid).filter((c) => c.deviceId === deviceId);
+    const mine = this.copies(pid).filter((c) => c.deviceId === deviceId).sort((a, b) => (a.vector[deviceId] ?? 0) - (b.vector[deviceId] ?? 0));
     for (const c of mine.slice(0, Math.max(0, mine.length - KEEP))) {
       for (const f of [c.file, c.file.replace(/\.novel\.gz$/, '.meta.json')]) { try { unlinkSync(join(dir, f)); } catch { /* already gone */ } }
     }
     // Leftovers from a share interrupted by a file lock: tidied after a day.
-    try { for (const f of readdirSync(dir)) if (f.endsWith('.part') && Date.now() - statSync(join(dir, f)).mtimeMs > 86_400_000) unlinkSync(join(dir, f)); } catch { /* keep going */ }
+    try {
+      const names = readdirSync(dir);
+      for (const f of names) {
+        const old = () => Date.now() - statSync(join(dir, f)).mtimeMs > 86_400_000;
+        const orphan = f.endsWith('.novel.gz') && !names.includes(f.replace(/\.novel\.gz$/, '.meta.json'));
+        if ((f.endsWith('.part') || orphan) && old()) unlinkSync(join(dir, f));
+      }
+    } catch { /* keep going */ }
   }
 
-  /** Other computers' copies this computer has not dealt with: the newest of each separate line. */
+  /** Other computers' copies that include something this computer does not have: the newest of each separate line. */
   private heads(pid: string): SharedCopy[] {
     const cfg = this.config(); if (!cfg) return [];
-    const st = this.state(pid);
-    const all = this.copies(pid);
-    const ancestors = new Set(all.flatMap((c) => c.lineage));
-    const have = new Set([...(st.based ? [st.based] : []), ...st.lineage, ...st.seen]);
-    return all.filter((c) => c.deviceId !== cfg.device.id && !ancestors.has(c.file) && !have.has(c.file));
+    const mine = this.state(pid).vector;
+    const fresh = this.copies(pid).filter((c) => c.deviceId !== cfg.device.id && !within(c.vector, mine));
+    return fresh.filter((c) => !fresh.some((d) => d !== c && within(c.vector, d.vector) && !within(d.vector, c.vector)))
+      .sort((a, b) => a.sharedAt.localeCompare(b.sharedAt));
   }
-  /** The copy waiting for her, if any (what the notice above the page offers). */
-  incoming(pid: string): SharedCopy | null { const h = this.heads(pid); return h[h.length - 1] ?? null; }
 
-  /** Take in what other computers shared. A copy that builds on what this computer has, with nothing
-   *  new here, replaces the novel (a backup comes first). Anything else comes in beside it. */
+  /** What another computer's newest copy means for this computer's novel. */
+  private judge(pid: string, h: SharedCopy, fp?: string): 'take' | 'same' | 'diverged' {
+    if (!this.store.get('projects', pid)) return 'take';
+    const st = this.state(pid);
+    const now = fp ?? this.fingerprint(pid);
+    if (now === h.contentHash) return 'same';
+    const unchanged = now === st.basedHash;
+    return unchanged && within(st.vector, h.vector) ? 'take' : 'diverged';
+  }
+
+  /** Replace this computer's novel with a copy, keeping this computer's own crash-recovery typing. */
+  private replaceWith(pid: string, h: SharedCopy, archive: Archive) {
+    this.store.db.transaction(() => {
+      const here = !!this.store.get('projects', pid);
+      const recovery = here ? this.store.db.prepare('SELECT a.* FROM autosave_journal a JOIN scenes s ON s.id=a.scene_id WHERE s.project_id=?').all(pid) as Row[] : [];
+      if (here) replaceProject(this.store, archive); else importArchive(this.store, archive);
+      this.store.db.prepare('DELETE FROM autosave_journal WHERE scene_id IN (SELECT id FROM scenes WHERE project_id=?)').run(pid);
+      for (const r of recovery) {
+        if (!this.store.get('scenes', r.scene_id as string)) continue;
+        const cols = Object.keys(r);
+        this.store.db.prepare(`INSERT INTO autosave_journal(${cols.join(',')}) VALUES (${cols.map(() => '?').join(',')})`).run(...cols.map((c) => r[c] as never));
+      }
+      this.setState(pid, { vector: merge(this.state(pid).vector, h.vector), basedHash: this.fingerprint(pid), tookAt: nowIso(), keptBeside: h.keptBeside ? { from: h.deviceName } : this.state(pid).keptBeside ?? null });
+    })();
+  }
+
+  /** Take in another computer's newer copy when there is no choice to make. Divergence is left for her to decide. */
   private async takeNow(pid: string, opts: { backedUp?: boolean } = {}): Promise<TakeResult> {
     const heads = this.heads(pid);
     if (!heads.length) return { result: 'nothing' };
-    const exists = !!this.store.get('projects', pid);
-    const before = exists ? this.fingerprint(pid) : null;
+    const before = this.store.get('projects', pid) ? this.fingerprint(pid) : null;
     if (!opts.backedUp) await this.backup();
     // Nothing may change between the decision and the change: if she typed during the backup, wait for next time.
-    if (exists && this.fingerprint(pid) !== before) return { result: 'retry' };
+    if (before !== null && this.fingerprint(pid) !== before) return { result: 'retry' };
     let last: TakeResult = { result: 'nothing' };
     for (const h of heads) {
-      const st = this.state(pid);
-      const here = !!this.store.get('projects', pid);
-      const now = here ? this.fingerprint(pid) : null;
-      const archive = this.read(h);
-      const builds = !st.based || h.lineage.includes(st.based);
-      const mineUnchanged = !here || now === st.basedHash;
-      if (!here || (builds && mineUnchanged) || (st.based === null && now === h.contentHash)) {
-        // Take it: replace the novel and record what this computer now holds, in one transaction.
-        this.store.db.transaction(() => {
-          if (here) replaceProject(this.store, archive); else importArchive(this.store, archive);
-          // Typing the other computer never saved is not offered for recovery here.
-          this.store.db.prepare('DELETE FROM autosave_journal WHERE scene_id IN (SELECT id FROM scenes WHERE project_id=?)').run(pid);
-          this.setState(pid, { based: h.file, lineage: [h.file, ...h.lineage], basedHash: this.fingerprint(pid), seen: [...st.seen, h.file], tookAt: nowIso() });
-        })();
-        last = { result: 'took', from: h.deviceName };
-        continue;
-      }
-      // Keep both: the other version becomes its own novel; hers stays and is shared next, now including it.
-      const when = new Date(h.sharedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-      const copyTitle = `${h.title} (from ${h.deviceName}, ${when})`;
+      const verdict = this.judge(pid, h);
+      if (verdict === 'diverged') { last = { result: 'diverged', from: h.deviceName }; continue; }
+      if (verdict === 'same') { this.setState(pid, { vector: merge(this.state(pid).vector, h.vector), basedHash: this.fingerprint(pid) }); last = { result: 'same' }; continue; }
+      const archive = await this.read(h);
+      if (before !== null && this.store.get('projects', pid) && this.fingerprint(pid) !== before) return { result: 'retry' };
+      this.replaceWith(pid, h, archive);
+      last = { result: 'took', from: h.deviceName };
+    }
+    return last;
+  }
+
+  /** Her choice when both computers changed a novel. Both versions are kept either way; she picks the main one. */
+  private async resolveNow(pid: string, keep: 'mine' | 'theirs'): Promise<TakeResult> {
+    const h = this.heads(pid).filter((x) => this.judge(pid, x) === 'diverged').pop();
+    if (!h) return { result: 'nothing' };
+    const archive = await this.read(h);
+    await this.backup();
+    const cfg = this.config()!;
+    if (keep === 'mine') {
+      const copyTitle = `${h.title} (from ${h.deviceName}, ${when(h.sharedAt)})`;
       let copyId = '';
       this.store.db.transaction(() => {
         copyId = importArchive(this.store, archive, { asCopy: true, copyTitle }).projectId;
-        this.store.db.prepare('UPDATE projects SET deleted_at=NULL WHERE id=?').run(copyId); // always where she can see it
-        this.setState(pid, { based: h.file, lineage: [h.file, ...h.lineage, ...st.lineage], basedHash: null, seen: [...st.seen, h.file] });
+        this.store.db.prepare('UPDATE projects SET deleted_at=NULL WHERE id=?').run(copyId);
+        this.setState(copyId, { keptBeside: { from: h.deviceName } });
+        // Hers is the main version and now supersedes the other computer's: shared next, it is taken there.
+        this.setState(pid, { vector: merge(this.state(pid).vector, h.vector), basedHash: null });
       })();
-      last = { result: 'kept_both', from: h.deviceName, copyId, copyTitle };
+      this.shareNow(copyId, true); this.shareNow(pid, true);
+      return { result: 'kept_both', from: h.deviceName, copyId, copyTitle };
     }
-    return last;
+    const mine = exportArchive(this.store, pid);
+    const copyTitle = `${mine.title} (${cfg.device.name} version, ${when(nowIso())})`;
+    let copyId = '';
+    this.store.db.transaction(() => {
+      copyId = importArchive(this.store, mine, { asCopy: true, copyTitle }).projectId;
+      this.store.db.prepare('UPDATE projects SET deleted_at=NULL WHERE id=?').run(copyId);
+      this.setState(copyId, { keptBeside: { from: cfg.device.name } });
+      this.replaceWith(pid, h, archive);
+    })();
+    this.shareNow(copyId, true);
+    return { result: 'kept_both', from: h.deviceName, copyId, copyTitle };
   }
 
   // ---------- the public operations, one at a time ----------
   share(pid: string, force = false) { return this.exclusive(() => this.shareNow(pid, force)); }
   takeIncoming(pid: string) { return this.exclusive(() => this.takeNow(pid)); }
+  resolve(pid: string, keep: 'mine' | 'theirs') { return this.exclusive(() => this.resolveNow(pid, keep)); }
   bring(pid: string) {
     return this.exclusive(async () => {
       if (this.store.get('projects', pid)) throw new ValidationError('That novel is already on this computer.');
@@ -233,25 +277,33 @@ export class Sync {
     });
   }
 
-  /** One pass: take in what is newer for novels she has not opened in this session, then share what changed. */
+  /** One pass: take in newer work for novels she has not opened this session, bring versions kept beside, share what changed. */
   pass(opts: { protect?: Set<string> | string | null; shareChanged: boolean; take?: boolean }) {
     return this.exclusive(async () => {
-      const out = { shared: [] as string[], took: [] as string[], keptBoth: [] as string[] };
+      const out = { shared: [] as string[], took: [] as string[], diverged: [] as string[] };
       if (!this.config()) return out;
       const protect = opts.protect instanceof Set ? opts.protect : new Set(opts.protect ? [opts.protect] : []);
       const local = (this.store.db.prepare('SELECT id FROM projects').all() as { id: string }[]).map((r) => r.id);
       let backedUp = false;
-      for (const pid of local) {
-        try {
-          if (opts.take !== false && !protect.has(pid) && this.heads(pid).length) {
+      // When she asks to approve, nothing comes in on its own: the notice above the page offers it.
+      if (opts.take !== false && !this.asking()) {
+        const arriving = this.remoteIds().filter((id) => !local.includes(id) && this.copies(id).some((c) => c.keptBeside));
+        for (const pid of [...local, ...arriving]) {
+          try {
+            if (protect.has(pid) || !this.heads(pid).length) continue;
             if (!backedUp) { await this.backup(); backedUp = true; }
+            if (protect.has(pid)) continue; // opened while the backup ran
             const r = await this.takeNow(pid, { backedUp: true });
-            if (r.result === 'took') out.took.push(pid); else if (r.result === 'kept_both') out.keptBoth.push(pid);
-          }
-          if (opts.shareChanged && this.shareNow(pid).shared) out.shared.push(pid);
-        } catch { /* one novel's trouble never stops the others; it is tried again next pass */ }
+            if (r.result === 'took') out.took.push(pid); else if (r.result === 'diverged') out.diverged.push(pid);
+          } catch { /* one novel's trouble never stops the others; it is tried again next pass */ }
+        }
       }
-      try { this.presenceNow(protect.size ? [...protect][protect.size - 1]! : null); } catch { /* the folder may be offline */ }
+      if (opts.shareChanged) {
+        for (const pid of (this.store.db.prepare('SELECT id FROM projects').all() as { id: string }[]).map((r) => r.id)) {
+          try { if (this.shareNow(pid).shared) out.shared.push(pid); } catch { /* tried again next pass */ }
+        }
+        try { this.presenceNow(protect.size ? [...protect][protect.size - 1]! : null); } catch { /* the folder may be offline */ }
+      }
       return out;
     });
   }
@@ -268,8 +320,10 @@ export class Sync {
   presence(open: string | null) { return this.exclusive(() => this.presenceNow(open)); }
   others(): (Presence & { id: string })[] {
     const cfg = this.config(); const root = this.root(); if (!cfg || !root) return [];
-    const dir = join(root, 'computers'); if (!existsSync(dir)) return [];
-    return readdirSync(dir).filter((f) => f.endsWith('.json') && f !== `${cfg.device.id}.json`).flatMap((f) => {
+    const dir = join(root, 'computers');
+    let names: string[] = [];
+    try { names = readdirSync(dir); } catch { return []; }
+    return names.filter((f) => f.endsWith('.json') && f !== `${cfg.device.id}.json`).flatMap((f) => {
       try { return [{ ...(JSON.parse(readFileSync(join(dir, f), 'utf8')) as Presence), id: f.slice(0, -5) }]; } catch { return []; }
     });
   }
@@ -281,8 +335,7 @@ export class Sync {
       try {
         if (this.store.get('projects', d)) continue;
         const all = this.copies(d); const newest = all[all.length - 1];
-        if (!newest) continue;
-        if ((this.read(newest).tables.projects?.[0] as Row | undefined)?.deleted_at) continue;
+        if (!newest || newest.removed) continue;
         out.push({ projectId: d, title: newest.title, deviceName: newest.deviceName, sharedAt: newest.sharedAt });
       } catch { /* skip anything unreadable */ }
     }
@@ -294,15 +347,21 @@ export class Sync {
     const cfg = this.config();
     if (!cfg) return { on: false as const };
     const st = pid ? this.state(pid) : null;
-    const inc = pid ? this.incoming(pid) : null;
+    const here = !!(pid && this.store.get('projects', pid));
+    const heads = pid && here ? this.heads(pid) : [];
+    const fp = here ? this.fingerprint(pid!) : undefined;
+    const judged = pid ? heads.map((h) => ({ h, v: this.judge(pid, h, fp) })) : [];
+    const take = judged.filter((x) => x.v === 'take').pop()?.h ?? null;
+    const div = judged.filter((x) => x.v === 'diverged').pop()?.h ?? null;
     const RECENT = 15 * 60_000;
     const others = this.others();
     const busyElsewhere = pid ? others.filter((o) => o.unshared.includes(pid) && Date.now() - Date.parse(o.lastSeen) < RECENT).map((o) => ({ name: o.name, lastSeen: o.lastSeen })) : [];
     return {
-      on: true as const, folder: cfg.dir, device: cfg.device.name,
+      on: true as const, folder: cfg.dir, device: cfg.device.name, ask: this.asking(),
       sharedAt: st?.sharedAt ?? null, tookAt: st?.tookAt ?? null,
-      unshared: pid && this.store.get('projects', pid) ? this.changedSinceShared(pid) : false,
-      incoming: inc ? { deviceName: inc.deviceName, sharedAt: inc.sharedAt } : null,
+      unshared: here ? fp !== st!.basedHash : false,
+      incoming: take ? { deviceName: take.deviceName, sharedAt: take.sharedAt } : null,
+      diverged: div ? { deviceName: div.deviceName, sharedAt: div.sharedAt } : null,
       busyElsewhere,
       others: others.map((o) => ({ name: o.name, lastSeen: o.lastSeen })),
     };

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from './api';
 import { flushEditor } from './flush';
 
@@ -7,24 +7,31 @@ import { flushEditor } from './flush';
 
 const clock = (iso: string) => new Date(iso).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' });
 
-/** Above every page: newer work from the other computer, or the other computer still holding unshared changes. */
-export function SyncNotice({ projectId, onTook }: { projectId: string | null; onTook: (copyId?: string) => void }) {
+/** Above every page: newer work from the other computer, a choice when both changed it, or the other computer still holding unshared changes. */
+export function SyncNotice({ projectId, onTook }: { projectId: string | null; onTook: () => void }) {
   const [st, setSt] = useState<any>(null);
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState(false);
   const [hidden, setHidden] = useState('');
-  const beat = useCallback(() => api.post('/api/sync/here', { projectId }).then(setSt).catch(() => setSt(null)), [projectId]);
-  useEffect(() => { void beat(); const t = window.setInterval(() => void beat(), 60_000); return () => window.clearInterval(t); }, [beat]);
+  const firstTook = useRef<string | null | undefined>(undefined);
+  const beat = useCallback(() => api.post('/api/sync/here', { projectId }).then(async (s) => {
+    // Something the window shows was replaced in the background (only possible just after opening): show the new version.
+    if (firstTook.current === undefined) firstTook.current = s?.tookAt ?? null;
+    else if (s?.tookAt && s.tookAt !== firstTook.current) { await flushEditor(); window.location.reload(); return; }
+    setSt(s);
+  }).catch(() => setSt(null)), [projectId]);
+  useEffect(() => { firstTook.current = undefined; void beat(); const t = window.setInterval(() => void beat(), 30_000); return () => window.clearInterval(t); }, [beat]);
   if (!st?.on || !projectId) return msg ? <div className="notice sync-notice" role="status">{msg} <button className="btn link small" onClick={() => setMsg('')}>OK</button></div> : null;
 
-  async function take() {
+  async function act(path: string, body: unknown = {}) {
     setBusy(true);
     try {
       await flushEditor(); // the last words typed are saved before anything is decided
-      const r = await api.post(`/api/projects/${projectId}/sync/take`);
-      if (r.result === 'retry') { setMsg('You were typing, so nothing was changed. Try Bring it in again in a moment.'); return; }
-      if (r.result === 'took') { setMsg(`Brought in the newer work from your ${r.from}.`); onTook(); }
-      else if (r.result === 'kept_both') { setMsg(`Both computers changed this novel before sharing, so nothing was overwritten. Yours is here as it was. The ${r.from} version is in your Library as "${r.copyTitle}".`); onTook(r.copyId); }
+      const r = await api.post(`/api/projects/${projectId}/sync/${path}`, body);
+      if (r.result === 'retry') { setMsg('You were typing, so nothing was changed. Try again in a moment.'); return; }
+      if (r.result === 'took') { onTook(); return; }
+      if (r.result === 'kept_both') { setMsg(`Done. Both versions are kept: the other one is in your Library as "${r.copyTitle}", on both computers.`); window.setTimeout(onTook, 2500); return; }
+      if (r.result === 'diverged') setMsg('Both computers changed this novel, so it needs your choice below.');
       await beat();
     } catch (e) { setMsg((e as Error).message); } finally { setBusy(false); }
   }
@@ -33,16 +40,24 @@ export function SyncNotice({ projectId, onTook }: { projectId: string | null; on
   return (
     <>
       {msg && <div className="notice sync-notice" role="status">{msg} <button className="btn link small" onClick={() => setMsg('')}>OK</button></div>}
-      {st.incoming && hidden !== key && (
-        <div className="notice sync-notice" role="region" aria-label="Newer work from your other computer">
-          Your {st.incoming.deviceName} shared newer work on this novel ({clock(st.incoming.sharedAt)}).{' '}
-          {st.unshared ? 'This computer has changes of its own too; bringing it in keeps both versions, nothing overwritten.' : 'Bring it in before you write.'}{' '}
-          <button className="btn small write" disabled={busy} onClick={() => void take()}>{busy ? 'Bringing it in…' : 'Bring it in'}</button>
+      {st.diverged && (
+        <div className="notice sync-notice" role="region" aria-label="Both computers changed this novel">
+          <p style={{ margin: '0 0 0.5rem' }}><strong>This computer and your {st.diverged.deviceName} both changed this novel</strong> since they last shared ({st.diverged.deviceName}'s copy is from {clock(st.diverged.sharedAt)}). Nothing is lost either way: whichever you choose becomes the main version on both computers, and the other is kept beside it in your Library, on both.</p>
+          <div className="row">
+            <button className="btn small write" disabled={busy} onClick={() => void act('resolve', { keep: 'mine' })}>Keep this computer's as the main version</button>
+            <button className="btn small" disabled={busy} onClick={() => void act('resolve', { keep: 'theirs' })}>Make the {st.diverged.deviceName}'s the main version</button>
+          </div>
         </div>
       )}
-      {!st.incoming && st.busyElsewhere?.length > 0 && hidden !== key && (
+      {!st.diverged && st.incoming && hidden !== key && (
+        <div className="notice sync-notice" role="region" aria-label="Newer work from your other computer">
+          Your {st.incoming.deviceName} shared newer work on this novel ({clock(st.incoming.sharedAt)}). Bring it in before you write.{' '}
+          <button className="btn small write" disabled={busy} onClick={() => void act('take')}>{busy ? 'Bringing it in…' : 'Bring it in'}</button>
+        </div>
+      )}
+      {!st.diverged && !st.incoming && st.busyElsewhere?.length > 0 && hidden !== key && (
         <div className="notice sync-notice" role="region" aria-label="Open on your other computer">
-          This novel is open on your {st.busyElsewhere[0].name} with changes it has not shared yet (last seen {clock(st.busyElsewhere[0].lastSeen)}). If you write here now, both versions will be kept for you to choose from.{' '}
+          This novel is open on your {st.busyElsewhere[0].name} with changes it has not shared yet (last seen {clock(st.busyElsewhere[0].lastSeen)}). If you write here too, Story Canon will ask you which version to keep as the main one; nothing is lost.{' '}
           <button className="btn link small" onClick={() => setHidden(key)}>Write here anyway</button>
         </div>
       )}
@@ -78,7 +93,7 @@ export function SyncSettings({ projectId, onMsg, onError }: { projectId: string;
       <h2 id="sync-h">Your other computers</h2>
       {!st.on ? (
         <>
-          <p className="muted small">Write on this computer and another, such as a laptop at home and a Surface at work. Both use a folder they can each see, like OneDrive. Each computer keeps its own copy of your novels and shares what changed every few minutes and when you close Story Canon; the other takes it in when it opens. Nothing is ever overwritten: if both computers change a novel before sharing, you keep both versions.</p>
+          <p className="muted small">Write on this computer and another, such as a laptop at home and a Surface at work. Both use a folder they can each see, like OneDrive. Each computer keeps its own copy of your novels and shares what changed every few minutes and when you close Story Canon; the other takes it in when it opens. Nothing is ever overwritten: if both computers change a novel before sharing, Story Canon asks you which is the main version and keeps the other beside it.</p>
           <label className="field" style={{ maxWidth: 360 }}><span>Call this computer</span><input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Laptop, Surface…" maxLength={60} /></label>
           <div className="row">
             {desktop?.chooseFolder ? <button className="btn" disabled={busy} onClick={() => void choose()}>Choose the shared folder</button> : (
@@ -99,6 +114,10 @@ export function SyncSettings({ projectId, onMsg, onError }: { projectId: string;
           {st.others.length > 0
             ? <p className="small muted" style={{ margin: '0 0 0.6rem' }}>Also sharing: {st.others.map((o: any) => `${o.name} (last seen ${clock(o.lastSeen)})`).join(', ')}.</p>
             : <p className="small muted" style={{ margin: '0 0 0.6rem' }}>No other computer has joined yet. Install Story Canon there and choose this same folder.</p>}
+          <label className="choice" style={{ maxWidth: 640, marginBottom: '0.6rem' }}>
+            <input type="checkbox" checked={st.ask} onChange={(e) => void api.put('/api/sync/ask', { ask: e.target.checked }).then(load).catch((er) => onError(er.message))} />
+            <span>Ask me before bringing in work from my other computer<small>On: nothing changes until you click Bring it in. Off: newer work comes in on its own when there is nothing to choose (a backup is made first). Either way, when both computers changed a novel, you always choose.</small></span>
+          </label>
           <div className="row">
             <button className="btn" disabled={busy} onClick={() => void shareNow()}>Share now</button>
             {desktop?.chooseFolder && <button className="btn link small" onClick={() => void choose()}>Change folder</button>}

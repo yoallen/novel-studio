@@ -163,7 +163,7 @@ export function App() {
           <span className="where">{VIEW_NAMES[view]}</span>
           <button className="btn small" onClick={() => setCapturing(true)} title="Capture a thought (Ctrl+Shift+N)">Capture</button>
         </header>
-        <SyncNotice projectId={projectId} onTook={(copyId) => { if (copyId) return; window.location.reload(); }} />
+        <SyncNotice projectId={projectId} onTook={() => window.location.reload()} />
         <main className="main">
           {view === 'home' && <Home ctx={ctx} />}
           {view === 'write' && <Desk ctx={ctx} sceneId={sceneId} />}

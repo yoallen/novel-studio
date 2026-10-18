@@ -201,7 +201,8 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const syncTimer = setInterval(() => void syncPass({ take: true, share: Date.now() - lastShare >= shareAfter }), opts.syncTickMs ?? 60_000);
   syncTimer.unref?.();
   // On opening, before the window can show anything: take in what the other computer shared while this one was closed.
-  if (sync.config()) await syncPass({ take: true, share: false });
+  // Bounded, so an unreachable folder never keeps the window from opening; the pass carries on in the background.
+  if (sync.config()) await Promise.race([syncPass({ take: true, share: false }), new Promise((r) => setTimeout(r, 15_000))]);
 
   app.addHook('onClose', async () => {
     clearInterval(syncTimer);

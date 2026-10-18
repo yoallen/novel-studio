@@ -19,7 +19,7 @@ function computers() {
     let backups = 0;
     let duringBackup: (() => void) | null = null;
     const sync = new Sync(env.store, async () => { backups++; await new Promise((r) => setTimeout(r, 2)); const f = duringBackup; duringBackup = null; f?.(); });
-    sync.configure({ dir: shared, name });
+    sync.configure({ dir: shared, name }); sync.setAsking(false);
     return { env, sync, backups: () => backups, onBackup: (f: () => void) => { duringBackup = f; } };
   };
   return { laptop: make('Laptop'), surface: make('Surface') };
@@ -64,22 +64,28 @@ describe('sharing a novel between her computers', () => {
     expect(texts(surface, pid)).toEqual(['L0', 'S1 lunch', 'L2 evening']);
   });
 
-  it('a novel left open on the laptop never wins over the Surface\'s unseen work', async () => {
+  it('a novel left open on the laptop never wins over the Surface\'s unseen work: she is asked, and nothing is lost', async () => {
     const { laptop, surface, pid, ch } = await start();
     write(surface, ch, 'S1 lunch'); await surface.sync.share(pid);
-    // The laptop has the novel open, so the pass does not take S1, but it shares its own new work.
     write(laptop, ch, 'L2 evening');
     await laptop.sync.pass({ protect: pid, shareChanged: true });
-    expect(laptop.sync.incoming(pid)).toMatchObject({ deviceName: 'Surface' }); // still offered to her
-    // The Surface sees two separate lines: it keeps its own and brings the laptop's in beside it.
-    expect(await surface.sync.takeIncoming(pid)).toMatchObject({ result: 'kept_both' });
+    // Neither computer decides on its own.
+    expect(await surface.sync.takeIncoming(pid)).toMatchObject({ result: 'diverged' });
     expect(texts(surface, pid)).toEqual(['L0', 'S1 lunch']);
-    expect(titles(surface).some((t) => /^I Declare War \(from Laptop, /.test(t))).toBe(true);
-    // Nothing anyone wrote is gone anywhere.
-    const lap = await laptop.sync.takeIncoming(pid);
-    expect(lap.result).toBe('kept_both');
+    expect(laptop.sync.status(pid)).toMatchObject({ diverged: { deviceName: 'Surface' } });
+    expect(titles(surface)).toEqual(['I Declare War']);
+    // She chooses on the laptop: hers stays main, the Surface's is kept beside it.
+    const r = await laptop.sync.resolve(pid, 'mine');
+    expect(r).toMatchObject({ result: 'kept_both' });
     expect(texts(laptop, pid)).toEqual(['L0', 'L2 evening']);
-    expect(texts(laptop, lap.copyId!)).toContain('S1 lunch');
+    expect(texts(laptop, r.copyId!)).toEqual(['L0', 'S1 lunch']);
+    // The Surface follows her choice and receives the version kept beside, so both computers hold both.
+    const p = await surface.sync.pass({ shareChanged: true });
+    expect(p.took).toContain(pid);
+    expect(texts(surface, pid)).toEqual(['L0', 'L2 evening']);
+    expect(texts(surface, r.copyId!)).toEqual(['L0', 'S1 lunch']);
+    expect(surface.sync.status(pid)).toMatchObject({ diverged: null, incoming: null });
+    expect(laptop.sync.status(pid)).toMatchObject({ diverged: null, incoming: null });
   });
 
   it('clocks do not matter: a Surface whose clock is behind keeps its own work', async () => {
@@ -94,21 +100,51 @@ describe('sharing a novel between her computers', () => {
     expect(texts(laptop, pid)).toEqual(['L0', 'S1 lunch']);
   });
 
-  it('both computers changed the novel before sharing: nothing is overwritten, and they settle on one main version', async () => {
+  it('both changed, and she makes the other computer\'s the main version: hers is kept beside it', async () => {
     const { laptop, surface, pid, ch } = await start();
     write(surface, ch, 'S1'); await surface.sync.share(pid);
     write(laptop, ch, 'L1 never shared');
-    const r = await laptop.sync.takeIncoming(pid);
-    expect(r.result).toBe('kept_both');
-    expect(r.copyTitle).toMatch(/^I Declare War \(from Surface, /);
-    expect(texts(laptop, pid)).toEqual(['L0', 'L1 never shared']);
-    expect(texts(laptop, r.copyId!)).toEqual(['L0', 'S1']);
+    expect(await laptop.sync.takeIncoming(pid)).toMatchObject({ result: 'diverged' });
+    const r = await laptop.sync.resolve(pid, 'theirs');
+    expect(r.copyTitle).toMatch(/^I Declare War \(Laptop version, /);
+    expect(texts(laptop, pid)).toEqual(['L0', 'S1']);
+    expect(texts(laptop, r.copyId!)).toEqual(['L0', 'L1 never shared']);
     await laptop.sync.pass({ shareChanged: true });
-    expect(await surface.sync.takeIncoming(pid)).toMatchObject({ result: 'took' });
-    expect(texts(surface, pid)).toEqual(['L0', 'L1 never shared']);
-    await surface.sync.pass({ shareChanged: true }); await laptop.sync.pass({ shareChanged: true });
-    expect(await laptop.sync.takeIncoming(pid)).toMatchObject({ result: 'nothing' });
-    expect(await surface.sync.takeIncoming(pid)).toMatchObject({ result: 'nothing' });
+    await surface.sync.pass({ shareChanged: true });
+    expect(texts(surface, pid)).toEqual(['L0', 'S1']);
+    expect(texts(surface, r.copyId!)).toEqual(['L0', 'L1 never shared']);
+    // Settled: nothing more either way, and no extra copies.
+    await laptop.sync.pass({ shareChanged: true }); await surface.sync.pass({ shareChanged: true });
+    expect(laptop.sync.status(pid)).toMatchObject({ diverged: null, incoming: null });
+    expect(titles(laptop)).toHaveLength(2); expect(titles(surface)).toHaveLength(2);
+  });
+
+  it('while both keep writing before she chooses, no copies pile up', async () => {
+    const { laptop, surface, pid, ch } = await start();
+    write(laptop, ch, 'L1');
+    for (const t of ['S1', 'S2', 'S3']) { write(surface, ch, t); await surface.sync.share(pid); await laptop.sync.pass({ shareChanged: false }); }
+    expect(titles(laptop)).toEqual(['I Declare War']);
+    expect(laptop.sync.status(pid)).toMatchObject({ diverged: { deviceName: 'Surface' } });
+    const r = await laptop.sync.resolve(pid, 'mine');
+    expect(texts(laptop, r.copyId!)).toEqual(['L0', 'S1', 'S2', 'S3']);
+  });
+
+  it('a laptop left unused through many shares simply catches up', async () => {
+    const { laptop, surface, pid, ch } = await start();
+    for (let i = 0; i < 30; i++) { surface.env.brain.createElement(pid, { kind: 'idea', title: `Idea ${i}` }); await surface.sync.share(pid); }
+    expect(await laptop.sync.takeIncoming(pid)).toMatchObject({ result: 'took' });
+    expect(laptop.env.brain.elements(pid, { kind: 'idea' })).toHaveLength(30);
+    void ch;
+  });
+
+  it('typing kept for crash recovery stays on its own computer and is never wiped by a take', async () => {
+    const { laptop, surface, pid, ch } = await start();
+    const sc = laptop.env.store.db.prepare('SELECT id, prose_version FROM scenes WHERE project_id=?').get(pid) as { id: string; prose_version: number };
+    laptop.env.ms.autosave(sc.id, laptop.env.doc('Unsaved words before the power went out.'), sc.prose_version);
+    expect(laptop.sync.changedSinceShared(pid)).toBe(false);
+    write(surface, ch, 'S1'); await surface.sync.share(pid);
+    expect(await laptop.sync.takeIncoming(pid)).toMatchObject({ result: 'took' });
+    expect(laptop.env.ms.pendingRecoveries(pid).length).toBe(1);
   });
 
   it('typing during the backup is never lost: the take waits for next time', async () => {
@@ -117,18 +153,28 @@ describe('sharing a novel between her computers', () => {
     laptop.onBackup(() => write(laptop, ch, 'typed during backup'));
     expect(await laptop.sync.takeIncoming(pid)).toMatchObject({ result: 'retry' });
     expect(texts(laptop, pid)).toEqual(['L0', 'typed during backup']);
-    expect((await laptop.sync.takeIncoming(pid)).result).toBe('kept_both');
+    expect((await laptop.sync.takeIncoming(pid)).result).toBe('diverged');
     expect(texts(laptop, pid)).toEqual(['L0', 'typed during backup']);
   });
 
-  it('two takes at once make one result, not two copies', async () => {
+  it('two operations at once never collide', async () => {
     const { laptop, surface, pid, ch } = await start();
     write(surface, ch, 'S1'); await surface.sync.share(pid);
     write(laptop, ch, 'L1');
-    const [a, b] = await Promise.all([laptop.sync.takeIncoming(pid), laptop.sync.pass({ shareChanged: false })]);
-    expect(a.result).toBe('kept_both');
-    expect(b.keptBoth).toEqual([]);
+    const [a, b] = await Promise.all([laptop.sync.resolve(pid, 'mine'), laptop.sync.resolve(pid, 'mine')]);
+    expect([a.result, b.result].sort()).toEqual(['kept_both', 'nothing']);
     expect(titles(laptop).filter((t) => t.includes('(from Surface'))).toHaveLength(1);
+  });
+
+  it('history inside a kept-beside copy points at the copy\'s own rows', async () => {
+    const { laptop, surface, pid, ch } = await start();
+    write(surface, ch, 'S1'); await surface.sync.share(pid);
+    write(laptop, ch, 'L1');
+    const r = await laptop.sync.resolve(pid, 'mine');
+    const originals = new Set((laptop.env.store.db.prepare('SELECT id FROM scenes WHERE project_id=?').all(pid) as { id: string }[]).map((x) => x.id));
+    const j = laptop.env.store.db.prepare('SELECT j.before_json, j.after_json FROM journal j JOIN batches b ON b.id=j.batch_id WHERE b.project_id=?').all(r.copyId) as { before_json: string; after_json: string }[];
+    expect(j.length).toBeGreaterThan(0);
+    for (const x of j) for (const id of originals) expect(`${x.before_json}${x.after_json}`).not.toContain(id);
   });
 
   it('the same starting novel on both computers, untouched, does not make a copy', async () => {
@@ -137,8 +183,12 @@ describe('sharing a novel between her computers', () => {
     laptop.env.brain.createElement(pid, { kind: 'character', title: 'Kevin' });
     importArchive(surface.env.store, exportArchive(laptop.env.store, pid));
     await laptop.sync.share(pid);
-    expect(await surface.sync.takeIncoming(pid)).toMatchObject({ result: 'took' });
+    expect(await surface.sync.takeIncoming(pid)).toMatchObject({ result: 'same' });
     expect(titles(surface)).toEqual(['Seed']);
+    // And from then on they follow each other normally.
+    surface.env.brain.createElement(pid, { kind: 'idea', title: 'From the Surface' });
+    await surface.sync.share(pid);
+    expect(await laptop.sync.takeIncoming(pid)).toMatchObject({ result: 'took' });
   });
 
   it('stray files in the shared folder (desktop.ini) are ignored', async () => {
@@ -188,6 +238,19 @@ describe('sharing a novel between her computers', () => {
     expect(r.took).toEqual([b]);
     expect(laptop.sync.status(a)).toMatchObject({ incoming: { deviceName: 'Surface' } });
     expect(laptop.backups() - before).toBe(1); // one backup for the whole pass
+  });
+});
+
+describe('asking first', () => {
+  it('by default nothing comes in on its own: it waits for her to bring it in', async () => {
+    const { laptop, surface, pid, ch } = await start();
+    laptop.sync.setAsking(true);
+    write(surface, ch, 'S1'); await surface.sync.share(pid);
+    expect((await laptop.sync.pass({ shareChanged: true })).took).toEqual([]);
+    expect(texts(laptop, pid)).toEqual(['L0']);
+    expect(laptop.sync.status(pid)).toMatchObject({ ask: true, incoming: { deviceName: 'Surface' } });
+    expect(await laptop.sync.takeIncoming(pid)).toMatchObject({ result: 'took' });
+    expect(texts(laptop, pid)).toEqual(['L0', 'S1']);
   });
 });
 

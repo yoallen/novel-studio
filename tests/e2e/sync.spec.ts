@@ -22,6 +22,7 @@ test('work done on the other computer comes in with one click, and the Surface s
     await sync.getByRole('button', { name: 'Share through this folder' }).click();
     await expect(sync).toContainText('This computer is Laptop');
     await expect(sync).toContainText('No other computer has joined yet');
+    await expect(sync.getByRole('checkbox', { name: /Ask me before bringing in work/ })).toBeChecked();
 
     // The Surface brings the novel in, writes a scene at lunch, and shares it.
     const store = new Store(join(surfaceDir, 'lib.sqlite3'));
@@ -58,6 +59,49 @@ test('work done on the other computer comes in with one click, and the Surface s
     await expect(box).not.toContainText('changes not shared yet');
   } finally {
     await request.delete('/api/sync', { headers: { 'x-studio-token': TOKEN } });
+    rmSync(shared, { recursive: true, force: true }); rmSync(surfaceDir, { recursive: true, force: true });
+  }
+});
+
+// Both computers changed the novel: she is asked, and both versions are kept.
+test('when both computers changed a novel, she chooses the main version and the other is kept beside it', async ({ page, request }) => {
+  const shared = mkdtempSync(join(tmpdir(), 'onedrive-e2e-'));
+  const surfaceDir = mkdtempSync(join(tmpdir(), 'surface-'));
+  const views = page.getByRole('navigation', { name: 'Views' });
+  const h = { headers: { 'x-studio-token': TOKEN } };
+  try {
+    await newNovel(page, 'Fork Book');
+    await views.getByRole('button', { name: 'Settings' }).click();
+    const box = page.getByRole('region', { name: 'Your other computers' });
+    await box.getByLabel('Call this computer').fill('Laptop');
+    await box.getByRole('textbox', { name: 'Shared folder' }).fill(shared);
+    await box.getByRole('button', { name: 'Share through this folder' }).click();
+    await expect(box).toContainText('This computer is Laptop');
+
+    const store = new Store(join(surfaceDir, 'lib.sqlite3'));
+    const surface = new Sync(store, async () => {});
+    surface.configure({ dir: shared, name: 'Surface' });
+    const pid = surface.elsewhere().find((x) => x.title === 'Fork Book')!.projectId;
+    await surface.bring(pid);
+    const ch = new Manuscript(store).outline(pid)[0] as { id: string };
+    new Manuscript(store).addScene(ch.id, { title: 'Surface scene', text: 'From the Surface.' });
+    await surface.share(pid);
+    store.close();
+
+    // Meanwhile the laptop wrote something of its own, not shared yet.
+    const chapters = await (await request.get(`/api/projects/${pid}/outline`, h)).json();
+    await request.post(`/api/chapters/${chapters.chapters[0].id}/scenes`, { ...h, data: { title: 'Laptop scene' } });
+
+    await page.reload();
+    const fork = page.getByRole('region', { name: 'Both computers changed this novel' });
+    await expect(fork).toContainText('This computer and your Surface both changed this novel');
+    await fork.getByRole('button', { name: "Keep this computer's as the main version" }).click();
+    await expect(page.getByRole('status').filter({ hasText: 'Both versions are kept' })).toContainText('Fork Book (from Surface');
+    await page.waitForEvent('load');
+    await page.getByRole('button', { name: 'Library', exact: true }).click();
+    await expect(page.getByRole('list', { name: 'Your novels' })).toContainText('Fork Book (from Surface');
+  } finally {
+    await request.delete('/api/sync', h);
     rmSync(shared, { recursive: true, force: true }); rmSync(surfaceDir, { recursive: true, force: true });
   }
 });

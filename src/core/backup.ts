@@ -146,12 +146,20 @@ export function importArchive(store: Store, raw: unknown, opts: { asCopy?: boole
     if (!map.has(v)) map.set(v, newId());
     return map.get(v);
   };
+  // A copy gets new ids for every row first, so history that names a row (undo) can be pointed at the copy's own rows.
+  if (plan.mode === 'copy') {
+    for (const { table } of ARCHIVE_TABLES) for (const row of archive.tables[table] ?? []) for (const k of Object.keys(row)) {
+      if (REF_COLUMNS.has(k) && row[k] != null && !(table === 'journal' && k === 'id')) remap(row[k]);
+    }
+  }
+  const remapJson = (j: unknown) => (typeof j === 'string' ? JSON.stringify(JSON.parse(j), (_k, v) => (typeof v === 'string' && map.has(v) ? map.get(v) : v)) : j);
   store.db.transaction(() => {
     store.db.pragma('defer_foreign_keys = ON');
     for (const { table } of ARCHIVE_TABLES) {
       for (const row of archive.tables[table] ?? []) {
         const r: Row = { ...row };
         if (plan.mode === 'copy') {
+          if (table === 'journal') { r.before_json = remapJson(r.before_json); r.after_json = remapJson(r.after_json); }
           for (const k of Object.keys(r)) if (REF_COLUMNS.has(k) && r[k] != null && !(table === 'journal' && k === 'id')) r[k] = remap(r[k]);
           if (table === 'projects') r.title = opts.copyTitle ?? `${r.title} (copy)`;
           if (table === 'arrangements' && typeof r.order_json === 'string') {
