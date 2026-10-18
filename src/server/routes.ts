@@ -552,6 +552,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/sync/here', async (req) => {
     const b = body(req, z.object({ projectId: id.nullable() }));
     svc.hereNow(b.projectId);
+    if (svc.sync.config()) await svc.sync.presenceFromWindow(b.projectId);
     const st = await svc.sync.status(b.projectId) as Record<string, any>;
     // Notes from the road come in only when this computer has the latest version: adding them on
     // top of an older one would make the two computers disagree.

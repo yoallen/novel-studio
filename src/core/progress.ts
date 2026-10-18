@@ -101,7 +101,11 @@ export class Progress {
       };
       // "Ahead" and "behind" are measured against an even share of the whole push for each day gone
       // by, or her own number on a day she set. Days she sets ahead of time never change the past.
-      const evenPace = Math.ceil(push.words / range.length);
+      // A day she set that has gone by counts as her number, and whatever it left undone is shared
+      // by the other days, so a rest day is never held against her and never hides a real gap.
+      const pastSet = range.filter((d) => d < today && set[d] != null);
+      const pastSetWords = pastSet.reduce((a, d) => a + set[d]!, 0);
+      const evenPace = range.length > pastSet.length ? Math.max(0, Math.ceil((push.words - pastSetWords) / (range.length - pastSet.length))) : 0;
       const first = share(0, push.words);
       const basePace = first.free > 0 ? Math.max(0, Math.ceil(first.need / first.free)) : 0;
       let written = 0;

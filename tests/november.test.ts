@@ -141,6 +141,9 @@ describe('notes from the road', () => {
     expect((await notes.ensure(b.id))!.file).toBe('Francine (2).docx');
     env.brain.updateProject(a.id, { title: 'Miss Francine' });
     expect((await notes.ensure(a.id))!.path).toBe(join(shared, NOTES_DIR, 'Francine.docx'));
+    // The pairing lives in the shared folder, so the other computer reads the same one.
+    const index = JSON.parse(readFileSync(join(shared, NOTES_DIR, '.story-canon-index.json'), 'utf8'));
+    expect(index).toEqual({ [a.id]: 'Francine.docx', [b.id]: 'Francine (2).docx' });
   });
 
   it('does nothing when sharing is off', async () => {

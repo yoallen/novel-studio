@@ -173,9 +173,9 @@ describe('drafting progress', () => {
     expect(progress.progress(p.id, now).behind).toBe(0);
     env.brain.updateSettings(p.id, { dayGoals: { '2026-11-20': 0, '2026-11-21': 0, '2026-11-22': 0, '2026-11-28': 10000 } });
     expect(progress.progress(p.id, now).behind).toBe(0);
-    // A lighter day already gone counts as her number, so it is never held against her.
+    // A lighter day already gone counts as her number; what it left is shared by the other 29 days.
     env.brain.updateSettings(p.id, { dayGoals: { '2026-11-09': 500 } });
-    expect(progress.progress(p.id, now).behind).toBe(-1167);
+    expect(progress.progress(p.id, now).behind).toBe(8 * Math.ceil(49500 / 29) + 500 - 9 * 1667);
   });
 
   it('when set days cover everything left, there is nothing owed, not a shortfall', () => {
@@ -188,5 +188,17 @@ describe('drafting progress', () => {
     expect(r.dailyGoal).toBe(1000);
     expect(r.shortfall).toBe(0);
     expect(r.perDayNeeded).toBe(0);
+  });
+
+  it('rest days already gone are shared out, so a real gap still shows', () => {
+    const { p, ch, progress, type } = setup();
+    env.brain.updateSettings(p.id, { push: { name: 'November', start: '2026-11-01', end: '2026-11-30', words: 50000 } });
+    env.brain.updateSettings(p.id, { dayGoals: { '2026-11-01': 0, '2026-11-08': 0 } });
+    const s = env.ms.addScene(ch.id);
+    let total = 0;
+    for (let d = 2; d <= 14; d++) { if (d === 8) continue; total += 1667; type(s.id, total, `2026-11-${String(d).padStart(2, '0')}T15:00:00.000Z`); }
+    const r = progress.progress(p.id, { tz: 'UTC', now: new Date('2026-11-15T12:00:00.000Z') });
+    // 50,000 over the 28 days not set is 1,786 a day; 12 such days gone by is 21,432 planned, 20,004 written.
+    expect(r.behind).toBe(12 * 1786 - 12 * 1667);
   });
 });

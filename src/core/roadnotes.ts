@@ -4,12 +4,14 @@
 // the file after making it: what she wrote stays exactly as she wrote it, in both places.
 
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Brain } from './brain.js';
 import type { Store } from './store.js';
 
 export const NOTES_DIR = 'Story Canon notes';
+/** Which notes file belongs to which novel. */
+const INDEX = '.story-canon-index.json';
 const KEEP_SEEN = 5000;
 
 const key = (t: string) => createHash('sha256').update(t.replace(/\s+/g, ' ').trim().toLowerCase()).digest('hex').slice(0, 24);
@@ -43,15 +45,16 @@ export class RoadNotes {
     this.store.batch({ projectId: pid, actor: 'author', reason: 'Notes from the road' }, (w) =>
       w.update('projects', pid, { profile_json: JSON.stringify({ ...p.profile, roadNotes: { seen: k.seen.slice(-KEEP_SEEN) } }) }));
   }
-  // Which file belongs to which novel is kept on this computer, not in the novel, so a rename keeps
-  // the file she already knows, and recording it is never a change the other computer has to take in.
-  private files(): Record<string, string> {
-    const r = this.store.db.prepare("SELECT value_json FROM settings WHERE key='road_notes_files'").get() as { value_json: string } | undefined;
-    return r ? JSON.parse(r.value_json) : {};
+  // Which file belongs to which novel is kept in the notes folder itself, so both computers always
+  // agree, a rename keeps the file she already knows, and recording it never changes the novel.
+  private files(folder: string): Record<string, string> {
+    try { const v = JSON.parse(readFileSync(join(folder, INDEX), 'utf8')); return v && typeof v === 'object' ? v : {}; } catch { return {}; }
   }
-  private setFile(pid: string, file: string) {
-    const all = { ...this.files(), [pid]: file };
-    this.store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('road_notes_files',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify(all));
+  private setFile(folder: string, pid: string, file: string) {
+    mkdirSync(folder, { recursive: true });
+    const all = { ...this.files(folder), [pid]: file };
+    const f = join(folder, INDEX);
+    writeFileSync(`${f}.part`, JSON.stringify(all, null, 1)); renameSync(`${f}.part`, f);
   }
 
   /** Where this novel's notes file is, making it the first time. null when sharing is off. */
@@ -60,7 +63,7 @@ export class RoadNotes {
     if (!dir) return null;
     const folder = join(dir, NOTES_DIR);
     const title = this.brain.project(pid).title as string;
-    const files = this.files();
+    const files = this.files(folder);
     let file = files[pid];
     if (!file) {
       // Named for the novel. Another novel here with the same name gets its own file.
@@ -68,14 +71,14 @@ export class RoadNotes {
       let base = safeName(title), n = 2;
       while (taken.has(base.toLowerCase())) base = `${safeName(title)} (${n++})`;
       file = existsSync(join(folder, `${base}.txt`)) && !existsSync(join(folder, `${base}.docx`)) ? `${base}.txt` : `${base}.docx`;
-      this.setFile(pid, file);
+      this.setFile(folder, pid, file);
     }
     let path = join(folder, file);
     let made = false;
     if (!existsSync(path)) {
       // A plain-text file of the same name works too, for a phone without Word.
       const other = /\.docx$/i.test(file) ? file.replace(/\.docx$/i, '.txt') : file.replace(/\.txt$/i, '.docx');
-      if (existsSync(join(folder, other))) { file = other; path = join(folder, other); this.setFile(pid, file); }
+      if (existsSync(join(folder, other))) { file = other; path = join(folder, other); this.setFile(folder, pid, file); }
       else {
         mkdirSync(folder, { recursive: true });
         if (/\.txt$/i.test(file)) writeFileSync(path, headerFor(title) + '\n\n');

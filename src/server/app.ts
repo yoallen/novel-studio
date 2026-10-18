@@ -192,7 +192,6 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const sync = new Sync(store, () => snapshot(store, services.backupDir(), 'sync', 30));
   services.sync = sync;
   services.roadNotes = new RoadNotes(store, brain, () => sync.config()?.dir ?? null, Date.now, opts.notesTiming);
-  try { ms.recountLater(); } catch { /* counts stay as they were; nothing is lost */ }
   const opened = new Set<string>();
   let open: string | null = null;
   services.hereNow = (pid) => { open = pid; if (pid) opened.add(pid); };
@@ -201,7 +200,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const shareAfter = opts.syncShareAfterMs ?? 5 * 60_000;
   const syncPass = async (o: { take: boolean; share: boolean }) => {
     if (!sync.config()) return;
-    try { await sync.pass({ protect: opened, shareChanged: o.share, take: o.take }); if (o.share) lastShare = Date.now(); }
+    try { await sync.pass({ protect: opened, shareChanged: o.share, take: o.take, open }); if (o.share) lastShare = Date.now(); }
     catch (e) { app.log.error(e); }
   };
   const syncTimer = setInterval(() => void syncPass({ take: true, share: Date.now() - lastShare >= shareAfter }), opts.syncTickMs ?? 60_000);
@@ -209,9 +208,13 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   // On opening, before the window can show anything: take in what the other computer shared while this one was closed.
   // Bounded, so an unreachable folder never keeps the window from opening; the pass carries on in the background.
   if (sync.config()) await Promise.race([syncPass({ take: true, share: false }), new Promise((r) => setTimeout(r, 15_000))]);
+  // Once: recount text that already held [[brackets]]. A novel with newer work waiting on the other
+  // computer is left for a later start, so the recount can never look like a change made here.
+  try { ms.recountLater((pid) => { const st = sync.config() ? sync.status(pid) as { incoming?: unknown; diverged?: unknown } : null; return !!(st?.incoming || st?.diverged); }); } catch { /* counts stay as they were; nothing is lost */ }
 
   app.addHook('onClose', async () => {
     clearInterval(syncTimer);
+    open = null; // closing: tell the other computer nothing is open here any more
     if (sync.config()) await syncPass({ take: false, share: true });
     if (timer) clearInterval(timer); if (every > 0) await backupNow(); store.close();
   });

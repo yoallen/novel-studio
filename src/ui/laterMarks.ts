@@ -16,7 +16,7 @@ function decorate(doc: PMNode) {
     const at: number[] = [];
     node.forEach((child, offset) => {
       if (child.isText) { for (let i = 0; i < child.text!.length; i++) at.push(pos + 1 + offset + i); text += child.text; }
-      else { at.push(-1); text += '￼'; }
+      else { at.push(-1); text += '\n'; }
     });
     for (const m of text.matchAll(LATER_RE)) {
       const a = at[m.index!], b = at[m.index! + m[0].length - 1];
