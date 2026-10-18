@@ -11,6 +11,13 @@ import { PLAN_FIELDS } from './writing.js';
 
 const ACTS: Record<string, string> = { I: 'Act One', IIA: 'Act Two, first half', IIB: 'Act Two, second half', III: 'Act Three' };
 
+/** Each Save the Cat world in one line. Her sheet's own description is shown beside it, unchanged. */
+export const WORLD_MEANINGS: Record<string, string> = {
+  thesis: 'The hero\'s world before: who they are, and what needs fixing.',
+  antithesis: 'The upside-down world the hero is thrown into.',
+  synthesis: 'The new self, made from the old world and the upside-down one.',
+};
+
 export type ZoomNode =
   | { level: 'story' }
   | { level: 'act'; key: string; grouping?: 'acts' | 'worlds' }
@@ -33,12 +40,24 @@ export class Zoom {
 
     if (node.level === 'story') {
       const grouping = 'acts';
+      const stc = beats[0]?.attrs.template === 'save_the_cat';
+      const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
       return {
         node, breadcrumb: [story],
         title: p.title, grouping,
-        children: board.rows.map((r) => ({ node: { level: 'act', key: r.act } as ZoomNode, label: r.name, detail: `${r.beats.length} beats, ${r.beats.reduce((a, b) => a + b.cards.length, 0)} scenes planned` })),
-        worlds: beats[0]?.attrs.template !== 'save_the_cat' ? [] : Object.entries(WORLDS).map(([k, w]) => ({ key: k, name: w.name, description: w.description, beats: beats.filter((b) => b.group === k && !b.element.parent_id).map((b) => b.element.title) })),
-        unplaced: board.unplaced.map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string })),
+        children: board.rows.map((r) => {
+          const decided = r.beats.reduce((a, b) => a + b.cards.length, 0);
+          const might = new Set(r.beats.flatMap((b) => [...b.candidates, ...b.children.flatMap((c) => c.candidates)].map((c) => c.id))).size;
+          return {
+            node: { level: 'act', key: r.act } as ZoomNode, label: r.name, act: r.act,
+            // The world this act opens, when it opens a new one (Save the Cat's three worlds).
+            world: stc ? ((r.beats[0]?.group as string | undefined) ?? null) : null,
+            detail: `${plural(r.beats.length, 'beat', 'beats')}, ${plural(decided, 'scene', 'scenes')} decided${might ? `, ${might} might go here` : ''}`,
+          };
+        }),
+        worlds: !stc ? [] : Object.entries(WORLDS).map(([k, w]) => ({ key: k, name: w.name, meaning: WORLD_MEANINGS[k] ?? '', description: w.description, beats: beats.filter((b) => b.group === k && !b.element.parent_id).map((b) => b.element.title) })),
+        unplaced: board.unspotted.map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string })),
+        mightOnly: board.unplaced.length - board.unspotted.length,
         hasBeats: beats.length > 0,
       };
     }
@@ -49,7 +68,12 @@ export class Zoom {
         node, breadcrumb: [story, crumbAct(node.key)], title: row.name,
         children: row.beats.map((b) => {
           const l = lm.beats.find((x) => x.id === b.id);
-          return { node: { level: 'beat', id: b.id } as ZoomNode, label: `${b.number ? b.number + '. ' : ''}${b.name}`, detail: l?.at.brody ? `${l.at.brody.percent.join('–')}%` : '', cards: b.cards.map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string, drafted: !!c.scene })) };
+          const at = this.placeOf(lm, b.id as string);
+          return {
+            node: { level: 'beat', id: b.id } as ZoomNode, label: `${b.number ? b.number + '. ' : ''}${b.name}`, detail: at ?? '', point: !!l?.point,
+            cards: b.cards.map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string, drafted: !!c.scene })),
+            candidates: [...b.candidates, ...b.children.flatMap((ch) => ch.candidates)].filter((c, i, all) => all.findIndex((x) => x.id === c.id) === i).map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string })),
+          };
         }),
       };
     }
@@ -62,7 +86,12 @@ export class Zoom {
       const parent = b.element.parent_id ? beats.find((x) => x.element.id === b.element.parent_id) : null;
       return {
         node, breadcrumb: [story, crumbAct(act), ...(parent ? [{ label: parent.element.title as string, node: { level: 'beat', id: parent.element.id } as ZoomNode }] : []), { label: b.element.title as string, node }],
-        title: b.element.title, def: detail.def, world: detail.world, landmark: lm.beats.find((x) => x.id === node.id), fields: detail.page.fields.filter((f) => f.view.latest || f.view.unanswered.length),
+        title: b.element.title, key: b.attrs.template_key, def: detail.def, world: detail.world, landmark: lm.beats.find((x) => x.id === node.id), place: this.placeOf(lm, node.id),
+        length: { basis: lm.length.basis, words: lm.length.words },
+        parent: parent ? { node: { level: 'beat', id: parent.element.id } as ZoomNode, label: parent.element.title as string, key: parent.attrs.template_key as string } : null,
+        // Every card not already decided here, the ones with no spot first, so she can place what she already has.
+        others: [...board.unplaced, ...board.rows.flatMap((r) => r.beats).flatMap((x) => x.cards)].filter((c) => c.placements.decided?.beatId !== node.id).filter((c, i, all) => all.findIndex((x) => x.id === c.id) === i).map((c) => ({ id: c.id as string, label: c.title as string, placed: !!(c as { onBeat?: boolean }).onBeat })),
+        fields: detail.page.fields.filter((f) => f.view.latest || f.view.unanswered.length),
         children: (row?.id === node.id ? row.cards : []).map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string, drafted: !!c.scene })),
         candidates: (row?.id === node.id ? row.candidates : []).map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string })),
         subBeats: beats.filter((x) => x.element.parent_id === node.id).map((x) => ({ node: { level: 'beat', id: x.element.id } as ZoomNode, label: x.element.title as string })),
@@ -96,6 +125,22 @@ export class Zoom {
     }
     // Any other element: follow it across the story (horizontal zoom).
     return this.follow(projectId, node.id);
+  }
+
+  /**
+   * Where a beat falls, in words a novelist reads: "5%" for a moment, "1% to 10%" for a stretch, and
+   * "during Setup" when a moment falls inside another beat's stretch.
+   */
+  private placeOf(lm: ReturnType<Structure['landmarks']>, beatId: string): string | null {
+    const top = lm.beats.filter((x) => !x.parentId);
+    const me = lm.beats.find((x) => x.id === beatId);
+    const prof = lm.profiles[0]?.key;
+    const r = prof ? me?.at[prof] : null;
+    if (!me || !r) return null;
+    const [a, b] = r.percent as [number, number];
+    if (a !== b) return `${a}% to ${b}%`;
+    const inside = top.find((x) => x.id !== beatId && x.at[prof!] && (x.at[prof!]!.percent[0]! < a) && (a < x.at[prof!]!.percent[1]!));
+    return `${a}%${inside ? `, during ${inside.name}` : ''}`;
   }
 
   /** Follow one element through the story in story order: where it appears, what it causes, who touches it. */

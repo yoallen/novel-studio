@@ -419,6 +419,26 @@ export class Brain {
       w.insert('field_defs', { project_id: projectId, kind: input.kind, field, label, group_name: (input.group ?? '').trim() || 'My fields', prompt: input.prompt ?? '', multi: input.multi ? 1 : 0, private: input.private ? 1 : 0, sort: Date.now() }));
   }
 
+  /**
+   * A field of her own on one element only (the Setup beat's list, one character's quirk), kept on the element
+   * itself so it never appears on every other element of that kind.
+   */
+  defineOwnField(elementId: string, input: { label: string; multi?: boolean; prompt?: string }, actor = ACTOR_AUTHOR) {
+    const el = this.element(elementId);
+    const label = String(input.label ?? '').trim().slice(0, 80);
+    if (!label) throw new ValidationError('Give the new field a name.');
+    const attrs = JSON.parse((el.attrs_json as string) || '{}') as Record<string, unknown>;
+    const own = ((attrs.own_fields as FieldDef[] | undefined) ?? []).slice();
+    let field = 'x_' + label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+    if (field === 'x_') field = 'x_field';
+    const taken = new Set([...this.fieldsFor(el.project_id as string, el.kind as string, { all: true }).map((d) => d.field), ...own.map((d) => d.field)]);
+    let n = 2; const base = field; while (taken.has(field)) field = `${base}_${n++}`;
+    const def: FieldDef = { field, label, group: 'My fields', prompt: input.prompt ?? '', multi: !!input.multi, custom: true };
+    own.push(def);
+    this.updateElement(elementId, { attrs: { own_fields: own } }, undefined, actor);
+    return def;
+  }
+
   removeField(fieldDefId: string, actor = ACTOR_AUTHOR) {
     const d = this.store.get('field_defs', fieldDefId);
     if (!d || d.deleted_at) throw new NotFoundError('field');
@@ -472,6 +492,9 @@ export class Brain {
       const mine = new Set(key ? BEAT_BOARD_FIELDS[key] ?? [] : []);
       defs = defs.filter((d) => d.group !== 'On the board' || mine.has(d.field));
     }
+    // Fields she added to this one element only.
+    const own = ((JSON.parse((el.attrs_json as string) || '{}') as Record<string, unknown>).own_fields as FieldDef[] | undefined) ?? [];
+    defs = [...defs, ...own.filter((o) => !defs.some((d) => d.field === o.field)).map((o) => ({ ...o, custom: true, own: true }))];
     const used = (this.store.db.prepare('SELECT DISTINCT field FROM statements WHERE element_id=? AND deleted_at IS NULL').all(elementId) as Row[]).map((r) => r.field as string);
     // 'beat' holds a card's placement; it is shown by Narrative Zoom, not as a text field.
     const hidden = this.fieldsFor(pid, el.kind as string, { all: true });

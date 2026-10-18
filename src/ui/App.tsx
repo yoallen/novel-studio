@@ -231,7 +231,10 @@ export function App() {
 /** The book's shape, always in view: the beats (or, for a book found in the writing, its chapters), what is placed, and where she is. */
 function Strip({ projectId, sceneId, refresh, onOpen }: { projectId: string; sceneId: string | null; refresh: string; onOpen: () => void }) {
   const [d, setD] = useState<any>(null);
-  useEffect(() => { api.get(`/api/projects/${projectId}/strip${sceneId ? `?scene=${sceneId}` : ''}`).then(setD).catch(() => setD(null)); }, [projectId, sceneId, refresh]);
+  // Narrative Zoom says when the structure changes (a beat sheet chosen, a card placed), so the strip redraws at once.
+  const [bump, setBump] = useState(0);
+  useEffect(() => { const on = () => setBump((n) => n + 1); window.addEventListener('storycanon:structure', on); return () => window.removeEventListener('storycanon:structure', on); }, []);
+  useEffect(() => { api.get(`/api/projects/${projectId}/strip${sceneId ? `?scene=${sceneId}` : ''}`).then(setD).catch(() => setD(null)); }, [projectId, sceneId, refresh, bump]);
   const segs: any[] = d?.segments ?? [];
   if (!segs.length) return <div className="strip" />;
   const pct = (x: number) => `${Math.max(0, Math.min(100, x * 100))}%`;

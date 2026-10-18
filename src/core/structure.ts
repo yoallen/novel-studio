@@ -16,22 +16,28 @@ export interface BeatDef {
   key: string; number: number | null; name: string; aka?: string[]; group: 'thesis' | 'antithesis' | 'synthesis';
   act: 'I' | 'IIA' | 'IIB' | 'III'; kind: 'point' | 'span'; parent?: string;
   sceneType?: string; description?: string; example?: string; window?: string; test?: string;
+  /** The published work her sheet's example is drawn from, so it is credited and never read as her book. */
+  exampleFrom?: { title: string; author: string };
   boardFields?: { field: string; label: string; options?: string[] }[];
 }
 
 const RAW = sheet as unknown as { groups: Record<string, { name: string; description: string }>; beats: { source_name: string; description: string; where: string; scene_type: string; group: string }[]; examples: Record<string, string> };
+/** Works her sheet's examples come from. Her example text is never changed; only its source is named. */
+const EXAMPLE_CREDITS: Record<string, { title: string; author: string }> = {
+  '1. Opening Image': { title: 'The Shining', author: 'Stephen King' },
+};
 const fromSheet = (prefix: string) => RAW.beats.find((b) => b.source_name.startsWith(prefix));
 
 const B = (key: string, number: number | null, name: string, sheetName: string, act: BeatDef['act'], kind: BeatDef['kind'], extra: Partial<BeatDef> = {}): BeatDef => {
   const row = fromSheet(sheetName);
-  return { key, number, name, act, kind, group: (row?.group ?? 'thesis') as BeatDef['group'], sceneType: row?.scene_type || undefined, description: row?.description, window: row?.where, example: RAW.examples[row?.source_name ?? ''] ?? undefined, ...extra };
+  return { key, number, name, act, kind, group: (row?.group ?? 'thesis') as BeatDef['group'], sceneType: row?.scene_type || undefined, description: row?.description, window: row?.where, example: RAW.examples[row?.source_name ?? ''] ?? undefined, exampleFrom: EXAMPLE_CREDITS[row?.source_name ?? ''], ...extra };
 };
 
 /** Save the Cat as she uses it: her fifteen beats, her descriptions, her worlds, her sub-beats and board fields. */
 export const SAVE_THE_CAT: BeatDef[] = [
   B('opening_image', 1, 'Opening Image', '1. Opening', 'I', 'point', { test: 'If nothing in the opening can be turned over later, it is not yet doing its job.' }),
   B('theme_stated', 2, 'Theme Stated', '2. Theme', 'I', 'point', { test: 'Theme Stated is never spoken by the hero.', boardFields: [{ field: 'theme_line', label: 'The line that states the theme' }] }),
-  B('setup', 3, 'Setup', '3. Set-up', 'I', 'span', { boardFields: [{ field: 'home', label: 'Home' }, { field: 'work', label: 'Work' }, { field: 'play', label: 'Play' }] }),
+  B('setup', 3, 'Setup', '3. Set-up', 'I', 'span', { boardFields: [{ field: 'home', label: 'Home' }, { field: 'work', label: 'Work' }, { field: 'play', label: 'Play' }, { field: 'things_to_fix', label: 'Six things that need fixing' }] }),
   B('stasis_death', null, 'Stasis = Death', 'Stasis', 'I', 'point', { parent: 'setup' }),
   B('catalyst', 4, 'Catalyst', '4. Catalyst', 'I', 'point', { test: 'Could the character reasonably return to normal the next day? If so, it is not yet the Catalyst.' }),
   B('debate', 5, 'Debate', '5. Debate', 'I', 'span', { boardFields: [{ field: 'debate_question', label: 'The Debate question' }] }),
@@ -293,18 +299,22 @@ export class Structure {
       const pm2 = this.brain.field(c.id as string, 'value_start'), pm3 = this.brain.field(c.id as string, 'value_end');
       return { id: c.id, title: c.title, sort: c.sort_key, reserved: c.reserved, scene: sceneOf(c.id as string), placements: pm, valueStart: pm2.latest?.value ?? null, valueEnd: pm3.latest?.value ?? null };
     };
-    const infos = cards.map(cardInfo);
+    // A placement on a beat that is no longer in this novel (removed, or another sheet) is not a spot on this board.
+    const live = new Set(beats.map((b) => b.element.id as string));
+    const infos = cards.map(cardInfo).map((c) => ({ ...c, onBeat: !!c.placements.decided && live.has(c.placements.decided.beatId), mightBe: c.placements.candidates.some((p) => live.has(p.beatId)) }));
     const rows = (['I', 'IIA', 'IIB', 'III'] as const).map((act) => ({
       act, name: ACT_NAMES[act],
       beats: beats.filter((b) => b.act === act && !b.element.parent_id).map((b) => ({
         id: b.element.id, key: b.attrs.template_key, number: b.attrs.number, name: b.element.title, group: b.group,
-        children: beats.filter((c) => c.element.parent_id === b.element.id).map((c) => ({ id: c.element.id, name: c.element.title })),
+        children: beats.filter((c) => c.element.parent_id === b.element.id).map((c) => ({ id: c.element.id, name: c.element.title, candidates: infos.filter((x) => !x.onBeat && x.placements.candidates.some((p) => p.beatId === c.element.id)) })),
         cards: infos.filter((c) => c.placements.decided?.beatId === b.element.id || beats.some((ch) => ch.element.parent_id === b.element.id && c.placements.decided?.beatId === ch.element.id)).sort((x, y) => (x.sort as number) - (y.sort as number)),
-        candidates: infos.filter((c) => c.placements.candidates.some((p) => p.beatId === b.element.id)),
+        candidates: infos.filter((c) => !c.onBeat && c.placements.candidates.some((p) => p.beatId === b.element.id)),
       })),
     }));
-    const unplaced = infos.filter((c) => !c.placements.decided);
-    return { rows, unplaced, worlds: WORLDS };
+    // Not decided anywhere. Of those, the ones with no "might go here" either have no spot at all.
+    const unplaced = infos.filter((c) => !c.onBeat);
+    const unspotted = unplaced.filter((c) => !c.mightBe);
+    return { rows, unplaced, unspotted, worlds: WORLDS };
   }
 
   /**
