@@ -35,6 +35,7 @@ export function SyncNotice({ projectId, onTook }: { projectId: string | null; on
         try { sessionStorage.setItem('ns-sync-msg', `Done. Both versions are kept: the other one is in your Library as "${r.copyTitle}", on both computers.`); } catch { /* ignore */ }
         onTook(); return;
       }
+      if (r.result === 'nothing' && path === 'resolve') setMsg('You already made this choice on your other computer, so it stands. Both versions are kept: the other one is in your Library beside the main one.');
       if (r.result === 'changed') setMsg('Something newer just arrived from your other computer. Look again before choosing.');
       if (r.result === 'diverged') setMsg('Both computers changed this novel, so it needs your choice below.');
       await beat();
