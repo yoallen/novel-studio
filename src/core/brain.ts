@@ -564,13 +564,13 @@ export class Brain {
 
   // ---------- capture ----------
   /** Capture a thought exactly as typed, with no category required. */
-  capture(projectId: string, text: string, opts: { kind?: 'thought' | 'question' | 'idea'; linkTo?: string[]; urgency?: 'now' | 'later' } = {}, actor = ACTOR_AUTHOR) {
+  capture(projectId: string, text: string, opts: { kind?: 'thought' | 'question' | 'idea'; linkTo?: string[]; urgency?: 'now' | 'later'; from?: string } = {}, actor = ACTOR_AUTHOR) {
     if (typeof text !== 'string' || !text.trim()) throw new ValidationError('Nothing to capture yet.');
     const kind = opts.kind ?? 'thought';
     const firstLine = text.trim().split(/\n/)[0]!;
     const title = firstLine.length > 80 ? firstLine.slice(0, 77).trimEnd() + '…' : firstLine;
     // The body keeps exactly what was typed or dictated; nothing is corrected (R-B-044).
-    const el = this.createElement(projectId, { kind, title, body: text, attrs: opts.urgency ? { urgency: opts.urgency } : {} }, actor);
+    const el = this.createElement(projectId, { kind, title, body: text, attrs: { ...(opts.urgency ? { urgency: opts.urgency } : {}), ...(opts.from ? { from: opts.from } : {}) } }, actor);
     for (const to of opts.linkTo ?? []) this.link(projectId, { fromId: el.id, toId: to, relation: 'relates_to' }, actor);
     return el;
   }

@@ -1,11 +1,13 @@
-import { dailyGoalOn } from '../core/goals';
+import { doorClosed } from '../core/goals';
+import { withoutLater } from '../core/later';
+import { LaterNotes } from './laterMarks';
 import { useEffect, useRef, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import { api, ApiError } from './api';
 import type { Ctx } from './App';
-import { registerFlush, registerEditor } from './flush';
+import { registerFlush, registerEditor, selectRange, textMap, currentEditor } from './flush';
 
 // Saving model (R-B-005, R-B-006):
 //  - every pause of under a second writes the text to the crash-safe journal, and the indicator says Saved;
@@ -14,7 +16,7 @@ import { registerFlush, registerEditor } from './flush';
 const JOURNAL_MS = 700;
 const COMMIT_MS = 20_000;
 
-export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId: string; onChanged: () => void; onWords?: (n: number) => void }) {
+export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; sceneId: string; onChanged: () => void; onWords?: (n: number) => void; quiet?: boolean }) {
   const [scene, setScene] = useState<any>(null);
   const [title, setTitle] = useState('');
   const [words, setWords] = useState(0);
@@ -36,7 +38,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
   const [opening, setOpening] = useState(true);
 
   const editor = useEditor({
-    extensions: [StarterKit.configure({ link: false }), Placeholder.configure({ placeholder: 'Write anything. A sentence counts.' })],
+    extensions: [StarterKit.configure({ link: false }), Placeholder.configure({ placeholder: 'Write anything. A sentence counts.' }), LaterNotes],
     content: { type: 'doc', content: [] },
     editable: false,
     onUpdate: ({ editor: ed }) => {
@@ -62,6 +64,17 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
   });
 
   useEffect(() => { registerEditor(editor ?? null); return () => registerEditor(null); }, [editor]);
+
+  // Door closed or a sprint running: no red underlines on the page. Spelling waits for December.
+  const hush = !!quiet || doorClosed(ctx.settings);
+  useEffect(() => { editor?.view.dom.setAttribute('spellcheck', hush ? 'false' : 'true'); }, [editor, hush]);
+
+  // Today's goal, as Where was I works it out (a day she set, or an even share of what is left).
+  const [target, setTarget] = useState<number | null>(null);
+  useEffect(() => {
+    const tz = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch { return ''; } })();
+    api.get(`/api/projects/${ctx.projectId}/progress${tz ? `?tz=${encodeURIComponent(tz)}` : ''}`).then((r) => setTarget(r.dailyGoal ?? null)).catch(() => setTarget(null));
+  }, [ctx.projectId, ctx.settings]);
 
   async function journal(opts: { keepalive?: boolean } = {}) {
     if (!dirty.current || !latest.current || recoveryPending.current) return;
@@ -121,6 +134,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
           return;
         }
         editor.setEditable(true); setOpening(false);
+        if (findLater(sceneId)) { ctx.setSaveState({ state: 'saved' }); return; }
         const cur = ws?.state?.sceneId === sceneId ? ws.state.cursor : null;
         const size = editor.state.doc.content.size;
         if (cur && typeof cur.from === 'number') {
@@ -212,7 +226,6 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
     setConflict(null);
   }
 
-  const target = dailyGoalOn(ctx.settings, localDay());
   return (
     <div className="page" data-opening={opening || undefined}>
       {error && <div className="notice error" role="alert">{error}</div>}
@@ -220,7 +233,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
       {scene?.reserved && <p className="hers" style={{ marginBottom: '1rem' }}>{scene.reserved}</p>}
       <input className="scene-title" aria-label="Scene title" disabled={!scene} value={title} onChange={(e) => { setTitle(e.target.value); titleRef.current = e.target.value; }} onBlur={() => void saveTitle()} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); void saveTitle(); editor?.commands.focus(); } }} />
       <EditorContent editor={editor} />
-      <div className="wordline"><span>{words.toLocaleString()} words in this scene{target ? `, daily goal ${target.toLocaleString()}` : ''}</span></div>
+      {!quiet && <div className="wordline"><span>{words.toLocaleString()} words in this scene{target ? `, today's goal ${target.toLocaleString()}` : ''}</span>{!hush && <span className="faint"> Ctrl+Shift+L leaves a note for later</span>}</div>}
 
       {recovery && (
         <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="rec-h"><div className="dialog">
@@ -247,9 +260,27 @@ export function Editor({ ctx, sceneId, onChanged, onWords }: { ctx: Ctx; sceneId
 }
 
 function countWords(text: string): number {
-  const m = text.match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu);
+  const m = withoutLater(text).match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu);
   return m ? m.length : 0;
 }
 
-/** Today's date on this computer, YYYY-MM-DD. */
-function localDay() { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+/** Opened from the list of notes for later: select that note on the page. */
+export function showLaterNote(sceneId: string, raw: string, nth: number) {
+  try { sessionStorage.setItem('ns-later', JSON.stringify({ sceneId, raw, nth })); } catch { /* ignore */ }
+}
+function findLater(sceneId: string): boolean {
+  let want: { sceneId: string; raw: string; nth: number } | null = null;
+  try { want = JSON.parse(sessionStorage.getItem('ns-later') ?? 'null'); } catch { /* ignore */ }
+  if (!want || want.sceneId !== sceneId) return false;
+  try { sessionStorage.removeItem('ns-later'); } catch { /* ignore */ }
+  return selectLaterNow(want.raw, want.nth);
+}
+/** Select a note on the open page: its nth appearance, since the same note can be left twice. */
+export function selectLaterNow(raw: string, nth: number): boolean {
+  const ed = currentEditor();
+  if (!ed) return false;
+  const text = textMap(ed).text;
+  let at = -1;
+  for (let i = 0; i <= nth; i++) { const next = text.indexOf(raw, at + 1); if (next < 0) break; at = next; }
+  return at >= 0 && selectRange(at, at + raw.length);
+}

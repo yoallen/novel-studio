@@ -82,10 +82,11 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
     setTick((t) => t + 1);
   }
 
-  const cls = focus ? 'desk focus' : panel ? 'desk' : 'desk no-panel';
+  const quiet = focus || ctx.sprinting;
+  const cls = quiet ? 'desk focus' : panel ? 'desk' : 'desk no-panel';
   return (
     <div className={cls}>
-      {!focus && (
+      {!quiet && (
         <aside className="binder" aria-label="Chapters and scenes">
           {error && <div className="notice error">{error}</div>}
           {outline && (
@@ -136,19 +137,20 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
       )}
       <div className="pagewrap">
         <div className="row" style={{ justifyContent: 'flex-end', padding: '0.5rem 1rem 0' }}>
-          {!focus && <button className="btn link small" onClick={() => { setReading(false); setPanel((p) => !(p && !reading)); }}>{panel && !reading ? 'Hide scene plan' : 'Show scene plan'}</button>}
-          {!focus && sceneId && <button className="btn link small" aria-pressed={panel && reading} onClick={() => { if (panel && reading) { setPanel(false); setReading(false); } else { setReading(true); setPanel(true); } }}>Read it back</button>}
-          {!focus && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => ctx.showInMap(sceneId)); }}>Show in Story Map</button>}
-          {!focus && <button className="btn link small" onClick={ctx.openStuck}>I'm stuck</button>}
-          {!focus && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => askAbout(ctx, { title: `About the scene ${outline?.chapters?.flatMap((c: any) => c.scenes).find((x: any) => x.id === sceneId)?.title ?? ''}`.trim(), sceneId })); }}>Ask about this scene</button>}
-          {!focus && <button className="btn link small" onClick={() => ctx.go('trail')}>Writing Trail</button>}
-          <button className="btn link small" onClick={() => setFocus((f) => !f)} title="Ctrl+Shift+F">{focus ? 'Leave focus' : 'Focus'}</button>
+          {!quiet && <button className="btn link small" onClick={() => { setReading(false); setPanel((p) => !(p && !reading)); }}>{panel && !reading ? 'Hide scene plan' : 'Show scene plan'}</button>}
+          {!quiet && sceneId && <button className="btn link small" aria-pressed={panel && reading} onClick={() => { if (panel && reading) { setPanel(false); setReading(false); } else { setReading(true); setPanel(true); } }}>Read it back</button>}
+          {!quiet && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => ctx.showInMap(sceneId)); }}>Show in Story Map</button>}
+          {!quiet && <button className="btn link small" onClick={ctx.openStuck}>I'm stuck</button>}
+          {!quiet && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => askAbout(ctx, { title: `About the scene ${outline?.chapters?.flatMap((c: any) => c.scenes).find((x: any) => x.id === sceneId)?.title ?? ''}`.trim(), sceneId })); }}>Ask about this scene</button>}
+          {!quiet && <button className="btn link small" onClick={() => ctx.go('trail')}>Writing Trail</button>}
+          {!quiet && <button className="btn link small" onClick={ctx.startSprint} title="A set time of nothing but the page">Sprint</button>}
+          {!ctx.sprinting && <button className="btn link small" onClick={() => setFocus((f) => !f)} title="Ctrl+Shift+F">{focus ? 'Leave focus' : 'Focus'}</button>}
         </div>
-        {sceneId ? <Editor key={sceneId + ':' + editorNonce} ctx={ctx} sceneId={sceneId} onChanged={() => { setLive(null); setTick((t) => t + 1); }} onWords={(n) => setLive({ id: sceneId, words: n })} />
+        {sceneId ? <Editor key={sceneId + ':' + editorNonce} ctx={ctx} sceneId={sceneId} quiet={ctx.sprinting} onChanged={() => { setLive(null); setTick((t) => t + 1); }} onWords={(n) => setLive({ id: sceneId, words: n })} />
           : <div className="page"><p className="muted">Choose a scene on the left, or add one, and start writing.</p></div>}
       </div>
-      {!focus && panel && sceneId && reading && <aside className="panel" aria-label="Read it back"><ReadBack ctx={ctx} /></aside>}
-      {!focus && panel && sceneId && !reading && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
+      {!quiet && panel && sceneId && reading && <aside className="panel" aria-label="Read it back"><ReadBack ctx={ctx} /></aside>}
+      {!quiet && panel && sceneId && !reading && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
     </div>
   );
 }

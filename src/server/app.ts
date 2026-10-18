@@ -27,6 +27,7 @@ import { Cast } from '../core/cast.js';
 import { registerRoutes } from './routes.js';
 import { snapshot } from '../core/backup.js';
 import { Sync } from '../core/sync.js';
+import { RoadNotes } from '../core/roadnotes.js';
 
 export interface AppOptions {
   dataPath: string;          // SQLite file
@@ -72,6 +73,7 @@ export interface Services {
   progress: Progress;
   storytime: StoryTime;
   sync: Sync;
+  roadNotes: RoadNotes;
   /** The novel open in her window right now, as last reported, so it is never replaced under her. */
   openNovel: () => string | null;
   hereNow: (pid: string | null) => void;
@@ -94,7 +96,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
   const structure = new Structure(store, brain, ms), ripple = new Ripple(store, brain, ms, structure);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, progress: new Progress(store, ms), storytime: new StoryTime(store, brain, ms), sync: null as unknown as Sync, openNovel: () => null, hereNow: () => {}, opts, backupDir: () => opts.backupDir };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, progress: new Progress(store, ms), storytime: new StoryTime(store, brain, ms), sync: null as unknown as Sync, roadNotes: null as unknown as RoadNotes, openNovel: () => null, hereNow: () => {}, opts, backupDir: () => opts.backupDir };
   services.backupDir = () => {
     const r = store.db.prepare("SELECT value_json FROM settings WHERE key='backup_dir'").get() as { value_json: string } | undefined;
     const chosen = r ? (JSON.parse(r.value_json) as string) : '';
@@ -187,6 +189,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   // A novel she has opened in this session is never replaced in the background: the notice above the page asks first.
   const sync = new Sync(store, () => snapshot(store, services.backupDir(), 'sync', 30));
   services.sync = sync;
+  services.roadNotes = new RoadNotes(store, brain, () => sync.config()?.dir ?? null);
   const opened = new Set<string>();
   let open: string | null = null;
   services.hereNow = (pid) => { open = pid; if (pid) opened.add(pid); };

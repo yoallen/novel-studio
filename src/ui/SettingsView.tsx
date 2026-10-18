@@ -2,6 +2,7 @@ import { BRAND } from '../brand';
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import { SyncSettings } from './SyncViews';
+import { DoorSetting } from './Door';
 import type { Ctx } from './App';
 import { AboutYou } from './AboutYou';
 import { DEFAULT_STATUS_LABELS } from '../core/labels';
@@ -99,7 +100,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
             const perDay = days > 0 && s.push.words ? Math.ceil(Number(s.push.words) / days) : 0;
             return (
               <div className="row small">
-                {perDay > 0 && <span>That is about {perDay.toLocaleString()} words a day for {days} days. It is your daily goal on those days only; the rest of the time, your everyday goal applies.</span>}
+                {perDay > 0 && <span>That is about {perDay.toLocaleString()} words a day for {days} days. It is your daily goal on those days only; the rest of the time, your everyday goal applies. If a day comes up short, the difference is shared by the days after it, and on Where was I you can set a lighter day or a rest day ahead of time.</span>}
                 <button className="btn link small" onClick={() => setS({ ...s, push: null })}>No push</button>
               </div>
             );
@@ -108,6 +109,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
           <button className="btn small" onClick={() => { const y = new Date().getMonth() === 11 ? new Date().getFullYear() + 1 : new Date().getFullYear(); setS({ ...s, push: { name: 'November', start: `${y}-11-01`, end: `${y}-11-30`, words: 50000 } }); }}>Plan a writing push</button>
         )}
       </section>
+
+      <DoorSetting ctx={ctx} onError={setError} />
 
       <section className="section">
         <h2>Scene status steps</h2>

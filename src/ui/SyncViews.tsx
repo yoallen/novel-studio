@@ -18,6 +18,10 @@ export function SyncNotice({ projectId, onTook }: { projectId: string | null; on
     // Something the window shows was replaced in the background (only possible just after opening): show the new version.
     if (firstTook.current === undefined) firstTook.current = s?.tookAt ?? null;
     else if (s?.tookAt && s.tookAt !== firstTook.current) { await flushEditor(); window.location.reload(); return; }
+    if (s?.notesIn > 0) {
+      setMsg(`${s.notesIn === 1 ? 'A note' : `${s.notesIn} notes`} from the road came in. ${s.notesIn === 1 ? 'It is' : 'They are'} under Thoughts you saved, on Where was I.`);
+      window.dispatchEvent(new Event('ns-captured'));
+    }
     setSt(s);
   }).catch(() => setSt(null)), [projectId]);
   useEffect(() => { firstTook.current = undefined; void beat(); const t = window.setInterval(() => void beat(), 30_000); return () => window.clearInterval(t); }, [beat]);
@@ -124,6 +128,7 @@ export function SyncSettings({ projectId, onMsg, onError }: { projectId: string;
             <input type="checkbox" checked={st.ask} onChange={(e) => void api.put('/api/sync/ask', { ask: e.target.checked }).then(load).catch((er) => onError(er.message))} />
             <span>Ask me before bringing in work from my other computer<small>On: nothing changes until you click Bring it in. Off: newer work comes in on its own when there is nothing to choose (a backup is made first). Either way, when both computers changed a novel, you always choose.</small></span>
           </label>
+          <RoadNotesInfo projectId={projectId} />
           <div className="row">
             <button className="btn" disabled={busy} onClick={() => void shareNow()}>Share now</button>
             {desktop?.chooseFolder && <button className="btn link small" onClick={() => void choose()}>Change folder</button>}
@@ -131,6 +136,22 @@ export function SyncSettings({ projectId, onMsg, onError }: { projectId: string;
           </div>
         </>
       )}
+    </section>
+  );
+}
+
+/** Where this novel's notes file is, and how to use it from her phone. */
+function RoadNotesInfo({ projectId }: { projectId: string }) {
+  const [at, setAt] = useState<{ path: string | null; folder?: string; file?: string } | null>(null);
+  const [copied, setCopied] = useState(false);
+  useEffect(() => { api.get(`/api/projects/${projectId}/road-notes`).then(setAt).catch(() => setAt(null)); }, [projectId]);
+  if (!at?.path) return null;
+  return (
+    <section className="section" aria-label="Notes from the road" style={{ margin: '0.75rem 0' }}>
+      <h3 style={{ marginTop: 0 }}>Notes from the road</h3>
+      <p className="small" style={{ margin: '0 0 0.4rem' }}>This novel has its own notes file in your shared folder: <code>{at.path}</code></p>
+      <p className="small muted" style={{ margin: '0 0 0.4rem' }}>On your phone, open it from OneDrive in Word and tap the microphone to dictate. Start each note on a new line. When Story Canon has this novel open, each new paragraph arrives under Thoughts you saved, usually within a minute of the file syncing. Your file is never changed, and a note that is already in comes in only once, so you can leave old notes in the file or delete them; either is fine.</p>
+      <button className="btn link small" onClick={() => { void navigator.clipboard?.writeText(at.path!).then(() => { setCopied(true); window.setTimeout(() => setCopied(false), 2000); }); }}>{copied ? 'Copied' : 'Copy where it is'}</button>
     </section>
   );
 }

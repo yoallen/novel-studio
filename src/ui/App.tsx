@@ -16,6 +16,8 @@ import { FilesView } from './FilesView';
 import { NovelSetup } from './NovelSetup';
 import { DraftsView } from './DraftsView';
 import { MethodsView } from './MethodsView';
+import { SprintChooser, SprintClock, SprintEnd, SprintState, enterFull, leaveFull } from './Sprint';
+import { flushEditor, currentEditor } from './flush';
 
 export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings' | 'setup' | 'drafts' | 'methods';
 const VIEW_NAMES: Record<View, string> = {
@@ -35,6 +37,9 @@ export interface Ctx {
   showInMap: (sceneId: string) => void;
   openStuck: () => void;
   currentSceneId: string | null;
+  /** A sprint is running: the page is all there is. */
+  sprinting: boolean;
+  startSprint: () => void;
   cursorRef: React.MutableRefObject<{ from: number; to: number } | null>;
 }
 export type SaveState = { state: 'idle' | 'unsaved' | 'saving' | 'saved' | 'error'; message?: string };
@@ -51,6 +56,11 @@ export function App() {
   const [stuck, setStuck] = useState(false);
   const [error, setError] = useState<string>('');
   const cursorRef = useRef<{ from: number; to: number } | null>(null);
+  const [sprint, setSprint] = useState<SprintState | null>(null);
+  const [choosingSprint, setChoosingSprint] = useState(false);
+  const [sprintEnd, setSprintEnd] = useState<'time' | 'early' | 'over' | null>(null);
+  const sprintRef = useRef<SprintState | null>(null);
+  sprintRef.current = sprint;
   const viewRef = useRef<View>('home');
   viewRef.current = view;
 
@@ -110,12 +120,22 @@ export function App() {
     if (target) { setSceneId(target); setView('write'); }
   }, [projectId, sceneId]);
 
+  async function startSprint(minutes: number, full: boolean) {
+    setChoosingSprint(false); setSprintEnd(null);
+    await flushEditor();
+    await goWrite();
+    setSprint({ minutes, startedAt: new Date().toISOString(), endsAt: Date.now() + minutes * 60_000, left: minutes * 60_000, full, overtime: false });
+    if (full) void enterFull();
+  }
+  function stopSprint() { setSprint(null); setSprintEnd(null); void leaveFull(); }
+
   // Keyboard: Ctrl+Shift+N capture, Ctrl+K search, Ctrl+Shift+W return to writing.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!projectId) return;
       const mod = e.ctrlKey || e.metaKey;
       if (mod && e.shiftKey && e.key.toLowerCase() === 'n') { e.preventDefault(); setCapturing(true); }
+      else if (sprintRef.current) return; // during a sprint nothing leads away from the page
       else if (mod && !e.shiftKey && e.key.toLowerCase() === 'k') { e.preventDefault(); go('search'); }
       else if (mod && e.shiftKey && e.key.toLowerCase() === 'w') { e.preventDefault(); void returnToWriting(); }
     };
@@ -140,6 +160,7 @@ export function App() {
   if (!project || !settings) return <div className="content muted">{error || 'Opening your novel…'}</div>;
 
   const ctx: Ctx = { projectId, project, settings, refreshProject, openScene, closeScene: () => { setSceneId(null); api.put(`/api/projects/${projectId}/writing-state`, { sceneId: null }).catch(() => {}); }, go, setSaveState: setSave, capture: () => setCapturing(true), currentSceneId: sceneId, cursorRef,
+    sprinting: !!sprint, startSprint: () => setChoosingSprint(true),
     showInMap: (sid: string) => { void api.get(`/api/scenes/${sid}/locate`).then((node) => { setZoomReq({ node, nonce: Date.now() }); go('zoom'); }).catch((e) => setError(e.message)); },
     openStuck: () => setStuck(true) };
   const saveText = save.state === 'saving' ? 'Saving…' : save.state === 'saved' ? 'Saved' : save.state === 'unsaved' ? 'Not saved yet' : save.state === 'error' ? (save.message ?? 'Not saved') : '';
@@ -148,7 +169,7 @@ export function App() {
   const SECONDARY: View[] = ['search', 'history', 'files', 'settings'];
   const tab = (v: View) => <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>;
   return (
-    <div className="app">
+    <div className="app" data-sprint={sprint ? true : undefined}>
       <Strip projectId={projectId} sceneId={sceneId} refresh={view} onOpen={() => go('zoom')} />
       <div className="colophon" aria-hidden="true">{BRAND.company ? `${BRAND.name}, ${BRAND.company}` : BRAND.name}</div>
       <div className="leaf" data-view={view}>
@@ -187,6 +208,20 @@ export function App() {
         <span className="and" aria-hidden="true">and</span>
         <div className="minor">{SECONDARY.map(tab)}</div>
       </nav>
+      {sprint && !sprintEnd && (
+        <SprintClock sprint={sprint}
+          onPause={() => setSprint((x) => x && x.endsAt != null ? { ...x, left: Math.max(0, x.endsAt - Date.now()), endsAt: null } : x)}
+          onResume={() => { setSprint((x) => x && x.endsAt == null ? { ...x, endsAt: Date.now() + x.left } : x); currentEditor()?.commands.focus(); }}
+          onEnd={() => setSprintEnd(sprint.overtime ? 'over' : 'early')}
+          onTimeUp={() => setSprintEnd('time')} />
+      )}
+      {sprint && sprintEnd && (
+        <SprintEnd projectId={projectId} sprint={sprint} kind={sprintEnd}
+          onKeepGoing={() => { setSprint((x) => x && { ...x, overtime: true }); setSprintEnd(null); currentEditor()?.commands.focus(); }}
+          onDone={stopSprint}
+          onAnother={() => { stopSprint(); setChoosingSprint(true); }} />
+      )}
+      {choosingSprint && <SprintChooser onStart={(m, f) => void startSprint(m, f)} onClose={() => setChoosingSprint(false)} />}
       {stuck && <Stuck ctx={ctx} onClose={() => setStuck(false)} />}
       {capturing && <CaptureDialog ctx={ctx} sceneId={view === 'write' ? sceneId : null} onClose={() => setCapturing(false)} />}
     </div>

@@ -82,6 +82,10 @@ export interface ProjectSettings {
   importLabels: ImportLabel[];
   /** Words and phrases she wants to keep an eye on when revising. */
   watchWords: string[];
+  /** Days she set herself (YYYY-MM-DD to words): a lighter day, a rest day (0), or a bigger one. */
+  dayGoals: Record<string, number>;
+  /** Door closed: through this day (YYYY-MM-DD), nothing judges the draft. null when the door is open. */
+  doorClosedUntil: string | null;
 }
 
 export const DEFAULT_RESERVED_MARKERS = ['Mine to write', 'Mine to build', 'Mine to design', 'Mine to choreograph', 'Mine to time', 'Mine to escalate', 'Mine to settle'];
@@ -105,6 +109,10 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
     nextWritingAction: typeof s.nextWritingAction === 'string' ? s.nextWritingAction : '',
     watchWords: Array.isArray(s.watchWords) ? s.watchWords : DEFAULT_WATCH_WORDS,
     importLabels: Array.isArray(s.importLabels) && s.importLabels.length ? s.importLabels : DEFAULT_IMPORT_LABELS,
+    dayGoals: s.dayGoals && typeof s.dayGoals === 'object' && !Array.isArray(s.dayGoals)
+      ? Object.fromEntries(Object.entries(s.dayGoals).filter(([d, n]) => /^\d{4}-\d{2}-\d{2}$/.test(d) && Number.isFinite(n) && (n as number) >= 0)) as Record<string, number>
+      : {},
+    doorClosedUntil: typeof s.doorClosedUntil === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s.doorClosedUntil) ? s.doorClosedUntil : null,
   };
 }
 
@@ -133,6 +141,14 @@ export function mergeSettings(profile: Record<string, unknown>, patch: Partial<P
     if ((Date.parse(end) - Date.parse(start)) / 86_400_000 > 366) throw new ValidationError('A writing push can run a year at most.');
     if (words != null && (!Number.isFinite(words) || words < 1 || words > 2_000_000)) throw new ValidationError('The push goal should be between 1 and 2,000,000 words.');
     next.push = { name: (name ?? '').trim().slice(0, 60), start, end, words: words ?? null };
+  }
+  if (patch.dayGoals) {
+    const days = Object.entries(patch.dayGoals);
+    if (days.length > 400) throw new ValidationError('Too many set days.');
+    for (const [d, n] of days) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(d) || Number.isNaN(Date.parse(`${d}T00:00:00Z`))) throw new ValidationError('A set day needs a date.');
+      if (!Number.isInteger(n) || n < 0 || n > 100_000) throw new ValidationError('A day\'s words should be between 0 and 100,000.');
+    }
   }
   if (patch.byline != null) next.byline = String(patch.byline).trim().slice(0, 120);
   if (patch.wordsPerPage && patch.wordsPerPage.some((n) => !Number.isFinite(n) || n < 100 || n > 600)) throw new ValidationError('Words per page should be between 100 and 600.');
