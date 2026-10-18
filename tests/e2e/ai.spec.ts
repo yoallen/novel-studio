@@ -25,12 +25,19 @@ test('the collaborator stays off until she turns it on; its suggestions wait for
   await expect(form0.or(listed)).toBeVisible();
   if (!(await form0.isVisible())) await listed.click();
   const form = page.getByRole('form', { name: 'Ask the collaborator' });
+  // Each way to ask says what it gives, on screen.
+  await expect(form.getByText('A creative partner who asks one question at a time.')).toBeVisible();
+  await expect(form.getByRole('radio', { name: 'Teach it' })).toHaveAccessibleDescription(/A full explanation/);
   await form.getByLabel('Teach it').check();
   await form.getByLabel('Ask the collaborator').fill('How do I show grief without saying it?');
   await form.getByRole('button', { name: 'Ask' }).click();
   await expect(page.getByText(/You asked: How do I show grief without saying it\?/)).toBeVisible();
   await expect(page.getByText(/Teach it/).first()).toBeVisible();
   await expect(form.getByRole('status')).toContainText('One suggestion is waiting for you. Nothing was decided.');
+  // The link opens the place the suggestion actually waits: its question is in Questions and ideas.
+  await form.getByRole('button', { name: 'Look at it in Questions and ideas' }).click();
+  await expect(page.getByRole('heading', { name: 'Questions an AI raised' })).toBeVisible();
+  await expect(page.getByText('What does the silence cost him?')).toBeVisible();
 });
 
 test('Ask about this scene opens a focused conversation', async ({ page }) => {

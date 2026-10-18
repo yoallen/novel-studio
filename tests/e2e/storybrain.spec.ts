@@ -90,19 +90,19 @@ test('a conversation comes in word for word; a line is kept in one action and ha
   await page.getByRole('button', { name: 'Harvest' }).click();
   await expect(page.getByRole('heading', { name: 'Lines you kept' }).locator('..')).toContainText("I don't appreciate the implication");
   await expect(page.getByRole('heading', { name: 'New questions' }).locator('..')).toContainText('17 violations');
-  await page.getByRole('button', { name: 'Done', exact: true }).click();
+  await page.getByRole('button', { name: 'Done, back to conversations' }).click();
 
   // The question the assistant raised waits apart from hers.
   await nav(page).getByRole('button', { name: 'Story Brain' }).click();
   await page.getByRole('button', { name: /^Questions and ideas/ }).click();
-  await expect(page.getByRole('heading', { name: 'Questions the assistant raised' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Questions an AI raised' })).toBeVisible();
   await page.getByRole('button', { name: 'Make it one of my questions' }).click();
-  await expect(page.getByRole('heading', { name: 'Questions the assistant raised' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Questions an AI raised' })).toHaveCount(0);
 
   // The kept line knows where it came from.
   await page.getByRole('button', { name: /^Kept lines/ }).click();
   await page.getByRole('button', { name: /First of all/ }).click();
-  await expect(page.getByText('Written by the assistant, kept by you, placement open')).toBeVisible();
+  await expect(page.getByText('Written by CHATGPT, kept by you, placement open')).toBeVisible();
   await page.getByRole('button', { name: 'Where did this come from?' }).click();
   await expect(page.getByRole('dialog')).toContainText('Kevin, 10-14 evening, message 2, CHATGPT');
 });
@@ -140,6 +140,6 @@ test('a suggestion waits until she answers it, and "not yet" keeps it waiting (R
   await page.getByRole('button', { name: 'Anthony Vernon' }).click();
   await expect(page.getByText('you said not yet')).toBeVisible();
   await page.getByRole('button', { name: 'Accept as Decided' }).click();
-  await expect(page.locator('.st[data-s="established"]', { hasText: 'code-switching' })).toContainText('suggested by the assistant');
+  await expect(page.locator('.st[data-s="established"]', { hasText: 'code-switching' })).toContainText('suggested by the collaborator');
   await expect(page.locator('.st[data-s="established"]', { hasText: 'code-switching' })).toContainText('accepted by you');
 });

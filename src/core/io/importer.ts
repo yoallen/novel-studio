@@ -89,7 +89,7 @@ export class Importer {
   }
 
   list(projectId: string) {
-    return (this.store.db.prepare('SELECT id, kind, name, status, created_at, applied_at, report_json FROM imports WHERE project_id=? ORDER BY created_at DESC').all(projectId) as Row[])
+    return (this.store.db.prepare('SELECT id, kind, source_id, name, status, created_at, applied_at, report_json FROM imports WHERE project_id=? ORDER BY created_at DESC').all(projectId) as Row[])
       .map((r) => ({ ...r, report: JSON.parse(r.report_json as string) as unknown }));
   }
 

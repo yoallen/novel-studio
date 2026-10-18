@@ -248,7 +248,7 @@ export class Brain {
     }
     // Author sovereignty: assistants can only propose or illustrate; only the author or her own documents establish.
     if (input.speaker.kind === 'assistant' && !['proposed', 'illustrative'].includes(input.status)) {
-      throw new ValidationError('Assistant statements can only be proposals or illustrations. The author decides.');
+      throw new ValidationError('What the collaborator or another AI says can only be a suggestion or an example. You decide.');
     }
     if (input.sourceId) {
       const s = this.store.get('sources', input.sourceId);

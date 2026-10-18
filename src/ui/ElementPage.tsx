@@ -1,4 +1,5 @@
 import { askAbout } from './ConversationsView';
+import { aiName } from '../core/io/chat-exports';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -54,8 +55,8 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
             {[ownedWord(ctx.settings), ...(ctx.settings.reservedMarkers as string[])].map((m) => <option key={m} value={m}>{m}</option>)}
           </select>
         </label>
-        {el.attrs?.written_by && <span className="chip">Written by {el.attrs.written_by === 'assistant' ? 'the assistant' : 'you'}, kept by you, placement open</span>}
-        {el.attrs?.suggested && <span className="chip">Suggested by the assistant</span>}
+        {el.attrs?.written_by && <span className="chip">Written by {el.attrs.written_by === 'assistant' ? aiName(el.attrs.written_by_name) : 'you'}, kept by you, placement open</span>}
+        {el.attrs?.suggested && <span className="chip">Suggested by {aiName(el.attrs.origin_name)}</span>}
         <button className="btn link small" onClick={() => void askAbout(ctx, { title: `About ${el.title}`, elementId: el.id }).catch((e) => setError(e.message))}>Ask about this</button>
         {(el.attrs?.turn_id) && <button className="btn link small" onClick={() => void api.get(`/api/origin?element=${el.id}`).then(setOrigin)}>Where did this come from?</button>}
       </div>
@@ -100,7 +101,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
       {isChar && (
         <section className="section">
           <h2>Guardrails</h2>
-          <p className="muted small">What must stay true about this character. The assistant checks every suggestion against these.</p>
+          <p className="muted small">What must stay true about this character. The collaborator checks every suggestion against these.</p>
           <ul className="list">{page.guardrails.map((g: any) => <li key={g.id} className="row"><span className="grow st" data-s="established">{g.body || g.title}</span><button className="btn small" onClick={() => void act(api.del(`/api/elements/${g.id}`))}>Remove</button></li>)}</ul>
           <AddLine label="Add a guardrail" onAdd={(t) => act(api.post(`/api/projects/${ctx.projectId}/elements`, { kind: 'guardrail', title: t.slice(0, 80), body: t, parentId: el.id }))} />
         </section>
@@ -171,7 +172,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
                 {origin.hasTurn !== false && origin.conversationTitle && (
                   <>
                     <h3 className="small">In the conversation</h3>
-                    <p className="small muted">{origin.conversationTitle}, message {origin.position}, {origin.speaker} ({origin.speakerKind === 'assistant' ? 'the assistant' : origin.speakerKind === 'author' ? 'you' : 'a source'}), {when(origin.saidAt)}</p>
+                    <p className="small muted">{origin.conversationTitle}, message {origin.position}, {origin.speaker} ({origin.speakerKind === 'assistant' ? (aiName(origin.speaker) === 'the collaborator' ? 'the collaborator' : 'an AI') : origin.speakerKind === 'author' ? 'you' : 'a source'}), {when(origin.saidAt)}</p>
                     <blockquote className="tail" style={{ whiteSpace: 'pre-wrap' }}>{origin.text}</blockquote>
                   </>
                 )}
@@ -198,7 +199,7 @@ function FieldBlock({ ctx, elId, f, open, setOpen, showHistory, toggleHistory, a
     <div key={st.id} className="st fact" data-s={kind}>
       <div style={{ whiteSpace: 'pre-wrap' }}>{st.status === 'unanswered' && !valueText(st.value) ? <span className="muted">Still open</span> : valueText(st.value)}</div>
       <div className="row small faint">
-        <span>{statusWord(ctx.settings, st.status)}{st.speaker_kind === 'assistant' ? ', suggested by the assistant' : st.speaker_kind === 'source' ? `, from ${st.speaker_name || 'a document'}` : ''}{st.qualifiers?.timing ? `, ${TIMING.find((t) => t[0] === st.qualifiers.timing)?.[1] ?? ''}` : ''}{st.qualifiers?.accepted_by ? ', accepted by you' : ''}, {when(st.made_at)}</span>
+        <span>{statusWord(ctx.settings, st.status)}{st.speaker_kind === 'assistant' ? `, suggested by ${aiName(st.speaker_name)}` : st.speaker_kind === 'source' ? `, from ${st.speaker_name || 'a document'}` : ''}{st.qualifiers?.timing ? `, ${TIMING.find((t) => t[0] === st.qualifiers.timing)?.[1] ?? ''}` : ''}{st.qualifiers?.accepted_by ? ', accepted by you' : ''}, {when(st.made_at)}</span>
         {st.status !== 'established' && st.status !== 'illustrative' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'established', replaceCurrent: !d.multi }))}>Decide this</button>}
         {st.status === 'established' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'developing' }))}>Not decided after all</button>}
         {st.status !== 'set_aside' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'set_aside' }))}>Set aside</button>}

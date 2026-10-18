@@ -58,7 +58,7 @@ describe('statements and author sovereignty', () => {
   it('assistants can only propose or illustrate', () => {
     env = freshStore();
     const { k } = kevin();
-    expect(() => env.brain.addStatement({ elementId: k.id, field: 'lie', value: 'X', status: 'established', speaker: { kind: 'assistant', name: 'ChatGPT' } })).toThrow(/author decides/);
+    expect(() => env.brain.addStatement({ elementId: k.id, field: 'lie', value: 'X', status: 'established', speaker: { kind: 'assistant', name: 'ChatGPT' } })).toThrow(/You decide/);
     const s = env.brain.addStatement({ elementId: k.id, field: 'lie', value: 'X', status: 'proposed', speaker: { kind: 'assistant', name: 'ChatGPT' } });
     expect(s.status).toBe('proposed');
     expect(env.brain.field(k.id, 'lie').current).toBeNull();
