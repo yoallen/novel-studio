@@ -14,6 +14,7 @@ export interface FieldDef {
   identity?: boolean;   // shows "Not yet specified" and is never inferred (R-A-071)
   suggestions?: string[]; // words she can tap to fill in; she can always write her own
   custom?: boolean;
+  own?: boolean;         // added by her to one element only
 }
 
 export const TIMING = [
@@ -217,7 +218,10 @@ const BEAT: FieldDef[] = [
   f('In this book', 'caused_by_hero', 'Caused by the hero\'s own efforts?'),
   f('In this book', 'scene_type', 'Scene type', { prompt: 'Single Scene or Single Chapter; Single Beat; or Multi Scene or Multi Chapters.' }),
   f('On the board', 'theme_line', 'The line that states the theme'),
-  f('On the board', 'home', 'Home'), f('On the board', 'work', 'Work'), f('On the board', 'play', 'Play'),
+  f('On the board', 'home', 'Home', { prompt: 'The hero at home before the story changes it: who they live with, how it feels.' }),
+  f('On the board', 'work', 'Work', { prompt: 'The hero at work, or at whatever fills their days.' }),
+  f('On the board', 'play', 'Play', { prompt: 'The hero at play: what they do for fun, or what they gave up.' }),
+  f('On the board', 'things_to_fix', 'Six things that need fixing', { multi: true, prompt: 'Flaws or problems in the hero\'s life, shown in the Setup. Each one gets paid off or fixed later in the book. Add them one at a time.' }),
   f('On the board', 'debate_question', 'The Debate question'),
   f('On the board', 'want', "The hero's WANT"), f('On the board', 'need', "The hero's NEED"),
   f('On the board', 'polarity', 'False victory or false defeat'),
@@ -227,17 +231,17 @@ const BEAT: FieldDef[] = [
 
 /** Which board fields each of her beats carries (R-C-018). */
 export const BEAT_BOARD_FIELDS: Record<string, string[]> = {
-  theme_stated: ['theme_line'], setup: ['home', 'work', 'play'], debate: ['debate_question'], break_into_two: ['want'],
+  theme_stated: ['theme_line'], setup: ['home', 'work', 'play', 'things_to_fix'], debate: ['debate_question'], break_into_two: ['want'],
   midpoint: ['polarity'], all_is_lost: ['polarity', 'whiff_of_death'], break_into_three: ['need'], final_image: ['final_change'],
 };
 
 const SCENE_PLAN: FieldDef[] = [
   f('The scene', 'purpose', 'What this scene must do'),
   f('The scene', 'objective', "The viewpoint character's objective"),
-  f('The scene', 'conflict', 'The conflict (><)', { prompt: 'Who the players are, what each wants, what is in the way, and who wins.' }),
+  f('The scene', 'conflict', 'The conflict', { prompt: 'Who is up against whom: the players, what each wants, what is in the way, and who wins.' }),
   f('The scene', 'outcome', 'Intended outcome or change'),
-  f('The scene', 'value_start', 'Value at the start (+/-)'),
-  f('The scene', 'value_end', 'Value at the end (+/-)', { prompt: 'Every scene has to turn.' }),
+  f('The scene', 'value_start', 'Value at the start', { prompt: 'What is at stake for the viewpoint character as the scene opens, and whether it stands well (+) or badly (-). For example: Safety +.' }),
+  f('The scene', 'value_end', 'Value at the end', { prompt: 'Where that value stands when the scene ends. Every scene has to turn: a + that ends -, or a - that ends +.' }),
   f('Around it', 'how_we_got_here', 'How we got here'),
   f('Around it', 'what_must_follow', 'What must follow'),
   f('Around it', 'story_time', 'When (story time)'),

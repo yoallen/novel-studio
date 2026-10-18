@@ -41,11 +41,13 @@ test('her placement models for her target length, at 250 and 300 words per page 
   await request.patch(`/api/projects/${pid}/settings`, { headers: H, data: { targetWords: 90000 } });
   await request.post(`/api/projects/${pid}/structure/save-the-cat`, { headers: H, data: {} });
   await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
-  await page.getByRole('tab', { name: 'Beats and placement' }).click();
+  await page.getByRole('tab', { name: 'Where beats fall' }).click();
   await expect(page.getByText('Based on your target of 90,000 words.')).toBeVisible();
   const cat = page.getByRole('row').filter({ hasText: '4. Catalyst' });
-  await expect(cat).toContainText('10%, words 9,000');
+  await expect(cat.getByRole('cell').nth(1)).toHaveText('10%');
+  await expect(cat.getByRole('cell').nth(2)).toHaveText('9,000');
   await expect(cat).toContainText('p. 36 at 250; p. 30 at 300');
+  await expect(page.getByRole('row').filter({ hasText: '3. Setup' }).getByRole('cell').nth(1)).toHaveText('1% to 10%');
 });
 
 test('moving a scene shows what it would change first; leaving it changes nothing; making it is one undoable step (R-C-075 to R-C-077)', async ({ page, request }) => {
@@ -111,4 +113,87 @@ test("I'm stuck: one beat, its example, one sentence, and that counts (R-B-021, 
   await page.getByLabel('One sentence of what happens at this beat').fill('Kevin waters the lawn like it owes him money.');
   await page.getByRole('button', { name: 'Save the sentence' }).click();
   await expect(page.getByText('Saved. That counts.')).toBeVisible();
+});
+
+
+test('with no target length, Where beats fall says so plainly and offers to set one (finding 82)', async ({ page, request }) => {
+  await newNovel(page, 'Zoom Six');
+  const pid = await pidOf(request, 'Zoom Six');
+  await request.post(`/api/projects/${pid}/structure/save-the-cat`, { headers: H, data: {} });
+  await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
+  await page.getByRole('tab', { name: 'Where beats fall' }).click();
+  await expect(page.getByText('Your book has no target length yet')).toBeVisible();
+  await expect(page.getByRole('columnheader', { name: 'Around word' })).toHaveCount(0);
+  await page.getByLabel('Target length in words').fill('90000');
+  await page.getByRole('button', { name: 'Set the target' }).click();
+  await expect(page.getByText('Based on your target of 90,000 words.')).toBeVisible();
+  await expect(page.getByRole('row').filter({ hasText: '4. Catalyst' }).getByRole('cell').nth(2)).toHaveText('9,000');
+});
+
+test('the overview shows the three worlds above their acts; a beat page credits its example and places existing cards (findings 43, 47, 56, 57)', async ({ page, request }) => {
+  await newNovel(page, 'Zoom Seven');
+  const pid = await pidOf(request, 'Zoom Seven');
+  await request.post(`/api/projects/${pid}/structure/save-the-cat`, { headers: H, data: {} });
+  await request.post(`/api/projects/${pid}/cards`, { headers: H, data: { title: 'Kevin waters the lawn' } });
+  await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
+  await page.getByRole('tab', { name: 'Zoom' }).click();
+  const overview = page.locator('.story-overview');
+  await expect(overview.locator('li').nth(0)).toContainText('Thesis World');
+  await expect(overview.locator('li').nth(1)).toContainText('Act One');
+  await expect(overview.locator('li').nth(2)).toContainText('Antithesis World');
+  await expect(overview.locator('li').nth(3)).toContainText('Act Two, first half');
+  await expect(overview.locator('li').nth(5)).toContainText('Synthesis World');
+  await expect(overview.locator('li').nth(6)).toContainText('Act Three');
+  await overview.getByText('Read the full description from your sheet').first().click();
+  await expect(page.getByText('If events that follow did not occur')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Act One' }).click();
+  await expect(page.locator('.act-beats > li').filter({ hasText: 'Theme Stated' })).toContainText('5%, during Setup');
+  await page.getByRole('button', { name: '1. Opening Image' }).click();
+  const ex = page.locator('.sheet-example');
+  await expect(ex).toContainText('An example from your beat sheet, from The Shining by Stephen King');
+  await expect(ex).toContainText('Jack Torrance is interviewing for a job');
+  await page.getByLabel('A card you already have').selectOption({ label: 'Kevin waters the lawn' });
+  await page.getByRole('button', { name: 'Place it here' }).click();
+  await expect(page.locator('section', { hasText: 'Scenes here' }).getByRole('button', { name: 'Kevin waters the lawn' })).toBeVisible();
+
+  await page.getByRole('navigation', { name: 'Where you are' }).getByRole('button', { name: 'Act One' }).click();
+  await page.getByRole('button', { name: '3. Setup' }).click();
+  await expect(page.getByText('Six things that need fixing')).toBeVisible();
+  await expect(page.getByText("Save the Cat's questions for this beat")).toBeVisible();
+});
+
+test('a field of her own can go on just one beat (finding 60)', async ({ page, request }) => {
+  await newNovel(page, 'Zoom Eight');
+  const pid = await pidOf(request, 'Zoom Eight');
+  await request.post(`/api/projects/${pid}/structure/save-the-cat`, { headers: H, data: {} });
+  await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
+  await page.getByRole('tab', { name: 'Zoom' }).click();
+  await page.getByRole('button', { name: 'Act One' }).click();
+  await page.getByRole('button', { name: '4. Catalyst' }).click();
+  await page.getByLabel('New field name').fill('The phone call');
+  await page.getByLabel('Just this beat').check();
+  await page.getByRole('button', { name: 'Add field' }).click();
+  await expect(page.getByText('The phone call')).toBeVisible();
+  await page.getByRole('navigation', { name: 'Where you are' }).getByRole('button', { name: 'Act One' }).click();
+  await page.getByRole('button', { name: '5. Debate' }).click();
+  await expect(page.getByRole('heading', { name: 'Debate' })).toBeVisible();
+  await expect(page.getByText('The phone call')).toHaveCount(0);
+});
+
+test('the board places a card with no spot from the board itself, as a might (findings 65, 66, 68)', async ({ page, request }) => {
+  await newNovel(page, 'Zoom Nine');
+  const pid = await pidOf(request, 'Zoom Nine');
+  await request.post(`/api/projects/${pid}/structure/save-the-cat`, { headers: H, data: {} });
+  await request.post(`/api/projects/${pid}/cards`, { headers: H, data: { title: 'The brawl' } });
+  await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
+  await page.getByRole('tab', { name: 'Board' }).click();
+  const tray = page.locator('section', { hasText: 'Not on a beat yet' });
+  await tray.getByRole('button', { name: 'Place on a beat…' }).click();
+  await page.getByLabel('Move to beat').selectOption({ label: '9. Midpoint' });
+  await page.getByLabel('It might go here').check();
+  await page.getByRole('button', { name: 'Mark it as might go here' }).click();
+  await expect(page.locator('.board-beat', { hasText: '9. Midpoint' })).toContainText('The brawl');
+  await expect(page.locator('.board-beat', { hasText: '9. Midpoint' })).toContainText('might go here');
+  await expect(page.getByRole('heading', { name: 'Not on a beat yet' })).toHaveCount(0);
 });

@@ -169,7 +169,7 @@ function ImportDone({ ctx, r, onBack }: { ctx: Ctx; r: any; onBack: () => void }
         </div>
       )}
       {r.kind === 'sheet' && rep.methodName && <div className="notice" role="status">"{rep.methodName}" is now a beat sheet of your own, with {rep.beatsMade} beats, and this novel uses it. Other novels can choose it in Novel setup.</div>}
-      {r.kind === 'sheet' && !rep.methodName && <div className="notice" role="status">The sheet is now one of your placement choices{rep.profileName ? ` ("${rep.profileName}")` : ''}. {rep.corrected ? `${rep.corrected} flagged number${rep.corrected === 1 ? ' was' : 's were'} corrected.` : ''} See it in Narrative Zoom, Beats and placement.</div>}
+      {r.kind === 'sheet' && !rep.methodName && <div className="notice" role="status">The sheet is now one of your placement choices{rep.profileName ? ` ("${rep.profileName}")` : ''}. {rep.corrected ? `${rep.corrected} flagged number${rep.corrected === 1 ? ' was' : 's were'} corrected.` : ''} See it in Narrative Zoom, Where beats fall.</div>}
       <div className="row">
         {(r.kind === 'manuscript' || r.kind === 'roundtrip') && <button className="btn write" onClick={() => ctx.go('write')}>Go to the Writing Room</button>}
         {r.kind === 'document' && <button className="btn write" onClick={() => ctx.go('brain')}>Open the Story Brain</button>}

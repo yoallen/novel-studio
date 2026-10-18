@@ -9,11 +9,16 @@ import { statusWord, AUTHOR_STATUSES, ownedWord, valueText, when } from './statu
 
 const TIMING = [['', 'Timing'], ['backstory', 'Before the story'], ['story_start', 'True when the story opens'], ['in_story', 'Happens during the story'], ['unknown', 'Timing not decided']] as const;
 const PRIMARY_GROUPS = new Set(['Storyline', 'Set piece', 'The move', 'Motif', 'Time', 'Viewpoint', 'The scene', 'In this book', 'On the board', 'Role in the story', 'Weiland Arc', 'What it does', 'How it happens', 'The line', 'Where it goes', 'Clue', 'Place', 'Thinking it through', 'Notes', 'Where they stand']);
+// How a group is titled on the page, where its stored name would not say what it is.
+const GROUP_TITLES: Record<string, Record<string, { title: string; about: string }>> = {
+  beat: { 'On the board': { title: "Save the Cat's questions for this beat", about: 'Save the Cat (Blake Snyder, Jessica Brody) asks these at this beat. They belong to the beat sheet, not the Board tab.' } },
+};
 const RELATIONS = ['advances', 'can_see', 'cannot_see', 'relates_to', 'causes', 'enables', 'motivates', 'depends_on', 'plants', 'pays_off', 'reveals', 'conceals', 'foreshadows', 'mirrors', 'contradicts', 'appears_in', 'pov_of', 'located_at', 'knows', 'suspects', 'believes_falsely', 'answers', 'raises', 'inspired_by', 'contains', 'part_of', 'realizes', 'same_person_as', 'plays_in', 'theme_song_of', 'calls_up', 'is_a', 'member_of', 'retells', 'written_by'];
 
 // One story element, with every field showing what is decided, what is being shaped, what is still open
 // and what is only an example, side by side and never merged (R-A-023, R-A-034).
-export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; elementId: string; onOpen: (id: string) => void; onChanged: () => void }) {
+/** `embedded`: shown inside Narrative Zoom, which already names the element and shows where it sits. */
+export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { ctx: Ctx; elementId: string; onOpen: (id: string) => void; onChanged: () => void; embedded?: boolean }) {
   const [page, setPage] = useState<any>(null);
   const [error, setError] = useState('');
   const [all, setAll] = useState<any[]>([]);
@@ -21,6 +26,8 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
   const [showHistory, setShowHistory] = useState<Record<string, boolean>>({});
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [newField, setNewField] = useState('');
+  const [fieldScope, setFieldScope] = useState<'every' | 'this'>('every');
+  const [fieldList, setFieldList] = useState(false);
   const [compare, setCompare] = useState('');
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -41,15 +48,23 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
   if (!page) return <p className="muted">{error || 'Opening…'}</p>;
 
   const isChar = el.kind === 'character';
+  const kindWord = String(el.kind).replace(/^x_/, '').replace(/_/g, ' ').replace(/^scene plan$/, 'scene card');
+  const notes = (
+    <label className="field"><span>Notes</span>
+      <textarea rows={3} defaultValue={el.body} onBlur={(e) => { if (e.target.value !== el.body) void act(api.patch(`/api/elements/${el.id}`, { body: e.target.value })); }} />
+    </label>
+  );
   const others = all.filter((x) => x.kind === 'character' && x.id !== el.id);
 
   return (
     <article>
       {error && <div className="notice error" role="alert">{error}</div>}
-      {page.parent && <button className="btn link small" onClick={() => onOpen(page.parent.id)}>Back to {page.parent.title}</button>}
-      <div className="row" style={{ alignItems: 'baseline' }}>
-        <input className="record-title grow" aria-label="Name" defaultValue={el.title} onBlur={(e) => { if (e.target.value.trim() && e.target.value !== el.title) void act(api.patch(`/api/elements/${el.id}`, { title: e.target.value })); }} />
-      </div>
+      {!embedded && page.parent && <button className="btn link small" onClick={() => onOpen(page.parent.id)}>Back to {page.parent.title}</button>}
+      {!embedded && (
+        <div className="row" style={{ alignItems: 'baseline' }}>
+          <input className="record-title grow" aria-label="Name" defaultValue={el.title} onBlur={(e) => { if (e.target.value.trim() && e.target.value !== el.title) void act(api.patch(`/api/elements/${el.id}`, { title: e.target.value })); }} />
+        </div>
+      )}
       <div className="row small" style={{ marginBottom: '1rem' }}>
         <label className="row">Kept for you
           <select value={el.reserved ?? ''} onChange={(e) => void act(api.patch(`/api/elements/${el.id}`, { reserved: e.target.value || null }))} style={{ width: 'auto' }}>
@@ -70,9 +85,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
         <span className="legend-slip">a slip: a suggestion, tucked in</span>
       </div>
       <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={slug(`${kindPlural(el.kind)}: every field`)} />
-      <label className="field"><span>Notes</span>
-        <textarea rows={3} defaultValue={el.body} onBlur={(e) => { if (e.target.value !== el.body) void act(api.patch(`/api/elements/${el.id}`, { body: e.target.value })); }} />
-      </label>
+      {!embedded && notes}
 
       {page.pending.length > 0 && (
         <section className="section">
@@ -117,17 +130,21 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
         // Empty groups stay folded so a new character never looks like a questionnaire (R-A-069).
         const hasContent = (fields as any[]).some(filledField);
         const isOpen = expanded[group] ?? (hasContent || PRIMARY_GROUPS.has(group) || fields.some((f: any) => open[f.def.field] || f.def.custom) || fields.length <= 2);
+        const shown = GROUP_TITLES[el.kind]?.[group];
+        const title = shown?.title ?? group;
         if (!isOpen) return (
           <section key={group} className="section row">
-            <button className="btn link" onClick={() => setExpanded({ ...expanded, [group]: true })} aria-expanded="false">{group}</button>
+            <button className="btn link fold-toggle" onClick={() => setExpanded({ ...expanded, [group]: true })} aria-expanded="false"><span className="fold-mark" aria-hidden="true">▸</span>{title}</button>
             <span className="faint small">{fields.length} place{fields.length === 1 ? '' : 's'} to write, all optional</span>
             <div style={{ flexBasis: '100%' }}><GroupTeach kind={el.kind} group={group} /></div>
           </section>
         );
         return (
         <section key={group} className="section">
-          <div className="row"><h2 className="grow">{group}</h2>{!hasContent && <button className="btn link small" onClick={() => setExpanded({ ...expanded, [group]: false })} aria-expanded="true">Fold</button>}</div>
-          <GroupTeach kind={el.kind} group={group} />
+          {/* A group that can fold shows the same triangle as every other fold in the program. */}
+          {!hasContent ? <h2><button className="fold-toggle fold-head" onClick={() => setExpanded({ ...expanded, [group]: false })} aria-expanded="true"><span className="fold-mark" aria-hidden="true">▾</span>{title}</button></h2> : <h2>{title}</h2>}
+          {shown?.about && <p className="small muted group-about">{shown.about}</p>}
+          {!shown?.about && <GroupTeach kind={el.kind} group={group} />}
           {fields.map((f: any) => (
             <FieldBlock key={f.def.field} ctx={ctx} elId={el.id} kind={el.kind} f={f} open={!!open[f.def.field]} setOpen={(v: boolean) => setOpen({ ...open, [f.def.field]: v })}
               showHistory={!!showHistory[f.def.field]} toggleHistory={() => setShowHistory({ ...showHistory, [f.def.field]: !showHistory[f.def.field] })}
@@ -137,11 +154,25 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
         );
       })}
 
+      {embedded && notes}
+
       <section className="section">
-        <h3>Add your own field to every {String(el.kind).replace(/^x_/, '').replace(/_/g, ' ')}</h3>
-        <form className="row" onSubmit={(e) => { e.preventDefault(); if (newField.trim()) void act(api.post(`/api/projects/${ctx.projectId}/fields`, { kind: el.kind, label: newField })).then(() => setNewField('')); }}>
-          <input type="text" value={newField} onChange={(e) => setNewField(e.target.value)} placeholder="For example: Weather" aria-label="New field name" style={{ maxWidth: 320 }} />
-          <button className="btn" type="submit">Add field</button>
+        <h3>Add your own field</h3>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          if (!newField.trim()) return;
+          const req = fieldScope === 'this' ? api.post(`/api/elements/${el.id}/own-fields`, { label: newField, multi: fieldList }) : api.post(`/api/projects/${ctx.projectId}/fields`, { kind: el.kind, label: newField, multi: fieldList });
+          void act(req).then(() => { setNewField(''); setFieldList(false); });
+        }}>
+          <div className="row">
+            <input type="text" value={newField} onChange={(e) => setNewField(e.target.value)} placeholder="For example: Weather" aria-label="New field name" style={{ maxWidth: 320 }} />
+            <button className="btn" type="submit">Add field</button>
+          </div>
+          <div className="row small" role="group" aria-label="Where the field goes" style={{ marginTop: '0.5rem' }}>
+            <label className="choice-pill"><input type="radio" name={`scope-${el.id}`} checked={fieldScope === 'this'} onChange={() => setFieldScope('this')} />Just this {kindWord}</label>
+            <label className="choice-pill"><input type="radio" name={`scope-${el.id}`} checked={fieldScope === 'every'} onChange={() => setFieldScope('every')} />Every {kindWord}</label>
+            <label className="row"><input type="checkbox" checked={fieldList} onChange={(e) => setFieldList(e.target.checked)} />A list, with several entries</label>
+          </div>
         </form>
       </section>
 
@@ -157,9 +188,16 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
         <LinkForm all={all.filter((x) => x.id !== el.id)} onLink={(toId, relation) => act(api.post(`/api/projects/${ctx.projectId}/links`, { fromId: el.id, toId, relation }))} />
       </section>
 
-      <div className="row" style={{ marginTop: '2rem' }}>
-        <button className="btn small danger" onClick={() => { if (window.confirm(`Move "${el.title}" to Deleted? You can restore it from there.`)) void api.del(`/api/elements/${el.id}`).then(onChanged); }}>Delete</button>
-      </div>
+      {el.kind === 'beat' ? (
+        <div className="row small remove-beat" style={{ marginTop: '2.5rem' }}>
+          <button className="btn small" onClick={() => { if (window.confirm(`Remove the beat "${el.title}" from this novel?\n\nYour notes on it go to Deleted, where you can restore them. Scene cards placed on it are kept and go back to "Not on a beat yet".`)) void api.del(`/api/elements/${el.id}`).then(onChanged); }}>Remove this beat from the novel</button>
+          <span className="faint">Only if this book does not use it. Your scene cards stay.</span>
+        </div>
+      ) : (
+        <div className="row" style={{ marginTop: '2rem' }}>
+          <button className="btn small danger" onClick={() => { if (window.confirm(`Move "${el.title}" to Deleted? You can restore it from there.`)) void api.del(`/api/elements/${el.id}`).then(onChanged); }}>Delete</button>
+        </div>
+      )}
 
       {origin && (
         <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="org-h" onKeyDown={(e) => e.key === 'Escape' && setOrigin(null)}>
@@ -222,7 +260,7 @@ function FieldBlock({ ctx, elId, kind, f, open, setOpen, showHistory, toggleHist
   );
   return (
     <div className="field-block" style={{ marginBottom: '1rem' }}>
-      <div className="row"><strong className="grow">{d.label}{d.private ? <span className="faint small"> (private, never exported)</span> : ''}{d.custom ? <span className="faint small"> (your field)</span> : ''}</strong>
+      <div className="row"><strong className="grow">{d.label}{d.private ? <span className="faint small"> (private, never exported)</span> : ''}{d.custom ? <span className="faint small"> ({d.own ? 'your field, here only' : 'your field'})</span> : ''}</strong>
         <button className="btn link small" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Add'}</button></div>
       <FieldTeach kind={kind} field={d.field} hint={d.prompt} />
       {d.identity && nothing && <p className="muted small" style={{ margin: 0 }}>Not yet specified</p>}

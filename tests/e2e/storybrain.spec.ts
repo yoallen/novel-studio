@@ -140,6 +140,6 @@ test('a suggestion waits until she answers it, and "not yet" keeps it waiting (R
   await page.getByRole('button', { name: 'Anthony Vernon' }).click();
   await expect(page.getByText('you said not yet')).toBeVisible();
   await page.getByRole('button', { name: 'Accept as Decided' }).click();
-  await expect(page.locator('.st[data-s="established"]', { hasText: 'code-switching' })).toContainText('suggested by the assistant');
+  await expect(page.locator('.st[data-s="established"]', { hasText: 'code-switching' })).toContainText(/suggested by the (assistant|collaborator)/i);
   await expect(page.locator('.st[data-s="established"]', { hasText: 'code-switching' })).toContainText('accepted by you');
 });

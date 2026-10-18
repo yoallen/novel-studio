@@ -319,6 +319,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/projects/:id/kinds', async (req) => brain.defineKind(params(req, P).id, body(req, z.object({ label: z.string().max(80), plural: z.string().max(80).optional(), description: z.string().max(2000).optional() }))));
   app.get('/api/projects/:id/fields', async (req) => brain.fieldsFor(params(req, P).id, query(req, z.object({ kind: z.string().max(60) })).kind));
   app.post('/api/projects/:id/fields', async (req) => brain.defineField(params(req, P).id, body(req, z.object({ kind: z.string().max(60), label: z.string().max(80), group: z.string().max(80).optional(), prompt: z.string().max(1000).optional(), multi: z.boolean().optional(), private: z.boolean().optional() }))));
+  app.post('/api/elements/:id/own-fields', async (req) => brain.defineOwnField(params(req, P).id, body(req, z.object({ label: z.string().max(80), multi: z.boolean().optional(), prompt: z.string().max(1000).optional() }))));
   app.delete('/api/fields/:id', async (req) => { brain.removeField(params(req, P).id); return { removed: true }; });
   app.get('/api/elements/:id/page', async (req) => brain.elementPage(params(req, P).id));
   app.get('/api/projects/:id/open-decisions', async (req) => brain.openDecisions(params(req, P).id));
