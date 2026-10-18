@@ -425,9 +425,11 @@ export class Importer {
         if (e.kind === 'character') {
           const strip = (x: string) => x.replace(/^(miss|mr\.?|mrs\.?|ms\.?|dr\.?)\s+/, '').split(/\s+/);
           const words = strip(h), tw = strip(t);
-          if (nameLike(heading) && (words[0] === tw[0] || words.join(' ').startsWith(tw.join(' ')))) return true;
+          // A first word like "the" or "a" is never a name on its own.
+          const common = /^(the|a|an|my|our|his|her|their|old|young|little|big)$/;
+          if (nameLike(heading) && ((words[0] === tw[0] && !common.test(tw[0] ?? '')) || words.join(' ').startsWith(tw.join(' ')))) return true;
           const full = tw.join(' ');
-          return [full, tw[0]!].some((n) => n.length >= 3 && (h.startsWith(n + ':') || h.startsWith(n + "'s ") || h.startsWith(n + ' ') && /^[^:]{0,40}:/.test(h.slice(n.length)) && h.slice(0, h.indexOf(':')).split(' ').length <= 3));
+          return [full, ...(common.test(tw[0] ?? '') ? [] : [tw[0]!])].some((n) => n.length >= 3 && (h.startsWith(n + ':') || h.startsWith(n + "'s ") || h.startsWith(n + ' ') && /^[^:]{0,40}:/.test(h.slice(n.length)) && h.slice(0, h.indexOf(':')).split(' ').length <= 3));
         }
         if (e.kind === 'location' || e.kind === 'set_piece') return h.startsWith(t + ' ') || h.startsWith(t + ':');
         return false;

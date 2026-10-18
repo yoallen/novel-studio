@@ -2076,7 +2076,7 @@ Example: "Past tense throughout, except the prologue, which is present tense bec
 
 *Whether the book keeps a secret from the reader. Turning this on lets Story Canon track what the reader knows versus what is true.*
 
-**Does this book hide a truth from the reader?.** Whether your book keeps a significant truth from the reader on purpose, to reveal later. Turning this on adds views that track what the reader knows versus what is really happening. Only for some books. Mysteries, thrillers and twist stories depend on managing what the reader knows. Tracking the gap keeps clues fair and the reveal satisfying instead of cheap.
+**Does this book hide a truth from the reader?.** Whether your book keeps a significant truth from the reader on purpose, to reveal later. Your answer reminds you and the collaborator; the Who knows what view in Narrative Zoom, which tracks what the reader knows versus what is really happening, is always there for you to use. Only for some books. Mysteries, thrillers and twist stories depend on managing what the reader knows. Tracking the gap keeps clues fair and the reveal satisfying instead of cheap.
 
 The common mistake: Hiding a truth by having a viewpoint character simply not think about it, which readers feel as a cheat.
 

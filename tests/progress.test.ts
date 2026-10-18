@@ -201,4 +201,17 @@ describe('drafting progress', () => {
     // 50,000 over the 28 days not set is 1,786 a day; 12 such days gone by is 21,432 planned, 20,004 written.
     expect(r.behind).toBe(12 * 1786 - 12 * 1667);
   });
+
+  it('setting a day ahead never changes the goals of days already gone', () => {
+    const { p, ch, progress, type } = setup();
+    env.brain.updateSettings(p.id, { push: { name: 'November', start: '2026-11-01', end: '2026-11-30', words: 50000 } });
+    const s = env.ms.addScene(ch.id);
+    for (let i = 1; i <= 5; i++) type(s.id, 1667 * i, `2026-11-0${i}T15:00:00.000Z`);
+    const now = { tz: 'UTC', now: new Date('2026-11-06T12:00:00.000Z') };
+    const before = progress.progress(p.id, now).days.slice(0, 5).map((d) => d.goal);
+    env.brain.updateSettings(p.id, { dayGoals: { '2026-11-26': 300, '2026-11-27': 0 } });
+    const after = progress.progress(p.id, now);
+    expect(after.days.slice(0, 5).map((d) => d.goal)).toEqual(before);
+    expect(after.dailyGoal).toBeGreaterThan(1667); // today and the days ahead take up the difference
+  });
 });

@@ -61,7 +61,7 @@ Each result has three lines:
 
 The word you searched for is highlighted in each title and snippet.
 
-**Codes like CX-002 or SB L60.** Books brought in from detailed planning files, like *I Declare War*, carry reference numbers from those files. They show quietly in small grey type with a dotted underline. Click one and Story Canon tells you what it points to, with the passage itself when that document is among the ones you brought in. The words "a planning note, kept with your records" mean the result is a note record (the **Notes** kind in the Story Brain) that came in from the planning files.
+**Codes like CX-002 or SB L60.** Books brought in from detailed planning files, like *I Declare War*, carry reference numbers from those files. They show quietly in small grey type with a dotted underline. Click one and Story Canon tells you what it points to, with the passage itself when that document is among the ones you brought in (see [Reference numbers in imported facts](#reference-numbers-in-imported-facts)). The words "a planning note, kept with your records" mean the result is a note record (the **Notes** kind in the Story Brain) that came in from the planning files.
 
 ### Where a search result opens
 
@@ -76,7 +76,7 @@ If you were writing when you searched, the pink **Return to Writing** ribbon at 
 
 **Example.** You remember a line about "playing with fire" but not where. You press **Ctrl+K**, type *fire*, click **Conversations**, and the third result is the ChatGPT message. One click opens it with the line marked.
 
-## Capture: catching a thought without losing your place
+## Capture: saving a thought in seconds
 
 **Capture** saves a thought the moment you have it, exactly as you typed or dictated it, without taking you anywhere.
 
@@ -116,11 +116,11 @@ In the scene plan, each attached thought has its own buttons: **Done** for a tho
 
 **Example.** You are writing the hose fight and wonder what color the hose is. **Ctrl+Shift+N**, type *What color is the hose?*, **Ctrl+Enter**. You are back in the sentence in under five seconds. The question waits in the scene plan under **Attached to this scene**.
 
-**The common mistake** is using Capture for a question you need answered inside the text, like a date. For those, a note for later in double brackets, `[[like this]]`, stays right in the sentence. Capture is for thoughts that belong somewhere else.
+**The common mistake** is using Capture for a question you need answered inside the text, like a date. For those, a note for later in double brackets, `[[like this]]`, stays right in the sentence (see [Notes for later: keep writing, fix it later](#notes-for-later-keep-writing-fix-it-later)). Capture is for thoughts that belong somewhere else.
 
 ### Where captured thoughts wait
 
-- **Questions and ideas**, at the top of the Story Brain's list, holds all three kinds in three groups. See [Captured thoughts: every field](#captured-thoughts-every-field).
+- **Questions and ideas**, at the top of the Story Brain's list, holds all three kinds in three groups. See [Questions and ideas: your open questions and possibilities](#questions-and-ideas-your-open-questions-and-possibilities) and [Captured thoughts: every field](#captured-thoughts-every-field).
 - **Where was I** shows recent unsorted thoughts under **Thoughts waiting to be sorted**. When none are waiting it says "Nothing waiting. Every thought you saved has a home."
 - A thought captured from a scene also waits in that scene's plan.
 
@@ -189,7 +189,7 @@ Nothing happens until you choose.
 The names are close, so it is worth one line each.
 
 - The **Story Trail** (this tab) is every change to your novel: records, scenes, settings, conversations.
-- The **Writing Trail** is part of the Writing Room. It lists each time you stepped away from the page to look something up, so you can get back. It changes nothing in your story.
+- The **Writing Trail** is part of the Writing Room. It lists each time you stepped away from the page to look something up, so you can get back. It changes nothing in your story. See [The Writing Trail and detours](#the-writing-trail-and-detours).
 
 ## Deleted things: restoring what you removed
 

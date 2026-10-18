@@ -441,7 +441,8 @@ export class Manuscript {
   resolveTrail(trailId: string, resolved: boolean, outcome = '') {
     const r = this.store.db.prepare('SELECT id FROM trail WHERE id=?').get(trailId);
     if (!r) throw new NotFoundError('trail entry');
-    this.store.db.prepare('UPDATE trail SET resolved=?, outcome=? WHERE id=?').run(resolved ? 1 : 0, outcome.slice(0, 2000), trailId);
+    // Marking a detour resolved also closes it, as the screen promises; marking it unresolved leaves it as it was.
+    this.store.db.prepare(`UPDATE trail SET resolved=?, outcome=?${resolved ? ", returned_at=COALESCE(returned_at, ?)" : ''} WHERE id=?`).run(...(resolved ? [1, outcome.slice(0, 2000), nowIso(), trailId] : [0, outcome.slice(0, 2000), trailId]));
   }
 
   /** The whole Writing Trail, newest first: open detours and recent returns. */

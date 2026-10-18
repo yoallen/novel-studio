@@ -594,6 +594,13 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const b = body(req, z.object({ file: z.string().min(1).max(200) }));
     return importArchive(store, readSeed(b.file));
   });
+  // "Not now" is never final: the Library offers the novels set aside this way.
+  app.get('/api/seeds/dismissed', async () => dismissedSeeds().filter((f) => seedFiles().includes(f)).map((file) => ({ file, title: file.replace(/\.storycanon\.json$/i, '') })));
+  app.post('/api/seeds/undismiss', async (req) => {
+    const b = body(req, z.object({ file: z.string().max(300) }));
+    store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('seeds_dismissed',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify(dismissedSeeds().filter((f) => f !== b.file)));
+    return { ok: true };
+  });
   app.post('/api/seeds/dismiss', async (req) => {
     const b = body(req, z.object({ file: z.string().min(1).max(200) }));
     store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('seeds_dismissed',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify([...new Set([...dismissedSeeds(), b.file])]));

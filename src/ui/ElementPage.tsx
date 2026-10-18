@@ -138,6 +138,14 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { c
           <input className="record-title grow" aria-label="Name" defaultValue={el.title} onBlur={(e) => { if (e.target.value.trim() && e.target.value !== el.title) void act(api.patch(`/api/elements/${el.id}`, { title: e.target.value })); }} />
         </div>
       )}
+      {el.kind === 'hidden_move' && (
+        <label className="row small record-between">Whose move is this?
+          <select value={el.parent_id ?? ''} onChange={(e) => void act(api.patch(`/api/elements/${el.id}`, { parentId: e.target.value || null }))} style={{ width: 'auto' }}>
+            <option value="">Not chosen yet</option>
+            {all.filter((x: any) => x.kind === 'character').map((x: any) => <option key={x.id} value={x.id}>{x.title}</option>)}
+          </select>
+        </label>
+      )}
       {el.kind === 'relationship' && (
         <p className="record-between">{between.length
           ? <>Between {between.map((l: any, i: number) => <span key={l.id}>{i > 0 ? (i === between.length - 1 ? ' and ' : ', ') : ''}<button className="btn link" onClick={() => onOpen(l.to_id)}>{l.to_title}</button></span>)}</>
@@ -319,6 +327,7 @@ function FieldBlock({ ctx, elId, kind, f, open, setOpen, showHistory, toggleHist
   return (
     <div className="field-block" style={{ marginBottom: '1rem' }}>
       <div className="row"><strong className="grow">{d.label}{d.private ? <span className="faint small"> (private, never exported)</span> : ''}{d.custom ? <span className="faint small"> ({d.own ? 'your field, here only' : 'your field'})</span> : ''}</strong>
+        {d.custom && !d.own && d.id && <button className="btn link small faint" title="Takes this field off every record of this kind. Anything written in it stays in Story Trail and search." onClick={() => { if (window.confirm(`Remove your field "${d.label}" from every record of this kind?\n\nAnything already written in it stays in Story Trail and search.`)) void act(api.del(`/api/fields/${d.id}`)); }}>Remove field</button>}
         <button className="btn link small" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Add'}</button></div>
       <FieldTeach kind={kind} field={d.field} hint={d.prompt} />
       {d.identity && nothing && <p className="muted small" style={{ margin: 0 }}>Not yet specified</p>}

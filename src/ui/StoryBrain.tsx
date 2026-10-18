@@ -54,7 +54,8 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
   }, [els, sel, ctx.projectId]);
 
   const count = (k: string) => els.filter((e) => e.kind === k).length;
-  const hidden = new Set(['arc', 'guardrail', 'question', 'idea', 'thought', 'interview']);
+  // Guardrails show in the list: the ones for the whole book live nowhere else.
+  const hidden = new Set(['arc', 'question', 'idea', 'thought', 'interview']);
   const world = worldbuildingOn(ctx.project?.profile?.setup);
   // Worldbuilding kinds appear only when worldbuilding is on for this book (or it already has some).
   const usual = (k: any) => MAIN.includes(k.key) || (world && WORLD_KINDS.includes(k.key)) || k.custom || count(k.key) > 0;
@@ -137,10 +138,11 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
             })()}
             <KindTeach kind={sel.key} label={kindLabel(sel.key)?.plural ?? sel.key} helpAnchor={slug(`${kindLabel(sel.key)?.plural ?? sel.key}: every field`)} />
             <KindList els={els.filter((e) => e.kind === sel.key)} all={els} summaries={summaries} onOpen={(id) => setSel({ kind: 'element', id })} />
+            {!(sel.key === 'storyworld' && count('storyworld') > 0) && (
             <form className="row" onSubmit={addElement} style={{ marginTop: '1.5rem' }}>
               <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="A name is enough to start" aria-label={`New ${kindLabel(sel.key)?.label ?? 'item'}`} style={{ maxWidth: 360 }} />
               <button className="btn" type="submit">Add {kindLabel(sel.key)?.label?.toLowerCase() ?? 'item'}</button>
-            </form>
+            </form>)}
             {sel.key === 'beat' && <p className="small muted">A beat you add here joins the Board after the last beat. To change the beat sheet itself, use My methods. <button className="btn link small" onClick={() => ctx.go('methods')}>Open My methods</button></p>}
           </>
         )}
@@ -151,6 +153,9 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
 }
 
 // A map of the choices ahead, not a to-do list: no due dates, no percentages (R-A-042).
+/** "Anthony's arc" already says arc: the kind is not said twice. */
+const kindInTitle = (title: string, kind: string) => !!kind && String(title).toLowerCase().endsWith(String(kind).toLowerCase());
+
 function ChoicesAhead({ ctx, onOpen, onNotes }: { ctx: Ctx; onOpen: (id: string) => void; onNotes: () => void }) {
   const [m, setM] = useState<any>(null);
   useEffect(() => { api.get(`/api/projects/${ctx.projectId}/open-decisions`).then(setM).catch(() => {}); }, [ctx.projectId]);
@@ -160,11 +165,11 @@ function ChoicesAhead({ ctx, onOpen, onNotes }: { ctx: Ctx; onOpen: (id: string)
       <h1>Choices ahead</h1>
       <p className="muted">Not a list to finish before you write. Many of these will answer themselves as you draft.</p>
       <div className="cols">
-        <section><h2>{statusWord(ctx.settings, 'unanswered')}</h2><p className="small muted">Places you marked as not decided yet.</p>{m.stillOpen.length === 0 ? <p className="muted small">Nothing marked.</p> : <ul className="list">{m.stillOpen.map((s: any) => <li key={s.id} className="st" data-s="unanswered"><button className="btn link" onClick={() => onOpen(s.element_id)}>{s.element_title}</button> <span className="faint small">{s.kind_label}</span>, {s.field_label}{valueText(s.value) ? <>: <RefText text={valueText(s.value)} projectId={ctx.projectId} /></> : ''}</li>)}</ul>}</section>
-        <section><h2>Possibilities, nothing chosen</h2><p className="small muted">Places with ideas in pencil and no decision yet.</p>{m.choosing.length === 0 ? <p className="muted small">None.</p> : <ul className="list">{m.choosing.map((c: any) => <li key={c.element_id + c.field} className="st" data-s="developing"><button className="btn link" onClick={() => onOpen(c.element_id)}>{c.element_title}</button> <span className="faint small">{c.kind_label}</span>, {c.field_label} <span className="faint small">({c.options === 1 ? 'one idea so far' : `${c.options} ideas side by side`})</span></li>)}</ul>}</section>
+        <section><h2>{statusWord(ctx.settings, 'unanswered')}</h2><p className="small muted">Places you marked as not decided yet.</p>{m.stillOpen.length === 0 ? <p className="muted small">Nothing marked.</p> : <ul className="list">{m.stillOpen.map((s: any) => <li key={s.id} className="st" data-s="unanswered"><button className="btn link" onClick={() => onOpen(s.element_id)}>{s.element_title}</button> {!kindInTitle(s.element_title, s.kind_label) && <span className="faint small">{s.kind_label}</span>}, {s.field_label}{valueText(s.value) ? <>: <RefText text={valueText(s.value)} projectId={ctx.projectId} /></> : ''}</li>)}</ul>}</section>
+        <section><h2>Possibilities, nothing chosen</h2><p className="small muted">Places with ideas in pencil and no decision yet.</p>{m.choosing.length === 0 ? <p className="muted small">None.</p> : <ul className="list">{m.choosing.map((c: any) => <li key={c.element_id + c.field} className="st" data-s="developing"><button className="btn link" onClick={() => onOpen(c.element_id)}>{c.element_title}</button> {!kindInTitle(c.element_title, c.kind_label) && <span className="faint small">{c.kind_label}</span>}, {c.field_label} <span className="faint small">({c.options === 1 ? 'one idea so far' : `${c.options} ideas side by side`})</span></li>)}</ul>}</section>
         <section><h2>Questions I have</h2><p className="small muted">Your open questions, the same ones kept in Questions and ideas. <button className="btn link small" onClick={onNotes}>Open Questions and ideas</button></p>{m.questions.length === 0 ? <p className="muted small">None open.</p> : <ul className="list">{m.questions.map((q: any) => <li key={q.id} className="st" data-s="unanswered"><button className="btn link" style={{ textAlign: 'left' }} onClick={() => onOpen(q.id)}><RefText text={q.title} inert /></button></li>)}</ul>}</section>
         <section><h2>Kept for you</h2>{m.reserved.length === 0 ? <p className="muted small">Nothing marked.</p> : <ul className="list">{m.reserved.map((r: any) => <li key={r.id}>{r.what === 'element' ? <button className="btn link" onClick={() => onOpen(r.id)}>{r.title}</button> : <span>{r.title} (scene)</span>} <span className="hers">{r.reserved}</span></li>)}</ul>}</section>
-        <section><h2>Suggestions waiting</h2><p className="small">{m.pending.length === 0 ? 'None.' : `${m.pending.length} waiting for you.`}</p></section>
+        <section><h2>Suggestions waiting</h2><p className="small">{m.pending.length + (m.slips ?? 0) === 0 ? 'None.' : `${m.pending.length + (m.slips ?? 0)} waiting for you, in Suggestions waiting.`}</p></section>
       </div>
     </>
   );

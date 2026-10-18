@@ -234,7 +234,8 @@ export class Exporter {
     if (!beats.length) throw new ValidationError('Choose a beat sheet for this novel first.');
     const stc = this.structure.spine(projectId) === 'save_the_cat';
     const lm = this.structure.landmarks(projectId);
-    const target = st.targetWords ?? (lm.length.drafted || 90000);
+    // Without a target length, a few drafted words are no guide: a typical novel length stands in until there is a real draft.
+    const target = st.targetWords ?? (lm.length.drafted >= 20000 ? lm.length.drafted : 90000);
     const counts = new Map<string, number>();
     for (const e of this.brain.elements(projectId).filter((x) => ['scene_plan', 'event'].includes(x.kind as string))) { const b = this.structure.decidedBeat(e.id as string); if (b) counts.set(b, (counts.get(b) ?? 0) + 1); }
     const val = (id: string, f: string) => { const v = this.brain.field(id, f); const x = v.current ?? v.latest; return x ? `${String(x.value)}${v.current ? '' : ` (${statusLabel(x.status as never, st.statusLabels, st.authorName)})`}` : ''; };

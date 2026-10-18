@@ -19,7 +19,7 @@ export function SyncNotice({ projectId, onTook }: { projectId: string | null; on
     if (firstTook.current === undefined) firstTook.current = s?.tookAt ?? null;
     else if (s?.tookAt && s.tookAt !== firstTook.current) { await flushEditor(); window.location.reload(); return; }
     if (s?.notesIn > 0) {
-      setMsg(`${s.notesIn === 1 ? 'A note' : `${s.notesIn} notes`} from the road came in. ${s.notesIn === 1 ? 'It is' : 'They are'} under Thoughts you saved, on Where was I.`);
+      setMsg(`${s.notesIn === 1 ? 'A note' : `${s.notesIn} notes`} from the road came in. ${s.notesIn === 1 ? 'It is' : 'They are'} under Thoughts waiting to be sorted, on Where was I.`);
       window.dispatchEvent(new Event('ns-captured'));
     }
     setSt(s);
@@ -150,7 +150,7 @@ function RoadNotesInfo({ projectId }: { projectId: string }) {
     <section className="section" aria-label="Notes from the road" style={{ margin: '0.75rem 0' }}>
       <h3 style={{ marginTop: 0 }}>Notes from the road</h3>
       <p className="small" style={{ margin: '0 0 0.4rem' }}>This novel has its own notes file in your shared folder: <code>{at.path}</code></p>
-      <p className="small muted" style={{ margin: '0 0 0.4rem' }}>On your phone, open it from OneDrive in Word and tap the microphone to dictate. Start each note on a new line. When Story Canon has this novel open, each new paragraph arrives under Thoughts you saved, usually within a minute of the file syncing. Your file is never changed, and a note that is already in comes in only once, so you can leave old notes in the file or delete them; either is fine.</p>
+      <p className="small muted" style={{ margin: '0 0 0.4rem' }}>On your phone, open it from OneDrive in Word and tap the microphone to dictate. Start each note on a new line. When Story Canon has this novel open, each new paragraph arrives under Thoughts waiting to be sorted, usually within a minute of the file syncing. Your file is never changed, and a note that is already in comes in only once, so you can leave old notes in the file or delete them; either is fine.</p>
       <button className="btn link small" onClick={() => { void navigator.clipboard?.writeText(at.path!).then(() => { setCopied(true); window.setTimeout(() => setCopied(false), 2000); }); }}>{copied ? 'Copied' : 'Copy where it is'}</button>
     </section>
   );

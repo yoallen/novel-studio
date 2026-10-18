@@ -43,6 +43,6 @@ test('a part of the book opens above a chapter in the Writing Room', async ({ pa
   await page.reload();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   await expect(binder.getByRole('button', { name: 'Part One: Winter' })).toBeVisible();
-  await binder.getByRole('button', { name: 'End the part here' }).click();
+  await binder.getByRole('button', { name: 'Remove this part heading' }).click();
   await expect(binder.getByRole('button', { name: 'Part One: Winter' })).toHaveCount(0);
 });

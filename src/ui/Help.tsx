@@ -6,7 +6,8 @@ import { marked } from 'marked';
 
 const files = import.meta.glob('./guide/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 
-export const slug = (s: string) => s.toLowerCase().replace(/<[^>]+>/g, '').replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const decode = (s: string) => s.replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+export const slug = (s: string) => decode(s.replace(/<[^>]+>/g, '')).toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 interface Chapter { id: string; title: string; md: string; heads: { level: number; text: string; id: string }[] }
 

@@ -394,7 +394,7 @@ const STORYWORLD: FieldDef[] = [
   f('Viewpoint', 'pov_approach', 'Viewpoint approach', { prompt: 'For example: alternating first person between two narrators.' }),
   f('Viewpoint', 'pov_rule', 'Viewpoint rule', { prompt: 'One viewpoint per scene, one per chapter, or no rule.' }),
   f('Viewpoint', 'pov_person', 'Default narrative person'), f('Viewpoint', 'pov_tense', 'Default tense'),
-  f('Knowledge', 'hidden_truth', 'Does this book hide a truth from the reader?', { prompt: 'Turns on the reader-knowledge and secret-operations views.', suggestions: ['Yes', 'No'] }),
+  f('Knowledge', 'hidden_truth', 'Does this book hide a truth from the reader?', { prompt: 'A reminder for you and the collaborator. If yes, use Who knows what in Narrative Zoom to track what the reader suspects and the moves kept from them; it is always there.', suggestions: ['Yes', 'No'] }),
 ];
 
 const HIDDEN_MOVE: FieldDef[] = [

@@ -191,6 +191,13 @@ export class Collaborator {
     return out;
   }
 
+  /** What she asked to be called (About you), then her name in Settings, then "You". */
+  private myName(projectId: string): string {
+    const r = this.store.db.prepare("SELECT value_json FROM settings WHERE key='author_profile'").get() as Row | undefined;
+    const about = ((r ? JSON.parse(r.value_json as string) : {}).about ?? {}) as Record<string, string>;
+    return (about.name || settingsOf(this.brain.project(projectId).profile).authorName || 'You').trim();
+  }
+
   private system(projectId: string, mode: Mode, drafting: boolean) {
     const st = settingsOf(this.brain.project(projectId).profile);
     // Door closed: while drafting, the collaborator keeps problems to itself unless asked.
@@ -239,7 +246,7 @@ export class Collaborator {
     if (!input.text.trim()) throw new ValidationError('Say something first.');
     const mode = input.mode ?? 'discuss';
     const client = this.client();
-    const authorTurn = this.convs.addTurn(conversationId, { speaker_kind: 'author', speaker_name: settingsOf(this.brain.project(pid).profile).authorName || 'You', text: input.text });
+    const authorTurn = this.convs.addTurn(conversationId, { speaker_kind: 'author', speaker_name: this.myName(pid), text: input.text });
     const history = (this.convs.full(conversationId).turns as Row[]).slice(-30);
     const messages: AiMessage[] = [];
     for (const t of history) {

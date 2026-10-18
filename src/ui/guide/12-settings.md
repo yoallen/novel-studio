@@ -12,7 +12,7 @@ The page is headed **Settings for this novel**. Most of what is on it belongs to
 
 From the top:
 
-- **Novel setup**, in a shaded box, with the link **Open novel setup**. Novel setup is a separate page of questions about what kind of book this is: genres, story types, how the story is told, and your storytelling toolkit. Your answers there decide which blanks and tools the program shows you. It has its own chapter in this guide.
+- **Novel setup**, in a shaded box, with the link **Open novel setup**. Novel setup is a separate page of questions about what kind of book this is: genres, story types, how the story is told, and your storytelling toolkit. Your answers there decide which blanks and tools the program shows you. See [Novel setup: telling Story Canon what kind of book this is](#novel-setup-telling-story-canon-what-kind-of-book-this-is).
 - A line explaining how saving works on this page (next section).
 - **On this page**, a row of links that jump to each section: **This novel**, **Guidance and goals**, **Writing push**, **Scene status steps**, **Words for decisions**, **The collaborator**, **About you**, **For all my novels**, **Appearance**, **Sharing**, **Backups**. (**Sharing** jumps to the section headed **Your other computers**.)
 
@@ -102,6 +102,8 @@ Drafting starts at **Quiet**, planning at **Advisory**. These levels shape how t
 
 For **Words per day**, **Scenes per week** and **Minutes per day**, a box called **Goal amount** appears beside the dropdown for the number.
 
+How the goal shows on Where was I is in [Everyday goals: a number for ordinary days](#everyday-goals-a-number-for-ordinary-days).
+
 **The common mistake** is setting a daily goal you would hit on a perfect day. Set the number you can hit on a tired Tuesday. Meeting a small goal every day builds a book; missing a big one builds guilt.
 
 ## A writing push
@@ -119,7 +121,7 @@ To remove the push, click **No push** and save.
 
 A push can run up to a year. The last day cannot come before the first.
 
-**Lighter days, rest days and catch-up math** are set from **Where was I**, under your progress, and are covered with the rest of Where was I in this guide.
+**Lighter days, rest days and catch-up math** are set from **Where was I**, under your progress. See [A writing push: November and 50,000 words](#a-writing-push-november-and-50-000-words) and [Lighter days and rest days](#lighter-days-and-rest-days).
 
 ## Door closed: drafting without judgment
 
@@ -140,13 +142,13 @@ A push can run up to a year. The last day cannot come before the first.
 2. In **Keep it closed through**, pick the last day. It suggests the last day of your writing push if one is coming, or thirty days from now.
 3. Click **Close the door**. This acts at once; you do not need **Save settings**.
 
-The section then says "The door is closed through November 30." To move the day, pick a new one under **Change the day** and click **Save**. To open it early, click **Open the door now**. Otherwise it opens by itself the day after your date. You can also close it from **Where was I**, under your progress.
+The section then says "The door is closed through November 30." To move the day, pick a new one under **Change the day** and click **Save**. To open it early, click **Open the door now**. Otherwise it opens by itself the day after your date. You can also close it from **Where was I**, under your progress (see [Closing the door from the progress panel](#closing-the-door-from-the-progress-panel)). What it changes in the Writing Room is in [Door closed while you draft](#door-closed-while-you-draft).
 
 **Why it works.** Drafting and judging use different parts of your attention. A flagged long sentence pulls you into fixing mode while you are still finding the scene. Keeping the two apart is how first drafts get finished.
 
 ## Scene status steps
 
-A **status step** is a stage a scene moves through, from first idea to finished. You choose a scene's step from the **Status** dropdown in the Writing Room's scene plan. This section is where you decide what the steps are.
+A **status step** is a stage a scene moves through, from first idea to finished. You choose a scene's step from the **Status** dropdown in the Writing Room's scene plan (see [Status: the steps a scene moves through](#status-the-steps-a-scene-moves-through)). This section is where you decide what the steps are.
 
 The starting steps are **Idea**, **Planned**, **Ready to draft**, **Drafting**, **First draft complete**, **Revising**, **Revised** and **Finalized**.
 
@@ -241,7 +243,7 @@ Every choice in it is explained step by step in [Turning the collaborator on](#t
 | --- | --- |
 | **What should I call you?** | The name the program and the collaborator call you. It also goes into the **Kept for you** marker. |
 | **Your pronouns** | So the collaborator never assumes. Click a suggestion (she/her, he/him, they/them, she/they, he/they, ze/zir, any pronouns, just my name) or type your own. |
-| **How do you find your story?** | I plot first, I find the story as I write, Somewhere in between, or your own words. A writer who finds the story as they write is not pushed toward outlines. |
+| **How do you find your story?** | I plot first, I find the story as I write, Somewhere in between, or your own words. The collaborator fits its help to how you work. |
 | **How long have you been writing?** | Years, books finished, or "this is my first." |
 | **How do you like to be helped and taught?** | For example, "teach the idea fully before you show me an example." |
 | **Anything that drains you, or that the collaborator should stay away from?** | Topics, styles of feedback, anything. |
@@ -277,7 +279,7 @@ A line with the link **Open my methods**, where you make methods and beat sheets
 
 A **stage** is where a whole book stands in its life, chosen from a dropdown on the book's cover in the Library and on Where was I. The box **Stages a book can be in** lists them, one per line: Idea, Plotting and planning, First draft, Second draft, Third draft, Revising, Editing, With beta readers, With an editor, Querying, On submission, Published, Resting.
 
-Add, rename, reorder or delete lines to make your own list. Stages are labels only. They never lock or change anything.
+Add, rename, reorder or delete lines to make your own list. Stages are labels only. They never lock or change anything. How a stage differs from a draft is in [Stages and drafts: two different questions](#stages-and-drafts-two-different-questions).
 
 ## Appearance: light, dark or match Windows
 
@@ -304,7 +306,7 @@ You can write on two computers, such as a laptop at home and a Surface at work, 
 3. Click **Choose the shared folder** and pick a folder in your OneDrive (or any folder both computers can see).
 4. A message says "Sharing is on." Your novels are copied into a folder called **Story Canon shared** inside the folder you chose.
 5. On the second computer, install Story Canon, open the same section, name it (*Surface*), and choose **the same folder**.
-6. On the second computer, go to the **Library**. Under **On your other computers**, click **Bring to this computer** beside each novel.
+6. On the second computer, go to the **Library**. Under **On your other computers**, click **Bring to this computer** beside each novel (see [On your other computers](#on-your-other-computers)).
 
 **The common mistake:** on a brand-new install, the Library also offers to bring in *I Declare War* from its planning files. On your second computer, do not use that for a book you already have. Use **Bring to this computer**, so both computers hold one book, not two separate ones.
 
@@ -426,8 +428,8 @@ Each beat is a numbered row:
 A method belongs to you, so every novel can use it, but each novel chooses its own.
 
 1. Open the novel, then **Settings**, then **Open novel setup**.
-2. Under **My storytelling toolkit**, tick your method. It carries a **yours** chip and an **Edit** link.
-3. If the method has beats and the novel now has more than one beat sheet ticked, choose which drives the Board in **The beat sheet that drives the board**. Tick **Offer my placed scenes on the matching beats** to carry scene placements across using **Lines up with**. They arrive as "might go here," waiting for you to decide.
+2. Under **My storytelling toolkit**, tick your method (see [My storytelling toolkit](#my-storytelling-toolkit)). It carries a **yours** chip and an **Edit** link.
+3. If the method has beats and the novel now has more than one beat sheet ticked, choose which drives the Board in **The beat sheet that drives the board** (see [The beat sheet that drives the board](#the-beat-sheet-that-drives-the-board)). Tick **Offer my placed scenes on the matching beats** to carry scene placements across using **Lines up with**. They arrive as "might go here," waiting for you to decide.
 
 Novel setup saves each choice as you make it.
 

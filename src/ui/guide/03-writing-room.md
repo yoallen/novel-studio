@@ -98,7 +98,7 @@ If the same scene is open in two Story Canon windows and you type in both, the s
 
 **The common mistake** is clicking the first button that looks safe without reading. If you are not sure which version is better, **Keep both as separate scenes** is the one that never loses a word.
 
-### Earlier versions of a scene
+### Earlier versions: comparing and restoring a scene
 
 At the bottom of the scene plan is a button, **Earlier versions**. It opens a list of every saved version of the scene, each with its date, time and word count.
 
@@ -129,7 +129,7 @@ A **part** is a group of chapters with its own heading, such as *Part One: Winte
 1. Under the chapter where the part should begin, click **Start a part here**.
 2. Type the part's name, and press **Enter**.
 
-The part's name appears in slanted purple type above that chapter. The part runs from that chapter until the next part heading. To rename it, double-click the part's name. Under the chapter that starts a part, the link changes to **End the part here**. Clicking it takes the part heading away from that chapter, so the chapters from there on are no longer a separate part.
+The part's name appears in slanted purple type above that chapter. The part runs from that chapter until the next part heading. To rename it, double-click the part's name. Under the chapter that starts a part, the link changes to **Remove this part heading**. Clicking it takes the part heading away from that chapter, so the chapters from there on are no longer a separate part.
 
 ### Status circles in the binder
 
@@ -292,7 +292,7 @@ Each button takes the item off this list. It stays in the Story Brain with its n
 
 ### Scene notes and Earlier versions
 
-**Scene notes** is a free box for anything about the scene that isn't story: a reminder to check a fact, a line you might use. It saves when you click away. Below it are the **Earlier versions** button (see [Earlier versions of a scene](#earlier-versions-of-a-scene)) and a reminder that moving and deleting the scene happen in the binder.
+**Scene notes** is a free box for anything about the scene that isn't story: a reminder to check a fact, a line you might use. It saves when you click away. Below it are the **Earlier versions** button (see [Earlier versions of a scene](#earlier-versions-comparing-and-restoring-a-scene)) and a reminder that moving and deleting the scene happen in the binder.
 
 ## Changing the status steps
 
@@ -303,7 +303,7 @@ Your scene steps are yours to change.
 3. Tick **Counts as drafted** for every step where the scene has prose.
 4. Click **Save settings** at the bottom.
 
-**How the circles follow.** Steps before the first one ticked **Counts as drafted** give an empty circle. The first ticked step gives a half circle. Every ticked step after it gives a filled circle. (The grey help line in Settings describes this differently; the binder and the key under the Status dropdown show how it really works.)
+**How the circles follow.** Steps before the first one ticked **Counts as drafted** give an empty circle. The first ticked step gives a half circle. Every ticked step after it gives a filled circle. (The grey help line in Settings describes this differently; the binder and the key under the Status dropdown show how it really works.) The Settings chapter covers this section in full: [Scene status steps](#scene-status-steps).
 
 ## Read it back: hearing and checking the page
 

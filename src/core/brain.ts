@@ -600,7 +600,9 @@ export class Brain {
     // Field names as she sees them on the record, with the kind of record they belong to.
     const label = this.fieldLabeler(projectId);
     const named = <T extends Record<string, unknown>>(r: T) => ({ ...r, field_label: label(r.element_kind as string, r.field as string), kind_label: (KIND_LABELS[r.element_kind as string]?.label ?? String(r.element_kind)).toLowerCase() });
-    return { stillOpen: stillOpen.map(named), choosing: choosing.map(named), questions, reserved, pending };
+    // Suggestions that came inside her planning documents wait too, beside the collaborator's.
+    const slips = (this.store.db.prepare("SELECT COUNT(*) AS n FROM statements s JOIN elements e ON e.id=s.element_id WHERE s.project_id=? AND s.status='proposed' AND s.deleted_at IS NULL AND s.superseded_by_id IS NULL AND e.deleted_at IS NULL").get(projectId) as { n: number }).n;
+    return { stillOpen: stillOpen.map(named), choosing: choosing.map(named), questions, reserved, pending, slips };
   }
 
   /** One line per record for a kind's list: a few telling fields, and how much is decided, developing and still open. */

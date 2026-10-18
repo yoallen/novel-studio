@@ -154,7 +154,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
                     <button className="btn link small" onClick={() => void addScene(c.id, c.scenes[c.scenes.length - 1]?.id)}>Add scene</button>
                     <button className="btn link small faint" aria-label={`Delete ${c.title}`} onClick={() => void deleteChapter(c)}>Delete chapter</button>
                     {c.part_title
-                      ? <button className="btn link small faint" onClick={() => void api.put(`/api/chapters/${c.id}/part`, { title: '' }).then(() => setTick((t) => t + 1))}>End the part here</button>
+                      ? <button className="btn link small faint" onClick={() => void api.put(`/api/chapters/${c.id}/part`, { title: '' }).then(() => setTick((t) => t + 1))}>Remove this part heading</button>
                       : <button className="btn link small faint" onClick={() => setPartEdit({ id: c.id, title: '' })}>Start a part here</button>}
                   </div>
                 </div>

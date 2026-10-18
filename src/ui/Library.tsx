@@ -18,7 +18,8 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   useEffect(() => { api.get('/api/author-profile').then((p) => setAskAbout(!p.about?.asked)).catch(() => {}); }, []);
   const [seeds, setSeeds] = useState<any[]>([]);
   const [opening, setOpening] = useState('');
-  const loadSeeds = () => api.get('/api/seeds').then(setSeeds).catch(() => setSeeds([]));
+  const [laterSeeds, setLaterSeeds] = useState<{ file: string; title: string }[]>([]);
+  const loadSeeds = () => { api.get('/api/seeds/dismissed').then(setLaterSeeds).catch(() => setLaterSeeds([])); return api.get('/api/seeds').then(setSeeds).catch(() => setSeeds([])); };
   useEffect(() => { void loadSeeds(); }, []);
   async function openSeed(file: string) {
     setOpening(file); setError('');
@@ -95,6 +96,9 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
           </div>
         </section>
       ))}
+      {laterSeeds.length > 0 && (
+        <p className="small muted">You said "Not now" to {laterSeeds.map((x, i) => <span key={x.file}>{i ? ', ' : ''}<button className="btn link small" onClick={() => void api.post('/api/seeds/undismiss', { file: x.file }).then(loadSeeds)}>{x.title}</button></span>)}. Click a title to offer it again.</p>
+      )}
       <h2>Your novels</h2>
       {error && <div className="notice error" role="alert">{error}</div>}
       {projects && projects.length > 0 && (

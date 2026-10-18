@@ -21,7 +21,7 @@ The difference is what it knows and what it is allowed to do. A chat app in your
 
 - It never writes into your manuscript. It has no way to type into your pages.
 - It never decides anything. It cannot mark a fact as decided. Only you can.
-- It never drafts anything you marked as kept for you (see [The marker for what is yours to write or decide](#the-marker-for-what-is-yours-to-write-or-decide)). On those, it asks questions or teaches instead.
+- It never drafts anything you marked as kept for you (see [Kept for you: work only you will do](#kept-for-you-work-only-you-will-do)). On those, it asks questions or teaches instead.
 - It writes sample lines only when you ask for them, and it labels each one "One way it could be done," which means an example, never a decision.
 
 **Why it is built this way.** A novel has to sound like one person. The moment an AI's sentences slip into your pages, your voice starts to blur, and you can no longer tell which ideas were yours. Keeping the collaborator outside your pages, with its ideas waiting on slips, means you get a sounding board without losing authorship.
@@ -93,7 +93,7 @@ Every time you click **Ask**, Story Canon gathers a briefing about your book and
 - The novel's title and its one sentence, and what you chose in Novel setup: genres, story types, how the story is told, and your storytelling toolkit, including your own methods.
 - Every current fact in your Story Brain, each with its status word (Decided, Developing, Still open, Example or Suggestion). Older versions you replaced are left out, and so is anything you set aside.
 - Your **beat sheet**, in order: each beat, what you wrote on it, and the names of the scene cards placed there or that might go there.
-- Your **guardrails** (the rules your story must never break), with an instruction to warn you if an idea would break one.
+- Your **guardrails** (the rules your story must never break; see [Guardrails: rules that must stay true](#guardrails-rules-that-must-stay-true)), with an instruction to warn you if an idea would break one.
 - Which scenes you marked as kept for you, so it never drafts them.
 - The open story questions the program has noticed in Narrative Zoom's Story review.
 - Your craft shelf, so **Where to learn more** starts with your own books.
@@ -229,7 +229,7 @@ After an answer that left suggestions, a note appears under the **Ask** button: 
 
 **Where:** the **Story Brain** tab, the list called **Suggestions waiting** at the top of the left column. The number beside it counts what is waiting.
 
-Suggestions from the collaborator sit under **From the collaborator**. Ideas that came in from a chat or document you brought in (marked "Here's a suggestion" in the original) sit under **From your planning documents**.
+Suggestions from the collaborator sit under **From the collaborator**. (The Story Brain chapter covers this list in full: [Suggestions waiting: ideas you have not taken yet](#suggestions-waiting-ideas-you-have-not-taken-yet).) Ideas that came in from a chat or document you brought in (marked "Here's a suggestion" in the original) sit under **From your planning documents**.
 
 Each one has buttons:
 

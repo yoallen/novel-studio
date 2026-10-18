@@ -94,9 +94,11 @@ export class Progress {
     const goalOf = new Map<string, number | null>();
     let pace: number | null = null, shortfall = 0, planned = 0;
     if (push?.words) {
-      const share = (from: number, left: number) => {
+      // For a day already gone, days set from today on are not counted: a day you set ahead never
+      // changes what an earlier day asked of you.
+      const share = (from: number, left: number, pastDay = false) => {
         let reserved = 0, free = 0;
-        for (let i = from; i < range.length; i++) { const v = set[range[i]!]; if (v != null) reserved += v; else free++; }
+        for (let i = from; i < range.length; i++) { const d = range[i]!; const v = pastDay && d >= today ? undefined : set[d]; if (v != null) reserved += v; else free++; }
         return { free, need: left - reserved };
       };
       // "Ahead" and "behind" are measured against an even share of the whole push for each day gone
@@ -113,7 +115,7 @@ export class Progress {
         const d = range[i]!;
         if (d > today) break;
         if (d < today) planned += set[d] ?? evenPace;
-        const { free, need } = share(i, push.words - written);
+        const { free, need } = share(i, push.words - written, d < today);
         const p = free > 0 ? Math.max(0, Math.ceil(need / free)) : 0;
         if (d === today) { pace = free > 0 ? p : (need <= 0 ? 0 : null); shortfall = free > 0 ? 0 : Math.max(0, need); }
         goalOf.set(d, set[d] ?? p);

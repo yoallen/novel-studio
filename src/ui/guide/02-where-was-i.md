@@ -185,7 +185,7 @@ You will meet the other marks (pencil for developing, a slip for a suggestion, a
 
 ## Latest decisions
 
-**What it is.** The five things you most recently decided (put in ink), newest first. Each entry has three lines:
+**What it is.** The five things you most recently decided (put in ink), newest first. Decisions that arrived with planning you brought in count too, so right after bringing in a book this list shows the last decisions from your planning. Each entry has three lines:
 
 1. **The record's name**, as a link, for example **Anthony Vernon** or **Ledger contents**.
 2. **The field**, in small grey type, for example "Other facts about them" or "Where it pays off".

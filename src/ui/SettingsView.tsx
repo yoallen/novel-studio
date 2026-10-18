@@ -78,7 +78,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
     } catch (e) { setError((e as Error).message); }
   }
   async function snapshot() { try { const r = await api.post('/api/backups/snapshot'); setBackupMsg(`Backup made and checked (${Math.round(r.bytes / 1024).toLocaleString()} KB).`); } catch (e) { setError((e as Error).message); } }
-  const SECTIONS: [string, string][] = [['set-novel', 'This novel'], ['set-goals', 'Guidance and goals'], ['set-push', 'Writing push'], ['set-steps', 'Scene status steps'], ['set-words', 'Words for decisions'], ['set-collab', 'The collaborator'], ['set-about', 'About you'], ['set-all', 'For all my novels'], ['set-look', 'Appearance'], ['set-sync', 'Sharing'], ['set-backups', 'Backups']];
+  const SECTIONS: [string, string][] = [['set-novel', 'This novel'], ['set-goals', 'Guidance and goals'], ['set-push', 'Writing push'], ['set-steps', 'Scene status steps'], ['set-words', 'Words for decisions'], ['set-collab', 'The collaborator'], ['set-about', 'About you'], ['set-all', 'For all my novels'], ['set-look', 'Appearance'], ['set-sync', 'Your other computers'], ['set-backups', 'Backups']];
   const GOAL_HELP: Record<string, string> = {
     none: 'No daily number. Where was I still shows what you wrote.',
     words: 'A number of words each day. Where was I tracks it every day you write.',
@@ -117,7 +117,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
 
       <section className="section settings-section" id="set-goals" aria-label="Guidance and goals">
         <h2>Guidance and goals</h2>
-        <p className="small muted">How much the program and the collaborator speak up about concerns, while you draft and while you plan.</p>
+        <p className="small muted">How much the collaborator speaks up about concerns, while you draft and while you plan.</p>
         <div className="cols">
           <label className="field"><span>Guidance while drafting</span>
             <select value={s.guidanceWhileDrafting} onChange={(e) => setS({ ...s, guidanceWhileDrafting: e.target.value })}>
@@ -165,7 +165,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
 
       <section className="section settings-section" id="set-steps">
         <h2>Scene status steps</h2>
-        <p className="muted small">Rename, add, reorder or remove steps. Tick "Counts as drafted" for steps where the scene has prose. In the binder, a scene at a drafted step shows a filled circle, a scene before that an empty one, and from Revising on the circle is half filled.</p>
+        <p className="muted small">Rename, add, reorder or remove steps. Tick "Counts as drafted" for steps where the scene has prose. In the binder, a scene before the first drafted step shows an empty circle, the first drafted step (Drafting) a half-filled one, and every step after it a full circle.</p>
         <ul className="list">
           {ladder.map((st, i) => (
             <li key={st.key + i} className="row">
