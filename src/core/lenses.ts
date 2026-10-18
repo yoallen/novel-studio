@@ -18,11 +18,12 @@ export class Lenses {
   names(projectId: string) {
     const known = this.brain.elements(projectId).filter((e) => ['character', 'location', 'set_piece', 'storyline'].includes(e.kind as string));
     const knownNames = known.flatMap((e) => [e.title as string, ...(((JSON.parse((e.attrs_json as string) || '{}') as Record<string, unknown>).aliases as string[] | undefined) ?? [])]);
+    const knownWords = new Set(knownNames.flatMap((k) => k.split(/\s+/)).map((w) => w.replace(/[.,]$/, '')).filter((w) => w.length >= 3));
     const total = new Map<string, number>();
     const where = new Map<string, { id: string; title: string; count: number }[]>();
     for (const { scene } of this.scenes(projectId)) {
       const text = (this.store.db.prepare('SELECT text FROM scenes WHERE id=?').get(scene.id) as Row).text as string;
-      for (const [n, c] of namesIn(text)) {
+      for (const [n, c] of namesIn(text, knownWords)) {
         total.set(n, (total.get(n) ?? 0) + c);
         where.set(n, [...(where.get(n) ?? []), { id: scene.id as string, title: scene.title as string, count: c }]);
       }
@@ -66,6 +67,9 @@ export class Lenses {
     }
     const flat = rows.filter((r) => r.valueStart && r.valueEnd && r.valueStart === r.valueEnd);
     for (const r of flat) notes.push(`"${r.title}" starts and ends on the same value (${r.valueStart}). Every scene has to turn. Intended?`);
-    return { rows, medianWords: median, notes };
+    // Scene cards with no written scene yet have no length, so they are counted here rather than drawn.
+    const written = new Set(this.scenes(projectId).map((x) => x.scene.plan_element_id).filter(Boolean));
+    const unwritten = this.brain.elements(projectId, { kind: 'scene_plan' }).filter((p) => !written.has(p.id)).length;
+    return { rows, medianWords: median, notes, unwritten };
   }
 }

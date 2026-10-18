@@ -90,7 +90,9 @@ export function distance(a: string, b: string) {
 const COMMON_CAPS = new Set(('I The A An And But Or So Then When While If He She It They We You His Her Its Their Our My Your This That These Those There Here What Who Why How Where Yes No Not Oh Well Okay OK Mr Mrs Ms Miss Dr Saint St Monday Tuesday Wednesday Thursday Friday Saturday Sunday January February March April May June July August September October November December God Lord Chapter Part One Two Three Four Five Six Seven Eight Nine Ten Maybe Even Just Still After Before Now Later Once Every Each All Some Most Then Than Because Also Instead Meanwhile Again Anyway Hey Hi Hello Please Thank Thanks Sorry Look Wait Yeah Nope Sure Right Good Great'.split(' ')));
 
 /** Capitalized words in mid-sentence, counted: the names a book actually uses. Sentence starts count once a word is known as a name. */
-export function namesIn(text: string) {
+/** Capitalized names in the text. A word that only ever starts a sentence counts when it is one of the `known` names
+ *  (from her records), since "Kevin said" at a sentence start is a name, while "Then" or "Maybe" is not. */
+export function namesIn(text: string, known?: Set<string>) {
   const toks = tokenize(text);
   const mid = new Map<string, number>(), initial = new Map<string, number>();
   toks.forEach((t, i) => {
@@ -106,6 +108,7 @@ export function namesIn(text: string) {
   });
   const counts = new Map<string, number>();
   for (const [w, n] of mid) counts.set(w, n + (initial.get(w) ?? 0));
+  if (known) for (const [w, n] of initial) if (!mid.has(w) && known.has(w)) counts.set(w, n);
   return counts;
 }
 

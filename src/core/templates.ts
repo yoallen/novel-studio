@@ -272,7 +272,7 @@ const SCENE_PLAN: FieldDef[] = [
   f('Narrator and truth', 'actually_true', 'What is actually true', { prompt: 'The gap between these two is what the reader may or may not catch.' }),
   f('Timeline strand', 'timeline_strand', 'Which timeline', { prompt: 'Then or now, the frame or the tale, or your own names for the strands.' }),
   f('Callbacks', 'callbacks', 'Callbacks and running gags here', { multi: true, prompt: 'Name the gag. Each return should twist it a little further.' }),
-  f('Reader response', 'reader_response', 'What you want the reader to feel', { multi: true, suggestions: ['Profound', 'Funny', 'Relatable', 'Shocking'], prompt: 'The tab a reader would reach for here. A chapter with no tab may need more.' }),
+  f('Reader response', 'reader_response', 'What you want the reader to feel', { multi: true, suggestions: ['Profound', 'Funny', 'Relatable', 'Shocking'], prompt: 'The colored tab a reader would stick here, to find it again: purple for profound, pink for funny, yellow for relatable, green for shocking, or your own word. Narrative Zoom shows them chapter by chapter under Reader response.' }),
   f('Heat', 'heat_on_page', 'What is on the page', { prompt: 'How far the scene goes, so the heat stays consistent with the rest of the book.' }),
   f('Heat', 'heat_changes', 'What the intimacy changes between them', { prompt: 'Every intimate scene should move the relationship, not only the temperature.' }),
 ];

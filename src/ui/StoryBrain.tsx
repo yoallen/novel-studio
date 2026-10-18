@@ -74,8 +74,9 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
           <>
             <h1>{kindLabel(sel.key)?.plural ?? sel.key}</h1>
             <ul className="list">
-              {els.filter((e) => e.kind === sel.key && !e.parent_id).map((e) => (
-                <li key={e.id} className="row"><button className="btn link grow" style={{ textAlign: 'left', fontSize: '1.05rem' }} onClick={() => setSel({ kind: 'element', id: e.id })}>{e.title}</button>{e.reserved && <span className="hers">{e.reserved}</span>}</li>
+              {/* A record filed under one of another kind (a hidden move under its character) still belongs in this list. */}
+              {els.filter((e) => e.kind === sel.key && (!e.parent_id || els.find((p) => p.id === e.parent_id)?.kind !== e.kind)).map((e) => (
+                <li key={e.id} className="row"><button className="btn link grow" style={{ textAlign: 'left', fontSize: '1.05rem' }} onClick={() => setSel({ kind: 'element', id: e.id })}>{e.title}</button>{e.parent_id && els.find((p) => p.id === e.parent_id) && <span className="faint small">{els.find((p) => p.id === e.parent_id)!.title}</span>}{e.reserved && <span className="hers">{e.reserved}</span>}</li>
               ))}
             </ul>
             <form className="row" onSubmit={addElement} style={{ marginTop: '1rem' }}>
