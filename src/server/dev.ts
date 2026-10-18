@@ -17,6 +17,7 @@ const { app } = await buildApp({
   token,
   port,
   aiKey: process.env.STUDIO_AI_KEY ?? null,
+  ...(process.env.STUDIO_NOTES_QUICK === '1' ? { notesTiming: { quietMs: 0, wakeHoldMs: 0 } } : {}),
   ...(process.env.STUDIO_AI_FAKE === '1' ? { aiClientFactory: fakeAi } : {}),
   staticDir: process.env.STUDIO_UI ? resolve(process.env.STUDIO_UI) : undefined,
   seedDir: resolve(process.env.STUDIO_SEEDS ?? 'seed'),

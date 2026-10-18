@@ -163,4 +163,30 @@ describe('drafting progress', () => {
     expect(() => env.brain.updateSettings(p.id, { dayGoals: { 'Nov 3': 5 } })).toThrow(/needs a date/);
     expect(() => env.brain.updateSettings(p.id, { dayGoals: { '2026-11-03': -5 } })).toThrow(/between 0/);
   });
+
+  it('days set ahead of time never change how far ahead or behind she was', () => {
+    const { p, ch, progress, type } = setup();
+    env.brain.updateSettings(p.id, { push: { name: 'November', start: '2026-11-01', end: '2026-11-30', words: 50000 } });
+    const s = env.ms.addScene(ch.id);
+    for (let i = 1; i <= 9; i++) type(s.id, 1667 * i, `2026-11-0${i}T15:00:00.000Z`);
+    const now = { tz: 'UTC', now: new Date('2026-11-10T12:00:00.000Z') };
+    expect(progress.progress(p.id, now).behind).toBe(0);
+    env.brain.updateSettings(p.id, { dayGoals: { '2026-11-20': 0, '2026-11-21': 0, '2026-11-22': 0, '2026-11-28': 10000 } });
+    expect(progress.progress(p.id, now).behind).toBe(0);
+    // A lighter day already gone counts as her number, so it is never held against her.
+    env.brain.updateSettings(p.id, { dayGoals: { '2026-11-09': 500 } });
+    expect(progress.progress(p.id, now).behind).toBe(-1167);
+  });
+
+  it('when set days cover everything left, there is nothing owed, not a shortfall', () => {
+    const { p, ch, progress, type } = setup();
+    env.brain.updateSettings(p.id, { push: { name: 'Short', start: '2026-11-01', end: '2026-11-03', words: 3000 } });
+    const s = env.ms.addScene(ch.id);
+    type(s.id, 2000, '2026-11-02T15:00:00.000Z');
+    env.brain.updateSettings(p.id, { dayGoals: { '2026-11-03': 1000 } });
+    const r = progress.progress(p.id, { tz: 'UTC', now: new Date('2026-11-03T12:00:00.000Z') });
+    expect(r.dailyGoal).toBe(1000);
+    expect(r.shortfall).toBe(0);
+    expect(r.perDayNeeded).toBe(0);
+  });
 });

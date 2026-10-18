@@ -354,6 +354,23 @@ export class Manuscript {
     });
   }
 
+  /** Once, after notes for later arrived: recount any text that already held double brackets, so
+   *  old saved versions and new ones count the same way and no day shows words cut that never were. */
+  recountLater() {
+    const done = this.store.db.prepare("SELECT 1 FROM settings WHERE key='recount_later_v1'").get();
+    if (done) return 0;
+    let n = 0;
+    this.store.db.transaction(() => {
+      for (const t of ['scenes', 'scene_revisions'] as const) {
+        const rows = this.store.db.prepare(`SELECT rowid AS r, text, word_count FROM ${t} WHERE text LIKE '%[[%'`).all() as { r: number; text: string; word_count: number }[];
+        const up = this.store.db.prepare(`UPDATE ${t} SET word_count=? WHERE rowid=?`);
+        for (const row of rows) { const w = countWords(row.text); if (w !== row.word_count) { up.run(w, row.r); n++; } }
+      }
+      this.store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('recount_later_v1','true') ON CONFLICT(key) DO NOTHING").run();
+    })();
+    return n;
+  }
+
   /** Every note left in the page for later, [[like this]], in manuscript order. */
   laterNotes(projectId: string) {
     const out: { sceneId: string; sceneTitle: string; chapterTitle: string; chapterNumber: number; note: string; raw: string; nth: number; before: string }[] = [];

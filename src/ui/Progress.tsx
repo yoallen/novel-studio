@@ -41,6 +41,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
       ) : (
         <p className="drafting-lead">{daily === 0 && r.todaySet
           ? <>Today is a rest day you set.{r.todayWords > 0 ? <> You wrote <b>{n(r.todayWords)}</b> words anyway, and they all count.</> : ''}</>
+          : daily === 0 && r.push?.words && r.remaining > 0 ? <>Today, <b>{n(Math.max(0, r.todayWords))}</b> words. Your set days cover what is left, so today is yours to spend.</>
           : <>Today, <b>{n(Math.max(0, r.todayWords))}</b> words{daily ? <> of your {n(daily)}</> : ''}.{daily && r.todayWords >= daily ? ' The day’s goal is met.' : ''}</>}</p>
       )}
 
@@ -60,7 +61,8 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
         {r.status !== 'ahead' && <div><dt>{r.push ? 'So far' : `${monthOf(r.today)} so far`}</dt><dd>{n(r.total)}{r.goal ? <span className="muted"> of {n(r.goal)}</span> : null}</dd></div>}
         {r.status === 'running' && r.goal ? (
           <div><dt>To finish on time</dt><dd>{r.remaining === 0 ? 'Done. Everything now is extra.'
-            : r.perDayNeeded == null ? <>Your set days leave {n(r.shortfall)} words with no day to write them. Lighten a set day or clear one.</>
+            : r.perDayNeeded == null && r.shortfall > 0 ? <>Your set days leave {n(r.shortfall)} words with no day to write them. Raise a set day or clear one.</>
+            : !r.perDayNeeded ? <>Your set days cover what is left.</>
             : daily != null && r.todayWords >= daily && r.afterToday ? <>about {n(r.afterToday.perDay)} a day after today<span className="muted">, {r.afterToday.days} day{r.afterToday.days === 1 ? '' : 's'} left{r.setDays.some((x: any) => x.day > r.today) ? ', counting the days you set' : ''}</span></>
             : <>about {n(r.perDayNeeded)} a day<span className="muted">, {r.daysLeft} day{r.daysLeft === 1 ? '' : 's'} left{r.setDays.length ? ', counting the days you set' : ''}</span></>}</dd></div>
         ) : null}

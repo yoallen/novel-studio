@@ -19,20 +19,39 @@ export function headerFor(title: string) {
   return `Notes for ${title}. Write or dictate below, one note to a paragraph. Story Canon brings each new paragraph into Capture the next time the novel is open, and never changes this file.`;
 }
 
-interface Kept { file: string; seen: string[] }
+interface Kept { seen: string[] }
+
+/** A file must sit untouched this long before it is read, so a note still being dictated (Word on a
+ *  phone saves every few seconds) comes in once, finished, rather than a piece at a time. */
+const QUIET_MS = 60_000;
+/** After the computer has been asleep or closed, wait this long so newer work from the other
+ *  computer can arrive first. */
+const WAKE_HOLD_MS = 3 * 60_000;
 
 export class RoadNotes {
   private mtimes = new Map<string, number>();
-  constructor(private store: Store, private brain: Brain, private sharedDir: () => string | null) {}
+  private lastCheck = 0;
+  private holdUntil = 0;
+  constructor(private store: Store, private brain: Brain, private sharedDir: () => string | null, private now: () => number = Date.now, private timing = { quietMs: QUIET_MS, wakeHoldMs: WAKE_HOLD_MS }) {}
 
-  private kept(pid: string): Kept | null {
+  private kept(pid: string): Kept {
     const k = this.brain.project(pid).profile.roadNotes as Kept | undefined;
-    return k && typeof k.file === 'string' && Array.isArray(k.seen) ? k : null;
+    return { seen: Array.isArray(k?.seen) ? [...k!.seen] : [] };
   }
   private keep(pid: string, k: Kept) {
     const p = this.brain.project(pid);
     this.store.batch({ projectId: pid, actor: 'author', reason: 'Notes from the road' }, (w) =>
-      w.update('projects', pid, { profile_json: JSON.stringify({ ...p.profile, roadNotes: { file: k.file, seen: k.seen.slice(-KEEP_SEEN) } }) }));
+      w.update('projects', pid, { profile_json: JSON.stringify({ ...p.profile, roadNotes: { seen: k.seen.slice(-KEEP_SEEN) } }) }));
+  }
+  // Which file belongs to which novel is kept on this computer, not in the novel, so a rename keeps
+  // the file she already knows, and recording it is never a change the other computer has to take in.
+  private files(): Record<string, string> {
+    const r = this.store.db.prepare("SELECT value_json FROM settings WHERE key='road_notes_files'").get() as { value_json: string } | undefined;
+    return r ? JSON.parse(r.value_json) : {};
+  }
+  private setFile(pid: string, file: string) {
+    const all = { ...this.files(), [pid]: file };
+    this.store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('road_notes_files',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify(all));
   }
 
   /** Where this novel's notes file is, making it the first time. null when sharing is off. */
@@ -41,19 +60,32 @@ export class RoadNotes {
     if (!dir) return null;
     const folder = join(dir, NOTES_DIR);
     const title = this.brain.project(pid).title as string;
-    const k = this.kept(pid);
-    const file = k?.file ?? `${safeName(title)}.docx`;
-    const path = join(folder, file);
+    const files = this.files();
+    let file = files[pid];
+    if (!file) {
+      // Named for the novel. Another novel here with the same name gets its own file.
+      const taken = new Set(Object.entries(files).filter(([id]) => id !== pid).map(([, f]) => f.replace(/\.(docx|txt)$/i, '').toLowerCase()));
+      let base = safeName(title), n = 2;
+      while (taken.has(base.toLowerCase())) base = `${safeName(title)} (${n++})`;
+      file = existsSync(join(folder, `${base}.txt`)) && !existsSync(join(folder, `${base}.docx`)) ? `${base}.txt` : `${base}.docx`;
+      this.setFile(pid, file);
+    }
+    let path = join(folder, file);
     let made = false;
     if (!existsSync(path)) {
       // A plain-text file of the same name works too, for a phone without Word.
-      const txt = path.replace(/\.docx$/i, '.txt');
-      if (existsSync(txt)) return { path: txt, folder, file: file.replace(/\.docx$/i, '.txt'), made: false };
-      mkdirSync(folder, { recursive: true });
-      const { Document, Packer, Paragraph, TextRun } = await import('docx');
-      const doc = new Document({ sections: [{ children: [new Paragraph({ children: [new TextRun({ text: headerFor(title), italics: true, color: '74578D' })] }), new Paragraph('')] }] });
-      writeFileSync(path, await Packer.toBuffer(doc));
-      made = true;
+      const other = /\.docx$/i.test(file) ? file.replace(/\.docx$/i, '.txt') : file.replace(/\.txt$/i, '.docx');
+      if (existsSync(join(folder, other))) { file = other; path = join(folder, other); this.setFile(pid, file); }
+      else {
+        mkdirSync(folder, { recursive: true });
+        if (/\.txt$/i.test(file)) writeFileSync(path, headerFor(title) + '\n\n');
+        else {
+          const { Document, Packer, Paragraph, TextRun } = await import('docx');
+          const doc = new Document({ sections: [{ children: [new Paragraph({ children: [new TextRun({ text: headerFor(title), italics: true, color: '74578D' })] }), new Paragraph('')] }] });
+          writeFileSync(path, await Packer.toBuffer(doc));
+        }
+        made = true;
+      }
     }
     // Nothing is recorded with the novel until a note actually comes in: making the file is not a
     // change to the book, so it can never make the two computers disagree.
@@ -62,15 +94,22 @@ export class RoadNotes {
 
   /** Bring in every paragraph not seen before. Cheap when the file has not changed. */
   async check(pid: string): Promise<{ added: number; file: string | null }> {
+    const now = this.now();
+    // A long gap since the last check means the computer slept or was closed: give the other computer's work time to arrive.
+    if (this.lastCheck && now - this.lastCheck > 2 * 60_000) this.holdUntil = now + this.timing.wakeHoldMs;
+    if (!this.lastCheck) this.holdUntil = now + this.timing.wakeHoldMs;
+    this.lastCheck = now;
     const at = await this.ensure(pid);
     if (!at || !existsSync(at.path)) return { added: 0, file: at?.file ?? null };
+    if (now < this.holdUntil) return { added: 0, file: at.file };
     let mtime = 0;
     try { mtime = statSync(at.path).mtimeMs; } catch { return { added: 0, file: at.file }; }
     if (this.mtimes.get(at.path) === mtime) return { added: 0, file: at.file };
+    if (now - mtime < this.timing.quietMs) return { added: 0, file: at.file }; // still being written
     let paras: string[];
     try { paras = await paragraphs(at.path); } catch { return { added: 0, file: at.file }; } // half-synced or open elsewhere: try again next time
     this.mtimes.set(at.path, mtime);
-    const k = this.kept(pid) ?? { file: at.file, seen: [] };
+    const k = this.kept(pid);
     const seen = new Set(k.seen);
     const fresh: string[] = [];
     for (const p of paras) {

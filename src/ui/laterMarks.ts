@@ -34,13 +34,17 @@ export const LaterNotes = Extension.create({
   addKeyboardShortcuts() {
     return {
       'Mod-Shift-l': () => {
-        const { from, to, empty } = this.editor.state.selection;
-        if (!empty) {
-          // Wrap what she selected, so a phrase can become a note in one keystroke.
-          const chosen = this.editor.state.doc.textBetween(from, to, ' ');
-          return this.editor.chain().insertContentAt({ from, to }, `[[${chosen}]]`).setTextSelection(from + 2 + chosen.length).run();
+        const { state } = this.editor;
+        const { from, to, empty, $from, $to } = state.selection;
+        const text = (t: string) => ({ type: 'text', text: t });
+        // A selection inside one paragraph becomes the note, keeping its words exactly as they are.
+        const chosen = state.doc.textBetween(from, to, '\n', '\n');
+        if (!empty && $from.sameParent($to) && !/[[\]\n]/.test(chosen)) {
+          return this.editor.chain().insertContentAt(to, text(']]')).insertContentAt(from, text('[[')).setTextSelection(to + 2).run();
         }
-        return this.editor.chain().insertContent('[[]]').setTextSelection(from + 2).run();
+        // Otherwise an empty note at the cursor, ready to type into.
+        const at = empty ? from : to;
+        return this.editor.chain().insertContentAt(at, text('[[]]')).setTextSelection(at + 2).run();
       },
     };
   },

@@ -428,7 +428,10 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .later-list .later-text { font-family: var(--prose); font-style: italic; color: var(--pencil); }
 
 /* A sprint: nothing but the page. */
-.app[data-sprint] .strip, .app[data-sprint] .colophon, .app[data-sprint] .running, .app[data-sprint] .thumbs, .app[data-sprint] .sync-notice { display: none; }
+.app[data-sprint] .strip, .app[data-sprint] .colophon, .app[data-sprint] .running, .app[data-sprint] .thumbs, .app[data-sprint] .sync-notice[data-kind] { display: none; }
+/* Newer work from the other computer, or a choice between versions, still shows: writing on past it would cost her later. */
+.app[data-sprint] .sync-notice:not([data-kind]) { margin: 0.75rem 1.5rem 0; }
+.sprint-clock [data-unsaved] { color: var(--warn); font-style: normal; }
 .app[data-sprint] { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
 .app[data-sprint] .leaf { grid-row: 1; grid-column: 1; margin: 0; border-radius: 0; box-shadow: none; }
 .sprint-clock { position: fixed; right: 1.25rem; bottom: 1rem; display: flex; gap: 0.75rem; align-items: center; z-index: 20; opacity: 0.55; transition: opacity 0.2s; }

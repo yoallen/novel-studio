@@ -556,8 +556,10 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     // Notes from the road come in only when this computer has the latest version: adding them on
     // top of an older one would make the two computers disagree.
     let notesIn = 0;
-    if (b.projectId && st.on && !st.incoming && !st.diverged) {
+    if (b.projectId && st.on && !st.incoming && !st.diverged && svc.sync.notesTurn(b.projectId)) {
       try { notesIn = (await svc.roadNotes.check(b.projectId)).added; } catch { /* the folder may be offline; try next time */ }
+      // Share at once, so the other computer learns these notes are in within seconds, not minutes.
+      if (notesIn) void svc.sync.share(b.projectId).catch(() => {});
     }
     return { ...st, notesIn };
   });

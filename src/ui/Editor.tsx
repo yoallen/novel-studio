@@ -73,7 +73,11 @@ export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; 
   const [target, setTarget] = useState<number | null>(null);
   useEffect(() => {
     const tz = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch { return ''; } })();
-    api.get(`/api/projects/${ctx.projectId}/progress${tz ? `?tz=${encodeURIComponent(tz)}` : ''}`).then((r) => setTarget(r.dailyGoal ?? null)).catch(() => setTarget(null));
+    const load = () => api.get(`/api/projects/${ctx.projectId}/progress${tz ? `?tz=${encodeURIComponent(tz)}` : ''}`).then((r) => setTarget(r.dailyGoal ?? null)).catch(() => setTarget(null));
+    void load();
+    // A new day brings a new goal, even with the page left open overnight.
+    const t = window.setInterval(() => void load(), 5 * 60_000);
+    return () => window.clearInterval(t);
   }, [ctx.projectId, ctx.settings]);
 
   async function journal(opts: { keepalive?: boolean } = {}) {

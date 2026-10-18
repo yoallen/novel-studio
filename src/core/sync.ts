@@ -344,6 +344,14 @@ export class Sync {
     });
   }
 
+  /** Notes from the road are brought in by one computer only: when two have the novel open, the one
+   *  with the lower id takes the turn, so the same note can never come in on both. */
+  notesTurn(pid: string): boolean {
+    const cfg = this.config(); if (!cfg) return false;
+    const recent = (o: Presence) => Date.now() - Date.parse(o.lastSeen) < 3 * 60_000;
+    return !this.others().some((o) => o.open === pid && recent(o) && o.id < cfg.device.id);
+  }
+
   /** Novels shared from another computer that are not in this library yet. */
   elsewhere(): { projectId: string; title: string; deviceName: string; sharedAt: string }[] {
     const out: ReturnType<Sync['elsewhere']> = [];

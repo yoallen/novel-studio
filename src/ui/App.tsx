@@ -209,7 +209,7 @@ export function App() {
         <div className="minor">{SECONDARY.map(tab)}</div>
       </nav>
       {sprint && !sprintEnd && (
-        <SprintClock sprint={sprint}
+        <SprintClock sprint={sprint} problem={save.state === 'error' ? (save.message ?? 'Not saved') : undefined}
           onPause={() => setSprint((x) => x && x.endsAt != null ? { ...x, left: Math.max(0, x.endsAt - Date.now()), endsAt: null } : x)}
           onResume={() => { setSprint((x) => x && x.endsAt == null ? { ...x, endsAt: Date.now() + x.left } : x); currentEditor()?.commands.focus(); }}
           onEnd={() => setSprintEnd(sprint.overtime ? 'over' : 'early')}

@@ -99,21 +99,23 @@ export class Progress {
         for (let i = from; i < range.length; i++) { const v = set[range[i]!]; if (v != null) reserved += v; else free++; }
         return { free, need: left - reserved };
       };
-      // The plan as it stood on the first day, for "ahead" and "behind".
+      // "Ahead" and "behind" are measured against an even share of the whole push for each day gone
+      // by, or her own number on a day she set. Days she sets ahead of time never change the past.
+      const evenPace = Math.ceil(push.words / range.length);
       const first = share(0, push.words);
       const basePace = first.free > 0 ? Math.max(0, Math.ceil(first.need / first.free)) : 0;
       let written = 0;
       for (let i = 0; i < range.length; i++) {
         const d = range[i]!;
         if (d > today) break;
-        if (d < today) planned += set[d] ?? basePace;
+        if (d < today) planned += set[d] ?? evenPace;
         const { free, need } = share(i, push.words - written);
         const p = free > 0 ? Math.max(0, Math.ceil(need / free)) : 0;
-        if (d === today) { pace = free > 0 ? p : null; shortfall = free > 0 ? 0 : Math.max(0, need); }
+        if (d === today) { pace = free > 0 ? p : (need <= 0 ? 0 : null); shortfall = free > 0 ? 0 : Math.max(0, need); }
         goalOf.set(d, set[d] ?? p);
         written += w(d);
       }
-      if (today < start) { pace = basePace; shortfall = first.free > 0 ? 0 : Math.max(0, first.need); }
+      if (today < start) { pace = first.free > 0 ? basePace : (first.need <= 0 ? 0 : null); shortfall = first.free > 0 ? 0 : Math.max(0, first.need); }
       for (const d of range) if (!goalOf.has(d)) goalOf.set(d, set[d] ?? pace ?? 0);
     } else {
       for (const d of range) goalOf.set(d, set[d] ?? everyday);

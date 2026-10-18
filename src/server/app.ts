@@ -50,6 +50,8 @@ export interface AppOptions {
   desktop?: boolean;
   /** Sharing between computers: how often to look (default 60 s) and how long changes wait before sharing (default 5 min). */
   syncTickMs?: number;
+  /** Notes from the road: how long a file must sit still, and the wait after waking. Tests shorten them. */
+  notesTiming?: { quietMs: number; wakeHoldMs: number };
   syncShareAfterMs?: number;
 }
 
@@ -189,7 +191,8 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   // A novel she has opened in this session is never replaced in the background: the notice above the page asks first.
   const sync = new Sync(store, () => snapshot(store, services.backupDir(), 'sync', 30));
   services.sync = sync;
-  services.roadNotes = new RoadNotes(store, brain, () => sync.config()?.dir ?? null);
+  services.roadNotes = new RoadNotes(store, brain, () => sync.config()?.dir ?? null, Date.now, opts.notesTiming);
+  try { ms.recountLater(); } catch { /* counts stay as they were; nothing is lost */ }
   const opened = new Set<string>();
   let open: string | null = null;
   services.hereNow = (pid) => { open = pid; if (pid) opened.add(pid); };

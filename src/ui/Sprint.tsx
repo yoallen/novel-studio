@@ -33,7 +33,7 @@ export function SprintChooser({ onStart, onClose }: { onStart: (minutes: number,
     onStart(chosen, full);
   }
   return (
-    <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="sprint-h" onKeyDown={(e) => { if (e.key === 'Escape') onClose(); if (e.key === 'Enter') start(); }}>
+    <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="sprint-h" onKeyDown={(e) => { if (e.key === 'Escape') onClose(); if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'INPUT') { e.preventDefault(); start(); } }}>
       <div className="dialog sprint-dialog">
         <h2 id="sprint-h">Sprint</h2>
         <p className="small muted" style={{ marginTop: 0 }}>A set time of nothing but the page. Everything else goes away until the clock runs out: the binder, the tabs, notices, word counts and red underlines. Ctrl+Shift+N still catches a thought that will not wait.</p>
@@ -59,18 +59,21 @@ const say = (ms: number) => {
 };
 
 /** The small clock in the corner. A click shows Pause and End; otherwise it stays out of the way. */
-export function SprintClock({ sprint, onPause, onResume, onEnd, onTimeUp }: { sprint: SprintState; onPause: () => void; onResume: () => void; onEnd: () => void; onTimeUp: () => void }) {
+export function SprintClock({ sprint, onPause, onResume, onEnd, onTimeUp, problem }: { sprint: SprintState; onPause: () => void; onResume: () => void; onEnd: () => void; onTimeUp: () => void; problem?: string }) {
   const [now, setNow] = useState(Date.now());
   const [open, setOpen] = useState(false);
   const fired = useRef(false);
   useEffect(() => { const t = window.setInterval(() => setNow(Date.now()), 1000); return () => window.clearInterval(t); }, []);
   const left = sprint.endsAt == null ? sprint.left : sprint.endsAt - now;
   useEffect(() => { if (!sprint.overtime && sprint.endsAt != null && left <= 0 && !fired.current) { fired.current = true; onTimeUp(); } }, [left, sprint, onTimeUp]);
+  // A save problem is the one thing worth breaking the quiet for.
+  const warn = problem ? <span data-unsaved role="alert">{problem}</span> : null;
   if (sprint.overtime) {
-    return <div className="sprint-clock" data-open={open || undefined}><button className="sprint-time" onClick={() => setOpen((o) => !o)} aria-expanded={open}>Still writing</button>{open && <button className="btn link small" onClick={onEnd}>Done</button>}</div>;
+    return <div className="sprint-clock" data-open={open || undefined}>{warn}<button className="sprint-time" onClick={() => setOpen((o) => !o)} aria-expanded={open}>Still writing</button>{open && <button className="btn link small" onClick={onEnd}>Done</button>}</div>;
   }
   return (
-    <div className="sprint-clock" data-open={open || undefined} role="timer" aria-label={`Sprint, ${say(left)} left${sprint.endsAt == null ? ', paused' : ''}`}>
+    <div className="sprint-clock" data-open={open || problem ? true : undefined} role="timer" aria-label={`Sprint, ${say(left)} left${sprint.endsAt == null ? ', paused' : ''}`}>
+      {warn}
       <button className="sprint-time" onClick={() => setOpen((o) => !o)} aria-expanded={open} title="Pause or end the sprint">{sprint.endsAt == null ? `Paused, ${say(left)}` : say(left)}</button>
       {open && (
         <span className="row small" style={{ gap: '0.5rem' }}>

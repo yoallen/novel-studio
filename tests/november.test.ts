@@ -81,41 +81,66 @@ describe('door closed', () => {
 });
 
 describe('notes from the road', () => {
-  it('makes one notes file per novel, brings in each new paragraph once, and never changes her file', async () => {
+  const setupNotes = () => {
     env = freshStore();
     const shared = join(env.dir, 'OneDrive');
     mkdirSync(shared);
+    let clock = Date.now();
+    const notes = new RoadNotes(env.store, env.brain, () => shared, () => clock);
+    // Files are dated a minute ago unless a test says otherwise, so they count as finished.
+    const write = (path: string, text: string, ageMs = 120_000) => { writeFileSync(path, text); const t = new Date(clock - ageMs); utimesSync(path, t, t); };
+    return { shared, notes, write, tick: (ms: number) => { clock += ms; }, now: () => clock };
+  };
+
+  it('makes one notes file per novel, brings in each finished paragraph once, and never changes her file', async () => {
+    const { shared, notes, write, tick } = setupNotes();
     const p = env.brain.createProject('I Declare War');
-    const notes = new RoadNotes(env.store, env.brain, () => shared);
     const at = (await notes.ensure(p.id))!;
     expect(at.path).toBe(join(shared, NOTES_DIR, 'I Declare War.docx'));
-    expect(existsSync(at.path)).toBe(true);
     expect(await paragraphs(at.path)).toEqual([headerFor('I Declare War')]);
-    // The header is not a note.
-    expect((await notes.check(p.id)).added).toBe(0);
+    // Making the file records nothing in the novel.
+    expect(env.brain.project(p.id).profile.roadNotes).toBeUndefined();
 
-    // She uses a plain text file instead: it is found under the same name.
+    // Just opened or just woken: it waits a few minutes for the other computer's work first.
     const txt = at.path.replace(/\.docx$/, '.txt');
     const { unlinkSync } = await import('node:fs');
     unlinkSync(at.path);
-    writeFileSync(txt, 'Kevin hums when he lies.\n\nFrancine keeps the seed packets in a coffee can.\n');
+    write(txt, 'Kevin hums when he lies.\n\nFrancine keeps the seed packets in a coffee can.\n');
+    expect((await notes.check(p.id)).added).toBe(0);
+    tick(60_000); expect((await notes.check(p.id)).added).toBe(0);
+    tick(60_000); expect((await notes.check(p.id)).added).toBe(0);
+    tick(61_000);
     const before = readFileSync(txt, 'utf8');
     expect((await notes.check(p.id)).added).toBe(2);
     const thoughts = env.brain.elements(p.id, { kind: 'thought' });
     expect(thoughts.map((t) => t.body).sort()).toEqual(['Francine keeps the seed packets in a coffee can.', 'Kevin hums when he lies.']);
     expect(JSON.parse(thoughts[0]!.attrs_json as string).from).toBe('Notes from the road');
-
-    // Unchanged file: nothing new. A new line, with the old ones still there: only the new one.
     expect((await notes.check(p.id)).added).toBe(0);
-    writeFileSync(txt, before + 'Anthony says it at the funeral, not the garden.\n');
-    utimesSync(txt, new Date(), new Date(Date.now() + 5000));
-    expect((await notes.check(p.id)).added).toBe(1);
+
+    // A note still being dictated waits until the file has been still for a minute.
+    tick(30_000);
+    write(txt, before + 'Anthony says it at the funer', 0);
+    expect((await notes.check(p.id)).added).toBe(0);
+    tick(20_000);
+    write(txt, before + 'Anthony says it at the funeral, not the garden.\n', 0);
+    tick(30_000); expect((await notes.check(p.id)).added).toBe(0);
+    tick(31_000); expect((await notes.check(p.id)).added).toBe(1);
+    expect(env.brain.elements(p.id, { kind: 'thought' }).map((t) => t.body)).not.toContain('Anthony says it at the funer');
     expect(readFileSync(txt, 'utf8')).toBe(before + 'Anthony says it at the funeral, not the garden.\n');
 
-    // What came in is remembered with the novel, so another computer will not bring it in again.
-    const again = new RoadNotes(env.store, env.brain, () => shared);
-    expect((await again.check(p.id)).added).toBe(0);
-    expect(statSync(txt).size).toBeGreaterThan(0);
+    // What came in is remembered with the novel, so the other computer will not bring it in again.
+    const other = new RoadNotes(env.store, env.brain, () => shared, () => Date.now() + 10 * 60_000, { quietMs: 0, wakeHoldMs: 0 });
+    expect((await other.check(p.id)).added).toBe(0);
+  });
+
+  it('keeps the file she knows when the novel is renamed, and gives a same-named novel its own', async () => {
+    const { shared, notes } = setupNotes();
+    const a = env.brain.createProject('Francine');
+    const b = env.brain.createProject('Francine');
+    expect((await notes.ensure(a.id))!.file).toBe('Francine.docx');
+    expect((await notes.ensure(b.id))!.file).toBe('Francine (2).docx');
+    env.brain.updateProject(a.id, { title: 'Miss Francine' });
+    expect((await notes.ensure(a.id))!.path).toBe(join(shared, NOTES_DIR, 'Francine.docx'));
   });
 
   it('does nothing when sharing is off', async () => {
@@ -124,5 +149,45 @@ describe('notes from the road', () => {
     const notes = new RoadNotes(env.store, env.brain, () => null);
     expect(await notes.ensure(p.id)).toBeNull();
     expect((await notes.check(p.id)).added).toBe(0);
+    void statSync; void existsSync;
+  });
+});
+
+describe('counts made before notes for later existed', () => {
+  it('are recounted once, so no day shows words cut that never were', () => {
+    env = freshStore();
+    const p = env.brain.createProject('IDW');
+    const ch = env.ms.addChapter(p.id);
+    const s = env.ms.addScene(ch.id, { text: 'one two [[three four five]] six' });
+    env.store.db.prepare('UPDATE scenes SET word_count=6 WHERE id=?').run(s.id);
+    env.store.db.prepare('UPDATE scene_revisions SET word_count=6 WHERE scene_id=?').run(s.id);
+    expect(env.ms.recountLater()).toBeGreaterThan(0);
+    expect(env.ms.scene(s.id).word_count).toBe(3);
+    expect((env.store.db.prepare('SELECT word_count FROM scene_revisions WHERE scene_id=?').get(s.id) as { word_count: number }).word_count).toBe(3);
+    expect(env.ms.recountLater()).toBe(0); // only once
+  });
+});
+
+describe('only one computer brings in notes', () => {
+  it('when both have the novel open, the one with the lower id takes the turn', async () => {
+    const { Sync } = await import('../src/core/sync.js');
+    env = freshStore();
+    const shared = join(env.dir, 'OneDrive');
+    mkdirSync(shared);
+    const sync = new Sync(env.store, async () => {});
+    sync.configure({ dir: shared, name: 'Surface' });
+    const p = env.brain.createProject('IDW');
+    const dir = join(shared, 'Story Canon shared', 'computers');
+    mkdirSync(dir, { recursive: true });
+    const seen = (id: string, open: string | null, ago = 0) => writeFileSync(join(dir, `${id}.json`), JSON.stringify({ name: 'Laptop', lastSeen: new Date(Date.now() - ago).toISOString(), open, unshared: [] }));
+    expect(sync.notesTurn(p.id)).toBe(true);
+    seen('00000000-lower', p.id);
+    expect(sync.notesTurn(p.id)).toBe(false);
+    seen('00000000-lower', p.id, 10 * 60_000); // asleep for a while: its turn passes
+    expect(sync.notesTurn(p.id)).toBe(true);
+    seen('00000000-lower', 'another-novel');
+    expect(sync.notesTurn(p.id)).toBe(true);
+    seen('zzzzzzzz-higher', p.id);
+    expect(sync.notesTurn(p.id)).toBe(true);
   });
 });

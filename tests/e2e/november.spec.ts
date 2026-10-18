@@ -61,6 +61,12 @@ test('a lighter day, then a sprint with nothing but the page', async ({ page }) 
   await expect(editor(page)).toHaveAttribute('spellcheck', 'false');
   await page.getByRole('button', { name: 'Sprint', exact: true }).click();
   const dlg = page.getByRole('dialog', { name: 'Sprint' });
+  // Enter on Cancel cancels; it never starts a sprint.
+  await dlg.getByRole('button', { name: 'Cancel' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(dlg).toHaveCount(0);
+  await expect(page.locator('.app')).not.toHaveAttribute('data-sprint', 'true');
+  await page.getByRole('button', { name: 'Sprint', exact: true }).click();
   await dlg.getByLabel('Fill the whole screen').uncheck();
   await dlg.getByLabel('15 minutes').check();
   await dlg.getByRole('button', { name: 'Start the sprint' }).click();
