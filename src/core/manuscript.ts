@@ -197,7 +197,7 @@ export class Manuscript {
         current: { version: s.prose_version, text: s.text, doc: JSON.parse(s.doc_json as string) },
       });
     }
-    if (docJson === s.doc_json) { this.clearAutosave(id); return this.scene(id); }
+    if (docJson === s.doc_json || sameDoc(doc, JSON.parse(s.doc_json as string))) { this.clearAutosave(id); return this.scene(id); }
     return this.store.batch({ projectId: s.project_id as string, actor, reason: input.reason ?? `Write "${s.title}"` }, (w) => {
       const prevRev = latestRevisionId(this.store, id);
       // Make sure the pre-change prose exists as a revision before it is replaced.
@@ -310,6 +310,8 @@ export class Manuscript {
   autosave(sceneId: string, doc: unknown, baseVersion: number) {
     const s = this.projectOf('scenes', sceneId);
     const d = validateDoc(doc);
+    // Nothing typed yet: no recovery copy is needed, and none is made.
+    if (sameDoc(d, JSON.parse(s.doc_json as string))) { this.clearAutosave(sceneId); return { savedAt: nowIso(), sceneVersion: s.prose_version }; }
     this.store.db.prepare(
       'INSERT INTO autosave_journal(scene_id,base_version,doc_json,text,saved_at) VALUES (?,?,?,?,?) ON CONFLICT(scene_id) DO UPDATE SET base_version=excluded.base_version, doc_json=excluded.doc_json, text=excluded.text, saved_at=excluded.saved_at',
     ).run(sceneId, baseVersion, JSON.stringify(d), docToText(d), nowIso());
@@ -428,4 +430,26 @@ export class Manuscript {
     return (this.store.db.prepare('SELECT * FROM writing_sessions WHERE project_id=? ORDER BY started_at DESC LIMIT ?').all(projectId, limit) as Row[])
       .map((s) => withFields(s, { scenes: JSON.parse(s.scenes_json as string) as string[], net_words: s.end_words == null ? null : (s.end_words as number) - (s.start_words as number) }));
   }
+}
+
+/** Two documents that show the same page: equal once empty wrapping (an empty paragraph, empty
+ *  content lists, attributes left unset) is set aside. Formatting and words still count. */
+export function sameDoc(a: unknown, b: unknown): boolean {
+  const norm = (n: unknown): unknown => {
+    if (Array.isArray(n)) return n.map(norm).filter((x) => x !== undefined);
+    if (!n || typeof n !== 'object') return n;
+    const o = n as Record<string, unknown>;
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(o)) {
+      if (v == null) continue;
+      if (k === 'attrs' && typeof v === 'object' && Object.values(v as object).every((x) => x == null)) continue;
+      const nv = norm(v);
+      if (Array.isArray(nv) && nv.length === 0) continue;
+      out[k] = nv;
+    }
+    // A paragraph with nothing in it, standing alone in the document, is an empty page.
+    if (out.type === 'doc' && Array.isArray(out.content) && out.content.length === 1 && (out.content[0] as Record<string, unknown>).type === 'paragraph' && !(out.content[0] as Record<string, unknown>).content) delete out.content;
+    return out;
+  };
+  return JSON.stringify(norm(a)) === JSON.stringify(norm(b));
 }

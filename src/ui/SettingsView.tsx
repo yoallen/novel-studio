@@ -1,6 +1,7 @@
 import { BRAND } from '../brand';
 import { useEffect, useState } from 'react';
 import { api } from './api';
+import { SyncSettings } from './SyncViews';
 import type { Ctx } from './App';
 import { AboutYou } from './AboutYou';
 import { DEFAULT_STATUS_LABELS } from '../core/labels';
@@ -150,6 +151,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
           {[['system', 'Match Windows'], ['light', 'Light'], ['dark', 'Dark']].map(([k, l]) => <label key={k} className="row small"><input type="radio" name="theme" checked={theme === k} onChange={() => setTheme2(k!)} />{l}</label>)}
         </div>
       </section>
+
+      <SyncSettings projectId={ctx.projectId} onMsg={setMsg} onError={setError} />
 
       <section className="section">
         <h2>Backups</h2>

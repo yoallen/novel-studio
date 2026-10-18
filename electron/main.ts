@@ -91,8 +91,8 @@ async function start() {
   await win.loadURL(`${origin}/#t=${token}`);
 }
 
-ipcMain.handle('choose-folder', async () => {
-  const r = await dialog.showOpenDialog(win!, { title: 'Where should backups go?', properties: ['openDirectory', 'createDirectory'] });
+ipcMain.handle('choose-folder', async (_e, title?: string) => {
+  const r = await dialog.showOpenDialog(win!, { title: typeof title === 'string' && title ? title : 'Where should backups go?', properties: ['openDirectory', 'createDirectory'] });
   return r.canceled ? null : r.filePaths[0] ?? null;
 });
 
