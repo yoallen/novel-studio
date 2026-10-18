@@ -16,7 +16,9 @@ export type Op =
   | { type: 'moveCard'; planId: string; beatId: string | null; beforePlanId?: string | null }
   | { type: 'moveElement'; elementId: string; fromPlanId: string; toPlanId: string };
 
-interface Unit { key: string; sceneId: string | null; planId: string | null; title: string; beatId: string | null; pos: number }
+/** How firmly a unit sits in the story: a written scene, a card decided on a beat, a card that only might go at a beat, or a card with no beat yet. */
+export type Standing = 'written' | 'card' | 'might' | 'unplaced';
+interface Unit { key: string; sceneId: string | null; planId: string | null; title: string; beatId: string | null; pos: number; standing: Standing }
 interface World { units: Unit[]; anchorMove: { elementId: string; from: string; to: string }[]; beatOf: Map<string, string | null> }
 
 export interface Finding {
@@ -36,13 +38,18 @@ export class Ripple {
   constructor(private store: Store, private brain: Brain, private ms: Manuscript, private structure: Structure) {}
 
   // ---------- building the story's order ----------
-  private world(projectId: string, op?: Op): World {
+  // With `plans`, every scene card is included too, for the continuity views: cards that only might go at a beat sit
+  // at that beat, and cards with no beat at all follow at the end in the board's order. Each unit says how firm it is,
+  // so the views can mark planned and written apart. The structural rules never use this wider order.
+  private world(projectId: string, op?: Op, withPlans = false): World {
     const beats = this.structure.beats(projectId);
     const beatRank = new Map<string, number>();
     beats.forEach((b, i) => beatRank.set(b.element.id as string, b.element.parent_id ? (beatRank.get(b.element.parent_id as string) ?? i) + 0.5 : i));
     const outline = this.ms.outline(projectId).map((c) => ({ id: c.id as string, scenes: c.scenes.map((s) => ({ id: s.id as string, title: s.title as string, plan: (s.plan_element_id as string | null) ?? null })) }));
     const plans = this.brain.elements(projectId, { kind: 'scene_plan' });
     const beatOf = new Map<string, string | null>(plans.map((p) => [p.id as string, this.structure.decidedBeat(p.id as string)]));
+    const mightAt = new Map<string, string>();
+    if (withPlans) for (const p of plans) if (!beatOf.get(p.id as string)) { const c = this.structure.placements(p.id as string).candidates[0]; if (c) mightAt.set(p.id as string, c.beatId); }
     const sortOf = new Map<string, number>(plans.map((p) => [p.id as string, p.sort_key as number]));
     const anchorMove: World['anchorMove'] = [];
 
@@ -64,17 +71,21 @@ export class Ripple {
     const inManuscript = new Set<string>();
     for (const c of outline) for (const s of c.scenes) {
       if (s.plan) inManuscript.add(s.plan);
-      units.push({ key: s.id, sceneId: s.id, planId: s.plan, title: s.title, beatId: s.plan ? beatOf.get(s.plan) ?? null : null, pos: 0 });
+      units.push({ key: s.id, sceneId: s.id, planId: s.plan, title: s.title, beatId: s.plan ? beatOf.get(s.plan) ?? null : null, pos: 0, standing: 'written' });
     }
     // Cards with no prose yet are placed by their decided beat; cards with no beat have no position at all (R-C-012).
-    const pending = plans.filter((p) => !inManuscript.has(p.id as string) && beatOf.get(p.id as string))
-      .sort((a, b) => (beatRank.get(beatOf.get(a.id as string)!) ?? 0) - (beatRank.get(beatOf.get(b.id as string)!) ?? 0) || (sortOf.get(a.id as string)! - sortOf.get(b.id as string)!));
+    const at_ = (id: string) => beatOf.get(id) ?? mightAt.get(id) ?? null;
+    const pending = plans.filter((p) => !inManuscript.has(p.id as string) && at_(p.id as string))
+      .sort((a, b) => (beatRank.get(at_(a.id as string)!) ?? 0) - (beatRank.get(at_(b.id as string)!) ?? 0) || (sortOf.get(a.id as string)! - sortOf.get(b.id as string)!));
     for (const p of pending) {
-      const r = beatRank.get(beatOf.get(p.id as string)!) ?? 0;
+      const r = beatRank.get(at_(p.id as string)!) ?? 0;
       let at = units.length;
       for (let i = units.length - 1; i >= 0; i--) { const ub = units[i]!.beatId; if (ub && (beatRank.get(ub) ?? -1) <= r) { at = i + 1; break; } if (i === 0) at = 0; }
       if (!units.length) at = 0;
-      units.splice(at, 0, { key: p.id as string, sceneId: null, planId: p.id as string, title: p.title as string, beatId: beatOf.get(p.id as string)!, pos: 0 });
+      units.splice(at, 0, { key: p.id as string, sceneId: null, planId: p.id as string, title: p.title as string, beatId: at_(p.id as string)!, pos: 0, standing: beatOf.get(p.id as string) ? 'card' : 'might' });
+    }
+    if (withPlans) for (const p of plans.filter((x) => !inManuscript.has(x.id as string) && !at_(x.id as string)).sort((a, b) => sortOf.get(a.id as string)! - sortOf.get(b.id as string)!)) {
+      units.push({ key: p.id as string, sceneId: null, planId: p.id as string, title: p.title as string, beatId: null, pos: 0, standing: 'unplaced' });
     }
     units.forEach((u, i) => (u.pos = (i + 1) * 10));
     return { units, anchorMove, beatOf };
@@ -286,10 +297,10 @@ export class Ripple {
   current(projectId: string) { return this.analyze(projectId, this.world(projectId)); }
 
   /** Where every element sits in the story, for Narrative Zoom. */
-  placesOf(projectId: string) { const w = this.world(projectId); const p = this.positions(projectId, w); return { units: w.units, pos: p.pos, where: p.where }; }
+  placesOf(projectId: string, opts: { plans?: boolean } = {}) { const w = this.world(projectId, undefined, !!opts.plans); const p = this.positions(projectId, w); return { units: w.units, pos: p.pos, where: p.where }; }
 
   /** The story's order as Narrative Zoom and the board see it. */
-  order(projectId: string) { return this.world(projectId).units.map((u, i) => ({ ...u, index: i + 1 })); }
+  order(projectId: string, opts: { plans?: boolean } = {}) { return this.world(projectId, undefined, !!opts.plans).units.map((u, i) => ({ ...u, index: i + 1 })); }
 
   // ---------- alternate structures (D-17): saved, compared, adopted or discarded ----------
   saveAlternate(projectId: string, name: string, ops: Op[], note = '') {

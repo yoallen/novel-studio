@@ -582,3 +582,32 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .beats-table th { text-align: left; padding: 0.5rem; color: var(--muted); font-weight: 700; border-bottom: 1.5px solid var(--line-strong); }
 .beats-table td { padding: 0.5rem; border-top: 1px solid var(--line); vertical-align: top; }
 .sure-choice { border: 0; padding: 0; margin: 0.25rem 0; }
+/* Continuity views: "How this view works", one line until opened. */
+.how-it-works { margin: 0.25rem 0 1rem; max-width: 65ch; font-size: 0.875rem; }
+.how-it-works > summary { cursor: pointer; color: var(--struct); width: fit-content; }
+.how-it-works[data-read] > summary { color: var(--muted); }
+.how-it-works dl { margin: 0.6rem 0 0; padding: 0.75rem 1rem; border-left: 2px solid var(--line-strong); line-height: 1.55; }
+.how-it-works dt { font-weight: 600; margin-top: 0.5rem; }
+.how-it-works dt:first-child { margin-top: 0; }
+.how-it-works dd { margin: 0.1rem 0 0; color: var(--muted); }
+/* Planned scene cards beside written scenes. */
+.planned-tag { display: inline-block; font-size: 0.75rem; color: var(--pencil); border: 1px dashed currentColor; border-radius: 3px; padding: 0 0.35rem; margin-left: 0.15rem; white-space: nowrap; vertical-align: 1px; }
+.clue-words + .clue-words { margin-top: 0.4rem; }
+/* The cast grid: three marks you can tell apart, planned columns shaded, room between sections. */
+.cast-grid th, .cast-grid td { min-width: 1.6rem; padding: 0.25rem 0.25rem; }
+.cast-grid thead th { font-variant-numeric: tabular-nums; font-weight: 500; }
+.cast-grid .planned { background: color-mix(in srgb, var(--pencil) 5%, transparent); }
+.cast-grid thead th.planned { color: var(--pencil); font-style: italic; }
+.cast-mark { font-size: 1.15rem; }
+.cast-mark.planned { font-size: 0.95rem; }
+.cast-mark.named { color: var(--muted); font-size: 1rem; }
+.cast-key { gap: 0.4rem 1.25rem; margin-top: 1.25rem; }
+.cast-key-planned { display: inline-block; width: 0.9rem; height: 0.9rem; vertical-align: -2px; background: color-mix(in srgb, var(--pencil) 18%, transparent); border: 1px dashed var(--pencil); border-radius: 2px; }
+.cast-jump { margin: 0.5rem 0; gap: 0.25rem 0.9rem; }
+section[aria-label='Who is together'], section[aria-label='Groups that keep meeting'], section[aria-label='Who meets whom'], section[aria-label='Bechdel test'] { margin-top: 2rem; scroll-margin-top: 1rem; }
+/* Pacing axes. */
+.pacing-chart .axis { font-size: 11px; fill: var(--muted); font-family: inherit; }
+.pacing-chart .axis.chapter { fill: var(--struct); }
+.review-empty { margin: 1rem 0; }
+.review-empty p:first-child { margin-bottom: 0.25rem; }
+.inline-names .btn.link { padding: 0; }

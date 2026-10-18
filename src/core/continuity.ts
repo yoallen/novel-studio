@@ -49,10 +49,12 @@ export class Continuity {
     // The story world's own words win; otherwise the viewpoint and tense chosen in Novel setup.
     const chosen = ((this.brain.project(projectId).profile.setup as { characteristics?: string[] } | undefined)?.characteristics) ?? [];
     const pick = (map: Record<string, string>) => { const hits = Object.entries(map).filter(([k]) => chosen.includes(k)); return hits.length === 1 ? hits[0]![1] : null; };
+    const tidy = (x: unknown) => (x == null || x === '' ? null : String(x).trim().replace(/[.;,]+$/, ''));
     const def = {
       person: (world ? this.val(world.id as string, 'pov_person') : null) ?? pick({ first_person: 'First person', third_limited: 'Third person limited', third_omniscient: 'Third person omniscient', second_person: 'Second person' }),
       tense: (world ? this.val(world.id as string, 'pov_tense') : null) ?? pick({ past_tense: 'Past', present_tense: 'Present', mixed_tense: 'Mixed' }),
     };
+    def.person = tidy(def.person) as typeof def.person; def.tense = tidy(def.tense) as typeof def.tense;
     const chapters = this.store.db.prepare('SELECT * FROM chapters WHERE project_id=? AND deleted_at IS NULL ORDER BY position').all(projectId) as Row[];
     const scenes = this.store.db.prepare('SELECT id, chapter_id, title, pov_element_id, pov_json, position FROM scenes WHERE project_id=? AND deleted_at IS NULL ORDER BY position').all(projectId) as Row[];
     const rows = chapters.map((c) => {
@@ -65,6 +67,8 @@ export class Continuity {
           return {
             id: s.id, title: s.title, pov: povId ? { id: povId, title: this.title(povId), inherited: !s.pov_element_id && !!c.pov_element_id } : null,
             person: sp.person ?? cp.person ?? def.person, tense: sp.tense ?? cp.tense ?? def.tense,
+            // What this scene says for itself, apart from what it takes from its chapter or the book.
+            own: { povId: (s.pov_element_id as string | null) ?? null, person: (sp.person as string | undefined) ?? null, tense: (sp.tense as string | undefined) ?? null },
             narrator: sp.narrator ? { id: sp.narrator, title: this.title(sp.narrator as string) } : null,
             distance: sp.distance ?? cp.distance ?? null, reliability: sp.reliability ?? cp.reliability ?? null, function: sp.function ?? null,
             also: ((sp.also as string[] | undefined) ?? []).map((id) => ({ id, title: this.title(id) })),
@@ -89,7 +93,7 @@ export class Continuity {
 
   // ---------- the two timelines (R-C-049 to R-C-051) ----------
   timelines(projectId: string) {
-    const units = this.ripple.order(projectId);
+    const units = this.ripple.order(projectId, { plans: true });
     const memory = (this.brain.links(projectId) as Row[]).filter((l) => l.relation === 'calls_up');
     const rows = units.map((u) => {
       const id = u.planId;
@@ -97,7 +101,7 @@ export class Continuity {
       // A present scene can call up a past one: the memory link, in both directions.
       const callsUp = id ? memory.filter((l) => l.from_id === id).map((l) => String(l.to_title ?? this.title(l.to_id as string))) : [];
       const calledUpBy = id ? memory.filter((l) => l.to_id === id).map((l) => String(l.from_title ?? this.title(l.from_id as string))) : [];
-      return { key: u.key, planId: id, sceneId: u.sceneId, title: u.title, narrative: u.index, beat: this.title(u.beatId), day: g('story_day'), date: g('story_date'), year: g('story_year'), time: g('time_of_day'), elapsed: g('elapsed'), season: g('season'), weather: g('weather'), location: g('location'), callsUp, calledUpBy };
+      return { key: u.key, planId: id, sceneId: u.sceneId, title: u.title, narrative: u.index, standing: u.standing, beat: this.title(u.beatId), when: g('story_time'), day: g('story_day'), date: g('story_date'), year: g('story_year'), time: g('time_of_day'), elapsed: g('elapsed'), season: g('season'), weather: g('weather'), location: g('location'), callsUp, calledUpBy };
     });
     const chronological = [...rows].filter((r) => r.day != null || r.date != null || r.year != null).sort((a, b) => {
       const ya = parseYear(a.year), yb = parseYear(b.year);
@@ -112,7 +116,7 @@ export class Continuity {
 
   // ---------- knowledge (R-C-050, R-C-060, R-C-064) ----------
   knowledge(projectId: string) {
-    const { units, where } = this.ripple.placesOf(projectId);
+    const { units, where } = this.ripple.placesOf(projectId, { plans: true });
     const links = this.brain.links(projectId);
     const present = (charId: string, unitKey: string) => (where.get(charId) ?? []).some((u) => u.key === unitKey);
     const unitOfPlan = (planId: string) => units.find((u) => u.planId === planId);
@@ -125,13 +129,13 @@ export class Continuity {
       const who = characters.map((c) => {
         const learnsAt = revealUnits.find((u) => present(c.id as string, u!.key)) ?? null;
         const k = links.find((l) => l.from_id === c.id && l.to_id === f.id && ['knows', 'suspects', 'believes_falsely'].includes(l.relation as string));
-        return { id: c.id, title: c.title, learnsAt: learnsAt ? { scene: learnsAt.title, index: units.indexOf(learnsAt) + 1 } : null, stance: k ? { relation: k.relation, note: k.note } : null };
+        return { id: c.id, title: c.title, learnsAt: learnsAt ? { scene: learnsAt.title, index: units.indexOf(learnsAt) + 1, standing: learnsAt.standing } : null, stance: k ? { relation: k.relation, note: k.note } : null };
       }).filter((x) => x.learnsAt || x.stance);
-      return { id: f.id, title: f.title, truth: this.val(f.id as string, 'truth'), happens: this.val(f.id as string, 'story_time'), layer: this.val(f.id as string, 'layer'), readerAt: readerAt ? { scene: readerAt.title, index: units.indexOf(readerAt) + 1 } : null, who };
+      return { id: f.id, title: f.title, truth: this.val(f.id as string, 'truth'), happens: this.val(f.id as string, 'story_time'), layer: this.val(f.id as string, 'layer'), readerAt: readerAt ? { scene: readerAt.title, index: units.indexOf(readerAt) + 1, standing: readerAt.standing } : null, who };
     });
     // The reader-knowledge timeline, scene by scene.
     const timeline = units.map((u, i) => ({
-      index: i + 1, title: u.title, planId: u.planId, beat: this.title(u.beatId),
+      index: i + 1, title: u.title, planId: u.planId, sceneId: u.sceneId, standing: u.standing, beat: this.title(u.beatId),
       readerSuspects: u.planId ? this.val(u.planId, 'reader_suspects') : null, layer: u.planId ? this.val(u.planId, 'layer') : null,
       reveals: links.filter((l) => l.relation === 'reveals' && l.from_id === u.planId).map((l) => this.title(l.to_id as string)),
       learns: links.filter((l) => l.relation === 'reveals' && l.from_id === u.planId).flatMap((l) => characters.filter((c) => present(c.id as string, u.key)).map((c) => `${c.title} learns ${this.title(l.to_id as string)}`)),
@@ -141,27 +145,45 @@ export class Continuity {
 
   // ---------- clues, plants and payoffs (R-C-062) ----------
   clues(projectId: string) {
-    const { units, pos } = this.ripple.placesOf(projectId);
+    const { units, pos } = this.ripple.placesOf(projectId, { plans: true });
     const links = this.brain.links(projectId);
-    const ix = (id: string) => { const p = pos.get(id); return p == null ? null : units.findIndex((u) => u.pos === p) + 1; };
+    const unitAt = (id: string) => { const p = pos.get(id); return p == null ? null : units.find((u) => u.pos === p) ?? null; };
+    const ix = (id: string) => { const u = unitAt(id); return u ? units.indexOf(u) + 1 : null; };
+    // Her own words in the clue's "Where it is planted" and "Where it pays off" count too, and point at the cards
+    // and beats they name, so she never has to say the same thing twice.
+    const beats = this.structure.beats(projectId).map((b) => ({ id: b.element.id as string, title: b.element.title as string }));
+    const norm = (x: string) => x.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+    const bare = (x: string) => norm(x).replace(/^(the|a|an) /, '');
+    const has = (hay: string, needle: string) => !!needle && ` ${hay} `.includes(` ${needle} `);
+    const words = (id: string, field: string) => {
+      const f = this.brain.field(id, field);
+      const mine = [...f.currentAll.map((x) => ({ text: String(x.value), sure: true })), ...f.possibilities.filter((x) => x.status === 'developing').map((x) => ({ text: String(x.value), sure: false }))];
+      return mine.map((w) => {
+        const t = norm(w.text);
+        const cards = units.filter((u) => { const b = bare(u.title); return b.length >= 4 && (has(t, b) || (t.split(' ').length >= 2 && has(b, bare(w.text)))); })
+          .map((u) => ({ id: u.planId ?? u.key, sceneId: u.sceneId, title: u.title, at: units.indexOf(u) + 1, standing: u.standing }));
+        const atBeats = beats.filter((b) => b.title.length >= 4 && has(t, norm(b.title))).map((b) => ({ id: b.id, title: b.title }));
+        return { ...w, cards, beats: atBeats };
+      });
+    };
     const things = this.brain.elements(projectId).filter((e) => ['clue', 'object', 'payoff', 'event', 'reveal'].includes(e.kind as string) && links.some((l) => ['plants', 'pays_off'].includes(l.relation as string) && l.to_id === e.id));
     const clueEls = [...things, ...this.brain.elements(projectId, { kind: 'clue' }).filter((c) => !things.some((t) => t.id === c.id))];
     return clueEls.map((c) => {
-      const side = (rel: string) => links.filter((l) => l.relation === rel && l.to_id === c.id).map((l) => ({ id: l.from_id as string, title: this.title(l.from_id as string), at: ix(l.from_id as string) })).sort((a, b) => (a.at ?? 1e9) - (b.at ?? 1e9));
-      return { id: c.id, title: c.title, kind: c.kind, truth: this.val(c.id as string, 'truth'), significant: yes(this.val(c.id as string, 'significant')), plants: side('plants'), reveals: side('reveals'), payoffs: side('pays_off'), of: units.length };
+      const side = (rel: string) => links.filter((l) => l.relation === rel && l.to_id === c.id).map((l) => ({ id: l.from_id as string, title: this.title(l.from_id as string), at: ix(l.from_id as string), standing: unitAt(l.from_id as string)?.standing ?? null })).sort((a, b) => (a.at ?? 1e9) - (b.at ?? 1e9));
+      return { id: c.id, title: c.title, kind: c.kind, truth: this.val(c.id as string, 'truth'), significant: yes(this.val(c.id as string, 'significant')), plants: side('plants'), reveals: side('reveals'), payoffs: side('pays_off'), plantedWords: words(c.id as string, 'planted'), paidOffWords: words(c.id as string, 'paid_off'), of: units.length };
     });
   }
 
   // ---------- storylines (R-C-035 to R-C-039) ----------
-  storylines(projectId: string) {
-    const units = this.ripple.order(projectId);
+  storylines(projectId: string, plans = true) {
+    const units = this.ripple.order(projectId, { plans });
     const links = this.brain.links(projectId);
     const strands = this.brain.elements(projectId, { kind: 'storyline' }).map((s) => ({
       id: s.id as string, title: s.title as string, letter: this.val(s.id as string, 'letter'), storyType: this.val(s.id as string, 'story_type'), state: this.val(s.id as string, 'state'), resolution: this.val(s.id as string, 'resolution'),
       values: this.brain.field(s.id as string, 'values').currentAll.map((v) => v.value),
     }));
     const moves = (unitPlan: string | null, strand: string) => !!unitPlan && links.some((l) => l.relation === 'advances' && l.from_id === unitPlan && l.to_id === strand);
-    const grid = units.map((u) => ({ index: u.index, title: u.title, planId: u.planId, strands: strands.filter((s) => moves(u.planId, s.id)).map((s) => s.id) }));
+    const grid = units.map((u) => ({ index: u.index, title: u.title, planId: u.planId, standing: u.standing, strands: strands.filter((s) => moves(u.planId, s.id)).map((s) => s.id) }));
     return { strands, grid, touchPoints: grid.filter((g) => g.strands.length > 1) };
   }
 
@@ -177,11 +199,11 @@ export class Continuity {
 
   // ---------- motifs (R-C-065) ----------
   motifs(projectId: string) {
-    const { units, where } = this.ripple.placesOf(projectId);
+    const { units, where } = this.ripple.placesOf(projectId, { plans: true });
     const links = this.brain.links(projectId);
     return this.brain.elements(projectId, { kind: 'motif' }).map((m) => ({
       id: m.id, title: m.title,
-      appearances: (where.get(m.id as string) ?? []).map((u) => ({ index: units.indexOf(u) + 1, scene: u.title, note: (links.find((l) => l.from_id === m.id && ['appears_in', 'realizes'].includes(l.relation as string) && l.to_id === u.planId)?.note as string) ?? '' })).sort((a, b) => a.index - b.index),
+      appearances: (where.get(m.id as string) ?? []).map((u) => ({ index: units.indexOf(u) + 1, standing: u.standing, scene: u.title, note: (links.find((l) => l.from_id === m.id && ['appears_in', 'realizes'].includes(l.relation as string) && l.to_id === u.planId)?.note as string) ?? '' })).sort((a, b) => a.index - b.index),
     }));
   }
 
@@ -218,12 +240,13 @@ export class Continuity {
 
     // Clues: two-way completeness (R-C-062).
     for (const c of this.clues(projectId)) {
-      if (c.payoffs.length && !c.plants.length) out.push({ key: `clue-noplant:${c.id}`, rule: 'payoff without a plant', severity: 'question', elements: [{ id: c.id as string, title: c.title as string }], message: `"${c.title}" pays off but nothing plants it first. If it pays off later, it has to be here first.` });
-      if (c.significant && c.plants.length && !c.payoffs.length) out.push({ key: `clue-unpaid:${c.id}`, rule: 'unpaid promise', severity: 'question', elements: [{ id: c.id as string, title: c.title as string }], message: `"${c.title}" is planted and marked significant, but nothing pays it off yet. Not every detail needs to pay off; this one you marked as one that does.` });
+      const planted = c.plants.length > 0 || c.plantedWords.length > 0, paid = c.payoffs.length > 0 || c.paidOffWords.length > 0;
+      if (paid && !planted) out.push({ key: `clue-noplant:${c.id}`, rule: 'payoff without a plant', severity: 'question', elements: [{ id: c.id as string, title: c.title as string }], message: `"${c.title}" pays off but nothing plants it first. If it pays off later, it has to be here first.` });
+      if (c.significant && planted && !paid) out.push({ key: `clue-unpaid:${c.id}`, rule: 'unpaid promise', severity: 'question', elements: [{ id: c.id as string, title: c.title as string }], message: `"${c.title}" is planted and marked significant, but nothing pays it off yet. Not every detail needs to pay off; this one you marked as one that does.` });
     }
 
     // Storylines: weave, dropped threads (R-C-037, R-C-038). Unmapped middles are never called holes (R-C-059).
-    const sl = this.storylines(projectId);
+    const sl = this.storylines(projectId, false);
     const n = sl.grid.length;
     for (const s of sl.strands) {
       const at = sl.grid.filter((g) => g.strands.includes(s.id)).map((g) => g.index);
@@ -237,7 +260,7 @@ export class Continuity {
 
     // Two places at once, from the scene clock (R-C-053): evidence, not interpretation.
     const tl = this.timelines(projectId).narrative.filter((r) => r.planId && (r.day != null || r.date != null) && r.time != null);
-    const { where } = this.ripple.placesOf(projectId);
+    const { where } = this.ripple.placesOf(projectId, { plans: true });
     for (let i = 0; i < tl.length; i++) for (let j = i + 1; j < tl.length; j++) {
       const a = tl[i]!, b = tl[j]!;
       if (String(a.day ?? a.date) !== String(b.day ?? b.date) || String(a.time).toLowerCase() !== String(b.time).toLowerCase() || !a.location || !b.location || String(a.location).toLowerCase() === String(b.location).toLowerCase()) continue;

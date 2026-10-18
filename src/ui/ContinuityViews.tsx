@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { valueText } from './status';
@@ -6,9 +6,41 @@ import { ElementPage } from './ElementPage';
 
 // Continuity inside Narrative Zoom: timelines, viewpoint, knowledge, clues, storylines, and the review.
 type Open = (node: { level: 'card' | 'element'; id: string }) => void;
-const v = (x: unknown) => (x == null || x === '' ? <span className="faint">not set</span> : valueText(x));
+const v = (x: unknown) => (x == null || x === '' ? <span className="faint" style={{ whiteSpace: 'nowrap' }}>not set</span> : valueText(x));
 const th = { padding: '0.4rem', textAlign: 'left' as const, borderBottom: '1px solid var(--line-strong)' };
 const td = { padding: '0.4rem', borderTop: '1px solid var(--line)', verticalAlign: 'top' as const };
+
+/**
+ * "How this view works": what the view shows, where its information comes from, and what to do with it.
+ * Folded to one line so it never crowds the view; once opened, it is remembered as read (per view, in this browser).
+ */
+export function HowItWorks({ view, shows, from, todo }: { view: string; shows: ReactNode; from: ReactNode; todo: ReactNode }) {
+  const key = `storycanon.how.${view}`;
+  const [read, setRead] = useState(() => { try { return localStorage.getItem(key) === '1'; } catch { return false; } });
+  return (
+    <details className="how-it-works" data-read={read ? 'yes' : undefined} onToggle={(e) => { if ((e.currentTarget as HTMLDetailsElement).open && !read) { try { localStorage.setItem(key, '1'); } catch { /* private window: fine */ } setRead(true); } }}>
+      <summary>How this view works</summary>
+      <dl>
+        <dt>What it shows</dt><dd>{shows}</dd>
+        <dt>Where it comes from</dt><dd>{from}</dd>
+        <dt>What to do with it</dt><dd>{todo}</dd>
+      </dl>
+    </details>
+  );
+}
+
+/** Planned scene cards sit beside written scenes; this says which is which. Written scenes need no mark. */
+const STANDING: Record<string, { label: string; hint: string }> = {
+  card: { label: 'planned', hint: 'A scene card on its beat, not written yet' },
+  might: { label: 'planned, might go here', hint: 'A scene card that might go at this beat, not decided or written yet' },
+  unplaced: { label: 'planned, no beat yet', hint: 'A scene card with no beat yet, so it has no place in the order' },
+};
+export function Planned({ s }: { s?: string | null }) {
+  const m = s ? STANDING[s] : null;
+  return m ? <span className="planned-tag" title={m.hint}>{m.label}</span> : null;
+}
+/** A unit's number in reading order; a card with no beat has none. */
+const num = (index: number, standing?: string | null) => (standing === 'unplaced' ? '' : `${index}. `);
 
 function useData<T = any>(url: string, tick: number) {
   const [d, setD] = useState<T | null>(null);
@@ -22,18 +54,22 @@ export function Timelines({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpe
   if (e) return <div className="notice error">{e}</div>;
   if (!d) return <p className="muted">Lining up the timelines…</p>;
   const row = (r: any) => (
-    <tr key={r.key}><td style={td}>{r.narrative}</td><td style={td}>{r.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: r.planId })}>{r.title}</button> : r.title}{(r.callsUp?.length || r.calledUpBy?.length) ? <div className="small faint">{r.callsUp.length ? `Calls up: ${r.callsUp.join('; ')}` : ''}{r.callsUp.length && r.calledUpBy.length ? '. ' : ''}{r.calledUpBy.length ? `Called up by: ${r.calledUpBy.join('; ')}` : ''}</div> : null}</td><td style={td}>{r.beat || <span className="faint">no beat</span>}</td><td style={td}>{v(r.year ?? r.day ?? r.date)}</td><td style={td}>{v(r.time)}</td><td style={td}>{v(r.location)}</td><td style={td}>{v(r.season ?? r.weather)}</td></tr>
+    <tr key={r.key}><td style={td}>{r.standing === 'unplaced' ? '' : r.narrative}</td><td style={td}>{r.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: r.planId })}>{r.title}</button> : r.title} <Planned s={r.standing} />{(r.callsUp?.length || r.calledUpBy?.length) ? <div className="small faint">{r.callsUp.length ? `Calls up: ${r.callsUp.join('; ')}` : ''}{r.callsUp.length && r.calledUpBy.length ? '. ' : ''}{r.calledUpBy.length ? `Called up by: ${r.calledUpBy.join('; ')}` : ''}</div> : null}</td><td style={td}>{r.beat || <span className="faint">no beat</span>}</td><td style={td}>{v(r.when)}</td><td style={td}>{v(r.year ?? r.day ?? r.date)}</td><td style={td}>{v(r.time)}</td><td style={td}>{v(r.location)}</td><td style={td}>{v(r.season ?? r.weather)}</td></tr>
   );
-  const head = <thead><tr><th style={th}>Scene</th><th style={th}>Title</th><th style={th}>Beat</th><th style={th}>Year, day or date</th><th style={th}>Time</th><th style={th}>Where</th><th style={th}>Season, weather</th></tr></thead>;
+  const head = <thead><tr><th style={th}>Scene</th><th style={th}>Title</th><th style={th}>Beat</th><th style={th}>When</th><th style={th}>Year, day or date</th><th style={th}>Time</th><th style={th}>Where</th><th style={th}>Season, weather</th></tr></thead>;
   return (
     <>
       <h1>Two timelines</h1>
-      <p className="muted small">The order the reader meets the story, and the order things actually happen. They can differ on purpose. Fill a scene's day and time in its card.</p>
+      <HowItWorks view="timelines"
+        shows="Every scene and scene card twice: once in the order the reader meets them, once in the order things happen in the story. Planned cards are marked."
+        from={<>Each scene card's story time. "When" and "Year" are the same boxes as "When (story time)" and "Year" in the Writing Room. "Day in the story", "Date" and "Time of day" are on the card, under Story time.</>}
+        todo='Give scenes a year, a day number or a date, and they line up in story order below. Words like "the next morning" show in the When column but cannot be sorted.' />
+      <p className="muted small">The order the reader meets the story, and the order things actually happen. They can differ on purpose. Fill in a scene's story time on its card, or in the Writing Room beside the page.</p>
       <h2>In the order of the book</h2>
       <div style={{ overflowX: 'auto' }}><table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>{head}<tbody>{d.narrative.map(row)}</tbody></table></div>
       <h2 style={{ marginTop: '1.5rem' }}>In the order things happen</h2>
-      {d.chronological.length === 0 ? <p className="muted small">No scene has a day or date yet.</p> : <div style={{ overflowX: 'auto' }}><table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>{head}<tbody>{d.chronological.map(row)}</tbody></table></div>}
-      {d.unplacedInTime > 0 && <p className="faint small">{d.unplacedInTime} scene{d.unplacedInTime === 1 ? ' has' : 's have'} no story time yet.</p>}
+      {d.chronological.length === 0 ? <p className="muted small">No scene has a year, day or date yet.</p> : <div style={{ overflowX: 'auto' }}><table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>{head}<tbody>{d.chronological.map(row)}</tbody></table></div>}
+      {d.unplacedInTime > 0 && <p className="faint small">{d.unplacedInTime} scene{d.unplacedInTime === 1 ? ' has' : 's have'} no year, day or date yet, so {d.unplacedInTime === 1 ? 'it is' : 'they are'} not in story order.</p>}
     </>
   );
 }
@@ -46,34 +82,53 @@ export function Viewpoint({ ctx, tick, refresh }: { ctx: Ctx; tick: number; refr
   if (e) return <div className="notice error">{e}</div>;
   if (!d) return <p className="muted">Gathering viewpoints…</p>;
   const setCh = (id: string, body: any) => void api.patch(`/api/chapters/${id}/pov`, body).then(refresh);
-  const setSc = (s: any, patch: any) => void api.patch(`/api/scenes/${s.id}/pov`, { pov: { person: s.person ?? undefined, tense: s.tense ?? undefined, reliability: s.reliability ?? undefined, also: s.also.map((a: any) => a.id), ...patch } }).then(refresh);
+  // Only what the scene says for itself is saved back, never what it takes from its chapter or the book.
+  const setSc = (s: any, patch: any) => void api.patch(`/api/scenes/${s.id}/pov`, { pov: { person: s.own?.person ?? undefined, tense: s.own?.tense ?? undefined, reliability: s.reliability ?? undefined, also: s.also.map((a: any) => a.id), ...patch } }).then(refresh);
+  const setWho = (s: any, povElementId: string | null) => void api.patch(`/api/scenes/${s.id}`, { povElementId }).then(refresh);
+  const sub = (t: string) => <div className="faint small" style={{ fontWeight: 400 }}>{t}</div>;
   return (
     <>
       <h1>Viewpoint</h1>
-      <div className="row" style={{ marginBottom: '1rem' }}>
-        <span className="small muted grow">Defaults: {d.defaults.person ?? 'person not set'}, {d.defaults.tense ?? 'tense not set'}. Scenes inherit their chapter's viewpoint unless you set their own.</span>
+      <HowItWorks view="viewpoint"
+        shows={<>Whose eyes each scene is seen through, in what person and tense, and whether the reader can trust them. Reliable: they tell it straight. Unreliable: they may mislead, on purpose or not. Selectively informed: honest, but missing pieces. A second viewpoint is another character whose thoughts we also hear in the same scene, sometimes called head-hopping.</>}
+        from={<>Three places, in this order: a scene's own viewpoint wins (it is the same setting as "Viewpoint character" beside the page in the Writing Room). A scene with none takes its chapter's. Person and tense fall back to the book's, from the story world or Novel setup.</>}
+        todo="Set a chapter's viewpoint once and let its scenes follow; change a single scene only where it differs. Viewpoint rules in the story world let the Story review ask about slips." />
+      <div className="row" style={{ marginBottom: '0.5rem' }}>
+        <span className="small muted grow">Book defaults: {d.defaults.person ?? 'person not set'}; {d.defaults.tense ? `${String(d.defaults.tense).toLowerCase()} tense` : 'tense not set'}.</span>
         <button className="btn small" onClick={() => void api.post(`/api/projects/${ctx.projectId}/storyworld`).then((w) => setWorld(w.id))}>Story world and viewpoint rules</button>
       </div>
+      <p className="small muted" style={{ marginTop: 0, marginBottom: '1rem' }}>A scene's own viewpoint wins. It is the same setting as "Viewpoint character" in the Writing Room. Scenes without one take their chapter's.</p>
       {world && <section className="section"><ElementPage ctx={ctx} elementId={world} onOpen={() => {}} onChanged={refresh} /><button className="btn small" onClick={() => setWorld(null)}>Close</button></section>}
       {d.absences.map((a: any, i: number) => <p key={i} className="small muted">{a.character}: no viewpoint scene from {a.from} to {a.to} ({a.chapters} chapters). An observation, not a rule.</p>)}
+      {d.chapters.length === 0 && <p className="muted">No chapters yet. Once the Writing Room has chapters and scenes, each one shows here with its viewpoint.</p>}
       {d.chapters.map((c: any) => (
         <section key={c.id} className="section">
           <div className="row"><h2 className="grow" style={{ fontSize: '1.05rem' }}>{c.title}</h2>
             <label className="row small">Viewpoint <select value={c.pov?.id ?? ''} onChange={(ev) => setCh(c.id, { povElementId: ev.target.value || null })} style={{ width: 'auto' }}><option value="">None set</option>{chars.map((ch) => <option key={ch.id} value={ch.id}>{ch.title}</option>)}</select></label>
           </div>
+          <div style={{ overflowX: 'auto' }}>
           <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>
-            <thead><tr><th style={th}>Scene</th><th style={th}>Viewpoint</th><th style={th}>Person</th><th style={th}>Tense</th><th style={th}>Reliability</th><th style={th}>Another head in this scene</th></tr></thead>
+            <thead><tr>
+              <th style={th}>Scene</th>
+              <th style={th}>Viewpoint{sub('whose eyes')}</th>
+              <th style={th}>Person{sub('first, third…')}</th>
+              <th style={th}>Tense</th>
+              <th style={th}>Reliability{sub('can the reader trust them?')}</th>
+              <th style={th}>Second viewpoint{sub('another character whose thoughts we hear here')}</th>
+            </tr></thead>
             <tbody>{c.scenes.map((s: any) => (
               <tr key={s.id}>
-                <td style={td}><button className="btn link small" onClick={() => ctx.openScene(s.id)}>{s.title}</button></td>
-                <td style={td}>{s.pov ? `${s.pov.title}${s.pov.inherited ? ' (from chapter)' : ''}` : <span className="faint">none</span>}</td>
-                <td style={td}><input type="text" defaultValue={s.person ?? ''} aria-label={`Person for ${s.title}`} onBlur={(ev) => ev.target.value !== (s.person ?? '') && setSc(s, { person: ev.target.value })} style={{ width: '9em' }} /></td>
-                <td style={td}><input type="text" defaultValue={s.tense ?? ''} aria-label={`Tense for ${s.title}`} onBlur={(ev) => ev.target.value !== (s.tense ?? '') && setSc(s, { tense: ev.target.value })} style={{ width: '7em' }} /></td>
-                <td style={td}><select value={s.reliability ?? ''} onChange={(ev) => setSc(s, { reliability: ev.target.value || undefined })} aria-label={`Reliability for ${s.title}`} style={{ width: 'auto' }}><option value="">Not set</option><option>Reliable</option><option>Unreliable</option><option>Selectively informed</option></select></td>
+                <td style={{ ...td, minWidth: '9em' }}><button className="btn link small" style={{ textAlign: 'left' }} onClick={() => ctx.openScene(s.id)}>{s.title}</button></td>
+                <td style={td}><select value={s.own?.povId ?? ''} onChange={(ev) => setWho(s, ev.target.value || null)} aria-label={`Viewpoint character for ${s.title}`} style={{ width: 'auto', maxWidth: '14em' }}>
+                  <option value="">{c.pov ? `${c.pov.title} (from chapter)` : 'Not set'}</option>{chars.map((ch) => <option key={ch.id} value={ch.id}>{ch.title}</option>)}</select></td>
+                <td style={td}><input type="text" defaultValue={s.own?.person ?? ''} placeholder={s.person ? 'Same as book' : ''} title={s.person ?? ''} aria-label={`Person for ${s.title}`} onBlur={(ev) => ev.target.value !== (s.own?.person ?? '') && setSc(s, { person: ev.target.value || undefined })} style={{ width: '15em' }} /></td>
+                <td style={td}><input type="text" defaultValue={s.own?.tense ?? ''} placeholder={s.tense ? 'Same as book' : ''} aria-label={`Tense for ${s.title}`} onBlur={(ev) => ev.target.value !== (s.own?.tense ?? '') && setSc(s, { tense: ev.target.value || undefined })} style={{ width: '8em' }} /></td>
+                <td style={td}><select value={s.reliability ?? ''} onChange={(ev) => setSc(s, { reliability: ev.target.value || undefined })} aria-label={`Reliability for ${s.title}`} style={{ width: 'auto' }}><option value="">Not set</option><option value="Reliable">Reliable</option><option value="Unreliable">Unreliable</option><option value="Selectively informed">Selectively informed</option></select></td>
                 <td style={td}><select value={s.also[0]?.id ?? ''} onChange={(ev) => setSc(s, { also: ev.target.value ? [ev.target.value] : [] })} aria-label={`Second viewpoint for ${s.title}`} style={{ width: 'auto' }}><option value="">None</option>{chars.map((ch) => <option key={ch.id} value={ch.id}>{ch.title}</option>)}</select></td>
               </tr>
             ))}</tbody>
           </table>
+          </div>
         </section>
       ))}
     </>
@@ -81,13 +136,19 @@ export function Viewpoint({ ctx, tick, refresh }: { ctx: Ctx; tick: number; refr
 }
 
 export function Knowledge({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Open }) {
+  const [added, setAdded] = useState(0);
   const k = useData(`/api/projects/${ctx.projectId}/knowledge`, tick);
-  const log = useData(`/api/projects/${ctx.projectId}/secret-log`, tick);
+  const log = useData(`/api/projects/${ctx.projectId}/secret-log`, tick + added);
   if (k.e) return <div className="notice error">{k.e}</div>;
   if (!k.d) return <p className="muted">Working out who knows what…</p>;
+  const at = (x: any) => `${x.standing === 'unplaced' ? 'planned card' : `scene ${x.index}`}, "${x.scene}"${x.standing === 'card' || x.standing === 'might' ? ' (planned)' : ''}`;
   return (
     <>
       <h1>Who knows what, and when</h1>
+      <HowItWorks view="knowledge"
+        shows="Each secret or fact: the truth, when the reader meets it, and when each character learns it. Then the reader's view, scene by scene, including planned scene cards."
+        from={<>Connections on your scenes and cards: a scene that "reveals" something, the characters who "appear in" it, and a character who "knows", "suspects" or "believes falsely". The scene card's "What the reader suspects" and "Visible or hidden story" fill the table.</>}
+        todo="Look for a character acting on something they have not learned yet, or a reveal that lands before its setup. The secret operations log keeps the true order of what a schemer does behind everyone's back." />
       <p className="muted small">Built from what each scene reveals and who is in it. Mark a scene as revealing something in its connections ("reveals"), and a character's belief with "believes falsely" or "suspects".</p>
       {k.d.events.length === 0 ? <p className="muted">Nothing is revealed in any scene yet.</p> : k.d.events.map((ev: any) => (
         <section key={ev.id} className="section">
@@ -95,15 +156,15 @@ export function Knowledge({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpe
           <ul className="list small">
             <li>The truth: {v(ev.truth)}</li>
             <li>When it happens: {v(ev.happens)}</li>
-            <li>When the reader meets it: {ev.readerAt ? `scene ${ev.readerAt.index}, "${ev.readerAt.scene}"` : <span className="faint">not revealed yet</span>}</li>
-            {ev.who.map((w: any) => <li key={w.id}>{w.title}: {w.learnsAt ? `learns it in scene ${w.learnsAt.index}, "${w.learnsAt.scene}"` : 'when not recorded'}{w.stance ? `; ${w.stance.relation.replace(/_/g, ' ')}${w.stance.note ? ` (${w.stance.note})` : ''}` : ''}</li>)}
+            <li>When the reader meets it: {ev.readerAt ? at(ev.readerAt) : <span className="faint">not revealed yet</span>}</li>
+            {ev.who.map((w: any) => <li key={w.id}>{w.title}: {w.learnsAt ? `learns it in ${at(w.learnsAt)}` : 'when not recorded'}{w.stance ? `; ${w.stance.relation.replace(/_/g, ' ')}${w.stance.note ? ` (${w.stance.note})` : ''}` : ''}</li>)}
           </ul>
         </section>
       ))}
       <h2 style={{ marginTop: '1.5rem' }}>The reader's view, scene by scene</h2>
       <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>
-        <thead><tr><th style={th}>Scene</th><th style={th}>Reader suspects</th><th style={th}>Revealed here</th><th style={th}>Who learns</th><th style={th}>Layer</th></tr></thead>
-        <tbody>{k.d.timeline.map((t: any) => <tr key={t.index}><td style={td}>{t.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: t.planId })}>{t.index}. {t.title}</button> : `${t.index}. ${t.title}`}</td><td style={td}>{v(t.readerSuspects)}</td><td style={td}>{t.reveals.join('; ') || <span className="faint">nothing</span>}</td><td style={td}>{t.learns.join('; ')}</td><td style={td}>{v(t.layer)}</td></tr>)}</tbody>
+        <thead><tr><th style={th}>Scene</th><th style={th}>Reader suspects</th><th style={th}>Revealed here</th><th style={th}>Who learns</th><th style={th}>Visible or hidden story<div className="faint small" style={{ fontWeight: 400 }}>what the characters believe, or what is really going on</div></th></tr></thead>
+        <tbody>{k.d.timeline.map((t: any) => <tr key={t.index}><td style={td}>{t.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: t.planId })}>{num(t.index, t.standing)}{t.title}</button> : `${num(t.index, t.standing)}${t.title}`} <Planned s={t.standing} /></td><td style={td}>{v(t.readerSuspects)}</td><td style={td}>{t.reveals.join('; ') || <span className="faint">nothing</span>}</td><td style={td}>{t.learns.join('; ')}</td><td style={td}>{v(t.layer)}</td></tr>)}</tbody>
       </table>
       {log.d && log.d.length > 0 && (
         <section className="section">
@@ -117,23 +178,24 @@ export function Knowledge({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpe
           ))}
         </section>
       )}
-      <AddHiddenMove ctx={ctx} />
+      <AddHiddenMove ctx={ctx} onAdded={() => setAdded((x) => x + 1)} />
     </>
   );
 }
 
-function AddHiddenMove({ ctx }: { ctx: Ctx }) {
+function AddHiddenMove({ ctx, onAdded }: { ctx: Ctx; onAdded: () => void }) {
   const [chars, setChars] = useState<any[]>([]);
   const [who, setWho] = useState('');
   const [t, setT] = useState('');
   const [done, setDone] = useState('');
   useEffect(() => { api.get(`/api/projects/${ctx.projectId}/elements?kind=character`).then(setChars).catch(() => {}); }, [ctx.projectId]);
   return (
-    <form className="section row small" onSubmit={(e) => { e.preventDefault(); if (t.trim()) void api.post(`/api/projects/${ctx.projectId}/elements`, { kind: 'hidden_move', title: t, parentId: who || null }).then((m) => api.post(`/api/elements/${m.id}/statements`, { field: 'move', value: t, status: 'established' })).then(() => { setT(''); setDone('Added to the secret operations log.'); }); }}>
+    <form className="section row small" onSubmit={(e) => { e.preventDefault(); if (t.trim()) void api.post(`/api/projects/${ctx.projectId}/elements`, { kind: 'hidden_move', title: t, parentId: who || null }).then((m) => api.post(`/api/elements/${m.id}/statements`, { field: 'move', value: t, status: 'established' })).then(() => { setT(''); setDone('Added to the secret operations log.'); onAdded(); }); }}>
       <strong>Log a hidden move</strong>
       <select value={who} onChange={(e) => setWho(e.target.value)} style={{ width: 'auto' }} aria-label="Whose move"><option value="">Whose?</option>{chars.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}</select>
       <input type="text" value={t} onChange={(e) => setT(e.target.value)} placeholder="What they secretly do" aria-label="The hidden move" style={{ maxWidth: 360 }} />
       <button className="btn" type="submit">Add</button>{done && <span role="status">{done}</span>}
+      <p className="faint small" style={{ flexBasis: '100%', margin: 0 }}>A hidden move is something a character does in secret that the others misread or blame on someone else. It is kept here and in the Story Brain under Secret operations, filed under that character.</p>
     </form>
   );
 }
@@ -143,21 +205,40 @@ export function Clues({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: O
   const m = useData(`/api/projects/${ctx.projectId}/motifs`, tick);
   if (c.e) return <div className="notice error">{c.e}</div>;
   if (!c.d) return <p className="muted">Gathering setups and payoffs…</p>;
-  const at = (xs: any[]) => xs.length === 0 ? <span className="faint">none</span> : xs.map((x: any, i: number) => <div key={i}><button className="btn link small" onClick={() => onOpen({ level: 'card', id: x.id })}>{x.title}</button>{x.at ? <span className="faint"> (scene {x.at})</span> : ''}</div>);
+  const card = (x: any, i: number) => (
+    <div key={i}><button className="btn link small" onClick={() => onOpen({ level: 'card', id: x.id })}>{x.title}</button>{x.at && x.standing !== 'unplaced' ? <span className="faint"> (scene {x.at})</span> : ''} <Planned s={x.standing} /></div>
+  );
+  // Her own words from the clue's page, then the cards and beats those words name, then any scene connections.
+  const at = (xs: any[], ws: any[] = []) => (xs.length === 0 && ws.length === 0) ? <span className="faint">none</span> : (
+    <>
+      {ws.map((w: any, i: number) => (
+        <div key={`w${i}`} className="clue-words">
+          <span className="st" data-s={w.sure ? 'established' : 'developing'}>{w.text}</span>
+          {w.cards.map((x: any, j: number) => card(x, j))}
+          {w.beats.length > 0 && <div className="faint small inline-names">at the beat {w.beats.map((b: any, j: number) => <span key={b.id}>{j ? ', ' : ''}<button className="btn link small" onClick={() => onOpen({ level: 'element', id: b.id })}>{b.title}</button></span>)}</div>}
+        </div>
+      ))}
+      {xs.map(card)}
+    </>
+  );
   return (
     <>
       <h1>Setups and payoffs</h1>
-      <p className="muted small">If it pays off later, it has to be here first. Connect a scene to a clue with "plants", "reveals" or "pays off".</p>
+      <HowItWorks view="clues"
+        shows="Every clue: where it is planted, what it really means, where the truth comes out, and where it pays off."
+        from={<>The clue's own page: "Where it is planted" and "Where it pays off", in your words. When those words name a scene card or a beat, it is shown under them. Scene connections count too: "plants", "reveals" and "pays off".</>}
+        todo="Look for a payoff with nothing planted, and a clue you marked significant that never pays off. The Story review asks about both." />
+      <p className="muted small">If it pays off later, it has to be here first. Fill in "Where it is planted" and "Where it pays off" on each clue, or connect a scene to a clue with "plants", "reveals" or "pays off".</p>
       {c.d.length === 0 ? <p className="muted">No clues yet. Add one in the Story Brain under Clues.</p> : (
         <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>
-          <thead><tr><th style={th}>What</th><th style={th}>Planted</th><th style={th}>What it really means</th><th style={th}>Discovered</th><th style={th}>Pays off</th></tr></thead>
-          <tbody>{c.d.map((r: any) => <tr key={r.id}><td style={td}><button className="btn link small" onClick={() => onOpen({ level: 'element', id: r.id })}>{r.title}</button>{r.significant && <div className="faint">must pay off</div>}</td><td style={td}>{at(r.plants)}</td><td style={td}>{v(r.truth)}</td><td style={td}>{at(r.reveals)}</td><td style={td}>{at(r.payoffs)}</td></tr>)}</tbody>
+          <thead><tr><th style={th}>What</th><th style={th}>Planted</th><th style={th}>What it really means</th><th style={{ ...th, minWidth: "9em" }}>Truth comes out<div className="faint small" style={{ fontWeight: 400 }}>scenes that reveal it</div></th><th style={th}>Pays off</th></tr></thead>
+          <tbody>{c.d.map((r: any) => <tr key={r.id}><td style={td}><button className="btn link small" onClick={() => onOpen({ level: 'element', id: r.id })}>{r.title}</button>{r.significant && <div className="faint">must pay off</div>}</td><td style={td}>{at(r.plants, r.plantedWords)}</td><td style={td}>{v(r.truth)}</td><td style={td}>{at(r.reveals)}</td><td style={td}>{at(r.payoffs, r.paidOffWords)}</td></tr>)}</tbody>
         </table>
       )}
       {m.d && m.d.length > 0 && (
         <section className="section"><h2>Motifs</h2>
           {m.d.map((mo: any) => <div key={mo.id} style={{ marginBottom: '0.75rem' }}><button className="btn link" onClick={() => onOpen({ level: 'element', id: mo.id })}>{mo.title}</button>
-            {mo.appearances.length === 0 ? <p className="faint small">Not placed in any scene yet.</p> : <ul className="list small">{mo.appearances.map((a: any, i: number) => <li key={i}>Scene {a.index}, {a.scene}{a.note ? `: ${a.note}` : ''}</li>)}</ul>}</div>)}
+            {mo.appearances.length === 0 ? <p className="faint small">Not placed in any scene yet.</p> : <ul className="list small">{mo.appearances.map((a: any, i: number) => <li key={i}>{a.standing === 'unplaced' ? '' : `Scene ${a.index}, `}{a.scene}{a.note ? `: ${a.note}` : ''} <Planned s={a.standing} /></li>)}</ul>}</div>)}
         </section>
       )}
     </>
@@ -168,15 +249,22 @@ export function Storylines({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOp
   const { d, e } = useData(`/api/projects/${ctx.projectId}/storylines`, tick);
   if (e) return <div className="notice error">{e}</div>;
   if (!d) return <p className="muted">Weaving…</p>;
-  if (!d.strands.length) return <><h1>Storylines</h1><p className="muted">No storylines yet. Add as many as the story needs in the Story Brain under Storylines, then connect scene cards to them with "advances".</p></>;
+  if (!d.strands.length) return <><h1>Storylines</h1><HowItWorks view="storylines"
+        shows="Each storyline as a column and every scene and scene card as a row, with a mark where the scene moves that storyline forward."
+        from={<>Storyline records in the Story Brain, and connections from scenes and cards to them with "advances". Planned cards are marked.</>}
+        todo="Look for a storyline that goes quiet for a long stretch, or one that never shares a scene with another. The strongest scenes move more than one." /><p className="muted">No storylines yet. Add as many as the story needs in the Story Brain under Storylines, then connect scene cards to them with "advances".</p></>;
   return (
     <>
       <h1>Storylines</h1>
+      <HowItWorks view="storylines"
+        shows="Each storyline as a column and every scene and scene card as a row, with a mark where the scene moves that storyline forward."
+        from={<>Storyline records in the Story Brain, and connections from scenes and cards to them with "advances". Planned cards are marked.</>}
+        todo="Look for a storyline that goes quiet for a long stretch, or one that never shares a scene with another. The strongest scenes move more than one." />
       <p className="muted small">The strongest scenes move more than one thread. {d.touchPoints.length} scene{d.touchPoints.length === 1 ? ' moves' : 's move'} more than one.</p>
       <div style={{ overflowX: 'auto' }}>
         <table style={{ borderCollapse: 'collapse', fontSize: '0.875rem' }}>
           <thead><tr><th style={th}>Scene</th>{d.strands.map((s: any) => <th key={s.id} style={th}><button className="btn link small" onClick={() => onOpen({ level: 'element', id: s.id })}>{s.letter ? `${s.letter}: ` : ''}{s.title}</button><div className="faint" style={{ fontWeight: 400 }}>{s.storyType ? <em>{valueText(s.storyType)}. </em> : null}{valueText(s.state) || ''}{s.values.length ? ` carrying ${s.values.map(valueText).join(', ')}` : ''}</div></th>)}</tr></thead>
-          <tbody>{d.grid.map((g: any) => <tr key={g.index}><td style={td}>{g.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: g.planId })}>{g.index}. {g.title}</button> : `${g.index}. ${g.title}`}</td>{d.strands.map((s: any) => <td key={s.id} style={{ ...td, textAlign: 'center' }}>{g.strands.includes(s.id) ? <span className="mark" data-d="drafted" style={{ display: 'inline-block' }} aria-label="moves this storyline" /> : ''}</td>)}</tr>)}</tbody>
+          <tbody>{d.grid.map((g: any) => <tr key={g.index}><td style={td}>{g.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: g.planId })}>{num(g.index, g.standing)}{g.title}</button> : `${num(g.index, g.standing)}${g.title}`} <Planned s={g.standing} /></td>{d.strands.map((s: any) => <td key={s.id} style={{ ...td, textAlign: 'center' }}>{g.strands.includes(s.id) ? <span className="mark" data-d="drafted" style={{ display: 'inline-block' }} aria-label="moves this storyline" /> : ''}</td>)}</tr>)}</tbody>
         </table>
       </div>
     </>
@@ -188,7 +276,8 @@ export function Review({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: 
   const [r, setR] = useState<any>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [err, setErr] = useState('');
-  const load = useCallback(() => api.get(`/api/projects/${ctx.projectId}/review`).then(setR).catch((e) => setErr(e.message)), [ctx.projectId]);
+  const [checkedAt, setCheckedAt] = useState<Date | null>(null);
+  const load = useCallback(() => api.get(`/api/projects/${ctx.projectId}/review`).then((x) => { setR(x); setCheckedAt(new Date()); }).catch((e) => setErr(e.message)), [ctx.projectId]);
   useEffect(() => { void load(); }, [load, tick]);
   const respond = (f: any, status: string) => void api.post(`/api/projects/${ctx.projectId}/review/respond`, { key: f.key, status, note: notes[f.key] ?? '', text: f.message }).then(load).catch((e) => setErr(e.message));
   if (err) return <div className="notice error">{err}</div>;
@@ -211,8 +300,18 @@ export function Review({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: 
   return (
     <>
       <h1>Story review</h1>
+      <HowItWorks view="review"
+        shows="Every question the program can ask about your story right now, in one place, with the answers you have already given."
+        from={<>Your records. It compares causes and effects across scenes and cards ("causes", "enables", "depends on"), beats on your beat sheet, viewpoint rules in your story world, clues marked significant, storylines, Ghost timing, and characters in two places at the same story time.</>}
+        todo="Answer each question: dealt with, intentional (with your reason), or not now. Questions appear as your records give it something to compare: connections between scenes, cards placed on beats, story times and places, viewpoint rules." />
       <p className="muted">Questions, never verdicts. Your answer quiets a question for good, and your reason is kept. Nothing here changes your story.</p>
-      {r.open.length === 0 ? <p>No open questions.</p> : <ul className="list">{r.open.map((f: any) => item(f))}</ul>}
+      <p className="small faint">It checks cause and effect, your beat sheet, viewpoint rules, clues, storylines and story time{checkedAt ? `, and last looked at ${checkedAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : ''}.</p>
+      {r.open.length === 0 ? (
+        <div className="review-empty">
+          <p>No open questions.</p>
+          <p className="small muted">Every check ran and none found anything to ask in what is recorded so far. More connections between scenes, cards placed on beats, story times and viewpoint rules give it more to compare.</p>
+        </div>
+      ) : <ul className="list">{r.open.map((f: any) => item(f))}</ul>}
       {r.later.length > 0 && <section className="section"><h2>Set aside for later</h2><ul className="list">{r.later.map((f: any) => item(f, true))}</ul></section>}
       {r.answered.length > 0 && <section className="section"><h2>Your answers</h2><ul className="list small">{r.answered.map((n: any) => <li key={n.id} className="row"><span className="grow">{n.finding_text}<br /><span className="faint">{n.status === 'intentional' ? 'Intentional' : 'Dealt with'}{n.note ? `: ${n.note}` : ''}</span></span><button className="btn small" onClick={() => void api.del(`/api/finding-notes/${n.id}`).then(load)}>Ask again</button></li>)}</ul></section>}
     </>
@@ -226,7 +325,11 @@ export function Names({ ctx, tick }: { ctx: Ctx; tick: number }) {
   return (
     <>
       <h2>Names in the book</h2>
-      <p className="muted small">Every capitalized name used in the middle of a sentence, counted. A name spelled two ways is easy to miss on the page and easy to catch here.</p>
+      <HowItWorks view="names"
+        shows="Every name your written scenes use, how often, in how many scenes, and which record it belongs to. Names that look like misspellings are listed first."
+        from={<>The words on the page. A capitalized word in the middle of a sentence counts as a name. At the start of a sentence every word is capitalized, so there it counts only when it is a name from your records, such as a character, place or storyline.</>}
+        todo='Check any "Spelled another way?" note. Give a name used often its own record, so the program can follow that person or place through the story.' />
+      <p className="muted small">Every name the book uses, counted: capitalized words in the middle of a sentence, and names from your records wherever they appear. A name spelled two ways is easy to miss on the page and easy to catch here.</p>
       {d.variants.length > 0 && (
         <section className="section" aria-label="Possible misspellings">
           <h3>Spelled another way?</h3>
@@ -260,30 +363,55 @@ export function Pacing({ ctx, tick }: { ctx: Ctx; tick: number }) {
   const [hover, setHover] = useState<number | null>(null);
   if (!d) return <p className="muted">{e || 'Measuring…'}</p>;
   const rows: any[] = d.rows;
-  if (!rows.length) return <p className="muted">Write a scene or two and the shape of the book appears here.</p>;
+  const how = (
+    <HowItWorks view="pacing"
+      shows="Each written scene as a bar, in reading order. The taller the bar, the longer the scene. The dashed line is your usual scene length."
+      from={<>The words on the page in the Writing Room. The viewpoint, beat and turn come from each scene's card. Scene cards with no writing yet have no length, so they are not drawn.</>}
+      todo="Look for a run of very long or very short scenes, or one scene far longer than the rest. Click a bar to open that scene." />
+  );
+  if (!rows.length) return <><h2>Pacing</h2>{how}<p className="muted">Write a scene or two and the shape of the book appears here.</p></>;
   const max = Math.max(...rows.map((r) => r.words), 1);
-  const W = 860, H = 180, gap = 2, bw = Math.max(3, Math.min(28, (W - gap * rows.length) / rows.length));
+  // Room on the left for the word scale and below for scene numbers and chapters.
+  const L = 56, B = 40, H = 180, W = 860, gap = 2;
+  const bw = Math.max(3, Math.min(28, (W - L - gap * rows.length) / rows.length));
+  const plotW = rows.length * (bw + gap);
+  const every = bw >= 14 ? 1 : bw >= 7 ? 2 : bw >= 4 ? 5 : 10;
   const h = hover != null ? rows[hover] : null;
+  const y = (w: number) => H - (w / max) * H;
+  const medianY = y(d.medianWords);
   return (
     <>
       <h2>Pacing</h2>
+      {how}
       <p className="muted small">Each bar is a scene, in reading order, by length. Your usual scene runs about {d.medianWords.toLocaleString()} words. Hover a bar for its viewpoint, beat and turn; click to open it.</p>
       {d.notes.map((n: string) => <div key={n} className="notice small">{n}</div>)}
       <div style={{ position: 'relative' }}>
-        <svg role="img" aria-label={`Scene lengths for ${rows.length} scenes`} viewBox={`0 0 ${Math.max(W, rows.length * (bw + gap))} ${H + 20}`} style={{ width: '100%', maxWidth: W, height: 'auto' }}>
-          <line x1={0} x2={rows.length * (bw + gap)} y1={H - (d.medianWords / max) * H} y2={H - (d.medianWords / max) * H} stroke="var(--line-strong)" strokeDasharray="3 3" />
-          {rows.map((r, i) => {
-            const bh = Math.max(2, (r.words / max) * H);
-            const x = i * (bw + gap);
-            const newChapter = i > 0 && rows[i - 1].chapter.id !== r.chapter.id;
-            return (
-              <g key={r.id} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} onClick={() => ctx.openScene(r.id)} style={{ cursor: 'pointer' }}>
-                {newChapter && <line x1={x - gap / 2} x2={x - gap / 2} y1={0} y2={H + 6} stroke="var(--line)" />}
-                <rect x={x} y={0} width={bw + gap} height={H + 20} fill="transparent" />
-                <path d={`M${x},${H} v${-(bh - 2)} q0,-2 2,-2 h${bw - 4} q2,0 2,2 v${bh - 2} z`} fill={hover === i ? 'var(--accent, var(--struct))' : 'var(--struct)'} opacity={hover == null || hover === i ? 1 : 0.55} />
-              </g>
-            );
-          })}
+        <svg role="img" aria-label={`Scene lengths for ${rows.length} scene${rows.length === 1 ? '' : 's'}`} viewBox={`0 0 ${Math.max(W, L + plotW + 8)} ${H + B + 8}`} style={{ width: '100%', maxWidth: W, height: 'auto' }} className="pacing-chart">
+          <g transform="translate(0,8)">
+            {/* The word scale */}
+            <text x={L - 8} y={4} textAnchor="end" className="axis">{max.toLocaleString()}</text>
+            <text x={L - 8} y={H} textAnchor="end" className="axis">0</text>
+            <text x={12} y={H / 2} textAnchor="middle" className="axis" transform={`rotate(-90 12 ${H / 2})`}>words</text>
+            <line x1={L} x2={L} y1={0} y2={H} stroke="var(--line-strong)" />
+            <line x1={L} x2={L + plotW} y1={H} y2={H} stroke="var(--line-strong)" />
+            <line x1={L} x2={L + plotW} y1={medianY} y2={medianY} stroke="var(--line-strong)" strokeDasharray="3 3" />
+            <text x={L + plotW + 4} y={medianY + 4} className="axis">usual</text>
+            {rows.map((r, i) => {
+              const bh = Math.max(2, (r.words / max) * H);
+              const x = L + i * (bw + gap);
+              const newChapter = i === 0 || rows[i - 1].chapter.id !== r.chapter.id;
+              return (
+                <g key={r.id} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} onClick={() => ctx.openScene(r.id)} style={{ cursor: 'pointer' }}>
+                  <title>{`${r.index}. ${r.title}, ${r.words.toLocaleString()} words`}</title>
+                  {newChapter && i > 0 && <line x1={x - gap / 2} x2={x - gap / 2} y1={0} y2={H + 22} stroke="var(--line)" />}
+                  {newChapter && <text x={x + 1} y={H + 34} className="axis chapter">Ch {r.chapter.number}</text>}
+                  <rect x={x} y={0} width={bw + gap} height={H + 20} fill="transparent" />
+                  <path d={`M${x},${H} v${-(bh - 2)} q0,-2 2,-2 h${bw - 4} q2,0 2,2 v${bh - 2} z`} fill={hover === i ? 'var(--accent, var(--struct))' : 'var(--struct)'} opacity={hover == null || hover === i ? 1 : 0.55} />
+                  {(i % every === 0 || i === rows.length - 1) && <text x={x + bw / 2} y={H + 14} textAnchor="middle" className="axis">{r.index}</text>}
+                </g>
+              );
+            })}
+          </g>
         </svg>
         {h && (
           <div role="status" className="small" style={{ position: 'absolute', top: 0, right: 0, background: 'var(--page)', border: '1px solid var(--line-strong)', borderRadius: 6, padding: '0.4rem 0.6rem', maxWidth: 280 }}>
@@ -294,6 +422,7 @@ export function Pacing({ ctx, tick }: { ctx: Ctx; tick: number }) {
           </div>
         )}
       </div>
+      <p className="small faint">Bars are numbered in reading order; the table below names each one.{d.unwritten ? ` ${d.unwritten} scene card${d.unwritten === 1 ? ' is' : 's are'} not written yet, so ${d.unwritten === 1 ? 'it has' : 'they have'} no length to show.` : ''}</p>
       <details style={{ marginTop: '1rem' }}>
         <summary className="small">As a table</summary>
         <table className="small" style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -308,7 +437,7 @@ export function Pacing({ ctx, tick }: { ctx: Ctx; tick: number }) {
 }
 
 // ---------- the cast: who is where, who meets whom, who has gone quiet, the Bechdel test ----------
-const MARK: Record<string, { label: string; glyph: string }> = { pov: { label: 'viewpoint', glyph: '●' }, planned: { label: 'in the scene (your records)', glyph: '◉' }, named: { label: 'named on the page', glyph: '○' } };
+const MARK: Record<string, { label: string; glyph: string }> = { pov: { label: 'viewpoint', glyph: '●' }, planned: { label: 'in the scene (your records)', glyph: '■' }, named: { label: 'named on the page', glyph: '○' } };
 
 export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Open }) {
   const [t, setT] = useState(0);
@@ -330,7 +459,7 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
   if (!places.length) return (
     <>
       <h2>The cast across the story</h2>
-      <p className="muted">Nothing has a place in the story's order yet. A scene card counts once it is decided on a beat, and a written scene counts where it sits. Cards that only might go somewhere are not counted, so nothing here is guessed.</p>
+      <p className="muted">No scenes or scene cards yet. Write a scene, or add scene cards on the Board, and each character shows up where you put them.</p>
     </>
   );
   const actStarts = places.map((p, i) => i === 0 || places[i - 1].act !== p.act);
@@ -343,17 +472,41 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
   }
   const sceneList = (ps: any[]) => <ol className="small" style={{ margin: '0.3rem 0 0 1rem' }}>{ps.map((pl: any) => <li key={pl.key}><button className="btn link small" onClick={() => go(pl)}>{pl.title}</button> <span className="faint">{pl.chapter ? `Chapter ${pl.chapter.number}, ` : ''}{d.acts[pl.act]}{pl.beat ? `, ${pl.beat}` : ''}</span></li>)}</ol>;
   async function answer(unit: string, a: 'yes' | 'no' | null) { await api.put(`/api/projects/${ctx.projectId}/cast/bechdel`, { unit, answer: a }); setT((x) => x + 1); }
+  const jump = (label: string) => document.querySelector(`[aria-label="${label}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Characters in no scene and no card yet: one calm line, not a box each.
+  const absent = d.rows.filter((r: any) => !r.count);
+  const quiet = d.notes.filter((n: any) => !absent.some((r: any) => r.id === n.characterId));
+  const bResult = bech.d ? (bech.d.result === 'passes' ? `passes, in ${bech.d.passingScenes} scene${bech.d.passingScenes === 1 ? '' : 's'}` : bech.d.result) : null;
+  const headTitle = (p: any) => `${p.standing === 'unplaced' ? '' : `${p.index}. `}${p.title}${p.chapter ? `, Chapter ${p.chapter.number}` : ''}${p.beat ? `, ${p.beat}` : ''}${p.drafted ? '' : ` (${STANDING[p.standing]?.label ?? 'planned'})`}`;
   return (
     <>
       <h2>The cast across the story</h2>
+      <HowItWorks view="cast"
+        shows="Each character as a row and every scene and scene card as a column, in reading order, with a mark wherever they are. Below the grid: who shares scenes, groups that keep meeting, every pair, and the Bechdel test."
+        from={<>Your records ("appears in" on a scene card), each scene's viewpoint, and the character's name on the written page. Planned scene cards count too and are shaded, so you can see the cast of a book before it is written.</>}
+        todo="Look for a character who vanishes for a long stretch, or two characters who never meet. Click a mark to open that scene or card." />
       <p className="muted small">Where each character is, scene by scene, from your records, the viewpoint, and their names on the page. Click a mark to open the scene.</p>
-      {d.notes.length > 0 && <section className="section" aria-label="Gone quiet">{d.notes.map((n: any) => <div key={n.text} className="notice small">{n.text}</div>)}</section>}
-      <div className="row small" aria-label="Key">{Object.entries(MARK).map(([k, m]) => <span key={k}><span aria-hidden="true" className={`cast-mark ${k}`}>{m.glyph}</span> {m.label}</span>)}</div>
+      <nav className="row small cast-jump" aria-label="On this page">
+        <span className="faint">On this page:</span>
+        {['Who is together', ...(groups.d?.length ? ['Groups that keep meeting'] : []), 'Who meets whom', 'Bechdel test'].map((l) => <button key={l} className="btn link small" onClick={() => jump(l)}>{l === 'Who meets whom' ? 'Two at a time' : l === 'Bechdel test' ? 'The Bechdel test' : l}</button>)}
+      </nav>
+      {bResult && <p className="small muted">The Bechdel test, further down, asks whether two named women talk to each other about something other than a man. Right now: {bResult}. <button className="btn link small" onClick={() => jump('Bechdel test')}>Go to it</button></p>}
+      {(quiet.length > 0 || absent.length > 0) && (
+        <section className="section" aria-label="Gone quiet">
+          {quiet.map((n: any) => <div key={n.text} className="notice small">{n.text}</div>)}
+          {absent.length > 0 && <p className="small muted inline-names">Not in any scene or card yet: {absent.map((r: any, i: number) => <span key={r.id}>{i ? ', ' : ''}<button className="btn link small" onClick={() => onOpen({ level: 'element', id: r.id })}>{r.title}</button></span>)}.</p>}
+        </section>
+      )}
+      <div className="row small cast-key" aria-label="Key">
+        {Object.entries(MARK).map(([k, m]) => <span key={k}><span aria-hidden="true" className={`cast-mark ${k}`}>{m.glyph}</span> {m.label}</span>)}
+        <span><span aria-hidden="true" className="cast-key-planned" /> planned scene card, not written yet</span>
+      </div>
+      <p className="small faint" style={{ margin: '0.25rem 0 0' }}>Columns are scenes and scene cards in reading order, numbered. Hover a number for its title.</p>
       <div style={{ overflowX: 'auto', marginTop: '0.5rem' }}>
         <table className="cast-grid small" aria-label="Who is where">
           <thead>
             <tr><th />{places.map((p, i) => actStarts[i] ? <th key={p.key} colSpan={places.slice(i).findIndex((x, k) => k > 0 && x.act !== p.act) === -1 ? places.length - i : places.slice(i).findIndex((x, k) => k > 0 && x.act !== p.act)} className="act">{d.acts[p.act]}</th> : null)}</tr>
-            <tr><th />{places.map((p, i) => <th key={p.key} className={actStarts[i] ? 'edge' : ''} title={`${p.title}${p.chapter ? `, Chapter ${p.chapter.number}` : ''}${p.beat ? `, ${p.beat}` : ''}${p.drafted ? '' : ' (not drafted yet)'}`}>{p.chapter ? p.chapter.number : '·'}</th>)}</tr>
+            <tr><th className="faint" style={{ textAlign: 'left', fontWeight: 400 }}>Scene</th>{places.map((p, i) => <th key={p.key} className={[actStarts[i] ? 'edge' : '', p.drafted ? '' : 'planned'].join(' ').trim()} title={headTitle(p)} aria-label={headTitle(p)}>{p.standing === 'unplaced' ? '·' : p.index}</th>)}</tr>
           </thead>
           <tbody>
             {d.rows.map((r: any) => (
@@ -361,7 +514,7 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
                 <th scope="row"><button className="btn link small" onClick={() => onOpen({ level: 'element', id: r.id })}>{r.title}</button> <span className="faint">{r.count}</span></th>
                 {places.map((p, i) => {
                   const how = r.cells[p.key];
-                  return <td key={p.key} className={actStarts[i] ? 'edge' : ''}>{how && <button className={`cast-mark ${how}`} aria-label={`${r.title}, ${MARK[how]!.label}, ${p.title}`} title={`${r.title}: ${MARK[how]!.label} in "${p.title}"`} onClick={() => go(p)}>{MARK[how]!.glyph}</button>}</td>;
+                  return <td key={p.key} className={[actStarts[i] ? 'edge' : '', p.drafted ? '' : 'planned'].join(' ').trim()}>{how && <button className={`cast-mark ${how}`} aria-label={`${r.title}, ${MARK[how]!.label}, ${p.title}`} title={`${r.title}: ${MARK[how]!.label} in "${p.title}"${p.drafted ? '' : ' (planned)'}`} onClick={() => go(p)}>{MARK[how]!.glyph}</button>}</td>;
                 })}
               </tr>
             ))}
@@ -472,6 +625,10 @@ export function ReaderMap({ ctx, tick }: { ctx: Ctx; tick: number }) {
   return (
     <>
       <h1>Reader response</h1>
+      <HowItWorks view="reader"
+        shows="Chapter by chapter, the colored tabs a reader would stick in the book: the spots they would want to find again."
+        from={<>Each scene card's "What you want the reader to feel", under Reader response. A chapter shows the tabs of all its scenes.</>}
+        todo="A chapter with no tab may need a moment that makes the reader laugh, nod, gasp or stop. A long run of one color may want another kind." />
       <p className="muted small">The tab a reader would reach for in each chapter: purple for profound, pink for funny, yellow for relatable, green for shocking, and any of your own. Set them on each scene card, under Reader response. A chapter with no tab may need more.</p>
       <div className="row small" style={{ gap: '1rem', marginBottom: '1rem' }}>
         {all.map((r) => <span key={r} className="row" style={{ gap: '0.35rem' }}><span className="tab-mark" style={{ background: RESPONSE_COLOR[r] ?? 'var(--line-strong)' }} />{r}: {d.counts[r] ?? 0} chapter{(d.counts[r] ?? 0) === 1 ? '' : 's'}</span>)}
@@ -499,6 +656,10 @@ export function Soundtrack({ ctx, tick }: { ctx: Ctx; tick: number }) {
   return (
     <>
       <h1>Soundtrack</h1>
+      <HowItWorks view="soundtrack"
+        shows="The songs in your story, in the order they first play in the book."
+        from={<>Song records in the Story Brain, under Soundtrack, connected to scenes with "plays in" or to a character with "theme song of".</>}
+        todo="Use it to hear the book's mood from start to end, or to keep a character's theme song consistent. Titles and artists only, never lyrics." />
       <p className="muted small">Add songs in the Story Brain, under Soundtrack, and connect each to the scenes it plays in (plays in) or the character it belongs to (theme song of). Titles and artists only.</p>
       {d.length === 0 ? <p className="muted small">No songs yet.</p> : (
         <ol className="list">{d.map((x: any) => (
