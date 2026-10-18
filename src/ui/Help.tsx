@@ -50,7 +50,7 @@ export function Help({ anchor, onClose }: { anchor: string | null; onClose?: () 
         const i = p.toLowerCase().indexOf(t);
         if (i < 0) continue;
         const head = p.match(/^#{1,3} (.+)$/m)?.[1] ?? c.title;
-        out.push({ chapter: c, id: slug(head), title: head.replace(/[*_`]/g, ''), snippet: p.slice(Math.max(0, i - 60), i + 90).replace(/[#*_`>]/g, '').replace(/\s+/g, ' ') });
+        out.push({ chapter: c, id: slug(head), title: head.replace(/[*_`]/g, ''), snippet: p.slice(Math.max(0, i - 60), i + 90).replace(/[#*_`>|]/g, ' ').replace(/-{3,}/g, ' ').replace(/\s+/g, ' ') });
       }
     }
     return out.slice(0, 40);

@@ -282,7 +282,7 @@ Beside it, **Offer my placed scenes on the matching beats** (ticked at first) me
 
 ### What your choices switch on
 
-Near the bottom of the page, this list sums up every blank and tool your current choices have added, one line each, such as *Save the Cat (Brody for novels): On the board (Save the Cat) on each beat*. Genres, which add questions rather than blanks, are listed under the genres instead.
+Near the bottom of the page, this list sums up every blank and tool your current choices have added, one line each, such as *Save the Cat (Brody for novels): Save the Cat's questions for this beat (Save the Cat) on each beat*. Genres, which add questions rather than blanks, are listed under the genres instead.
 
 **When it helps:** when you meet a group of blanks on a record page and wonder where it came from. A group named *Goal and motive (Ingermanson)* came from ticking Snowflake.
 

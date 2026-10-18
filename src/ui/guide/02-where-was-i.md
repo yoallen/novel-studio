@@ -222,7 +222,7 @@ Under the list is a link, **Writing Trail**, to the full record of every detour.
 **Looks wrong, but isn't (mostly).** Two things surprise people here:
 
 - **Clicking The Writing Room tab, or a scene, does not close a detour.** Only Return to Writing does. If you went back to the page another way, the detour stays listed until your next Return to Writing. Nothing is wrong with your work; the list is only a record.
-- **Marking a detour resolved in the Writing Trail does not take it off this list**, even though the grey line under the heading says it will. Resolved and returned are two separate things in the Writing Trail (see [The Writing Trail page](#the-writing-trail-page)). Use Return to Writing to clear this list.
+- **A detour leaves this list when you close it**: by returning to the page (the Return to Writing ribbon or Ctrl+Shift+W), or by clicking **Mark resolved** on it in the Writing Trail (see [The Writing Trail page](#the-writing-trail-page)).
 
 **Why it helps.** "Where was I?" is hardest to answer after a detour that turned into an hour. The list shows you that you left, and the ribbon takes you straight back.
 

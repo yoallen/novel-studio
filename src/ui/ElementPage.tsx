@@ -30,7 +30,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { c
   const [showHistory, setShowHistory] = useState<Record<string, boolean>>({});
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [newField, setNewField] = useState('');
-  const [fieldScope, setFieldScope] = useState<'every' | 'this'>('every');
+  const [fieldScope, setFieldScope] = useState<'every' | 'this'>('this');
   const [fieldList, setFieldList] = useState(false);
   const [compare, setCompare] = useState('');
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -182,7 +182,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { c
       {jump.length >= 4 && (
         <nav className="jump-list" aria-label="On this page">
           <span className="jump-head">On this page</span>
-          {jump.map(([id, t]) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>{t}</a>)}
+          {jump.map(([id, t]) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); const g = ordered.find((x) => secId(x.g) === id); if (g) setExpanded((ex) => ({ ...ex, [g.g]: true })); window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30); }}>{t}</a>)}
         </nav>
       )}
       <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={slug(`${kindPlural(el.kind)}: every field`)} />
@@ -308,12 +308,11 @@ function FieldBlock({ ctx, elId, kind, f, open, setOpen, showHistory, toggleHist
       <div style={{ whiteSpace: 'pre-wrap' }}>{st.status === 'unanswered' && !valueText(st.value) ? <span className="muted">Still open: nothing written yet</span> : <RefText text={valueText(st.value)} projectId={ctx.projectId} />}</div>
       {/* The margin: what this is (its status, loud), where it came from, when, then what she can do with it. */}
       <div className="fact-margin">
-        <span className="fact-status" data-s={st.status}>{statusWord(ctx.settings, st.status)}</span>
+        <span className="fact-line"><span className="fact-status" data-s={st.status}>{statusWord(ctx.settings, st.status)}</span><time className="fact-when" dateTime={st.made_at}>{when(st.made_at)}</time></span>
         {(st.speaker_kind === 'assistant' || st.speaker_kind === 'source' || st.qualifiers?.accepted_by) && (
           <span className="fact-source">{st.speaker_kind === 'assistant' ? `Suggested by ${aiName(st.speaker_name)}` : st.speaker_kind === 'source' ? `From ${st.speaker_name || 'a document'}` : ''}{st.qualifiers?.accepted_by ? `${st.speaker_kind === 'assistant' || st.speaker_kind === 'source' ? ', accepted by you' : 'Accepted by you'}` : ''}</span>
         )}
         {st.qualifiers?.timing && <span className="fact-source">{TIMING.find((t) => t[0] === st.qualifiers.timing)?.[1] ?? ''}</span>}
-        <time className="fact-when" dateTime={st.made_at}>{when(st.made_at)}</time>
         <div className="fact-actions" role="group" aria-label="What you can do with this">
           {st.status === 'unanswered' && !valueText(st.value) && <button className="btn fact-act primary" onClick={() => setOpen(true)}>Write it</button>}
           {st.status !== 'established' && st.status !== 'illustrative' && !(st.status === 'unanswered' && !valueText(st.value)) && <button className="btn fact-act primary" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'established', replaceCurrent: !d.multi }))}>Decide this</button>}

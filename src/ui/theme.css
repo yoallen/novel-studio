@@ -785,3 +785,20 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .needs { color: var(--muted); }
 .beat-field { margin: 0.35rem 0 0 2rem; }
 .beat-field > span { font-size: 0.8125rem; color: var(--muted); }
+
+/* Help from the Library: the whole guide over the shelf. */
+.library-help { position: fixed; top: 1rem; right: 1.25rem; z-index: 5; }
+.help-overlay { align-items: stretch; }
+.help-sheet { background: var(--page); width: min(1200px, 96vw); height: 92vh; margin: auto; border-radius: var(--r-md); overflow: hidden; display: flex; flex-direction: column; }
+.help-sheet .help { flex: 1; min-height: 0; }
+.help-sheet .help-close { position: absolute; }
+
+/* The current tab must be unmistakable in dark mode too. */
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .thumbs button[aria-current='page'] { background: var(--page); color: #f4ecfb; font-weight: 700; box-shadow: inset 4px 0 0 var(--magenta); } }
+:root[data-theme='dark'] .thumbs button[aria-current='page'] { background: var(--page); color: #f4ecfb; font-weight: 700; box-shadow: inset 4px 0 0 var(--magenta); }
+
+/* Status and date share one line, so the margin is never taller than the fact beside it. */
+.fact-line { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.6rem; }
+.st.fact > .fact-margin { gap: 0.1rem; }
+.st.fact .fact-actions { margin-top: 0.25rem; }
+.captured-note { color: var(--struct); font-family: var(--ui); margin-right: 0.5rem; }

@@ -3,6 +3,7 @@ import { BRAND } from '../brand';
 import { AboutYou } from './AboutYou';
 import { api } from './api';
 import { Elsewhere } from './SyncViews';
+import { Help } from './Help';
 
 // All novels. A new novel starts from a title and, if she likes, one sentence. No questionnaire (S1-171).
 export function Library({ onOpen }: { onOpen: (id: string) => void }) {
@@ -14,6 +15,13 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const load = () => api.get('/api/library').then(setProjects).catch((e) => setError(e.message));
+  // Help is reachable from the very first screen: the button, or F1.
+  const [help, setHelp] = useState(false);
+  useEffect(() => {
+    const k = (e: KeyboardEvent) => { if (e.key === 'F1') { e.preventDefault(); setHelp(true); } if (e.key === 'Escape') setHelp(false); };
+    window.addEventListener('keydown', k);
+    return () => window.removeEventListener('keydown', k);
+  }, []);
   const [askAbout, setAskAbout] = useState(false);
   useEffect(() => { api.get('/api/author-profile').then((p) => setAskAbout(!p.about?.asked)).catch(() => {}); }, []);
   const [seeds, setSeeds] = useState<any[]>([]);
@@ -77,7 +85,10 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   }
 
   return (
-    <div className="scroll library"><div className="content titlepage">
+    <div className="scroll library">
+      {help && <div className="overlay help-overlay" role="dialog" aria-modal="true" aria-label="Help"><div className="help-sheet"><Help anchor={null} onClose={() => setHelp(false)} /></div></div>}
+      <button className="btn small library-help" onClick={() => setHelp(true)} title="The whole guide (F1)">Help</button>
+      <div className="content titlepage">
       <header className="title-page">
         <h1>{BRAND.name}</h1>
         <p className="sub">{BRAND.tagline}</p>

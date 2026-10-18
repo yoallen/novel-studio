@@ -398,7 +398,7 @@ Click **Writing Trail** above the page (or under **Detours still open** on Where
 - A box, *What came of it, if you like: an answer, a decision*, for a note about what the detour was for.
 - **Mark resolved** (or **Mark unresolved**), and **Go back to that scene**.
 
-**Returned and resolved are two different things.** *Returned* means you came back to the page. *Resolved* means you did what you went to do. You might return without finding the answer, and resolve it later.
+**Returned and resolved are two different things.** *Returned* means you came back to the page. *Resolved* means you did what you went to do. You might return without finding the answer and resolve it later. Marking a detour resolved also closes it, so it leaves Detours still open on Where was I.
 
 **To keep a note about a detour:**
 
@@ -493,7 +493,7 @@ Elsewhere, Narrative Zoom's story review and misspelled names wait too, and the 
 1. Type the thought, exactly as it comes. Your words are kept exactly as written.
 2. Choose what it is: **Just a thought** (anything, unsorted; it waits in Captured thoughts), **A question I have** (something to find out or decide; it goes to Questions I have), or **An idea I am thinking about** (something you might use; it goes to Things and ideas I'm thinking about). A grey line under the choices says where each goes.
 3. In the Writing Room, two more choices appear. **Attach to this scene** (ticked at first) puts it in the scene plan under **Attached to this scene**. Then choose **Resolve later**, or **I need this to keep writing** for something that is blocking you.
-4. Click **Save it**, or press **Ctrl+Enter**. **Cancel** or **Esc** closes without saving.
+4. Click **Save it**, or press **Ctrl+Enter**. **Cancel** or **Esc** closes without saving. After saving, a short line beside the Capture button says where the thought went, then fades after a few seconds.
 
 The box closes and your cursor is back on the page.
 

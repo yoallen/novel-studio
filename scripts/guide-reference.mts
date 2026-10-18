@@ -39,7 +39,7 @@ for (const kind of ORDER) {
     if (!ft) continue;
     if (f.group !== group) {
       group = f.group;
-      out.push(`### ${label}: ${group}`, '');
+      out.push(`### ${label}: ${group === 'On the board' ? "Save the Cat's questions for this beat" : group}`, '');
       if (t.groups?.[group]) out.push(`*${t.groups[group]}*`, '');
     }
     out.push(`**${f.label}.** ${ft.what} ${NEED[ft.need] ?? ''} ${ft.why}`.replace(/\s+/g, ' ').trim(), '');

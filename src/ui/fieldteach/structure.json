@@ -627,7 +627,7 @@
     "need": "core",
     "mistake": "Planting it only once, in a busy scene, so no reader remembers it.",
     "example": "Lands: the sleeve in chapter 4, the smell of fuel on his jacket in chapter 9. Fails: one mention, buried in a crowd scene.",
-    "differs": "This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with is planted in."
+    "differs": "Write it in your words: the Setups and payoffs check reads it and shows the scene cards and beats whose names it mentions. A Connection (is planted in, pays off in) ties it to one exact scene card."
    },
    "paid_off": {
     "what": "Where the clue pays off: where its meaning becomes clear.",
@@ -635,7 +635,7 @@
     "need": "core",
     "mistake": "Paying it off in narration nobody notices, so the reader never feels the click.",
     "example": "Lands: at the reveal the baker remembers the sleeve, and the reader does too. Fails: the reveal never mentions the sleeve, so the planting was wasted.",
-    "differs": "This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with pays off in."
+    "differs": "Write it in your words: the Setups and payoffs check reads it and shows the scene cards and beats whose names it mentions. A Connection (is planted in, pays off in) ties it to one exact scene card."
    },
    "misread_as": {
     "what": "What characters and readers are likely to take the clue for at first.",

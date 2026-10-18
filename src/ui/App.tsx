@@ -54,6 +54,13 @@ export function App() {
   const [sceneId, setSceneId] = useState<string | null>(null);
   const [save, setSave] = useState<SaveState>({ state: 'idle' });
   const [capturing, setCapturing] = useState(false);
+  const [captured, setCaptured] = useState('');
+  useEffect(() => {
+    let t = 0;
+    const f = (e: Event) => { const m = (e as CustomEvent).detail?.message; if (!m) return; setCaptured(m); window.clearTimeout(t); t = window.setTimeout(() => setCaptured(''), 5000); };
+    window.addEventListener('ns-captured', f);
+    return () => { window.removeEventListener('ns-captured', f); window.clearTimeout(t); };
+  }, []);
   const [zoomReq, setZoomReq] = useState<ZoomRequest>(null);
   // I'm stuck remembers the scene it was opened from, so it can start at that scene's beat.
   const [stuck, setStuck] = useState<false | { sceneId: string | null }>(false);
@@ -112,6 +119,9 @@ export function App() {
     // The Writing Trail is part of the Writing Room: opening it is not a detour of its own.
     if (viewRef.current === 'write' && v !== 'write' && v !== 'trail' && sceneId && projectId) {
       api.post(`/api/projects/${projectId}/trail`, { from: { sceneId, cursor: cursorRef.current }, to: { view: v }, reason: `Went to ${VIEW_NAMES[v]}` }).catch(() => {});
+      // Save the page first, so the next view never mistakes ordinary typing for typing kept after a crash.
+      void flushEditor().finally(() => setView(v));
+      return;
     }
     setView(v);
   }, [sceneId, projectId]);
@@ -150,6 +160,9 @@ export function App() {
     await goWrite();
     setSprint({ minutes, startedAt: new Date().toISOString(), endsAt: Date.now() + minutes * 60_000, left: minutes * 60_000, full, overtime: false });
     if (full) void enterFull();
+    // The cursor goes straight to the end of the page, so the first words typed land in the scene.
+    const focusPage = (tries: number) => { const ed = currentEditor(); if (ed && ed.isEditable) ed.commands.focus('end'); else if (tries > 0) window.setTimeout(() => focusPage(tries - 1), 150); };
+    window.setTimeout(() => focusPage(20), 100);
   }
   function stopSprint() { setSprint(null); setSprintEnd(null); void leaveFull(); }
 
@@ -216,6 +229,7 @@ export function App() {
           <span className="spacer" />
           {view === 'write' && saveText && <span className="saved" data-state={save.state} role="status" aria-live="polite"><span className="dot" />{saveText}</span>}
           <span className="where">{VIEW_NAMES[view]}</span>
+          {captured && <span className="captured-note small" role="status">{captured}</span>}
           <button className="btn small" onClick={() => setCapturing(true)} title="Capture a thought (Ctrl+Shift+N)">Capture</button>
         </header>
         <SyncNotice projectId={projectId} onTook={() => window.location.reload()} />

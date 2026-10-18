@@ -12,7 +12,7 @@ export const GROUP_PLAIN: Record<string, { name: string; from: string }> = {
   'Moral premise': { name: 'Moral premise', from: 'Williams' },
   'Controlling idea': { name: 'Controlling idea', from: 'McKee' },
   'Scene and sequel': { name: 'Scene and sequel', from: 'Swain' },
-  'On the board': { name: 'On the board', from: 'Save the Cat' },
+  'On the board': { name: "Save the Cat's questions for this beat", from: 'Save the Cat' },
   'The core': { name: 'The heart of the book', from: 'Ingermanson, the Snowflake' },
 };
 

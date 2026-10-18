@@ -289,7 +289,7 @@ Only the beats that need them carry them:
 | Break into Three | **The hero's NEED** |
 | Final Image | **Hero is changed, or rejects change** |
 
-Most have their own **Why it matters** teaching, and the full lessons are in [Beats: On the board](#beats-on-the-board).
+Most have their own **Why it matters** teaching, and the full lessons are in [Beats: Save the Cat's questions for this beat](#beats-save-the-cats-questions-for-this-beat).
 
 Two of these work as a pair. Save the Cat treats the Midpoint and All Is Lost as mirror images: a false victory at the Midpoint sets up a real low at All Is Lost, and a false defeat sets up the reverse. If you decide the same answer for **False victory or false defeat** on both beats, the Story review asks: "Your Midpoint and All Is Lost are both … Intended?"
 

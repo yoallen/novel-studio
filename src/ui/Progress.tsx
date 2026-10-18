@@ -36,7 +36,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
 
       {r.status === 'ahead' ? (
         <>
-          <p className="drafting-lead">{name} starts {r.daysLeft === 0 ? 'today' : `on ${longDay(r.start)}`}.{r.goal ? ` ${n(r.goal)} words in ${r.days.length} days is about ${n(r.perDayNeeded)} a day.` : ''}</p>
+          <p className="drafting-lead">{name} starts {r.daysLeft === 0 ? 'today' : `on ${longDay(r.start)}`}.{r.goal ? ` ${n(r.goal)} words in ${r.days.length} days is about ${n(r.perDayNeeded)} a day${r.setDays.length ? ' on the days you have not set' : ''}.` : ''}</p>
           {/* Until the push begins, today still counts and is still shown. */}
           <p className="small muted" style={{ margin: '0 0 0.75rem' }}>Today, {n(Math.max(0, r.todayWords))} words. The chart below fills in once {name} begins.</p>
         </>

@@ -87,6 +87,7 @@ export function ScenePanel({ ctx, sceneId, tick, onChanged, onReloadPage }: { ct
       <p className="small muted plan-saving">Everything here saves by itself when you click away. Earlier versions are kept.</p>
       <LaterList ctx={ctx} sceneId={sceneId} />
 
+      {!(c.card && (c.card.beat || c.card.mightGo.length > 0)) && <JoinCard ctx={ctx} sceneId={sceneId} onJoined={() => { void load(); onChanged(); }} />}
       {c.card && (c.card.beat || c.card.mightGo.length > 0 || c.card.fields.length > 0) && (
         <section className="section from-card" aria-label="From the card">
           <h3>From the card</h3>
@@ -199,6 +200,27 @@ function SceneAges({ sceneId, tick }: { sceneId: string; tick: unknown }) {
       {d.people.length === 0 ? <p className="small muted">Connect characters to this scene (appears in) to see their ages.</p> : (
         <ul className="list small">{d.people.map((p: any) => <li key={p.id}>{p.title}{p.age != null ? `, ${p.age}` : <span className="faint">, age not known yet</span>}</li>)}</ul>
       )}
+    </section>
+  );
+}
+
+/** A scene written before its plan: join it to the scene card that plans it, so the plan and the page are one. */
+function JoinCard({ ctx, sceneId, onJoined }: { ctx: Ctx; sceneId: string; onJoined: () => void }) {
+  const [cards, setCards] = useState<any[]>([]);
+  const [pick, setPick] = useState('');
+  useEffect(() => { api.get(`/api/projects/${ctx.projectId}/planned-order`).then((l: any[]) => setCards(l.filter((c) => !c.sceneId))).catch(() => setCards([])); }, [ctx.projectId, sceneId]);
+  if (!cards.length) return null;
+  return (
+    <section className="section join-card" aria-label="Join this scene to its card">
+      <h3>Is this scene on your plan?</h3>
+      <p className="small muted" style={{ margin: '0 0 0.4rem' }}>If you wrote it before planning it, choose its scene card. The scene takes the card's place in the plan, and the card's planning shows here.</p>
+      <div className="row">
+        <select value={pick} onChange={(e) => setPick(e.target.value)} aria-label="Scene card for this scene" style={{ maxWidth: 320 }}>
+          <option value="">Choose its scene card…</option>
+          {cards.map((x) => <option key={x.id} value={x.id}>{x.title}{x.beat ? ` (${x.beat})` : ''}</option>)}
+        </select>
+        <button className="btn small" disabled={!pick} onClick={() => void api.patch(`/api/scenes/${sceneId}`, { planElementId: pick }).then(() => { setPick(''); onJoined(); })}>Join them</button>
+      </div>
     </section>
   );
 }

@@ -557,7 +557,7 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
         <button className="btn write" disabled={busy || (!req.manuscript && !req.sections.length)} onClick={() => void go()}>{busy ? 'Making the file…' : 'Export'}</button>
         <span className="grow" />
         <input type="text" placeholder="Save these choices as…" value={presetName} onChange={(e) => setPresetName(e.target.value)} aria-label="Preset name" style={{ maxWidth: 220 }} />
-        <button className="btn small" disabled={!presetName.trim()} onClick={() => void savePreset()}>Save</button>
+        <button className="btn small" disabled={!presetName.trim()} onClick={() => void savePreset()}>Save these choices</button>
       </div>
       {result && (
         <div className={result.verification.ok ? 'notice' : 'notice error'} role="status" style={{ marginTop: '1rem' }}>

@@ -25,7 +25,9 @@ export function CaptureDialog({ ctx, sceneId, onClose }: { ctx: Ctx; sceneId: st
     try {
       if (attach && sceneId) await api.post(`/api/scenes/${sceneId}/capture`, { text, kind, urgency });
       else await api.post(`/api/projects/${ctx.projectId}/capture`, { text, kind });
-      window.dispatchEvent(new Event('ns-captured'));
+      const where = kind === 'question' ? 'Questions' : kind === 'idea' ? 'Ideas' : 'Captured thoughts';
+      const message = attach && sceneId ? 'Saved. It is attached to this scene, in the scene plan.' : `Saved. It waits in ${where}, in Story Brain under Questions and ideas.`;
+      window.dispatchEvent(new CustomEvent('ns-captured', { detail: { message } }));
       onClose();
     } catch (e) { setError((e as Error).message); }
   }

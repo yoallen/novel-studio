@@ -216,7 +216,16 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.get('/api/scenes/:id', async (req) => ms.scene(params(req, P).id));
   app.patch('/api/scenes/:id', async (req) => {
     const b = body(req, z.object({ title: z.string().max(300).optional(), status: z.string().max(40).optional(), povElementId: id.nullable().optional(), planElementId: id.nullable().optional(), confirmed: z.boolean().optional(), reserved: z.string().max(120).nullable().optional(), notes: z.string().max(200_000).optional(), expectVersion: z.number().int().optional() }));
-    return ms.updateSceneMeta(params(req, P).id, b, b.expectVersion);
+    // Joining a scene to a card from the plan: the scene's own empty plan card, made automatically, goes to Deleted.
+    const before = ms.scene(params(req, P).id);
+    const old = before.plan_element_id as string | null;
+    const out = ms.updateSceneMeta(params(req, P).id, b, b.expectVersion);
+    if (b.planElementId && old && old !== b.planElementId) {
+      const used = store.db.prepare('SELECT COUNT(*) AS n FROM statements WHERE element_id=? AND deleted_at IS NULL').get(old) as { n: number };
+      const el = store.get('elements', old);
+      if (el && el.kind === 'scene_plan' && !el.deleted_at && used.n === 0) try { brain.deleteElement(old); } catch { /* it stays; nothing is lost */ }
+    }
+    return out;
   });
   app.put('/api/scenes/:id/prose', async (req) => {
     const b = body(req, z.object({ doc, expectVersion: z.number().int(), reason: z.string().max(200).optional() }));

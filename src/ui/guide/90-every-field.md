@@ -880,7 +880,7 @@ The common mistake: Giving every beat its own chapter. Theme Stated is often one
 
 Example: Rival florists: the Catalyst is one scene (a wedding books them both). Fun and Games runs many chapters of sabotage. Theme Stated is a single beat: her aunt's remark at the counter.
 
-### Beats: On the board
+### Beats: Save the Cat's questions for this beat
 
 *Extra fields that only certain Save the Cat beats carry, such as the theme line for Theme Stated, home, work and play for the Setup, or the whiff of death for All Is Lost. They come from Blake Snyder and Jessica Brody, and they appear only on the beats they belong to.*
 
@@ -1428,7 +1428,7 @@ Example: Lands: the missing gas can is marked significant and pays off at the re
 
 **Where it is planted.** Each place the clue appears before the reveal. A clue planted more than once is easier for a reader to recall later. Most books need this. Tracking plantings lets you confirm each one comes before the reveal and that the clue gets enough weight.
 
-How it differs: This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with is planted in.
+How it differs: Write it in your words: the Setups and payoffs check reads it and shows the scene cards and beats whose names it mentions. A Connection (is planted in, pays off in) ties it to one exact scene card.
 
 The common mistake: Planting it only once, in a busy scene, so no reader remembers it.
 
@@ -1436,7 +1436,7 @@ Example: Lands: the sleeve in chapter 4, the smell of fuel on his jacket in chap
 
 **Where it pays off.** Where the clue pays off: where its meaning becomes clear. Most books need this. A clue that never pays off frustrates readers. Pairing plant and payoff makes gaps easy to find.
 
-How it differs: This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with pays off in.
+How it differs: Write it in your words: the Setups and payoffs check reads it and shows the scene cards and beats whose names it mentions. A Connection (is planted in, pays off in) ties it to one exact scene card.
 
 The common mistake: Paying it off in narration nobody notices, so the reader never feels the click.
 
