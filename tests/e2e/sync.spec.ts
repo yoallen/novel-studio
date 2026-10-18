@@ -95,9 +95,8 @@ test('when both computers changed a novel, she chooses the main version and the 
     await page.reload();
     const fork = page.getByRole('region', { name: 'Both computers changed this novel' });
     await expect(fork).toContainText('This computer and your Surface both changed this novel');
-    await fork.getByRole('button', { name: "Keep this computer's as the main version" }).click();
+    await Promise.all([page.waitForEvent('load'), fork.getByRole('button', { name: "Keep this computer's as the main version" }).click()]);
     await expect(page.getByRole('status').filter({ hasText: 'Both versions are kept' })).toContainText('Fork Book (from Surface');
-    await page.waitForEvent('load');
     await page.getByRole('button', { name: 'Library', exact: true }).click();
     await expect(page.getByRole('list', { name: 'Your novels' })).toContainText('Fork Book (from Surface');
   } finally {

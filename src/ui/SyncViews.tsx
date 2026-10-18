@@ -10,7 +10,7 @@ const clock = (iso: string) => new Date(iso).toLocaleString(undefined, { weekday
 /** Above every page: newer work from the other computer, a choice when both changed it, or the other computer still holding unshared changes. */
 export function SyncNotice({ projectId, onTook }: { projectId: string | null; onTook: () => void }) {
   const [st, setSt] = useState<any>(null);
-  const [msg, setMsg] = useState('');
+  const [msg, setMsg] = useState(() => { try { const m = sessionStorage.getItem('ns-sync-msg') ?? ''; sessionStorage.removeItem('ns-sync-msg'); return m; } catch { return ''; } });
   const [busy, setBusy] = useState(false);
   const [hidden, setHidden] = useState('');
   const firstTook = useRef<string | null | undefined>(undefined);
@@ -30,7 +30,12 @@ export function SyncNotice({ projectId, onTook }: { projectId: string | null; on
       const r = await api.post(`/api/projects/${projectId}/sync/${path}`, body);
       if (r.result === 'retry') { setMsg('You were typing, so nothing was changed. Try again in a moment.'); return; }
       if (r.result === 'took') { onTook(); return; }
-      if (r.result === 'kept_both') { setMsg(`Done. Both versions are kept: the other one is in your Library as "${r.copyTitle}", on both computers.`); window.setTimeout(onTook, 2500); return; }
+      if (r.result === 'kept_both') {
+        // Reload at once, so nothing is typed into a page that was just replaced; the message waits on the other side.
+        try { sessionStorage.setItem('ns-sync-msg', `Done. Both versions are kept: the other one is in your Library as "${r.copyTitle}", on both computers.`); } catch { /* ignore */ }
+        onTook(); return;
+      }
+      if (r.result === 'changed') setMsg('Something newer just arrived from your other computer. Look again before choosing.');
       if (r.result === 'diverged') setMsg('Both computers changed this novel, so it needs your choice below.');
       await beat();
     } catch (e) { setMsg((e as Error).message); } finally { setBusy(false); }
@@ -44,8 +49,8 @@ export function SyncNotice({ projectId, onTook }: { projectId: string | null; on
         <div className="notice sync-notice" role="region" aria-label="Both computers changed this novel">
           <p style={{ margin: '0 0 0.5rem' }}><strong>This computer and your {st.diverged.deviceName} both changed this novel</strong> since they last shared ({st.diverged.deviceName}'s copy is from {clock(st.diverged.sharedAt)}). Nothing is lost either way: whichever you choose becomes the main version on both computers, and the other is kept beside it in your Library, on both.</p>
           <div className="row">
-            <button className="btn small write" disabled={busy} onClick={() => void act('resolve', { keep: 'mine' })}>Keep this computer's as the main version</button>
-            <button className="btn small" disabled={busy} onClick={() => void act('resolve', { keep: 'theirs' })}>Make the {st.diverged.deviceName}'s the main version</button>
+            <button className="btn small write" disabled={busy} onClick={() => void act('resolve', { keep: 'mine', file: st.diverged.file })}>Keep this computer's as the main version</button>
+            <button className="btn small" disabled={busy} onClick={() => void act('resolve', { keep: 'theirs', file: st.diverged.file })}>Make the {st.diverged.deviceName}'s the main version</button>
           </div>
         </div>
       )}

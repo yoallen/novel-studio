@@ -241,6 +241,57 @@ describe('sharing a novel between her computers', () => {
   });
 });
 
+describe('her choice holds on both computers', () => {
+  it('choosing the other computer\'s version settles it there too: it is not asked again', async () => {
+    const { laptop, surface, pid, ch } = await start();
+    laptop.sync.setAsking(true); surface.sync.setAsking(true);
+    write(surface, ch, 'S lunch'); await surface.sync.share(pid);
+    write(laptop, ch, 'L evening'); await laptop.sync.pass({ shareChanged: true });
+    expect(surface.sync.status(pid)).toMatchObject({ diverged: { deviceName: 'Laptop' } });
+    const r = await laptop.sync.resolve(pid, 'theirs');
+    expect(r.result).toBe('kept_both');
+    await surface.sync.pass({ shareChanged: true });
+    const st = surface.sync.status(pid);
+    expect(st.diverged).toBeNull();
+    // Her answer is already true on the Surface: same content, nothing to bring in.
+    if (st.incoming) await surface.sync.takeIncoming(pid);
+    expect(texts(surface, pid)).toEqual(['L0', 'S lunch']);
+    expect(texts(laptop, pid)).toEqual(['L0', 'S lunch']);
+    expect(surface.env.store.db.prepare("SELECT COUNT(*) AS n FROM projects WHERE title LIKE '%Laptop version%'").get()).toEqual({ n: 1 }); // arrived, once
+  });
+
+  it('a choice made from an out-of-date screen is not applied', async () => {
+    const { laptop, surface, pid, ch } = await start();
+    write(surface, ch, 'S1'); await surface.sync.share(pid);
+    write(laptop, ch, 'L1');
+    expect(await laptop.sync.resolve(pid, 'mine', 'an-older-copy.novel.gz')).toMatchObject({ result: 'changed' });
+    expect(titles(laptop)).toEqual(['I Declare War']);
+  });
+
+  it('a library restored from a backup never reuses a count, so its new work still reaches the other computer', async () => {
+    const { laptop, surface, pid, ch } = await start();
+    const saved = laptop.env.store.db.prepare("SELECT value_json FROM settings WHERE key='sync_state'").get() as { value_json: string };
+    write(laptop, ch, 'L1'); await laptop.sync.share(pid);
+    await surface.sync.takeIncoming(pid);
+    // Restore: the laptop's record of what it shared goes back in time.
+    laptop.env.store.db.prepare("UPDATE settings SET value_json=? WHERE key='sync_state'").run(saved.value_json);
+    write(laptop, ch, 'L-after-restore'); await laptop.sync.share(pid);
+    expect(surface.sync.status(pid).incoming ?? surface.sync.status(pid).diverged).not.toBeNull();
+  });
+
+  it('with asking on, identical copies are recorded quietly and kept-beside versions still arrive', async () => {
+    const { laptop, surface } = computers();
+    laptop.sync.setAsking(true);
+    const pid = laptop.env.brain.createProject('Seed').id as string;
+    importArchive(surface.env.store, exportArchive(laptop.env.store, pid));
+    await laptop.sync.pass({ shareChanged: true }); await surface.sync.pass({ shareChanged: true });
+    await laptop.sync.pass({ shareChanged: false });
+    surface.env.brain.createElement(pid, { kind: 'idea', title: 'From the Surface' });
+    await surface.sync.share(pid);
+    expect(laptop.sync.status(pid)).toMatchObject({ diverged: null, incoming: { deviceName: 'Surface' } });
+  });
+});
+
 describe('asking first', () => {
   it('by default nothing comes in on its own: it waits for her to bring it in', async () => {
     const { laptop, surface, pid, ch } = await start();

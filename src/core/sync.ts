@@ -29,7 +29,7 @@ interface NovelState {
 }
 export interface SharedCopy { file: string; projectId: string; deviceId: string; deviceName: string; title: string; sharedAt: string; vector: Vector; contentHash: string; sha: string; bytes: number; keptBeside?: boolean; removed?: boolean }
 interface Presence { name: string; lastSeen: string; open: string | null; unshared: string[] }
-export type TakeResult = { result: 'nothing' | 'took' | 'same' | 'diverged' | 'retry' | 'kept_both'; from?: string; copyId?: string; copyTitle?: string };
+export type TakeResult = { result: 'nothing' | 'took' | 'same' | 'diverged' | 'retry' | 'kept_both' | 'changed'; from?: string; copyId?: string; copyTitle?: string };
 
 const ROOT = 'Story Canon shared';
 const KEEP = 10;            // copies kept per computer per novel
@@ -147,7 +147,9 @@ export class Sync {
     const st = this.state(pid);
     if (!force && fp === st.basedHash) return { shared: false };
     const me = cfg.device.id;
-    const vector = { ...st.vector, [me]: (st.vector[me] ?? 0) + 1 };
+    // Never reuse a count, even after her library was restored from a backup or a share was interrupted.
+    const highest = Math.max(st.vector[me] ?? 0, ...this.copies(pid).filter((c) => c.deviceId === me).map((c) => c.vector[me] ?? 0));
+    const vector = { ...st.vector, [me]: highest + 1 };
     const gz = gzipSync(Buffer.from(JSON.stringify(archive), 'utf8'));
     const sharedAt = nowIso();
     const base = `${sharedAt.replace(/[:.]/g, '-')}--${me}`;
@@ -234,9 +236,11 @@ export class Sync {
   }
 
   /** Her choice when both computers changed a novel. Both versions are kept either way; she picks the main one. */
-  private async resolveNow(pid: string, keep: 'mine' | 'theirs'): Promise<TakeResult> {
-    const h = this.heads(pid).filter((x) => this.judge(pid, x) === 'diverged').pop();
+  private async resolveNow(pid: string, keep: 'mine' | 'theirs', file?: string): Promise<TakeResult> {
+    const fp = this.fingerprint(pid);
+    const h = this.heads(pid).filter((x) => this.judge(pid, x, fp) === 'diverged').pop();
     if (!h) return { result: 'nothing' };
+    if (file && h.file !== file) return { result: 'changed' }; // something newer arrived: show her the choice again
     const archive = await this.read(h);
     await this.backup();
     const cfg = this.config()!;
@@ -262,14 +266,15 @@ export class Sync {
       this.setState(copyId, { keptBeside: { from: cfg.device.name } });
       this.replaceWith(pid, h, archive);
     })();
-    this.shareNow(copyId, true);
+    // Her decision is shared too, so the other computer is not asked again.
+    this.shareNow(copyId, true); this.shareNow(pid, true);
     return { result: 'kept_both', from: h.deviceName, copyId, copyTitle };
   }
 
   // ---------- the public operations, one at a time ----------
   share(pid: string, force = false) { return this.exclusive(() => this.shareNow(pid, force)); }
   takeIncoming(pid: string) { return this.exclusive(() => this.takeNow(pid)); }
-  resolve(pid: string, keep: 'mine' | 'theirs') { return this.exclusive(() => this.resolveNow(pid, keep)); }
+  resolve(pid: string, keep: 'mine' | 'theirs', file?: string) { return this.exclusive(() => this.resolveNow(pid, keep, file)); }
   bring(pid: string) {
     return this.exclusive(async () => {
       if (this.store.get('projects', pid)) throw new ValidationError('That novel is already on this computer.');
@@ -285,12 +290,23 @@ export class Sync {
       const protect = opts.protect instanceof Set ? opts.protect : new Set(opts.protect ? [opts.protect] : []);
       const local = (this.store.db.prepare('SELECT id FROM projects').all() as { id: string }[]).map((r) => r.id);
       let backedUp = false;
-      // When she asks to approve, nothing comes in on its own: the notice above the page offers it.
-      if (opts.take !== false && !this.asking()) {
+      if (opts.take !== false) {
+        const ask = this.asking();
+        // Versions kept beside another are new novels, never changes to hers: they arrive on every computer.
         const arriving = this.remoteIds().filter((id) => !local.includes(id) && this.copies(id).some((c) => c.keptBeside));
         for (const pid of [...local, ...arriving]) {
           try {
-            if (protect.has(pid) || !this.heads(pid).length) continue;
+            if (protect.has(pid)) continue;
+            const heads = this.heads(pid);
+            if (!heads.length) continue;
+            const here = !!this.store.get('projects', pid);
+            if (here) {
+              // The same content shared from elsewhere changes nothing: record it, so it never looks like a disagreement.
+              const fp = this.fingerprint(pid);
+              for (const h of heads) if (this.judge(pid, h, fp) === 'same') this.setState(pid, { vector: merge(this.state(pid).vector, h.vector), basedHash: fp });
+              // When she asks to approve, real changes wait for her click.
+              if (ask || !this.heads(pid).length) continue;
+            }
             if (!backedUp) { await this.backup(); backedUp = true; }
             if (protect.has(pid)) continue; // opened while the backup ran
             const r = await this.takeNow(pid, { backedUp: true });
@@ -361,7 +377,7 @@ export class Sync {
       sharedAt: st?.sharedAt ?? null, tookAt: st?.tookAt ?? null,
       unshared: here ? fp !== st!.basedHash : false,
       incoming: take ? { deviceName: take.deviceName, sharedAt: take.sharedAt } : null,
-      diverged: div ? { deviceName: div.deviceName, sharedAt: div.sharedAt } : null,
+      diverged: div ? { deviceName: div.deviceName, sharedAt: div.sharedAt, file: div.file } : null,
       busyElsewhere,
       others: others.map((o) => ({ name: o.name, lastSeen: o.lastSeen })),
     };

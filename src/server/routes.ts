@@ -536,7 +536,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/sync/here', async (req) => { const b = body(req, z.object({ projectId: id.nullable() })); svc.hereNow(b.projectId); return svc.sync.status(b.projectId); });
   app.post('/api/sync/share', async () => svc.sync.pass({ shareChanged: true, take: false }));
   app.post('/api/projects/:id/sync/take', async (req) => svc.sync.takeIncoming(params(req, P).id));
-  app.post('/api/projects/:id/sync/resolve', async (req) => svc.sync.resolve(params(req, P).id, body(req, z.object({ keep: z.enum(['mine', 'theirs']) })).keep));
+  app.post('/api/projects/:id/sync/resolve', async (req) => { const b = body(req, z.object({ keep: z.enum(['mine', 'theirs']), file: z.string().max(200).optional() })); return svc.sync.resolve(params(req, P).id, b.keep, b.file); });
   app.get('/api/sync/elsewhere', async () => svc.sync.elsewhere());
   app.post('/api/sync/bring', async (req) => svc.sync.bring(body(req, z.object({ projectId: id })).projectId));
   app.post('/api/backups/snapshot', async () => snapshot(store, svc.backupDir(), 'manual', 50));
