@@ -26,7 +26,7 @@ test('zoom from the whole story to a scene and its page, and back, never losing 
   await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.type('The smell hit Anthony before the sun did.');
-  await page.getByRole('button', { name: 'Show in Story Map' }).click();
+  await page.getByRole('button', { name: 'Show in Narrative Zoom' }).click();
   await expect(page.getByRole('heading', { name: 'The fish guts' })).toBeVisible();
   await expect(page.getByText('The smell hit Anthony before the sun did.')).toBeVisible();
   await crumbs.getByRole('button', { name: 'Act One' }).click();

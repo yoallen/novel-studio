@@ -17,6 +17,7 @@ export function TrailView({ ctx }: { ctx: Ctx }) {
     <div className="scroll"><div className="content">
       <h1>Writing Trail</h1>
       <p className="muted">Part of the Writing Room. Every time you step away from the page, the trail remembers where you were and why, so a detour never costs you your place.</p>
+      <p className="small muted trail-how">A detour closes when you return to writing. Mark it resolved once what you went to do is done, and jot what came of it if you want to remember: an answer you found, a decision you made.</p>
       {error && <div className="notice error">{error}</div>}
       {trail && trail.length === 0 && <p className="muted">No detours yet.</p>}
       <ul className="list">
@@ -28,7 +29,7 @@ export function TrailView({ ctx }: { ctx: Ctx }) {
             </div>
             <div className="small muted">{t.returned_at ? 'Returned to writing' : 'Not returned yet'}{t.resolved ? ', resolved' : ', not resolved'}</div>
             <div className="row" style={{ marginTop: '0.4rem' }}>
-              <input type="text" defaultValue={t.outcome} placeholder="What came of it (optional)" onChange={(e) => (t._outcome = e.target.value)} style={{ maxWidth: 420 }} aria-label="What came of it" />
+              <input type="text" defaultValue={t.outcome} placeholder="What came of it, if you like: an answer, a decision" onChange={(e) => (t._outcome = e.target.value)} style={{ maxWidth: 420 }} aria-label="What came of it" />
               {t.resolved ? <button className="btn small" onClick={() => void resolve(t, false)}>Mark unresolved</button> : <button className="btn small" onClick={() => void resolve(t, true)}>Mark resolved</button>}
               {t.from?.sceneId && <button className="btn small" onClick={() => ctx.openScene(t.from.sceneId)}>Go back to that scene</button>}
             </div>

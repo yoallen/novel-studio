@@ -9,7 +9,7 @@ test('several books at different stages; switching keeps each one\'s place; a dr
   await page.getByRole('button', { name: 'Library' }).click();
   await page.getByLabel('Working title').fill('Book Drafting');
   await page.getByRole('button', { name: 'Start writing' }).click();
-  await heroWrite(page).click();
+  // Start writing opens the page itself.
   await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await page.keyboard.type('Kevin said it was not his fault.');
