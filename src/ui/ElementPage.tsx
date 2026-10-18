@@ -1,3 +1,4 @@
+import { slug } from './Help';
 import { FieldTeach, GroupTeach, KindTeach } from './Teach';
 import { KIND_LABELS } from '../core/templates';
 import { askAbout } from './ConversationsView';
@@ -68,7 +69,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
         <span className="st" data-s="illustrative">an example, never canon</span>
         <span className="legend-slip">a slip: a suggestion, tucked in</span>
       </div>
-      <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={`kind-${el.kind}`} />
+      <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={slug(`${kindPlural(el.kind)}: every field`)} />
       <label className="field"><span>Notes</span>
         <textarea rows={3} defaultValue={el.body} onBlur={(e) => { if (e.target.value !== el.body) void act(api.patch(`/api/elements/${el.id}`, { body: e.target.value })); }} />
       </label>

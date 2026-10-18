@@ -1,3 +1,4 @@
+import { slug } from './Help';
 import { KindTeach } from './Teach';
 import { worldbuildingOn, WORLD_KINDS } from '../core/catalog';
 import { useCallback, useEffect, useState } from 'react';
@@ -99,7 +100,7 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
         {sel.kind === 'kind' && (
           <>
             <h1>{kindLabel(sel.key)?.plural ?? sel.key}</h1>
-            <KindTeach kind={sel.key} label={kindLabel(sel.key)?.plural ?? sel.key} helpAnchor={`kind-${sel.key}`} />
+            <KindTeach kind={sel.key} label={kindLabel(sel.key)?.plural ?? sel.key} helpAnchor={slug(`${kindLabel(sel.key)?.plural ?? sel.key}: every field`)} />
             <ul className="list">
               {els.filter((e) => e.kind === sel.key && !e.parent_id).map((e) => (
                 <li key={e.id} className="row"><button className="btn link grow" style={{ textAlign: 'left', fontSize: '1.05rem' }} onClick={() => setSel({ kind: 'element', id: e.id })}>{e.title}</button>{e.reserved && <span className="hers">{e.reserved}</span>}</li>
