@@ -422,6 +422,11 @@ export class Manuscript {
   endSession(projectId: string, note = '') {
     const open = this.store.db.prepare('SELECT * FROM writing_sessions WHERE project_id=? AND ended_at IS NULL').get(projectId) as Row | undefined;
     if (!open) return null;
+    // A sit-down with no words written, no scene touched and no note is not a writing session: let it go.
+    if (!note.trim() && (open.scenes_json as string) === '[]' && this.totalWords(projectId) === open.start_words) {
+      this.store.db.prepare('DELETE FROM writing_sessions WHERE id=?').run(open.id);
+      return null;
+    }
     this.store.db.prepare('UPDATE writing_sessions SET ended_at=?, end_words=?, note=? WHERE id=?').run(nowIso(), this.totalWords(projectId), note, open.id);
     return this.store.db.prepare('SELECT * FROM writing_sessions WHERE id=?').get(open.id) as Row;
   }

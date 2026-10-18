@@ -184,27 +184,28 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   (services as Services & { backupNow?: () => Promise<void> }).backupNow = backupNow;
 
   // Sharing between her computers: look every minute; share a changed novel after a few quiet minutes, and on close.
-  const sync = new Sync(store, () => snapshot(store, services.backupDir(), 'sync', 10));
+  // A novel she has opened in this session is never replaced in the background: the notice above the page asks first.
+  const sync = new Sync(store, () => snapshot(store, services.backupDir(), 'sync', 30));
   services.sync = sync;
-  let open: { pid: string | null; at: number } = { pid: null, at: 0 };
-  services.hereNow = (pid) => { open = { pid, at: Date.now() }; };
-  services.openNovel = () => (Date.now() - open.at < 3 * 60_000 ? open.pid : null);
-  let lastShare = Date.now(), syncing = false;
+  const opened = new Set<string>();
+  let open: string | null = null;
+  services.hereNow = (pid) => { open = pid; if (pid) opened.add(pid); };
+  services.openNovel = () => open;
+  let lastShare = Date.now();
   const shareAfter = opts.syncShareAfterMs ?? 5 * 60_000;
   const syncPass = async (o: { take: boolean; share: boolean }) => {
-    if (syncing || !sync.config()) return;
-    syncing = true;
-    try { await sync.pass({ open: services.openNovel(), shareChanged: o.share, take: o.take }); if (o.share) lastShare = Date.now(); }
-    catch (e) { app.log.error(e); } finally { syncing = false; }
+    if (!sync.config()) return;
+    try { await sync.pass({ protect: opened, shareChanged: o.share, take: o.take }); if (o.share) lastShare = Date.now(); }
+    catch (e) { app.log.error(e); }
   };
   const syncTimer = setInterval(() => void syncPass({ take: true, share: Date.now() - lastShare >= shareAfter }), opts.syncTickMs ?? 60_000);
   syncTimer.unref?.();
-  // On opening: take in what the other computer shared while this one was closed (a few seconds at most).
-  if (sync.config()) await Promise.race([syncPass({ take: true, share: false }), new Promise((r) => setTimeout(r, 20_000))]);
+  // On opening, before the window can show anything: take in what the other computer shared while this one was closed.
+  if (sync.config()) await syncPass({ take: true, share: false });
 
   app.addHook('onClose', async () => {
     clearInterval(syncTimer);
-    if (sync.config()) { while (syncing) await new Promise((r) => setTimeout(r, 100)); await syncPass({ take: false, share: true }); }
+    if (sync.config()) await syncPass({ take: false, share: true });
     if (timer) clearInterval(timer); if (every > 0) await backupNow(); store.close();
   });
   return { app, services };

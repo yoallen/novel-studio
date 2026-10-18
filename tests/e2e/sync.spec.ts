@@ -32,14 +32,15 @@ test('work done on the other computer comes in with one click, and the Surface s
     const ch = new Manuscript(store).outline(novel.projectId)[0] as { id: string };
     await new Promise((r) => setTimeout(r, 20));
     new Manuscript(store).addScene(ch.id, { title: 'Lunch scene', text: 'Written at lunch.' });
-    surface.share(novel.projectId);
-    surface.presence(null);
+    await surface.share(novel.projectId);
+    await surface.presence(null);
     store.close();
 
     await page.reload();
     const notice = page.getByRole('region', { name: 'Newer work from your other computer' });
     await expect(notice).toContainText('Your Surface shared newer work on this novel');
-    await notice.getByRole('button', { name: 'Bring it in' }).click();
+    await Promise.all([page.waitForEvent('load'), notice.getByRole('button', { name: 'Bring it in' }).click()]);
+    await expect(notice).toHaveCount(0);
     await views.getByRole('button', { name: 'The Writing Room' }).click();
     await expect(page.getByRole('complementary', { name: 'Chapters and scenes' })).toContainText('Lunch scene');
     // Looking around is not writing: visiting every room leaves nothing to share.

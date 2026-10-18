@@ -528,12 +528,12 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const b = body(req, z.object({ dir: z.string().min(1).max(1000), name: z.string().max(60).optional() }));
     if (!isAbsolute(b.dir.trim())) throw new AppError('invalid', 'Choose a whole folder path, such as C:\\Users\\you\\OneDrive.');
     const cfg = svc.sync.configure(b);
-    await svc.sync.pass({ open: svc.openNovel(), shareChanged: true, take: false });
+    await svc.sync.pass({ shareChanged: true, take: false });
     return cfg;
   });
   app.delete('/api/sync', async () => { svc.sync.turnOff(); return { off: true }; });
   app.post('/api/sync/here', async (req) => { const b = body(req, z.object({ projectId: id.nullable() })); svc.hereNow(b.projectId); return svc.sync.status(b.projectId); });
-  app.post('/api/sync/share', async () => svc.sync.pass({ open: svc.openNovel(), shareChanged: true, take: false }));
+  app.post('/api/sync/share', async () => svc.sync.pass({ shareChanged: true, take: false }));
   app.post('/api/projects/:id/sync/take', async (req) => svc.sync.takeIncoming(params(req, P).id));
   app.get('/api/sync/elsewhere', async () => svc.sync.elsewhere());
   app.post('/api/sync/bring', async (req) => svc.sync.bring(body(req, z.object({ projectId: id })).projectId));

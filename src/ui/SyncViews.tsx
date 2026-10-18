@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
+import { flushEditor } from './flush';
 
 // Sharing between her computers: the settings, the notice above the page, and the Library's list of
 // novels waiting on another computer.
@@ -19,7 +20,9 @@ export function SyncNotice({ projectId, onTook }: { projectId: string | null; on
   async function take() {
     setBusy(true);
     try {
+      await flushEditor(); // the last words typed are saved before anything is decided
       const r = await api.post(`/api/projects/${projectId}/sync/take`);
+      if (r.result === 'retry') { setMsg('You were typing, so nothing was changed. Try Bring it in again in a moment.'); return; }
       if (r.result === 'took') { setMsg(`Brought in the newer work from your ${r.from}.`); onTook(); }
       else if (r.result === 'kept_both') { setMsg(`Both computers changed this novel before sharing, so nothing was overwritten. Yours is here as it was. The ${r.from} version is in your Library as "${r.copyTitle}".`); onTook(r.copyId); }
       await beat();
