@@ -41,7 +41,11 @@ export class Cast {
       const attrs = JSON.parse((e.attrs_json as string) || '{}') as Record<string, unknown>;
       const title = e.title as string;
       const bare = title.replace(/^(Miss|Mr\.?|Mrs\.?|Ms\.?|Dr\.?|Rev\.?|Prof\.?|Aunt|Uncle)\s+/i, '');
-      const names = [...new Set([title, bare, bare.split(/\s+/)[0]!, ...((attrs.aliases as string[] | undefined) ?? [])].filter((x) => x && x.length >= 2))];
+      // A first name stands for the whole name only when it is a name: never a common word like "The" or "Old",
+      // and never for a description such as "The dogs" or "The Amazon delivery man".
+      const first = bare.split(/\s+/)[0]!;
+      const described = /^(the|a|an|my|our|his|her|their|old|young|little|big)$/i.test(first);
+      const names = [...new Set([title, bare, ...(described || !/^[A-Z]/.test(first) ? [] : [first]), ...((attrs.aliases as string[] | undefined) ?? [])].filter((x) => x && x.length >= 2))];
       const g = this.brain.field(e.id as string, 'gender');
       const pr = this.brain.field(e.id as string, 'pronouns');
       // Gender in her words; when only pronouns are given, they speak for it.
@@ -88,7 +92,7 @@ export class Cast {
       let gap = 0, gapFrom: Place | null = null, gapTo: Place | null = null;
       for (let i = 1; i < at.length; i++) { const g = at[i]!.index - at[i - 1]!.index - 1; if (g > gap) { gap = g; gapFrom = at[i - 1]!; gapTo = at[i]!; } }
       const after = placed.length - lastP.index;
-      if (after >= quiet && at.length <= 3) notes.push({ characterId: r.id, text: `${r.title} is introduced in ${where_(first)} and not seen after ${where_(lastP)}, ${after} scene${after === 1 ? '' : 's'} before the end. Intended?` });
+      if (after >= quiet && at.length <= 3) notes.push({ characterId: r.id, text: `${r.title} ${/^the\s.+s$/i.test(r.title) ? 'are' : 'is'} introduced in ${where_(first)} and not seen after ${where_(lastP)}, ${after} scene${after === 1 ? '' : 's'} before the end. Intended?` });
       else if (gap >= quiet) notes.push({ characterId: r.id, text: `${r.title} is away for ${gap} scenes, from ${where_(gapFrom!)} to ${where_(gapTo!)}. Intended?` });
     }
     return { places, rows, notes, acts: ACT_NAMES };

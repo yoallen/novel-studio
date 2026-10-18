@@ -96,4 +96,15 @@ describe('more than two at a time', () => {
     expect(cast.together(pid, [k, a]).record).toBeNull();
     void g;
   });
+
+  it('a description like "The dogs" is never found in every scene that says "the"', () => {
+    const { pid, cast, ch, person } = book();
+    const dogs = person('The dogs'), kevin = person('Kevin Wickley');
+    const c = ch();
+    env.ms.addScene(c, { title: 'Yard', text: 'The sun was up. Kevin watered the lawn.' });
+    env.ms.addScene(c, { title: 'Bark', text: 'The dogs barked at Kevin.' });
+    const p = cast.presence(pid);
+    expect(p.rows.find((r) => r.id === dogs)!.count).toBe(1);
+    expect(p.rows.find((r) => r.id === kevin)!.count).toBe(2);
+  });
 });

@@ -180,7 +180,7 @@ Under the title, on the left, is **Kept for you**, with a dropdown that says **N
 | **Mine to escalate** | You decide how it builds, and how big it gets before it breaks. |
 | **Mine to settle** | You decide the open question here. Suggestions wait; nothing is settled for you. |
 
-You can rename these markers, or add your own, in **Settings** (under the words for decisions, *Your other markers for work you keep*).
+You can rename these markers, or add your own, in **Settings**, under **Words for decisions**, in *Other markers for work you keep (one per line)*.
 
 **Where the mark shows.** In pink beside the record's name in its kind's list, and in the **Kept for you** column of **Choices ahead**.
 
@@ -213,11 +213,11 @@ On some records, a **Where did this come from?** link sits on the same line. It 
 
 Under that line is a row of five small samples in gray:
 
-- ■ **Decided (inked)**
-- – **Developing (pencil)**
-- _ **Still open (a blank)**
-- ❦ **Example, never canon**
-- ▯ **Suggestion (a slip, tucked in)**
+- **Decided (inked)**, beside a small black square
+- **Developing (pencil)**, beside a short dash
+- **Still open (a blank)**, beside a short underline
+- **Example, never canon**, beside a small flower mark ❦
+- **Suggestion (a slip, tucked in)**, beside a small open box
 
 This is a key, like the legend on a map. Each fact on the page below wears one of these five looks, so you can tell at a glance what is settled and what is not. The legend is not clickable. The first chapter explains each status in full: [The five statuses: how sure you are](#the-five-statuses-how-sure-you-are).
 
@@ -547,7 +547,9 @@ At the bottom of every record page is **Connections**: the links between this re
 Under the **Connections** heading, a gray line says *Each heading reads from here outward.* Your connections are gathered under headings by what they say, so fifteen *appears in* links become one heading with fifteen names under it:
 
 > **Kevin Wickley appears in**
+>
 > The five-dollar bill *scene card*
+>
 > Fish-guts chain reaction *scene card*
 
 Each row has the other record's name (a link; click to open it), its kind in gray, sometimes an **inferred** chip, and a **Remove** button that deletes that one connection (not the record).

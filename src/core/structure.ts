@@ -50,11 +50,11 @@ export const SAVE_THE_CAT: BeatDef[] = [
   B('dark_night', 12, 'Dark Night of the Soul', '12. Dark Night', 'IIB', 'span', { test: 'One still beat: neither skipped nor wallowed in.' }),
   B('break_into_three', 13, 'Break into Three', '13. Break into Three', 'III', 'point', { test: 'The hero acts on the truth.', boardFields: [{ field: 'need', label: "The hero's NEED" }] }),
   B('finale', 14, 'Finale', '14. Finale', 'III', 'span'),
-  B('gathering_team', null, 'Gathering the Team', '14. Finale', 'III', 'point', { parent: 'finale', description: undefined, sceneType: undefined }),
-  B('storming_castle', null, 'Storming the Castle', '14. Finale', 'III', 'point', { parent: 'finale', description: undefined, sceneType: undefined }),
-  B('hightower_surprise', null, 'Hightower Surprise', '14. Finale', 'III', 'point', { parent: 'finale', description: undefined, sceneType: undefined }),
-  B('dig_deep_down', null, 'Dig Deep Down', '14. Finale', 'III', 'point', { parent: 'finale', description: undefined, sceneType: undefined }),
-  B('new_plan', null, 'Executing the New Plan', '14. Finale', 'III', 'point', { parent: 'finale', description: undefined, sceneType: undefined }),
+  B('gathering_team', null, 'Gathering the Team', '14. Finale', 'III', 'point', { parent: 'finale', description: "The hero gathers what the plan needs: allies, tools, courage, and sometimes an apology. Friends are won back and the plan is made. In Jessica Brody's five-point Finale this is the first step.", window: 'The opening of the Finale', sceneType: 'Single Scene or Single Chapter' }),
+  B('storming_castle', null, 'Storming the Castle', '14. Finale', 'III', 'point', { parent: 'finale', description: 'The plan goes into action. The hero and the team move against the problem, and for a while it seems to be working.', window: 'Early in the Finale', sceneType: 'Single Scene or Single Chapter' }),
+  B('hightower_surprise', null, 'Hightower Surprise', '14. Finale', 'III', 'point', { parent: 'finale', description: 'The twist: the plan fails, or the enemy was ready, or the ground shifts. Whatever the hero counted on is gone. This surprise is what forces the change the whole book has been building toward.', window: 'The middle of the Finale', sceneType: 'Single Scene or Single Chapter' }),
+  B('dig_deep_down', null, 'Dig Deep Down', '14. Finale', 'III', 'point', { parent: 'finale', description: 'With the plan gone, the hero has only what is inside. Here the hero finally acts on the truth, the Need, instead of the old Lie. This is the moment the arc pays off.', window: 'Late in the Finale', sceneType: 'Single Scene or Single Chapter' }),
+  B('new_plan', null, 'Executing the New Plan', '14. Finale', 'III', 'point', { parent: 'finale', description: 'The hero acts as the changed person, wins (or chooses a meaningful loss), and the world shows the difference.', window: 'The close of the Finale', sceneType: 'Single Scene or Single Chapter' }),
   B('final_image', 15, 'Final Image', '15. Final Image', 'III', 'point', { boardFields: [{ field: 'final_change', label: 'Hero is changed, or rejects change', options: ['Hero is changed', 'Hero rejects change'] }] }),
 ];
 // Her XL-A puts Break into Three in Synthesis; her XL-B puts it in Antithesis. XL-A is the default, and membership is editable.

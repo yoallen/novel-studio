@@ -117,13 +117,14 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { c
   };
 
   // The jump list: every section on the page, in order.
+  const jumpName = (g: string) => GROUP_TITLES[el.kind]?.[g]?.title ?? groupPlain(g);
   const jump: [string, string][] = [
     ...(page.pending.length ? [['sec-suggestions', 'Suggestions waiting'] as [string, string]] : []),
-    ...lead.map((x) => [secId(x.g), groupPlain(x.g)] as [string, string]),
+    ...lead.map((x) => [secId(x.g), jumpName(x.g)] as [string, string]),
     ...(isChar ? [['sec-arcs', 'Arcs'], ['sec-guardrails', 'Guardrails']] as [string, string][] : []),
-    ...middle.map((x) => [secId(x.g), groupPlain(x.g)] as [string, string]),
+    ...middle.map((x) => [secId(x.g), jumpName(x.g)] as [string, string]),
     ...(isChar ? [['sec-interview', 'Interview']] as [string, string][] : []),
-    ...tail.map((x) => [secId(x.g), groupPlain(x.g)] as [string, string]),
+    ...tail.map((x) => [secId(x.g), jumpName(x.g)] as [string, string]),
     ['sec-connections', 'Connections'],
   ];
   const between = el.kind === 'relationship' ? page.links.filter((l: any) => l.from_id === el.id && l.to_kind === 'character') : [];
