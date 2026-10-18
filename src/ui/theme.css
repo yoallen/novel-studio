@@ -802,3 +802,7 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .st.fact > .fact-margin { gap: 0.1rem; }
 .st.fact .fact-actions { margin-top: 0.25rem; }
 .captured-note { color: var(--struct); font-family: var(--ui); margin-right: 0.5rem; }
+
+/* The Library's Help sits on the purple margin: cream text, so it reads clearly in both themes. */
+.btn.library-help { color: #faf5ef; background: transparent; border: 1px solid rgba(250, 245, 239, 0.7); }
+.btn.library-help:hover, .btn.library-help:focus-visible { background: rgba(250, 245, 239, 0.14); color: #faf5ef; }

@@ -76,26 +76,26 @@ export function SyncNotice({ projectId, onTook }: { projectId: string | null; on
 }
 
 /** Settings: turn sharing on with a folder both computers can see, and name this computer. */
-export function SyncSettings({ projectId, onMsg, onError }: { projectId: string; onMsg: (m: string) => void; onError: (m: string) => void }) {
+export function SyncSettings({ projectId, onMsg, onError, onChanged }: { projectId: string | null; onMsg: (m: string) => void; onError: (m: string) => void; onChanged?: () => void }) {
   const [st, setSt] = useState<any>(null);
   const [typed, setTyped] = useState('');
   const [name, setName] = useState('');
   const [busy, setBusy] = useState(false);
   const desktop = (window as any).storyCanon;
-  const load = useCallback(() => api.get(`/api/sync?project=${encodeURIComponent(projectId)}`).then((s) => { setSt(s); if (s.device) setName(s.device); }).catch((e) => onError(e.message)), [projectId, onError]);
+  const load = useCallback(() => api.get(projectId ? `/api/sync?project=${encodeURIComponent(projectId)}` : '/api/sync').then((s) => { setSt(s); if (s.device) setName(s.device); }).catch((e) => onError(e.message)), [projectId, onError]);
   useEffect(() => { void load(); }, [load]);
 
   async function use(dir: string) {
     setBusy(true);
     try {
       await api.put('/api/sync', { dir, name: name.trim() || undefined });
-      onMsg('Sharing is on. Your novels are in the shared folder now; install Story Canon on your other computer and choose the same folder there.');
-      setTyped(''); await load();
+      onMsg(projectId ? 'Sharing is on. Your novels are in the shared folder now; install Story Canon on your other computer and choose the same folder there.' : 'Sharing is on. Novels your other computer has shared appear in this Library under On your other computers. Bring each one here once, and from then on it stays one book on both computers.');
+      setTyped(''); await load(); onChanged?.();
     } catch (e) { onError((e as Error).message); } finally { setBusy(false); }
   }
   async function choose() { const dir = await desktop.chooseFolder('Choose a folder both computers can see, such as your OneDrive'); if (dir) await use(dir); }
-  async function shareNow() { setBusy(true); try { const r = await api.post('/api/sync/share'); onMsg(r.shared.length ? 'Shared.' : 'Nothing new to share; your other computer already has everything.'); await load(); } catch (e) { onError((e as Error).message); } finally { setBusy(false); } }
-  async function off() { if (!window.confirm('Stop sharing from this computer? Nothing is deleted here or in the shared folder.')) return; await api.del('/api/sync'); await load(); }
+  async function shareNow() { setBusy(true); try { const r = await api.post('/api/sync/share'); onChanged?.(); onMsg(r.shared.length ? 'Shared.' : 'Nothing new to share; your other computer already has everything.'); await load(); } catch (e) { onError((e as Error).message); } finally { setBusy(false); } }
+  async function off() { if (!window.confirm('Stop sharing from this computer? Nothing is deleted here or in the shared folder.')) return; await api.del('/api/sync'); await load(); onChanged?.(); }
   if (!st) return null;
 
   return (
@@ -117,10 +117,10 @@ export function SyncSettings({ projectId, onMsg, onError }: { projectId: string;
       ) : (
         <>
           <p className="small" style={{ margin: '0 0 0.4rem' }}><span className="muted">This computer is</span> <strong>{st.device}</strong><span className="muted">, sharing through</span> <code>{st.folder}</code></p>
-          <p className="small" style={{ margin: '0 0 0.4rem' }}>
+          {projectId && <p className="small" style={{ margin: '0 0 0.4rem' }}>
             {st.unshared ? 'This novel has changes not shared yet. They go out within a few minutes, and when you close Story Canon.' : st.sharedAt ? `This novel was last shared ${clock(st.sharedAt)}. Nothing new since.` : 'This novel is up to date.'}
             {st.tookAt ? ` Last brought in from another computer ${clock(st.tookAt)}.` : ''}
-          </p>
+          </p>}
           {st.others.length > 0
             ? <p className="small muted" style={{ margin: '0 0 0.6rem' }}>Also sharing: {st.others.map((o: any) => `${o.name} (last seen ${clock(o.lastSeen)})`).join(', ')}.</p>
             : <p className="small muted" style={{ margin: '0 0 0.6rem' }}>No other computer has joined yet. Install Story Canon there and choose this same folder.</p>}
@@ -128,7 +128,7 @@ export function SyncSettings({ projectId, onMsg, onError }: { projectId: string;
             <input type="checkbox" checked={st.ask} onChange={(e) => void api.put('/api/sync/ask', { ask: e.target.checked }).then(load).catch((er) => onError(er.message))} />
             <span>Ask me before bringing in work from my other computer<small>On: nothing changes until you click Bring it in. Off: newer work comes in on its own when there is nothing to choose (a backup is made first). Either way, when both computers changed a novel, you always choose.</small></span>
           </label>
-          <RoadNotesInfo projectId={projectId} />
+          {projectId && <RoadNotesInfo projectId={projectId} />}
           <div className="row">
             <button className="btn" disabled={busy} onClick={() => void shareNow()}>Share now</button>
             {desktop?.chooseFolder && <button className="btn link small" onClick={() => void choose()}>Change folder</button>}

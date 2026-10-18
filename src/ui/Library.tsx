@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { BRAND } from '../brand';
 import { AboutYou } from './AboutYou';
 import { api } from './api';
-import { Elsewhere } from './SyncViews';
+import { Elsewhere, SyncSettings } from './SyncViews';
 import { Help } from './Help';
 
 // All novels. A new novel starts from a title and, if she likes, one sentence. No questionnaire (S1-171).
@@ -11,6 +11,9 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
   const [title, setTitle] = useState('');
   const [sentence, setSentence] = useState('');
   const [error, setError] = useState('');
+  const [formError, setFormError] = useState('');
+  const [syncMsg, setSyncMsg] = useState('');
+  const [syncNonce, setSyncNonce] = useState(0);
   const [plan, setPlan] = useState<{ archive: unknown; plan: any } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -50,7 +53,8 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
 
   async function create(e: React.FormEvent, thenView?: string) {
     e.preventDefault();
-    if (!title.trim()) { setError('Give the novel a working title. You can change it any time.'); return; }
+    if (!title.trim()) { setFormError('Give the novel a working title first. You can change it any time.'); return; }
+    setFormError('');
     try {
       // The one sentence becomes the novel's one sentence (Novel setup), not a loose thought.
       const p = await api.post('/api/projects', { title: title.trim(), profile: sentence.trim() ? { premise_sentence: sentence.trim() } : {} });
@@ -100,6 +104,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
         <section key={sd.file} className="section seed" aria-label={`${sd.title}, ready to bring in`}>
           <h2>{sd.title} is ready</h2>
           <p>Built from your planning: the Story Bible, both Character Breakthrough Archives, the planning conversation and the story data register. {Number(sd.counts.records).toLocaleString()} records, {Number(sd.counts.statements).toLocaleString()} facts, {Number(sd.counts.turns).toLocaleString()} conversation turns and {Number(sd.counts.passages).toLocaleString()} source passages.</p>
+          <p className="small"><strong>Already brought it in on another computer?</strong> Don't bring it in here. Turn on <button className="btn link small" style={{ padding: 0, minHeight: 0, verticalAlign: 'baseline' }} type="button" onClick={() => document.getElementById('other-computers')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Your other computers</button> below with the same shared folder, and the book comes over from there, as the same book.</p>
           <p className="small muted">Every fact keeps the status it has in your planning (decided, still developing, open, an example, or a suggestion you never accepted) and shows where it came from. Nothing was decided for you.</p>
           <div className="row">
             <button className="btn write" disabled={!!opening} onClick={() => void openSeed(sd.file)}>{opening === sd.file ? 'Bringing it in…' : `Bring in ${sd.title}`}</button>
@@ -132,12 +137,18 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
           ))}
         </ul>
       )}
-      <Elsewhere onOpen={onOpen} />
+      <Elsewhere key={syncNonce} onOpen={onOpen} />
       {projects && projects.length === 0 && <p className="muted">Nothing here yet. Start a novel below, or bring one in from an archive.</p>}
+
+      <div id="other-computers">
+        {syncMsg && <div className="notice" role="status">{syncMsg}</div>}
+        <SyncSettings projectId={null} onMsg={setSyncMsg} onError={setError} onChanged={() => { setSyncNonce((n) => n + 1); void loadSeeds(); void load(); }} />
+      </div>
 
       <form onSubmit={create} className="section">
         <h2>Start a novel</h2>
-        <label className="field"><span>Working title</span><input type="text" value={title} onChange={(e) => setTitle(e.target.value)} /></label>
+        {formError && <div className="notice error" role="alert">{formError}</div>}
+        <label className="field"><span>Working title</span><input type="text" value={title} onChange={(e) => { setTitle(e.target.value); setFormError(''); }} /></label>
         <label className="field"><span>One sentence about it, if you have one (optional)</span><textarea value={sentence} onChange={(e) => setSentence(e.target.value)} rows={2} aria-describedby="one-sentence-hint" /><small id="one-sentence-hint" className="faint">It becomes the book's one sentence. You can change it any time in Novel setup.</small></label>
         <div className="row">
           <button className="btn write" type="submit">Start writing</button>

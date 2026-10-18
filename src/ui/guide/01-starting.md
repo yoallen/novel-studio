@@ -70,7 +70,7 @@ The card's small print makes a promise: every fact keeps the status it had in th
 
 ### On your other computers
 
-If you write on two computers that share novels through a common folder (set up in **Settings** under **Your other computers**), the Library shows a section called **On your other computers** whenever the other computer has shared a novel this one doesn't have yet.
+If you write on two computers that share novels through a common folder (set up under **Your other computers**, either in **Settings** inside a novel or right here in the Library, which is how a brand-new second computer starts), the Library shows a section called **On your other computers** whenever the other computer has shared a novel this one doesn't have yet.
 
 Each line shows the title, which computer shared it and when, and **Bring to this computer**. Click it, and the novel opens here. From then on the two computers keep it as one book.
 

@@ -305,10 +305,10 @@ You can write on two computers, such as a laptop at home and a Surface at work, 
 2. In **Call this computer**, type a name, such as *Laptop*.
 3. Click **Choose the shared folder** and pick a folder in your OneDrive (or any folder both computers can see).
 4. A message says "Sharing is on." Your novels are copied into a folder called **Story Canon shared** inside the folder you chose.
-5. On the second computer, install Story Canon, open the same section, name it (*Surface*), and choose **the same folder**.
-6. On the second computer, go to the **Library**. Under **On your other computers**, click **Bring to this computer** beside each novel (see [On your other computers](#on-your-other-computers)).
+5. On the second computer, install Story Canon. You do not need a novel open there: the **Library** has its own **Your other computers** section, below your novels. Name this computer (*Surface*) and choose **the same folder**.
+6. Still in the **Library**, a list headed **On your other computers** appears with each novel the first computer shared. Click **Bring to this computer** beside each one (see [On your other computers](#on-your-other-computers)).
 
-**The common mistake:** on a brand-new install, the Library also offers to bring in *I Declare War* from its planning files. On your second computer, do not use that for a book you already have. Use **Bring to this computer**, so both computers hold one book, not two separate ones.
+**The common mistake:** on a brand-new install, the Library also offers to bring in *I Declare War* from its planning files. On your second computer, do not use that for a book you already have. Turn on sharing in the Library first: once the other computer's copy is in the shared folder, that offer goes away by itself, and **Bring to this computer** brings over the same book.
 
 Once sharing is on, the section shows:
 
