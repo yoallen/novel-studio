@@ -95,11 +95,26 @@ export function NarrativeZoom({ ctx, request }: { ctx: Ctx; request: ZoomRequest
   );
 }
 
+const SHEETS: [string, string][] = [['save_the_cat', 'Save the Cat (Brody for novels)'], ['heros_journey', "The Hero's Journey"], ['story_circle', 'Story Circle'], ['seven_point', 'Seven-Point Structure'], ['three_act', 'Three-Act Structure']];
 function NoBeats({ ctx, refresh }: { ctx: Ctx; refresh: () => void }) {
+  const [pick, setPick] = useState('save_the_cat');
+  const [mine, setMine] = useState<[string, string][]>([]);
+  useEffect(() => { api.get('/api/methods').then((r) => setMine(r.methods.filter((m: any) => m.beats.length).map((m: any) => [m.key, m.name]))).catch(() => {}); }, []);
+  // Its beats are made once, in order, and it becomes the sheet that drives the Board.
+  async function use() {
+    await api.post(pick === 'save_the_cat' ? `/api/projects/${ctx.projectId}/structure/save-the-cat` : `/api/projects/${ctx.projectId}/methods/${pick}/refresh`);
+    await ctx.refreshProject(); refresh();
+  }
   return (
     <div className="notice">
       <p style={{ marginTop: 0 }}>This novel has no beat sheet. Frameworks are lenses you choose, never requirements. Your story works without one.</p>
-      <button className="btn" onClick={() => void api.post(`/api/projects/${ctx.projectId}/structure/save-the-cat`).then(refresh)}>Use your Save the Cat beat sheet</button>
+      <div className="row">
+        <select aria-label="Beat sheet" value={pick} onChange={(e) => setPick(e.target.value)} style={{ width: 'auto' }}>
+          {[...SHEETS, ...mine].map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+        </select>
+        <button className="btn" onClick={() => void use()}>Use this beat sheet</button>
+        <span className="small muted">You can change it later in Novel setup.</span>
+      </div>
     </div>
   );
 }

@@ -8,7 +8,7 @@
    "example": "A lighthouse keeper's tower is ninety-one steps up, with one window that faces the reef. That matters: when the storm comes, she can see the boat going down but cannot reach it in time. The stairs are not decoration. They are the conflict."
   },
   "groups": {
-   "Place": "The basics of any location, large or small: what it is like, the mood it gives off, the season you see it in, and who you usually find there. Fill these for every place that hosts a scene.",
+   "Place": "The basics of any location, large or small: what it is like, the mood it gives off, the season you see it in, and who you usually find there, details to reuse, and what it means to the story. Fill these for every place that hosts a scene.",
    "Settlement": "For a town, city, village or camp: how it is governed, fed, defended and divided. These come from classic worldbuilding practice, which asks how a community actually survives. Use them when your story spends real time in one community.",
    "Between worlds": "For stories with more than one world, such as portal fantasy or a hidden magical world inside ours. These fields track which world a place belongs to, where the doors are, and what crossing costs."
   },
@@ -124,6 +124,18 @@
     "need": "situational",
     "mistake": "Inventing the cost and then never charging it. If crossing costs a memory, show a character forgetting something they loved.",
     "example": "Lands: \"Each crossing takes one name from your memory. She has already forgotten her sister's.\" Fails: \"You can cross whenever you want.\""
+   },
+   "details": {
+    "what": "Small, concrete things about this place you can bring back: a cracked step, a smell, a sound at night.",
+    "why": "A detail that returns makes a place feel lived in, and a detail that changes shows time passing without a word of explanation.",
+    "need": "useful",
+    "example": "The porch light that buzzes before it comes on. By the last chapter someone has fixed it."
+   },
+   "means": {
+    "what": "Why the story happens here and not somewhere else: what this place stands for, to the people in it and to the book.",
+    "why": "A place that means something does work in every scene set there. It can stand for safety, shame, or the life someone wants.",
+    "need": "useful",
+    "example": "The garden is the one thing the widow next door still controls. Every scene there is about control."
    }
   }
  },

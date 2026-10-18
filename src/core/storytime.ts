@@ -32,8 +32,8 @@ export const INTERVIEW_SETS: { key: string; name: string; about: string; questio
     ],
   },
   {
-    key: 'villain', name: 'The villain interview (Dara Resnik)',
-    about: 'Answer as the villain, who believes they are right, helping, or saving someone, and that the cost is worth it. Then say the answers out loud without looking. If the villain cannot answer as honestly as your hero, you have written an obstacle, not a person.',
+    key: 'villain', name: 'The villain interview',
+    about: 'A villain exercise taught by the writer Dara Resnik. Answer as the villain, who believes they are right, helping, or saving someone, and that the cost is worth it. Then say the answers out loud without looking. If the villain cannot answer as honestly as your hero, you have written an obstacle, not a person.',
     questions: [
       'What is your happiest childhood memory?', 'Who was your first friend, and where are they now?',
       'What was your biggest fear when you were small?', 'What makes you cry?', 'Who hurt you most as a child, and what happened?',

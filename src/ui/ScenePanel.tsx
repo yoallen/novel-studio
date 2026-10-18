@@ -6,6 +6,7 @@ import { flushEditor } from './flush';
 import { LaterList } from './LaterList';
 import { sceneCircle, CIRCLE_WORDS, RESERVED_HINTS, type SceneCircle } from '../core/labels';
 import { valueText } from './status';
+import { ownedWord } from './status';
 
 // The scene's plan beside the page. Readiness is information, never a gate (R-B-014).
 // Questions and ideas attached to this scene resurface here and nowhere else (R-B-020).
@@ -52,7 +53,7 @@ export function ScenePanel({ ctx, sceneId, tick, onChanged, onReloadPage }: { ct
   const ladder: any[] = ctx.settings.sceneLadder;
   const markers: string[] = ctx.settings.reservedMarkers;
   const name = myName || ctx.settings.authorName || '';
-  const owned = (ctx.settings.ownedLabel as string).replace('{author}', name).replace(/^,\s*/, '');
+  const owned = ownedWord(ctx.settings);
   const ownedHint = 'Handed back to you: the collaborator offers nothing more here unless you ask.';
   const hintOf = (m: string) => (m === owned ? ownedHint : RESERVED_HINTS[m] ?? '');
   const options = [owned, ...markers].filter((m, i, a) => m && a.indexOf(m) === i);

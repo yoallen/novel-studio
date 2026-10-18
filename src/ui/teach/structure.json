@@ -532,7 +532,8 @@
    "why": "A strong reveal makes the reader look backward: earlier scenes take on a new meaning. It should feel surprising and, looking back, inevitable. That only works if the truth was planted fairly before.",
    "when": "When you know a secret will come out, and again while placing clues, so every clue lands before the reveal that needs it.",
    "mistake": "Revealing a truth the reader had no way to see coming. Surprise without setup reads as a cheat, not a twist.",
-   "example": "The baker learns her sister's husband set the fire. Lands: the reader remembers his singed sleeve in chapter 4 and his talk of debt, and everything clicks. Fails: he confesses out of nowhere, and nothing earlier supports it."
+   "example": "The baker learns her sister's husband set the fire. Lands: the reader remembers his singed sleeve in chapter 4 and his talk of debt, and everything clicks. Fails: he confesses out of nowhere, and nothing earlier supports it.",
+   "differs": "A Reveal plans one big disclosure. A clue's own fields track a single clue; Connections (reveals) tie either one to scenes."
   },
   "groups": {
    "What it does": "The reveal's dramatic job: what it changes in the story when the truth comes out.",
@@ -598,7 +599,8 @@
    "why": "Clues are what make a reveal feel fair. A careful reader should be able to look back and see the truth was there. In a mystery that fairness is the contract; in any book it's what makes a twist satisfying instead of arbitrary.",
    "when": "When you know a reveal is coming. Plant first in your outline, then check in revision that every significant clue is placed before the reveal that needs it.",
    "mistake": "Planting a clue so plainly every reader solves it at once, or so faintly no one could. A good clue is visible but easy to read another way.",
-   "example": "The husband's singed sleeve in chapter 4. Lands: the baker assumes he burned it at the grill, and so does the reader. Fails: the narrator says, \"Strange, a burn, the same week as the fire.\""
+   "example": "The husband's singed sleeve in chapter 4. Lands: the baker assumes he burned it at the grill, and so does the reader. Fails: the narrator says, \"Strange, a burn, the same week as the fire.\"",
+   "differs": "A clue is one detail. A Reveal plans the big disclosure the clues build toward."
   },
   "groups": {
    "Clue": "The clue itself: what it really means, whether it must pay off, where it's planted and where it pays off, and what it's mistaken for. This is the craft of setups and payoffs, and the fair-play tradition of mystery writing.",
@@ -624,14 +626,16 @@
     "why": "Tracking plantings lets you confirm each one comes before the reveal and that the clue gets enough weight.",
     "need": "core",
     "mistake": "Planting it only once, in a busy scene, so no reader remembers it.",
-    "example": "Lands: the sleeve in chapter 4, the smell of fuel on his jacket in chapter 9. Fails: one mention, buried in a crowd scene."
+    "example": "Lands: the sleeve in chapter 4, the smell of fuel on his jacket in chapter 9. Fails: one mention, buried in a crowd scene.",
+    "differs": "This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with is planted in."
    },
    "paid_off": {
     "what": "Where the clue pays off: where its meaning becomes clear.",
     "why": "A clue that never pays off frustrates readers. Pairing plant and payoff makes gaps easy to find.",
     "need": "core",
     "mistake": "Paying it off in narration nobody notices, so the reader never feels the click.",
-    "example": "Lands: at the reveal the baker remembers the sleeve, and the reader does too. Fails: the reveal never mentions the sleeve, so the planting was wasted."
+    "example": "Lands: at the reveal the baker remembers the sleeve, and the reader does too. Fails: the reveal never mentions the sleeve, so the planting was wasted.",
+    "differs": "This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with pays off in."
    },
    "misread_as": {
     "what": "What characters and readers are likely to take the clue for at first.",
@@ -662,7 +666,8 @@
    "why": "Payoffs make a story feel designed. When an early detail returns with new force, the reader feels the book was going somewhere all along. Unpaid setups feel like broken promises.",
    "when": "When you plant something you intend to use, and in revision to check every significant setup has its payoff and every payoff its setup.",
    "mistake": "A payoff with no setup, like a skill the hero never had until she needs it. It feels convenient instead of earned.",
-   "example": "Chapter 2: the keeper's father teaches her to read the light's signal code. Lands: at the Finale she signals the stranded ferry with it. Fails: she suddenly knows the code in the Finale with no mention before."
+   "example": "Chapter 2: the keeper's father teaches her to read the light's signal code. Lands: at the Finale she signals the stranded ferry with it. Fails: she suddenly knows the code in the Finale with no mention before.",
+   "differs": "A Payoff plans one payoff in depth. A clue's Where it pays off is a quick note; the Connections word pays off ties it to a scene so the Setups and payoffs check can see it."
   },
   "groups": {
    "Clue": "The setup and its payoff: what the setup really means, whether it must pay off, where it's planted, where it pays off, and what readers first take it for.",
@@ -885,7 +890,8 @@
     "why": "A line's power depends on placement. The same words can open a chapter, end one or return as a callback.",
     "need": "useful",
     "mistake": "Placing it at the first chance instead of the best one.",
-    "example": "Candidates: the opening scene, the All Is Lost, the Final Image. Lands: saved for the Final Image, where it echoes. Fails: used in chapter 1, then nothing to echo."
+    "example": "Candidates: the opening scene, the All Is Lost, the Final Image. Lands: saved for the Final Image, where it echoes. Fails: used in chapter 1, then nothing to echo.",
+    "differs": "Notes on where it might go. To tie the line to a scene, connect it under Connections with appears in."
    }
   }
  },
@@ -937,7 +943,7 @@
     "example": "Question: how does she pay the rent? Assumption: she has to pay it. Lands: what if her mother owned the building, and the lease was always a lie?"
    },
    "answer": {
-    "what": "The answer, once you decide it.",
+    "what": "The answer, once you know it. When you mark it Decided, the question moves to Answered.",
     "why": "A decided answer becomes something the rest of the story can rely on. Mark it decided when you're sure, and update the records it affects.",
     "need": "useful",
     "mistake": "Answering here and forgetting to carry the answer into the records it changes.",

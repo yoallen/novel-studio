@@ -6,11 +6,15 @@ const PRONOUNS = ['she/her', 'he/him', 'they/them', 'she/they', 'he/they', 'ze/z
 const APPROACH = ['I plot first', 'I find the story as I write', 'Somewhere in between'];
 
 /** Who the author is, in the author's own words. Asked once in the Library; always editable in Settings. */
-export function AboutYou({ first, onDone }: { first?: boolean; onDone?: () => void }) {
-  const [a, setA] = useState<any>(null);
+export function AboutYou({ first, onDone, value, onChange }: { first?: boolean; onDone?: () => void; value?: any; onChange?: (v: any) => void }) {
+  // In Settings the page's one Save button keeps these answers; elsewhere this card saves itself.
+  const controlled = value !== undefined && !!onChange;
+  const [own, setOwn] = useState<any>(null);
+  const a = controlled ? value : own;
+  const setA = controlled ? onChange! : setOwn;
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
-  useEffect(() => { api.get('/api/author-profile').then((p) => setA(p.about ?? {})).catch((e) => setError(e.message)); }, []);
+  useEffect(() => { if (!controlled) api.get('/api/author-profile').then((p) => setOwn(p.about ?? {})).catch((e) => setError(e.message)); }, [controlled]);
   if (!a) return null;
   const set = (k: string, v: string) => setA({ ...a, [k]: v });
   async function save(asked = true) {
@@ -44,10 +48,10 @@ export function AboutYou({ first, onDone }: { first?: boolean; onDone?: () => vo
       <label className="field"><span>How do you like to be helped and taught?</span><textarea rows={2} value={a.helpStyle ?? ''} onChange={(e) => set('helpStyle', e.target.value)} placeholder="For example: teach the idea fully before you show me an example, and don't talk down to me." /></label>
       <label className="field"><span>Anything that drains you, or that the collaborator should stay away from?</span><textarea rows={2} value={a.avoid ?? ''} onChange={(e) => set('avoid', e.target.value)} /></label>
       <label className="field"><span>Anything else about you as a writer</span><textarea rows={2} value={a.more ?? ''} onChange={(e) => set('more', e.target.value)} /></label>
-      <div className="row">
+      {!controlled && <div className="row">
         <button className="btn write" onClick={() => void save(true)}>Save</button>
         {first && <button className="btn link" onClick={() => void save(true)}>Not now</button>}
-      </div>
+      </div>}
     </section>
   );
 }

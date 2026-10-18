@@ -83,7 +83,7 @@ test('a planning document keeps her labels; nothing goes in until she says so (R
   await nav(page).getByRole('button', { name: 'Import and export' }).click();
   await page.getByRole('tab', { name: 'Your documents' }).click();
   await page.getByRole('button', { name: 'Bible 10-13-26.docx' }).click();
-  await expect(page.getByText(/Marla Quinn's arc, lie: One way it could be done/)).toBeVisible();
+  await expect(page.getByText(/Marla Quinn's arc, lie: Example/)).toBeVisible();
 });
 
 test('a novel can be set up first: genres, story types with ingredients, characteristics and toolkit (R-B-089 to R-B-093)', async ({ page }) => {

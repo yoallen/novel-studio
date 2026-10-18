@@ -131,7 +131,7 @@ test('the scene status steps are the author\'s own (R-B-026)', async ({ page }) 
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Settings' }).click();
   await page.getByLabel('Step 7 name').fill('Polished');
   await page.getByRole('button', { name: 'Save settings' }).click();
-  await expect(page.getByText('Settings saved.')).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Save settings' }).getByRole('status')).toContainText('Saved at');
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   const status = page.getByRole('complementary', { name: 'Scene plan' }).getByLabel('Status');
   await status.selectOption({ label: 'Polished' });

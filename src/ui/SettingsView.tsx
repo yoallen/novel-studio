@@ -7,22 +7,55 @@ import type { Ctx } from './App';
 import { AboutYou } from './AboutYou';
 import { DEFAULT_STATUS_LABELS } from '../core/labels';
 
+const GUIDANCE: [string, string][] = [['quiet', 'Quiet: note concerns, never interrupt'], ['advisory', 'Advisory: small notices you can ignore'], ['deep', 'Deep: full detail on everything it notices']];
+const MODELS: [string, string, string][] = [
+  ['claude-opus-5-5', 'Opus', 'The most careful reader and thinker. Slower, and costs the most per question.'],
+  ['claude-sonnet-5-5', 'Sonnet', 'Thoughtful and quicker. A good everyday choice at a middle cost.'],
+  ['claude-haiku-5-5', 'Haiku', 'The fastest and least costly. Good for quick checks and short questions.'],
+  ['claude-fable-5-1', 'Fable', 'Another Claude model your key may reach. Check its price with Anthropic before you choose it.'],
+];
+
 // Everything here belongs to this novel and can be changed at any time (R-A-109).
 export function SettingsView({ ctx }: { ctx: Ctx }) {
   const [s, setS] = useState<any>(() => JSON.parse(JSON.stringify(ctx.settings)));
   const [title, setTitle] = useState(ctx.project.title);
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
+  const [saved, setSaved] = useState('');
+  const [syncMsg, setSyncMsg] = useState('');
+  const [backupMsg, setBackupMsg] = useState('');
+  // Things kept for her across all novels, saved with the same button.
+  const [books, setBooks] = useState<any[] | null>(null);
+  const [stages, setStages] = useState<string | null>(null);
+  const [about, setAbout] = useState<any>(null);
+  const [orig, setOrig] = useState<{ books: string; stages: string; about: string }>({ books: '', stages: '', about: '' });
+  useEffect(() => {
+    Promise.all([api.get('/api/shelf'), api.get('/api/stages'), api.get('/api/author-profile')]).then(([b, st, a]) => {
+      setBooks(b); setStages((st as string[]).join('\n')); setAbout(a.about ?? {});
+      setOrig({ books: JSON.stringify(b), stages: (st as string[]).join('\n'), about: JSON.stringify(a.about ?? {}) });
+    }).catch((e) => setError(e.message));
+  }, []);
+  const callName: string = (about?.name ?? '').trim() || String(s.authorName ?? '').trim().split(/\s+/)[0] || '';
+  // The "on you now" marker, shown with her name in it; stored with {author} so it follows her name.
+  const fillName = (label: string) => callName ? label.replace(/\{author\}/g, callName) : label.replace(/\{author\},\s*/g, '').replace(/\{author\}/g, '');
+  const unfillName = (text: string) => callName && text.includes(callName) ? text.split(callName).join('{author}') : text;
+  const [base, setBase] = useState(() => JSON.stringify(ctx.settings) + ctx.project.title);
+  const dirty = JSON.stringify(s) + title !== base
+    || (books != null && JSON.stringify(books) !== orig.books) || (stages != null && stages !== orig.stages) || (about != null && JSON.stringify(about) !== orig.about);
   const [theme, setTheme] = useState<string>(() => { try { return localStorage.getItem('novel-studio-theme') ?? 'system'; } catch { return 'system'; } });
 
   async function save() {
-    setMsg(''); setError('');
+    setMsg(''); setError(''); setSaved('');
     try {
+      if (books != null && JSON.stringify(books) !== orig.books) { const b = await api.put('/api/shelf', { books: books.filter((x) => x.title.trim()) }); setBooks(b); setOrig((o) => ({ ...o, books: JSON.stringify(b) })); }
+      if (stages != null && stages !== orig.stages) { await api.patch('/api/author-profile', { stages: stages.split('\n').map((x) => x.trim()).filter(Boolean) }); setOrig((o) => ({ ...o, stages })); }
+      if (about != null && JSON.stringify(about) !== orig.about) { await api.patch('/api/author-profile', { about: { ...about, asked: true } }); setOrig((o) => ({ ...o, about: JSON.stringify(about) })); }
       if (title.trim() && title !== ctx.project.title) await api.patch(`/api/projects/${ctx.projectId}`, { title });
       const { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push, targetWords, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction } = s;
       await api.patch(`/api/projects/${ctx.projectId}/settings`, { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push: push && push.start && push.end ? { ...push, words: push.words ? Number(push.words) : null } : null, targetWords: targetWords ? Number(targetWords) : null, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction });
       await ctx.refreshProject();
-      setMsg('Settings saved.');
+      setBase(JSON.stringify(s) + title);
+      setSaved(`Saved at ${new Date().toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}.`);
     } catch (e) { setError((e as Error).message); }
   }
   function setTheme2(t: string) {
@@ -44,48 +77,66 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
       link.click(); URL.revokeObjectURL(url);
     } catch (e) { setError((e as Error).message); }
   }
-  async function snapshot() { try { const r = await api.post('/api/backups/snapshot'); setMsg(`Backup made and checked (${Math.round(r.bytes / 1024).toLocaleString()} KB).`); } catch (e) { setError((e as Error).message); } }
+  async function snapshot() { try { const r = await api.post('/api/backups/snapshot'); setBackupMsg(`Backup made and checked (${Math.round(r.bytes / 1024).toLocaleString()} KB).`); } catch (e) { setError((e as Error).message); } }
+  const SECTIONS: [string, string][] = [['set-novel', 'This novel'], ['set-goals', 'Guidance and goals'], ['set-push', 'Writing push'], ['set-steps', 'Scene status steps'], ['set-words', 'Words for decisions'], ['set-collab', 'The collaborator'], ['set-about', 'About you'], ['set-all', 'For all my novels'], ['set-look', 'Appearance'], ['set-sync', 'Sharing'], ['set-backups', 'Backups']];
+  const GOAL_HELP: Record<string, string> = {
+    none: 'No daily number. Where was I still shows what you wrote.',
+    words: 'A number of words each day. Where was I tracks it every day you write.',
+    scenes: 'A number of scenes each week. It is kept as your goal; Where was I counts words for now.',
+    time: 'Minutes of writing each day. It is kept as your goal; Where was I counts words for now.',
+    milestones: 'No daily number. Write the milestones you are working toward, such as Act One drafted by March. They are yours to tick off.',
+  };
 
   return (
     <div className="scroll"><div className="content">
       <h1>Settings for this novel</h1>
       <div className="notice" style={{ borderLeftColor: 'var(--struct)' }}>
-        <strong>Novel setup</strong>: genres, Snyder story types, narrative characteristics and your storytelling toolkit. <button className="btn link small" onClick={() => ctx.go('setup')}>Open novel setup</button>
+        <strong>Novel setup</strong>: genres, story types, how the story is told, and your storytelling toolkit. <button className="btn link small" onClick={() => ctx.go('setup')}>Open novel setup</button>
       </div>
+      <p className="small muted settings-model">Changes on this page are kept when you press <strong>Save settings</strong> at the bottom of the window. A few things take effect the moment you change them; those sections say so.</p>
+      <nav className="jump-list" aria-label="On this page">
+        <span className="jump-head">On this page</span>
+        {SECTIONS.map(([id, t]) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>{t}</a>)}
+      </nav>
       {msg && <div className="notice" role="status">{msg}</div>}
       {error && <div className="notice error" role="alert">{error}</div>}
 
-      <section className="cols">
+      <section className="cols settings-section" id="set-novel" aria-label="This novel">
         <label className="field"><span>Title</span><input type="text" value={title} onChange={(e) => setTitle(e.target.value)} /></label>
-        <label className="field"><span>Your first name (used in "{(s.ownedLabel as string).replace('{author}', s.authorName || 'Name')}")</span><input type="text" value={s.authorName} onChange={(e) => setS({ ...s, authorName: e.target.value })} /></label>
-        <label className="field"><span>Author name on this book (your pen name, if it has one)</span><input type="text" value={s.byline ?? ''} placeholder={s.authorName || 'Your name'} onChange={(e) => setS({ ...s, byline: e.target.value })} /><small className="muted">Printed on the title page when you export. Leave it empty to use your own name.</small></label>
+        <label className="field"><span>Your name</span><input type="text" value={s.authorName} onChange={(e) => setS({ ...s, authorName: e.target.value })} /><small className="muted">{(about?.name ?? '').trim() ? `${BRAND.name} calls you ${callName}, the name in About you below.` : `${BRAND.name} calls you by your first name here, unless you give it another in About you below.`}</small></label>
+        <label className="field"><span>Author name on this book (your pen name, if it has one)</span><input type="text" value={s.byline ?? ''} placeholder={s.authorName || 'Your name'} onChange={(e) => setS({ ...s, byline: e.target.value })} /><small className="muted">Printed on the title page when you export. Leave it empty to use your name.</small></label>
         <label className="field"><span>Target length in words (optional)</span><input type="number" value={s.targetWords ?? ''} onChange={(e) => setS({ ...s, targetWords: e.target.value ? Number(e.target.value) : null })} /></label>
         <label className="field"><span>Words per page for page estimates</span><input type="text" value={(s.wordsPerPage as number[]).join(', ')} onChange={(e) => setS({ ...s, wordsPerPage: e.target.value.split(',').map((x) => Number(x.trim())).filter((n) => n > 0) })} /></label>
       </section>
 
-      <section className="section">
+      <section className="section settings-section">
         <h2>Your next writing action</h2>
         <p className="muted small">Leave empty and the program suggests one from where you left off.</p>
         <input type="text" value={s.nextWritingAction} onChange={(e) => setS({ ...s, nextWritingAction: e.target.value })} placeholder="For example: Draft the opening scene in the driveway" />
       </section>
 
-      <section className="section cols">
-        <label className="field"><span>Guidance while drafting</span>
-          <select value={s.guidanceWhileDrafting} onChange={(e) => setS({ ...s, guidanceWhileDrafting: e.target.value })}>
-            <option value="quiet">Quiet: note concerns, never interrupt</option><option value="advisory">Advisory: subtle notices</option><option value="deep">Deep Analysis: full detail</option>
-          </select></label>
-        <label className="field"><span>Guidance while planning</span>
-          <select value={s.guidanceWhilePlanning} onChange={(e) => setS({ ...s, guidanceWhilePlanning: e.target.value })}>
-            <option value="quiet">Quiet</option><option value="advisory">Advisory</option><option value="deep">Deep Analysis</option>
-          </select></label>
-        <label className="field"><span>Everyday goal</span>
-          <select value={s.goal.type} onChange={(e) => setS({ ...s, goal: { ...s.goal, type: e.target.value } })}>
-            <option value="none">No goals</option><option value="words">Words per day</option><option value="scenes">Scenes per week</option><option value="time">Minutes per day</option><option value="milestones">Milestones</option>
-          </select></label>
-        {s.goal.type !== 'none' && s.goal.type !== 'milestones' && <label className="field"><span>Goal amount</span><input type="number" value={s.goal.target ?? ''} onChange={(e) => setS({ ...s, goal: { ...s.goal, target: e.target.value ? Number(e.target.value) : null } })} /></label>}
+      <section className="section settings-section" id="set-goals" aria-label="Guidance and goals">
+        <h2>Guidance and goals</h2>
+        <p className="small muted">How much the program and the collaborator speak up about concerns, while you draft and while you plan.</p>
+        <div className="cols">
+          <label className="field"><span>Guidance while drafting</span>
+            <select value={s.guidanceWhileDrafting} onChange={(e) => setS({ ...s, guidanceWhileDrafting: e.target.value })}>
+              {GUIDANCE.map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+            </select></label>
+          <label className="field"><span>Guidance while planning</span>
+            <select value={s.guidanceWhilePlanning} onChange={(e) => setS({ ...s, guidanceWhilePlanning: e.target.value })}>
+              {GUIDANCE.map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+            </select></label>
+          <label className="field"><span>Everyday goal</span>
+            <select value={s.goal.type} onChange={(e) => setS({ ...s, goal: { ...s.goal, type: e.target.value } })}>
+              <option value="none">No goals</option><option value="words">Words per day</option><option value="scenes">Scenes per week</option><option value="time">Minutes per day</option><option value="milestones">Milestones</option>
+            </select><small className="muted">{GOAL_HELP[s.goal.type] ?? ''}</small></label>
+          {s.goal.type !== 'none' && s.goal.type !== 'milestones' && <label className="field"><span>Goal amount</span><input type="number" value={s.goal.target ?? ''} onChange={(e) => setS({ ...s, goal: { ...s.goal, target: e.target.value ? Number(e.target.value) : null } })} /></label>}
+          {s.goal.type === 'milestones' && <label className="field"><span>My milestones</span><textarea rows={3} value={s.goal.note ?? ''} onChange={(e) => setS({ ...s, goal: { ...s.goal, note: e.target.value } })} placeholder="One per line" /></label>}
+        </div>
       </section>
 
-      <section className="section" aria-labelledby="push-h">
+      <section className="section settings-section" id="set-push" aria-labelledby="push-h">
         <h2 id="push-h">A writing push</h2>
         <p className="muted small">A stretch of days with a word goal, such as November and 50,000 words. Where was I shows how you are tracking, from two weeks before it starts.</p>
         {s.push ? (<>
@@ -112,9 +163,9 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
 
       <DoorSetting ctx={ctx} onError={setError} />
 
-      <section className="section">
+      <section className="section settings-section" id="set-steps">
         <h2>Scene status steps</h2>
-        <p className="muted small">Rename, add, reorder or remove steps. "Counts as drafted" marks steps where the scene has prose.</p>
+        <p className="muted small">Rename, add, reorder or remove steps. Tick "Counts as drafted" for steps where the scene has prose. In the binder, a scene at a drafted step shows a filled circle, a scene before that an empty one, and from Revising on the circle is half filled.</p>
         <ul className="list">
           {ladder.map((st, i) => (
             <li key={st.key + i} className="row">
@@ -129,42 +180,52 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
         <button className="btn small" onClick={() => { let label = 'New step', key = keyFor(label), n = 2; while (ladder.some((x) => x.key === key)) key = `${keyFor(label)}_${n++}`; setLadder([...ladder, { key, label, drafted: true }]); }}>Add a step</button>
       </section>
 
-      <section className="section">
+      <section className="section settings-section" id="set-words">
         <h2>Words for decisions</h2>
+        <p className="muted small">The words shown everywhere for how settled something is. Change any of them to your own.</p>
         <div className="cols">
           {(Object.keys(DEFAULT_STATUS_LABELS) as (keyof typeof DEFAULT_STATUS_LABELS)[]).map((k) => (
             <label key={k} className="field"><span>Shown instead of "{DEFAULT_STATUS_LABELS[k]}"</span>
               <input type="text" value={s.statusLabels[k] ?? DEFAULT_STATUS_LABELS[k]} onChange={(e) => setS({ ...s, statusLabels: { ...s.statusLabels, [k]: e.target.value } })} /></label>
           ))}
-          <label className="field"><span>Yours to write or decide ({'{author}'} becomes your name)</span><input type="text" value={s.ownedLabel} onChange={(e) => setS({ ...s, ownedLabel: e.target.value })} /></label>
+          <label className="field"><span>The marker for what is yours to write or decide</span><input type="text" value={fillName(s.ownedLabel)} onChange={(e) => setS({ ...s, ownedLabel: unfillName(e.target.value) })} /><small className="muted">{callName ? `Your name, ${callName}, comes from ${(about?.name ?? '').trim() ? 'About you' : 'Your name above'} and follows it if it changes.` : 'Add your name in About you and it appears here.'}</small></label>
         </div>
-        <label className="field"><span>Your other markers for work you keep (one per line)</span>
+        <label className="field"><span>Other markers for work you keep (one per line)</span><small className="muted" style={{ display: 'block', marginBottom: '0.3rem' }}>Different kinds of work you keep for yourself, such as Mine to build or Mine to choreograph. Marking a record or scene with one shows at a glance what kind of work waits for you there.</small>
           <textarea rows={4} value={(s.reservedMarkers as string[]).join('\n')} onChange={(e) => setS({ ...s, reservedMarkers: e.target.value.split('\n').map((x) => x.trim()).filter(Boolean) })} /></label>
       </section>
 
-      <div className="row" style={{ margin: '1.5rem 0' }}><button className="btn write" onClick={() => void save()}>Save settings</button></div>
-
       <AiSettings ctx={ctx} />
 
-      <AuthorLevel ctx={ctx} />
+      <div id="set-about" className="settings-section">{about && <AboutYou value={about} onChange={setAbout} />}</div>
 
-      <section className="section">
-        <h2>Appearance</h2>
+      <AuthorLevel ctx={ctx} books={books} setBooks={setBooks} stages={stages} setStages={setStages} />
+
+      <section className="section settings-section" id="set-look">
+        <h2>Appearance <span className="saves-now">Takes effect right away</span></h2>
         <div className="row" role="radiogroup" aria-label="Theme">
           {[['system', 'Match Windows'], ['light', 'Light'], ['dark', 'Dark']].map(([k, l]) => <label key={k} className="row small"><input type="radio" name="theme" checked={theme === k} onChange={() => setTheme2(k!)} />{l}</label>)}
         </div>
       </section>
 
-      <SyncSettings projectId={ctx.projectId} onMsg={setMsg} onError={setError} />
+      <div id="set-sync" className="settings-section">
+        <SyncSettings projectId={ctx.projectId} onMsg={setSyncMsg} onError={setError} />
+        {syncMsg && <div className="notice" role="status">{syncMsg}</div>}
+      </div>
 
-      <section className="section">
-        <h2>Backups</h2>
+      <section className="section settings-section" id="set-backups">
+        <h2>Backups <span className="saves-now">Takes effect right away</span></h2>
         <p className="muted small">Backups are also made automatically while you work. An archive is one file with this whole novel and its history, which you can keep anywhere and bring back in from the Library.</p>
-        <BackupPlace onMsg={setMsg} onError={setError} />
+        <BackupPlace onMsg={setBackupMsg} onError={setError} />
         <div className="row"><button className="btn" onClick={() => void snapshot()}>Make a backup now</button><button className="btn" onClick={() => void downloadArchive()}>Save an archive of this novel</button></div>
+        {backupMsg && <div className="notice" role="status" style={{ marginTop: '0.75rem' }}>{backupMsg}</div>}
       </section>
 
       <p className="small faint" style={{ margin: '2rem 0 1rem' }}>{BRAND.name}, version {__APP_VERSION__}</p>
+
+      <div className="save-bar" role="region" aria-label="Save settings">
+        <button className="btn write" onClick={() => void save()}>Save settings</button>
+        <span role="status" className="save-bar-status">{saved && !dirty ? saved : dirty ? 'You have changes not saved yet.' : 'Everything here is saved.'}</span>
+      </div>
     </div></div>
   );
 }
@@ -187,72 +248,59 @@ function AiSettings({ ctx }: { ctx: Ctx }) {
   }
   if (!st) return null;
   return (
-    <section className="section" aria-label="The collaborator">
-      <h2>The collaborator</h2>
+    <section className="section settings-section" id="set-collab" aria-label="The collaborator">
+      <h2>The collaborator <span className="saves-now">Takes effect right away</span></h2>
       <p className="small muted">A thinking partner that reads your decisions, guardrails and open questions before it answers. It never writes into your manuscript, and its suggestions wait for you. It uses your own Claude API key.</p>
       {error && <div className="notice error" role="alert">{error}</div>}
       <div className="row">
         {st.keySet ? <span className="small">Your key is set.</span> : <input type="password" autoComplete="off" placeholder="Claude API key" value={key} onChange={(e) => setKey(e.target.value)} aria-label="Claude API key" style={{ maxWidth: 320 }} />}
-        {st.keySet ? <button className="btn small" onClick={() => void saveKey(null)}>Remove key</button> : <button className="btn small" disabled={!key.trim()} onClick={() => void saveKey(key)}>Save key</button>}
+        {st.keySet ? <button className="btn small" onClick={() => void saveKey(null)}>Remove key</button> : <button className="btn small" disabled={!key.trim()} onClick={() => void saveKey(key)}>Use this key</button>}
       </div>
       <p className="small faint">{(window as any).storyCanon?.isDesktop ? 'The key is kept in Windows secure storage.' : 'In this preview the key is kept only while the program is open.'}</p>
       <label className="row"><input type="checkbox" checked={st.enabled} onChange={(e) => void set({ enabled: e.target.checked })} />Use the collaborator for {ctx.project.title}. Story records you ask about are sent to Claude when you ask.</label>
       <label className="row"><input type="checkbox" checked={st.shareManuscript} disabled={!st.enabled} onChange={(e) => void set({ shareManuscript: e.target.checked })} />Also share the prose of a scene when I ask about that scene</label>
-      <label className="field" style={{ maxWidth: 320 }}><span>Model</span>
-        <select value={st.model} onChange={(e) => void set({ model: e.target.value })}>
-          {['claude-opus-5-5', 'claude-sonnet-5-5', 'claude-haiku-5-5', 'claude-fable-5-1'].map((m) => <option key={m} value={m}>{m}</option>)}
-        </select>
-      </label>
+      <fieldset className="model-choice">
+        <legend>Which Claude answers</legend>
+        <p className="small muted">Each question is billed to your own key. Longer questions and longer answers cost more.</p>
+        {MODELS.map(([m, name, help]) => (
+          <label key={m} className="choice">
+            <input type="radio" name="model" checked={st.model === m} onChange={() => void set({ model: m })} />
+            <span><strong>{name}</strong><small>{help}</small></span>
+          </label>
+        ))}
+      </fieldset>
     </section>
   );
 }
 
 // Settings that belong to her, not to one novel: her craft shelf, her methods, and the stages a book can be in.
-function AuthorLevel({ ctx }: { ctx: Ctx }) {
-  const [books, setBooks] = useState<any[] | null>(null);
-  const [stages, setStages] = useState('');
-  const [msg, setMsg] = useState('');
-  const [error, setError] = useState('');
-  useEffect(() => {
-    api.get('/api/shelf').then(setBooks).catch((e) => setError(e.message));
-    api.get('/api/stages').then((s: string[]) => setStages(s.join('\n'))).catch(() => {});
-  }, []);
-  async function saveShelf() {
-    try { setBooks(await api.put('/api/shelf', { books: (books ?? []).filter((b) => b.title.trim()) })); setMsg('Your craft shelf is saved. The collaborator points you here first.'); } catch (e) { setError((e as Error).message); }
-  }
-  async function saveStages() {
-    try { await api.patch('/api/author-profile', { stages: stages.split('\n').map((x) => x.trim()).filter(Boolean) }); setMsg('Stages saved for all your books.'); } catch (e) { setError((e as Error).message); }
-  }
+function AuthorLevel({ ctx, books, setBooks, stages, setStages }: { ctx: Ctx; books: any[] | null; setBooks: (f: (b: any[] | null) => any[] | null) => void; stages: string | null; setStages: (s: string) => void }) {
   const set = (i: number, patch: any) => setBooks((b) => (b ?? []).map((x, j) => (j === i ? { ...x, ...patch } : x)));
   return (
-    <>
-    <AboutYou />
-    <section className="section" aria-label="For all my novels">
+    <section className="section settings-section" id="set-all" aria-label="For all my novels">
       <h2>For all my novels</h2>
-      {msg && <div className="notice" role="status">{msg}</div>}
-      {error && <div className="notice error" role="alert">{error}</div>}
       <h3 className="small">My craft shelf</h3>
       <p className="small muted">The books and teachers you learn from. The collaborator starts here when it points you to where to learn more, by title and author only.</p>
       {books && (
-        <div role="group" aria-label="My craft shelf">
+        <div role="group" aria-label="My craft shelf" className="craft-shelf">
+          <div className="shelf-row shelf-head" aria-hidden="true"><span>Title</span><span>Author</span><span>What I use it for</span><span /></div>
           {books.map((b, i) => (
-            <div key={i} className="row" style={{ marginBottom: '0.3rem' }}>
-              <input type="text" aria-label="Title" value={b.title} onChange={(e) => set(i, { title: e.target.value })} placeholder="Title" style={{ maxWidth: 280 }} />
-              <input type="text" aria-label="Author" value={b.author} onChange={(e) => set(i, { author: e.target.value })} placeholder="Author" style={{ maxWidth: 200 }} />
-              <input type="text" aria-label="I use it for" value={b.useFor} onChange={(e) => set(i, { useFor: e.target.value })} placeholder="What I use it for" className="grow" />
+            <div key={i} className="shelf-row">
+              <input type="text" aria-label="Title" value={b.title} onChange={(e) => set(i, { title: e.target.value })} placeholder="Title" />
+              <input type="text" aria-label="Author" value={b.author} onChange={(e) => set(i, { author: e.target.value })} placeholder="Author" />
+              <textarea rows={2} aria-label="I use it for" value={b.useFor} onChange={(e) => set(i, { useFor: e.target.value })} placeholder="What I use it for" />
               <button className="btn link small" onClick={() => setBooks((x) => (x ?? []).filter((_, j) => j !== i))}>Remove</button>
             </div>
           ))}
-          <div className="row"><button className="btn small" onClick={() => setBooks((x) => [...(x ?? []), { title: '', author: '', useFor: '' }])}>Add a book</button><button className="btn small write" onClick={() => void saveShelf()}>Save my shelf</button></div>
+          <div className="row"><button className="btn small" onClick={() => setBooks((x) => [...(x ?? []), { title: '', author: '', useFor: '' }])}>Add a book</button></div>
         </div>
       )}
-      <h3 className="small" style={{ marginTop: '1.25rem' }}>My methods</h3>
+      <h3 className="small" style={{ marginTop: '1.5rem' }}>My methods</h3>
       <p className="small muted">Methods from any teacher or book, with their own beats, questions and fields. <button className="btn link small" onClick={() => ctx.go('methods')}>Open my methods</button></p>
-      <h3 className="small" style={{ marginTop: '1.25rem' }}>Stages a book can be in</h3>
-      <textarea rows={6} aria-label="Stages, one per line" value={stages} onChange={(e) => setStages(e.target.value)} style={{ maxWidth: 360 }} />
-      <div><button className="btn small" onClick={() => void saveStages()}>Save stages</button></div>
+      <h3 className="small" style={{ marginTop: '1.5rem' }}>Stages a book can be in</h3>
+      <p className="small muted">The stages you choose from on each book's cover, one per line.</p>
+      <textarea rows={6} aria-label="Stages, one per line" value={stages ?? ''} onChange={(e) => setStages(e.target.value)} style={{ maxWidth: 360 }} />
     </section>
-    </>
   );
 }
 

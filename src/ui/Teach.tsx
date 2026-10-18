@@ -16,6 +16,7 @@ export function FieldTeach({ kind, field, hint }: { kind: string; field: string;
   return (
     <div className="teach">
       <p className="field-hint">{t.what} <button type="button" className="btn link small teach-toggle" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? 'Less' : 'Why it matters'}</button></p>
+      {t.differs && <p className="field-differs"><span className="differs-head">Not the same as its neighbors.</span> {t.differs}</p>}
       {open && (
         <div className="teach-body">
           <p><span className="teach-need" data-need={t.need}>{NEED_WORDS[t.need]}</span> {t.why}</p>
@@ -36,10 +37,11 @@ export function KindTeach({ kind, label, helpAnchor }: { kind: string; label: st
   const toggle = () => { const next = !open; setOpen(next); try { localStorage.setItem(key, next ? 'open' : 'closed'); } catch { /* ignore */ } };
   return (
     <section className="kind-teach" aria-label={`About ${label}`}>
-      <button type="button" className="kind-teach-head" aria-expanded={open} onClick={toggle}><span aria-hidden="true">{open ? '▾' : '▸'}</span> About {label.toLowerCase()}: what they are and how to use them</button>
+      <button type="button" className="kind-teach-head" aria-expanded={open} onClick={toggle}><span aria-hidden="true">{open ? '▾' : '▸'}</span> About {label.charAt(0).toLowerCase() + label.slice(1)}: what they are and how to use them</button>
       {open && (
         <div className="teach-body">
           <p>{a.what} {a.why}</p>
+          {a.differs && <p><strong>Not the same as.</strong> {a.differs}</p>}
           {a.when && <p><strong>When to use it.</strong> {a.when}</p>}
           {a.mistake && <p><strong>The common mistake.</strong> {mistake(a.mistake)}</p>}
           {a.example && <p><strong>Example.</strong> {a.example}</p>}

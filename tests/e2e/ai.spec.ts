@@ -12,7 +12,7 @@ test('the collaborator stays off until she turns it on; its suggestions wait for
   await page.getByRole('button', { name: 'Turn it on in Settings' }).click();
   const section = page.getByRole('region', { name: 'The collaborator' });
   await section.getByLabel('Claude API key').fill('sk-test-key');
-  await section.getByRole('button', { name: 'Save key' }).click();
+  await section.getByRole('button', { name: 'Use this key' }).click();
   await expect(section.getByText('Your key is set.')).toBeVisible();
   await expect(section.getByLabel(/Also share the prose/)).toBeDisabled();
   await section.getByLabel(/Use the collaborator for Collaborator Test/).click();
