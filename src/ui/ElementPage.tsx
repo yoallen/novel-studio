@@ -1,3 +1,5 @@
+import { FieldTeach, GroupTeach, KindTeach } from './Teach';
+import { KIND_LABELS } from '../core/templates';
 import { askAbout } from './ConversationsView';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api } from './api';
@@ -66,6 +68,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
         <span className="st" data-s="illustrative">an example, never canon</span>
         <span className="legend-slip">a slip: a suggestion, tucked in</span>
       </div>
+      <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={`kind-${el.kind}`} />
       <label className="field"><span>Notes</span>
         <textarea rows={3} defaultValue={el.body} onBlur={(e) => { if (e.target.value !== el.body) void act(api.patch(`/api/elements/${el.id}`, { body: e.target.value })); }} />
       </label>
@@ -117,13 +120,15 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
           <section key={group} className="section row">
             <button className="btn link" onClick={() => setExpanded({ ...expanded, [group]: true })} aria-expanded="false">{group}</button>
             <span className="faint small">{fields.length} place{fields.length === 1 ? '' : 's'} to write, all optional</span>
+            <div style={{ flexBasis: '100%' }}><GroupTeach kind={el.kind} group={group} /></div>
           </section>
         );
         return (
         <section key={group} className="section">
           <div className="row"><h2 className="grow">{group}</h2>{!hasContent && <button className="btn link small" onClick={() => setExpanded({ ...expanded, [group]: false })} aria-expanded="true">Fold</button>}</div>
+          <GroupTeach kind={el.kind} group={group} />
           {fields.map((f: any) => (
-            <FieldBlock key={f.def.field} ctx={ctx} elId={el.id} f={f} open={!!open[f.def.field]} setOpen={(v: boolean) => setOpen({ ...open, [f.def.field]: v })}
+            <FieldBlock key={f.def.field} ctx={ctx} elId={el.id} kind={el.kind} f={f} open={!!open[f.def.field]} setOpen={(v: boolean) => setOpen({ ...open, [f.def.field]: v })}
               showHistory={!!showHistory[f.def.field]} toggleHistory={() => setShowHistory({ ...showHistory, [f.def.field]: !showHistory[f.def.field] })}
               add={add} act={act} onOrigin={(sid: string) => void api.get(`/api/origin?statement=${sid}`).then(setOrigin)} />
           ))}
@@ -187,7 +192,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged }: { ctx: Ctx; e
 
 const filledField = (f: any) => !!(f.view.latest || f.view.unanswered.length || f.view.illustrative.length || f.view.currentAll.length);
 
-function FieldBlock({ ctx, elId, f, open, setOpen, showHistory, toggleHistory, add, act, onOrigin }: any) {
+function FieldBlock({ ctx, elId, kind, f, open, setOpen, showHistory, toggleHistory, add, act, onOrigin }: any) {
   const v = f.view, d = f.def;
   const [text, setText] = useState('');
   const [status, setStatus] = useState(v.current ? 'developing' : 'developing');
@@ -197,12 +202,20 @@ function FieldBlock({ ctx, elId, f, open, setOpen, showHistory, toggleHistory, a
   const row = (st: any, kind: string) => (
     <div key={st.id} className="st fact" data-s={kind}>
       <div style={{ whiteSpace: 'pre-wrap' }}>{st.status === 'unanswered' && !valueText(st.value) ? <span className="muted">Still open</span> : valueText(st.value)}</div>
-      <div className="row small faint">
-        <span>{statusWord(ctx.settings, st.status)}{st.speaker_kind === 'assistant' ? ', suggested by the assistant' : st.speaker_kind === 'source' ? `, from ${st.speaker_name || 'a document'}` : ''}{st.qualifiers?.timing ? `, ${TIMING.find((t) => t[0] === st.qualifiers.timing)?.[1] ?? ''}` : ''}{st.qualifiers?.accepted_by ? ', accepted by you' : ''}, {when(st.made_at)}</span>
-        {st.status !== 'established' && st.status !== 'illustrative' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'established', replaceCurrent: !d.multi }))}>Decide this</button>}
-        {st.status === 'established' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'developing' }))}>Not decided after all</button>}
-        {st.status !== 'set_aside' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'set_aside' }))}>Set aside</button>}
-        {(st.turn_id || st.excerpt_id || st.note) && <button className="btn link small" onClick={() => onOrigin(st.id)}>Where did this come from?</button>}
+      {/* The margin: what this is (its status, loud), where it came from, when, then what she can do with it. */}
+      <div className="fact-margin">
+        <span className="fact-status" data-s={st.status}>{statusWord(ctx.settings, st.status)}</span>
+        {(st.speaker_kind === 'assistant' || st.speaker_kind === 'source' || st.qualifiers?.accepted_by) && (
+          <span className="fact-source">{st.speaker_kind === 'assistant' ? 'Suggested by the assistant' : st.speaker_kind === 'source' ? `From ${st.speaker_name || 'a document'}` : ''}{st.qualifiers?.accepted_by ? `${st.speaker_kind === 'assistant' || st.speaker_kind === 'source' ? ', accepted by you' : 'Accepted by you'}` : ''}</span>
+        )}
+        {st.qualifiers?.timing && <span className="fact-source">{TIMING.find((t) => t[0] === st.qualifiers.timing)?.[1] ?? ''}</span>}
+        <time className="fact-when" dateTime={st.made_at}>{when(st.made_at)}</time>
+        <div className="fact-actions" role="group" aria-label="What you can do with this">
+          {st.status !== 'established' && st.status !== 'illustrative' && <button className="btn fact-act primary" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'established', replaceCurrent: !d.multi }))}>Decide this</button>}
+          {st.status === 'established' && <button className="btn fact-act" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'developing' }))}>Not decided after all</button>}
+          {st.status !== 'set_aside' && <button className="btn fact-act" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'set_aside' }))}>Set aside</button>}
+          {(st.turn_id || st.excerpt_id || st.note) && <button className="btn fact-act" onClick={() => onOrigin(st.id)}>Where did this come from?</button>}
+        </div>
       </div>
     </div>
   );
@@ -210,7 +223,7 @@ function FieldBlock({ ctx, elId, f, open, setOpen, showHistory, toggleHistory, a
     <div className="field-block" style={{ marginBottom: '1rem' }}>
       <div className="row"><strong className="grow">{d.label}{d.private ? <span className="faint small"> (private, never exported)</span> : ''}{d.custom ? <span className="faint small"> (your field)</span> : ''}</strong>
         <button className="btn link small" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Add'}</button></div>
-      {d.prompt && nothing && <p className="faint small" style={{ margin: 0 }}>{d.prompt}</p>}
+      <FieldTeach kind={kind} field={d.field} hint={d.prompt} />
       {d.identity && nothing && <p className="muted small" style={{ margin: 0 }}>Not yet specified</p>}
       {current.map((st) => row(st, 'established'))}
       {v.possibilities.map((st: any) => row(st, st.status))}
@@ -427,3 +440,5 @@ function Interview({ ctx, el, items, act }: { ctx: Ctx; el: any; items: any[]; a
     </section>
   );
 }
+
+function kindPlural(kind: string) { return KIND_LABELS[kind]?.plural ?? String(kind).replace(/^x_/, '').replace(/_/g, ' '); }

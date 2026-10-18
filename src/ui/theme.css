@@ -219,10 +219,26 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 /* On a record, each fact keeps its marginalia: status, date, source and actions sit in the outer margin. */
 .st.fact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(11rem, 15rem); column-gap: 1.75rem; margin-bottom: 0.75rem !important; }
 .st.fact > div:first-child { font-size: 1.0625rem; line-height: 1.55; align-self: start; }
-.st.fact > .row { flex-direction: column; align-items: flex-start; gap: 0.1rem; border-left: 1px solid var(--line); padding-left: 0.75rem; font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.8125rem; line-height: 1.35; }
-.st.fact > .row .btn.link { font-family: var(--ui); font-style: normal; font-size: 0.8125rem; padding: 0; text-align: left; }
+.st.fact > .fact-margin { display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; border-left: 2px solid var(--line-strong); padding-left: 0.85rem; line-height: 1.35; }
+/* The status is the loudest thing in the margin: small capitals, bold, in the status's own colour. */
+.fact-status { font-family: var(--ui); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--struct); }
+.fact-status[data-s='established'] { color: var(--ink); }
+.fact-status[data-s='established']::before { content: ''; display: inline-block; width: 7px; height: 7px; background: var(--ink); margin-right: 0.45em; vertical-align: 0.1em; }
+.fact-status[data-s='developing'] { color: var(--pencil); }
+.fact-status[data-s='unanswered'] { color: var(--margin); }
+.fact-status[data-s='illustrative'] { color: var(--margin); }
+.fact-status[data-s='proposed'] { color: var(--struct); }
+.fact-status[data-s='set_aside'] { color: var(--faint); }
+.fact-source { font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.875rem; }
+/* The date reads as a date: upright, steady, never mistaken for a button. */
+.fact-when { font-family: var(--ui); font-size: 0.8125rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.fact-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+.fact-act { font-size: 0.8125rem; padding: 0.15rem 0.55rem; min-height: 0; border: 1px solid var(--line-strong); background: transparent; color: var(--struct); border-radius: var(--r-sm); }
+.fact-act:hover, .fact-act:focus-visible { background: var(--wash); }
+.fact-act.primary { border-color: var(--struct); background: var(--struct); color: var(--page); }
+.fact-act.primary:hover { filter: brightness(1.12); background: var(--struct); }
 .st.fact[data-s='proposed'] { grid-template-columns: minmax(0, 1fr) minmax(10rem, 14rem); }
-@media (max-width: 1100px) { .st.fact { grid-template-columns: minmax(0, 1fr); } .st.fact > .row { flex-direction: row; flex-wrap: wrap; border-left: 0; padding-left: 0; gap: 0.2rem 0.6rem; } }
+@media (max-width: 1100px) { .st.fact { grid-template-columns: minmax(0, 1fr); } .st.fact > .fact-margin { border-left: 0; padding-left: 0; margin-top: 0.3rem; } }
 
 .legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; font-size: 0.8125rem; color: var(--muted); margin: 0 0 1.25rem; }
 .legend .st { padding-left: 1.25em; }
@@ -444,3 +460,48 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .choice-pill input { margin: 0; }
 @media (prefers-reduced-motion: reduce) { .sprint-clock { transition: none; } }
 .door-note { color: var(--margin); font-family: var(--book); font-style: italic; }
+
+/* Help: the guide inside the program. Contents on the left, the chapter on the right. */
+.help { display: grid; grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr); gap: 2rem; height: 100%; min-height: 0; padding: 1.25rem 1.5rem 0; }
+.help-toc { overflow-y: auto; padding-bottom: 2rem; border-right: 1px solid var(--line); padding-right: 1rem; }
+.help-chapters { list-style: none; padding: 0; margin: 0; counter-reset: ch; }
+.help-chapters > li { margin: 0 0 0.35rem; }
+.help-chapters > li > .btn { font-family: var(--book); font-size: 1rem; text-align: left; color: var(--struct); }
+.help-chapters > li > .btn[aria-current] { font-weight: 700; color: var(--ink); }
+.help-chapters ul { list-style: none; padding: 0 0 0 0.85rem; margin: 0.25rem 0 0.5rem; border-left: 2px solid var(--line); }
+.help-chapters ul .btn { text-align: left; color: var(--margin); }
+.help-hits { list-style: none; padding: 0; margin: 0; }
+.help-hits li { margin-bottom: 0.75rem; }
+.help-hits p { margin: 0.1rem 0 0; }
+.help-body { overflow-y: auto; padding: 0 1rem 4rem 0; max-width: 46rem; }
+.prose-help { font-family: var(--prose); font-size: 1.0625rem; line-height: 1.65; color: var(--ink); }
+.prose-help h1 { font-family: var(--book); font-size: 2rem; margin: 0.5rem 0 1rem; color: var(--ink); }
+.prose-help h2 { font-family: var(--book); font-size: 1.45rem; margin: 2.25rem 0 0.6rem; color: var(--struct); border-bottom: 1px solid var(--line); padding-bottom: 0.25rem; }
+.prose-help h3 { font-family: var(--book); font-style: normal; font-size: 1.15rem; margin: 1.6rem 0 0.4rem; color: var(--ink); }
+.prose-help h2:focus, .prose-help h3:focus { outline: none; }
+.prose-help .found, .prose-help h2.found, .prose-help h3.found { background: color-mix(in srgb, var(--yours) 14%, transparent); }
+.prose-help p, .prose-help li { max-width: 68ch; }
+.prose-help strong { color: var(--ink); }
+.prose-help code { font-size: 0.9em; background: var(--wash); padding: 0.05em 0.3em; border-radius: 2px; }
+.prose-help table { border-collapse: collapse; margin: 1rem 0; font-size: 0.95rem; }
+.prose-help th, .prose-help td { border: 1px solid var(--line); padding: 0.35rem 0.6rem; text-align: left; vertical-align: top; }
+.prose-help th { background: var(--wash); font-family: var(--ui); }
+.prose-help blockquote { border-left: 3px solid var(--yours); margin: 1rem 0; padding: 0.25rem 1rem; color: var(--ink); background: color-mix(in srgb, var(--yours) 5%, transparent); }
+.help-close { position: fixed; right: 1.5rem; bottom: 1rem; }
+.learn-more { color: var(--struct); }
+@media (max-width: 900px) { .help { grid-template-columns: 1fr; } .help-toc { border-right: 0; max-height: 14rem; } }
+
+/* Teaching beside the work. */
+.field-hint { margin: 0.1rem 0 0.35rem; font-size: 0.875rem; color: var(--muted); max-width: 62ch; }
+.teach-toggle { margin-left: 0.25rem; color: var(--struct); }
+.teach-body { border-left: 3px solid var(--struct); background: color-mix(in srgb, var(--struct) 5%, transparent); padding: 0.55rem 0.9rem; margin: 0.25rem 0 0.75rem; font-size: 0.9375rem; line-height: 1.55; max-width: 66ch; }
+.teach-body p { margin: 0 0 0.5rem; }
+.teach-body p:last-child { margin-bottom: 0; }
+.teach-need { display: inline-block; font-family: var(--ui); font-weight: 700; font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.05rem 0.45rem; border-radius: 999px; margin-right: 0.35rem; border: 1px solid currentColor; vertical-align: 0.1em; }
+.teach-need[data-need='core'] { color: var(--struct); }
+.teach-need[data-need='useful'] { color: var(--margin); }
+.teach-need[data-need='situational'] { color: var(--muted); }
+.group-hint { margin: -0.2rem 0 0.9rem; color: var(--margin); font-family: var(--book); font-style: italic; font-size: 0.975rem; max-width: 66ch; }
+.kind-teach { margin: 0 0 1.25rem; }
+.kind-teach-head { background: none; border: 0; padding: 0.2rem 0; font-family: var(--book); font-size: 1.0625rem; color: var(--struct); cursor: pointer; text-align: left; }
+.kind-teach-head:hover { text-decoration: underline; }

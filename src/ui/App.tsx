@@ -16,12 +16,13 @@ import { FilesView } from './FilesView';
 import { NovelSetup } from './NovelSetup';
 import { DraftsView } from './DraftsView';
 import { MethodsView } from './MethodsView';
+import { Help } from './Help';
 import { SprintChooser, SprintClock, SprintEnd, SprintState, enterFull, leaveFull } from './Sprint';
 import { flushEditor, currentEditor } from './flush';
 
-export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings' | 'setup' | 'drafts' | 'methods';
+export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings' | 'setup' | 'drafts' | 'methods' | 'help';
 const VIEW_NAMES: Record<View, string> = {
-  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings', setup: 'Novel setup', drafts: 'Drafts', methods: 'My methods',
+  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings', setup: 'Novel setup', drafts: 'Drafts', methods: 'My methods', help: 'Help',
 };
 
 export interface Ctx {
@@ -61,6 +62,8 @@ export function App() {
   const [sprintEnd, setSprintEnd] = useState<'time' | 'early' | 'over' | null>(null);
   const sprintRef = useRef<SprintState | null>(null);
   sprintRef.current = sprint;
+  const [helpAt, setHelpAt] = useState<string | null>(null);
+  const [helpNonce, setHelpNonce] = useState(0);
   const viewRef = useRef<View>('home');
   viewRef.current = view;
 
@@ -129,6 +132,14 @@ export function App() {
   }
   function stopSprint() { setSprint(null); setSprintEnd(null); void leaveFull(); }
 
+  // "Learn more" anywhere opens Help at the right section; F1 opens Help.
+  useEffect(() => {
+    const f = (e: Event) => { setHelpAt(String((e as CustomEvent).detail ?? '') || null); setHelpNonce((n) => n + 1); setView('help'); };
+    const k = (e: KeyboardEvent) => { if (e.key === 'F1' && !sprintRef.current) { e.preventDefault(); setHelpAt(null); setView('help'); } };
+    window.addEventListener('ns-help', f); window.addEventListener('keydown', k);
+    return () => { window.removeEventListener('ns-help', f); window.removeEventListener('keydown', k); };
+  }, []);
+
   // Keyboard: Ctrl+Shift+N capture, Ctrl+K search, Ctrl+Shift+W return to writing.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -166,7 +177,7 @@ export function App() {
   const saveText = save.state === 'saving' ? 'Saving…' : save.state === 'saved' ? 'Saved' : save.state === 'unsaved' ? 'Not saved yet' : save.state === 'error' ? (save.message ?? 'Not saved') : '';
 
   const PRIMARY: View[] = ['home', 'write', 'brain', 'zoom', 'conversations'];
-  const SECONDARY: View[] = ['search', 'history', 'files', 'settings'];
+  const SECONDARY: View[] = ['search', 'history', 'files', 'settings', 'help'];
   const tab = (v: View) => <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>;
   return (
     <div className="app" data-sprint={sprint ? true : undefined}>
@@ -200,6 +211,7 @@ export function App() {
           {view === 'setup' && <NovelSetup ctx={ctx} />}
           {view === 'drafts' && <DraftsView ctx={ctx} />}
           {view === 'methods' && <MethodsView ctx={ctx} />}
+          {view === 'help' && <Help key={helpNonce} anchor={helpAt} />}
         </main>
       </div>
       {/* The views, cut into the fore-edge like a dictionary's thumb index. */}
