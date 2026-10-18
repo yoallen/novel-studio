@@ -509,7 +509,8 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   const dismissedSeeds = () => { const r = store.db.prepare("SELECT value_json FROM settings WHERE key='seeds_dismissed'").get() as { value_json: string } | undefined; return r ? JSON.parse(r.value_json) as string[] : []; };
   app.get('/api/seeds', async () => seedFiles().filter((f) => !dismissedSeeds().includes(f)).map((file) => {
     const a = readSeed(file);
-    const present = !!store.db.prepare('SELECT 1 FROM projects WHERE id=?').get(a.project_id);
+    // Also hidden when the other computer has already shared this novel: it comes from there instead, so both stay one book.
+    const present = !!store.db.prepare('SELECT 1 FROM projects WHERE id=?').get(a.project_id) || svc.sync.elsewhere().some((x) => x.projectId === a.project_id);
     return { file, title: a.title, present, counts: { records: a.counts.elements ?? 0, statements: a.counts.statements ?? 0, turns: a.counts.turns ?? 0, passages: a.counts.excerpts ?? 0 } };
   }).filter((x) => !x.present));
   app.post('/api/seeds/open', async (req) => {
@@ -521,6 +522,23 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('seeds_dismissed',?) ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json").run(JSON.stringify([...new Set([...dismissedSeeds(), b.file])]));
     return { dismissed: true };
   });
+  // ----- sharing between her computers -----
+  app.get('/api/sync', async (req) => svc.sync.status(query(req, z.object({ project: id.optional() })).project ?? null));
+  app.put('/api/sync', async (req) => {
+    const b = body(req, z.object({ dir: z.string().min(1).max(1000), name: z.string().max(60).optional() }));
+    if (!isAbsolute(b.dir.trim())) throw new AppError('invalid', 'Choose a whole folder path, such as C:\\Users\\you\\OneDrive.');
+    const cfg = svc.sync.configure(b);
+    await svc.sync.pass({ shareChanged: true, take: false });
+    return cfg;
+  });
+  app.delete('/api/sync', async () => { svc.sync.turnOff(); return { off: true }; });
+  app.put('/api/sync/ask', async (req) => { svc.sync.setAsking(body(req, z.object({ ask: z.boolean() })).ask); return { ask: svc.sync.asking() }; });
+  app.post('/api/sync/here', async (req) => { const b = body(req, z.object({ projectId: id.nullable() })); svc.hereNow(b.projectId); return svc.sync.status(b.projectId); });
+  app.post('/api/sync/share', async () => svc.sync.pass({ shareChanged: true, take: false }));
+  app.post('/api/projects/:id/sync/take', async (req) => svc.sync.takeIncoming(params(req, P).id));
+  app.post('/api/projects/:id/sync/resolve', async (req) => { const b = body(req, z.object({ keep: z.enum(['mine', 'theirs']), file: z.string().max(200).optional() })); return svc.sync.resolve(params(req, P).id, b.keep, b.file); });
+  app.get('/api/sync/elsewhere', async () => svc.sync.elsewhere());
+  app.post('/api/sync/bring', async (req) => svc.sync.bring(body(req, z.object({ projectId: id })).projectId));
   app.post('/api/backups/snapshot', async () => snapshot(store, svc.backupDir(), 'manual', 50));
   app.get('/api/backups', async () => listSnapshots(svc.backupDir()));
   // Where backups go. She can choose any folder she can write to (a second drive, OneDrive, a USB stick).

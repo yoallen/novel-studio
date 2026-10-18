@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { BRAND } from '../brand';
 import { api, ApiError } from './api';
+import { SyncNotice } from './SyncViews';
 import { Library } from './Library';
 import { Home } from './Home';
 import { Desk } from './Desk';
@@ -162,6 +163,7 @@ export function App() {
           <span className="where">{VIEW_NAMES[view]}</span>
           <button className="btn small" onClick={() => setCapturing(true)} title="Capture a thought (Ctrl+Shift+N)">Capture</button>
         </header>
+        <SyncNotice projectId={projectId} onTook={() => window.location.reload()} />
         <main className="main">
           {view === 'home' && <Home ctx={ctx} />}
           {view === 'write' && <Desk ctx={ctx} sceneId={sceneId} />}

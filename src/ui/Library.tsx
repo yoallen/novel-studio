@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { BRAND } from '../brand';
 import { AboutYou } from './AboutYou';
 import { api } from './api';
+import { Elsewhere } from './SyncViews';
 
 // All novels. A new novel starts from a title and, if she likes, one sentence. No questionnaire (S1-171).
 export function Library({ onOpen }: { onOpen: (id: string) => void }) {
@@ -113,6 +114,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
           ))}
         </ul>
       )}
+      <Elsewhere onOpen={onOpen} />
       {projects && projects.length === 0 && <p className="muted">Nothing here yet. Start a novel below, or bring one in from an archive.</p>}
 
       <form onSubmit={create} className="section">

@@ -26,6 +26,7 @@ import { Books } from '../core/books.js';
 import { Cast } from '../core/cast.js';
 import { registerRoutes } from './routes.js';
 import { snapshot } from '../core/backup.js';
+import { Sync } from '../core/sync.js';
 
 export interface AppOptions {
   dataPath: string;          // SQLite file
@@ -46,6 +47,9 @@ export interface AppOptions {
   onKeyChange?: (key: string | null) => boolean;
   /** Present only in the desktop app: the window can show the system's folder picker. */
   desktop?: boolean;
+  /** Sharing between computers: how often to look (default 60 s) and how long changes wait before sharing (default 5 min). */
+  syncTickMs?: number;
+  syncShareAfterMs?: number;
 }
 
 export interface Services {
@@ -67,6 +71,10 @@ export interface Services {
   cast: Cast;
   progress: Progress;
   storytime: StoryTime;
+  sync: Sync;
+  /** The novel open in her window right now, as last reported, so it is never replaced under her. */
+  openNovel: () => string | null;
+  hereNow: (pid: string | null) => void;
   opts: AppOptions;
   /** Where backups go: the folder she chose, or the default beside her library. */
   backupDir: () => string;
@@ -86,7 +94,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
   const structure = new Structure(store, brain, ms), ripple = new Ripple(store, brain, ms, structure);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, progress: new Progress(store, ms), storytime: new StoryTime(store, brain, ms), opts, backupDir: () => opts.backupDir };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, progress: new Progress(store, ms), storytime: new StoryTime(store, brain, ms), sync: null as unknown as Sync, openNovel: () => null, hereNow: () => {}, opts, backupDir: () => opts.backupDir };
   services.backupDir = () => {
     const r = store.db.prepare("SELECT value_json FROM settings WHERE key='backup_dir'").get() as { value_json: string } | undefined;
     const chosen = r ? (JSON.parse(r.value_json) as string) : '';
@@ -175,7 +183,32 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   timer?.unref?.();
   (services as Services & { backupNow?: () => Promise<void> }).backupNow = backupNow;
 
-  app.addHook('onClose', async () => { if (timer) clearInterval(timer); if (every > 0) await backupNow(); store.close(); });
+  // Sharing between her computers: look every minute; share a changed novel after a few quiet minutes, and on close.
+  // A novel she has opened in this session is never replaced in the background: the notice above the page asks first.
+  const sync = new Sync(store, () => snapshot(store, services.backupDir(), 'sync', 30));
+  services.sync = sync;
+  const opened = new Set<string>();
+  let open: string | null = null;
+  services.hereNow = (pid) => { open = pid; if (pid) opened.add(pid); };
+  services.openNovel = () => open;
+  let lastShare = Date.now();
+  const shareAfter = opts.syncShareAfterMs ?? 5 * 60_000;
+  const syncPass = async (o: { take: boolean; share: boolean }) => {
+    if (!sync.config()) return;
+    try { await sync.pass({ protect: opened, shareChanged: o.share, take: o.take }); if (o.share) lastShare = Date.now(); }
+    catch (e) { app.log.error(e); }
+  };
+  const syncTimer = setInterval(() => void syncPass({ take: true, share: Date.now() - lastShare >= shareAfter }), opts.syncTickMs ?? 60_000);
+  syncTimer.unref?.();
+  // On opening, before the window can show anything: take in what the other computer shared while this one was closed.
+  // Bounded, so an unreachable folder never keeps the window from opening; the pass carries on in the background.
+  if (sync.config()) await Promise.race([syncPass({ take: true, share: false }), new Promise((r) => setTimeout(r, 15_000))]);
+
+  app.addHook('onClose', async () => {
+    clearInterval(syncTimer);
+    if (sync.config()) await syncPass({ take: false, share: true });
+    if (timer) clearInterval(timer); if (every > 0) await backupNow(); store.close();
+  });
   return { app, services };
 }
 

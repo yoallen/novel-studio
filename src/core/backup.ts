@@ -16,7 +16,7 @@ export const ARCHIVE_FORMAT = 'novel-studio-archive';
 export const ARCHIVE_VERSION = 1;
 
 /** Tables in dependency order, with the column that ties each row to a project. */
-const ARCHIVE_TABLES: { table: string; scope: string }[] = [
+export const ARCHIVE_TABLES: { table: string; scope: string }[] = [
   { table: 'projects', scope: 'id = :p' },
   { table: 'sources', scope: 'project_id = :p' },
   { table: 'kinds', scope: 'project_id = :p' },
@@ -135,7 +135,7 @@ export function planImport(store: Store, raw: unknown, opts: { asCopy?: boolean 
   return { ok: problems.length === 0, mode, title: archive.title, counts, problems, warnings };
 }
 
-export function importArchive(store: Store, raw: unknown, opts: { asCopy?: boolean } = {}) {
+export function importArchive(store: Store, raw: unknown, opts: { asCopy?: boolean; copyTitle?: string } = {}) {
   const plan = planImport(store, raw, opts);
   if (!plan.ok) throw new ValidationError('The archive cannot be imported safely.', { problems: plan.problems });
   if (plan.mode === 'already_present') return { plan, projectId: (raw as Archive).project_id, imported: false };
@@ -146,19 +146,29 @@ export function importArchive(store: Store, raw: unknown, opts: { asCopy?: boole
     if (!map.has(v)) map.set(v, newId());
     return map.get(v);
   };
+  // A copy gets new ids for every row first, so history that names a row (undo) can be pointed at the copy's own rows.
+  if (plan.mode === 'copy') {
+    for (const { table } of ARCHIVE_TABLES) for (const row of archive.tables[table] ?? []) for (const k of Object.keys(row)) {
+      if (REF_COLUMNS.has(k) && row[k] != null && !(table === 'journal' && k === 'id')) remap(row[k]);
+    }
+  }
+  const remapJson = (j: unknown) => (typeof j === 'string' ? JSON.stringify(JSON.parse(j), (_k, v) => (typeof v === 'string' && map.has(v) ? map.get(v) : v)) : j);
   store.db.transaction(() => {
     store.db.pragma('defer_foreign_keys = ON');
     for (const { table } of ARCHIVE_TABLES) {
       for (const row of archive.tables[table] ?? []) {
         const r: Row = { ...row };
         if (plan.mode === 'copy') {
+          if (table === 'journal') { r.before_json = remapJson(r.before_json); r.after_json = remapJson(r.after_json); }
           for (const k of Object.keys(r)) if (REF_COLUMNS.has(k) && r[k] != null && !(table === 'journal' && k === 'id')) r[k] = remap(r[k]);
-          if (table === 'journal') delete r.seq;
-          if (table === 'projects') r.title = `${r.title} (copy)`;
+          if (table === 'projects') r.title = opts.copyTitle ?? `${r.title} (copy)`;
           if (table === 'arrangements' && typeof r.order_json === 'string') {
             r.order_json = JSON.stringify(JSON.parse(r.order_json), (_k, v) => (typeof v === 'string' && map.has(v) ? map.get(v) : v));
           }
         }
+        // Journal numbers only order the changes; numbering them afresh keeps that order and never collides
+        // with numbers another novel in this library already uses.
+        if (table === 'journal') delete r.seq;
         const cols = Object.keys(r);
         store.db.prepare(`INSERT INTO ${table}(${cols.join(',')}) VALUES (${cols.map(() => '?').join(',')})`).run(...cols.map((c) => r[c] as never));
       }
@@ -171,6 +181,23 @@ export function importArchive(store: Store, raw: unknown, opts: { asCopy?: boole
     if (check.counts[table] !== plan.counts[table]) throw new AppError('verify_failed', `Import verification failed for ${table}.`);
   }
   return { plan, projectId, imported: true };
+}
+
+/** Replace one novel with an archive of it, keeping its ids: the hand-off between her computers.
+ *  Everything happens in one transaction, so a failure leaves the novel exactly as it was. */
+export function replaceProject(store: Store, raw: unknown) {
+  const archive = raw as Archive;
+  const { problems } = validateArchive(store, raw);
+  if (problems.length) throw new ValidationError('The shared copy cannot be used safely.', { problems });
+  let result: ReturnType<typeof importArchive> | null = null;
+  store.db.transaction(() => {
+    store.db.pragma('defer_foreign_keys = ON');
+    for (const { table, scope } of [...ARCHIVE_TABLES].reverse()) {
+      store.db.prepare(`DELETE FROM ${table} WHERE ${scope.replace(/:p/g, '@p')}`).run({ p: archive.project_id });
+    }
+    result = importArchive(store, raw);
+  })();
+  return result!;
 }
 
 // ---------- whole-database snapshots ----------

@@ -2,5 +2,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('storyCanon', {
   isDesktop: true,
-  chooseFolder: () => ipcRenderer.invoke('choose-folder'),
+  chooseFolder: (title) => ipcRenderer.invoke('choose-folder', typeof title === 'string' ? title.slice(0, 120) : undefined),
 });
