@@ -18,6 +18,10 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
   const [live, setLive] = useState<{ id: string; words: number } | null>(null);
 
   const loadOutline = useCallback(() => api.get(`/api/projects/${ctx.projectId}/outline`).then(setOutline).catch((e) => setError(e.message)), [ctx.projectId]);
+  // Scene cards from the plan that have no page yet, in story order.
+  const [planned, setPlanned] = useState<any[]>([]);
+  useEffect(() => { api.get(`/api/projects/${ctx.projectId}/planned-order`).then((l: any[]) => setPlanned(l.filter((c) => !c.sceneId))).catch(() => setPlanned([])); }, [ctx.projectId, tick]);
+  async function writeCard(id: string) { try { const s = await api.post(`/api/elements/${id}/write-scene`, {}); setTick((t) => t + 1); ctx.openScene(s.id); } catch (e) { setError((e as Error).message); } }
   useEffect(() => { void loadOutline(); }, [loadOutline, tick]);
   useEffect(() => { try { localStorage.setItem('ns-panel', panel ? '1' : '0'); } catch { /* ignore */ } }, [panel]);
 
@@ -131,6 +135,18 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
                 </div>
               ))}
               <button className="btn small" onClick={() => void addChapter()}>Add chapter</button>
+              {planned.length > 0 && (
+                <section className="planned" aria-label="Planned, not written yet">
+                  <h3>Planned, not written yet</h3>
+                  <p className="small muted" style={{ margin: '0 0 0.5rem' }}>Scene cards from your plan, in story order. Write one and its page appears in the right place above.</p>
+                  {planned.map((c) => (
+                    <div key={c.id} className="planned-card">
+                      <span className="grow"><span className="planned-title">{c.title}</span>{c.beat && <span className="planned-beat">{c.decided ? '' : 'might go at '}{c.beat}</span>}</span>
+                      <button className="btn link small" aria-label={`Write ${c.title}`} onClick={() => void writeCard(c.id)}>Write it</button>
+                    </div>
+                  ))}
+                </section>
+              )}
             </>
           )}
         </aside>

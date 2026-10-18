@@ -3,6 +3,7 @@
 // "Where was I?" view, the Next Writing Action, and this week's accomplishments.
 // Requirements: R-B-013 to R-B-022, R-B-028, R-B-030, R-B-034.
 
+import type { Structure } from './structure.js';
 import { Store, Row, NotFoundError, nowIso } from './store.js';
 import { Brain } from './brain.js';
 import { Manuscript } from './manuscript.js';
@@ -26,6 +27,8 @@ export const PLAN_FIELDS = [
 const OPEN_STATES = new Set(['open', 'considering', 'inbox', '']);
 
 export class WritingDesk {
+  /** Set by the service: lets Next lead from the plan into the writing. */
+  structure: Structure | null = null;
   constructor(private store: Store, private brain: Brain, private ms: Manuscript) {}
 
   /** Make sure a scene has its plan element (created on first use). */
@@ -101,9 +104,17 @@ export class WritingDesk {
     if (settings.nextWritingAction.trim()) {
       return { text: settings.nextWritingAction.trim(), sceneId: ws?.sceneId ?? null, source: 'author' as const };
     }
+    // A planned scene not yet written comes next when nothing is under way (no words in the open scene).
+    const nextCard = (() => { try { return this.structure?.plannedOrder(projectId).find((c) => !c.sceneId || c.words === 0) ?? null; } catch { return null; } })();
     if (ws?.sceneId) {
       const sc = this.ms.scene(ws.sceneId as string);
-      return { text: `Keep writing "${sc.title}"`, sceneId: sc.id as string, detail: `${label(sc.status as string)}, ${sc.word_count} words`, source: 'derived' as const };
+      if (!(nextCard && (sc.word_count as number) === 0 && !sc.plan_element_id)) {
+        return { text: `Keep writing "${sc.title}"`, sceneId: sc.id as string, detail: `${label(sc.status as string)}, ${sc.word_count} words`, source: 'derived' as const };
+      }
+    }
+    const wordsSoFar = this.ms.totalWords(projectId);
+    if (nextCard && (wordsSoFar === 0 || !ws?.sceneId)) {
+      return { text: `Write "${nextCard.title}"`, sceneId: nextCard.sceneId, planId: nextCard.id, detail: nextCard.beat ? `Your next planned scene, at ${nextCard.beat}` : 'Your next planned scene', source: 'plan' as const };
     }
     const firstDraftedKey = ladder.find((x) => x.drafted)?.key;
     const notStarted = new Set(ladder.slice(0, Math.max(0, ladder.findIndex((x) => x.key === firstDraftedKey))).map((x) => x.key));
@@ -139,7 +150,7 @@ export class WritingDesk {
     return {
       lastScene,
       nextAction: this.nextWritingAction(projectId),
-      decisions: decisions.map((d) => ({ ...d, value: JSON.parse(d.value_json as string) as unknown, label: this.brain.fieldsFor(projectId, d.element_kind as string, { all: true }).find((f) => f.field === d.field)?.label ?? String(d.field).replace(/^x_/, '').replace(/_/g, ' ') })),
+      decisions: decisions.map((d) => ({ ...d, value: ((v: unknown) => d.field === 'beat' && typeof v === 'string' ? (this.store.get('elements', v)?.title ?? v) : v)(JSON.parse(d.value_json as string) as unknown), label: this.brain.fieldsFor(projectId, d.element_kind as string, { all: true }).find((f) => f.field === d.field)?.label ?? String(d.field).replace(/^x_/, '').replace(/_/g, ' ') })),
       openQuestions,
       recentCaptures,
       openTrail: this.ms.openTrail(projectId),

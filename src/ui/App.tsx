@@ -80,6 +80,13 @@ export function App() {
 
   useEffect(() => {
     setProject(null); setSettings(null); setSceneId(null);
+    // What a view had open belongs to its own book: switching books never shows the other book's record.
+    try {
+      if (projectId && sessionStorage.getItem('ns-book') !== projectId) {
+        for (const k of ['ns-brain-sel', 'ns-conv', 'ns-zoom-node', 'ns-zoom-tab']) sessionStorage.removeItem(k);
+        sessionStorage.setItem('ns-book', projectId);
+      }
+    } catch { /* ignore */ }
     let first: View = 'home';
     try { const v = sessionStorage.getItem('ns-open-view'); if (v) { first = v as View; sessionStorage.removeItem('ns-open-view'); } } catch { /* ignore */ }
     setView(first);
@@ -105,6 +112,7 @@ export function App() {
     try {
       const next = await api.get(`/api/projects/${projectId}/next-action`);
       if (next.sceneId) { openScene(next.sceneId); return; }
+      if (next.planId) { const s = await api.post(`/api/elements/${next.planId}/write-scene`, {}); openScene(s.id); return; }
       const o = await api.get(`/api/projects/${projectId}/outline`);
       const all = (o.chapters as any[]).flatMap((c) => c.scenes as any[]);
       if (all.length) { openScene(all.reduce((a, b) => (a.updated_at > b.updated_at ? a : b)).id); return; }

@@ -282,6 +282,24 @@ export class Structure {
     return el;
   }
 
+  /**
+   * Her scene cards in story order: by the beat each is decided at (or, failing that, the first beat
+   * it might go at), then by the card's own order. Cards on no beat come last. Each says whether it
+   * has been written yet, so the plan can lead straight into the writing.
+   */
+  plannedOrder(projectId: string) {
+    const beats = this.beats(projectId);
+    const rank = new Map<string, number>(); beats.forEach((b, i) => rank.set(b.element.id as string, i));
+    const names = new Map<string, string>(beats.map((b) => [b.element.id as string, b.element.title as string]));
+    const written = new Map((this.store.db.prepare('SELECT id, plan_element_id, word_count FROM scenes WHERE project_id=? AND deleted_at IS NULL AND plan_element_id IS NOT NULL').all(projectId) as Row[]).map((r) => [r.plan_element_id as string, r]));
+    return this.brain.elements(projectId, { kind: 'scene_plan' }).map((c) => {
+      const pm = this.placements(c.id as string);
+      const beatId = pm.decided?.beatId ?? pm.candidates[0]?.beatId ?? null;
+      const sc = written.get(c.id as string);
+      return { id: c.id as string, title: c.title as string, sort: c.sort_key as number, beatId, beat: beatId ? names.get(beatId) ?? null : null, decided: !!pm.decided, sceneId: (sc?.id as string) ?? null, words: (sc?.word_count as number) ?? 0 };
+    }).sort((a, b) => (a.beatId ? rank.get(a.beatId) ?? 999 : 1000) - (b.beatId ? rank.get(b.beatId) ?? 999 : 1000) || a.sort - b.sort);
+  }
+
   /** The board: four rows (acts) of beats, each with its decided cards and candidate cards (R-C-004). */
   board(projectId: string) {
     const beats = this.beats(projectId);

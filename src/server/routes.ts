@@ -297,6 +297,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
        ORDER BY e.kind, e.title, s.made_at`,
     ).all(pid).map((r: any) => ({ ...r, value: JSON.parse(r.value_json) }));
   });
+  app.get('/api/projects/:id/planned-order', async (req) => { const pid = params(req, P).id; brain.project(pid); return structure.plannedOrder(pid); });
   app.get('/api/projects/:id/later', async (req) => { const pid = params(req, P).id; brain.project(pid); return ms.laterNotes(pid); });
   // A day she sets herself: a lighter day, a rest day (0), or a bigger one. null clears it.
   app.put('/api/projects/:id/day-goal', async (req) => {
@@ -346,9 +347,21 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     if (existing) return ms.scene(existing.id);
     const b = body(req, z.object({ chapterId: id.optional() }));
     const pid = el.project_id as string;
-    let chapterId = b.chapterId ?? (ms.outline(pid).at(-1)?.id as string | undefined);
-    if (!chapterId) chapterId = ms.addChapter(pid).id;
-    const sc = ms.addScene(chapterId, { title: el.title as string });
+    // The new scene goes where the plan says: right after the written scene of the nearest card before
+    // it in story order, or at the very start when nothing before it is written yet.
+    const order = structure.plannedOrder(pid);
+    const at = order.findIndex((c) => c.id === planId);
+    const before = order.slice(0, Math.max(0, at)).reverse().find((c) => c.sceneId);
+    let sc;
+    if (!b.chapterId && before?.sceneId) {
+      const prev = ms.scene(before.sceneId);
+      sc = ms.addScene(prev.chapter_id as string, { title: el.title as string, afterSceneId: before.sceneId });
+    } else {
+      let chapterId = b.chapterId ?? (ms.outline(pid)[0]?.id as string | undefined);
+      if (!chapterId) chapterId = ms.addChapter(pid).id;
+      sc = ms.addScene(chapterId, { title: el.title as string });
+      if (!b.chapterId) ms.moveScene(sc.id as string, chapterId, 0);
+    }
     ms.updateSceneMeta(sc.id as string, { planElementId: planId });
     return ms.scene(sc.id as string);
   });

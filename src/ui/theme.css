@@ -505,3 +505,10 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .kind-teach { margin: 0 0 1.25rem; }
 .kind-teach-head { background: none; border: 0; padding: 0.2rem 0; font-family: var(--book); font-size: 1.0625rem; color: var(--struct); cursor: pointer; text-align: left; }
 .kind-teach-head:hover { text-decoration: underline; }
+
+/* The plan in the binder: cards with no page yet. */
+.planned { margin-top: 1.5rem; padding-top: 0.75rem; border-top: 1px solid var(--line-strong); }
+.planned h3 { margin: 0 0 0.25rem; }
+.planned-card { display: flex; align-items: baseline; gap: 0.4rem; padding: 0.3rem 0; border-bottom: 1px dashed var(--line); }
+.planned-title { display: block; font-size: 0.9375rem; color: var(--pencil); }
+.planned-beat { display: block; font-family: var(--book); font-style: italic; font-size: 0.8125rem; color: var(--margin); }

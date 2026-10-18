@@ -23,6 +23,8 @@ export function Home({ ctx }: { ctx: Ctx }) {
 
   async function write() {
     if (w?.nextAction?.sceneId) { ctx.openScene(w.nextAction.sceneId); return; }
+    // The next planned scene: its page is made where the plan puts it, then opened.
+    if (w?.nextAction?.planId) { const s = await api.post(`/api/elements/${w.nextAction.planId}/write-scene`, {}); ctx.openScene(s.id); return; }
     // Make a place to write and go straight there: planning is never required first (R-B-013).
     const o = await api.get(`/api/projects/${ctx.projectId}/outline`);
     let chapterId = o.chapters[o.chapters.length - 1]?.id;

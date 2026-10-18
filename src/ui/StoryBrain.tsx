@@ -31,6 +31,8 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
   }, [ctx.projectId]);
   useEffect(() => { void load(); }, [load]);
   useEffect(() => { try { sessionStorage.setItem('ns-brain-sel', JSON.stringify(sel)); } catch { /* ignore */ } }, [sel]);
+  // A record from another book is never shown under this one.
+  useEffect(() => { if (sel.kind === 'element' && els.length && !els.some((e) => e.id === sel.id)) setSel({ kind: 'kind', key: 'character' }); }, [els, sel]);
 
   const count = (k: string) => els.filter((e) => e.kind === k).length;
   const hidden = new Set(['scene_plan', 'arc', 'guardrail', 'question', 'idea', 'thought', 'note', 'interview']);

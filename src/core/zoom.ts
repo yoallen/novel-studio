@@ -36,7 +36,7 @@ export class Zoom {
       return {
         node, breadcrumb: [story],
         title: p.title, grouping,
-        children: board.rows.map((r) => ({ node: { level: 'act', key: r.act } as ZoomNode, label: r.name, detail: `${r.beats.length} beats, ${r.beats.reduce((a, b) => a + b.cards.length, 0)} scenes planned` })),
+        children: board.rows.map((r) => ({ node: { level: 'act', key: r.act } as ZoomNode, label: r.name, detail: (() => { const placed = r.beats.reduce((a, b) => a + b.cards.length, 0); const might = new Set(r.beats.flatMap((b) => b.candidates.map((c) => c.id))).size; return `${r.beats.length} beats, ${placed} scene${placed === 1 ? '' : 's'} placed${might ? `, ${might} that might go here` : ''}`; })() })),
         worlds: beats[0]?.attrs.template !== 'save_the_cat' ? [] : Object.entries(WORLDS).map(([k, w]) => ({ key: k, name: w.name, description: w.description, beats: beats.filter((b) => b.group === k && !b.element.parent_id).map((b) => b.element.title) })),
         unplaced: board.unplaced.map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string })),
         hasBeats: beats.length > 0,
