@@ -17,6 +17,7 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
   const [els, setEls] = useState<any[]>([]);
   const [sel, setSel] = useState<Sel>(() => { try { const s = sessionStorage.getItem('ns-brain-sel'); return s ? JSON.parse(s) : { kind: 'kind', key: 'character' }; } catch { return { kind: 'kind', key: 'character' }; } });
   const [pending, setPending] = useState<any[]>([]);
+  const [slips, setSlips] = useState<any[]>([]);
   const [showAll, setShowAll] = useState(false);
   const [newKind, setNewKind] = useState('');
   const [newTitle, setNewTitle] = useState('');
@@ -24,8 +25,8 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
 
   const load = useCallback(async () => {
     try {
-      const [k, e, p] = await Promise.all([api.get(`/api/projects/${ctx.projectId}/kinds`), api.get(`/api/projects/${ctx.projectId}/elements`), api.get(`/api/projects/${ctx.projectId}/proposals`)]);
-      setKinds(k); setEls(e); setPending(p.filter((x: any) => x.status === 'pending' || x.status === 'deferred'));
+      const [k, e, p, sl] = await Promise.all([api.get(`/api/projects/${ctx.projectId}/kinds`), api.get(`/api/projects/${ctx.projectId}/elements`), api.get(`/api/projects/${ctx.projectId}/proposals`), api.get(`/api/projects/${ctx.projectId}/proposed-facts`)]);
+      setKinds(k); setEls(e); setPending(p.filter((x: any) => x.status === 'pending' || x.status === 'deferred')); setSlips(sl);
     } catch (er) { setError((er as Error).message); }
   }, [ctx.projectId]);
   useEffect(() => { void load(); }, [load]);
@@ -55,7 +56,7 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
       <aside className="binder contents" aria-label="Story Brain sections">
         <button className="scene-row" aria-current={sel.kind === 'notes' ? 'true' : undefined} onClick={() => setSel({ kind: 'notes' })}>Questions and ideas<span className="wc">{count('question') + count('idea') + count('thought')}</span></button>
         <button className="scene-row" aria-current={sel.kind === 'map' ? 'true' : undefined} onClick={() => setSel({ kind: 'map' })}>Choices ahead</button>
-        <button className="scene-row" aria-current={sel.kind === 'suggestions' ? 'true' : undefined} onClick={() => setSel({ kind: 'suggestions' })}>Suggestions waiting<span className="wc">{pending.length}</span></button>
+        <button className="scene-row" aria-current={sel.kind === 'suggestions' ? 'true' : undefined} onClick={() => setSel({ kind: 'suggestions' })}>Suggestions waiting<span className="wc">{pending.length + slips.length}</span></button>
         <div className="section" />
         {visibleKinds.map((k) => (
           <button key={k.key} className="scene-row" aria-current={sel.kind === 'kind' && sel.key === k.key ? 'true' : undefined} onClick={() => setSel({ kind: 'kind', key: k.key })}>{k.plural}<span className="wc">{count(k.key)}</span></button>
@@ -70,7 +71,29 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
         {error && <div className="notice error" role="alert">{error}</div>}
         {sel.kind === 'notes' && <NotesView ctx={ctx} embedded onOpen={(id) => setSel({ kind: 'element', id })} />}
         {sel.kind === 'map' && <ChoicesAhead ctx={ctx} onOpen={(id) => setSel({ kind: 'element', id })} />}
-        {sel.kind === 'suggestions' && (<><h1>Suggestions waiting</h1><p className="muted">Nothing here changes your story until you accept it. "Not yet" keeps it waiting.</p>{pending.length === 0 ? <p className="muted">None waiting.</p> : <Suggestions ctx={ctx} items={pending} onDone={() => void load()} />}</>)}
+        {sel.kind === 'suggestions' && (<>
+          <h1>Suggestions waiting</h1>
+          <p className="muted">A suggestion is an idea someone else offered: the collaborator, or a chat or document you brought in. Nothing here is part of your story until you accept it. Accept it as decided or as still developing, keep it waiting with "Not yet", or say no.</p>
+          <h2>From the collaborator</h2>
+          {pending.length === 0 ? <p className="muted small">None waiting.</p> : <Suggestions ctx={ctx} items={pending} onDone={() => void load()} />}
+          <h2>From your planning documents</h2>
+          <p className="muted small">These came in marked as suggestions ("Here's a suggestion") in a document or chat you brought in. Each sits on its record as a slip.</p>
+          {slips.length === 0 ? <p className="muted small">None waiting.</p> : (
+            <ul className="list">
+              {slips.map((x) => (
+                <li key={x.id}>
+                  <div className="st" data-s="proposed" style={{ whiteSpace: 'pre-wrap' }}>{valueText(x.value)}</div>
+                  <div className="small faint">For <button className="btn link small" onClick={() => setSel({ kind: 'element', id: x.element_id })}>{x.element_title}</button>, {String(x.field).replace(/^x_/, '').replace(/_/g, ' ')}{x.speaker_name ? `, from ${x.speaker_name}` : ''}</div>
+                  <div className="row" style={{ marginTop: '0.3rem' }}>
+                    <button className="btn small" onClick={() => void api.post(`/api/statements/${x.id}/status`, { status: 'established', replaceCurrent: true }).then(load)}>Accept as {statusWord(ctx.settings, 'established')}</button>
+                    <button className="btn small" onClick={() => void api.post(`/api/statements/${x.id}/status`, { status: 'developing' }).then(load)}>Accept as {statusWord(ctx.settings, 'developing')}</button>
+                    <button className="btn small" onClick={() => void api.post(`/api/statements/${x.id}/status`, { status: 'set_aside' }).then(load)}>No, set it aside</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>)}
         {sel.kind === 'kind' && (
           <>
             <h1>{kindLabel(sel.key)?.plural ?? sel.key}</h1>

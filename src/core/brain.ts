@@ -525,6 +525,7 @@ export class Brain {
     } else if (p.kind === 'element') {
       const a = after as Record<string, unknown>;
       result = this.createElement(pid, { kind: String(a.kind), title: String(a.title), body: String(a.body ?? ''), attrs: { origin: 'assistant', accepted_by: 'author', proposal_id: id } }, actor);
+      if (t.aboutId) try { this.link(pid, { fromId: (result as Row).id as string, toId: t.aboutId as string, relation: 'relates_to' }, actor); } catch { /* what it was about may be gone */ }
     } else if (p.kind === 'link') {
       result = this.link(pid, { fromId: t.fromId as string, toId: t.toId as string, relation: t.relation as Relation, strength: 'inferred', note: p.rationale as string }, actor);
     }

@@ -287,6 +287,16 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const at = z.object({ at: z.string().datetime() }).parse(req.query ?? {}).at;
     return { words: svc.progress.wordsSince(pid, new Date(at).toISOString()) };
   });
+  // Suggestions that arrived inside her planning documents ("Here's a suggestion"): they wait beside the collaborator's.
+  app.get('/api/projects/:id/proposed-facts', async (req) => {
+    const pid = params(req, P).id; brain.project(pid);
+    return store.db.prepare(
+      `SELECT s.id, s.element_id, s.field, s.value_json, s.speaker_name, s.made_at, e.title AS element_title, e.kind AS element_kind
+       FROM statements s JOIN elements e ON e.id = s.element_id
+       WHERE s.project_id = ? AND s.status = 'proposed' AND s.deleted_at IS NULL AND s.superseded_by_id IS NULL AND e.deleted_at IS NULL
+       ORDER BY e.kind, e.title, s.made_at`,
+    ).all(pid).map((r: any) => ({ ...r, value: JSON.parse(r.value_json) }));
+  });
   app.get('/api/projects/:id/later', async (req) => { const pid = params(req, P).id; brain.project(pid); return ms.laterNotes(pid); });
   // A day she sets herself: a lighter day, a rest day (0), or a bigger one. null clears it.
   app.put('/api/projects/:id/day-goal', async (req) => {

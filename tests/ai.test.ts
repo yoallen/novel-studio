@@ -108,15 +108,21 @@ describe('the collaborator (R-A-089 to R-A-108)', () => {
     expect(r.reply.text).toContain('Two ideas.');
     expect(r.reply.text).toContain('One could not be saved.');
     const pending = env.brain.proposals(pid, 'pending');
-    expect(pending).toHaveLength(1);
-    expect(pending[0]!.target).toMatchObject({ elementId: kevinId, field: 'fear' });
-    expect(pending[0]!.turn_id).toBe(r.reply.id);
+    expect(pending).toHaveLength(2);
+    const fact = pending.find((p) => p.kind === 'statement')!;
+    expect(fact.target).toMatchObject({ elementId: kevinId, field: 'fear' });
+    expect(fact.turn_id).toBe(r.reply.id);
     const fear = env.brain.elementPage(kevinId).fields.find((f) => f.view.field === 'fear');
     expect(fear?.view.current ?? null).toBeNull();
     expect(fear?.view.latest ?? null).toBeNull();
+    // The question waits too: it is not one of her questions until she accepts it.
+    expect(env.brain.elements(pid, { kind: 'question' })).toHaveLength(0);
+    const ask = pending.find((p) => p.kind === 'element')!;
+    env.brain.acceptProposal(ask.id as string);
     const q = env.brain.elements(pid, { kind: 'question' });
     expect(q).toHaveLength(1);
-    expect(q[0]!.attrs_json).toContain('"suggested":true');
+    expect(q[0]!.title).toBe('Who taught Kevin to be useful?');
+    expect(env.brain.elementPage(q[0]!.id as string).links.length).toBe(1);
     const full = convs.full(c.id as string);
     expect((full.turns as { speaker_kind: string }[]).map((t) => t.speaker_kind)).toEqual(['author', 'assistant']);
   });

@@ -294,8 +294,10 @@ export class Collaborator {
     const reply = this.convs.addTurn(conversationId, { speaker_kind: 'assistant', speaker_name: 'Collaborator', text });
     for (const s of pending) {
       if (s.kind === 'question') {
-        const q = this.brain.createElement(pid, { kind: 'question', title: String((s.after as Record<string, string>).text).slice(0, 80), body: String((s.after as Record<string, string>).text), attrs: { origin: 'assistant', suggested: true, conversation_id: conversationId, turn_id: reply.id } });
-        if (s.target.aboutId) try { this.brain.link(pid, { fromId: q.id, toId: s.target.aboutId as string, relation: 'relates_to' }); } catch { /* the element may be gone */ }
+        // A question the collaborator raises is a suggestion like any other: it becomes one of her
+        // questions only when she accepts it.
+        const text = String((s.after as Record<string, string>).text);
+        this.brain.propose(pid, { origin: 'assistant', kind: 'element', target: { aboutId: s.target.aboutId ?? null }, after: { kind: 'question', title: text.slice(0, 80), body: text }, conversationId, turnId: reply.id as string });
       } else {
         this.brain.propose(pid, { origin: 'assistant', kind: s.kind, target: s.target, after: s.after, rationale: s.rationale, conversationId, turnId: reply.id as string });
       }
