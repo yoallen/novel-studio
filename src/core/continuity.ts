@@ -14,7 +14,7 @@ const partRank = (t: unknown) => { const s = String(t ?? '').toLowerCase(); cons
 const yes = (v: unknown) => /^(y|yes|true|significant|must)/i.test(String(v ?? '').trim());
 
 export class Continuity {
-  constructor(private store: Store, private brain: Brain, private ms: Manuscript, private structure: Structure, private ripple: Ripple) {}
+  constructor(private store: Store, private brain: Brain, private ms: Manuscript, readonly structure: Structure, private ripple: Ripple) {}
 
   private val(id: string, field: string) { return this.brain.field(id, field).current?.value ?? this.brain.field(id, field).latest?.value ?? null; }
   private title(id: string | null | undefined) { return id ? ((this.store.get('elements', id)?.title as string) ?? '') : ''; }

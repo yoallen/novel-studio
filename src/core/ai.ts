@@ -5,6 +5,7 @@
 // - It writes sample lines only when she asks, always labeled as an example (D-18).
 // - Nothing leaves her computer unless she has turned the collaborator on for this novel (R-A-108).
 
+import type { Structure } from './structure.js';
 import { localDay } from './goals.js';
 import { Store, Row, ValidationError, NotFoundError, nowIso } from './store.js';
 import { BRAND } from '../brand.js';
@@ -130,6 +131,9 @@ export class Collaborator {
         lines.push(`    ${s.field} [${label(s.status as string)}${who}${q.timing ? `, timing: ${q.timing}` : ''}]: ${String(JSON.parse(s.value_json as string) ?? '(open)').slice(0, 500)}`);
       }
     }
+    // Her beat sheet: every beat in order, what she has written for it, and the scene cards placed there,
+    // so "I'm on beat three" means her Setup, not the Setup in general.
+    lines.push(...this.beatSheet(projectId, rows, label));
     const guards = this.brain.elements(projectId, { kind: 'guardrail' });
     if (guards.length) {
       lines.push('', 'GUARDRAILS (never break these; if a suggestion would, say so):');
@@ -142,6 +146,14 @@ export class Collaborator {
     if (focusElementId) {
       const page = this.brain.elementPage(focusElementId);
       lines.push('', `FOCUS: ${page.element.kind} "${page.element.title}" [${focusElementId}]`);
+      // Everything on the record she asked about, including beats and cards, which the list above leaves out.
+      const own = rows.filter((r) => r.element_id === focusElementId);
+      if (page.element.body) lines.push(`  notes: ${String(page.element.body).slice(0, 1500)}`);
+      for (const r of own) lines.push(`  ${r.field} [${label(r.status as string)}]: ${String(JSON.parse(r.value_json as string) ?? '(open)').slice(0, 1500)}`);
+      if (page.element.kind === 'beat') {
+        const d = this.continuity.structure.beatDetail(focusElementId);
+        if (d.def) lines.push(`  What this beat is (${d.template.replace(/_/g, ' ')}): ${JSON.stringify(d.def).slice(0, 1500)}`);
+      }
     }
     if (sceneId) {
       const s = this.ms.scene(sceneId);
@@ -150,6 +162,31 @@ export class Collaborator {
       else lines.push('(The author has not chosen to share manuscript prose with the collaborator.)');
     }
     return lines.join('\n');
+  }
+
+  /** The novel's beat sheet in order, with her own words on each beat and the cards placed there. */
+  private beatSheet(projectId: string, rows: Row[], label: (s: string) => string): string[] {
+    let beats: ReturnType<Structure['beats']>;
+    try { beats = this.continuity.structure.beats(projectId); } catch { return []; }
+    if (!beats.length) return [];
+    const cards = this.brain.elements(projectId, { kind: 'scene_plan' }).concat(this.brain.elements(projectId, { kind: 'event' }));
+    const placed = new Map<string, { decided: string[]; maybe: string[] }>();
+    for (const c of cards) {
+      const pm = this.continuity.structure.placements(c.id as string);
+      if (pm.decided) { const e = placed.get(pm.decided.beatId) ?? { decided: [], maybe: [] }; e.decided.push(c.title as string); placed.set(pm.decided.beatId, e); }
+      for (const m of pm.candidates) { const e = placed.get(m.beatId) ?? { decided: [], maybe: [] }; e.maybe.push(c.title as string); placed.set(m.beatId, e); }
+    }
+    const out = ['', `BEAT SHEET (${String(this.continuity.structure.spine(projectId) ?? '').replace(/_/g, ' ')}), in order, with the author's own words on each beat and the scene cards placed there:`];
+    beats.forEach((b, i) => {
+      const id = b.element.id as string;
+      out.push(`${i + 1}. [${id}] ${b.element.title}${b.act ? ` (act ${b.act})` : ''}${b.element.reserved ? ` (kept for the author: ${b.element.reserved})` : ''}`);
+      if (b.element.body) out.push(`    notes: ${String(b.element.body).slice(0, 600)}`);
+      for (const r of rows.filter((x) => x.element_id === id)) out.push(`    ${r.field} [${label(r.status as string)}]: ${String(JSON.parse(r.value_json as string) ?? '(open)').slice(0, 600)}`);
+      const p = placed.get(id);
+      if (p?.decided.length) out.push(`    scenes placed here: ${p.decided.join('; ')}`);
+      if (p?.maybe.length) out.push(`    scenes that might go here: ${p.maybe.join('; ')}`);
+    });
+    return out;
   }
 
   private system(projectId: string, mode: Mode, drafting: boolean) {
