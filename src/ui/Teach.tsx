@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { TEACH, NEED_WORDS, teachField } from './teach';
 import { LearnMore } from './Help';
 
+/** The heading already says "The common mistake", so the sentence need not say it again. */
+const mistake = (m: string) => { const t = m.replace(/^the (common|usual) mistake (is|here is)\s*/i, ''); return t.charAt(0).toUpperCase() + t.slice(1); };
+
 // Teaching beside the work. A small "What is this?" under a field label opens what the field is,
 // why it matters, whether most books need it, the common mistake, and an example. Nothing opens
 // on its own, so the page stays calm once she knows her way around.
@@ -16,7 +19,7 @@ export function FieldTeach({ kind, field, hint }: { kind: string; field: string;
       {open && (
         <div className="teach-body">
           <p><span className="teach-need" data-need={t.need}>{NEED_WORDS[t.need]}</span> {t.why}</p>
-          {t.mistake && <p><strong>The common mistake.</strong> {t.mistake}</p>}
+          {t.mistake && <p><strong>The common mistake.</strong> {mistake(t.mistake)}</p>}
           {t.example && <p><strong>Example.</strong> {t.example}</p>}
         </div>
       )}
@@ -38,7 +41,7 @@ export function KindTeach({ kind, label, helpAnchor }: { kind: string; label: st
         <div className="teach-body">
           <p>{a.what} {a.why}</p>
           {a.when && <p><strong>When to use it.</strong> {a.when}</p>}
-          {a.mistake && <p><strong>The common mistake.</strong> {a.mistake}</p>}
+          {a.mistake && <p><strong>The common mistake.</strong> {mistake(a.mistake)}</p>}
           {a.example && <p><strong>Example.</strong> {a.example}</p>}
           {helpAnchor && <p><LearnMore to={helpAnchor}>Read the full chapter in Help</LearnMore></p>}
         </div>
