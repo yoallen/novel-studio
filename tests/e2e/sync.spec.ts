@@ -104,3 +104,32 @@ test('when both computers changed a novel, she chooses the main version and the 
     rmSync(shared, { recursive: true, force: true }); rmSync(surfaceDir, { recursive: true, force: true });
   }
 });
+
+// A note dictated on her phone into the novel's notes file arrives in Capture, once.
+test('notes from the road arrive from the shared folder', async ({ page }) => {
+  const shared = mkdtempSync(join(tmpdir(), 'onedrive-notes-'));
+  const views = page.getByRole('navigation', { name: 'Views' });
+  try {
+    await newNovel(page, 'Road Book');
+    await views.getByRole('button', { name: 'Settings' }).click();
+    const sync = page.getByRole('region', { name: 'Your other computers' });
+    await sync.getByLabel('Call this computer').fill('Laptop');
+    await sync.getByRole('textbox', { name: 'Shared folder' }).fill(shared);
+    await sync.getByRole('button', { name: 'Share through this folder' }).click();
+    const road = sync.getByRole('region', { name: 'Notes from the road' });
+    await expect(road).toContainText(join(shared, 'Story Canon notes', 'Road Book.docx'));
+    const { writeFileSync, unlinkSync, existsSync } = await import('node:fs');
+    const docx = join(shared, 'Story Canon notes', 'Road Book.docx');
+    expect(existsSync(docx)).toBe(true);
+    // Her phone has no Word: a text file of the same name works too.
+    unlinkSync(docx);
+    writeFileSync(join(shared, 'Story Canon notes', 'Road Book.txt'), 'Francine names every tomato plant.\n');
+    await page.reload();
+    await expect(page.getByRole('status').filter({ hasText: 'A note from the road came in' })).toBeVisible({ timeout: 15_000 });
+    await views.getByRole('button', { name: 'Where was I' }).click();
+    await expect(page.getByText('Francine names every tomato plant.')).toBeVisible();
+    await page.reload();
+    await views.getByRole('button', { name: 'Where was I' }).click();
+    await expect(page.getByText('Francine names every tomato plant.')).toHaveCount(1);
+  } finally { rmSync(shared, { recursive: true, force: true }); }
+});

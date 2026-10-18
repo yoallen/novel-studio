@@ -3,6 +3,7 @@
 // so a crash never loses more than a moment of typing.
 
 import { settingsOf } from './settings.js';
+import { withoutLater, laterIn } from './later.js';
 import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId, latestRevisionId, restoreSceneRevision } from './store.js';
 
 const EMPTY_DOC = '{"type":"doc","content":[]}';
@@ -11,7 +12,8 @@ export const SCENE_STATUSES = ['idea', 'planned', 'ready', 'drafting', 'first_dr
 
 /** Count words the way writers expect: sequences of letters/digits, joined by apostrophes or hyphens. */
 export function countWords(text: string): number {
-  const m = text.match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu);
+  // Notes left for later, [[like this]], are not story words.
+  const m = withoutLater(text).match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu);
   return m ? m.length : 0;
 }
 
@@ -350,6 +352,50 @@ export class Manuscript {
       });
       return withFields(c, { number: ci + 1, scenes: cs, word_count: cs.reduce((a, s) => a + s.word_count, 0) });
     });
+  }
+
+  /** Once, after notes for later arrived: recount any text that already held double brackets, so
+   *  old saved versions and new ones count the same way and no day shows words cut that never were. */
+  recountLater(wait: (projectId: string) => boolean = () => false) {
+    const done = this.store.db.prepare("SELECT 1 FROM settings WHERE key='recount_later_v1'").get();
+    if (done) return 0;
+    let n = 0, left = false;
+    this.store.db.transaction(() => {
+      const rows = this.store.db.prepare(
+        `SELECT 'scenes' AS t, rowid AS r, project_id AS p, text, word_count FROM scenes WHERE text LIKE '%[[%'
+         UNION ALL SELECT 'scene_revisions', r.rowid, s.project_id, r.text, r.word_count FROM scene_revisions r JOIN scenes s ON s.id = r.scene_id WHERE r.text LIKE '%[[%'`,
+      ).all() as { t: 'scenes' | 'scene_revisions'; r: number; p: string; text: string; word_count: number }[];
+      const waiting = new Map<string, boolean>();
+      for (const row of rows) {
+        if (!waiting.has(row.p)) waiting.set(row.p, wait(row.p));
+        if (waiting.get(row.p)) { left = true; continue; }
+        const w = countWords(row.text);
+        if (w !== row.word_count) { this.store.db.prepare(`UPDATE ${row.t} SET word_count=? WHERE rowid=?`).run(w, row.r); n++; }
+      }
+      if (!left) this.store.db.prepare("INSERT INTO settings(key,value_json) VALUES ('recount_later_v1','true') ON CONFLICT(key) DO NOTHING").run();
+    })();
+    return n;
+  }
+
+  /** Every note left in the page for later, [[like this]], in manuscript order. */
+  laterNotes(projectId: string) {
+    const out: { sceneId: string; sceneTitle: string; chapterTitle: string; chapterNumber: number; note: string; raw: string; nth: number; before: string }[] = [];
+    const texts = new Map((this.store.db.prepare("SELECT id, text FROM scenes WHERE project_id=? AND deleted_at IS NULL AND text LIKE '%[[%'").all(projectId) as { id: string; text: string }[]).map((r) => [r.id, r.text]));
+    if (!texts.size) return out;
+    for (const c of this.outline(projectId)) {
+      for (const s of c.scenes as Row[]) {
+        const text = texts.get(s.id as string);
+        if (!text) continue;
+        const seen = new Map<string, number>();
+        for (const n of laterIn(text)) {
+          const nth = seen.get(n.raw) ?? 0; seen.set(n.raw, nth + 1);
+          // A few words before the note, so the list shows where it sits.
+          const lead = text.slice(Math.max(0, n.at - 80), n.at).replace(/\s+/g, ' ');
+          out.push({ sceneId: s.id as string, sceneTitle: s.title as string, chapterTitle: c.title as string, chapterNumber: c.number as number, note: n.note, raw: n.raw, nth, before: lead.length >= 80 ? '…' + lead.trimStart().replace(/^\S*\s/, '') : lead });
+        }
+      }
+    }
+    return out;
   }
 
   totalWords(projectId: string): number {

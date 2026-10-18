@@ -111,6 +111,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       nextWritingAction: z.string().max(500).optional(),
       watchWords: z.array(z.string().min(1).max(40)).max(100).optional(),
       importLabels: z.array(z.object({ label: z.string().min(1).max(80), status: z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']) })).max(80).optional(),
+      doorClosedUntil: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),
     }).strict());
     return brain.updateSettings(params(req, P).id, b);
   });
@@ -280,6 +281,21 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const pid = params(req, P).id; brain.project(pid);
     const tz = z.object({ tz: z.string().max(64).optional() }).parse(req.query ?? {}).tz;
     return svc.progress.progress(pid, { tz });
+  });
+  app.get('/api/projects/:id/words-since', async (req) => {
+    const pid = params(req, P).id; brain.project(pid);
+    const at = z.object({ at: z.string().datetime() }).parse(req.query ?? {}).at;
+    return { words: svc.progress.wordsSince(pid, new Date(at).toISOString()) };
+  });
+  app.get('/api/projects/:id/later', async (req) => { const pid = params(req, P).id; brain.project(pid); return ms.laterNotes(pid); });
+  // A day she sets herself: a lighter day, a rest day (0), or a bigger one. null clears it.
+  app.put('/api/projects/:id/day-goal', async (req) => {
+    const b = body(req, z.object({ day: z.string().regex(/^\d{4}-\d{2}-\d{2}$/), words: z.number().int().min(0).max(100_000).nullable() }));
+    const pid = params(req, P).id;
+    const cur = brain.settings(pid) as { dayGoals: Record<string, number> };
+    const dayGoals = { ...cur.dayGoals };
+    if (b.words == null) delete dayGoals[b.day]; else dayGoals[b.day] = b.words;
+    return brain.updateSettings(pid, { dayGoals });
   });
   app.get('/api/projects/:id/trail', async (req) => { const pid = params(req, P).id; brain.project(pid); return ms.trail(pid); });
   app.post('/api/trail/:id/resolve', async (req) => {
@@ -533,7 +549,22 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   });
   app.delete('/api/sync', async () => { svc.sync.turnOff(); return { off: true }; });
   app.put('/api/sync/ask', async (req) => { svc.sync.setAsking(body(req, z.object({ ask: z.boolean() })).ask); return { ask: svc.sync.asking() }; });
-  app.post('/api/sync/here', async (req) => { const b = body(req, z.object({ projectId: id.nullable() })); svc.hereNow(b.projectId); return svc.sync.status(b.projectId); });
+  app.post('/api/sync/here', async (req) => {
+    const b = body(req, z.object({ projectId: id.nullable() }));
+    svc.hereNow(b.projectId);
+    if (svc.sync.config()) await svc.sync.presenceFromWindow(b.projectId);
+    const st = await svc.sync.status(b.projectId) as Record<string, any>;
+    // Notes from the road come in only when this computer has the latest version: adding them on
+    // top of an older one would make the two computers disagree.
+    let notesIn = 0;
+    if (b.projectId && st.on && !st.incoming && !st.diverged && svc.sync.notesTurn(b.projectId)) {
+      try { notesIn = (await svc.roadNotes.check(b.projectId)).added; } catch { /* the folder may be offline; try next time */ }
+      // Share at once, so the other computer learns these notes are in within seconds, not minutes.
+      if (notesIn) void svc.sync.share(b.projectId).catch(() => {});
+    }
+    return { ...st, notesIn };
+  });
+  app.get('/api/projects/:id/road-notes', async (req) => { const pid = params(req, P).id; brain.project(pid); return (await svc.roadNotes.ensure(pid)) ?? { path: null }; });
   app.post('/api/sync/share', async () => svc.sync.pass({ shareChanged: true, take: false }));
   app.post('/api/projects/:id/sync/take', async (req) => svc.sync.takeIncoming(params(req, P).id));
   app.post('/api/projects/:id/sync/resolve', async (req) => { const b = body(req, z.object({ keep: z.enum(['mine', 'theirs']), file: z.string().max(200).optional() })); return svc.sync.resolve(params(req, P).id, b.keep, b.file); });

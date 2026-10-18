@@ -5,6 +5,7 @@
 // - It writes sample lines only when she asks, always labeled as an example (D-18).
 // - Nothing leaves her computer unless she has turned the collaborator on for this novel (R-A-108).
 
+import { localDay } from './goals.js';
 import { Store, Row, ValidationError, NotFoundError, nowIso } from './store.js';
 import { BRAND } from '../brand.js';
 import { Brain } from './brain.js';
@@ -153,7 +154,9 @@ export class Collaborator {
 
   private system(projectId: string, mode: Mode, drafting: boolean) {
     const st = settingsOf(this.brain.project(projectId).profile);
-    const level = drafting ? st.guidanceWhileDrafting : st.guidanceWhilePlanning;
+    // Door closed: while drafting, the collaborator keeps problems to itself unless asked.
+    const shut = drafting && !!st.doorClosedUntil && localDay() <= st.doorClosedUntil;
+    const level = shut ? 'quiet' : drafting ? st.guidanceWhileDrafting : st.guidanceWhilePlanning;
     const about = (() => { const r = this.store.db.prepare("SELECT value_json FROM settings WHERE key='author_profile'").get() as Row | undefined; return ((r ? JSON.parse(r.value_json as string) : {}).about ?? {}) as Record<string, string>; })();
     const name = about.name || st.authorName || 'the author';
     const aboutLines = [
@@ -183,6 +186,7 @@ export class Collaborator {
       '- Craft resources: titles and authors only, never chapter or page numbers, never invented citations. Start with the author’s own shelf: ' + myShelf(this.store).map((b) => `${b.title}${b.author ? `, ${b.author}` : ''}${b.useFor ? ` (she uses it for: ${b.useFor})` : ''}`).join('; ') + '.',
       '- Plain, warm language. No em dashes. Short paragraphs. One useful question at most.',
       `Guidance level: ${GUIDANCE_TEXT[level as keyof typeof GUIDANCE_TEXT] ?? GUIDANCE_TEXT.advisory}`,
+      ...(shut ? ['The author is drafting with the door closed: getting the story down, not getting it right. Do not point out problems, inconsistencies or weaknesses in the draft unless the author asks for them by name. Help them keep moving.'] : []),
       `Mode: ${MODE_TEXT[mode]}`,
     ].join('\n');
   }

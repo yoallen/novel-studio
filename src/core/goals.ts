@@ -15,3 +15,13 @@ export function dailyGoalOn(st: Pick<ProjectSettings, 'goal' | 'push'>, day: str
   if (pace) return pace;
   return st.goal?.type === 'words' && st.goal.target ? st.goal.target : null;
 }
+
+/** Today on this computer, YYYY-MM-DD. */
+export function localDay(at = new Date()): string {
+  return `${at.getFullYear()}-${String(at.getMonth() + 1).padStart(2, '0')}-${String(at.getDate()).padStart(2, '0')}`;
+}
+
+/** Door closed: through the day she chose, nothing judges the draft. */
+export function doorClosed(st: { doorClosedUntil?: string | null } | null | undefined, today = localDay()): boolean {
+  return !!st?.doorClosedUntil && today <= st.doorClosedUntil;
+}

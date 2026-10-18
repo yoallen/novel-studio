@@ -3,6 +3,7 @@ import { api } from './api';
 import type { Ctx } from './App';
 import { DraftingProgress } from './Progress';
 import { SeedStart } from './SeedStart';
+import { LaterList } from './LaterList';
 
 // "Where was I?" (R-B-018) with the Next Writing Action as the one thing that stands out (R-B-015).
 export function Home({ ctx }: { ctx: Ctx }) {
@@ -11,8 +12,13 @@ export function Home({ ctx }: { ctx: Ctx }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    Promise.all([api.get(`/api/projects/${ctx.projectId}/where-was-i`), api.get(`/api/projects/${ctx.projectId}/this-week`)])
+    const load = () => Promise.all([api.get(`/api/projects/${ctx.projectId}/where-was-i`), api.get(`/api/projects/${ctx.projectId}/this-week`)])
       .then(([a, b]) => { setW(a); setWeek(b); }).catch((e) => setError(e.message));
+    void load();
+    // Notes from the road can arrive while this page is open.
+    const f = () => void load();
+    window.addEventListener('ns-captured', f);
+    return () => window.removeEventListener('ns-captured', f);
   }, [ctx.projectId]);
 
   async function write() {
@@ -65,6 +71,8 @@ export function Home({ ctx }: { ctx: Ctx }) {
           {w.lastScene.tail ? <blockquote className="tail">{w.lastScene.tail}</blockquote> : <p className="muted">This scene is still blank.</p>}
         </section>
       )}
+
+      <LaterList ctx={ctx} limit={8} />
 
       <div className="cols">
         <section>

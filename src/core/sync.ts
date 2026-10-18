@@ -283,7 +283,7 @@ export class Sync {
   }
 
   /** One pass: take in newer work for novels she has not opened this session, bring versions kept beside, share what changed. */
-  pass(opts: { protect?: Set<string> | string | null; shareChanged: boolean; take?: boolean }) {
+  pass(opts: { protect?: Set<string> | string | null; shareChanged: boolean; take?: boolean; open?: string | null }) {
     return this.exclusive(async () => {
       const out = { shared: [] as string[], took: [] as string[], diverged: [] as string[] };
       if (!this.config()) return out;
@@ -318,7 +318,7 @@ export class Sync {
         for (const pid of (this.store.db.prepare('SELECT id FROM projects').all() as { id: string }[]).map((r) => r.id)) {
           try { if (this.shareNow(pid).shared) out.shared.push(pid); } catch { /* tried again next pass */ }
         }
-        try { this.presenceNow(protect.size ? [...protect][protect.size - 1]! : null); } catch { /* the folder may be offline */ }
+        try { this.presenceNow(opts.open !== undefined ? opts.open : protect.size ? [...protect][protect.size - 1]! : null); } catch { /* the folder may be offline */ }
       }
       return out;
     });
@@ -334,6 +334,13 @@ export class Sync {
     writeFileSync(`${f}.part`, JSON.stringify(p)); renameSync(`${f}.part`, f);
   }
   presence(open: string | null) { return this.exclusive(() => this.presenceNow(open)); }
+  private lastPresence = { at: 0, open: null as string | null };
+  /** From the window's heartbeat: say which novel is open now, at most once a minute unless it changed. */
+  presenceFromWindow(open: string | null) {
+    if (open === this.lastPresence.open && Date.now() - this.lastPresence.at < 60_000) return Promise.resolve();
+    this.lastPresence = { at: Date.now(), open };
+    return this.presence(open).catch(() => {});
+  }
   others(): (Presence & { id: string })[] {
     const cfg = this.config(); const root = this.root(); if (!cfg || !root) return [];
     const dir = join(root, 'computers');
@@ -342,6 +349,14 @@ export class Sync {
     return names.filter((f) => f.endsWith('.json') && f !== `${cfg.device.id}.json`).flatMap((f) => {
       try { return [{ ...(JSON.parse(readFileSync(join(dir, f), 'utf8')) as Presence), id: f.slice(0, -5) }]; } catch { return []; }
     });
+  }
+
+  /** Notes from the road are brought in by one computer only: when two have the novel open, the one
+   *  with the lower id takes the turn, so the same note can never come in on both. */
+  notesTurn(pid: string): boolean {
+    const cfg = this.config(); if (!cfg) return false;
+    const recent = (o: Presence) => Date.now() - Date.parse(o.lastSeen) < 4 * 60_000; // presence is written at least once a minute while the window is open
+    return !this.others().some((o) => o.open === pid && recent(o) && o.id < cfg.device.id);
   }
 
   /** Novels shared from another computer that are not in this library yet. */

@@ -1,3 +1,4 @@
+import { DoorNote } from './Door';
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -74,10 +75,10 @@ export function NarrativeZoom({ ctx, request }: { ctx: Ctx; request: ZoomRequest
       {tab === 'storylines' && <Storylines ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n); }} />}
       {tab === 'cast' && <Cast ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n as never); }} />}
       {tab === 'pacing' && <Pacing ctx={ctx} tick={tick} />}
-      {tab === 'names' && <Names ctx={ctx} tick={tick} />}
+      {tab === 'names' && <DoorNote ctx={ctx} what="possible misspellings of names"><Names ctx={ctx} tick={tick} /></DoorNote>}
       {tab === 'reader' && <ReaderMap ctx={ctx} tick={tick} />}
       {tab === 'soundtrack' && <Soundtrack ctx={ctx} tick={tick} />}
-      {tab === 'review' && <Review ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n); }} />}
+      {tab === 'review' && <DoorNote ctx={ctx} what="the story review"><Review ctx={ctx} tick={tick} onOpen={(n) => { setTab('zoom'); go(n); }} /></DoorNote>}
       {move && <MoveDialog ctx={ctx} move={move} onClose={() => setMove(null)} onDone={() => { setMove(null); refresh(); }} />}
     </div></div>
   );

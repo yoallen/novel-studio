@@ -3,6 +3,7 @@ import { api } from './api';
 import type { Ctx } from './App';
 import { RevisionsDialog } from './RevisionsDialog';
 import { flushEditor } from './flush';
+import { LaterList } from './LaterList';
 
 // The scene's plan beside the page. Readiness is information, never a gate (R-B-014).
 // Questions and ideas attached to this scene resurface here and nowhere else (R-B-020).
@@ -35,6 +36,7 @@ export function ScenePanel({ ctx, sceneId, onChanged, onReloadPage }: { ctx: Ctx
     <div>
       {error && <div className="notice error" role="alert">{error}</div>}
       <h2 style={{ fontSize: '1.125rem' }}>Scene plan</h2>
+      <LaterList ctx={ctx} sceneId={sceneId} />
 
       <label className="field"><span>Status</span>
         <select value={c.scene.status} onChange={(e) => void patchScene({ status: e.target.value })}>

@@ -3,6 +3,7 @@ import { api } from './api';
 import type { Ctx } from './App';
 import { currentEditor, onEditorChange, selectRange, textMap } from './flush';
 import { echoes, watch, longSentences, DEFAULT_WATCH_WORDS } from '../core/revise';
+import { DoorNote } from './Door';
 
 // Read it back: hear the page, and see echoes, watch words and long sentences. It points; it never changes a word.
 export function ReadBack({ ctx }: { ctx: Ctx }) {
@@ -50,6 +51,7 @@ export function ReadBack({ ctx }: { ctx: Ctx }) {
     <div className="readback">
       <h2 className="small" style={{ marginTop: 0 }}>Read it back</h2>
       <ReadAloud text={text} />
+      <DoorNote ctx={ctx} what="echoes, watch words and long sentences">
       <section className="section" aria-label="Echoes">
         <h3 className="small">Echoes</h3>
         <p className="small muted">The same word close together. Sometimes that is rhythm; sometimes it is an echo. Click to step through them.</p>
@@ -77,6 +79,7 @@ export function ReadBack({ ctx }: { ctx: Ctx }) {
           <button key={i} className="btn link small" style={{ display: 'block', textAlign: 'left' }} onClick={() => selectRange(l.range[0], l.range[1])}>{l.words} words: {l.preview}…</button>
         ))}
       </section>
+      </DoorNote>
     </div>
   );
 }
