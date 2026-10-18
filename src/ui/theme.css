@@ -611,3 +611,24 @@ section[aria-label='Who is together'], section[aria-label='Groups that keep meet
 .review-empty { margin: 1rem 0; }
 .review-empty p:first-child { margin-bottom: 0.25rem; }
 .inline-names .btn.link { padding: 0; }
+/* Conversations, harvest, import and export: room to breathe between messages and sections. */
+.conversation .section.turn { padding-top: 1.1rem; margin-top: 1.1rem; }
+.conversation .section.turn.continued { border-top: 0; padding-top: 0; margin-top: 0.6rem; }
+.conversation .section.turn.behind { opacity: 0.6; }
+.conversation .turn-who { letter-spacing: 0.01em; }
+.conversation .turn-when { color: var(--faint, var(--muted)); }
+.conversation .turn-heading { font-weight: 700; margin: 0.4rem 0 0.2rem 0.85rem; }
+.conversation .ask-form, .conversation form.section { margin-top: 2rem; padding-top: 1.25rem; }
+.conversation .ask-form h2 { margin-top: 0; }
+.conversation .ask-modes { gap: 0.4rem 1.5rem; margin-bottom: 1rem; }
+.conversation .ask-presets { margin-bottom: 0.75rem; row-gap: 0.25rem; }
+.harvest-what { max-width: 65ch; line-height: 1.6; margin: 1rem 0 0.5rem; }
+.harvest .harvest-section { margin-top: 2rem; padding-top: 1.1rem; }
+.harvest .harvest-about { max-width: 65ch; margin: -0.2rem 0 0.6rem; }
+.harvest .harvest-done { margin-top: 2.5rem; }
+.saved-where { margin-top: 0.4rem; }
+.saved-where .path { word-break: break-all; }
+.chapter-pick { border: 0; padding: 0 0 0 1.6rem; margin: 0.3rem 0 0; max-height: 220px; overflow: auto; }
+.chapter-pick legend { padding: 0; margin-bottom: 0.2rem; }
+.field > small { display: block; margin-top: 0.3rem; font-size: 0.85rem; line-height: 1.4; }
+.export-cols { margin-top: 2rem; }

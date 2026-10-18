@@ -14,6 +14,7 @@ import { join } from 'node:path';
 import { buildApp } from '../src/server/app.js';
 import { exportArchive } from '../src/core/backup.js';
 import type { Status } from '../src/core/brain.js';
+import { exportHeaders } from '../src/core/conversations.js';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const SRC = join(ROOT, 'seed/idw/sources');
@@ -92,7 +93,7 @@ async function main() {
   // The same header pattern the conversation reader uses, so line numbers and turns line up exactly.
   const norm = transcriptRaw.replace(/\r\n?/g, '\n');
   const lineAt = (ix: number) => norm.slice(0, ix).split('\n').length;
-  const headerLines = [...norm.matchAll(/^###\s+([^|\n]+?)\s*\|\s*([^|\n]*?)\s*\|\s*([^\n]*)$/gm)].map((m) => lineAt(m.index!));
+  const headerLines = exportHeaders(norm).map((m) => lineAt(m.index!));
   if (headerLines.length !== conv.turnsStored) throw new Error(`Turn count mismatch: ${headerLines.length} headers, ${conv.turnsStored} turns.`);
   const turnRows = store.db.prepare('SELECT id, position, said_at FROM turns WHERE conversation_id=? ORDER BY position').all(conv.conversation.id) as { id: string; position: number; said_at: string }[];
   const turnAt = (line: number) => { let k = -1; for (let i = 0; i < headerLines.length && headerLines[i]! <= line; i++) k = i; return k >= 0 ? turnRows[k]! : null; };

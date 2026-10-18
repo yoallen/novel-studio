@@ -4,6 +4,7 @@
 
 import { Store, Row, withFields, NotFoundError, ValidationError, newId, nowIso } from './store.js';
 import { Brain } from './brain.js';
+import { turnRole, speakerLabel } from './io/chat-exports.js';
 
 export interface ParsedTurn { speaker_kind: 'author' | 'assistant' | 'source'; speaker_name: string; text: string; said_at: string | null }
 
@@ -19,8 +20,7 @@ export function parseConversation(raw: string, authorName = ''): { turns: Parsed
   const isAuthor = (name: string) => AUTHOR_NAMES.test(name.trim()) || (!!authorName && name.trim().toLowerCase() === authorName.trim().toLowerCase());
 
   // 1. Export headers.
-  const hdr = /^###\s+([^|\n]+?)\s*\|\s*([^|\n]*?)\s*\|\s*([^\n]*)$/gm;
-  const heads = [...text.matchAll(hdr)];
+  const heads = exportHeaders(text);
   if (heads.length >= 1) {
     const turns: ParsedTurn[] = [];
     heads.forEach((m, i) => {
@@ -62,6 +62,17 @@ export function parseConversation(raw: string, authorName = ''): { turns: Parsed
   }
 
   return { turns: [{ speaker_kind: 'source', speaker_name: 'Pasted text', text: text.replace(/^\n+|\n+$/g, ''), said_at: null }], format: 'single block' };
+}
+
+/**
+ * The "### NAME | when | type" header lines of a saved transcript. A header sits on one line. When the
+ * transcript dates its headers, only dated ones count, so a "### heading" followed by a table inside a
+ * message is never read as a new speaker.
+ */
+export function exportHeaders(text: string): RegExpMatchArray[] {
+  const all = [...text.matchAll(/^###[ \t]+([^|\n]+?)[ \t]*\|[ \t]*([^|\n]*?)[ \t]*\|[ \t]*([^\n]*)$/gm)];
+  const dated = all.filter((m) => /\d{4}-\d{2}-\d{2}/.test(m[2]!));
+  return dated.length ? dated : all;
 }
 
 function parseWhen(s: string): string | null {
@@ -116,7 +127,7 @@ export class Conversations {
     const stored = this.store.db.prepare('SELECT COUNT(*) AS n, COALESCE(SUM(LENGTH(text)),0) AS chars FROM turns WHERE conversation_id=?').get(conv.id) as { n: number; chars: number };
     // SQLite counts characters (code points); JavaScript counts UTF-16 units. Count the same way so an emoji never reads as loss.
     const expectedChars = turns.reduce((a, t) => a + [...t.text].length, 0);
-    return { conversation: this.get(conv.id), format, turnsFound: turns.length, turnsStored: stored.n, charactersKept: stored.chars, complete: stored.n === turns.length && stored.chars === expectedChars, byAuthor: turns.filter((t) => t.speaker_kind === 'author').length };
+    return { conversation: this.get(conv.id), format, turnsFound: turns.length, turnsStored: stored.n, charactersKept: stored.chars, complete: stored.n === turns.length && stored.chars === expectedChars, byAuthor: turns.filter((t) => t.speaker_kind === 'author').length, behindTheScenes: turns.filter((t) => turnRole(t) === 'behind').length };
   }
 
   get(id: string) {
@@ -125,11 +136,19 @@ export class Conversations {
     return c;
   }
 
+  /** Every conversation, with how many real messages it holds (behind-the-scenes steps are kept but not counted as messages). */
   list(projectId: string) {
-    return this.store.db.prepare(
-      `SELECT c.*, (SELECT COUNT(*) FROM turns t WHERE t.conversation_id=c.id) AS turn_count, (SELECT COUNT(*) FROM marks m WHERE m.conversation_id=c.id AND m.deleted_at IS NULL) AS mark_count
+    const rows = this.store.db.prepare(
+      `SELECT c.*, (SELECT COUNT(*) FROM marks m WHERE m.conversation_id=c.id AND m.deleted_at IS NULL) AS mark_count
        FROM conversations c WHERE c.project_id=? AND c.deleted_at IS NULL ORDER BY c.started_at DESC`,
     ).all(projectId) as Row[];
+    const counts = new Map<string, number>();
+    const speakers = this.store.db.prepare(
+      `SELECT t.conversation_id, t.speaker_kind, t.speaker_name, COUNT(*) AS n FROM turns t JOIN conversations c ON c.id=t.conversation_id
+       WHERE c.project_id=? AND c.deleted_at IS NULL GROUP BY t.conversation_id, t.speaker_kind, t.speaker_name`,
+    ).all(projectId) as { conversation_id: string; speaker_kind: string; speaker_name: string; n: number }[];
+    for (const r of speakers) if (turnRole(r) === 'talk') counts.set(r.conversation_id, (counts.get(r.conversation_id) ?? 0) + r.n);
+    return rows.map((c) => withFields(c, { turn_count: counts.get(c.id as string) ?? 0 }));
   }
 
   full(id: string) {
@@ -219,10 +238,13 @@ export class Conversations {
     const implicated = [...linkedIds].map((id) => this.store.get('elements', id)).filter((e) => e && !e.deleted_at && !created.some((c) => c.id === e.id)).map((e) => ({ id: e!.id, title: e!.title, kind: e!.kind }));
     const pending = this.store.db.prepare("SELECT id FROM proposals WHERE conversation_id=? AND status='pending'").all(conversationId) as Row[];
     return {
-      conversation, turnCount: turns.length,
-      speakers: [...new Set(turns.map((t) => `${t.speaker_name || t.speaker_kind}`))],
+      // Real messages and real speakers only: behind-the-scenes steps and misread headings are not people.
+      conversation, turnCount: turns.filter((t) => turnRole(t) === 'talk').length,
+      speakers: [...new Set(turns.filter((t) => turnRole(t) === 'talk').map((t) => speakerLabel(t.speaker_name as string) || (t.speaker_kind === 'author' ? 'You' : t.speaker_kind === 'assistant' ? 'the collaborator' : 'a source')))],
       kept: byKind('keep'), possibilities: byKind('possibility'), questions: byKind('question'), ideas: byKind('idea'), notCanon: byKind('not_canon'),
       statements, created: created.map((c) => ({ ...c, attrs: JSON.parse(c.attrs_json as string) as Record<string, unknown> })), implicated,
+      // Questions the collaborator raised while you talked: they wait in Questions and ideas until you adopt them.
+      raised: created.filter((c) => c.kind === 'question' && c.state !== 'not_relevant' && !marks.some((m) => m.element_id === c.id) && (JSON.parse(c.attrs_json as string) as Record<string, unknown>).suggested === true).map((c) => ({ id: c.id, text: (c.body as string) || (c.title as string) })),
       pendingSuggestions: pending.map((p) => this.brain.proposal(p.id as string)),
       decidedNothingForYou: statements.every((s) => s.status !== 'established' || s.speaker_kind === 'author'),
     };

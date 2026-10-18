@@ -324,8 +324,18 @@ export async function verify(format: ExportFormat, data: Buffer, book: Book) {
   return {
     ok, chaptersExpected: book.chapters.length, chaptersFound: found, wordsExpected, wordsFound: ok ? wordsExpected : words(text),
     missing,
-    note: ok ? `Checked: all ${book.chapters.length} chapter${book.chapters.length === 1 ? '' : 's'}${book.extras.length ? ` and ${book.extras.length} section${book.extras.length === 1 ? '' : 's'}` : ''} are in the file, in order, word for word.` : `Not confirmed. Missing or different: ${missing.slice(0, 5).join('; ')}.`,
+    note: ok ? checkedNote(book.chapters.length, book.extras.length) : `Not confirmed. Missing or different: ${missing.slice(0, 5).join('; ')}.`,
   };
+}
+
+/** The sentence after a file is read back and found whole, with the counts read the way a person would say them. */
+export function checkedNote(chapters: number, sections: number): string {
+  const what = (n: number, one: string, many: string) => (n === 1 ? `the ${one}` : n === 2 ? `both ${many}` : `all ${n} ${many}`);
+  const parts = [chapters ? what(chapters, 'chapter', 'chapters') : '', sections ? what(sections, 'section', 'sections') : ''].filter(Boolean);
+  if (!parts.length) return 'Checked: the file was read back.';
+  const single = chapters + sections === 1;
+  const order = chapters > 1 ? ', in order, ' : ', ';
+  return `Checked: ${parts.join(' and ')} ${single ? 'is' : 'are'} in the file${order}word for word.`;
 }
 
 async function htmlToBlocksText(html: string) { return htmlToBlocks(html).map(blockText).join('\n'); }

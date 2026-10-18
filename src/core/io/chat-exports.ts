@@ -104,6 +104,66 @@ export function readChatGPT(data: unknown, authorName = 'You'): ExportChat[] {
   });
 }
 
+// ---------- what a stored message is, for showing it ----------
+// Chats brought in from a saved transcript can carry the app's own working steps (tool calls, code it ran, its
+// hidden reasoning) and citation markers it writes for itself. They are kept in the library exactly as they came,
+// and never shown as conversation. These read a stored message and say how to show it; nothing is changed.
+
+const SPOKEN_TYPES = new Set(['text', 'multimodal_text']);
+
+/**
+ * How to show a stored message.
+ * - talk: a real message from a person or an AI.
+ * - behind: a behind-the-scenes step (a tool, code it ran, its reasoning), kept but not shown as conversation.
+ * - continued: part of the message before it, split off when a heading inside it was misread as a new message.
+ */
+export function turnRole(t: { speaker_kind?: string; speaker_name?: string | null }): 'talk' | 'behind' | 'continued' {
+  const name = String(t.speaker_name ?? '').trim();
+  if (/^(tool|system)\b/i.test(name)) return 'behind';
+  if (name.includes('|')) return 'continued';
+  const type = name.match(/\(([^()]*)\)\s*$/)?.[1]?.trim();
+  if (type && /^[a-z_.]+(\s*->\s*[\w.]+)?$/.test(type) && !SPOKEN_TYPES.has(type)) return 'behind';
+  return 'talk';
+}
+
+/** The speaker's name as a person would say it: "YOLANDA (multimodal_text)" reads as "YOLANDA". */
+export function speakerLabel(name: string | null | undefined): string {
+  return String(name ?? '').replace(/\s*\((?:text|multimodal_text)\)\s*$/, '').trim();
+}
+
+/**
+ * Who an AI line came from, in words: a chat app's own name when the line came in from one ("ChatGPT"),
+ * otherwise "the collaborator", the one name Story Canon's own AI partner has everywhere on screen.
+ */
+export function aiName(name: string | null | undefined): string {
+  const n = speakerLabel(name);
+  return !n || /^(assistant|collaborator|the collaborator)$/i.test(n) ? 'the collaborator' : n;
+}
+
+/** For a "continued" message: the heading inside the earlier message that was misread as a speaker. */
+export function continuedHeading(name: string | null | undefined): string {
+  return String(name ?? '').replace(/\s*\([^()]*\|\s*\)\s*$/, '').trim();
+}
+
+/**
+ * Character ranges in a message that are an app's own citation markers, not words anyone wrote:
+ * ChatGPT's private-use markers (shown as garbled symbols, such as "filecite turn0file0") and its older
+ * "【4:2†source】" notes. Returned as [start, end) pairs in the stored text, so the text itself never changes.
+ */
+export function markerRanges(text: string): [number, number][] {
+  const out: [number, number][] = [];
+  const re = /[^\n]{0,200}|【\d+(?::\d+)?†[^】\n]{0,80}】|[-]/g;
+  for (const m of text.matchAll(re)) out.push([m.index!, m.index! + m[0].length]);
+  return out;
+}
+
+/** The text with citation markers left out, for counting and showing. */
+export function withoutMarkers(text: string): string {
+  let out = '', pos = 0;
+  for (const [s, e] of markerRanges(text)) { out += text.slice(pos, s); pos = e; }
+  return out + text.slice(pos);
+}
+
 /** Read any export file's conversations list, newest first. Throws a plain message if it is not one. */
 export function readExport(data: unknown, authorName = 'You'): ExportChat[] {
   const kind = exportKind(data);

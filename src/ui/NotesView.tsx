@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
+import { aiName } from '../core/io/chat-exports';
 
 // Questions I Have, Things and Ideas I'm Thinking About, and the capture inbox (R-A-047 to R-A-050).
 // Set aside means kept, never deleted. Questions the assistant raised wait apart from hers until she
@@ -54,7 +55,7 @@ export function NotesView({ ctx, embedded, onOpen }: { ctx: Ctx; embedded?: bool
                       {onOpen ? <button className="btn link" style={{ textAlign: 'left', whiteSpace: 'pre-wrap' }} onClick={() => onOpen(n.id)}>{n.body || n.title}</button> : (n.body || n.title)}
                     </div>
                     <div className="row small" style={{ marginTop: '0.3rem' }}>
-                      <span className="faint">{new Date(n.created_at).toLocaleDateString()}{n.attrs.urgency === 'now' ? ', needed to keep writing' : ''}{n.attrs.origin === 'assistant' ? ', from a conversation (the assistant)' : n.attrs.conversation_id ? ', from a conversation' : ''}</span>
+                      <span className="faint">{new Date(n.created_at).toLocaleDateString()}{n.attrs.urgency === 'now' ? ', needed to keep writing' : ''}{n.attrs.origin === 'assistant' ? `, from a conversation (${aiName(n.attrs.origin_name)})` : n.attrs.conversation_id ? ', from a conversation' : ''}</span>
                       {g.states.filter(([k]) => k !== n.state).map(([k, label]) => <button key={k} className="btn small" onClick={() => void run(api.patch(`/api/elements/${n.id}`, { state: k }))}>{label}</button>)}
                       {g.kind === 'thought' && <><button className="btn small" onClick={() => void run(api.post(`/api/elements/${n.id}/refile`, { kind: 'question' }))}>Make it a question</button><button className="btn small" onClick={() => void run(api.post(`/api/elements/${n.id}/refile`, { kind: 'idea' }))}>Make it an idea</button></>}
                     </div>
@@ -67,8 +68,8 @@ export function NotesView({ ctx, embedded, onOpen }: { ctx: Ctx; embedded?: bool
       })}
       {suggested.length > 0 && (
         <section style={{ marginBottom: '2rem' }}>
-          <h2>Questions the assistant raised</h2>
-          <p className="muted small">These are not yours until you adopt them.</p>
+          <h2>Questions an AI raised</h2>
+          <p className="muted small">From the collaborator, or from a chat you brought in. These are not yours until you adopt them.</p>
           <ul className="list">
             {suggested.map((n) => (
               <li key={n.id}>
