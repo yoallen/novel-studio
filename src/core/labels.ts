@@ -1,4 +1,5 @@
-// On-screen words for statuses and markers. Chosen by the author (decision D-21, 2026-10-16).
+// On-screen words for statuses and markers. Chosen by the author (decision D-21, 2026-10-16), then made one
+// set of words everywhere, matching the guide: Decided, Developing, Still open, Example, Suggestion.
 // Renamable in Settings; stored labels override these defaults. {author} is replaced with the
 // author's first name from Settings, so the words work for any author using the program.
 
@@ -6,8 +7,8 @@ export const DEFAULT_STATUS_LABELS = {
   established: 'Decided',
   developing: 'Developing',
   unanswered: 'Still open',
-  illustrative: 'One way it could be done',
-  proposed: "Here's a suggestion",
+  illustrative: 'Example',
+  proposed: 'Suggestion',
   set_aside: 'Set aside',
 } as const;
 

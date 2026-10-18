@@ -43,14 +43,15 @@ export function MethodsView({ ctx }: { ctx: Ctx }) {
       <h1>{edit.key ? edit.name : 'A method of my own'}</h1>
       {error && <div className="notice error" role="alert">{error}</div>}
       <div className="cols">
-        <label className="field"><span>Name</span><input type="text" value={edit.name} onChange={(e) => setEdit({ ...edit, name: e.target.value })} /></label>
+        <label className="field"><span>Name</span><input type="text" required aria-required="true" placeholder="Needed to save" value={edit.name} onChange={(e) => setEdit({ ...edit, name: e.target.value })} /></label>
         <label className="field"><span>Where it comes from (teacher, book, course)</span><input type="text" value={edit.source} onChange={(e) => setEdit({ ...edit, source: e.target.value })} /></label>
       </div>
       <label className="field"><span>What it does for me</span><textarea rows={2} value={edit.job} onChange={(e) => setEdit({ ...edit, job: e.target.value })} /></label>
 
       <section className="section" aria-label="Beats">
         <h2>Its beats</h2>
-        <p className="small muted">Leave this empty for a method that is a lens or a habit rather than a beat sheet. With beats, it can drive the board, placement and Narrative Zoom just like Save the Cat. "Lines up with" lets the program translate between it and your other beat sheets.</p>
+        <p className="small muted">Leave this empty for a method that is a lens or a habit rather than a beat sheet. With beats, it can drive the board, placement and Narrative Zoom just like Save the Cat.</p>
+        <p className="small muted"><strong>Lines up with</strong> names the shared moment a beat matches, such as the midpoint or the darkest point. Beats that line up are how a scene placed on one beat sheet finds its place when you switch to another. A beat with nothing chosen simply is not carried across, which is fine for beats no other sheet has.</p>
         {!edit.beats.length && (
           <div className="row small"><span>Start from</span>{STARTS.map(([k, l]) => <button key={k} className="btn small link" onClick={() => void startFrom(k)}>{l}</button>)}</div>
         )}
@@ -68,8 +69,10 @@ export function MethodsView({ ctx }: { ctx: Ctx }) {
               <button className="btn link small" aria-label="Move down" disabled={i === edit.beats.length - 1} onClick={() => move(i, 1)}>↓</button>
               <button className="btn link small" onClick={() => setEdit({ ...edit, beats: edit.beats.filter((_: any, j: number) => j !== i) })}>Remove</button>
             </div>
-            <textarea aria-label="What this beat is" rows={2} placeholder="What this beat is and what job it does" value={b.description} onChange={(e) => setBeat(i, { description: e.target.value })} />
-            <input type="text" aria-label="A test for this beat" placeholder="A test it must pass (optional)" value={b.test} onChange={(e) => setBeat(i, { test: e.target.value })} />
+            <label className="field beat-field"><span>What this beat is and the job it does</span>
+              <textarea aria-label="What this beat is" rows={2} value={b.description} onChange={(e) => setBeat(i, { description: e.target.value })} /></label>
+            <label className="field beat-field"><span>A test it must pass <span className="faint">(optional), a question to check the beat against</span></span>
+              <input type="text" aria-label="A test for this beat" value={b.test} onChange={(e) => setBeat(i, { test: e.target.value })} /></label>
           </div>
         ))}
         {edit.beats.length > 0 && <button className="btn small" onClick={() => setEdit({ ...edit, beats: [...edit.beats, blankBeat()] })}>Add a beat</button>}
@@ -97,6 +100,7 @@ export function MethodsView({ ctx }: { ctx: Ctx }) {
       <div className="row" style={{ position: 'sticky', bottom: 0, background: 'var(--page)', padding: '0.75rem 0', borderTop: '1px solid var(--line)' }}>
         <button className="btn write" disabled={!edit.name.trim()} onClick={() => void save()}>Save this method</button>
         <button className="btn link" onClick={() => setEdit(null)}>Cancel</button>
+        {!edit.name.trim() && <span className="small muted">Give the method a name at the top to save it.</span>}
       </div>
     </div></div>
   );

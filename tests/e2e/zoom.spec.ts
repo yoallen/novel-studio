@@ -11,7 +11,7 @@ async function pidOf(request: APIRequestContext, title: string) {
 test('zoom from the whole story to a scene and its page, and back, never losing the place (AC13, R-C-066, R-C-072)', async ({ page }) => {
   await newNovel(page, 'Zoom One');
   await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
-  await page.getByRole('button', { name: 'Use your Save the Cat beat sheet' }).click();
+  await page.getByRole('button', { name: 'Use this beat sheet' }).click();
   await page.getByRole('button', { name: 'Act One' }).click();
   await page.getByRole('button', { name: '4. Catalyst' }).click();
   await expect(page.getByText('With the catlyst, we knock it all down.')).toBeVisible();

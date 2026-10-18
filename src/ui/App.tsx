@@ -186,7 +186,9 @@ export function App() {
 
   const PRIMARY: View[] = ['home', 'write', 'brain', 'zoom', 'conversations'];
   const SECONDARY: View[] = ['search', 'history', 'files', 'settings', 'help'];
-  const tab = (v: View) => <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>;
+  // Pages reached from another one light up the tab they belong to.
+  const PARENT: Partial<Record<View, View>> = { setup: 'settings', methods: 'settings', trash: 'history', drafts: 'write', trail: 'write' };
+  const tab = (v: View) => <button key={v} aria-current={view === v || PARENT[view] === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>;
   return (
     <div className="app" data-sprint={sprint ? true : undefined}>
       <Strip projectId={projectId} sceneId={sceneId} refresh={view} onOpen={() => go('zoom')} />

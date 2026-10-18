@@ -28,7 +28,6 @@ const f = (group: string, field: string, label: string, extra: Partial<FieldDef>
 const CHARACTER: FieldDef[] = [
   f('Role in the story', 'role', 'Role', { prompt: 'Co-lead, B-story lead, hidden engine, supporting, narrator, secret-keeper…' }),
   f('Role in the story', 'essence', 'Who they are', { prompt: 'In a sentence or two, who this person is.' }),
-  f('Role in the story', 'facts', 'Other facts about them', { multi: true }),
   f('Role in the story', 'importance', 'Narrative importance', { prompt: 'Main, supporting or minor. Depth is judged against this, never against how many fields are filled.' }),
   f('Role in the story', 'narrates', 'Narrates?', { prompt: 'Whether and how this character narrates (viewpoint, grammatical person).' }),
   f('Role in the story', 'pov_withheld_until', 'Viewpoint withheld until', { prompt: 'For a secret keeper: the beat or moment before which we never get inside their head.' }),
@@ -119,11 +118,14 @@ const CHARACTER: FieldDef[] = [
   f('Writing aids (private)', 'tuning_fork', 'Casting tuning fork', { private: true, prompt: 'An actor whose voice and tempo help you write them. Never a description of the character.' }),
   f('Writing aids (private)', 'theme_music', 'Theme music', { private: true }),
   f('Writing aids (private)', 'playlist', 'Playlist', { private: true, multi: true }),
+
+  // Kept last: facts that came in without a place of their own, or that fit nowhere else.
+  f('Other facts', 'facts', 'Other facts about them', { multi: true }),
 ];
 
 const ARC: FieldDef[] = [
   f('Arc', 'arc_value', 'Value this arc is about', { prompt: 'One character can carry more than one arc, each on a different value.' }),
-  f('Arc', 'arc_type', 'Arc type', { prompt: 'Positive Change, Flat, Negative, or not decided.' }),
+  f('Arc', 'arc_type', 'Arc type', { prompt: 'Positive Change, Flat, Negative, or not decided.', suggestions: ['Positive Change', 'Flat', 'Negative Change', 'Not decided yet'] }),
   f('Weiland Arc', 'ghost', 'Ghost', { timed: true, prompt: 'The formative experience that explains the Lie. It need not be tragic, but it must be personal and convincing.' }),
   f('Weiland Arc', 'lie', 'Lie', { prompt: 'The false belief that once felt protective.' }),
   f('Weiland Arc', 'want', 'Want', { prompt: 'What the Lie makes them chase.' }),
@@ -135,28 +137,30 @@ const ARC: FieldDef[] = [
 ];
 
 const RELATIONSHIP: FieldDef[] = [
-  f('Where they stand', 'trust', 'Trust', { timed: true }),
-  f('Where they stand', 'respect', 'Respect', { timed: true }),
-  f('Where they stand', 'intimacy', 'Closeness', { timed: true }),
-  f('Where they stand', 'resentment', 'Resentment', { timed: true }),
-  f('Where they stand', 'dependence', 'Dependence', { timed: true }),
-  f('Where they stand', 'rivalry', 'Rivalry', { timed: true }),
-  f('Where they stand', 'power', 'Balance of power', { timed: true }),
+  f('Where they stand', 'trust', 'Trust', { timed: true, prompt: 'A word or a short line, such as \"high, and slipping\". Mark when it is true.' }),
+  f('Where they stand', 'respect', 'Respect', { timed: true, prompt: 'A word or a short line, such as \"high, and slipping\". Mark when it is true.' }),
+  f('Where they stand', 'intimacy', 'Closeness', { timed: true, prompt: 'A word or a short line, such as \"high, and slipping\". Mark when it is true.' }),
+  f('Where they stand', 'resentment', 'Resentment', { timed: true, prompt: 'A word or a short line, such as \"high, and slipping\". Mark when it is true.' }),
+  f('Where they stand', 'dependence', 'Dependence', { timed: true, prompt: 'A word or a short line, such as \"high, and slipping\". Mark when it is true.' }),
+  f('Where they stand', 'rivalry', 'Rivalry', { timed: true, prompt: 'A word or a short line, such as \"high, and slipping\". Mark when it is true.' }),
+  f('Where they stand', 'power', 'Balance of power', { timed: true, prompt: 'Who holds more, and what kind of power. A short line is enough.' }),
   f('Underneath', 'shared_need', 'What they share underneath'),
   f('Underneath', 'external_opposition', 'Opposition on the surface'),
   f('Underneath', 'emotional_trajectory', 'Where the relationship is really going'),
   f('Underneath', 'hidden_influence', 'Hidden influence'),
   f('Underneath', 'false_assumptions', 'False assumptions', { multi: true }),
   f('Underneath', 'unequal_information', 'Who knows what the other does not', { multi: true }),
-  f('Between them', 'their_names', 'What they call each other', { multi: true, prompt: 'The names nobody else uses. Tabs and Tee.' }),
+  f('Between them', 'their_names', 'What they call each other', { multi: true, prompt: 'The names nobody else uses, such as Tabs and Tee.' }),
   f('Between them', 'private_words', 'Words only they share', { multi: true, prompt: 'Their private language: the word, and what it means to them.' }),
 ];
 
 const PLACE: FieldDef[] = [
   f('Place', 'description', 'What it is like'),
   f('Place', 'atmosphere', 'Atmosphere'),
-  f('Place', 'season', 'Season', { timed: true }),
+  f('Place', 'season', 'Season', { timed: true, prompt: 'The season we see it in. If it changes, add each one and mark when it is true.' }),
   f('Place', 'who_is_here', 'Who is usually here', { multi: true }),
+  f('Place', 'details', 'Details to reuse', { multi: true, prompt: 'A cracked step, a smell, a sound. Small things you can bring back.' }),
+  f('Place', 'means', 'What it means to the story', { prompt: 'Why the story happens here and not somewhere else.' }),
   f('Settlement', 'governs', 'Who governs, and how'),
   f('Settlement', 'economy', 'How people earn a living'),
   f('Settlement', 'water_food', 'Water and food'),
@@ -183,11 +187,11 @@ const EVENT: FieldDef[] = [
 
 const CLUE: FieldDef[] = [
   f('Clue', 'truth', 'What it really means'),
-  f('Clue', 'significant', 'Significant enough that it must pay off?', { prompt: 'Not every detail needs to pay off. Mark the ones that do.' }),
+  f('Clue', 'significant', 'Significant enough that it must pay off?', { prompt: 'Not every detail needs to pay off. Mark the ones that do.', suggestions: ['Yes, it must pay off', 'No, it is texture', 'Not sure yet'] }),
   f('Clue', 'planted', 'Where it is planted', { multi: true }),
   f('Clue', 'paid_off', 'Where it pays off', { multi: true }),
   f('Clue', 'misread_as', 'What it is mistaken for'),
-  f('Red herring', 'red_herring', 'Is this a red herring?', { prompt: 'A false trail on purpose.' }),
+  f('Red herring', 'red_herring', 'Is this a red herring?', { prompt: 'A false trail on purpose.', suggestions: ['Yes', 'No'] }),
   f('Red herring', 'hides', 'What it draws attention away from'),
 ];
 
@@ -373,12 +377,7 @@ const ERA: FieldDef[] = [
 ];
 
 const STORYWORLD: FieldDef[] = [
-  f('Time', 'era', 'Era or year'), f('Time', 'season', 'Season'), f('Time', 'atmosphere_now', 'The atmosphere now'),
-  f('Time', 'duration', 'How long the story lasts', { prompt: 'A single week, a season, a year…' }), f('Time', 'day_counter', 'Name of your story clock', { prompt: 'For example: day of the feud.' }),
-  f('Viewpoint', 'pov_approach', 'Viewpoint approach', { prompt: 'For example: alternating first person between two narrators.' }),
-  f('Viewpoint', 'pov_rule', 'Viewpoint rule', { prompt: 'One viewpoint per scene, one per chapter, or no rule.' }),
-  f('Viewpoint', 'pov_person', 'Default narrative person'), f('Viewpoint', 'pov_tense', 'Default tense'),
-  f('Knowledge', 'hidden_truth', 'Does this book hide a truth from the reader?', { prompt: 'Turns on the reader-knowledge and secret-operations views.' }),
+  // The heart of the book first: the one sentence and the one paragraph.
   f('The core', 'logline', 'The one sentence', { prompt: 'The whole book squeezed until only its central irony is left. About twenty-five words.' }),
   f('The core', 'paragraph', 'The one paragraph', { prompt: 'Setup, three disasters, and the ending, one sentence each.' }),
   f('The core', 'ending', 'How it might end', { prompt: 'A guess is fine. Endings found early give the middle somewhere to go.' }),
@@ -386,6 +385,12 @@ const STORYWORLD: FieldDef[] = [
   f('Moral premise', 'virtue', 'The virtue', { prompt: '…but [virtue] leads to success.' }),
   f('Moral premise', 'moral_premise', 'The moral premise, as one sentence'),
   f('Controlling idea', 'controlling_idea', 'Controlling idea', { prompt: 'McKee: the value and the cause that makes it change, in one sentence.' }),
+  f('Time', 'era', 'Era or year'), f('Time', 'season', 'Season'), f('Time', 'atmosphere_now', 'The atmosphere now'),
+  f('Time', 'duration', 'How long the story lasts', { prompt: 'A single week, a season, a year…' }), f('Time', 'day_counter', 'Name of your story clock', { prompt: 'For example: day of the feud.' }),
+  f('Viewpoint', 'pov_approach', 'Viewpoint approach', { prompt: 'For example: alternating first person between two narrators.' }),
+  f('Viewpoint', 'pov_rule', 'Viewpoint rule', { prompt: 'One viewpoint per scene, one per chapter, or no rule.' }),
+  f('Viewpoint', 'pov_person', 'Default narrative person'), f('Viewpoint', 'pov_tense', 'Default tense'),
+  f('Knowledge', 'hidden_truth', 'Does this book hide a truth from the reader?', { prompt: 'Turns on the reader-knowledge and secret-operations views.', suggestions: ['Yes', 'No'] }),
 ];
 
 const HIDDEN_MOVE: FieldDef[] = [

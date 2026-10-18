@@ -48,7 +48,7 @@ export function DraftsView({ ctx }: { ctx: Ctx }) {
       {current && (
         <section className="section" aria-label="This draft">
           <h2>Now: {current.name}</h2>
-          <p className="small muted">Since {when(current.started_at)}.</p>
+          <p className="small muted">The pages you are writing now belong to {current.name.toLowerCase()}, begun {when(current.started_at)}. A draft is a version of the pages; the stage on the book's cover{ctx.project?.profile?.stage ? ` (${ctx.project.profile.stage})` : ''} is where the book as a whole stands. The two move separately: a book can be in planning while its first draft is open.</p>
           {!finishing ? <button className="btn write" onClick={() => setFinishing(true)}>This draft is done</button> : (
             <div className="dialog-inline">
               <label className="field"><span>A note about this draft (optional)</span><textarea rows={2} value={note} onChange={(e) => setNote(e.target.value)} placeholder="What this draft did, what the next one is for." /></label>

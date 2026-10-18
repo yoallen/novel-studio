@@ -11,7 +11,8 @@ export function statusWord(settings: any, s: string): string {
 export const AUTHOR_STATUSES: StatusKey[] = ['established', 'developing', 'unanswered', 'illustrative'];
 
 export function ownedWord(settings: any): string {
-  const name = (settings?.authorName ?? '').trim();
+  // The name from About you, or the first word of her name in Settings.
+  const name = String(settings?.callName ?? '').trim() || String(settings?.authorName ?? '').trim().split(/\s+/)[0] || '';
   const label = (settings?.ownedLabel ?? "{author}, it's on you now") as string;
   return name ? label.replace(/\{author\}/g, name) : label.replace(/\{author\},\s*/g, '').replace(/^./, (c) => c.toUpperCase());
 }

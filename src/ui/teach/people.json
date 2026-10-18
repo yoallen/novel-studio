@@ -24,7 +24,8 @@
    "Depth lenses": "Questions that test whether a character is alive beyond their plot function: their wants, their behavior under pressure, their voice, and whether they make things happen.",
    "Contradiction layers": "The gaps between public and private self, and between what they do and why. Complex characters live in these gaps.",
    "Comparisons": "Real people or other characters whose qualities you are borrowing, with a note of which qualities.",
-   "Writing aids (private)": "Tools just for you: an actor's voice, a song or a playlist that puts you back inside this character. Never shown as part of the book."
+   "Writing aids (private)": "Tools just for you: an actor's voice, a song or a playlist that puts you back inside this character. Never shown as part of the book.",
+   "Other facts": "Facts that came in from your planning without a place of their own, and anything that fits nowhere else. Kept here, last, so the page above stays in order."
   },
   "fields": {
    "role": {
@@ -46,7 +47,8 @@
     "why": "Small facts are where continuity errors hide. Write them once and the dog stays named Biscuit in chapter three and chapter thirty.",
     "need": "useful",
     "mistake": "Letting it become the whole character. If a fact shapes who they are, such as a fear or a wound, give it its proper field so the program can connect it.",
-    "example": "Lands: \"Drives a 1994 pickup with no working radio. Allergic to shellfish. Left-handed.\" Fails: \"Afraid of water since her brother drowned,\" which belongs in Wounds."
+    "example": "Lands: \"Drives a 1994 pickup with no working radio. Allergic to shellfish. Left-handed.\" Fails: \"Afraid of water since her brother drowned,\" which belongs in Wounds.",
+    "differs": "A catch-all. A fact that has its own place on this page is easier to find there."
    },
    "importance": {
     "what": "How central this person is to the book: main, supporting or minor. It is a measure of weight, not of worth.",
@@ -88,7 +90,8 @@
     "why": "A goal gives the plot a spine. It tells the reader what to root for and gives each scene a direction. A character with no goal waits for things to happen to them.",
     "need": "core",
     "mistake": "Stating a feeling instead of a target. \"To be happy\" is not a goal; nobody can see it happen.",
-    "example": "Lands: \"Win the county pie contest and keep the bakery open past spring.\" Fails: \"To feel successful.\""
+    "example": "Lands: \"Win the county pie contest and keep the bakery open past spring.\" Fails: \"To feel successful.\"",
+    "differs": "Goal is the concrete thing they chase in this plot. What they think they want is the wish they would admit to; Desires are longings of every size; the arc's Want is the chase the Lie drives."
    },
    "ambition": {
     "what": "From Randy Ingermanson: the abstract hunger underneath the goal. The goal is what they chase; the ambition is why it matters to them.",
@@ -109,7 +112,8 @@
     "why": "Conflict is what makes a goal hard, and hard is what makes it interesting. It creates scenes, because every attempt meets resistance. Without it, the character gets what they want on page ten.",
     "need": "core",
     "mistake": "Choosing conflict that can be solved with one phone call. If one honest conversation would end the problem, the reader gets impatient.",
-    "example": "Lands: the contest judge is the rival florist's husband, and the florist owes him money. Fails: the contest is hard because the florist is nervous."
+    "example": "Lands: the contest judge is the rival florist's husband, and the florist owes him money. Fails: the contest is hard because the florist is nervous.",
+    "differs": "What blocks the goal, in a line. What works against them (McKee) breaks the opposition into inner, personal and wider forces."
    },
    "epiphany": {
     "what": "From Randy Ingermanson: what the character learns by the end, the realization that changes how they see themselves or the world.",
@@ -130,7 +134,8 @@
     "why": "Inner forces make a character complicit in their own trouble, which makes them human. Readers forgive outer obstacles but stay up late for a person fighting herself. Without an inner force, the conflict is all weather and no climate.",
     "need": "core",
     "mistake": "Naming an inner force that never actually costs them a scene. It has to make them do the wrong thing at least once.",
-    "example": "Lands: the florist's pride stops her from asking her rival for the wholesaler's number, and she loses the order. Fails: \"She has self-doubt,\" and nothing happens because of it."
+    "example": "Lands: the florist's pride stops her from asking her rival for the wholesaler's number, and she loses the order. Fails: \"She has self-doubt,\" and nothing happens because of it.",
+    "differs": "One of three layers of opposition. Conflict, under Goal and motive, is the single obstacle in a line."
    },
    "force_personal": {
     "what": "From Robert McKee: someone close to the character who works against them, a friend, partner, parent or child. Not always a villain; often someone who loves them.",
@@ -347,7 +352,8 @@
     "why": "Rhythm and word choice carry a voice better than spelled-out dialect. Readers hear the character without tripping over apostrophes.",
     "need": "useful",
     "mistake": "Writing dialect phonetically (\"Ah'm gwine\"). It's hard to read and often turns into caricature.",
-    "example": "Lands: \"Slow and low, drops the ends of questions so they sound like statements.\" Fails: dropping every g with an apostrophe."
+    "example": "Lands: \"Slow and low, drops the ends of questions so they sound like statements.\" Fails: dropping every g with an apostrophe.",
+    "differs": "The sound of their speech. Voice, under Depth lenses, is the whole of how they talk and think."
    },
    "speech": {
     "what": "Sayings, phrases and verbal habits this character repeats: a pet phrase, a way of swearing, a habit of answering with a question.",
@@ -410,7 +416,8 @@
     "why": "History explains why a character is who they are now. It gives you material for memories, secrets and reveals. Tracking it keeps your backstory consistent.",
     "need": "useful",
     "mistake": "Putting all of it on the page. History is for you; the reader needs only the pieces that change a scene.",
-    "example": "Lands: \"At nineteen, left nursing school when her father got sick.\" Fails: three pages of her history before the story starts."
+    "example": "Lands: \"At nineteen, left nursing school when her father got sick.\" Fails: three pages of her history before the story starts.",
+    "differs": "Past events of any kind, hurtful or not. Wounds are the hurts; the arc's Ghost is the one behind the Lie."
    },
    "fears": {
     "what": "What this character is afraid of, from small dreads to the big fear underneath.",
@@ -424,14 +431,16 @@
     "why": "Wounds explain behavior that would otherwise seem odd. They make readers patient with a character's flaws. Angela Ackerman and Becca Puglisi's Emotional Wound Thesaurus is a strong guide to how wounds shape a person.",
     "need": "useful",
     "mistake": "Making every wound tragic, or adding wounds that never shape a choice.",
-    "example": "Lands: \"Her best friend took credit for her design in college.\" She now signs every sketch. Fails: a list of five tragedies that never come up."
+    "example": "Lands: \"Her best friend took credit for her design in college.\" She now signs every sketch. Fails: a list of five tragedies that never come up.",
+    "differs": "Every old hurt they carry. The arc's Ghost is the single event behind one arc's Lie."
    },
    "desires": {
     "what": "What this character longs for: small cravings and big dreams, spoken and secret.",
     "why": "Desire is what moves a character forward. Knowing what someone wants, beyond the plot goal, makes them feel alive and gives scenes pull.",
     "need": "useful",
     "mistake": "Listing desires that are all for the plot. People also want naps, peace and a good tomato.",
-    "example": "Lands: \"Wants one day with no one asking her for anything.\" Fails: \"Wants to win.\""
+    "example": "Lands: \"Wants one day with no one asking her for anything.\" Fails: \"Wants to win.\"",
+    "differs": "Longings of every size, spoken or secret. Goal is the one concrete target in this plot."
    },
    "beliefs": {
     "what": "What this character holds true about the world, people, God, love or themselves.",
@@ -445,7 +454,8 @@
     "why": "The wound is the root of the false belief that drives the arc. A specific event makes the character's later choices make sense. Angela Ackerman and Becca Puglisi's Emotional Wound Thesaurus explores how wounds shape people.",
     "need": "core",
     "mistake": "Making it vague or too big. It doesn't have to be tragic, but it must be personal and convincing.",
-    "example": "Lands: \"At nine, she watched her mother beg the bank for an extension and get turned away.\" Fails: \"She had a hard childhood.\""
+    "example": "Lands: \"At nine, she watched her mother beg the bank for an extension and get turned away.\" Fails: \"She had a hard childhood.\"",
+    "differs": "Weiland calls this the Ghost. If it is already on the arc, there is no need to write it here too."
    },
    "wound_belief": {
     "what": "What this character came to believe because of the wound. Usually a false belief that once felt protective.",
@@ -501,7 +511,8 @@
     "why": "It gives the character a life outside the plot. It also sets up the gap between what they think they want and what drives them underneath.",
     "need": "useful",
     "mistake": "Repeating the plot goal. Ask what they want as a person, not as a piece of the story.",
-    "example": "Lands: \"Wants her mother to finally say she's proud.\" Fails: \"Wants to solve the case.\""
+    "example": "Lands: \"Wants her mother to finally say she's proud.\" Fails: \"Wants to solve the case.\"",
+    "differs": "The wish they would admit to. Goal is the concrete target in this plot; the arc's Want is the chase the Lie drives."
    },
    "motivation_unconscious": {
     "what": "What drives this character underneath, the need they don't see in themselves.",
@@ -529,7 +540,8 @@
     "why": "Voice makes a character recognizable without a dialogue tag. It also shows their education, mood and mind.",
     "need": "core",
     "mistake": "Using dialect as a shortcut. Voice lives in word choice, sentence length and attention, not spelling.",
-    "example": "Lands: \"Short sentences. Notices exits and prices. Jokes only about herself.\" Fails: \"Southern.\""
+    "example": "Lands: \"Short sentences. Notices exits and prices. Jokes only about herself.\" Fails: \"Southern.\"",
+    "differs": "How they sound as a whole. Language and voice holds the pieces: the languages they speak, their accent, and their sayings."
    },
    "with_others": {
     "what": "How this character acts with different people: a rival, an ally, family, a stranger.",
@@ -592,7 +604,8 @@
     "why": "Music can put you back in a character's head fast, especially after a break. It holds a feeling better than notes can.",
     "need": "situational",
     "mistake": "Helpful if music moves you. The mistake is quoting lyrics in the book; keep it to titles only.",
-    "example": "Lands: an old blues song you play before every chapter from her point of view. Fails: printing the lyrics in the epigraph."
+    "example": "Lands: an old blues song you play before every chapter from her point of view. Fails: printing the lyrics in the epigraph.",
+    "differs": "A private mood note for you. To put a song in the book, add it to the Soundtrack and connect it with is the theme song of."
    },
    "playlist": {
     "what": "A list of songs for this character: one for each mood, phase or relationship. Private, for you only.",
@@ -635,7 +648,8 @@
     "why": "The Ghost makes the Lie believable. Readers forgive a character's mistakes when they understand where the mistakes come from. Without it, the Lie seems arbitrary.",
     "need": "core",
     "mistake": "Making it melodramatic for its own sake, or leaving it so vague that it explains nothing.",
-    "example": "Lands: \"At twelve, she trusted a friend with her diary and found it read aloud at school.\" Fails: \"Something bad happened to her once.\""
+    "example": "Lands: \"At twelve, she trusted a friend with her diary and found it read aloud at school.\" Fails: \"Something bad happened to her once.\"",
+    "differs": "The Ghost is the one past event behind this arc's Lie. Wounds, on the character page, hold every old hurt; History holds past events of any kind."
    },
    "lie": {
     "what": "K.M. Weiland's Lie: the false belief the character holds about themselves or the world. It once felt protective, and it is what the arc must overcome.",
@@ -649,7 +663,8 @@
     "why": "The Want drives the plot and gives the reader something to root for. Its gap from the Need is what makes the story mean something.",
     "need": "core",
     "mistake": "Making the Want and Need the same. If getting what they want also heals them, there is no inner conflict.",
-    "example": "Lands: she wants to win the contest alone, proving she needs no one. Fails: she wants to make friends, and she needs to make friends."
+    "example": "Lands: she wants to win the contest alone, proving she needs no one. Fails: she wants to make friends, and she needs to make friends.",
+    "differs": "The Want belongs to this arc and is driven by the Lie. The character's Goal is the concrete target in the plot, often the same thing seen from outside."
    },
    "need": {
     "what": "K.M. Weiland's Need: what would truly heal the character. Usually the opposite of the Want, and tied to the Truth.",
@@ -697,7 +712,7 @@
    "example": "Two rival florists, June and Marisol, both want the cathedral contract. Underneath, they both want their mothers' shops to survive. June secretly sends Marisol customers. By the end they share a storefront."
   },
   "groups": {
-   "Where they stand": "Gauges of the relationship right now: trust, respect, closeness, resentment, dependence, rivalry and power. Version them as they change.",
+   "Where they stand": "Gauges of the relationship right now: trust, respect, closeness, resentment, dependence, rivalry and power. A word or a short line is enough, such as \"high, and slipping.\" Add a new entry as it changes, and mark when each is true.",
    "Underneath": "The hidden layer: what they share, what divides them, where it is going, and what each doesn't know.",
    "Between them": "The private texture of the bond: names and words only they use."
   },

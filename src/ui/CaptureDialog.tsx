@@ -2,6 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 
+/** Where each kind of capture goes, and how they differ. */
+const KIND_HELP: Record<string, string> = {
+  thought: 'Anything, unsorted. It waits in Captured thoughts until you file it as a question or an idea, or leave it.',
+  question: 'Something you need to find out or decide. It goes to Questions I have, where you can answer it later.',
+  idea: 'Something you might use: a scene, a twist, a line. It goes to Things and ideas I am thinking about.',
+};
+
 // Capture anything, instantly, exactly as typed or dictated (R-B-041, R-B-044).
 // While writing it attaches to the scene and asks only one thing: needed now, or later (R-B-019).
 export function CaptureDialog({ ctx, sceneId, onClose }: { ctx: Ctx; sceneId: string | null; onClose: () => void }) {
@@ -34,6 +41,7 @@ export function CaptureDialog({ ctx, sceneId, onClose }: { ctx: Ctx; sceneId: st
             <label key={k} className="row small"><input type="radio" name="kind" checked={kind === k} onChange={() => setKind(k)} />{k === 'thought' ? 'Just a thought' : k === 'question' ? 'A question I have' : 'An idea I am thinking about'}</label>
           ))}
         </div>
+        <p className="small muted" style={{ margin: '0 0 0.75rem' }}>{KIND_HELP[kind]}{!sceneId ? ' Captured from a scene in the Writing Room, it also asks whether you need it now or later.' : ''}</p>
         {sceneId && (
           <>
             <label className="row small" style={{ marginBottom: '0.5rem' }}><input type="checkbox" checked={attach} onChange={(e) => setAttach(e.target.checked)} />Attach to this scene</label>

@@ -46,6 +46,7 @@ export function HistoryView({ ctx }: { ctx: Ctx }) {
   const [blocked, setBlocked] = useState<{ id: string; message: string } | null>(null);
   const load = useCallback(() => api.get(`/api/projects/${ctx.projectId}/history`).then(setHist).catch((e) => setError(e.message)), [ctx.projectId]);
   useEffect(() => { void load(); }, [load]);
+  const byId = new Map((hist ?? []).map((h) => [h.id, h]));
   async function undo(id: string, force = false) {
     try { await api.post(`/api/batches/${id}/undo`, { force }); setBlocked(null); await load(); await ctx.refreshProject(); }
     catch (e) { if (e instanceof ApiError && e.status === 409) setBlocked({ id, message: e.message }); else setError((e as Error).message); }
@@ -53,21 +54,40 @@ export function HistoryView({ ctx }: { ctx: Ctx }) {
   return (
     <div className="scroll"><div className="content">
       <div className="row"><h1 className="grow">Story Trail</h1><button className="btn link small" onClick={() => ctx.go('trash')}>Deleted things</button></div>
-      <p className="muted">How your story evolved: every idea, decision and revision, in order. Undo any one of them without losing what came after.</p>
+      <p className="muted">How your story evolved: every idea, decision and revision, newest first. Undo any one of them without losing what came after.</p>
       {error && <div className="notice error">{error}</div>}
       {blocked && <div className="notice" role="alert">{blocked.message}<div className="row" style={{ marginTop: '0.5rem' }}><button className="btn small" onClick={() => void undo(blocked.id, true)}>Undo anyway</button><button className="btn small" onClick={() => setBlocked(null)}>Leave it</button></div></div>}
       {hist && hist.length === 0 && <p className="empty-note">Nothing has changed yet. From your first change on, every idea, decision and revision appears here in order, and any one of them can be undone.</p>}
-      <ul className="list">
-        {hist?.map((h) => (
-          <li key={h.id} className="row">
-            <span className="grow">{h.reason}{h.reverted_by ? <span className="faint small"> (undone)</span> : ''}</span>
-            <span className="faint small">{h.actor === 'author' ? '' : `${h.actor}, `}{new Date(h.created_at).toLocaleString()}</span>
-            {!h.reverted_by && <button className="btn small" onClick={() => void undo(h.id)}>Undo</button>}
-          </li>
-        ))}
+      {hist && hist.length > 0 && <p className="small muted trail-key"><span className="trail-undone-sample">Struck through</span> means the change was undone and is no longer in effect. Everything else is in effect now.</p>}
+      <ul className="list trail-list">
+        {hist?.map((h) => {
+          const by = whoDid(h.actor);
+          const undoneBy = h.reverted_by ? byId.get(h.reverted_by) : null;
+          const undid = h.undoes ? byId.get(h.undoes) : null;
+          return (
+            <li key={h.id} className={'trail-row' + (h.reverted_by ? ' undone' : '') + (h.undoes ? ' is-undo' : '')}>
+              <div className="row" style={{ alignItems: 'baseline' }}>
+                <span className="grow trail-what">{h.said ?? h.reason}</span>
+                {by && <span className="chip trail-by">{by}</span>}
+                <time className="trail-when" dateTime={h.created_at}>{new Date(h.created_at).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</time>
+                {!h.reverted_by && <button className="btn small" title={h.undoMeaning} aria-label={h.undoes ? `Put back: ${undid?.said ?? 'the change'}` : `Undo: ${h.said ?? h.reason}`} onClick={() => void undo(h.id)}>{h.undoes ? 'Put it back' : 'Undo'}</button>}
+              </div>
+              {h.reverted_by && <div className="small muted">Undone{undoneBy ? ` on ${new Date(undoneBy.created_at).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}` : ''}. Not in effect.</div>}
+              {!h.reverted_by && h.undoMeaning && <div className="small faint">Undo: {h.undoMeaning}</div>}
+            </li>
+          );
+        })}
       </ul>
     </div></div>
   );
+}
+
+/** Who made a change, when it was not her: the collaborator, or a document brought in. */
+function whoDid(actor: string): string {
+  if (!actor || actor === 'author') return '';
+  if (actor.startsWith('assistant')) return 'By the collaborator';
+  if (actor.startsWith('import') || actor.startsWith('source')) return 'Brought in';
+  return 'By ' + actor.replace(/[:_]/g, ' ');
 }
 
 // Deleted work, always restorable (R-B-063).

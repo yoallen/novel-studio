@@ -4,6 +4,7 @@ import type { Ctx } from './App';
 import { RevisionsDialog } from './RevisionsDialog';
 import { flushEditor } from './flush';
 import { LaterList } from './LaterList';
+import { ownedWord } from './status';
 
 // The scene's plan beside the page. Readiness is information, never a gate (R-B-014).
 // Questions and ideas attached to this scene resurface here and nowhere else (R-B-020).
@@ -30,7 +31,7 @@ export function ScenePanel({ ctx, sceneId, onChanged, onReloadPage }: { ctx: Ctx
   if (!c) return <p className="muted small">{error || 'Loading the scene plan…'}</p>;
   const ladder: any[] = ctx.settings.sceneLadder;
   const markers: string[] = ctx.settings.reservedMarkers;
-  const owned = (ctx.settings.ownedLabel as string).replace('{author}', ctx.settings.authorName || '').replace(/^,\s*/, '');
+  const owned = ownedWord(ctx.settings);
 
   return (
     <div>

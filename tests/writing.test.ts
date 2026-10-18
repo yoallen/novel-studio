@@ -103,8 +103,8 @@ describe('labels', () => {
   it('shows the author\'s chosen words and personalizes the owned marker for any author', () => {
     expect(statusLabel('established')).toBe('Decided');
     expect(statusLabel('unanswered')).toBe('Still open');
-    expect(statusLabel('illustrative')).toBe('One way it could be done');
-    expect(statusLabel('proposed')).toBe("Here's a suggestion");
+    expect(statusLabel('illustrative')).toBe('Example');
+    expect(statusLabel('proposed')).toBe('Suggestion');
     expect(ownedLabel(undefined, 'Yolanda')).toBe("Yolanda, it's on you now");
     expect(ownedLabel(undefined, 'Sam')).toBe("Sam, it's on you now");
     expect(ownedLabel(undefined, '')).toBe("It's on you now");

@@ -254,7 +254,7 @@ describe('export (R-B-076 to R-B-081)', () => {
     const md = r.data.toString('utf8');
     expect(md).toContain('Paranoid and self-important.');
     expect(md).not.toContain('PRIVATE CASTING NOTE');
-    expect(md).toMatch(/One way it could be done:.*He lets someone in\./);
+    expect(md).toMatch(/Example:.*He lets someone in\./);
     const withPrivate = await ex.export(pid, { ...base, manuscript: false, sections: ['characters'], format: 'md', includePrivate: true });
     expect(withPrivate.data.toString('utf8')).toContain('PRIVATE CASTING NOTE');
     const json = await ex.export(pid, { ...base, manuscript: false, sections: ['characters'], format: 'json' });

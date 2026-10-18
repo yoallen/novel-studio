@@ -47,8 +47,10 @@ test('a character holds competing possibilities, decisions with history, and ide
   await page.getByRole('button', { name: 'Identity' }).click();
   await expect(page.getByText('Not yet specified').first()).toBeVisible();
 
+  // A new arc asks what it is about, then opens on its own page to be filled in.
   await page.getByRole('button', { name: 'Add an arc' }).click();
-  await page.getByRole('button', { name: /Kevin Wickley: arc 1/ }).click();
+  await page.getByRole('button', { name: 'Add the arc' }).click();
+  await expect(page.getByLabel('Name', { exact: true })).toHaveValue('Kevin Wickley: arc 1');
   const lie = page.locator('div').filter({ has: page.getByText('Lie', { exact: true }) }).last();
   for (const v of ['If I let my guard down, I could lose everything again.', 'If I am not in control, everything I have worked for can be taken away.']) {
     await page.locator('strong', { hasText: /^Lie$/ }).locator('..').getByRole('button', { name: 'Add' }).click();
@@ -140,6 +142,6 @@ test('a suggestion waits until she answers it, and "not yet" keeps it waiting (R
   await page.getByRole('button', { name: 'Anthony Vernon' }).click();
   await expect(page.getByText('you said not yet')).toBeVisible();
   await page.getByRole('button', { name: 'Accept as Decided' }).click();
-  await expect(page.locator('.st[data-s="established"]', { hasText: 'code-switching' })).toContainText('suggested by the assistant');
+  await expect(page.locator('.st[data-s="established"]', { hasText: 'code-switching' })).toContainText(/suggested by the assistant/i);
   await expect(page.locator('.st[data-s="established"]', { hasText: 'code-switching' })).toContainText('accepted by you');
 });
