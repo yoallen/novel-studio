@@ -47,14 +47,20 @@ export class RoadNotes {
   }
   // Which file belongs to which novel is kept in the notes folder itself, so both computers always
   // agree, a rename keeps the file she already knows, and recording it never changes the novel.
-  private files(folder: string): Record<string, string> {
-    try { const v = JSON.parse(readFileSync(join(folder, INDEX), 'utf8')); return v && typeof v === 'object' ? v : {}; } catch { return {}; }
+  /** The index, {} when there is none yet, or null when it cannot be read right now (OneDrive may be
+   *  holding it, or it is half-synced): then nothing is decided or written until the next check. */
+  private files(folder: string): Record<string, string> | null {
+    let raw: string;
+    try { raw = readFileSync(join(folder, INDEX), 'utf8'); } catch (e) { return (e as NodeJS.ErrnoException).code === 'ENOENT' ? {} : null; }
+    try { const v = JSON.parse(raw); return v && typeof v === 'object' && !Array.isArray(v) ? v : null; } catch { return null; }
   }
-  private setFile(folder: string, pid: string, file: string) {
+  private setFile(folder: string, pid: string, file: string): boolean {
     mkdirSync(folder, { recursive: true });
-    const all = { ...this.files(folder), [pid]: file };
+    const now = this.files(folder); // read again just before writing, and add to what is there
+    if (!now) return false;
     const f = join(folder, INDEX);
-    writeFileSync(`${f}.part`, JSON.stringify(all, null, 1)); renameSync(`${f}.part`, f);
+    writeFileSync(`${f}.part`, JSON.stringify({ ...now, [pid]: file }, null, 1)); renameSync(`${f}.part`, f);
+    return true;
   }
 
   /** Where this novel's notes file is, making it the first time. null when sharing is off. */
@@ -64,6 +70,7 @@ export class RoadNotes {
     const folder = join(dir, NOTES_DIR);
     const title = this.brain.project(pid).title as string;
     const files = this.files(folder);
+    if (!files) return null; // try again on the next check
     let file = files[pid];
     if (!file) {
       // Named for the novel. Another novel here with the same name gets its own file.
@@ -71,14 +78,14 @@ export class RoadNotes {
       let base = safeName(title), n = 2;
       while (taken.has(base.toLowerCase())) base = `${safeName(title)} (${n++})`;
       file = existsSync(join(folder, `${base}.txt`)) && !existsSync(join(folder, `${base}.docx`)) ? `${base}.txt` : `${base}.docx`;
-      this.setFile(folder, pid, file);
+      if (!this.setFile(folder, pid, file)) return null;
     }
     let path = join(folder, file);
     let made = false;
     if (!existsSync(path)) {
       // A plain-text file of the same name works too, for a phone without Word.
       const other = /\.docx$/i.test(file) ? file.replace(/\.docx$/i, '.txt') : file.replace(/\.txt$/i, '.docx');
-      if (existsSync(join(folder, other))) { file = other; path = join(folder, other); this.setFile(folder, pid, file); }
+      if (existsSync(join(folder, other))) { file = other; path = join(folder, other); if (!this.setFile(folder, pid, file)) return null; }
       else {
         mkdirSync(folder, { recursive: true });
         if (/\.txt$/i.test(file)) writeFileSync(path, headerFor(title) + '\n\n');

@@ -210,7 +210,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   if (sync.config()) await Promise.race([syncPass({ take: true, share: false }), new Promise((r) => setTimeout(r, 15_000))]);
   // Once: recount text that already held [[brackets]]. A novel with newer work waiting on the other
   // computer is left for a later start, so the recount can never look like a change made here.
-  try { ms.recountLater((pid) => { const st = sync.config() ? sync.status(pid) as { incoming?: unknown; diverged?: unknown } : null; return !!(st?.incoming || st?.diverged); }); } catch { /* counts stay as they were; nothing is lost */ }
+  try { ms.recountLater((pid) => { const st = sync.config() ? sync.status(pid) as { incoming?: unknown; diverged?: unknown; busyElsewhere?: unknown[] } : null; return !!(st?.incoming || st?.diverged || st?.busyElsewhere?.length); }); } catch { /* counts stay as they were; nothing is lost */ }
 
   app.addHook('onClose', async () => {
     clearInterval(syncTimer);

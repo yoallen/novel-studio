@@ -146,6 +146,17 @@ describe('notes from the road', () => {
     expect(index).toEqual({ [a.id]: 'Francine.docx', [b.id]: 'Francine (2).docx' });
   });
 
+  it('never rewrites an index it could not read', async () => {
+    const { shared, notes } = setupNotes();
+    const a = env.brain.createProject('Book');
+    await notes.ensure(a.id);
+    const index = join(shared, NOTES_DIR, '.story-canon-index.json');
+    writeFileSync(index, '{"half-synced');
+    const b = env.brain.createProject('Other');
+    expect(await notes.ensure(b.id)).toBeNull();
+    expect(readFileSync(index, 'utf8')).toBe('{"half-synced');
+  });
+
   it('does nothing when sharing is off', async () => {
     env = freshStore();
     const p = env.brain.createProject('IDW');
