@@ -158,6 +158,8 @@ export class Collaborator {
     if (sceneId) {
       const s = this.ms.scene(sceneId);
       lines.push('', `FOCUS SCENE: "${s.title}"${s.reserved ? ` (kept for the author: ${s.reserved}; do not draft it)` : ''}`);
+      // Her settled draft is the truth for this scene: where it and the scene plan disagree, the draft wins.
+      if (s.confirmed) lines.push('The author has settled this draft: where the prose and the scene plan disagree, the prose is right and the plan is history.');
       if (ai.shareManuscript) lines.push("The author’s prose (do not rewrite it; comment only if asked):", String(s.text).slice(-12000));
       else lines.push('(The author has not chosen to share manuscript prose with the collaborator.)');
     }

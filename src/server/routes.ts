@@ -255,6 +255,8 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
 
   // ----- writing desk -----
   app.get('/api/scenes/:id/context', async (req) => desk.sceneContext(params(req, P).id));
+  // The scene's own card, made on first use, so a conversation can be about this scene.
+  app.post('/api/scenes/:id/card', async (req) => ({ id: desk.ensurePlan(params(req, P).id) }));
   app.post('/api/scenes/:id/plan', async (req) => {
     const b = body(req, z.object({ field: z.string().max(40), value: z.string().min(1).max(200_000), status: z.enum(['established', 'developing', 'unanswered']).optional() }));
     return desk.setPlanField(params(req, P).id, b.field, b.value, b.status);

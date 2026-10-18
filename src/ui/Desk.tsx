@@ -6,8 +6,11 @@ import type { Ctx } from './App';
 import { Editor } from './Editor';
 import { ScenePanel } from './ScenePanel';
 import { flushEditor } from './flush';
+import { sceneCircle, CIRCLE_WORDS } from '../core/labels';
 
-// The writing desk: binder, page, and the scene's plan beside it. Focus mode hides everything but the page (R-B-004).
+// The writing desk: binder, page, and the scene's plan beside it. Focus mode hides everything but the page (R-B-004):
+// the binder and plan, and the tabs, the story strip and the header too. Esc or "Leave focus" brings them back,
+// and Ctrl+Shift+N still captures a thought.
 export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
   const [outline, setOutline] = useState<any>(null);
   const [reading, setReading] = useState(false);
@@ -33,14 +36,36 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [focus]);
+  // Focus reaches past the desk: the whole window goes quiet while it is on.
+  useEffect(() => {
+    const app = document.querySelector('.app');
+    if (focus) app?.setAttribute('data-focus', ''); else app?.removeAttribute('data-focus');
+    return () => app?.removeAttribute('data-focus');
+  }, [focus]);
+  // "Show in Narrative Zoom" for a scene that is not on the plan says so here, plainly.
+  const [notOnPlan, setNotOnPlan] = useState(false);
+  useEffect(() => setNotOnPlan(false), [sceneId]);
+  async function showPlace() {
+    if (!sceneId) return;
+    await flushEditor();
+    try {
+      const node = await api.get(`/api/scenes/${sceneId}/locate`);
+      if (node.level === 'story') { setNotOnPlan(true); return; }
+      ctx.showInMap(sceneId);
+    } catch (e) { setError((e as Error).message); }
+  }
+  async function askAboutScene() {
+    if (!sceneId) return;
+    await flushEditor();
+    const title = outline?.chapters?.flatMap((c: any) => c.scenes).find((x: any) => x.id === sceneId)?.title ?? '';
+    // The conversation is about this scene: its card is chosen in "Focus on", so the collaborator reads its plan too.
+    const card = await api.post(`/api/scenes/${sceneId}/card`, {}).catch(() => null);
+    await askAbout(ctx, { title: `About the scene ${title}`.trim(), sceneId, elementId: card?.id ?? null });
+  }
 
   const ladder: any[] = ctx.settings.sceneLadder;
-  const drafted = (status: string) => {
-    const step = ladder.find((x) => x.key === status);
-    if (!step?.drafted) return 'idea';
-    const i = ladder.indexOf(step), firstRevise = ladder.findIndex((x) => x.key === 'revising');
-    return firstRevise >= 0 && i >= firstRevise ? 'revising' : 'drafted';
-  };
+  // The circle follows the status she chose: empty, half (being written) or full (written).
+  const circle = (status: string) => sceneCircle(ladder, status);
 
   async function addChapter() { const c = await api.post(`/api/projects/${ctx.projectId}/chapters`, {}); const s = await api.post(`/api/chapters/${c.id}/scenes`, {}); setTick((t) => t + 1); ctx.openScene(s.id); }
   async function addScene(chapterId: string, afterSceneId?: string) { const s = await api.post(`/api/chapters/${chapterId}/scenes`, { afterSceneId: afterSceneId ?? null }); setTick((t) => t + 1); ctx.openScene(s.id); }
@@ -110,17 +135,17 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
                     <span className="wc">{(c.word_count + (c.scenes.some((x: any) => x.id === live?.id) ? liveDelta(outline, live) : 0)).toLocaleString()}</span>
                   </div>
                   {c.scenes.map((s: any) => (
-                    <div key={s.id} className="row" style={{ gap: 0, flexWrap: 'nowrap' }}>
+                    <div key={s.id} className="scene-item">
                       <button className="scene-row" aria-current={s.id === sceneId ? 'true' : undefined} onClick={() => ctx.openScene(s.id)}>
-                        <span className="mark" data-d={drafted(s.status)} title={ladder.find((x) => x.key === s.status)?.label ?? s.status} />
+                        <span className="mark" data-c={circle(s.status)} title={`${ladder.find((x) => x.key === s.status)?.label ?? s.status}: ${CIRCLE_WORDS[circle(s.status)]}`} />
                         <span className="grow" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.title}</span>
                         <span className="wc">{(live && live.id === s.id ? live.words : s.word_count).toLocaleString()}</span>
                       </button>
                       {s.id === sceneId && (
-                        <span className="row" style={{ gap: 0, flexWrap: 'nowrap' }}>
-                          <button className="btn link small" aria-label="Move scene up" onClick={() => void moveScene(s, -1)}>↑</button>
-                          <button className="btn link small" aria-label="Move scene down" onClick={() => void moveScene(s, 1)}>↓</button>
-                          <button className="btn link small" aria-label="Delete this scene" title="Move this scene to Deleted" onClick={() => void deleteScene(s)}>Delete</button>
+                        <span className="scene-tools" role="group" aria-label="This scene">
+                          <button className="btn link small" aria-label="Move scene up" onClick={() => void moveScene(s, -1)}>↑ Up</button>
+                          <button className="btn link small" aria-label="Move scene down" onClick={() => void moveScene(s, 1)}>↓ Down</button>
+                          <button className="btn link small" aria-label="Delete this scene" title="Moves this scene to Deleted. You can restore it from Story Trail, under Deleted things." onClick={() => void deleteScene(s)}>Delete</button>
                         </span>
                       )}
                     </div>
@@ -155,18 +180,25 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
         <div className="row" style={{ justifyContent: 'flex-end', padding: '0.5rem 1rem 0' }}>
           {!quiet && <button className="btn link small" onClick={() => { setReading(false); setPanel((p) => !(p && !reading)); }}>{panel && !reading ? 'Hide scene plan' : 'Show scene plan'}</button>}
           {!quiet && sceneId && <button className="btn link small" aria-pressed={panel && reading} onClick={() => { if (panel && reading) { setPanel(false); setReading(false); } else { setReading(true); setPanel(true); } }}>Read it back</button>}
-          {!quiet && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => ctx.showInMap(sceneId)); }}>Show in Story Map</button>}
-          {!quiet && <button className="btn link small" onClick={ctx.openStuck}>I'm stuck</button>}
-          {!quiet && sceneId && <button className="btn link small" onClick={() => { void flushEditor().then(() => askAbout(ctx, { title: `About the scene ${outline?.chapters?.flatMap((c: any) => c.scenes).find((x: any) => x.id === sceneId)?.title ?? ''}`.trim(), sceneId })); }}>Ask about this scene</button>}
+          {!quiet && sceneId && <button className="btn link small" onClick={() => void showPlace()} title="Where this scene sits in your plan: its card and its beat">Show in Narrative Zoom</button>}
+          {!quiet && <button className="btn link small" onClick={() => ctx.openStuck(sceneId ?? undefined)}>I'm stuck</button>}
+          {!quiet && sceneId && <button className="btn link small" onClick={() => void askAboutScene()}>Ask about this scene</button>}
           {!quiet && <button className="btn link small" onClick={() => ctx.go('trail')}>Writing Trail</button>}
           {!quiet && <button className="btn link small" onClick={ctx.startSprint} title="A set time of nothing but the page">Sprint</button>}
-          {!ctx.sprinting && <button className="btn link small" onClick={() => setFocus((f) => !f)} title="Ctrl+Shift+F">{focus ? 'Leave focus' : 'Focus'}</button>}
+          {!ctx.sprinting && !focus && <button className="btn link small" onClick={() => setFocus(true)} title="Only the page, nothing else on screen (Ctrl+Shift+F)">Focus</button>}
+          {focus && <span className="leave-focus"><span className="faint small">Esc leaves focus. Ctrl+Shift+N still captures a thought.</span><button className="btn small" onClick={() => setFocus(false)}>Leave focus</button></span>}
         </div>
+        {notOnPlan && !quiet && (
+          <div className="notice small not-on-plan" role="status">
+            <p>This scene is not on your plan yet, so Narrative Zoom has no place to show it. Fill in any line of its scene plan and it becomes a card you can put on a beat.</p>
+            <div className="row"><button className="btn link small" onClick={() => { setNotOnPlan(false); ctx.go('zoom'); }}>Open Narrative Zoom anyway</button><button className="btn link small" onClick={() => setNotOnPlan(false)}>Close</button></div>
+          </div>
+        )}
         {sceneId ? <Editor key={sceneId + ':' + editorNonce} ctx={ctx} sceneId={sceneId} quiet={ctx.sprinting} onChanged={() => { setLive(null); setTick((t) => t + 1); }} onWords={(n) => setLive({ id: sceneId, words: n })} />
           : <div className="page"><p className="muted">Choose a scene on the left, or add one, and start writing.</p></div>}
       </div>
       {!quiet && panel && sceneId && reading && <aside className="panel" aria-label="Read it back"><ReadBack ctx={ctx} /></aside>}
-      {!quiet && panel && sceneId && !reading && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
+      {!quiet && panel && sceneId && !reading && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} tick={tick} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
     </div>
   );
 }

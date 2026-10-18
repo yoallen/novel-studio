@@ -43,13 +43,16 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
     e.preventDefault();
     if (!title.trim()) { setError('Give the novel a working title. You can change it any time.'); return; }
     try {
+      // The one sentence becomes the novel's one sentence (Novel setup), not a loose thought.
       const p = await api.post('/api/projects', { title: title.trim(), profile: sentence.trim() ? { premise_sentence: sentence.trim() } : {} });
-      if (sentence.trim()) await api.post(`/api/projects/${p.id}/capture`, { text: sentence.trim(), kind: 'idea' });
       if (thenView !== 'files') {
         const ch = await api.post(`/api/projects/${p.id}/chapters`, {});
-        await api.post(`/api/chapters/${ch.id}/scenes`, {});
+        const sc = await api.post(`/api/chapters/${ch.id}/scenes`, {});
+        // Start writing opens that blank page, ready for the first line.
+        if (!thenView) await api.put(`/api/projects/${p.id}/writing-state`, { sceneId: sc.id });
       }
-      if (thenView) try { sessionStorage.setItem('ns-open-view', thenView); } catch { /* ignore */ }
+      const view = thenView ?? 'write';
+      try { sessionStorage.setItem('ns-open-view', view); } catch { /* ignore */ }
       onOpen(p.id);
     } catch (err) { setError((err as Error).message); }
   }
@@ -120,7 +123,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
       <form onSubmit={create} className="section">
         <h2>Start a novel</h2>
         <label className="field"><span>Working title</span><input type="text" value={title} onChange={(e) => setTitle(e.target.value)} /></label>
-        <label className="field"><span>One sentence about it, if you have one (optional)</span><textarea value={sentence} onChange={(e) => setSentence(e.target.value)} rows={2} /></label>
+        <label className="field"><span>One sentence about it, if you have one (optional)</span><textarea value={sentence} onChange={(e) => setSentence(e.target.value)} rows={2} aria-describedby="one-sentence-hint" /><small id="one-sentence-hint" className="faint">It becomes the book's one sentence. You can change it any time in Novel setup.</small></label>
         <div className="row">
           <button className="btn write" type="submit">Start writing</button>
           <button className="btn" type="button" onClick={(e) => void create(e, 'setup')}>Set it up first</button>

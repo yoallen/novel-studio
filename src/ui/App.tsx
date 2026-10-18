@@ -36,7 +36,8 @@ export interface Ctx {
   setSaveState: (s: SaveState) => void;
   capture: () => void;
   showInMap: (sceneId: string) => void;
-  openStuck: () => void;
+  /** Open I'm stuck. Given the open scene's id (from the Writing Room), it starts at that scene's beat. */
+  openStuck: (fromSceneId?: unknown) => void;
   currentSceneId: string | null;
   /** A sprint is running: the page is all there is. */
   sprinting: boolean;
@@ -54,7 +55,10 @@ export function App() {
   const [save, setSave] = useState<SaveState>({ state: 'idle' });
   const [capturing, setCapturing] = useState(false);
   const [zoomReq, setZoomReq] = useState<ZoomRequest>(null);
-  const [stuck, setStuck] = useState(false);
+  // I'm stuck remembers the scene it was opened from, so it can start at that scene's beat.
+  const [stuck, setStuck] = useState<false | { sceneId: string | null }>(false);
+  // "Return to Writing" is offered once there is writing to return to: she has been on the page, or the page has words.
+  const [beenWriting, setBeenWriting] = useState(false);
   const [error, setError] = useState<string>('');
   const cursorRef = useRef<{ from: number; to: number } | null>(null);
   const [sprint, setSprint] = useState<SprintState | null>(null);
@@ -92,12 +96,21 @@ export function App() {
     setView(first);
     try { if (projectId) localStorage.setItem('novel-studio-last-project', projectId); else localStorage.removeItem('novel-studio-last-project'); } catch { /* ignore */ }
     void refreshProject();
-    if (projectId) api.get(`/api/projects/${projectId}/writing-state`).then((w) => { if (w.state?.sceneId) setSceneId(w.state.sceneId); }).catch(() => {});
+    setBeenWriting(false);
+    if (projectId) api.get(`/api/projects/${projectId}/writing-state`).then((w) => {
+      if (!w.state?.sceneId) return;
+      setSceneId(w.state.sceneId);
+      // A page with words on it is worth returning to, even in a new session.
+      api.get(`/api/scenes/${w.state.sceneId}`).then((s) => { if (s.word_count > 0) setBeenWriting(true); }).catch(() => {});
+    }).catch(() => {});
   }, [projectId, refreshProject]);
+
+  useEffect(() => { if (view === 'write') setBeenWriting(true); }, [view]);
 
   // Leaving the page for anything else records a detour on the Writing Trail (R-B-016, R-B-017).
   const go = useCallback((v: View) => {
-    if (viewRef.current === 'write' && v !== 'write' && sceneId && projectId) {
+    // The Writing Trail is part of the Writing Room: opening it is not a detour of its own.
+    if (viewRef.current === 'write' && v !== 'write' && v !== 'trail' && sceneId && projectId) {
       api.post(`/api/projects/${projectId}/trail`, { from: { sceneId, cursor: cursorRef.current }, to: { view: v }, reason: `Went to ${VIEW_NAMES[v]}` }).catch(() => {});
     }
     setView(v);
@@ -181,19 +194,20 @@ export function App() {
   const ctx: Ctx = { projectId, project, settings, refreshProject, openScene, closeScene: () => { setSceneId(null); api.put(`/api/projects/${projectId}/writing-state`, { sceneId: null }).catch(() => {}); }, go, setSaveState: setSave, capture: () => setCapturing(true), currentSceneId: sceneId, cursorRef,
     sprinting: !!sprint, startSprint: () => setChoosingSprint(true),
     showInMap: (sid: string) => { void api.get(`/api/scenes/${sid}/locate`).then((node) => { setZoomReq({ node, nonce: Date.now() }); go('zoom'); }).catch((e) => setError(e.message)); },
-    openStuck: () => setStuck(true) };
+    openStuck: (from?: unknown) => setStuck({ sceneId: typeof from === 'string' ? from : null }) };
   const saveText = save.state === 'saving' ? 'Saving…' : save.state === 'saved' ? 'Saved' : save.state === 'unsaved' ? 'Not saved yet' : save.state === 'error' ? (save.message ?? 'Not saved') : '';
 
   const PRIMARY: View[] = ['home', 'write', 'brain', 'zoom', 'conversations'];
   const SECONDARY: View[] = ['search', 'history', 'files', 'settings', 'help'];
-  const tab = (v: View) => <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>;
+  // The Writing Trail lives inside the Writing Room, so its tab stays marked there.
+  const tab = (v: View) => <button key={v} aria-current={view === v || (v === 'write' && view === 'trail') ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>;
   return (
     <div className="app" data-sprint={sprint ? true : undefined}>
       <Strip projectId={projectId} sceneId={sceneId} refresh={view} onOpen={() => go('zoom')} />
       <div className="colophon" aria-hidden="true">{BRAND.company ? `${BRAND.name}, ${BRAND.company}` : BRAND.name}</div>
       <div className="leaf" data-view={view}>
         <header className="running">
-          {view !== 'write' && sceneId && (
+          {view !== 'write' && sceneId && beenWriting && (
             <button className="ribbon" onClick={() => void returnToWriting()} title="Return to Writing (Ctrl+Shift+W)"><span>Return to Writing</span></button>
           )}
           <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
@@ -242,7 +256,7 @@ export function App() {
           onAnother={() => { stopSprint(); setChoosingSprint(true); }} />
       )}
       {choosingSprint && <SprintChooser onStart={(m, f) => void startSprint(m, f)} onClose={() => setChoosingSprint(false)} />}
-      {stuck && <Stuck ctx={ctx} onClose={() => setStuck(false)} />}
+      {stuck && <Stuck ctx={ctx} fromSceneId={stuck.sceneId} onClose={() => setStuck(false)} onShowBeat={(id) => { setStuck(false); setZoomReq({ node: { level: 'beat', id }, nonce: Date.now() }); go('zoom'); }} />}
       {capturing && <CaptureDialog ctx={ctx} sceneId={view === 'write' ? sceneId : null} onClose={() => setCapturing(false)} />}
     </div>
   );

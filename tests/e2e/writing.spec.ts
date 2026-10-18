@@ -150,7 +150,7 @@ test('deleting is never final, and any change can be undone (R-B-063)', async ({
   await editor(page).click();
   await page.keyboard.type('Keep these words.');
   page.once('dialog', (d) => d.accept());
-  await page.getByRole('button', { name: 'Delete scene' }).click();
+  await page.getByRole('complementary', { name: 'Chapters and scenes' }).getByRole('button', { name: 'Delete this scene' }).click();
   await expect(page.getByText('Choose a scene on the left')).toBeVisible();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Story Trail' }).click();
   await page.getByRole('button', { name: 'Deleted things' }).click();

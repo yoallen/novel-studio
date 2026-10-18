@@ -351,30 +351,45 @@ function Alternates({ ctx, tick, refresh }: { ctx: Ctx; tick: number; refresh: (
 }
 
 // "When I'm Stuck, Start Here": one beat, its example, one sentence (R-B-021, R-C-006).
-export function Stuck({ ctx, onClose }: { ctx: Ctx; onClose: () => void }) {
+export function Stuck({ ctx, onClose, fromSceneId, onShowBeat }: { ctx: Ctx; onClose: () => void; fromSceneId?: string | null; onShowBeat?: (beatId: string) => void }) {
   const [beats, setBeats] = useState<any[]>([]);
   const [i, setI] = useState(0);
   const [detail, setDetail] = useState<any>(null);
   const [line, setLine] = useState('');
-  const [saved, setSaved] = useState('');
-  useEffect(() => { api.get(`/api/projects/${ctx.projectId}/landmarks`).then((lm) => setBeats(lm.beats.filter((b: any) => b.number))).catch(() => {}); }, [ctx.projectId]);
+  const [saved, setSaved] = useState<{ beatId: string; name: string } | null>(null);
+  // Opened from inside a scene: start at that scene's own beat, if it has one.
+  const [scene, setScene] = useState<{ title: string; beatId: string } | null>(null);
+  useEffect(() => {
+    void (async () => {
+      try {
+        const lm = await api.get(`/api/projects/${ctx.projectId}/landmarks`);
+        const list = lm.beats.filter((b: any) => b.number);
+        setBeats(list);
+        if (!fromSceneId) return;
+        const c = await api.get(`/api/scenes/${fromSceneId}/context`);
+        const beatId = c.card?.beat?.id ?? c.card?.mightGo?.[0]?.id ?? null;
+        const at = beatId ? list.findIndex((b: any) => b.id === beatId) : -1;
+        if (at >= 0) { setI(at); setScene({ title: c.scene.title, beatId }); }
+      } catch { /* the first beat is still a fine place to start */ }
+    })();
+  }, [ctx.projectId, fromSceneId]);
   const b = beats[i];
-  useEffect(() => { if (b) api.get(`/api/beats/${b.id}`).then(setDetail).catch(() => {}); setSaved(''); }, [b]);
+  useEffect(() => { if (b) api.get(`/api/beats/${b.id}`).then(setDetail).catch(() => {}); setSaved(null); }, [b]);
   async function save() {
     if (!line.trim() || !b) return;
     await api.post(`/api/elements/${b.id}/statements`, { field: 'event', value: line, status: 'developing' });
-    setLine(''); setSaved('Saved. That counts.');
+    setLine(''); setSaved({ beatId: b.id, name: b.name });
   }
   return (
     <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="st-h" onKeyDown={(e) => e.key === 'Escape' && onClose()}><div className="dialog">
       {beats.length === 0 ? <><h2 id="st-h">Start here</h2><p>Write one sentence of anything. It counts.</p><button className="btn" onClick={() => { onClose(); ctx.capture(); }}>Write one sentence</button></> : (
         <>
-          <p className="small muted">Read only this beat. Do not look at the others.</p>
+          <p className="small muted">{scene && b?.id === scene.beatId ? `"${scene.title}" sits at this beat. ` : ''}Read only this beat. Do not look at the others.</p>
           <div className="row"><h2 id="st-h" className="grow">{b?.number}. {b?.name}</h2><select value={i} onChange={(e) => setI(Number(e.target.value))} style={{ width: 'auto' }} aria-label="Which beat">{beats.map((x, j) => <option key={x.id} value={j}>{x.number}. {x.name}</option>)}</select></div>
           {detail?.def?.example && <p className="st" data-s="illustrative">{detail.def.example}</p>}
           {detail?.def?.description && <details><summary className="small muted">What this beat does</summary><p className="small" style={{ whiteSpace: 'pre-wrap' }}>{detail.def.description}</p></details>}
           <label className="field" style={{ marginTop: '1rem' }}><span>One sentence of what happens at this beat</span><input type="text" value={line} onChange={(e) => setLine(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && void save()} /></label>
-          <div className="row"><button className="btn write" onClick={() => void save()}>Save the sentence</button>{saved && <span role="status" className="small">{saved}</span>}</div>
+          <div className="row"><button className="btn write" onClick={() => void save()}>Save the sentence</button>{saved && <span role="status" className="small">Saved. That counts. It is on the beat {saved.name}, in pencil under "What it is (your plan)". {onShowBeat && <button className="btn link small" onClick={() => onShowBeat(saved.beatId)}>See it there</button>}</span>}</div>
           <div className="section small">
             <p className="muted">Or the next smallest step:</p>
             <div className="row"><button className="btn small" onClick={() => { onClose(); ctx.go('brain'); }}>Fill in one line about a character</button><button className="btn small" onClick={() => { onClose(); ctx.capture(); }}>Write one line in a narrator's voice, complaining about anything</button></div>

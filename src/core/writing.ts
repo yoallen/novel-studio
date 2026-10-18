@@ -11,18 +11,22 @@ import { settingsOf } from './settings.js';
 
 /** Scene-plan fields shown beside the page (R-B-001). Stored as statements, so each keeps status and history. */
 export const PLAN_FIELDS = [
-  { field: 'purpose', label: 'What this scene must do' },
-  { field: 'objective', label: "The viewpoint character's objective" },
-  { field: 'conflict', label: 'Central conflict' },
-  { field: 'outcome', label: 'Intended outcome or change' },
-  { field: 'value_start', label: 'Value at the start' },
-  { field: 'value_end', label: 'Value at the end' },
-  { field: 'how_we_got_here', label: 'How we got here' },
-  { field: 'what_must_follow', label: 'What must follow' },
-  { field: 'story_time', label: 'When (story time)' },
-  { field: 'story_year', label: 'Year' },
-  { field: 'location', label: 'Where' },
+  { field: 'purpose', label: 'What this scene must do', hint: 'The job it does for the book. If you cut it, what would the story lose?' },
+  { field: 'objective', label: "The viewpoint character's objective", hint: 'What the viewpoint character is trying to get or do here.' },
+  { field: 'conflict', label: 'Central conflict', hint: 'Who or what is in the way, and who wins.' },
+  { field: 'outcome', label: 'Intended outcome or change', hint: 'How things stand differently when the scene ends.' },
+  { field: 'reader_response', label: 'What you want the reader to feel', hint: 'Funny, shocking, profound, relatable, or your own word.' },
+  { field: 'value_start', label: 'Value at the start', hint: 'What matters to the character here, and whether it is going well (+) or badly (-). For example: Trust, +' },
+  { field: 'value_end', label: 'Value at the end', hint: 'The same value as the scene ends. A change from + to - (or back) is the scene turning. For example: Trust, -' },
+  { field: 'how_we_got_here', label: 'How we got here', hint: 'The causes: what earlier events lead to this scene, not only the scene before it.' },
+  { field: 'what_must_follow', label: 'What must follow', hint: 'The consequences: what has to happen later because of this scene.' },
+  { field: 'story_time', label: 'When (story time)', hint: 'When it happens, in your own words: the morning after the funeral, day 3 of the feud.' },
+  { field: 'story_year', label: 'Year', hint: "The calendar year as a number, such as 1987. With birth years on characters, it shows everyone's age here." },
+  { field: 'location', label: 'Where', hint: 'Type a place, or pick one of your Places from the list as you type.' },
 ] as const;
+
+/** What the readiness list checks, named exactly as the blanks it points to. */
+const planLabel = (f: string) => PLAN_FIELDS.find((x) => x.field === f)!.label;
 
 const OPEN_STATES = new Set(['open', 'considering', 'inbox', '']);
 
@@ -61,17 +65,41 @@ export class WritingDesk {
     const has = (v: unknown) => v !== undefined && v !== null && String(v).trim() !== '';
     const readiness = [
       { item: 'Viewpoint character', ok: !!s.pov_element_id },
-      { item: 'Purpose', ok: has(valueOf('purpose')) },
-      { item: "Character's objective", ok: has(valueOf('objective')) },
-      { item: 'Central conflict', ok: has(valueOf('conflict')) },
-      { item: 'Intended outcome or change', ok: has(valueOf('outcome')) },
-      { item: 'Relationship to the surrounding story', ok: has(valueOf('how_we_got_here')) || has(valueOf('what_must_follow')) || linked.some((l) => !['question', 'idea', 'thought', 'note'].includes(l.kind as string)) },
+      { item: planLabel('purpose'), ok: has(valueOf('purpose')) },
+      { item: planLabel('objective'), ok: has(valueOf('objective')) },
+      { item: planLabel('conflict'), ok: has(valueOf('conflict')) },
+      { item: planLabel('outcome'), ok: has(valueOf('outcome')) },
+      { item: `${planLabel('how_we_got_here')} or ${planLabel('what_must_follow').toLowerCase()}`, ok: has(valueOf('how_we_got_here')) || has(valueOf('what_must_follow')) || linked.some((l) => !['question', 'idea', 'thought', 'note'].includes(l.kind as string)) },
     ];
+    // A scene made from a card carries the card's own planning: its beat and anything else written on it.
+    let card: { id: string; title: string; beat: { id: string; name: string } | null; mightGo: { id: string; name: string }[]; fields: { field: string; label: string; value: unknown }[] } | null = null;
+    if (planId) {
+      const el = this.store.get('elements', planId);
+      if (el && !el.deleted_at) {
+        const name = (id: unknown) => (this.store.get('elements', String(id))?.title as string) ?? '';
+        const place = this.brain.field(planId, 'beat');
+        const shown = new Set<string>([...PLAN_FIELDS.map((f) => f.field), 'beat']);
+        const defs = this.brain.fieldsFor(pid, 'scene_plan', { all: true });
+        const used = (this.store.db.prepare('SELECT DISTINCT field FROM statements WHERE element_id=? AND deleted_at IS NULL').all(planId) as Row[]).map((r) => r.field as string);
+        const fieldsOnCard = used.filter((f) => !shown.has(f)).map((f) => {
+          const v = this.brain.field(planId, f);
+          const value = (v.current ?? v.latest)?.value;
+          return { field: f, label: defs.find((d) => d.field === f)?.label ?? f.replace(/^x_/, '').replace(/_/g, ' '), value };
+        }).filter((f) => f.value !== undefined && f.value !== null && String(f.value).trim() !== '');
+        card = {
+          id: planId, title: el.title as string,
+          beat: place.current ? { id: String(place.current.value), name: name(place.current.value) } : null,
+          mightGo: place.possibilities.map((p) => ({ id: String(p.value), name: name(p.value) })).filter((b) => b.name),
+          fields: fieldsOnCard,
+        };
+      }
+    }
     const pov = s.pov_element_id ? this.store.get('elements', s.pov_element_id as string) : null;
     return {
       scene: { id: s.id, title: s.title, status: s.status, confirmed: s.confirmed, reserved: s.reserved, notes: s.notes, word_count: s.word_count, version: s.version, chapter_id: s.chapter_id, pov_element_id: s.pov_element_id, plan_element_id: planId },
       pov: pov && !pov.deleted_at ? { id: pov.id, title: pov.title } : null,
       fields,
+      card,
       linked,
       openNotes: notes.filter((n) => OPEN_STATES.has(n.state as string)),
       readiness: { ready: readiness.every((r) => r.ok), items: readiness, open: readiness.filter((r) => !r.ok).map((r) => r.item) },
