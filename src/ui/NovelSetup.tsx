@@ -2,6 +2,11 @@ import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { statusWord } from './status';
+import { groupTitle } from '../core/groupnames';
+
+/** A tone that usually goes with a genre, so a book ticked Comic can be asked whether it is a Comedy. */
+const TONE_GENRE: Record<string, string> = { comic_tone: 'comedy', romantic_tone: 'romance', suspenseful: 'suspense' };
+const kindWords: Record<string, string> = { character: 'each character', arc: 'each arc', scene_plan: 'each scene card', storyworld: 'the story world', beat: 'each beat', clue: 'each clue', location: 'each place', relationship: 'each relationship' };
 
 const ROLE_NAMES: Record<string, string> = { primary: 'Primary', secondary: 'Secondary', influence: 'Influence' };
 
@@ -17,11 +22,12 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
   const [adding, setAdding] = useState<string | null>(null);
   const [customFw, setCustomFw] = useState('');
   const [carry, setCarry] = useState(true);
+  const [savedAt, setSavedAt] = useState('');
   const load = () => Promise.all([api.get(`/api/projects/${ctx.projectId}/setup`), api.get(`/api/projects/${ctx.projectId}/setup/active`)]).then(([s, a]) => { setD(s); setActive(a); }).catch((e) => setError(e.message));
   useEffect(() => { void load(); }, [ctx.projectId]);
   async function save(patch: Record<string, unknown>, note = '') {
     setError(''); setMsg('');
-    try { setD(await api.patch(`/api/projects/${ctx.projectId}/setup`, patch)); setActive(await api.get(`/api/projects/${ctx.projectId}/setup/active`)); if (note) setMsg(note); await ctx.refreshProject(); }
+    try { setD(await api.patch(`/api/projects/${ctx.projectId}/setup`, patch)); setActive(await api.get(`/api/projects/${ctx.projectId}/setup/active`)); if (note) setMsg(note); setSavedAt(new Date().toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', second: '2-digit' })); await ctx.refreshProject(); }
     catch (e) { setError((e as Error).message); }
   }
   if (!d) return <div className="content muted">{error || 'Opening…'}</div>;
@@ -42,12 +48,18 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
       <button className="btn link small" onClick={() => ctx.go('settings')}>Settings</button>
       <h1>How {d.title} is set up</h1>
       <p className="muted">Every list here is optional and can change whenever the story does. What you choose decides which fields, views and questions the program offers this novel. Nothing you have written is ever hidden or removed by a change here.</p>
+      <p className="small muted">Every choice here is kept the moment you make it. There is nothing else to save.</p>
       {error && <div className="notice error" role="alert">{error}</div>}
       {msg && <div className="notice" role="status">{msg}</div>}
 
-      <section className="section">
-        <h2>The one sentence</h2>
-        <textarea rows={2} defaultValue={d.premise} aria-label="The one sentence" placeholder="The whole book, squeezed until only its central irony is left." onBlur={(e) => { if (e.target.value !== d.premise) void save({ premise: e.target.value }); }} />
+      <section className="section setup-heart" aria-label="The heart of the book">
+        <h2>The heart of the book</h2>
+        <p className="small muted">The one sentence and the one paragraph live in the story world. Change them here or there; it is the same place.{' '}
+          {d.storyWorldId && <button className="btn link small" onClick={() => { try { sessionStorage.setItem('ns-brain-sel', JSON.stringify({ kind: 'element', id: d.storyWorldId })); } catch { /* ignore */ } ctx.go('brain'); }}>Open the story world</button>}</p>
+        <label className="field"><span>The one sentence {d.premiseStatus && <span className="fact-status" data-s={d.premiseStatus}>{statusWord(ctx.settings, d.premiseStatus)}</span>}</span>
+          <textarea rows={2} defaultValue={d.premise} key={`p-${d.premise}`} aria-label="The one sentence" placeholder="The whole book, squeezed until only its central irony is left." onBlur={(e) => { if (e.target.value.trim() && e.target.value !== d.premise) void save({ premise: e.target.value }); }} /></label>
+        <label className="field"><span>The one paragraph {d.paragraphStatus && <span className="fact-status" data-s={d.paragraphStatus}>{statusWord(ctx.settings, d.paragraphStatus)}</span>}</span>
+          <textarea rows={4} defaultValue={d.paragraph} key={`q-${d.paragraph}`} aria-label="The one paragraph" placeholder="Setup, three disasters, and the ending, one sentence each." onBlur={(e) => { if (e.target.value.trim() && e.target.value !== d.paragraph) void save({ paragraph: e.target.value }); }} /></label>
       </section>
 
       <section className="section" aria-label="Genres">
@@ -68,6 +80,12 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
           <input type="text" value={customGenre} onChange={(e) => setCustomGenre(e.target.value)} placeholder="A genre or subgenre of your own" aria-label="Your own genre" style={{ maxWidth: 320 }} />
           <button className="btn small" type="submit" disabled={!customGenre.trim()}>Add</button>
         </form>
+        {Object.entries(TONE_GENRE).filter(([t, g]) => s.characteristics.includes(t) && !genreOf(g)).map(([t, g]) => {
+          const genre = d.catalog.genres.find((x: any) => x.key === g); const tone = d.catalog.characteristics.find((x: any) => x.key === t);
+          return genre && tone ? (
+            <p key={t} className="setup-ask small">Your tone is {tone.name}, but {genre.name} is not ticked as a genre. If this book is a {genre.name.toLowerCase()}, tick it so its questions and tools come on. <button className="btn link small" onClick={() => void setGenre(g, genre.name, 'primary')}>Mark {genre.name} as the primary genre</button></p>
+          ) : null;
+        })}
         {d.asks.length > 0 && (
           <div style={{ marginTop: '1rem' }}>
             <h3 className="small" style={{ margin: '0 0 0.25rem' }}>What these genres ask of your story</h3>
@@ -77,8 +95,8 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
       </section>
 
       <section className="section" aria-label="Story types">
-        <h2>Blake Snyder story types</h2>
-        <p className="small muted">A separate list from genre, with its own roles. Each type names three ingredients your story needs.</p>
+        <h2>Story types <span className="group-from">(Blake Snyder, Save the Cat)</span></h2>
+        <p className="small muted">A separate list from genre, with its own roles. Each type names three ingredients your story needs. Tick one and a place to write each ingredient appears below.</p>
         <div className="cols" style={{ gap: '0.25rem 1.5rem' }}>
           {d.catalog.storyTypes.map((t: any) => {
             const cur = typeOf(t.key);
@@ -88,7 +106,7 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
                   <label className="row grow"><input type="checkbox" checked={!!cur} onChange={(e) => void setType(t.key, e.target.checked ? 'secondary' : null)} />{t.name}</label>
                   {cur && <select aria-label={`${t.name} role`} value={cur.role} onChange={(e) => void setType(t.key, e.target.value)} style={{ width: 'auto' }}>{Object.entries(ROLE_NAMES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select>}
                 </div>
-                <div className="small faint" style={{ paddingLeft: '1.6rem' }}>{t.about}</div>
+                <div className="small faint" style={{ paddingLeft: '1.6rem' }}>{t.about}{t.needs?.length ? <> <span className="needs">Needs: {t.needs.map((n: string, i: number) => (i ? n.charAt(0).toLowerCase() + n.slice(1) : n)).join(', ')}.</span></> : null}</div>
               </div>
             );
           })}
@@ -147,9 +165,9 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
             <div key={f.key} style={{ borderTop: '1px solid var(--line)', padding: '0.5rem 0' }}>
               <label className="choice">
                 <input type="checkbox" checked={on} onChange={(e) => void save({ frameworks: e.target.checked ? [...fw, f.key] : fw.filter((x) => x !== f.key) }, e.target.checked && f.kind === 'structure' && !structures.length ? `${f.name} is now the beat sheet for this novel.` : '')} />
-                <span><strong>{f.name}</strong>{f.own && <> <span className="chip">yours</span> <button type="button" className="btn link small" onClick={(e) => { e.preventDefault(); ctx.go('methods'); }}>Edit</button></>}<small>{f.job}</small>{on && f.questions?.length > 0 && <small>Asks: {f.questions.join(' ')}</small>}</span>
+                <span><strong>{f.name}</strong>{f.own && <> <span className="chip">yours</span> <button type="button" className="btn link small" onClick={(e) => { e.preventDefault(); ctx.go('methods'); }}>Edit</button></>}<small>{f.job}</small>{f.fieldGroups?.length > 0 && <small className="turns-on">Adds: {f.fieldGroups.map((g: any) => `${groupTitle(g.group)} on ${kindWords[g.kind] ?? `each ${String(g.kind).replace(/_/g, ' ')}`}`).join('; ')}</small>}{on && f.questions?.length > 0 && <small>Asks: {f.questions.join(' ')}</small>}</span>
               </label>
-              {on && <label className="field" style={{ margin: '0.4rem 0 0 1.6rem' }}><span>How I use it</span><textarea rows={2} defaultValue={s.frameworkNotes[f.key] ?? ''} onBlur={(e) => { if (e.target.value !== (s.frameworkNotes[f.key] ?? '')) void save({ frameworkNotes: { [f.key]: e.target.value } }); }} /></label>}
+              {on && <label className="field" style={{ margin: '0.4rem 0 0 1.6rem' }}><span>How I use it <span className="faint small">(your own note, yours to change)</span></span><textarea rows={2} defaultValue={s.frameworkNotes[f.key] ?? ''} placeholder="What this method does for you in this book" onBlur={(e) => { if (e.target.value !== (s.frameworkNotes[f.key] ?? '')) void save({ frameworkNotes: { [f.key]: e.target.value } }); }} /></label>}
             </div>
           );
         })}
@@ -174,6 +192,10 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
           <ul className="small">{active.map((a) => <li key={a}>{a}</li>)}</ul>
         </section>
       )}
+
+      <div className="save-bar" role="region" aria-label="Saving">
+        <span aria-live="polite" className="save-bar-status">{savedAt ? `Saved at ${savedAt}. Every choice saves as you make it.` : 'Every choice saves as you make it.'}</span>
+      </div>
 
       <section className="section">
         <button className="btn" onClick={() => void api.post(`/api/projects/${ctx.projectId}/setup/save-as-defaults`).then(() => setMsg('Saved as your defaults. New novels start this way; your other novels are unchanged.')).catch((e) => setError(e.message))}>Make this my starting point for new novels</button>

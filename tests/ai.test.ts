@@ -25,7 +25,7 @@ function setup(script: (req: Req, call: number) => AiResponse) {
   const convs = new Conversations(env.store, env.brain);
   const f = fake(script);
   const ai = new Collaborator(env.store, env.brain, env.ms, convs, ct, f.factory);
-  return { pid, convs, ai, calls: f.calls };
+  return { pid, convs, ai, calls: f.calls, st };
 }
 
 const say = (text: string): AiResponse => ({ content: [{ type: 'text', text }], stop_reason: 'end_turn' });
@@ -108,15 +108,21 @@ describe('the collaborator (R-A-089 to R-A-108)', () => {
     expect(r.reply.text).toContain('Two ideas.');
     expect(r.reply.text).toContain('One could not be saved.');
     const pending = env.brain.proposals(pid, 'pending');
-    expect(pending).toHaveLength(1);
-    expect(pending[0]!.target).toMatchObject({ elementId: kevinId, field: 'fear' });
-    expect(pending[0]!.turn_id).toBe(r.reply.id);
+    expect(pending).toHaveLength(2);
+    const fact = pending.find((p) => p.kind === 'statement')!;
+    expect(fact.target).toMatchObject({ elementId: kevinId, field: 'fear' });
+    expect(fact.turn_id).toBe(r.reply.id);
     const fear = env.brain.elementPage(kevinId).fields.find((f) => f.view.field === 'fear');
     expect(fear?.view.current ?? null).toBeNull();
     expect(fear?.view.latest ?? null).toBeNull();
+    // The question waits too: it is not one of her questions until she accepts it.
+    expect(env.brain.elements(pid, { kind: 'question' })).toHaveLength(0);
+    const ask = pending.find((p) => p.kind === 'element')!;
+    env.brain.acceptProposal(ask.id as string);
     const q = env.brain.elements(pid, { kind: 'question' });
     expect(q).toHaveLength(1);
-    expect(q[0]!.attrs_json).toContain('"suggested":true');
+    expect(q[0]!.title).toBe('Who taught Kevin to be useful?');
+    expect(env.brain.elementPage(q[0]!.id as string).links.length).toBe(1);
     const full = convs.full(c.id as string);
     expect((full.turns as { speaker_kind: string }[]).map((t) => t.speaker_kind)).toEqual(['author', 'assistant']);
   });
@@ -135,5 +141,21 @@ describe('when Claude cannot be reached', () => {
     const c = convs.create(pid, { title: 'T' });
     await expect(ai.ask(c.id as string, { text: 'Keep this' })).rejects.toThrow(/did not accept the API key/);
     expect((convs.full(c.id as string).turns as { text: string }[]).map((t) => t.text)).toEqual(['Keep this']);
+  });
+
+  it('sees her beat sheet: her words on each beat and the cards placed there', () => {
+    const { pid, ai, st } = setup(() => say('ok'));
+    st.applyTemplate(pid, 'save_the_cat');
+    const setupBeat = st.beats(pid).find((b) => b.element.title === 'Set-up' || b.element.title === 'Setup')!;
+    env.brain.addStatement({ elementId: setupBeat.element.id as string, field: 'plan', value: 'Kevin guards his driveway like a border.', status: 'developing', speaker: { kind: 'author' } });
+    const card = st.addCard(pid, { title: 'The five-dollar bill', beatId: setupBeat.element.id as string });
+    void card;
+    const all = ai.context(pid);
+    expect(all).toMatch(/BEAT SHEET/);
+    expect(all).toContain('Kevin guards his driveway like a border.');
+    expect(all).toMatch(/scenes placed here: The five-dollar bill/);
+    const focus = ai.context(pid, setupBeat.element.id as string);
+    expect(focus).toMatch(/FOCUS: beat/);
+    expect(focus).toMatch(/What this beat is/);
   });
 });

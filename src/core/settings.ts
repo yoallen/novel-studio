@@ -10,9 +10,9 @@ export interface LadderStep { key: string; label: string; drafted?: boolean }
 export const DEFAULT_SCENE_LADDER: LadderStep[] = [
   { key: 'idea', label: 'Idea' },
   { key: 'planned', label: 'Planned' },
-  { key: 'ready', label: 'Ready to Draft' },
+  { key: 'ready', label: 'Ready to draft' },
   { key: 'drafting', label: 'Drafting', drafted: true },
-  { key: 'first_draft', label: 'First Draft Complete', drafted: true },
+  { key: 'first_draft', label: 'First draft complete', drafted: true },
   { key: 'revising', label: 'Revising', drafted: true },
   { key: 'revised', label: 'Revised', drafted: true },
   { key: 'final', label: 'Finalized', drafted: true },

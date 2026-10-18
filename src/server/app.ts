@@ -191,6 +191,7 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   // A novel she has opened in this session is never replaced in the background: the notice above the page asks first.
   const sync = new Sync(store, () => snapshot(store, services.backupDir(), 'sync', 30));
   services.sync = sync;
+  services.desk.structure = structure;
   services.roadNotes = new RoadNotes(store, brain, () => sync.config()?.dir ?? null, Date.now, opts.notesTiming);
   const opened = new Set<string>();
   let open: string | null = null;

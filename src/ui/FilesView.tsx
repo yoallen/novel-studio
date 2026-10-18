@@ -17,7 +17,7 @@ export function FilesView({ ctx }: { ctx: Ctx }) {
           <button key={k} role="tab" aria-selected={tab === k} className={'btn small' + (tab === k ? '' : ' link')} onClick={() => setTab(k)}>{l}</button>
         ))}
       </div>
-      {tab === 'in' && <ImportPanel ctx={ctx} />}
+      {tab === 'in' && <ImportPanel ctx={ctx} onOpenDocument={(sourceId) => { try { sessionStorage.setItem('ns-doc-open', sourceId); } catch { /* ignore */ } setTab('documents'); }} />}
       {tab === 'out' && <ExportPanel ctx={ctx} />}
       {tab === 'documents' && <DocumentsPanel ctx={ctx} />}
     </div></div>
@@ -35,7 +35,7 @@ function readFile(f: File): Promise<string> {
   });
 }
 
-function ImportPanel({ ctx }: { ctx: Ctx }) {
+function ImportPanel({ ctx, onOpenDocument }: { ctx: Ctx; onOpenDocument: (sourceId: string) => void }) {
   const [list, setList] = useState<any[]>([]);
   const [openId, setOpenId] = useState<string | null>(null);
   const [kind, setKind] = useState<'manuscript' | 'document' | 'sheet' | 'roundtrip'>('manuscript');
@@ -67,8 +67,8 @@ function ImportPanel({ ctx }: { ctx: Ctx }) {
         <div role="radiogroup" aria-label="What is it" className="cols" style={{ gap: '0.75rem 1.5rem' }}>
           {([
             ['manuscript', 'Chapters of my manuscript', 'Word, RTF, Markdown, OpenDocument or plain text. Chapters and scenes are proposed for you to check.'],
-            ['document', 'A planning document', 'A story bible, an archive of decisions, character notes. Your status words are read exactly.'],
-            ['sheet', 'A plotting spreadsheet', 'Your beat sheet in Excel. Its placements become one of your placement choices.'],
+            ['document', 'A planning document', 'A story bible, an archive of decisions, character notes. Labels you gave things, like Decided or Still open, are kept just as you wrote them.'],
+            ['sheet', 'A plotting spreadsheet', 'Your beat sheet in Excel. Where it puts each beat is saved as another way to place your beats, beside Save the Cat, so you can switch between them.'],
             ['roundtrip', "My editor's changes", 'A Word file you exported from here, revised with Track Changes. You decide each change.'],
           ] as const).map(([k, title, sub]) => (
             <label key={k} className="choice">
@@ -99,12 +99,18 @@ function ImportPanel({ ctx }: { ctx: Ctx }) {
         <section className="section">
           <h2>Done</h2>
           {list.filter((x) => x.status !== 'pending').slice(0, 20).map((x) => (
-            <div key={x.id} className="row small"><span>{x.name}</span><span className="faint">{kindName(x.kind)}, {x.status === 'applied' ? `added ${when(x.applied_at)}` : 'not used'}</span>{x.report?.verified === false && <span className="chip">not confirmed</span>}</div>
+            <div key={x.id} className="row small"><span>{x.name}</span><span className="faint">{kindName(x.kind)}, {doneWord(x)}</span>{x.report?.verified === false && <span className="chip">not confirmed</span>}{x.kind === 'document' && x.source_id && <button className="btn link small" onClick={() => onOpenDocument(x.source_id)} aria-label={`Open ${x.name} in Your documents`}>Open it</button>}</div>
           ))}
         </section>
       )}
     </>
   );
+}
+/** What became of a finished import, in plain words. A planning document is always kept whole, even when nothing was checked in. */
+function doneWord(x: any) {
+  if (x.status === 'applied') return `added ${when(x.applied_at)}`;
+  if (x.kind === 'document' && x.source_id) return 'kept whole, every passage searchable';
+  return 'not brought in';
 }
 const kindName = (k: string) => (k === 'manuscript' ? 'manuscript' : k === 'sheet' ? 'plotting sheet' : k === 'roundtrip' ? "editor's changes" : 'planning document');
 
@@ -129,7 +135,7 @@ function ImportReview({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
       <h1>{r.name}</h1>
       {error && <div className="notice error" role="alert">{error}</div>}
       {(r.report?.warnings ?? []).map((w: string) => <div key={w} className="notice small">{w}</div>)}
-      {r.kind === 'manuscript' && <ManuscriptReview plan={r.plan} edit={edit} />}
+      {r.kind === 'manuscript' && <ManuscriptReview ctx={ctx} plan={r.plan} edit={edit} />}
       {r.kind === 'document' && <DocumentReview ctx={ctx} r={r} edit={edit} />}
       {r.kind === 'sheet' && <SheetReview plan={r.plan} edit={edit} />}
       {r.kind === 'roundtrip' && <RoundtripReview ctx={ctx} r={r} edit={edit} />}
@@ -169,7 +175,7 @@ function ImportDone({ ctx, r, onBack }: { ctx: Ctx; r: any; onBack: () => void }
         </div>
       )}
       {r.kind === 'sheet' && rep.methodName && <div className="notice" role="status">"{rep.methodName}" is now a beat sheet of your own, with {rep.beatsMade} beats, and this novel uses it. Other novels can choose it in Novel setup.</div>}
-      {r.kind === 'sheet' && !rep.methodName && <div className="notice" role="status">The sheet is now one of your placement choices{rep.profileName ? ` ("${rep.profileName}")` : ''}. {rep.corrected ? `${rep.corrected} flagged number${rep.corrected === 1 ? ' was' : 's were'} corrected.` : ''} See it in Narrative Zoom, Beats and placement.</div>}
+      {r.kind === 'sheet' && !rep.methodName && <div className="notice" role="status">The sheet is now one of your placement choices{rep.profileName ? ` ("${rep.profileName}")` : ''}. {rep.corrected ? `${rep.corrected} flagged number${rep.corrected === 1 ? ' was' : 's were'} corrected.` : ''} See it in Narrative Zoom, Where beats fall.</div>}
       <div className="row">
         {(r.kind === 'manuscript' || r.kind === 'roundtrip') && <button className="btn write" onClick={() => ctx.go('write')}>Go to the Writing Room</button>}
         {r.kind === 'document' && <button className="btn write" onClick={() => ctx.go('brain')}>Open the Story Brain</button>}
@@ -180,11 +186,15 @@ function ImportDone({ ctx, r, onBack }: { ctx: Ctx; r: any; onBack: () => void }
   );
 }
 
-function ManuscriptReview({ plan, edit }: { plan: any; edit: (e: Record<string, unknown>) => Promise<void> }) {
+function ManuscriptReview({ ctx, plan, edit }: { ctx: Ctx; plan: any; edit: (e: Record<string, unknown>) => Promise<void> }) {
+  const [have, setHave] = useState<any[] | null>(null);
+  useEffect(() => { api.get(`/api/projects/${ctx.projectId}/outline`).then((o) => setHave(o.chapters ?? [])).catch(() => setHave(null)); }, [ctx.projectId]);
+  const last = have?.[have.length - 1];
   const words = plan.chapters.reduce((a: number, c: any) => a + (c.include ? c.scenes.filter((s: any) => s.include).reduce((b: number, s: any) => b + s.words, 0) : 0), 0);
   return (
     <>
       <p className="muted">Here is how the file reads: {plan.chapters.length} chapter{plan.chapters.length === 1 ? '' : 's'}, {plan.totalWords.toLocaleString()} words. Rename, join or leave out anything before it goes in. The words themselves are never changed.</p>
+      {have && <p className="notice small" role="note">{have.length === 0 ? 'These become the first chapters of your novel.' : `They go in after your last chapter${last ? ` ("${last.title}")` : ''}, so the first one becomes chapter ${have.length + 1}. Your ${have.length === 1 ? 'chapter stays' : `${have.length} chapters stay`} just as ${have.length === 1 ? 'it is' : 'they are'}. You can move chapters later in the Writing Room.`}</p>}
       {plan.findings.map((f: string) => <div key={f} className="notice small">{f}</div>)}
       <ol style={{ listStyle: 'none', padding: 0 }}>
         {plan.chapters.map((c: any, ci: number) => (
@@ -391,16 +401,33 @@ function SheetReview({ plan, edit }: { plan: any; edit: (e: Record<string, unkno
 
 // ---------------- export ----------------
 
-function download(r: { filename: string; mime: string; data: string }) {
+type Saved = { where: 'desktop'; path: string } | { where: 'browser' } | { where: 'cancelled' };
+
+/** Save an exported file. On the desktop she picks the place and is told the exact path; in a browser it goes where downloads go. */
+async function download(r: { filename: string; mime: string; data: string }): Promise<Saved> {
+  const desktop = (window as any).storyCanon;
+  if (desktop?.saveFile) {
+    const path = await desktop.saveFile(r.filename, r.data);
+    return path ? { where: 'desktop', path } : { where: 'cancelled' };
+  }
   const bytes = Uint8Array.from(atob(r.data), (c) => c.charCodeAt(0));
   const url = URL.createObjectURL(new Blob([bytes], { type: r.mime }));
   const a = document.createElement('a');
   a.href = url; a.download = r.filename; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 2000);
+  return { where: 'browser' };
+}
+
+/** Where the file went, in one sentence, with a way to find it or save it again. */
+function SavedNote({ saved, onAgain }: { saved: Saved; onAgain: () => void }) {
+  const desktop = (window as any).storyCanon;
+  if (saved.where === 'desktop') return <div className="saved-where">Saved to <strong className="path">{saved.path}</strong>. {desktop?.showFile && <button className="btn link small" onClick={() => void desktop.showFile(saved.path)}>Show it in its folder</button>}</div>;
+  if (saved.where === 'cancelled') return <div className="saved-where">The file was made but not saved, because the save window was closed. <button className="btn link small" onClick={onAgain}>Save it</button></div>;
+  return <div className="saved-where">Your browser saved it where downloads go, usually the Downloads folder. <button className="btn link small" onClick={onAgain}>Save it again</button></div>;
 }
 
 const SECTIONS: [string, string][] = [['characters', 'Character profiles'], ['beats', 'Beat sheet'], ['places', 'Places'], ['set_pieces', 'Set pieces'], ['open_decisions', 'Open decisions'], ['setups_payoffs', 'Setups and payoffs'], ['timeline', 'Timeline'], ['soundtrack', 'Soundtrack'], ['all_records', 'Every other record']];
-const FORMATS: [string, string][] = [['docx', 'Word (.docx)'], ['pdf', 'PDF'], ['epub', 'E-book (.epub)'], ['odt', 'OpenDocument (.odt)'], ['rtf', 'Rich Text (.rtf)'], ['md', 'Markdown (.md)'], ['txt', 'Plain text (.txt)'], ['html', 'Web page (.html)'], ['json', 'Data (.json)']];
+const FORMATS: [string, string][] = [['docx', 'Word (.docx)'], ['pdf', 'PDF'], ['epub', 'E-book (.epub)'], ['odt', 'OpenDocument (.odt)'], ['rtf', 'Rich Text (.rtf)'], ['md', 'Markdown (.md)'], ['txt', 'Plain text (.txt)'], ['html', 'Web page (.html)'], ['json', 'Story Canon data (.json), for other programs']];
 
 function ExportPanel({ ctx }: { ctx: Ctx }) {
   const [presets, setPresets] = useState<any[]>([]);
@@ -409,6 +436,7 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
   const [preset, setPreset] = useState('working');
   const [preview, setPreview] = useState<any>(null);
   const [result, setResult] = useState<any>(null);
+  const [saved, setSaved] = useState<Saved | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [presetName, setPresetName] = useState('');
@@ -432,14 +460,14 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
   const setOpt = (patch: any) => { setPreset(''); setReq((r: any) => ({ ...r, options: { ...r.options, ...patch } })); };
   const chosen = new Set<string>(req.chapterIds ?? outline.map((c) => c.id));
   async function go() {
-    setError(''); setBusy(true); setResult(null);
-    try { const r = await api.post(`/api/projects/${ctx.projectId}/export`, req); download(r); setResult(r); }
+    setError(''); setBusy(true); setResult(null); setSaved(null);
+    try { const r = await api.post(`/api/projects/${ctx.projectId}/export`, req); setResult(r); setSaved(await download(r)); }
     catch (e) { setError((e as Error).message); }
     finally { setBusy(false); }
   }
   async function sheet() {
     setError('');
-    try { const r = await api.post(`/api/projects/${ctx.projectId}/export/beat-sheet`, { profile }); download(r); setResult(r); }
+    try { const r = await api.post(`/api/projects/${ctx.projectId}/export/beat-sheet`, { profile }); setResult(r); setSaved(await download(r)); }
     catch (e) { setError((e as Error).message); }
   }
   async function savePreset() {
@@ -448,6 +476,9 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
     catch (e) { setError((e as Error).message); }
   }
   const isText = ['txt', 'md', 'json'].includes(req.format);
+  // A real chapter of hers shows what each heading style looks like.
+  const sample = outline.find((c) => c.title && !/^chapter\s+\d+$/i.test(String(c.title).trim()));
+  const sampleN = sample?.number ?? 2, sampleT = sample?.title ?? 'Its Title';
   return (
     <>
       <h1>Send something out</h1>
@@ -464,7 +495,7 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
           ))}
         </div>
       </section>
-      <div className="cols">
+      <div className="cols export-cols">
         <section>
           <h2>What goes in</h2>
           <label className="row"><input type="checkbox" checked={req.manuscript} onChange={(e) => set({ manuscript: e.target.checked })} />The manuscript</label>
@@ -478,10 +509,18 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
           )}
           {req.manuscript && !req.draftId && outline.length > 0 && (
             <div style={{ paddingLeft: '1.6rem', maxHeight: 220, overflow: 'auto' }}>
-              <label className="row small"><input type="checkbox" checked={!req.chapterIds} onChange={(e) => set({ chapterIds: e.target.checked ? null : outline.map((c) => c.id) })} />Every chapter</label>
-              {req.chapterIds && outline.map((c) => (
-                <label key={c.id} className="row small"><input type="checkbox" checked={chosen.has(c.id)} onChange={(e) => { const s = new Set(chosen); if (e.target.checked) s.add(c.id); else s.delete(c.id); set({ chapterIds: outline.map((x) => x.id).filter((x) => s.has(x)) }); }} />{c.number}. {c.title}</label>
-              ))}
+              <div role="radiogroup" aria-label="Which chapters" className="row small">
+                <label className="row"><input type="radio" name="which-chapters" checked={!req.chapterIds} onChange={() => set({ chapterIds: null })} />Every chapter</label>
+                <label className="row"><input type="radio" name="which-chapters" checked={!!req.chapterIds} onChange={() => set({ chapterIds: outline.map((c) => c.id) })} />Only the chapters I pick</label>
+              </div>
+              {req.chapterIds && (
+                <fieldset className="chapter-pick" aria-label="Chapters to include">
+                  <legend className="small muted">Untick any chapter to leave it out.</legend>
+                  {outline.map((c) => (
+                    <label key={c.id} className="row small"><input type="checkbox" checked={chosen.has(c.id)} onChange={(e) => { const s = new Set(chosen); if (e.target.checked) s.add(c.id); else s.delete(c.id); set({ chapterIds: outline.map((x) => x.id).filter((x) => s.has(x)) }); }} />{c.number}. {c.title}</label>
+                  ))}
+                </fieldset>
+              )}
             </div>
           )}
           <div style={{ marginTop: '0.5rem' }}>
@@ -498,9 +537,9 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
           <h2>How it looks</h2>
           <label className="field"><span>Format</span><select aria-label="Format" value={req.format} onChange={(e) => set({ format: e.target.value })}>{FORMATS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select></label>
           {req.manuscript && (
-            <label className="field"><span>Chapter headings</span><select value={req.chapterHeading} onChange={(e) => set({ chapterHeading: e.target.value })}>
-              <option value="number_title">Chapter 2: In Which…</option><option value="number">Chapter 2</option><option value="title">The chapter title only</option>
-            </select></label>
+            <label className="field"><span>Chapter headings</span><select aria-label="Chapter headings" aria-describedby="heading-hint" value={req.chapterHeading} onChange={(e) => set({ chapterHeading: e.target.value })}>
+              <option value="number_title">Number and title: Chapter {sampleN}: {sampleT}</option><option value="number">Number only: Chapter {sampleN}</option><option value="title">Title only: {sampleT}</option>
+            </select><small id="heading-hint" className="muted">How each chapter starts in the file. A chapter with no title of its own just says Chapter {sampleN}.</small></label>
           )}
           {req.manuscript && <label className="field"><span>Between scenes</span><input type="text" value={req.options.sceneBreak} maxLength={20} onChange={(e) => setOpt({ sceneBreak: e.target.value || '* * *' })} style={{ maxWidth: 120 }} /></label>}
           {!isText && <label className="row small"><input type="checkbox" checked={req.options.titlePage} onChange={(e) => setOpt({ titlePage: e.target.checked })} />Title page</label>}
@@ -523,6 +562,7 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
       {result && (
         <div className={result.verification.ok ? 'notice' : 'notice error'} role="status" style={{ marginTop: '1rem' }}>
           <strong>{result.filename}</strong> ({Math.max(1, Math.round(result.bytes / 1024)).toLocaleString()} KB). {result.verification.note}
+          {saved && <SavedNote saved={saved} onAgain={() => void download(result).then(setSaved)} />}
         </div>
       )}
       <section className="section">

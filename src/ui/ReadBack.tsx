@@ -36,6 +36,8 @@ export function ReadBack({ ctx }: { ctx: Ctx }) {
   const ech = useMemo(() => echoes(text, { ignore: names }).slice(0, 25), [text, names]);
   const watched = useMemo(() => watch(text, watchList), [text, watchList]);
   const long = useMemo(() => longSentences(text), [text]);
+  // Until she changes it, the list is the program's starter list, and says so.
+  const starter = watchList.length === DEFAULT_WATCH_WORDS.length && watchList.every((w, i) => w === DEFAULT_WATCH_WORDS[i]);
   const cycle = (key: string, ranges: [number, number][]) => {
     const i = (cursor.current[key] ?? -1) + 1;
     const r = ranges[i % ranges.length]!;
@@ -68,8 +70,11 @@ export function ReadBack({ ctx }: { ctx: Ctx }) {
           </>
         ) : (
           <>
-            {watched.length === 0 ? <p className="small faint">None of your watch words on this page.</p> : <div className="row small">{watched.map((w) => <button key={w.phrase} className="chip" onClick={() => cycle(`w:${w.phrase}`, w.ranges)}>{w.phrase} ×{w.count}</button>)}</div>}
-            <button className="btn link small" onClick={() => { setDraft(watchList.join('\n')); setEditing(true); }}>Change my list</button>
+            {watchList.length === 0
+              ? <p className="small muted">Your watch list is empty. Add the words you lean on too often, and they will be pointed out here.</p>
+              : <p className="small muted">{starter ? `A starter list of words many writers lean on: ${watchList.slice(0, 3).join(', ')} and ${watchList.length - 3} more. Change it to make it yours.` : `Your own list of ${watchList.length} word${watchList.length === 1 ? '' : 's'} and phrases.`}</p>}
+            {watchList.length > 0 && (watched.length === 0 ? <p className="small faint">{starter ? 'None of the starter words on this page.' : 'None of your watch words on this page.'}</p> : <div className="row small">{watched.map((w) => <button key={w.phrase} className="chip" onClick={() => cycle(`w:${w.phrase}`, w.ranges)}>{w.phrase} ×{w.count}</button>)}</div>)}
+            <button className="btn link small" onClick={() => { setDraft(watchList.join('\n')); setEditing(true); }}>{watchList.length === 0 ? 'Add watch words' : 'Change the list'}</button>
           </>
         )}
       </section>

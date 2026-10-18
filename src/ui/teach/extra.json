@@ -1,0 +1,194 @@
+{
+ "object": {
+  "about": {
+   "what": "An Object record holds one thing in your story that matters: a ring, a letter, a car, a recipe card.",
+   "why": "Objects carry meaning the reader can see and touch. A thing that keeps coming back (and changes hands, breaks, or is finally used) can show a change in a character without a word of explanation.",
+   "when": "Make one when a thing shows up twice, or when you know it will matter later.",
+   "mistake": "Making a record for every prop. Only objects that do work in the story need one.",
+   "example": "A baker keeps her late mother's chipped measuring cup. In chapter one she won't let anyone touch it. In the last chapter she hands it to her apprentice. The cup says what the baker has learned."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "What the object is, what it looks like, who has it, and what it means.",
+    "why": "So it stays consistent, and so you can track where it is and what it means each time it appears.",
+    "need": "useful"
+   }
+  }
+ },
+ "theme": {
+  "about": {
+   "what": "A Theme record holds an idea your story explores: what it is about underneath what happens.",
+   "why": "Theme is what the reader carries away. When you name it, you can test scenes against it and give your characters opposing answers to the same question, which is where theme becomes drama instead of a lecture.",
+   "when": "Name a theme when you notice what keeps coming up as you plan or draft. Many writers only see their theme after a first draft; that's normal.",
+   "mistake": "Stating the theme as a moral and making characters preach it. A theme is a question the story argues with itself, not an answer it announces.",
+   "example": "Lands: \"Can you protect people without controlling them?\" Each character answers differently. Fails: \"Friendship is important,\" said aloud in the last chapter."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "The theme in a sentence or a question, and how the story explores it.",
+    "why": "So you can check scenes against it and keep the argument alive on both sides.",
+    "need": "useful"
+   }
+  }
+ },
+ "value": {
+  "about": {
+   "what": "A Value record names something a character or the story treats as precious: freedom, loyalty, safety, truth.",
+   "why": "Robert McKee's idea is that every scene turns a value from positive to negative or the reverse. Naming the values lets you see what is at stake in each scene and whether it changed.",
+   "when": "Name values when you plan scenes or when a scene feels flat and you can't see why.",
+   "mistake": "Picking values too general to measure. \"Love\" is hard to track; \"trust between two sisters\" can go up and down scene by scene.",
+   "example": "A ferry captain values safety above all. A scene where she refuses to sail turns safety positive and her income negative. Both can be tracked."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "The value in a few words and how it is tested in the story.",
+    "why": "So you can see what each scene puts at risk.",
+    "need": "useful"
+   }
+  }
+ },
+ "rule": {
+  "about": {
+   "what": "A Story rule records something that must always be true in your book: how magic works, what a law allows, what a character can never do.",
+   "why": "Readers forgive almost anything except a story that breaks its own rules. Writing them down keeps you consistent across hundreds of pages, and the program and collaborator can check against them.",
+   "when": "Add one the moment you invent a limit or a law, especially in fantasy, mystery and science fiction.",
+   "mistake": "Writing rules you then quietly break to get out of a corner. If the ending needs the rule bent, the rule needs rewriting early.",
+   "example": "Lands: \"The ferry cannot cross after dark; the harbor master locks the chain.\" Every late-night plan has to work around it. Fails: the chain is simply forgotten in the climax.",
+   "differs": "A story rule is a law of the story world, such as magic never works on iron. A guardrail, on a character page, is what must stay true about one character."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "The rule, stated plainly, and any exceptions you've decided.",
+    "why": "So every scene obeys it, and you notice before a scene breaks it.",
+    "need": "situational"
+   }
+  }
+ },
+ "research": {
+  "about": {
+   "what": "A Research record holds something you looked up: a fact, a source, a detail of a job or a place.",
+   "why": "Research is easy to lose and hard to find again. Keeping it with the novel means the detail you need in November is one search away, with where you found it.",
+   "when": "Add research as you find it, and during drafting leave a note for later instead of stopping to look things up.",
+   "mistake": "Researching instead of writing. Collect enough to write the scene, mark the rest as a note for later.",
+   "example": "How long a sourdough starter keeps in a fridge, with the bakery website it came from, saved before you write the scene where it's forgotten."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "What you found, and where you found it.",
+    "why": "So you can trust it later and check the source again.",
+    "need": "useful"
+   }
+  }
+ },
+ "guardrail": {
+  "about": {
+   "what": "A Guardrail is something that must stay true about a character or the story. The collaborator checks every suggestion against it.",
+   "why": "Guardrails protect the decisions you care about most from drift, your own and the collaborator's. They are how you say: whatever else changes, not this.",
+   "when": "Add one when you catch yourself, or the collaborator, pulling a character somewhere they would never go.",
+   "mistake": "Writing guardrails as plot points. A guardrail is a boundary (\"she never lies to her daughter\"), not an event.",
+   "example": "\"The baker never sells her mother's recipe, whatever it costs her.\" Any suggestion that has her sell it is flagged.",
+   "differs": "A guardrail protects one character. A story rule is a law of the whole story world."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "The thing that must stay true, in one sentence.",
+    "why": "So nothing quietly breaks it.",
+    "need": "useful"
+   }
+  }
+ },
+ "thought": {
+  "about": {
+   "what": "A Captured thought is anything you saved with Capture: an idea, a line, a worry, a question.",
+   "why": "Ideas arrive at bad times. Capture keeps them exactly as you said or typed them, so you can keep writing and sort them later.",
+   "when": "Use Capture (Ctrl+Shift+N) any time, especially mid-scene. Sort captured thoughts when you plan: file each as a question or an idea, or connect it to a record.",
+   "mistake": "Letting captured thoughts pile up unread. Look through them once a week.",
+   "example": "Driving home you think: \"What if the lighthouse keeper's brother is the one who cut the cable?\" Capture it in ten seconds and file it as an idea on Sunday."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "The thought, exactly as captured.",
+    "why": "So nothing you thought of is lost or reworded.",
+    "need": "useful"
+   }
+  }
+ },
+ "note": {
+  "about": {
+   "what": "A Note is a free-form record for anything that doesn't fit another kind.",
+   "why": "Not everything is a character or a beat. Notes keep the leftovers inside the novel, where search can find them.",
+   "when": "Use a note when no other kind fits.",
+   "mistake": "Using notes for everything. A note can't be checked or placed the way a character or a scene card can.",
+   "example": "A list of names you might use for the town's bakeries."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "Anything you want to keep.",
+    "why": "So it's with the novel and searchable.",
+    "need": "useful"
+   }
+  }
+ },
+ "act": {
+  "about": {
+   "what": "An Act is one of the large movements of your story. Most beat sheets use three acts, with the second split in two.",
+   "why": "Acts give you the big shape: the world before, the upside-down middle, and the change at the end. Knowing which act a scene is in tells you what job it has.",
+   "when": "Acts come with your beat sheet. You rarely edit them directly.",
+   "mistake": "Treating acts as fixed page counts. They are movements, and their length follows the story.",
+   "example": "Act One ends when the baker signs the lease on the second shop: there's no going back."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "Notes about this act.",
+    "why": "So you can see its job at a glance.",
+    "need": "situational"
+   }
+  }
+ },
+ "sequence": {
+  "about": {
+   "what": "A Sequence is a run of scenes that together make one movement, such as a chase, a courtship or a heist.",
+   "why": "Some stories think best in sequences of eight or so, each with its own rise and turn. Naming them helps pacing in long books.",
+   "when": "Use sequences if your method uses them. Otherwise you can ignore them.",
+   "mistake": "Forcing every book into sequences. They help some stories and not others.",
+   "example": "The sabotage sequence: four scenes in which the rival florists ruin each other's weddings, each worse than the last."
+  },
+  "groups": {
+   "Notes": "Everything about this record, in your own words."
+  },
+  "fields": {
+   "description": {
+    "what": "Notes about this sequence.",
+    "why": "So you can see where it starts, turns and ends.",
+    "need": "situational"
+   }
+  }
+ }
+}

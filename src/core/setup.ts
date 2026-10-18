@@ -9,6 +9,7 @@ import { settingsOf, ProjectSettings } from './settings.js';
 import { GENRES, STORY_TYPES, CHARACTERISTICS, CHARACTERISTIC_GROUPS, FRAMEWORKS, Role } from './catalog.js';
 import { methods as myMethods, Method } from './methods.js';
 import { FrameworkDef } from './catalog.js';
+import { groupTitle } from './groupnames.js';
 
 export interface GenreChoice { key: string; name: string; role: Role; custom?: boolean; parent?: string | null }
 export interface SetupState {
@@ -98,11 +99,36 @@ export class Setup {
     };
   }
 
+  /** The heart of the book, kept in one place: the story world's one sentence and one paragraph.
+   *  An older novel's one sentence from its first page is read until the story world has its own. */
+  heart(projectId: string) {
+    const p = this.brain.project(projectId);
+    const world = this.continuity.storyWorld(projectId);
+    const get = (f: string) => { if (!world) return null; const v = this.brain.field(world.id as string, f); return v.current ?? v.latest ?? null; };
+    const one = get('logline'), para = get('paragraph');
+    return {
+      sentence: (one?.value as string | undefined) ?? (p.profile.premise_sentence as string | undefined) ?? '', sentenceStatus: (one?.status as string | undefined) ?? null,
+      paragraph: (para?.value as string | undefined) ?? '', paragraphStatus: (para?.status as string | undefined) ?? null,
+    };
+  }
+
+  /** Write the one sentence or one paragraph into the story world. A decided one stays decided; the earlier wording stays in history. */
+  writeHeart(projectId: string, field: 'logline' | 'paragraph', text: string) {
+    const value = text.trim();
+    if (!value) return;
+    const world = this.continuity.storyWorld(projectId, true) as Row;
+    const v = this.brain.field(world.id as string, field);
+    const cur = v.current ?? v.latest;
+    if (cur && cur.value === value) return;
+    this.brain.addStatement({ elementId: world.id as string, field, value, status: cur?.status === 'established' ? 'established' : 'developing', speaker: { kind: 'author' }, supersedes: cur ? (cur.id as string) : null });
+  }
+
   /** Everything the setup screen needs, including what each choice switches on. */
   get(projectId: string) {
     const p = this.brain.project(projectId);
     const st = this.state(projectId);
     const world = this.continuity.storyWorld(projectId);
+    const heart = this.heart(projectId);
     const ingredients = st.storyTypes.map((t) => {
       const def = STORY_TYPES.find((d) => d.key === t.key);
       return def ? { key: t.key, name: def.name, role: t.role, items: def.ingredients.map((i) => {
@@ -111,19 +137,19 @@ export class Setup {
       }) } : null;
     }).filter(Boolean);
     return {
-      title: p.title, premise: (p.profile.premise_sentence as string) ?? '',
+      title: p.title, premise: heart.sentence, premiseStatus: heart.sentenceStatus, paragraph: heart.paragraph, paragraphStatus: heart.paragraphStatus,
       setup: st,
       frameworks: (p.profile.frameworks as string[] | undefined) ?? [],
       spine: this.structure.spine(projectId),
       storyWorldId: world?.id ?? null,
       ingredients,
       asks: st.genres.filter((g) => g.role !== 'influence').flatMap((g) => (GENRES.find((d) => d.key === g.key)?.asks ?? []).map((q) => ({ genre: g.name, question: q }))),
-      catalog: { genres: GENRES.map(({ key, name, leansOn, about }) => ({ key, name, leansOn, about })), storyTypes: STORY_TYPES.map(({ key, name, about }) => ({ key, name, about })), characteristics: CHARACTERISTICS, characteristicGroups: CHARACTERISTIC_GROUPS, frameworks: this.frameworks().map(({ method, ...f }) => ({ ...f, questions: method?.questions ?? [], source: method?.source ?? '' })), structures: this.structure.registry().names },
+      catalog: { genres: GENRES.map(({ key, name, leansOn, about }) => ({ key, name, leansOn, about })), storyTypes: STORY_TYPES.map(({ key, name, about, ingredients }) => ({ key, name, about, needs: ingredients.map((i) => i.label) })), characteristics: CHARACTERISTICS, characteristicGroups: CHARACTERISTIC_GROUPS, frameworks: this.frameworks().map(({ method, ...f }) => ({ ...f, questions: method?.questions ?? [], source: method?.source ?? '' })), structures: this.structure.registry().names },
     };
   }
 
   /** Change the setup. Selections can change at any time as the story evolves; nothing she wrote is removed. */
-  update(projectId: string, patch: Partial<Omit<SetupState, 'configured'>> & { frameworks?: string[]; spine?: string | null; carryPlacements?: boolean; premise?: string }) {
+  update(projectId: string, patch: Partial<Omit<SetupState, 'configured'>> & { frameworks?: string[]; spine?: string | null; carryPlacements?: boolean; premise?: string; paragraph?: string }) {
     const cur = this.state(projectId);
     const next: SetupState = { ...cur, configured: true };
     if (patch.genres) {
@@ -161,6 +187,9 @@ export class Setup {
       const profile: Record<string, unknown> = { ...p.profile, setup: next, frameworks };
       if (patch.premise !== undefined) profile.premise_sentence = patch.premise.slice(0, 600);
       this.brain.updateProject(projectId, { profile });
+      // One home for the heart of the book: the story world.
+      if (patch.premise !== undefined) this.writeHeart(projectId, 'logline', patch.premise.slice(0, 600));
+      if (patch.paragraph !== undefined) this.writeHeart(projectId, 'paragraph', patch.paragraph.slice(0, 4000));
       // Beat sheets: the spine she chooses, or the first structure she ticked. "Find it as I write" means none.
       const all = this.frameworks();
       const structures = frameworks.filter((k) => all.find((f) => f.key === k)?.kind === 'structure');
@@ -221,6 +250,7 @@ export class Setup {
       const p = this.brain.createProject(title, base);
       const frameworks = input.frameworks ?? (useDefaults ? a.frameworks : []);
       if (frameworks.length) this.update(p.id as string, { frameworks, frameworkNotes: useDefaults ? a.frameworkNotes : {}, ...(input.spine !== undefined ? { spine: input.spine } : a.spine && frameworks.includes(a.spine) ? { spine: a.spine } : {}) });
+      if (typeof base.premise_sentence === 'string' && base.premise_sentence.trim()) this.writeHeart(p.id as string, 'logline', base.premise_sentence);
       return this.brain.project(p.id as string);
     });
   }
@@ -231,7 +261,7 @@ export class Setup {
     const p = this.brain.project(projectId).profile;
     const fw = (p.frameworks as string[] | undefined) ?? [];
     const out: string[] = [];
-    for (const k of fw) { const f = this.frameworks().find((x) => x.key === k); if (f?.fieldGroups?.length) out.push(`${f.name}: ${f.fieldGroups.map((g) => `${g.group} on ${g.kind === 'scene_plan' ? 'scene cards' : g.kind === 'storyworld' ? 'the story world' : `each ${g.kind}`}`).join('; ')}`); }
+    for (const k of fw) { const f = this.frameworks().find((x) => x.key === k); if (f?.fieldGroups?.length) out.push(`${f.name}: ${f.fieldGroups.map((g) => `${groupTitle(g.group)} on ${g.kind === 'scene_plan' ? 'scene cards' : g.kind === 'storyworld' ? 'the story world' : `each ${g.kind}`}`).join('; ')}`); }
     for (const k of st.characteristics) { const c = CHARACTERISTICS.find((x) => x.key === k); if (c?.turnsOn) out.push(`${c.name}: ${c.turnsOn}`); }
     return out;
   }

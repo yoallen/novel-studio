@@ -1,0 +1,982 @@
+{
+ "beat": {
+  "about": {
+   "what": "A beat is one of the turning points in a story structure, such as the Save the Cat beats Blake Snyder named and Jessica Brody adapted for novels: Catalyst, Break into Two, Midpoint, All Is Lost, Finale and the rest. This record holds what that turn must do in your book and your plan for it.",
+   "why": "Beats give the book a skeleton. Each marks a place where the story must change direction, so the middle doesn't sag and the ending has something to pay off.",
+   "when": "Early, while you outline, and again in revision when a stretch feels flat. You can decide what a beat must do long before you know what happens in it.",
+   "mistake": "Treating a beat as a box to fill with any event. A beat is a turn. If nothing is different for the hero afterward, the beat isn't delivered, no matter how much happens on the page.",
+   "example": "A lighthouse keeper's Catalyst: an empty boat washes onto her rocks. Lands: from that morning she can't go back to her quiet routine. Fails: she reports the boat, and her life goes on as before. The event happened. The turn didn't."
+  },
+  "groups": {
+   "In this book": "What this beat does in your novel and how you plan to do it: its job, your event, the options you're weighing, and three checks (disaster, discovery or win; caused by the hero; how much page space it takes).",
+   "On the board": "Extra fields that only certain Save the Cat beats carry, such as the theme line for Theme Stated, home, work and play for the Setup, or the whiff of death for All Is Lost. They come from Blake Snyder and Jessica Brody, and they appear only on the beats they belong to."
+  },
+  "fields": {
+   "function": {
+    "what": "The turn this beat must deliver in your book: what is different for the hero, or the story, once it's over. Think of it as the beat's job description.",
+    "why": "Deciding the job first lets you leave the event open while knowing exactly what any event here must accomplish. Without it, you pick scenes because they're exciting, not because they do the work, and the structure quietly falls apart.",
+    "need": "core",
+    "mistake": "Writing the generic definition (\"the hero commits to the new world\") instead of what this beat does in this book.",
+    "example": "Lands: \"The baker loses her lease and has to choose between her mother's recipes and the chain's offer.\" Fails: \"Catalyst happens here.\""
+   },
+   "event": {
+    "what": "Your plan: what actually happens on the page at this beat in this novel.",
+    "why": "This is where the abstract job becomes a scene a reader can see. Keeping it separate from the function means you can swap the event later without losing what it has to do.",
+    "need": "core",
+    "mistake": "Filling in an event and never checking it against the function. An exciting event that doesn't deliver the turn is still a missing beat.",
+    "example": "Function: the florist sees her rival isn't the enemy. Lands: in a blackout he lends her his generator, and she sees his books are as broke as hers. Fails: a pleasant chat at the market."
+   },
+   "execution": {
+    "what": "Possible ways the event could happen, kept side by side until you choose. Execution means the staging: who is there, where it happens, and how the turn arrives.",
+    "why": "Most beats have several workable executions. Writing a few out lets you compare them instead of settling for the first idea, which is usually the most familiar one.",
+    "need": "useful",
+    "mistake": "Inking one too soon, or letting options pile up forever. When one clearly wins, mark it decided and let the others go.",
+    "example": "Beat: the keeper learns the missing sailor is alive. Options: a letter in his hand, his voice on the marine radio, or he walks into the harbor cafe. Each puts different pressure on her."
+   },
+   "example": {
+    "what": "An illustration of how a beat like this could be done, from another story or a made-up case. It is never your decision; the program keeps it marked as never canon.",
+    "why": "Seeing the beat done once makes the job concrete. Keeping examples apart means a borrowed idea can't slip into your book by accident.",
+    "need": "useful",
+    "mistake": "Copying the example's event instead of learning its move. Ask why it turns, then find your own version.",
+    "example": "For All Is Lost: in a heist, the safe is empty and the crew turns on each other. The move: plan and team break at once. Your version might be a bakery fire that ends a partnership."
+   },
+   "classification": {
+    "what": "Disaster: a reversal that leaves the hero worse off against her goal. Discovery: she learns something that changes the picture. Win: she gets what she was after, for now.",
+    "why": "Stories move by alternating these. Labels show patterns, like five wins in a row, that drain tension. Finding is not winning: knowing where the treasure is isn't having it.",
+    "need": "useful",
+    "mistake": "Calling a setback \"a win in disguise.\" If she's worse off when the beat ends, it's a disaster, even if it helps her later.",
+    "example": "Lands: the beekeeper finds the poisoned hives (discovery), then the co-op votes her out (disaster). Fails: labeling the vote a win because it frees up her time."
+   },
+   "caused_by_hero": {
+    "what": "A check: does this turn happen because of what the hero chose and did? A passive hero is one things happen to: luck, a rescue or another character drives the turn while she waits.",
+    "why": "Blake Snyder and Jessica Brody insist her own choices cause the big turns, especially Break into Two, the Finale and the win. If she isn't the reason anything changes, the reader stops caring and the ending feels unearned.",
+    "need": "core",
+    "mistake": "Treating it as a rule for every beat. The Catalyst often happens to the hero. The check matters most where she has to act.",
+    "example": "Lands: the ferry captain takes her own boat into the storm to reach the island. Fails: the coast guard saves everyone while she waits on the dock."
+   },
+   "scene_type": {
+    "what": "How much page space the beat takes. Single Scene or Single Chapter: one contained moment. Single Beat: a quick turn inside a larger scene, sometimes one line. Multi Scene or Multi Chapters: a long stretch, like Fun and Games.",
+    "why": "Size drives pacing and placement. A stretch can't be rushed into a paragraph, and a quick turn padded into a chapter sags.",
+    "need": "useful",
+    "mistake": "Giving every beat its own chapter. Theme Stated is often one line, while Fun and Games can fill a quarter of the book.",
+    "example": "Rival florists: the Catalyst is one scene (a wedding books them both). Fun and Games runs many chapters of sabotage. Theme Stated is a single beat: her aunt's remark at the counter."
+   },
+   "theme_line": {
+    "what": "For the Theme Stated beat: the line, usually spoken by someone other than the hero, that hints at what she needs to learn. The theme is what the story is really about under the plot.",
+    "why": "Snyder and Brody place it early so the reader hears the truth before the hero is ready for it. The rest of the book proves it. Without it, her change at the end can seem to come from nowhere.",
+    "need": "useful",
+    "mistake": "Making it a speech or a moral. It should almost slip past, and the hero should brush it off.",
+    "example": "Lands: the old keeper says, \"A light's no use if no boat comes close,\" and she laughs. Fails: a page-long lecture on loneliness."
+   },
+   "home": {
+    "what": "For the Setup beat: what the hero's home life looks like before the story changes it, and what is broken or missing there.",
+    "why": "Snyder and Brody ask you to show the hero at home, at work and at play, and to plant the \"six things that need fixing\": problems the story will later address. Home is often where her wound shows.",
+    "need": "useful",
+    "mistake": "Describing the house instead of the life. The reader needs the problem, not the floor plan.",
+    "example": "Lands: the baker eats dinner standing at the counter, and her daughter has stopped asking her to sit down. Fails: \"She lives in a two-bedroom flat above the shop.\""
+   },
+   "work": {
+    "what": "For the Setup beat: what the hero's working life is like, and what isn't working in it.",
+    "why": "Work shows what she does all day, how good she is at it and what she puts up with. Those problems become things the story can fix or break, part of Snyder and Brody's six things that need fixing.",
+    "need": "useful",
+    "mistake": "Using work only as a backdrop. If nothing at work needs fixing, it takes page space without doing a job.",
+    "example": "Lands: the florist designs every arrangement while her boss signs the cards and takes the credit. Fails: she works at a flower shop and likes flowers."
+   },
+   "play": {
+    "what": "For the Setup beat: what the hero does for joy or release, or the fact that she has stopped.",
+    "why": "Play shows who she is when no one is asking anything of her. Losing it is often the clearest sign of what needs fixing, and getting it back can be a quiet sign of change at the end.",
+    "need": "useful",
+    "mistake": "Skipping it because it seems minor. A hero with no play often reads as a job title instead of a person.",
+    "example": "Lands: the keeper used to sing on the gallery at night, and now she sleeps with the radio on so she won't hear the quiet. Fails: \"She enjoys reading.\""
+   },
+   "debate_question": {
+    "what": "For the Debate beat: the question the hero wrestles with after the Catalyst and before she commits, such as \"Should I go?\" or \"Can I really do this?\"",
+    "why": "The Debate shows the reader she has a real choice, which makes Break into Two a decision instead of an accident. It also lets her fear show before the plunge.",
+    "need": "useful",
+    "mistake": "A question with an obvious answer, or a debate that runs so long the story stalls.",
+    "example": "Lands: \"If I take the chain's money, am I saving my mother's shop or selling it?\" Fails: \"Will she go to the meeting?\""
+   },
+   "want": {
+    "what": "For Break into Two: the hero's Want, the outward goal she consciously chases into Act Two. K.M. Weiland notes the Want is usually shaped by the Lie the character believes about herself or the world.",
+    "why": "The Want drives the plot. Snyder and Brody pair it with the Need: she chases what she wants and only later learns what she needs. Without a clear Want, the middle has no engine.",
+    "need": "core",
+    "mistake": "Making it vague (\"to be happy\") or the same as the Need. The gap between them is the arc.",
+    "example": "Lands: the florist wants to win the town's wedding contract and put her rival out of business. Fails: she wants things to work out."
+   },
+   "need": {
+    "what": "For Break into Three: the hero's Need, the inner change she must make to truly succeed. In K.M. Weiland's terms it is usually the Truth that answers her Lie. Snyder and Brody place her grasp of it at Break into Three.",
+    "why": "The Need gives the ending its meaning: she solves the problem because she has changed. Without it, the Finale is only a plot win.",
+    "need": "core",
+    "mistake": "Writing it as another goal (\"she needs to win the contract\") instead of an inner truth.",
+    "example": "Lands: she needs to stop treating every person near her as competition. Fails: she needs more customers."
+   },
+   "polarity": {
+    "what": "For the Midpoint and All Is Lost: whether the Midpoint is a false victory or a false defeat. False doesn't mean fake. It means it isn't the end, and stakes are about to rise.",
+    "why": "Snyder notes the two beats mirror each other: a false victory at the Midpoint sets up a real low at All Is Lost, and a false defeat sets up the reverse. Choosing one shapes the whole second half.",
+    "need": "useful",
+    "mistake": "Making both beats point the same way, so the second half has no swing.",
+    "example": "Lands: the baker wins the city fair (false victory); the chain notices, and at All Is Lost she loses the lease. Fails: she wins, then wins again."
+   },
+   "whiff_of_death": {
+    "what": "For All Is Lost: something dies or ends, literally or symbolically: a mentor, a dream, a relationship, an old version of the hero.",
+    "why": "Snyder calls this the whiff of death. It marks the bottom and clears the way for the old self to die so a new one can rise. Without it, the low point reads like a bad day instead of a bottom.",
+    "need": "useful",
+    "mistake": "Killing a character only for shock, with no link to what the hero must let go of.",
+    "example": "Lands: her father's logbook, the reason she stayed on the rock, is lost in the flood. Fails: a neighbor dies offstage and is never mentioned again."
+   },
+   "final_change": {
+    "what": "For the Final Image: whether the hero is changed, shown by a picture that mirrors the Opening Image, or rejects change, as in a tragedy or cautionary tale where she refuses her Need.",
+    "why": "The Final Image proves the story mattered. Set beside the opening, it shows the whole arc in one picture. Naming which ending you're writing keeps that image honest.",
+    "need": "useful",
+    "mistake": "Ending on plot resolution with no picture of change, or showing a change the story never earned.",
+    "example": "Lands: the book opens with the baker eating alone at the counter and closes with three generations at one table. Fails: the last page is the lease signing."
+   }
+  }
+ },
+ "scene_plan": {
+  "about": {
+   "what": "A scene card is your plan for one scene: what it must do, whose goal drives it, what stands in the way, and how it turns. It can also hold the scene's time, place, atmosphere, emotion and what the reader knows.",
+   "why": "The scene is the unit of change in a novel. Robert McKee teaches that every scene turns a value from positive to negative or the reverse. A card lets you check that a scene earns its place before you write it, and spot the one that only marks time.",
+   "when": "While outlining a chapter, or just before you draft a scene. Come back to it in revision when a scene feels flat.",
+   "mistake": "Filling every group on every card. Most scenes need The scene group and little else. The other groups are for scenes where timing, atmosphere, viewpoint tricks, timelines or heat matter.",
+   "example": "Two rival florists set up for the same wedding. Her goal: finish the arch before he arrives. He arrives early, charms the planner and takes the best corner. Value: confident (+) to humiliated (-). Every line of the scene serves that turn."
+  },
+  "groups": {
+   "The scene": "The core of the card: the scene's job, the viewpoint character's goal, the conflict, the outcome, and the value charge at start and end. It draws on Dwight Swain's scene structure and Robert McKee's idea that a scene turns a value.",
+   "Around it": "How this scene connects to its neighbors: what led here, what it forces next, when and where it happens, and whether it lands as a disaster, discovery or win.",
+   "Story time": "Your story's internal clock for this scene: day, date, year, time of day and the gap since the last scene. It keeps ages, seasons and travel times consistent.",
+   "Atmosphere": "The physical and emotional climate of the scene, and how the setting itself acts on the plot.",
+   "What the reader knows": "What the reader suspects by the end, and whether this scene shows the visible story or the hidden one. Most useful in mysteries, thrillers and any book with a secret.",
+   "Scene and sequel": "Dwight Swain's pattern: a scene (goal, conflict, disaster) is followed by a sequel (reaction, dilemma, decision), and the decision becomes the next scene's goal.",
+   "Emotion on the page": "How the viewpoint character's emotion shows: in the body, inside, in her thoughts, and in what she tries to hide. It follows the categories Angela Ackerman and Becca Puglisi use in their Emotion Thesaurus.",
+   "Narrator and truth": "For narrators who are wrong, lying or blind to something: what the narrator believes here, set against what is actually true.",
+   "Who tells it": "For scenes where the voice we seem to hear isn't the real teller, and where the reader finds out.",
+   "Timeline strand": "For books with more than one timeline: which strand this scene belongs to.",
+   "Callbacks": "Running gags and callbacks that return in this scene, so each return can twist a little further.",
+   "Reader response": "The feeling you want the reader to come away with from this scene.",
+   "Heat": "For romance and any book with intimate scenes: how far this scene goes on the page and what it changes between the characters."
+  },
+  "fields": {
+   "purpose": {
+    "what": "The job this scene does for the book: what must be different, known or set up by the time it ends.",
+    "why": "A scene with a clear job can be trimmed to what serves it. Without one, scenes drift into talk and description that feel pleasant but move nothing.",
+    "need": "core",
+    "mistake": "Writing what happens instead of what it must do. \"They have lunch\" is an event. \"She learns he's been lying about the lease\" is a purpose.",
+    "example": "Lands: \"The keeper must realize the stranger knew her father.\" Fails: \"The keeper and the stranger talk.\""
+   },
+   "objective": {
+    "what": "What the viewpoint character wants in this scene, specifically and right now. The viewpoint character is the one whose eyes and thoughts we're in. Dwight Swain calls this the scene goal.",
+    "why": "A goal gives the reader something to root for and a way to keep score. Every line either helps or blocks it, and that is where tension comes from.",
+    "need": "core",
+    "mistake": "Giving a life wish (\"to be loved\") instead of something she can win or lose in this scene.",
+    "example": "Lands: the baker wants the health inspector gone before he opens the back fridge. Fails: the baker wants her shop to succeed."
+   },
+   "conflict": {
+    "what": "The opposition: who the players are, what each wants, what's in the way, and who wins. The >< mark is shorthand for two forces pushing against each other.",
+    "why": "Conflict is what turns a goal into a scene. If nothing resists the goal, the character simply gets it, and the reader has no reason to lean in.",
+    "need": "core",
+    "mistake": "Thinking conflict means arguing. It can be quiet: a locked door, a polite refusal, the character's own fear.",
+    "example": "Lands: she wants the arch done first >< he wants the same corner and has the planner's ear; he wins. Fails: they bicker about ribbon and nothing is at stake."
+   },
+   "outcome": {
+    "what": "How the scene ends: what changes, and whether she got what she wanted. In Swain's scene the ending is usually a disaster: no, yes but, or no and worse.",
+    "why": "The outcome pays off the goal and the conflict. It decides what she feels next and what she has to do. Without one, the scene ends on a shrug.",
+    "need": "core",
+    "mistake": "Letting her get the goal cleanly with nothing complicated. A clean yes stops momentum unless it's a deliberate win.",
+    "example": "Lands: the inspector leaves without opening the fridge, but he's written down her supplier's name. Fails: he leaves and everything is fine."
+   },
+   "value_start": {
+    "what": "The charge of the scene's key value at the start: positive (+) or negative (-). A value is something the character cares about that can flip, such as trust and betrayal, safety and danger, hope and despair.",
+    "why": "Robert McKee teaches that a scene works when it turns a value. Marking the starting charge makes the turn easy to see, and easy to miss if it isn't there.",
+    "need": "core",
+    "mistake": "Naming a mood with no opposite. Pick a value that can actually flip.",
+    "example": "Lands: trust between two sisters (+), planning the reunion together. Fails: \"a nice afternoon.\""
+   },
+   "value_end": {
+    "what": "The charge of the same value at the end. If it matches the start, the scene hasn't turned.",
+    "why": "McKee's test: a scene that ends where it began is filler, and readers feel it even if they can't name it. A string of turns, scene after scene, is what builds an arc.",
+    "need": "core",
+    "mistake": "Turning the value by announcing it (\"now she felt hopeless\") instead of through something that happens.",
+    "example": "Lands: trust (-), when one sister finds the other's letter to a lawyer. Fails: they finish planning, as close as when they started."
+   },
+   "how_we_got_here": {
+    "what": "What happened before this scene that makes it necessary: the cause, decision or pressure that brings the character into it.",
+    "why": "Scenes linked by cause feel inevitable. Scenes linked by \"and then\" feel random. This field shows the chain.",
+    "need": "useful",
+    "mistake": "Summarizing the previous chapter instead of naming the specific cause.",
+    "example": "Lands: because she found the poisoned hive, she has come to the co-op meeting to accuse someone. Fails: \"After chapter 7.\""
+   },
+   "what_must_follow": {
+    "what": "What this scene forces next: a reaction, a decision or a consequence the story now owes.",
+    "why": "If a scene changes things, the story has to answer. Noting the debt keeps you from dropping consequences, which readers always notice.",
+    "need": "useful",
+    "mistake": "Leaving it blank on a big scene, then forgetting the fallout.",
+    "example": "Lands: after the public accusation, her neighbor must either threaten to sue or confess. Fails: the accusation is never mentioned again."
+   },
+   "story_time": {
+    "what": "When the scene happens in the story world, in whatever terms you track.",
+    "why": "Placing scenes in time catches errors: two events on the same morning, a broken wrist that heals in three days.",
+    "need": "useful",
+    "mistake": "Treating chapter order as time order. Flashbacks and parallel strands break that.",
+    "example": "\"Evening of the second storm, three days after the boat washed up.\""
+   },
+   "location": {
+    "what": "Where the scene happens. Linking it to a Place record keeps details consistent.",
+    "why": "Place shapes what characters can do, who might overhear, and how the moment feels. The right place can make a scene harder for the character, which makes it better.",
+    "need": "useful",
+    "mistake": "Defaulting to the kitchen or the car for every hard conversation.",
+    "example": "Lands: she tries to apologize in the bakery during the lunch rush, with customers listening. Fails: her apartment, again."
+   },
+   "classification": {
+    "what": "Whether the scene lands as a disaster (she ends up worse off), a discovery (she learns something that changes the picture) or a win (she gets what she wanted, for now).",
+    "why": "Seeing the pattern across scenes shows pacing problems, like a run of easy wins or nothing but blows.",
+    "need": "useful",
+    "mistake": "Calling a discovery a win. Learning who poisoned the hives isn't stopping them.",
+    "example": "Lands: a discovery, then a disaster in the next scene. Fails: four wins in a row before the Midpoint."
+   },
+   "story_day": {
+    "what": "A number on your own story clock, such as day 3 of the feud.",
+    "why": "A day count tracks pace and deadlines. Situational: most useful for books with a short span or a ticking clock, like thrillers or a two-week romance.",
+    "need": "situational",
+    "mistake": "Forgetting to update the count after a time skip.",
+    "example": "\"Day 6 of 14 before the auction.\""
+   },
+   "story_date": {
+    "what": "The calendar date of the scene.",
+    "why": "Dates matter when holidays, real events or the day of the week touch the story. Situational: historical fiction and books set around real dates or seasons.",
+    "need": "situational",
+    "mistake": "Picking a date without checking what day of the week it was, or what was happening then.",
+    "example": "Lands: December 23, so the post office line is out the door and the shop is open late. Fails: a quiet Sunday that was really a Tuesday."
+   },
+   "story_year": {
+    "what": "The year the scene happens. With birth years on character records, the program can work out everyone's age here.",
+    "why": "Ages drift in books that span years or generations. Situational: family sagas, long spans, historical fiction and flashbacks.",
+    "need": "situational",
+    "mistake": "Leaving years off flashback scenes, where age mistakes are most likely.",
+    "example": "Lands: 1987, so the keeper is nine and her father is still alive. Fails: no year, and she remembers a talk from before she was born."
+   },
+   "time_of_day": {
+    "what": "Morning, dusk, 3 a.m., or whatever fits.",
+    "why": "Time of day sets the light, the energy and who's around. It also keeps continuity straight.",
+    "need": "useful",
+    "mistake": "Leaving every scene at an undefined \"then.\"",
+    "example": "Lands: a confession at 4 a.m. in the bakery, when no one else is awake to interrupt. Fails: the same talk \"at some point.\""
+   },
+   "elapsed": {
+    "what": "How much time has passed since the previous scene.",
+    "why": "Gaps change what characters feel and know. A fight two hours ago is raw. Two weeks later it has hardened into silence.",
+    "need": "useful",
+    "mistake": "Skipping time without telling the reader, or letting feelings stay frozen across a long gap.",
+    "example": "Lands: \"Two weeks later,\" and she has stopped calling. Fails: a month has passed and she's still crying in the same way."
+   },
+   "season": {
+    "what": "The time of year in the scene.",
+    "why": "Season shapes light, weather, work, holidays and mood. In some stories it limits what characters can do.",
+    "need": "useful",
+    "mistake": "A story that covers months but never changes season.",
+    "example": "Lands: late autumn, the bees are clustered, so she can't open the hives to check them, and the delay matters. Fails: \"It was fall.\""
+   },
+   "weather": {
+    "what": "The weather during the scene.",
+    "why": "Weather can press on the plot as well as the mood. Used well, it's another obstacle or a quiet contrast.",
+    "need": "useful",
+    "mistake": "Using weather only to match a feeling, like rain whenever someone is sad.",
+    "example": "Lands: fog grounds the ferry, so she's stuck on the island with the man she accused. Fails: it rains because she's sad."
+   },
+   "physical_atmosphere": {
+    "what": "The physical feel of the space: light, sound, temperature, crowding, smell.",
+    "why": "It gives the reader a body in the room. A reader who can feel the cold will believe the scene.",
+    "need": "useful",
+    "mistake": "Listing objects instead of how the place feels to be in.",
+    "example": "Lands: the cold room hums, her breath fogs, the door seal sticks when she pulls. Fails: \"There was a fridge, a table and a chair.\""
+   },
+   "emotional_atmosphere": {
+    "what": "The mood of the scene as a whole: tense, tender, festive, dreadful. It isn't the same as the viewpoint character's own emotion.",
+    "why": "Mood tells the reader how the room feels. A gap between the room's mood and the character's feeling can be powerful.",
+    "need": "useful",
+    "mistake": "Blending it with the character's emotion, so you lose the chance for contrast.",
+    "example": "Lands: a cheerful reception where only she knows the groom's secret. Fails: a sad scene where everything is also sad."
+   },
+   "sensory": {
+    "what": "Specific details of sight, sound, smell, taste and touch you want on the page.",
+    "why": "Concrete detail makes a reader believe in a place. One sharp detail does more than five general ones.",
+    "need": "useful",
+    "mistake": "Leaning only on sight. Smell and touch often carry memory better.",
+    "example": "Lands: burnt sugar on the oven floor, flour caught in the cuffs of her sleeves. Fails: \"The bakery smelled nice.\""
+   },
+   "consequence": {
+    "what": "How the setting changes what can happen: mud after rain, heat that sharpens a smell, darkness that limits who can see.",
+    "why": "When the setting acts on the plot, it stops being backdrop and becomes a force the characters must deal with.",
+    "need": "useful",
+    "mistake": "Describing a setting at length that never affects anything.",
+    "example": "Lands: the power is out, the walk-in is warming, and she has four hours to save the order. Fails: a storm described for a page while everyone stays dry."
+   },
+   "reader_suspects": {
+    "what": "What you want the reader to suspect or believe by the end of the scene, true or false.",
+    "why": "Managing suspicion is how you build suspense and set up surprise. Tracking it scene by scene shows whether a reveal will shock, satisfy, or arrive too late. It matters most in mysteries and thrillers.",
+    "need": "useful",
+    "mistake": "Assuming readers know only what characters say. Readers infer from everything on the page.",
+    "example": "Lands: the reader suspects the neighbor because he knew about the hives. Fails: you meant them to, but nothing in the scene points his way."
+   },
+   "layer": {
+    "what": "Whether this scene shows the visible story (what the viewpoint characters believe is happening) or the hidden story (what is actually happening).",
+    "why": "A book with a secret runs two stories at once. Labeling scenes shows whether the hidden story keeps moving. Situational: mysteries, thrillers and books built on a secret or twist.",
+    "need": "situational",
+    "mistake": "Letting the hidden story stall for long stretches, so the reveal feels bolted on.",
+    "example": "Visible: the sisters plan the reunion at the family house. Hidden: the older sister has already sold it."
+   },
+   "scene_kind": {
+    "what": "Dwight Swain splits story units into scenes and sequels. A scene is action: goal, conflict, disaster. A sequel is aftermath: reaction, dilemma, decision. The decision becomes the next scene's goal.",
+    "why": "Alternating them gives the book a rhythm of action and reflection, and ties each scene to the next by cause. All scenes can feel breathless. All sequels can stall.",
+    "need": "useful",
+    "mistake": "Thinking a sequel is slow summary. It's where the character absorbs the blow and chooses, which can be tense.",
+    "example": "Scene: she confronts the neighbor and he slams the door. Sequel: she shakes in her car, weighs the police against the co-op, and decides on the co-op."
+   },
+   "reaction": {
+    "what": "In a sequel, the character's immediate emotional response to the disaster that just happened.",
+    "why": "Swain starts the sequel with feeling, because the reader needs to see the blow land before the character can think. Skip it and she seems unhurt, so the reader isn't either.",
+    "need": "useful",
+    "mistake": "Jumping straight to planning, as if nothing hurt.",
+    "example": "Lands: she sits on the curb and can't make her hands stop shaking. Fails: \"Well,\" she thought, \"time for plan B.\""
+   },
+   "dilemma": {
+    "what": "The choice she faces once the first feeling passes: the options in front of her, none of them good.",
+    "why": "The dilemma lets the reader weigh the options with her, which raises the stakes of whatever she decides.",
+    "need": "useful",
+    "mistake": "Giving one obvious option. A real dilemma costs something either way.",
+    "example": "Lands: tell the co-op and lose her oldest neighbor, or keep quiet and risk more hives. Fails: whether to go home or stay out."
+   },
+   "decision": {
+    "what": "What she chooses to do. It becomes the goal of the next scene.",
+    "why": "The decision links one scene to the next, so the plot runs on choices instead of coincidence. It also keeps the hero active.",
+    "need": "useful",
+    "mistake": "A decision the next scene ignores.",
+    "example": "Lands: she'll go to the co-op tonight, so the next scene is the meeting. Fails: she decides, and the next chapter follows another thread with no follow-up."
+   },
+   "pov_emotion": {
+    "what": "The main emotion the viewpoint character feels in this scene, named as precisely as you can.",
+    "why": "A precise name helps you show it consistently and pick signals that fit. Angela Ackerman and Becca Puglisi organize their Emotion Thesaurus by specific emotions for this reason.",
+    "need": "useful",
+    "mistake": "Settling for a broad word like \"upset\" when you mean humiliation, dread or jealousy.",
+    "example": "Lands: shame, not anger, because she knows he's partly right. Fails: \"bad.\""
+   },
+   "outward_signals": {
+    "what": "The visible signs of the emotion: gestures, posture, voice, actions. Ackerman and Puglisi call these physical signals.",
+    "why": "Showing emotion through the body lets the reader feel it instead of being told. Other characters can also notice these, which creates plot.",
+    "need": "useful",
+    "mistake": "Using the same few signals for everything, like sighs and clenched jaws.",
+    "example": "Lands: she straightens the cake boxes that are already straight. Fails: \"She sighed angrily.\""
+   },
+   "inner_sensations": {
+    "what": "What she feels inside her body that others can't see: a tight chest, heat in the face, a hollow stomach. Ackerman and Puglisi call these internal sensations.",
+    "why": "These give the reader access only the viewpoint can offer, and they make the emotion physical.",
+    "need": "useful",
+    "mistake": "Overusing the pounding heart until the reader stops noticing it.",
+    "example": "Lands: her ears ring and the floor seems a little too far away. Fails: her heart pounded, for the fifth time this chapter."
+   },
+   "mental_responses": {
+    "what": "What the emotion does to her thinking: racing thoughts, fixation, denial, sudden clarity. Ackerman and Puglisi call these mental responses.",
+    "why": "Emotion bends thought. Showing the bend is how readers come to know a character from inside.",
+    "need": "useful",
+    "mistake": "Writing calm, logical thoughts while her body is in a panic.",
+    "example": "Lands: she keeps recounting the trays, as if the number might change. Fails: she calmly reviewed her options."
+   },
+   "hidden_emotion": {
+    "what": "The emotion she is trying to hide, and the signs that leak out anyway. Ackerman and Puglisi treat suppression as its own set of signals.",
+    "why": "Hidden feeling creates subtext: the reader sees what other characters miss. It's one of the strongest tools for tension in a quiet scene.",
+    "need": "useful",
+    "mistake": "Hiding it so well the reader misses it too, or so poorly it isn't hidden.",
+    "example": "Lands: she laughs at his joke a beat too loud, and her hand stays clamped on the counter. Fails: \"She hid her jealousy perfectly,\" and the reader never sees a crack."
+   },
+   "narrator_believes": {
+    "what": "What the narrator thinks is true in this scene. An unreliable narrator is one whose account differs from the truth, through a lie, a blind spot or a misunderstanding.",
+    "why": "Recording the belief scene by scene keeps the gap consistent and fair. Situational: books with unreliable or mistaken narrators, mysteries and twists.",
+    "need": "situational",
+    "mistake": "Letting the narrator's belief shift between scenes for no reason.",
+    "example": "\"She believes her brother left town because of the gambling debt.\""
+   },
+   "actually_true": {
+    "what": "What is actually true here, whatever the narrator believes. The gap between the two is what the reader may or may not catch.",
+    "why": "Writing the truth beside the belief lets you plant fair hints a careful reader can spot, especially on a second read.",
+    "need": "situational",
+    "mistake": "Hiding the truth with no clues at all, so the twist feels like a cheat.",
+    "example": "Lands: he left to protect her from the man he owed, and the scene shows him checking the window twice. Fails: no sign of it until the last chapter."
+   },
+   "apparent_narrator": {
+    "what": "Who seems to be telling this scene.",
+    "why": "In some books the voice we think we hear isn't the real teller. Situational: frame stories, letters, memory chapters and twist structures.",
+    "need": "situational",
+    "mistake": "Writing the apparent and true narrators in identical voices, so the later reveal has nothing to stand on.",
+    "example": "The chapter seems to be the keeper remembering her father."
+   },
+   "true_narrator": {
+    "what": "Who is really telling it, for example a chapter told through someone else's memory of a person. The reader learns the difference when you decide.",
+    "why": "A hidden teller adds a layer that makes the reader reread with new eyes.",
+    "need": "situational",
+    "mistake": "Choosing a true narrator who couldn't have known what's in the chapter.",
+    "example": "Lands: it's really the sailor's account of her father, which explains details she could never have known. Fails: the true narrator was never in the room."
+   },
+   "revealed_at": {
+    "what": "Where in the book the reader finds out who is really telling.",
+    "why": "Timing decides whether it lands as a shock, a slow dawning or a final turn.",
+    "need": "situational",
+    "mistake": "Revealing so early it does nothing, or never revealing it, so the setup is wasted.",
+    "example": "Lands: at All Is Lost, when the reader most needs to know whom to trust. Fails: in an epilogue, after every question is settled."
+   },
+   "timeline_strand": {
+    "what": "Which timeline the scene belongs to: then or now, the frame or the tale, or names of your own.",
+    "why": "Tracking strands helps you balance them and see how turns in one echo the other. Situational: dual timelines, frame stories and books with flashback strands.",
+    "need": "situational",
+    "mistake": "Letting one strand run long without a turn, so readers skim to get back to the other.",
+    "example": "\"1962: the lighthouse\" and \"Now: the sale.\" Each strand turns on the same secret in the logbook."
+   },
+   "callbacks": {
+    "what": "Running gags and callbacks in this scene. A callback returns to something set up earlier. A running gag is a callback that keeps coming back.",
+    "why": "Each return builds warmth or laughter, but only if it twists a little further. Situational: comedy, romantic comedy and warm ensemble books.",
+    "need": "situational",
+    "mistake": "Repeating the gag exactly, so it wears out.",
+    "example": "Lands: his shop sign falls; next time he nails it up; at the wedding it falls on him. Fails: the sign falls the same way four times."
+   },
+   "reader_response": {
+    "what": "The reaction you want: Profound, Funny, Relatable, Shocking, or your own. Think of it as the sticky tab a reader would put on this page.",
+    "why": "Naming it helps you find chapters that give a reader nothing to remember. A chapter with no tab may need more.",
+    "need": "useful",
+    "mistake": "Aiming for every response at once, or for none.",
+    "example": "Lands: Funny for the collapsing cake, Shocking for the letter at the end. Fails: a chapter that only moves people between rooms."
+   },
+   "heat_on_page": {
+    "what": "How far an intimate scene goes on the page: closed door, fade out, partial or fully explicit.",
+    "why": "Readers expect a consistent heat level, and the book makes that promise early. Situational: romance and any book with intimate scenes.",
+    "need": "situational",
+    "mistake": "Changing the level without meaning to, which breaks the promise.",
+    "example": "Lands: every intimate scene closes the door after the first kiss. Fails: two closed-door scenes, then one fully explicit in chapter 20."
+   },
+   "heat_changes": {
+    "what": "What the intimacy changes between the two characters: more trust, a new fear, a shift in power.",
+    "why": "Every intimate scene should move the relationship, not only the temperature. If nothing changes, it reads as an interruption.",
+    "need": "situational",
+    "mistake": "Writing the scene as a reward with no consequence.",
+    "example": "Lands: after their night she shows him the ledger she has hidden from everyone. Fails: the next morning they're exactly where they were."
+   }
+  }
+ },
+ "event": {
+  "about": {
+   "what": "An event is something that happens in the story world, on the page or offstage, now or in the backstory. The record separates what the event must accomplish from how it happens, and keeps track of what really happened and who knows it.",
+   "why": "Separating the job from the staging lets you commit to what the story needs while the details stay open. Tracking truth and knowledge keeps secrets straight across the whole book: who saw what, who is lying, and what the reader has been told.",
+   "when": "As soon as you know something has to happen, even before you know how. Also for backstory events that still press on the present.",
+   "mistake": "Recording what happens but never what it's for. Events without a job pile up and bloat the plot.",
+   "example": "The bakery fire. Job: force the baker to accept her sister's help. Possible executions: a faulty oven, or arson. Truth: the sister's husband set it. Who knows: only him, until late in the book. Reader: suspects the chain."
+  },
+  "groups": {
+   "What it does": "The event's dramatic job: what it has to change in the story.",
+   "How it happens": "The possible stagings, kept side by side until you choose.",
+   "When": "Where the event sits on your story clock, which can differ from when the reader learns of it.",
+   "Truth and knowledge": "What really happened, who knows it and when, what the reader knows, and whether the event belongs to the visible story or the hidden one."
+  },
+  "fields": {
+   "function": {
+    "what": "The dramatic job: what this event must accomplish for the story. You can decide it while how it happens stays open.",
+    "why": "Knowing the job keeps you from locking in a staging before you know what it serves, and makes it easy to cut events that serve nothing.",
+    "need": "core",
+    "mistake": "Describing the event instead of its job.",
+    "example": "Lands: \"Separates the sisters just when they most need each other.\" Fails: \"A fire.\""
+   },
+   "execution": {
+    "what": "Possible ways the event could happen, side by side as options until you choose one.",
+    "why": "The first idea is usually the most familiar. Laying out a few lets you pick the one that best serves the job and puts the most pressure on the characters.",
+    "need": "useful",
+    "mistake": "Choosing too early, or never choosing.",
+    "example": "Job: the keeper is cut off from the mainland. Options: the radio dies, the causeway floods, or the supply boat stops coming. The flood also threatens the logbook, so it does two jobs."
+   },
+   "story_time": {
+    "what": "When the event happens in the story world. That can be very different from when the reader learns about it.",
+    "why": "Pinning the time keeps cause and effect straight, especially for backstory and offstage events.",
+    "need": "useful",
+    "mistake": "Leaving backstory events undated, then contradicting yourself about ages or order.",
+    "example": "\"Spring 1987, two months before the father's death.\""
+   },
+   "truth": {
+    "what": "What actually happened, plainly, whatever anyone in the story says or believes.",
+    "why": "The truth is your reference point. Every lie, rumor and mistake is measured against it. It matters most in mysteries and books with secrets.",
+    "need": "useful",
+    "mistake": "Leaving the truth vague and planning to work it out later, so the clues you plant don't fit.",
+    "example": "Lands: \"Her husband set the fire to collect the insurance and pay his debt.\" Fails: \"Something suspicious happened.\""
+   },
+   "who_knows": {
+    "what": "Each character who knows the truth, and when each learns it.",
+    "why": "This stops characters from acting on knowledge they don't have yet, one of the most common continuity slips. It also shows who could reveal the secret, and when.",
+    "need": "useful",
+    "mistake": "Forgetting that people talk. If two characters know, consider who else they'd tell.",
+    "example": "Lands: \"Her husband: from the start. The insurance agent: chapter 12. The baker: the Finale.\" Fails: the baker hints at it in chapter 5, before she could know."
+   },
+   "reader_knows": {
+    "what": "What the reader knows or suspects about the event, and from when.",
+    "why": "When the reader knows more than the characters, you get suspense (dramatic irony: the reader sees danger the character can't). When the reader knows less, you get mystery. Deciding which you want shapes every scene around it.",
+    "need": "useful",
+    "mistake": "Not deciding, so the reader is half-told and neither tense nor curious.",
+    "example": "Lands: the reader sees the husband buy the fuel, so every kind word he says to the baker is unbearable. Fails: a hint so faint that no reader catches it."
+   },
+   "layer": {
+    "what": "Whether the event belongs to the visible story (what the viewpoint characters believe is happening) or the hidden story (what is actually happening).",
+    "why": "Labeling layers shows whether the hidden story keeps moving underneath. Situational: mysteries, thrillers and books built on a secret.",
+    "need": "situational",
+    "mistake": "Hidden events that never leave a trace in the visible story, so the reveal feels unearned.",
+    "example": "Visible: an accidental fire. Hidden: arson. The visible story shows a gas can missing from the shed."
+   }
+  }
+ },
+ "reveal": {
+  "about": {
+   "what": "A reveal is the moment a hidden truth comes out, to a character, to the reader, or to both. The record holds what the reveal must do, how it could happen, when, and who learns what.",
+   "why": "A strong reveal makes the reader look backward: earlier scenes take on a new meaning. It should feel surprising and, looking back, inevitable. That only works if the truth was planted fairly before.",
+   "when": "When you know a secret will come out, and again while placing clues, so every clue lands before the reveal that needs it.",
+   "mistake": "Revealing a truth the reader had no way to see coming. Surprise without setup reads as a cheat, not a twist.",
+   "example": "The baker learns her sister's husband set the fire. Lands: the reader remembers his singed sleeve in chapter 4 and his talk of debt, and everything clicks. Fails: he confesses out of nowhere, and nothing earlier supports it.",
+   "differs": "A Reveal plans one big disclosure. A clue's own fields track a single clue; Connections (reveals) tie either one to scenes."
+  },
+  "groups": {
+   "What it does": "The reveal's dramatic job: what it changes in the story when the truth comes out.",
+   "How it happens": "The possible ways the truth could surface, kept side by side until you choose.",
+   "When": "Where the reveal sits in the story, which is usually much later than the event it reveals.",
+   "Truth and knowledge": "The exact truth revealed, who learns it here and who already knew, what the reader knew going in, and whether the hidden story now surfaces."
+  },
+  "fields": {
+   "function": {
+    "what": "What the reveal must accomplish: recast earlier scenes, flip a relationship, force a decision, or raise the stakes. You can decide this while how it comes out stays open.",
+    "why": "A reveal without a job is just information. With one, it becomes a turn the whole book has been building toward.",
+    "need": "core",
+    "mistake": "Treating the reveal as the payoff itself, with nothing changing after it.",
+    "example": "Lands: \"Turns the baker against the one person she was learning to trust.\" Fails: \"We find out who started the fire.\""
+   },
+   "execution": {
+    "what": "How the truth could come out: a confession, a document, something overheard, a slip, a deduction. Options sit side by side until you choose.",
+    "why": "The method shapes the emotion. A confession is intimate. A found letter is lonely. A public accusation is explosive.",
+    "need": "useful",
+    "mistake": "Defaulting to someone explaining everything in a long speech.",
+    "example": "Options: the husband confesses; she finds the receipt for the fuel; their child repeats something he said. The child's slip hurts the most and costs him the most."
+   },
+   "story_time": {
+    "what": "When the reveal happens in the story, which is separate from when the original event happened.",
+    "why": "Placement decides the reveal's force. The same truth lands as a Midpoint turn, an All Is Lost blow or a Finale key, depending on where you put it.",
+    "need": "useful",
+    "mistake": "Holding it so long the reader has guessed it and grown impatient.",
+    "example": "\"Day 40, the night before the reopening.\""
+   },
+   "truth": {
+    "what": "The exact truth that comes out, stated plainly.",
+    "why": "Writing it precisely tells you which clues you owe the reader and keeps the reveal consistent with the event record.",
+    "need": "core",
+    "mistake": "Revealing a vaguer or different truth than the one you planted clues for.",
+    "example": "Lands: \"He set the fire, and her sister knew within a week.\" Fails: \"He was involved somehow.\""
+   },
+   "who_knows": {
+    "what": "Who learns the truth at this reveal, and who already knew.",
+    "why": "A reveal often lands hardest on the character who learns that someone close already knew. Tracking this also shows what each character can do next.",
+    "need": "useful",
+    "mistake": "Forgetting the characters who knew all along, who now have to react too.",
+    "example": "Lands: the baker learns it here, and also learns her sister knew. Fails: only the baker is listed, and the sister's guilt never comes up."
+   },
+   "reader_knows": {
+    "what": "What the reader knew or suspected before this reveal.",
+    "why": "If the reader already knew, the reveal is about the character finding out, and the payoff is her reaction. If the reader didn't, it's about surprise, and the clues must be fair.",
+    "need": "useful",
+    "mistake": "Not knowing which kind of reveal you're writing, so it's neither a shock nor a satisfying confirmation.",
+    "example": "Lands: the reader has watched him for twenty chapters, so the scene is about her face. Fails: the scene plays as a surprise to a reader who knew all along."
+   },
+   "layer": {
+    "what": "Whether this reveal brings the hidden story up into the visible one.",
+    "why": "Reveals are where the two layers meet. Marking them shows where the hidden story surfaces and what stays buried. Situational: books with a secret or twist.",
+    "need": "situational",
+    "mistake": "Surfacing the whole hidden story at once, leaving nothing for later turns.",
+    "example": "This reveal surfaces the arson. The insurance fraud stays hidden until the Finale."
+   }
+  }
+ },
+ "clue": {
+  "about": {
+   "what": "A clue is a detail you plant that points toward a hidden truth. The record holds what it really means, where it's planted, where it pays off, what readers may mistake it for, and whether it's a false trail on purpose.",
+   "why": "Clues are what make a reveal feel fair. A careful reader should be able to look back and see the truth was there. In a mystery that fairness is the contract; in any book it's what makes a twist satisfying instead of arbitrary.",
+   "when": "When you know a reveal is coming. Plant first in your outline, then check in revision that every significant clue is placed before the reveal that needs it.",
+   "mistake": "Planting a clue so plainly every reader solves it at once, or so faintly no one could. A good clue is visible but easy to read another way.",
+   "example": "The husband's singed sleeve in chapter 4. Lands: the baker assumes he burned it at the grill, and so does the reader. Fails: the narrator says, \"Strange, a burn, the same week as the fire.\"",
+   "differs": "A clue is one detail. A Reveal plans the big disclosure the clues build toward."
+  },
+  "groups": {
+   "Clue": "The clue itself: what it really means, whether it must pay off, where it's planted and where it pays off, and what it's mistaken for. This is the craft of setups and payoffs, and the fair-play tradition of mystery writing.",
+   "Red herring": "For clues that are false trails on purpose: whether this one is, and what it draws attention away from."
+  },
+  "fields": {
+   "truth": {
+    "what": "What the clue really means: the truth it points to.",
+    "why": "Writing the true meaning keeps every planting consistent and tells you which reveal it serves.",
+    "need": "core",
+    "mistake": "Planting a striking detail without deciding what it means, then forcing a meaning later.",
+    "example": "Lands: \"The singed sleeve means he was near the oven the night of the fire.\" Fails: \"Something about his sleeve.\""
+   },
+   "significant": {
+    "what": "Whether this detail matters enough that it must pay off. Not every detail needs to.",
+    "why": "Readers notice details the story lingers on and expect them to matter. Marking the ones that must pay off lets you check none are dropped.",
+    "need": "useful",
+    "mistake": "Lingering on a detail that never pays off, which feels like a broken promise.",
+    "example": "Lands: the missing gas can is marked significant and pays off at the reveal. Fails: the camera lingers on a locked drawer that's never opened."
+   },
+   "planted": {
+    "what": "Each place the clue appears before the reveal. A clue planted more than once is easier for a reader to recall later.",
+    "why": "Tracking plantings lets you confirm each one comes before the reveal and that the clue gets enough weight.",
+    "need": "core",
+    "mistake": "Planting it only once, in a busy scene, so no reader remembers it.",
+    "example": "Lands: the sleeve in chapter 4, the smell of fuel on his jacket in chapter 9. Fails: one mention, buried in a crowd scene.",
+    "differs": "This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with is planted in."
+   },
+   "paid_off": {
+    "what": "Where the clue pays off: where its meaning becomes clear.",
+    "why": "A clue that never pays off frustrates readers. Pairing plant and payoff makes gaps easy to find.",
+    "need": "core",
+    "mistake": "Paying it off in narration nobody notices, so the reader never feels the click.",
+    "example": "Lands: at the reveal the baker remembers the sleeve, and the reader does too. Fails: the reveal never mentions the sleeve, so the planting was wasted.",
+    "differs": "This is a note in your words. The Setups and payoffs check reads Connections: connect the clue to a scene card with pays off in."
+   },
+   "misread_as": {
+    "what": "What characters and readers are likely to take the clue for at first.",
+    "why": "A clue works when it has an innocent reading. That cover story is what lets you plant it in plain sight.",
+    "need": "useful",
+    "mistake": "Giving no cover, so the clue shouts its meaning.",
+    "example": "Lands: everyone assumes he burned the sleeve at the barbecue. Fails: there's no other reason a sleeve would be burned."
+   },
+   "red_herring": {
+    "what": "Whether this is a red herring: a false trail planted on purpose to lead the reader toward the wrong answer.",
+    "why": "Red herrings keep a mystery from being solved too early. Fair ones have their own explanation once the truth comes out. Situational: mysteries, thrillers and suspense.",
+    "need": "situational",
+    "mistake": "A false trail that's never explained, which feels like the author lied.",
+    "example": "Lands: the chain's manager is seen near the bakery that night, and later we learn he was trying to make an offer. Fails: he's there, and no one ever says why."
+   },
+   "hides": {
+    "what": "What the red herring draws attention away from.",
+    "why": "A red herring works best when it pulls the eye from the real clue at the same moment. Naming the target keeps the misdirection purposeful.",
+    "need": "situational",
+    "mistake": "A herring that distracts from nothing in particular, so it only adds noise.",
+    "example": "Lands: the manager's visit happens in the same scene as the husband's singed sleeve, so the reader watches the manager. Fails: the herring and the real clue are fifty pages apart."
+   }
+  }
+ },
+ "payoff": {
+  "about": {
+   "what": "A payoff is the later moment that rewards something set up earlier: a skill, an object, a line, a promise. Setup and payoff work as a pair; the idea is often called Chekhov's gun, after the playwright's advice that a gun shown early should be fired later.",
+   "why": "Payoffs make a story feel designed. When an early detail returns with new force, the reader feels the book was going somewhere all along. Unpaid setups feel like broken promises.",
+   "when": "When you plant something you intend to use, and in revision to check every significant setup has its payoff and every payoff its setup.",
+   "mistake": "A payoff with no setup, like a skill the hero never had until she needs it. It feels convenient instead of earned.",
+   "example": "Chapter 2: the keeper's father teaches her to read the light's signal code. Lands: at the Finale she signals the stranded ferry with it. Fails: she suddenly knows the code in the Finale with no mention before.",
+   "differs": "A Payoff plans one payoff in depth. A clue's Where it pays off is a quick note; the Connections word pays off ties it to a scene so the Setups and payoffs check can see it."
+  },
+  "groups": {
+   "Clue": "The setup and its payoff: what the setup really means, whether it must pay off, where it's planted, where it pays off, and what readers first take it for.",
+   "Red herring": "For setups that are false on purpose, built to make the reader expect a payoff that doesn't come, and what that misdirection hides."
+  },
+  "fields": {
+   "truth": {
+    "what": "What the setup really means once it pays off: why it was there.",
+    "why": "Naming the true purpose makes sure the setup carries the right weight and returns at the right moment.",
+    "need": "core",
+    "mistake": "Planting something for flavor, then trying to make it matter at the end.",
+    "example": "Lands: \"The signal code is how she saves the ferry and how she finally honors her father.\" Fails: \"The code is a nice detail.\""
+   },
+   "significant": {
+    "what": "Whether this setup matters enough that it must pay off. Not every detail does.",
+    "why": "Marking the ones that must pay off lets you check none are forgotten as the draft grows.",
+    "need": "useful",
+    "mistake": "Treating every detail as a setup, which clutters the book and confuses readers about what matters.",
+    "example": "Lands: the code is marked significant. The father's pipe is just texture. Fails: the pipe gets three loving paragraphs and never returns."
+   },
+   "planted": {
+    "what": "Each place the setup appears before the payoff.",
+    "why": "One mention is easy to forget. Two or three, each light, keep it alive in the reader's mind without giving away its use.",
+    "need": "core",
+    "mistake": "Planting it once, long before the payoff, so it feels new when it returns.",
+    "example": "Lands: the lesson in chapter 2, a scene where she taps the code idly in chapter 10. Fails: one line in chapter 2, then nothing until the end."
+   },
+   "paid_off": {
+    "what": "Where the setup pays off.",
+    "why": "The payoff lands hardest where it does the most work, often at a turning point like the Finale.",
+    "need": "core",
+    "mistake": "Paying it off in a minor scene, wasting its force.",
+    "example": "Lands: she signals the ferry during the Finale storm. Fails: she uses the code once to order supplies."
+   },
+   "misread_as": {
+    "what": "What readers first take the setup to be, before its real purpose is clear.",
+    "why": "A setup that reads as character or texture slips past unnoticed, so the payoff surprises and satisfies at once.",
+    "need": "useful",
+    "mistake": "A setup that announces itself, so the reader sees the payoff coming a hundred pages away.",
+    "example": "Lands: the lesson reads as a tender memory of her father. Fails: \"Someday this code might save a life,\" he says."
+   },
+   "red_herring": {
+    "what": "Whether this setup is false on purpose: built to make the reader expect a payoff that doesn't come, or comes differently.",
+    "why": "A false setup can steer readers away from the real payoff. Situational: mysteries, suspense and books that play with expectation.",
+    "need": "situational",
+    "mistake": "A false setup the story never acknowledges, which reads as a dropped thread, not a trick.",
+    "example": "Lands: everyone expects the flare gun to save the ferry, it's wet and useless, and the code does it. Fails: the flare gun is shown, then simply forgotten."
+   },
+   "hides": {
+    "what": "What the false setup draws attention away from.",
+    "why": "Misdirection works when the reader's eye is busy elsewhere while the real setup is planted.",
+    "need": "situational",
+    "mistake": "Misdirection that points nowhere useful, so it only adds noise.",
+    "example": "Lands: the flare gun gets the attention while she taps the code in the background. Fails: the flare gun and the code never appear near each other."
+   }
+  }
+ },
+ "storyline": {
+  "about": {
+   "what": "A storyline is one thread of plot running through the book. Blake Snyder calls the main plot the A story and the second thread, often the relationship that carries the theme, the B story. A book can have more.",
+   "why": "Threads give a book texture and let one plot comment on another. Tracking each one shows where it stands, so threads don't vanish for a hundred pages or end without resolution.",
+   "when": "Once you know your book has more than one thread, and throughout revision to check each thread's state and promises.",
+   "mistake": "Letting a thread go dormant without meaning to. Readers remember open threads, and a forgotten one feels like a hole.",
+   "example": "A story: the baker fights to keep the shop. B story: she and her sister learn to trust each other. Lands: the sister's help is what saves the shop, so the B story resolves the A story. Fails: the sister vanishes after the midpoint."
+  },
+  "groups": {
+   "Storyline": "The thread's role, Blake Snyder story type, current state, how it resolves, the values it carries and the promises it makes to the reader."
+  },
+  "fields": {
+   "letter": {
+    "what": "An optional letter, A, B, C and so on, that marks this thread's role. The letter is its role, not its identity.",
+    "why": "Letters show which thread carries the main plot and which support it. Snyder uses A for the main plot and B for the thread that carries the theme.",
+    "need": "useful",
+    "mistake": "Treating the letter as a permanent name. A thread can change role in revision.",
+    "example": "Lands: the shop is A, the sisters are B, the rival chain is C. Fails: lettering every minor subplot until you reach H."
+   },
+   "story_type": {
+    "what": "Blake Snyder's story type for this thread: Monster in the House, Golden Fleece, Out of the Bottle, Dude with a Problem, Rites of Passage, Buddy Love, Whydunit, The Fool Triumphant, Institutionalized or Superhero. A book can carry a different one in each storyline.",
+    "why": "Each type has parts readers expect. Naming the type tells you what the thread owes them.",
+    "need": "useful",
+    "mistake": "Picking a type by mood instead of by its parts.",
+    "example": "Lands: the sisters' thread is Buddy Love, so they need something that keeps them apart and a reason they're incomplete without each other. Fails: calling it Buddy Love with no barrier between them."
+   },
+   "state": {
+    "what": "Where the thread stands now: Introduced, Developing, Escalating, Temporarily resolved, Dormant, Reopened, Resolved, Intentionally unresolved, or your own.",
+    "why": "States show at a glance which threads are moving and which have stalled. A thread dormant too long fades from the reader's mind.",
+    "need": "useful",
+    "mistake": "Leaving it at Introduced long after the thread has moved.",
+    "example": "Lands: the rival chain thread goes Dormant after the Midpoint, then is Reopened at All Is Lost. Fails: it goes quiet in chapter 8 and is never marked."
+   },
+   "resolution": {
+    "what": "Whether the thread resolves within this book or is held open on purpose, as in a series or an ambiguous ending.",
+    "why": "Deciding makes an open ending a choice instead of an oversight. Readers forgive an open thread if the story tells them it's meant to be.",
+    "need": "useful",
+    "mistake": "Leaving a thread open by accident and calling it ambiguity.",
+    "example": "Lands: the shop is saved, but whether the sisters forgive the husband stays open, and the last scene shows her not answering his call. Fails: the rival chain is never mentioned again."
+   },
+   "values": {
+    "what": "The values the thread carries, such as loyalty, independence or forgiveness. Values ride the plot lines; they are not threads of their own.",
+    "why": "Naming values shows what each thread is really about and how threads echo each other's themes.",
+    "need": "useful",
+    "mistake": "Making a value its own storyline with no plot attached, like \"the forgiveness thread.\"",
+    "example": "Lands: the A story carries independence, the B story carries trust, and the climax forces them to collide. Fails: a \"trust storyline\" with no events in it."
+   },
+   "promises": {
+    "what": "What this thread promises the reader: questions it raises, tensions it sets up, payoffs it implies.",
+    "why": "Every thread makes promises early, and readers keep track. Listing them lets you check each one is kept, broken on purpose, or held for a sequel.",
+    "need": "core",
+    "mistake": "Raising a question with a strong hook and never answering it.",
+    "example": "Lands: \"Will the sisters ever bake together again?\" answered in the Final Image. Fails: the first chapter hints at a family recipe that is never revealed."
+   }
+  }
+ },
+ "set_piece": {
+  "about": {
+   "what": "A set piece is a big, memorable sequence, the scene readers describe to friends: the storm rescue, the wedding disaster, the chase across the market.",
+   "why": "Set pieces are where the premise pays off on the page. They draw several threads together and give the book its peaks. A book with none can feel flat even if every scene works.",
+   "when": "While outlining, often early, since a striking set piece can be a seed for the whole book. Return to it to make sure it does a story job, not just a show.",
+   "mistake": "Building a spectacular sequence that changes nothing. If the story would be the same without it, it's decoration.",
+   "example": "The wedding where both rival florists' arrangements collapse during the vows. Lands: they have to work together in front of everyone, which turns the B story. Fails: it's funny, and the next chapter they're exactly as they were."
+  },
+  "groups": {
+   "Set piece": "What the sequence does for the story, which storylines it moves, and whether it lives on one card or across a sequence of scenes."
+  },
+  "fields": {
+   "job": {
+    "what": "The story job the set piece performs: the turn, reveal or change it delivers.",
+    "why": "A set piece earns its space by doing work. Naming the job keeps the spectacle tied to the story.",
+    "need": "core",
+    "mistake": "Describing what the reader sees instead of what changes.",
+    "example": "Lands: \"Forces the rivals to rescue the wedding together, the first time they cooperate.\" Fails: \"A big, funny wedding disaster.\""
+   },
+   "strands": {
+    "what": "The storylines this set piece moves forward.",
+    "why": "The best set pieces move several threads at once, which is part of why they feel big.",
+    "need": "useful",
+    "mistake": "A set piece that moves only one thread while the others stand still.",
+    "example": "Lands: the wedding moves the A story (the contract) and the B story (the rivals' truce) at once. Fails: it moves only the contract, and the romance just watches."
+   },
+   "shape": {
+    "what": "Whether the set piece is one card (a single scene) or a sequence of cards across several scenes or chapters.",
+    "why": "Knowing the shape helps you plan pacing and whether to break the sequence with other threads.",
+    "need": "useful",
+    "mistake": "Cramming a sequence into one scene so it feels rushed, or stretching a single moment across chapters.",
+    "example": "Lands: the storm rescue is a sequence: the warning, the launch, the search, the return. Fails: all four in two pages."
+   }
+  }
+ },
+ "hidden_move": {
+  "about": {
+   "what": "A hidden move is something a character does in secret, offstage, that drives the plot while others don't see it. Together these make up the secret operations: the hidden story under the visible one.",
+   "why": "When a character is secretly acting, the visible story has causes the reader can feel but not see. Tracking the moves keeps the hidden story logical, so the eventual reveal holds up when readers look back.",
+   "when": "When your book has an antagonist, ally or secret keeper acting out of sight. Plan the moves alongside the visible beats.",
+   "mistake": "Inventing the hidden moves after the reveal to explain it. Readers can tell when the secret plan doesn't match what they saw.",
+   "example": "The sister's husband secretly takes out a loan against the shop. Others see him working late and think he's helping. Lands: at the reveal, every late night makes sense. Fails: the loan appears only in the confession."
+  },
+  "groups": {
+   "The move": "When the move happens, what it is, what the others see and how they misread it, and who takes the blame."
+  },
+  "fields": {
+   "when": {
+    "what": "When the hidden move happens, by beat or rough point in the story.",
+    "why": "Placing it against the visible beats shows how the secret story pushes the visible one.",
+    "need": "useful",
+    "mistake": "Leaving it unplaced, so the visible story's effects show up before their hidden cause.",
+    "example": "\"Just before the Midpoint, the week of the city fair.\""
+   },
+   "move": {
+    "what": "What the character actually does in secret.",
+    "why": "Writing it plainly lets you check that it's possible, motivated and consistent with what others later learn.",
+    "need": "core",
+    "mistake": "Keeping it vague, so you can't plant fair signs of it.",
+    "example": "Lands: \"He forges her signature on the loan papers.\" Fails: \"He's up to something.\""
+   },
+   "others_see": {
+    "what": "What the other characters see of the move, and how they misread it.",
+    "why": "This is the visible trace of the hidden story: the part you can put on the page. It's also where fair clues come from.",
+    "need": "core",
+    "mistake": "Leaving no visible trace, so the reveal has nothing to stand on.",
+    "example": "Lands: they see him at the bank and assume he's paying the mortgage. Fails: no one ever sees anything."
+   },
+   "blame": {
+    "what": "Who takes the blame for the move's effects, if anyone, until the truth comes out.",
+    "why": "Misplaced blame creates conflict in the visible story and raises the cost of the reveal.",
+    "need": "useful",
+    "mistake": "Blaming a character with no reason to be suspected, so the misdirection feels forced.",
+    "example": "Lands: the baker blames the chain for the debt and refuses their help. Fails: she blames a stranger introduced that chapter."
+   }
+  }
+ },
+ "line": {
+  "about": {
+   "what": "A kept line is a line of dialogue or prose you want to use somewhere in the book but haven't placed yet.",
+   "why": "Good lines come at odd times: in the shower, while drafting another chapter. Keeping them in one place means they aren't lost, and you can choose the moment they'll land hardest.",
+   "when": "Any time a line arrives before its scene does. Return to them while drafting and revising to place them.",
+   "mistake": "Forcing a kept line into a scene where it doesn't fit, because you love it. A line that fits nowhere can wait for another book.",
+   "example": "\"You can't fix a recipe by shouting at the oven.\" Lands: the baker's mother says it in a flashback, and the baker says it to her daughter in the last chapter. Fails: it's dropped into an argument where it reads as a joke."
+  },
+  "groups": {
+   "The line": "Who says it and how it's delivered.",
+   "Where it goes": "Possible places the line could go. Keeping a line does not place it."
+  },
+  "fields": {
+   "speaker": {
+    "what": "Who says the line in the story.",
+    "why": "The same words land differently from different mouths. Choosing a speaker tests whether the line fits a voice.",
+    "need": "useful",
+    "mistake": "Giving a line to whoever is nearby, when it only sounds right from one character.",
+    "example": "Lands: the gruff old keeper says the tender line, which surprises the reader. Fails: a character who never talks that way says it."
+   },
+   "delivery": {
+    "what": "How the line is delivered: emphasis, timing, physical business. Business means the small action a speaker does while talking.",
+    "why": "Delivery can make a plain line powerful or a clever line fall flat. Noting it keeps the effect you heard when you wrote it.",
+    "need": "useful",
+    "mistake": "Stacking adverbs (\"she said bitterly\") instead of showing delivery through action and timing.",
+    "example": "Lands: she says it without looking up, still wiping the counter. Fails: \"she said, sadly and angrily.\""
+   },
+   "placement": {
+    "what": "Where the line might go. Candidates can sit side by side until you choose.",
+    "why": "A line's power depends on placement. The same words can open a chapter, end one or return as a callback.",
+    "need": "useful",
+    "mistake": "Placing it at the first chance instead of the best one.",
+    "example": "Candidates: the opening scene, the All Is Lost, the Final Image. Lands: saved for the Final Image, where it echoes. Fails: used in chapter 1, then nothing to echo.",
+    "differs": "Notes on where it might go. To tie the line to a scene, connect it under Connections with appears in."
+   }
+  }
+ },
+ "motif": {
+  "about": {
+   "what": "A motif is a recurring image, object, sound or phrase that gathers meaning each time it returns: a lighthouse beam, a cracked bowl, a song on the radio.",
+   "why": "Motifs carry meaning without stating it. When an image returns changed, the reader feels the story's change in one quick picture. That's especially valuable in literary and upmarket fiction.",
+   "when": "Often you discover a motif while drafting, then strengthen it in revision. Sometimes you choose one early as a thread for the whole book.",
+   "mistake": "Repeating the image without letting its meaning change. Then it's decoration, and readers start to notice the repetition instead of the meaning.",
+   "example": "The baker's mother's cracked mixing bowl. Lands: at first a reminder of loss, then something she's afraid to use, and finally the bowl her daughter mixes in. Fails: it sits on the shelf in five chapters and means the same thing each time."
+  },
+  "groups": {
+   "Motif": "What the motif means, and how that meaning changes across the book."
+  },
+  "fields": {
+   "meaning": {
+    "what": "What the motif means at each point in the book. Add a version for each stage as its meaning shifts.",
+    "why": "Tracking the shift shows whether the motif grows with the story. A motif that changes meaning is how an image becomes part of the arc.",
+    "need": "core",
+    "mistake": "Writing one fixed meaning (\"the bowl means grief\") and never letting it move.",
+    "example": "Lands: the beam means duty at the start, a trap in the middle and a welcome at the end. Fails: the beam means hope on every page."
+   }
+  }
+ },
+ "question": {
+  "about": {
+   "what": "A question is something about your story you haven't answered yet: why a character would do that, how a plot point could work, what the ending should be.",
+   "why": "Open questions are part of writing. Keeping them as records means they're not lost in a notebook, and you can work through them with possible answers and the assumptions behind them, without committing too soon.",
+   "when": "Any time you hit a gap or a doubt. Come back when you're ready to decide.",
+   "mistake": "Answering a question just to close it, with the first idea, when the story needs a better one.",
+   "example": "\"Why doesn't the keeper just leave the island?\" Possible answers: duty, fear, a promise to her father. Assumption: that leaving is easy. Lands: questioning that, you realize the causeway floods, so leaving is really a choice to risk drowning."
+  },
+  "groups": {
+   "Thinking it through": "Possible answers, the assumptions hiding behind the question, and the answer once you decide it."
+  },
+  "fields": {
+   "candidate_answer": {
+    "what": "Possible answers to the question, side by side until you choose.",
+    "why": "Writing several answers helps you avoid the first, most familiar one, and shows which answer creates the most story.",
+    "need": "useful",
+    "mistake": "Writing only one candidate, which isn't really choosing.",
+    "example": "Question: why does the rival lend her the generator? Candidates: guilt, attraction, a plan to sabotage her. Lands: the third opens a later reveal. Fails: \"Because he's nice.\""
+   },
+   "assumption": {
+    "what": "The assumptions hidden in the question: things you're taking for granted that might not be true.",
+    "why": "Many stuck questions are stuck because of an assumption. Naming it often shows a way out.",
+    "need": "useful",
+    "mistake": "Treating the assumption as a fact of the story.",
+    "example": "Question: how does she pay the rent? Assumption: she has to pay it. Lands: what if her mother owned the building, and the lease was always a lie?"
+   },
+   "answer": {
+    "what": "The answer, once you know it. When you mark it Decided, the question moves to Answered.",
+    "why": "A decided answer becomes something the rest of the story can rely on. Mark it decided when you're sure, and update the records it affects.",
+    "need": "useful",
+    "mistake": "Answering here and forgetting to carry the answer into the records it changes.",
+    "example": "Lands: \"She stays because her father's ashes are in the lamp room,\" then updated on the keeper's character record. Fails: answered here, and her record still says she stays out of duty."
+   }
+  }
+ },
+ "idea": {
+  "about": {
+   "what": "An idea is a possibility you're thinking about but haven't committed to: a twist, a character, a setting, a scene, a line of inquiry.",
+   "why": "Ideas need somewhere to wait. Keeping them as records means you can weigh what each would change and where it might fit before letting it into the canon.",
+   "when": "Any time an idea arrives. Return to them when you're stuck or revising.",
+   "mistake": "Folding an idea straight into the story without checking what it would break. A great idea in the wrong place can cost you three chapters.",
+   "example": "Idea: the stranger is the keeper's half brother. Lands: you note it would change her father's arc and the stranger's motive, and might fit at the Midpoint. Fails: you add it to chapter 12 and later find it contradicts chapter 3."
+  },
+  "groups": {
+   "Thinking it through": "What the idea might change if you used it, and where in the story it might fit."
+  },
+  "fields": {
+   "what_it_changes": {
+    "what": "What would change in the story if you used this idea: characters, events, reveals, the ending.",
+    "why": "Listing the ripples shows whether the idea strengthens the book or quietly breaks it.",
+    "need": "useful",
+    "mistake": "Seeing only the exciting part and missing what it would undo.",
+    "example": "Lands: \"If they're siblings, the romantic subplot has to go, and the father becomes a liar.\" Fails: \"It would be a great twist.\""
+   },
+   "where_it_fits": {
+    "what": "Where the idea might go: which beat, storyline or scene. Candidates can sit side by side.",
+    "why": "The right placement can make a good idea great. Noting a few options lets you choose with the whole book in view.",
+    "need": "useful",
+    "mistake": "Fitting it wherever you happen to be drafting.",
+    "example": "Candidates: the Midpoint, All Is Lost, the Final Image. Lands: at All Is Lost it doubles the blow. Fails: in chapter 2, before the reader cares."
+   }
+  }
+ }
+}

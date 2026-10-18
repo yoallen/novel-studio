@@ -78,8 +78,8 @@ describe('timelines, knowledge and clues (R-C-049, R-C-050, R-C-060, R-C-062, R-
     const k = ct.knowledge(pid);
     const ev = k.events.find((e) => e.title === 'Francine dumped the fish guts')!;
     expect(ev.happens).toBe('Night before day 1');
-    expect(ev.readerAt).toEqual({ scene: 'Kevin finds the ledger', index: 1 });
-    expect(ev.who.find((w) => w.title === 'Kevin')!.learnsAt).toEqual({ scene: 'Kevin finds the ledger', index: 1 });
+    expect(ev.readerAt).toEqual({ scene: 'Kevin finds the ledger', index: 1, standing: 'card' });
+    expect(ev.who.find((w) => w.title === 'Kevin')!.learnsAt).toEqual({ scene: 'Kevin finds the ledger', index: 1, standing: 'card' });
     expect(ev.who.find((w) => w.title === 'Anthony')).toMatchObject({ learnsAt: { index: 2 }, stance: { relation: 'believes_falsely', note: 'Believes Kevin did it' } });
     expect(k.timeline[1]!.learns).toEqual(expect.arrayContaining(['Anthony learns Francine dumped the fish guts']));
   });

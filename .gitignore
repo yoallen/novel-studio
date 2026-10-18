@@ -9,3 +9,4 @@ playwright-report/
 release
 test-results
 test-results/
+.claude/worktrees/

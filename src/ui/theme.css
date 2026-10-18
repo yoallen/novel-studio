@@ -219,10 +219,26 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 /* On a record, each fact keeps its marginalia: status, date, source and actions sit in the outer margin. */
 .st.fact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(11rem, 15rem); column-gap: 1.75rem; margin-bottom: 0.75rem !important; }
 .st.fact > div:first-child { font-size: 1.0625rem; line-height: 1.55; align-self: start; }
-.st.fact > .row { flex-direction: column; align-items: flex-start; gap: 0.1rem; border-left: 1px solid var(--line); padding-left: 0.75rem; font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.8125rem; line-height: 1.35; }
-.st.fact > .row .btn.link { font-family: var(--ui); font-style: normal; font-size: 0.8125rem; padding: 0; text-align: left; }
+.st.fact > .fact-margin { display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; border-left: 2px solid var(--line-strong); padding-left: 0.85rem; line-height: 1.35; }
+/* The status is the loudest thing in the margin: small capitals, bold, in the status's own colour. */
+.fact-status { font-family: var(--ui); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--struct); }
+.fact-status[data-s='established'] { color: var(--ink); }
+.fact-status[data-s='established']::before { content: ''; display: inline-block; width: 7px; height: 7px; background: var(--ink); margin-right: 0.45em; vertical-align: 0.1em; }
+.fact-status[data-s='developing'] { color: var(--pencil); }
+.fact-status[data-s='unanswered'] { color: var(--margin); }
+.fact-status[data-s='illustrative'] { color: var(--margin); }
+.fact-status[data-s='proposed'] { color: var(--struct); }
+.fact-status[data-s='set_aside'] { color: var(--faint); }
+.fact-source { font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.875rem; }
+/* The date reads as a date: upright, steady, never mistaken for a button. */
+.fact-when { font-family: var(--ui); font-size: 0.8125rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+.fact-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+.fact-act { font-size: 0.8125rem; padding: 0.15rem 0.55rem; min-height: 0; border: 1px solid var(--line-strong); background: transparent; color: var(--struct); border-radius: var(--r-sm); }
+.fact-act:hover, .fact-act:focus-visible { background: var(--wash); }
+.fact-act.primary { border-color: var(--struct); background: var(--struct); color: var(--page); }
+.fact-act.primary:hover { filter: brightness(1.12); background: var(--struct); }
 .st.fact[data-s='proposed'] { grid-template-columns: minmax(0, 1fr) minmax(10rem, 14rem); }
-@media (max-width: 1100px) { .st.fact { grid-template-columns: minmax(0, 1fr); } .st.fact > .row { flex-direction: row; flex-wrap: wrap; border-left: 0; padding-left: 0; gap: 0.2rem 0.6rem; } }
+@media (max-width: 1100px) { .st.fact { grid-template-columns: minmax(0, 1fr); } .st.fact > .fact-margin { border-left: 0; padding-left: 0; margin-top: 0.3rem; } }
 
 .legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; font-size: 0.8125rem; color: var(--muted); margin: 0 0 1.25rem; }
 .legend .st { padding-left: 1.25em; }
@@ -444,3 +460,328 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .choice-pill input { margin: 0; }
 @media (prefers-reduced-motion: reduce) { .sprint-clock { transition: none; } }
 .door-note { color: var(--margin); font-family: var(--book); font-style: italic; }
+
+/* Help: the guide inside the program. Contents on the left, the chapter on the right. */
+.help { display: grid; grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr); gap: 2rem; height: 100%; min-height: 0; padding: 1.25rem 1.5rem 0; }
+.help-toc { overflow-y: auto; padding-bottom: 2rem; border-right: 1px solid var(--line); padding-right: 1rem; }
+.help-chapters { list-style: none; padding: 0; margin: 0; counter-reset: ch; }
+.help-chapters > li { margin: 0 0 0.35rem; }
+.help-chapters > li > .btn { font-family: var(--book); font-size: 1rem; text-align: left; color: var(--struct); }
+.help-chapters > li > .btn[aria-current] { font-weight: 700; color: var(--ink); }
+.help-chapters ul { list-style: none; padding: 0 0 0 0.85rem; margin: 0.25rem 0 0.5rem; border-left: 2px solid var(--line); }
+.help-chapters ul .btn { text-align: left; color: var(--margin); }
+.help-hits { list-style: none; padding: 0; margin: 0; }
+.help-hits li { margin-bottom: 0.75rem; }
+.help-hits p { margin: 0.1rem 0 0; }
+.help-body { overflow-y: auto; padding: 0 1rem 4rem 0; max-width: 46rem; }
+.prose-help { font-family: var(--prose); font-size: 1.0625rem; line-height: 1.65; color: var(--ink); }
+.prose-help h1 { font-family: var(--book); font-size: 2rem; margin: 0.5rem 0 1rem; color: var(--ink); }
+.prose-help h2 { font-family: var(--book); font-size: 1.45rem; margin: 2.25rem 0 0.6rem; color: var(--struct); border-bottom: 1px solid var(--line); padding-bottom: 0.25rem; }
+.prose-help h3 { font-family: var(--book); font-style: normal; font-size: 1.15rem; margin: 1.6rem 0 0.4rem; color: var(--ink); }
+.prose-help h2:focus, .prose-help h3:focus { outline: none; }
+.prose-help .found, .prose-help h2.found, .prose-help h3.found { background: color-mix(in srgb, var(--yours) 14%, transparent); }
+.prose-help p, .prose-help li { max-width: 68ch; }
+.prose-help strong { color: var(--ink); }
+.prose-help code { font-size: 0.9em; background: var(--wash); padding: 0.05em 0.3em; border-radius: 2px; }
+.prose-help table { border-collapse: collapse; margin: 1rem 0; font-size: 0.95rem; }
+.prose-help th, .prose-help td { border: 1px solid var(--line); padding: 0.35rem 0.6rem; text-align: left; vertical-align: top; }
+.prose-help th { background: var(--wash); font-family: var(--ui); }
+.prose-help blockquote { border-left: 3px solid var(--yours); margin: 1rem 0; padding: 0.25rem 1rem; color: var(--ink); background: color-mix(in srgb, var(--yours) 5%, transparent); }
+.help-close { position: fixed; right: 1.5rem; bottom: 1rem; }
+.learn-more { color: var(--struct); }
+@media (max-width: 900px) { .help { grid-template-columns: 1fr; } .help-toc { border-right: 0; max-height: 14rem; } }
+
+/* Teaching beside the work. */
+.field-hint { margin: 0.1rem 0 0.35rem; font-size: 0.875rem; color: var(--muted); max-width: 62ch; }
+.teach-toggle { margin-left: 0.25rem; color: var(--struct); }
+.teach-body { border-left: 3px solid var(--struct); background: color-mix(in srgb, var(--struct) 5%, transparent); padding: 0.55rem 0.9rem; margin: 0.25rem 0 0.75rem; font-size: 0.9375rem; line-height: 1.55; max-width: 66ch; }
+.teach-body p { margin: 0 0 0.5rem; }
+.teach-body p:last-child { margin-bottom: 0; }
+.teach-need { display: inline-block; font-family: var(--ui); font-weight: 700; font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.05rem 0.45rem; border-radius: 999px; margin-right: 0.35rem; border: 1px solid currentColor; vertical-align: 0.1em; }
+.teach-need[data-need='core'] { color: var(--struct); }
+.teach-need[data-need='useful'] { color: var(--margin); }
+.teach-need[data-need='situational'] { color: var(--muted); }
+.group-hint { margin: -0.2rem 0 0.9rem; color: var(--margin); font-family: var(--book); font-style: italic; font-size: 0.975rem; max-width: 66ch; }
+.kind-teach { margin: 0 0 1.25rem; }
+.kind-teach-head { background: none; border: 0; padding: 0.2rem 0; font-family: var(--book); font-size: 1.0625rem; color: var(--struct); cursor: pointer; text-align: left; }
+.kind-teach-head:hover { text-decoration: underline; }
+
+/* The plan in the binder: cards with no page yet. */
+.planned { margin-top: 1.5rem; padding-top: 0.75rem; border-top: 1px solid var(--line-strong); }
+.planned h3 { margin: 0 0 0.25rem; }
+.planned-card { display: flex; align-items: baseline; gap: 0.4rem; padding: 0.3rem 0; border-bottom: 1px dashed var(--line); }
+.planned-title { display: block; font-size: 0.9375rem; color: var(--pencil); }
+.planned-beat { display: block; font-family: var(--book); font-style: italic; font-size: 0.8125rem; color: var(--margin); }
+/* Narrative Zoom: the views are real tabs cut into the page; the continuity checks are a quieter row of
+   sub-tabs below them, on their own band. The current one of each is plain to see, in light and dark. */
+.zoom-tabs { margin-bottom: 2rem; }
+.zoom-views { gap: 0.25rem; align-items: flex-end; border-bottom: 1.5px solid var(--line-strong); padding-bottom: 0; flex-wrap: wrap; }
+.zoom-views [role='tab'].btn { margin: 0 0 -1.5px; padding: 0.5em 1.05em; font-size: 1rem; color: var(--muted); background: var(--wash); border: 1.5px solid var(--line); border-bottom-color: var(--line-strong); border-radius: 6px 6px 0 0; }
+.zoom-views [role='tab'].btn:hover { color: var(--ink); background: color-mix(in srgb, var(--struct) 10%, transparent); border-bottom-color: var(--line-strong); }
+.zoom-views [role='tab'].btn[aria-selected='true'] { color: var(--struct); font-weight: 700; background: var(--page); border-color: var(--line-strong); border-bottom-color: var(--page); box-shadow: inset 0 3px 0 var(--struct); }
+.zoom-views > .btn:not([role='tab']) { align-self: center; margin-bottom: 0.4rem; }
+.zoom-checks { gap: 0.3rem 0.15rem; margin-top: 0.75rem; padding: 0.55rem 0.6rem; background: var(--wash); border-radius: var(--r-md); flex-wrap: wrap; }
+.zoom-checks-label { font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.875rem; margin-right: 0.35rem; }
+.zoom-checks [role='tab'].btn { font-size: 0.8125rem; margin: 0; padding: 0.2em 0.6em; border: 1px solid transparent; border-radius: 999px; color: var(--muted); }
+.zoom-checks [role='tab'].btn:hover { border-color: var(--line-strong); color: var(--ink); background: none; }
+.zoom-checks [role='tab'].btn[aria-selected='true'] { background: var(--struct); color: var(--page); border-color: var(--struct); font-weight: 700; }
+.zoom-crumbs { margin-bottom: 1rem; }
+
+/* The book's overview: each Save the Cat world opens above the act it begins, set apart in the book's display face. */
+.story-overview { max-width: 52rem; margin-bottom: 2.5rem; }
+.story-overview > li.act-row { padding: 0.7rem 0 0.7rem 1.25rem; }
+.story-overview > li.world-band { border-bottom: 0; margin-top: 1.75rem; padding: 0.6rem 0 0.4rem 1rem; border-left: 3px solid var(--margin); }
+.story-overview > li.world-band:first-child { margin-top: 0.5rem; }
+.world-name { font-family: var(--display); font-style: italic; font-size: 1.6rem; line-height: 1.1; color: var(--margin); letter-spacing: 0.01em; }
+.world-meaning { font-family: var(--book); color: var(--ink); margin-top: 0.2rem; max-width: 60ch; }
+.world-more { margin-top: 0.3rem; font-size: 0.875rem; }
+.world-more summary { color: var(--struct); cursor: pointer; }
+.world-more p { color: var(--muted); max-width: 65ch; white-space: pre-wrap; margin: 0.4rem 0 0.2rem; }
+.section.worlds-explained { margin-top: 2rem; padding-top: 1.25rem; }
+.worlds-explained p { max-width: 65ch; line-height: 1.6; }
+
+/* An act: its beats, with the cards decided there in ink and the ones that might go there in pencil. */
+.act-beats > li { padding: 0.75rem 0; }
+.beat-cards { list-style: none; margin: 0.35rem 0 0 1.5rem; padding: 0; }
+.beat-cards > li { padding: 0.15rem 0 0.15rem 1.15em; }
+.beat-cards > li.st::before { content: ''; position: absolute; left: 0; top: 0.75em; width: 7px; height: 7px; background: var(--ink); }
+.beat-cards > li.st[data-s='developing']::before { width: 10px; height: 0; background: none; border-top: 2px dashed var(--pencil); }
+.beat-where { max-width: 65ch; }
+.beat-teach { margin-bottom: 2rem; max-width: 72ch; }
+.beat-teach > p { line-height: 1.6; }
+
+/* An example from her beat sheet: slanted, marked with the fleuron, introduced and credited. */
+.sheet-example { margin: 1rem 0 0.5rem; padding: 0.6rem 0.9rem 0.7rem 1rem; border-left: 2px solid var(--margin); background: var(--wash); border-radius: 0 var(--r-md) var(--r-md) 0; max-width: 65ch; }
+.sheet-example figcaption { font-size: 0.8125rem; color: var(--margin); margin-bottom: 0.3rem; }
+.sheet-example figcaption::before { content: '\2766'; margin-right: 0.4em; }
+.sheet-example blockquote { margin: 0; font-family: var(--book); font-style: italic; color: var(--muted); line-height: 1.55; }
+.stuck-teach { margin: 0.75rem 0 0.25rem; }
+.stuck-teach p { line-height: 1.55; }
+.place-card { margin-top: 1rem; }
+
+/* Groups that fold use the same triangle as every other fold. */
+.fold-toggle { display: inline-flex; align-items: baseline; gap: 0.45em; }
+.fold-head { border: 0; background: none; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: left; }
+.fold-mark { font-size: 0.75em; color: var(--struct); }
+.group-about { margin-top: -0.25rem; max-width: 65ch; }
+.remove-beat { gap: 0.75rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+
+/* The board: room to breathe between acts, a drop target that says so. */
+.board-act { margin-bottom: 2.25rem; }
+.board-act > h2 { font-size: 1.05rem; }
+.board-row { display: grid; gap: 0.6rem; overflow-x: auto; }
+.board-beat { background: var(--wash); border-radius: var(--r-md); padding: 0.6rem; min-height: 6rem; display: flex; flex-direction: column; border: 1.5px dashed transparent; }
+.board-beat[data-over], .board-step[data-over] { border-color: var(--struct); background: color-mix(in srgb, var(--struct) 9%, transparent); }
+.board-step { margin-top: 0.5rem; padding: 0.35rem 0.4rem; border: 1.5px dashed transparent; border-left: 2px solid var(--line-strong); }
+.board-step-name { font-family: var(--book); font-style: italic; padding: 0; text-align: left; }
+.board-card { background: var(--page); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 0.35rem 0.5rem; margin: 0.3rem 0; cursor: grab; font-size: 0.875rem; }
+.board-add { margin-top: auto; padding-top: 0.5rem; align-self: flex-start; }
+
+/* Where beats fall: a table with room in it. */
+.beats-table { border-collapse: collapse; width: 100%; font-size: 0.875rem; margin-top: 1rem; }
+.beats-table th { text-align: left; padding: 0.5rem; color: var(--muted); font-weight: 700; border-bottom: 1.5px solid var(--line-strong); }
+.beats-table td { padding: 0.5rem; border-top: 1px solid var(--line); vertical-align: top; }
+.sure-choice { border: 0; padding: 0; margin: 0.25rem 0; }
+/* Continuity views: "How this view works", one line until opened. */
+.how-it-works { margin: 0.25rem 0 1rem; max-width: 65ch; font-size: 0.875rem; }
+.how-it-works > summary { cursor: pointer; color: var(--struct); width: fit-content; }
+.how-it-works[data-read] > summary { color: var(--muted); }
+.how-it-works dl { margin: 0.6rem 0 0; padding: 0.75rem 1rem; border-left: 2px solid var(--line-strong); line-height: 1.55; }
+.how-it-works dt { font-weight: 600; margin-top: 0.5rem; }
+.how-it-works dt:first-child { margin-top: 0; }
+.how-it-works dd { margin: 0.1rem 0 0; color: var(--muted); }
+/* Planned scene cards beside written scenes. */
+.planned-tag { display: inline-block; font-size: 0.75rem; color: var(--pencil); border: 1px dashed currentColor; border-radius: 3px; padding: 0 0.35rem; margin-left: 0.15rem; white-space: nowrap; vertical-align: 1px; }
+.clue-words + .clue-words { margin-top: 0.4rem; }
+/* The cast grid: three marks you can tell apart, planned columns shaded, room between sections. */
+.cast-grid th, .cast-grid td { min-width: 1.6rem; padding: 0.25rem 0.25rem; }
+.cast-grid thead th { font-variant-numeric: tabular-nums; font-weight: 500; }
+.cast-grid .planned { background: color-mix(in srgb, var(--pencil) 5%, transparent); }
+.cast-grid thead th.planned { color: var(--pencil); font-style: italic; }
+.cast-mark { font-size: 1.15rem; }
+.cast-mark.planned { font-size: 0.95rem; }
+.cast-mark.named { color: var(--muted); font-size: 1rem; }
+.cast-key { gap: 0.4rem 1.25rem; margin-top: 1.25rem; }
+.cast-key-planned { display: inline-block; width: 0.9rem; height: 0.9rem; vertical-align: -2px; background: color-mix(in srgb, var(--pencil) 18%, transparent); border: 1px dashed var(--pencil); border-radius: 2px; }
+.cast-jump { margin: 0.5rem 0; gap: 0.25rem 0.9rem; }
+section[aria-label='Who is together'], section[aria-label='Groups that keep meeting'], section[aria-label='Who meets whom'], section[aria-label='Bechdel test'] { margin-top: 2rem; scroll-margin-top: 1rem; }
+/* Pacing axes. */
+.pacing-chart .axis { font-size: 11px; fill: var(--muted); font-family: inherit; }
+.pacing-chart .axis.chapter { fill: var(--struct); }
+.review-empty { margin: 1rem 0; }
+.review-empty p:first-child { margin-bottom: 0.25rem; }
+.inline-names .btn.link { padding: 0; }
+/* Conversations, harvest, import and export: room to breathe between messages and sections. */
+.conversation .section.turn { padding-top: 1.1rem; margin-top: 1.1rem; }
+.conversation .section.turn.continued { border-top: 0; padding-top: 0; margin-top: 0.6rem; }
+.conversation .section.turn.behind { opacity: 0.6; }
+.conversation .turn-who { letter-spacing: 0.01em; }
+.conversation .turn-when { color: var(--faint, var(--muted)); }
+.conversation .turn-heading { font-weight: 700; margin: 0.4rem 0 0.2rem 0.85rem; }
+.conversation .ask-form, .conversation form.section { margin-top: 2rem; padding-top: 1.25rem; }
+.conversation .ask-form h2 { margin-top: 0; }
+.conversation .ask-modes { gap: 0.4rem 1.5rem; margin-bottom: 1rem; }
+.conversation .ask-presets { margin-bottom: 0.75rem; row-gap: 0.25rem; }
+.harvest-what { max-width: 65ch; line-height: 1.6; margin: 1rem 0 0.5rem; }
+.harvest .harvest-section { margin-top: 2rem; padding-top: 1.1rem; }
+.harvest .harvest-about { max-width: 65ch; margin: -0.2rem 0 0.6rem; }
+.harvest .harvest-done { margin-top: 2.5rem; }
+.saved-where { margin-top: 0.4rem; }
+.saved-where .path { word-break: break-all; }
+.chapter-pick { border: 0; padding: 0 0 0 1.6rem; margin: 0.3rem 0 0; max-height: 220px; overflow: auto; }
+.chapter-pick legend { padding: 0; margin-bottom: 0.2rem; }
+.field > small { display: block; margin-top: 0.3rem; font-size: 0.85rem; line-height: 1.4; }
+.export-cols { margin-top: 2rem; }
+
+/* ---- The Writing Room and Where was I: room to breathe ---- */
+/* Scene circles: empty (not started), half (being written), full (written), following the status she chose. */
+.mark[data-c='half'] { background: linear-gradient(90deg, var(--struct) 50%, transparent 50%); }
+.mark[data-c='full'] { background: var(--struct); }
+.circle-key { list-style: none; padding: 0; margin: -0.4rem 0 1.1rem; font-size: 0.8125rem; color: var(--muted); display: grid; gap: 0.3rem; }
+.circle-key li { display: flex; gap: 0.5rem; align-items: baseline; }
+.circle-key li .mark { transform: translateY(1px); }
+.circle-key li[data-here] { color: var(--ink); }
+.circle-key strong { font-weight: 600; }
+/* The selected scene's own tools sit on their own line, so a long name never pushes them off the edge. */
+.scene-item { margin: 0; }
+.scene-tools { display: flex; gap: 0.25rem 0.75rem; flex-wrap: wrap; padding: 0.1rem 0 0.35rem 1.9em; }
+.scene-tools .btn.link { padding: 0; }
+/* Focus: nothing but the page, with a clear way back. */
+.app[data-focus] .strip, .app[data-focus] .colophon, .app[data-focus] .running, .app[data-focus] .thumbs { display: none; }
+.app[data-focus] { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+.app[data-focus] .leaf { grid-row: 1; grid-column: 1; margin: 0; border-radius: 0; box-shadow: none; }
+.leave-focus { display: inline-flex; gap: 0.75rem; align-items: center; }
+.not-on-plan { margin: 0.75rem auto 0; max-width: 46rem; border-left-color: var(--struct); }
+.not-on-plan p { margin: 0 0 0.4rem; max-width: 65ch; }
+/* The scene plan: a calm column, each blank with its one-line hint and a quiet "Saved". */
+.scene-plan .plan-saving { margin: -0.25rem 0 1rem; }
+.scene-plan .section { margin-top: 1.4rem; padding-top: 1.1rem; }
+.scene-plan .section > h3 { margin: 0 0 0.6rem; }
+.scene-plan label.field { margin-bottom: 1.1em; }
+.scene-plan .field-hint { display: block; margin-top: 0.3rem; font-size: 0.8125rem; line-height: 1.45; }
+.saved-note { display: inline-block; margin-left: 0.5em; color: var(--ok); font-size: 0.8125rem; }
+.confirm-check { margin-bottom: 0.2rem; }
+.confirm-hint { margin: 0 0 1.25rem 1.6rem; }
+.from-card { margin-bottom: 1.5rem; }
+.from-card .card-plan { margin: 0 0 0.5rem; display: grid; gap: 0.5rem; }
+.from-card .card-plan dt { font-size: 0.8125rem; color: var(--muted); }
+.from-card .card-plan dd { margin: 0.1rem 0 0; white-space: pre-wrap; }
+.readiness { list-style: none; padding: 0; margin: 0.4rem 0 0; display: grid; gap: 0.25rem; color: var(--muted); }
+.readiness li[data-ok] { color: var(--faint); }
+/* Where was I: each list item is something to open, and looks it. */
+.bookline { margin: 0 0 2rem; }
+.bookline-draft { color: var(--muted); }
+.bookline-draft strong { color: var(--ink); font-weight: 600; }
+.bookline-hint { margin: 0.4rem 0 0; max-width: 65ch; }
+.where-cols { gap: 2.25rem 2.5rem; margin-top: 2rem; }
+.where-cols > section > h3 { margin-top: 0; padding-bottom: 0.35rem; border-bottom: 1px solid var(--line-strong); }
+.where-cols > section > p.small.muted { max-width: 65ch; }
+.where-list > li { line-height: 1.5; }
+.record-link { display: block; border: 0; background: none; padding: 0; text-align: left; font: inherit; color: var(--struct); cursor: pointer; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.record-link:hover, .record-link:focus-visible { text-decoration-color: currentColor; }
+.decision-field { display: block; margin-top: 0.15rem; font-size: 0.8125rem; color: var(--muted); }
+.decision-value { display: block; color: var(--ink); white-space: pre-wrap; }
+.trail-how { max-width: 65ch; margin: -0.25rem 0 1.5rem; }
+
+/* ---- Story Brain, record pages, Settings, Novel setup, Search and Story Trail: room to breathe ---- */
+
+/* A field's name is a label, set upright; only examples are slanted. */
+.field-block > .row > strong { font-family: var(--ui); font-style: normal; font-weight: 700; font-size: 1rem; color: var(--ink); letter-spacing: 0.005em; }
+.group-hint { font-style: normal; font-family: var(--ui); color: var(--muted); font-size: 0.9375rem; line-height: 1.55; }
+.field-differs { margin: 0 0 0.45rem; font-size: 0.875rem; color: var(--muted); max-width: 62ch; line-height: 1.5; }
+.differs-head { font-weight: 700; color: var(--margin); }
+.group-from { font-family: var(--ui); font-weight: 400; font-size: 0.8125rem; color: var(--faint); letter-spacing: 0; }
+.field-block { margin-bottom: 1.4rem !important; }
+
+/* Sections on a long record page sit apart, each under its own heading. */
+.record-section { margin-top: 2.25rem; padding-top: 1.25rem; border-top: 1px solid var(--line-strong); scroll-margin-top: 1rem; }
+.record-section > h2:first-child, .record-section > .row:first-child h2 { margin-top: 0; }
+.record-between { margin: 0.1rem 0 0.75rem; font-size: 1rem; }
+.record-between .btn.link { padding: 0; font-size: 1rem; }
+.question-state { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; margin: 0.25rem 0 1rem; padding: 0.6rem 0.8rem; border-left: 3px solid var(--struct); background: var(--wash); }
+.question-state > .small.muted:last-child { flex-basis: 100%; }
+
+/* "On this page": every section, one click away. */
+.jump-list { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 1.1rem; margin: 0 0 1.5rem; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: var(--r-md, 6px); background: var(--sheet); font-size: 0.9375rem; line-height: 1.5; }
+.jump-head { font-family: var(--ui); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-right: 0.25rem; }
+.jump-list a { color: var(--struct); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.2em; }
+.jump-list a:hover { text-decoration-color: currentColor; }
+
+/* Arcs */
+.arc-new { margin: 0.5rem 0 1rem; padding: 0.9rem 1rem; border: 1px solid var(--line-strong); border-radius: var(--r-md, 6px); background: var(--sheet); max-width: 640px; }
+.arc-new p { max-width: 60ch; }
+button.blank-line { display: block; width: 100%; background: none; border: 0; border-bottom: 1.5px solid var(--ink); padding: 0; cursor: pointer; }
+button.blank-line:hover { opacity: 1; border-bottom-color: var(--struct); }
+.interview-set { margin: 0.5rem 0 0.75rem; }
+.interview-set p { margin: 0.3rem 0 0; max-width: 62ch; }
+
+/* Connections, gathered by what they say. */
+.conn-group { margin: 1rem 0 0.25rem; }
+.conn-verb { font-family: var(--ui); font-style: normal; font-weight: 700; font-size: 0.9375rem; color: var(--ink); margin: 0 0 0.3rem; }
+.conn-list { margin-left: 0.75rem; }
+.link-form { margin-top: 1.5rem; padding: 0.9rem 1rem; border: 1px dashed var(--line-strong); border-radius: var(--r-md, 6px); }
+.link-form h3 { margin: 0 0 0.5rem; }
+.link-from { font-weight: 700; }
+.link-reads { margin: 0.6rem 0 0; line-height: 1.5; max-width: 70ch; }
+
+/* Where this came from */
+.origin-rows { margin: 0.5rem 0 1rem; display: grid; gap: 0.5rem; }
+.origin-rows > div { display: grid; grid-template-columns: 11rem 1fr; gap: 0.75rem; }
+.origin-rows dt { font-size: 0.8125rem; font-weight: 700; color: var(--muted); }
+.origin-rows dd { margin: 0; font-family: var(--prose); line-height: 1.55; }
+.origin-passage { margin-bottom: 0.75rem; }
+
+/* Reference numbers from her planning documents: there, quiet, and explained on a click. */
+.ref-code { display: inline; font: inherit; font-family: var(--ui); font-size: 0.78em; letter-spacing: 0.02em; color: var(--faint); background: none; border: 0; border-bottom: 1px dotted var(--line-strong); padding: 0 0.05em; cursor: help; }
+button.ref-code:hover, button.ref-code[aria-expanded='true'] { color: var(--struct); border-bottom-color: var(--struct); }
+.ref-note { display: block; margin: 0.4rem 0 0.2rem; padding: 0.55rem 0.8rem; border-left: 3px solid var(--margin); background: var(--wash); font-family: var(--ui); font-size: 0.875rem; line-height: 1.5; white-space: normal; }
+.ref-note-head { display: block; color: var(--muted); }
+.ref-note-item { display: block; margin-top: 0.35rem; }
+.ref-note-what { display: block; font-weight: 700; }
+.ref-note-text { display: block; white-space: pre-wrap; font-family: var(--prose); max-height: 14rem; overflow: auto; }
+
+/* Story Brain lists */
+.kind-note { max-width: 66ch; color: var(--muted); line-height: 1.55; margin: 0 0 1rem; }
+.kind-list > .kind-row { padding: 0.55rem 0; border-bottom: 1px solid var(--line); }
+.kind-row .kind-counts { font-size: 0.8125rem; color: var(--faint); white-space: nowrap; }
+.kind-summary { font-size: 0.875rem; color: var(--muted); line-height: 1.45; margin: 0.15rem 0 0 0.1rem; max-width: 72ch; }
+.kind-inner { margin: 0.35rem 0 0 1.25rem; border-left: 2px solid var(--line); padding-left: 0.75rem; }
+.kind-inner > .kind-row { padding: 0.25rem 0; }
+.binder-subhead { margin: 1rem 0 0.25rem; padding-top: 0.75rem; border-top: 1px solid var(--line); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* Questions and ideas */
+.notes-group { margin: 0 0 2.5rem; scroll-margin-top: 1rem; }
+.answer-form { flex-basis: 100%; margin-top: 0.4rem; max-width: 560px; }
+
+/* Story Trail */
+.trail-row { padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+.trail-what { line-height: 1.45; }
+.trail-when { font-size: 0.8125rem; color: var(--faint); white-space: nowrap; }
+.trail-row.undone .trail-what, .trail-undone-sample { text-decoration: line-through; color: var(--faint); }
+.trail-row.is-undo .trail-what { font-style: italic; }
+.trail-key { margin: 0 0 1rem; }
+
+/* Search */
+mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent); color: inherit; padding: 0 0.05em; border-radius: 2px; }
+.search-places { margin: 0.5rem 0 1rem; gap: 0.4rem; }
+.search-results > li { padding: 0.7rem 0; border-bottom: 1px solid var(--line); }
+
+/* Settings and Novel setup */
+.settings-section { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line-strong); scroll-margin-top: 1rem; }
+.settings-section.cols { padding-top: 1.25rem; }
+.settings-model { max-width: 66ch; margin: 0.75rem 0 1rem; }
+.saves-now { font-family: var(--ui); font-weight: 400; font-size: 0.75rem; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 999px; padding: 0 0.6em; letter-spacing: 0; }
+.save-bar { position: sticky; bottom: 0; z-index: 5; display: flex; align-items: center; gap: 1rem; margin: 2rem 0 0; padding: 0.8rem 0; background: var(--page); border-top: 1px solid var(--line-strong); }
+.save-bar-status { font-size: 0.9375rem; color: var(--muted); }
+.model-choice { border: 0; padding: 0; margin: 1rem 0 0; }
+.model-choice legend { font-weight: 700; margin-bottom: 0.25rem; }
+.shelf-row { display: grid; grid-template-columns: minmax(10rem, 1.2fr) minmax(8rem, 0.9fr) minmax(12rem, 2fr) auto; gap: 0.5rem; align-items: start; margin-bottom: 0.4rem; }
+.shelf-row textarea { min-height: 2.4rem; resize: vertical; }
+.shelf-head span { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+@media (max-width: 760px) { .shelf-row { grid-template-columns: 1fr; } .shelf-head { display: none; } .origin-rows > div { grid-template-columns: 1fr; gap: 0.1rem; } }
+.setup-heart textarea { font-family: var(--prose); }
+.setup-heart .fact-status { margin-left: 0.5rem; }
+.setup-ask { margin: 0.75rem 0 0; padding: 0.5rem 0.8rem; border-left: 3px solid var(--struct); background: var(--wash); max-width: 70ch; }
+.needs { color: var(--muted); }
+.beat-field { margin: 0.35rem 0 0 2rem; }
+.beat-field > span { font-size: 0.8125rem; color: var(--muted); }

@@ -27,6 +27,8 @@ test('a Word manuscript comes in after she looks it over, and goes out again as 
   await expect(page.getByRole('heading', { name: 'draft.docx' })).toBeVisible();
   await expect(page.getByLabel('Chapter title')).toHaveCount(2);
   await expect(page.getByLabel('Chapter title').nth(1)).toHaveValue('Chapter 2: In Which the Dogs Escape');
+  // It says where the new chapters land beside the chapter she already has.
+  await expect(page.getByRole('note').filter({ hasText: 'They go in after your last chapter' })).toContainText('the first one becomes chapter 2');
   await page.getByRole('button', { name: 'Add these chapters to my novel' }).click();
   await expect(page.getByRole('status')).toContainText('Every character of the accepted text is in the novel.');
   await page.getByRole('button', { name: 'Go to the Writing Room' }).click();
@@ -36,13 +38,25 @@ test('a Word manuscript comes in after she looks it over, and goes out again as 
   await page.getByRole('tab', { name: 'Send something out' }).click();
   await page.getByRole('combobox', { name: 'Format' }).selectOption('txt');
   await expect(page.getByRole('region', { name: 'Before you export' })).toContainText('does not keep italics');
+  // Chapter headings are shown with one of her own chapters, and explained.
+  await expect(page.getByRole('combobox', { name: 'Chapter headings' })).toHaveAccessibleDescription(/How each chapter starts in the file/);
+  // Picking chapters shows the chapters to pick from.
+  await page.getByRole('radio', { name: 'Only the chapters I pick' }).check();
+  const pick = page.getByRole('group', { name: 'Chapters to include' });
+  await expect(pick.getByRole('checkbox')).toHaveCount(3);
+  await pick.getByRole('checkbox').first().uncheck();
+  await expect(page.getByRole('region', { name: 'Before you export' })).toContainText('2 chapters');
+  await page.getByRole('radio', { name: 'Every chapter', exact: true }).check();
+  await expect(pick).toHaveCount(0);
   const dl = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export', exact: true }).click();
   const file = await dl;
   expect(file.suggestedFilename()).toBe('Import Test.txt');
   const text = readFileSync((await file.path())!, 'utf8');
   expect(text).toContain('Kevin said it was not his fault, chapter 2.');
-  await expect(page.getByRole('status').filter({ hasText: 'Import Test.txt' })).toContainText('word for word');
+  const done = page.getByRole('status').filter({ hasText: 'Import Test.txt' });
+  await expect(done).toContainText('Checked: all 3 chapters are in the file, in order, word for word.');
+  await expect(done).toContainText('Your browser saved it where downloads go');
 });
 
 test('a planning document keeps her labels; nothing goes in until she says so (R-B-069, R-B-075)', async ({ page }) => {
@@ -69,7 +83,7 @@ test('a planning document keeps her labels; nothing goes in until she says so (R
   await nav(page).getByRole('button', { name: 'Import and export' }).click();
   await page.getByRole('tab', { name: 'Your documents' }).click();
   await page.getByRole('button', { name: 'Bible 10-13-26.docx' }).click();
-  await expect(page.getByText(/Marla Quinn's arc, lie: One way it could be done/)).toBeVisible();
+  await expect(page.getByText(/Marla Quinn's arc, lie: Example/)).toBeVisible();
 });
 
 test('a novel can be set up first: genres, story types with ingredients, characteristics and toolkit (R-B-089 to R-B-093)', async ({ page }) => {

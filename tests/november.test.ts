@@ -205,3 +205,26 @@ describe('only one computer brings in notes', () => {
     expect(sync.notesTurn(p.id)).toBe(true);
   });
 });
+
+describe('the plan leads into the writing', () => {
+  it('orders cards by beat, writes each in its place, and Next names the next planned scene', async () => {
+    const { Structure } = await import('../src/core/structure.js');
+    const { WritingDesk } = await import('../src/core/writing.js');
+    env = freshStore();
+    const p = env.brain.createProject('Planned');
+    const st = new Structure(env.store, env.brain, env.ms);
+    st.applyTemplate(p.id, 'save_the_cat');
+    const beats = st.beats(p.id);
+    const opening = beats[0]!.element.id as string, catalyst = beats.find((b) => b.element.title === 'Catalyst')!.element.id as string;
+    const late = st.addCard(p.id, { title: 'The wedding booking', beatId: catalyst });
+    const early = st.addCard(p.id, { title: 'Morning at the shop', beatId: opening, mode: 'candidate' });
+    const loose = st.addCard(p.id, { title: 'Somewhere, someday' });
+    expect(st.plannedOrder(p.id).map((c) => c.title)).toEqual(['Morning at the shop', 'The wedding booking', 'Somewhere, someday']);
+    const desk = new WritingDesk(env.store, env.brain, env.ms);
+    desk.structure = st;
+    const next = desk.nextWritingAction(p.id) as { text: string; planId?: string };
+    expect(next.text).toBe('Write "Morning at the shop"');
+    expect(next.planId).toBe(early.id);
+    void late; void loose;
+  });
+});

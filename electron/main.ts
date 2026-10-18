@@ -6,7 +6,7 @@ import { app, BrowserWindow, dialog, ipcMain, Menu, safeStorage, shell } from 'e
 import { randomBytes } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync, appendFileSync } from 'node:fs';
 import { createServer } from 'node:net';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
 import { buildApp } from '../src/server/app.js';
 import { BRAND } from '../src/brand.js';
 
@@ -95,6 +95,20 @@ ipcMain.handle('choose-folder', async (_e, title?: string) => {
   const r = await dialog.showOpenDialog(win!, { title: typeof title === 'string' && title ? title : 'Where should backups go?', properties: ['openDirectory', 'createDirectory'] });
   return r.canceled ? null : r.filePaths[0] ?? null;
 });
+
+// Exports: she chooses where the file goes (starting in Documents\Story Canon\Exports), and the window is told
+// exactly where it went, so it can say so and open that folder for her.
+ipcMain.handle('save-file', async (_e, name: unknown, data: unknown) => {
+  if (typeof name !== 'string' || typeof data !== 'string') return null;
+  const safe = basename(name).replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_').slice(0, 180) || 'Export';
+  const dir = join(app.getPath('documents'), BRAND.name, 'Exports');
+  try { mkdirSync(dir, { recursive: true }); } catch { /* the dialog still opens */ }
+  const r = await dialog.showSaveDialog(win!, { title: 'Save the exported file', defaultPath: join(dir, safe) });
+  if (r.canceled || !r.filePath) return null;
+  writeFileSync(r.filePath, Buffer.from(data, 'base64'));
+  return r.filePath;
+});
+ipcMain.handle('show-file', (_e, path: unknown) => { if (typeof path === 'string' && existsSync(path)) shell.showItemInFolder(path); });
 
 app.on('second-instance', () => { if (win) { if (win.isMinimized()) win.restore(); win.focus(); } });
 

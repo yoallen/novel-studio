@@ -35,7 +35,11 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
       <h3 id="drafting-h">{name}</h3>
 
       {r.status === 'ahead' ? (
-        <p className="drafting-lead">{name} starts {r.daysLeft === 0 ? 'today' : `on ${longDay(r.start)}`}.{r.goal ? ` ${n(r.goal)} words in ${r.days.length} days is about ${n(r.perDayNeeded)} a day.` : ''}</p>
+        <>
+          <p className="drafting-lead">{name} starts {r.daysLeft === 0 ? 'today' : `on ${longDay(r.start)}`}.{r.goal ? ` ${n(r.goal)} words in ${r.days.length} days is about ${n(r.perDayNeeded)} a day.` : ''}</p>
+          {/* Until the push begins, today still counts and is still shown. */}
+          <p className="small muted" style={{ margin: '0 0 0.75rem' }}>Today, {n(Math.max(0, r.todayWords))} words. The chart below fills in once {name} begins.</p>
+        </>
       ) : r.status === 'ended' ? (
         <p className="drafting-lead">{name} is done: <b>{n(r.total)}</b> words{r.goal ? ` of ${n(r.goal)}` : ''}.</p>
       ) : (
@@ -58,7 +62,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
       </ol>
 
       <dl className="drafting-figures">
-        {r.status !== 'ahead' && <div><dt>{r.push ? 'So far' : `${monthOf(r.today)} so far`}</dt><dd>{n(r.total)}{r.goal ? <span className="muted"> of {n(r.goal)}</span> : null}</dd></div>}
+        {r.status !== 'ahead' && <div><dt>{r.push ? 'So far' : `${monthOf(r.today)} so far`}</dt><dd>{n(r.total)}{r.goal ? <span className="muted"> of {n(r.goal)}</span> : null} words</dd></div>}
         {r.status === 'running' && r.goal ? (
           <div><dt>To finish on time</dt><dd>{r.remaining === 0 ? 'Done. Everything now is extra.'
             : r.perDayNeeded == null && r.shortfall > 0 ? <>Your set days leave {n(r.shortfall)} words with no day to write them. Raise a set day or clear one.</>
@@ -70,7 +74,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
           <div><dt>Against the plan</dt><dd>{r.behind > 0 ? <>{n(r.behind)} behind<span className="muted">, spread over the days ahead</span></> : <>{n(-r.behind)} ahead</>}</dd></div>
         ) : null}
         {r.status !== 'ahead' && <div><dt>Days in a row</dt><dd>{r.streak === 0 ? <span className="muted">Starts with your next words</span> : n(r.streak)}</dd></div>}
-        <div><dt>The whole book</dt><dd>{n(r.bookWords)}{r.targetWords ? <span className="muted"> of {n(r.targetWords)}</span> : null}</dd></div>
+        <div><dt>The whole book</dt><dd>{n(r.bookWords)}{r.targetWords ? <span className="muted"> of {n(r.targetWords)}</span> : null} words</dd></div>
       </dl>
 
       {r.push?.words && r.status !== 'ended' ? <SetDays ctx={ctx} r={r} onChanged={() => void load()} /> : null}

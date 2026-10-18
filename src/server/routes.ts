@@ -12,6 +12,8 @@ import type { Services } from './app.js';
 import { STATUSES, RELATIONS } from '../core/brain.js';
 import { exportArchive, importArchive, planImport, snapshot, listSnapshots } from '../core/backup.js';
 import { NotFoundError } from '../core/store.js';
+import { describeChange, undoMeaning } from '../core/trailwords.js';
+import { DEFAULT_STATUS_LABELS } from '../core/labels.js';
 
 const id = z.string().min(1).max(64);
 const P = z.object({ id });
@@ -83,7 +85,9 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     spine: z.string().max(60).nullable().optional(),
     carryPlacements: z.boolean().optional(),
     premise: z.string().max(600).optional(),
+    paragraph: z.string().max(4000).optional(),
   }).strict())));
+  app.get('/api/projects/:id/heart', async (req) => svc.setup.heart(params(req, P).id));
   app.get('/api/projects/:id/setup/active', async (req) => svc.setup.activeFeatures(params(req, P).id));
   app.get('/api/author-profile', async () => svc.setup.authorProfile());
   app.post('/api/projects/:id/setup/save-as-defaults', async (req) => svc.setup.saveAsDefaults(params(req, P).id));
@@ -255,6 +259,8 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
 
   // ----- writing desk -----
   app.get('/api/scenes/:id/context', async (req) => desk.sceneContext(params(req, P).id));
+  // The scene's own card, made on first use, so a conversation can be about this scene.
+  app.post('/api/scenes/:id/card', async (req) => ({ id: desk.ensurePlan(params(req, P).id) }));
   app.post('/api/scenes/:id/plan', async (req) => {
     const b = body(req, z.object({ field: z.string().max(40), value: z.string().min(1).max(200_000), status: z.enum(['established', 'developing', 'unanswered']).optional() }));
     return desk.setPlanField(params(req, P).id, b.field, b.value, b.status);
@@ -287,6 +293,17 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const at = z.object({ at: z.string().datetime() }).parse(req.query ?? {}).at;
     return { words: svc.progress.wordsSince(pid, new Date(at).toISOString()) };
   });
+  // Suggestions that arrived inside her planning documents ("Here's a suggestion"): they wait beside the collaborator's.
+  app.get('/api/projects/:id/proposed-facts', async (req) => {
+    const pid = params(req, P).id; brain.project(pid);
+    return store.db.prepare(
+      `SELECT s.id, s.element_id, s.field, s.value_json, s.speaker_name, s.made_at, e.title AS element_title, e.kind AS element_kind
+       FROM statements s JOIN elements e ON e.id = s.element_id
+       WHERE s.project_id = ? AND s.status = 'proposed' AND s.deleted_at IS NULL AND s.superseded_by_id IS NULL AND e.deleted_at IS NULL
+       ORDER BY e.kind, e.title, s.made_at`,
+    ).all(pid).map((r: any) => ({ ...r, value: JSON.parse(r.value_json) }));
+  });
+  app.get('/api/projects/:id/planned-order', async (req) => { const pid = params(req, P).id; brain.project(pid); return structure.plannedOrder(pid); });
   app.get('/api/projects/:id/later', async (req) => { const pid = params(req, P).id; brain.project(pid); return ms.laterNotes(pid); });
   // A day she sets herself: a lighter day, a rest day (0), or a bigger one. null clears it.
   app.put('/api/projects/:id/day-goal', async (req) => {
@@ -308,9 +325,11 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/projects/:id/kinds', async (req) => brain.defineKind(params(req, P).id, body(req, z.object({ label: z.string().max(80), plural: z.string().max(80).optional(), description: z.string().max(2000).optional() }))));
   app.get('/api/projects/:id/fields', async (req) => brain.fieldsFor(params(req, P).id, query(req, z.object({ kind: z.string().max(60) })).kind));
   app.post('/api/projects/:id/fields', async (req) => brain.defineField(params(req, P).id, body(req, z.object({ kind: z.string().max(60), label: z.string().max(80), group: z.string().max(80).optional(), prompt: z.string().max(1000).optional(), multi: z.boolean().optional(), private: z.boolean().optional() }))));
+  app.post('/api/elements/:id/own-fields', async (req) => brain.defineOwnField(params(req, P).id, body(req, z.object({ label: z.string().max(80), multi: z.boolean().optional(), prompt: z.string().max(1000).optional() }))));
   app.delete('/api/fields/:id', async (req) => { brain.removeField(params(req, P).id); return { removed: true }; });
   app.get('/api/elements/:id/page', async (req) => brain.elementPage(params(req, P).id));
   app.get('/api/projects/:id/open-decisions', async (req) => brain.openDecisions(params(req, P).id));
+  app.get('/api/projects/:id/summaries', async (req) => brain.kindSummaries(params(req, P).id, query(req, z.object({ kind: z.string().max(60) })).kind));
   app.get('/api/projects/:id/proposals', async (req) => { const pid = params(req, P).id; brain.project(pid); return brain.proposals(pid, query(req, z.object({ status: z.enum(['pending', 'accepted', 'rejected', 'deferred']).optional() })).status); });
   app.post('/api/projects/:id/proposals', async (req) => {
     const b = body(req, z.object({ origin: z.string().max(80), kind: z.enum(['statement', 'element', 'link']), target: json, after: z.unknown(), before: z.unknown().optional(), rationale: z.string().max(10_000).optional(), conversationId: id.nullable().optional(), turnId: id.nullable().optional() }));
@@ -336,9 +355,21 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     if (existing) return ms.scene(existing.id);
     const b = body(req, z.object({ chapterId: id.optional() }));
     const pid = el.project_id as string;
-    let chapterId = b.chapterId ?? (ms.outline(pid).at(-1)?.id as string | undefined);
-    if (!chapterId) chapterId = ms.addChapter(pid).id;
-    const sc = ms.addScene(chapterId, { title: el.title as string });
+    // The new scene goes where the plan says: right after the written scene of the nearest card before
+    // it in story order, or at the very start when nothing before it is written yet.
+    const order = structure.plannedOrder(pid);
+    const at = order.findIndex((c) => c.id === planId);
+    const before = order.slice(0, Math.max(0, at)).reverse().find((c) => c.sceneId);
+    let sc;
+    if (!b.chapterId && before?.sceneId) {
+      const prev = ms.scene(before.sceneId);
+      sc = ms.addScene(prev.chapter_id as string, { title: el.title as string, afterSceneId: before.sceneId });
+    } else {
+      let chapterId = b.chapterId ?? (ms.outline(pid)[0]?.id as string | undefined);
+      if (!chapterId) chapterId = ms.addChapter(pid).id;
+      sc = ms.addScene(chapterId, { title: el.title as string });
+      if (!b.chapterId) ms.moveScene(sc.id as string, chapterId, 0);
+    }
     ms.updateSceneMeta(sc.id as string, { planElementId: planId });
     return ms.scene(sc.id as string);
   });
@@ -425,8 +456,38 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     return { ...(turn ?? {}), hasTurn: !!turn, document, note };
   });
 
+  // Reference codes from her planning documents ("CK-003", "SB L60", "T L16949"): what each points to, and the passage when it is here.
+  app.get('/api/projects/:id/refs', async (req) => {
+    const pid = params(req, P).id; brain.project(pid);
+    const q = query(req, z.object({ codes: z.string().max(2000) }));
+    const codes = [...new Set(q.codes.split('|').map((c) => c.trim()).filter(Boolean))].slice(0, 30);
+    const row = store.db.prepare("SELECT x.locator, x.text, s.name FROM excerpts x JOIN sources s ON s.id=x.source_id WHERE s.project_id=? AND x.locator=? LIMIT 1");
+    const para = store.db.prepare("SELECT x.locator, x.text, s.name FROM excerpts x JOIN sources s ON s.id=x.source_id WHERE s.project_id=? AND s.kind=? AND (x.locator LIKE ? OR x.locator = ?) LIMIT 1");
+    return codes.map((code) => {
+      const sb = code.match(/^SB L(\d+)/);
+      if (sb) {
+        const r = para.get(pid, 'story_bible', `%, paragraph ${sb[1]}`, `paragraph ${sb[1]}`) as { locator: string; text: string; name: string } | undefined;
+        return { code, what: `Paragraph ${sb[1]} of your Story Bible`, ...(r ? { source: r.name, locator: r.locator, text: r.text } : {}) };
+      }
+      const t = code.match(/^T L(\d+)/);
+      if (t) return { code, what: `Line ${t[1]} of the transcript of your planning conversation. The whole conversation is in Conversations` };
+      const r = row.get(pid, code) as { locator: string; text: string; name: string } | undefined;
+      if (r) return { code, what: `Row ${code} of ${r.name}`, source: r.name, locator: r.locator, text: r.text };
+      return { code, what: 'A reference number from your planning documents. The item it names is not among the documents brought in' };
+    });
+  });
+
   // ----- history -----
-  app.get('/api/projects/:id/history', async (req) => { const pid = params(req, P).id; brain.project(pid); return store.history(pid); });
+  app.get('/api/projects/:id/history', async (req) => {
+    const pid = params(req, P).id; brain.project(pid);
+    const rows = store.history(pid);
+    // Each change in her words, what its Undo would do, and which change an undo undid (the record itself is untouched).
+    const kindOf = new Map((store.db.prepare('SELECT title, kind FROM elements WHERE project_id=?').all(pid) as { title: string; kind: string }[]).map((e) => [e.title, e.kind]));
+    const label = brain.fieldLabeler(pid);
+    const st = brain.settings(pid);
+    const look = { fieldLabel: (t: string, f: string) => { const k = kindOf.get(t); return k ? label(k, f) : null; }, statusWord: (s: string) => (st.statusLabels as Record<string, string>)[s] || (DEFAULT_STATUS_LABELS as Record<string, string>)[s] || s };
+    return rows.map((b) => ({ ...b, said: describeChange(b.reason as string, look), undoMeaning: undoMeaning(b.reason as string), undoes: rows.find((x) => x.reverted_by === b.id)?.id ?? null }));
+  });
   app.get('/api/history/:table/:id', async (req) => {
     const p = params(req, z.object({ table: z.enum(['elements', 'statements', 'links', 'chapters', 'scenes', 'projects']), id }));
     return store.recordHistory(p.table, p.id);

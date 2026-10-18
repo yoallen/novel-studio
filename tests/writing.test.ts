@@ -55,7 +55,7 @@ describe('scene status ladder is the author\'s (R-B-026)', () => {
     const ch = env.ms.addChapter(pid);
     const s = env.ms.addScene(ch.id, { title: 'Opening' });
     expect(s.status).toBe('idea');
-    expect(env.brain.settings(pid).sceneLadder.map((x) => x.label)).toContain('First Draft Complete');
+    expect(env.brain.settings(pid).sceneLadder.map((x) => x.label)).toContain('First draft complete');
 
     const ladder = env.brain.settings(pid).sceneLadder.map((x) => (x.key === 'revised' ? { ...x, label: 'Polished' } : x));
     ladder.splice(ladder.length - 1, 0, { key: 'beta_read', label: 'Beta-read', drafted: true });
@@ -103,8 +103,8 @@ describe('labels', () => {
   it('shows the author\'s chosen words and personalizes the owned marker for any author', () => {
     expect(statusLabel('established')).toBe('Decided');
     expect(statusLabel('unanswered')).toBe('Still open');
-    expect(statusLabel('illustrative')).toBe('One way it could be done');
-    expect(statusLabel('proposed')).toBe("Here's a suggestion");
+    expect(statusLabel('illustrative')).toBe('Example');
+    expect(statusLabel('proposed')).toBe('Suggestion');
     expect(ownedLabel(undefined, 'Yolanda')).toBe("Yolanda, it's on you now");
     expect(ownedLabel(undefined, 'Sam')).toBe("Sam, it's on you now");
     expect(ownedLabel(undefined, '')).toBe("It's on you now");
@@ -124,7 +124,7 @@ describe('writing desk (R-B-013 to R-B-019, R-B-030)', () => {
     const d = desk();
     const ctx = d.sceneContext(s.id as string);
     expect(ctx.readiness.ready).toBe(false);
-    expect(ctx.readiness.open).toEqual(['Viewpoint character', 'Purpose', "Character's objective", 'Central conflict', 'Intended outcome or change', 'Relationship to the surrounding story']);
+    expect(ctx.readiness.open).toEqual(['Viewpoint character', 'What this scene must do', "The viewpoint character's objective", 'Central conflict', 'Intended outcome or change', 'How we got here or what must follow']);
     // Reading context never creates records.
     expect(env.brain.elements(pid)).toHaveLength(0);
     // Writing works anyway, with every field empty (Scenario H).
@@ -245,5 +245,53 @@ describe('undo after delete and restore', () => {
     const after = env.ms.scene(s.id as string);
     expect(after.title).toBe('Scene 1');
     expect(after.text).toBe('Keep these words.');
+  });
+});
+
+describe('the Writing Room explains itself (usability findings)', () => {
+  it('readiness names the very blanks it points to', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Names').id as string;
+    const s = env.ms.addScene(env.ms.addChapter(pid).id, { title: 'One' });
+    const ctx = new WritingDesk(env.store, env.brain, env.ms).sceneContext(s.id as string);
+    const labels = new Set(ctx.fields.map((f) => f.label as string));
+    for (const item of ctx.readiness.open.slice(1, 5)) expect(labels.has(item)).toBe(true);
+    expect(ctx.readiness.open).toContain('How we got here or what must follow');
+    // Every blank carries its one-line hint, and "What you want the reader to feel" is part of the plan.
+    expect(ctx.fields.every((f) => typeof f.hint === 'string' && f.hint.length > 0)).toBe(true);
+    expect(ctx.fields.map((f) => f.label)).toContain('What you want the reader to feel');
+  });
+
+  it("a scene made from a card shows the card's beat and its own planning", () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Cards').id as string;
+    const beat = env.brain.createElement(pid, { kind: 'beat', title: 'Opening Image' });
+    const card = env.brain.createElement(pid, { kind: 'scene_plan', title: 'Opening image scene' });
+    env.brain.addStatement({ elementId: card.id as string, field: 'beat', value: beat.id, status: 'established', speaker: { kind: 'author' } });
+    env.brain.addStatement({ elementId: card.id as string, field: 'x_what_happens', value: 'Kevin wakes to the ledger on his porch.', status: 'developing', speaker: { kind: 'author' } });
+    const s = env.ms.addScene(env.ms.addChapter(pid).id, { title: 'Opening image scene' });
+    env.ms.updateSceneMeta(s.id as string, { planElementId: card.id as string });
+    const ctx = new WritingDesk(env.store, env.brain, env.ms).sceneContext(s.id as string);
+    expect(ctx.card?.beat).toEqual({ id: beat.id, name: 'Opening Image' });
+    expect(ctx.card?.fields).toEqual([{ field: 'x_what_happens', label: 'what happens', value: 'Kevin wakes to the ledger on his porch.' }]);
+  });
+
+  it('a scene with no card says so: no card, nothing made by reading', () => {
+    env = freshStore();
+    const pid = env.brain.createProject('Plain').id as string;
+    const s = env.ms.addScene(env.ms.addChapter(pid).id, { title: 'Loose' });
+    expect(new WritingDesk(env.store, env.brain, env.ms).sceneContext(s.id as string).card).toBeNull();
+    expect(env.brain.elements(pid)).toHaveLength(0);
+  });
+
+  it('the binder circle follows the status: empty, then half while drafting, then full', async () => {
+    const { sceneCircle } = await import('../src/core/labels.js');
+    const { DEFAULT_SCENE_LADDER } = await import('../src/core/settings.js');
+    expect(['idea', 'planned', 'ready'].map((k) => sceneCircle(DEFAULT_SCENE_LADDER, k))).toEqual(['empty', 'empty', 'empty']);
+    expect(sceneCircle(DEFAULT_SCENE_LADDER, 'drafting')).toBe('half');
+    expect(['first_draft', 'revising', 'revised', 'final'].map((k) => sceneCircle(DEFAULT_SCENE_LADDER, k))).toEqual(['full', 'full', 'full', 'full']);
+    // Her own ladder, her own steps.
+    expect(sceneCircle([{ key: 'thinking' }, { key: 'writing', drafted: true }, { key: 'done', drafted: true }], 'thinking')).toBe('empty');
+    expect(sceneCircle([{ key: 'thinking' }, { key: 'writing', drafted: true }, { key: 'done', drafted: true }], 'done')).toBe('full');
   });
 });

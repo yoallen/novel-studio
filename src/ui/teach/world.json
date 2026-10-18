@@ -1,0 +1,842 @@
+{
+ "location": {
+  "about": {
+   "what": "A Place record holds one location in your story: a kitchen, a harbor town, a whole city, or a world on the far side of a door. It keeps what the place is like and what it does to the people in it.",
+   "why": "Readers live in your places for hundreds of pages. A place you know well gives you details that stay consistent, moods that shift on purpose, and pressure on your characters (a small town where everyone talks, a city too big to be found in). A place you only half know turns into a gray stage where people stand and talk.",
+   "when": "Start a Place when a scene first lands somewhere that matters. Add to it as you draft, and check it whenever you return to that place so the doors, the smells and the neighbors stay the same.",
+   "mistake": "The common mistake is building a place like a travel brochure: lots of description, no effect on the story. A place earns its pages when it helps or blocks what someone wants.",
+   "example": "A lighthouse keeper's tower is ninety-one steps up, with one window that faces the reef. That matters: when the storm comes, she can see the boat going down but cannot reach it in time. The stairs are not decoration. They are the conflict."
+  },
+  "groups": {
+   "Place": "The basics of any location, large or small: what it is like, the mood it gives off, the season you see it in, and who you usually find there, details to reuse, and what it means to the story. Fill these for every place that hosts a scene.",
+   "Settlement": "For a town, city, village or camp: how it is governed, fed, defended and divided. These come from classic worldbuilding practice, which asks how a community actually survives. Use them when your story spends real time in one community.",
+   "Between worlds": "For stories with more than one world, such as portal fantasy or a hidden magical world inside ours. These fields track which world a place belongs to, where the doors are, and what crossing costs."
+  },
+  "fields": {
+   "description": {
+    "what": "The physical facts of the place: size, layout, materials, light, what you see when you walk in.",
+    "why": "This is your reference so the back door stays on the left in chapter three and chapter thirty. Without it, readers catch the contradictions and stop trusting the page.",
+    "need": "core",
+    "mistake": "Listing everything at once. Write the details you need to remember, then reveal them in the story only as characters notice them.",
+    "example": "Lands: \"A bakery in a former bank. The vault is the walk-in cooler, and the steel door still sticks.\" Fails: \"A nice cozy bakery with tables and a counter.\""
+   },
+   "atmosphere": {
+    "what": "The mood the place gives off: the feeling a person has when they are there. Atmosphere is emotion attached to a location.",
+    "why": "Atmosphere tells the reader how to feel before anyone speaks. It also lets you create contrast, such as a cheerful place where something terrible happens.",
+    "need": "useful",
+    "mistake": "Naming the mood with adjectives (\"eerie,\" \"cozy\") instead of the details that cause it. Write what produces the feeling.",
+    "example": "Lands: \"The flower shop is too quiet since the rival opened across the street. The bell over the door has not rung all morning.\" Fails: \"It feels sad.\""
+   },
+   "season": {
+    "what": "The time of year we usually see this place, or the season it is in during the story.",
+    "why": "Season changes light, clothing, travel, food and mood. A harbor in January is a different place from the same harbor in July, and the reader feels that.",
+    "need": "useful",
+    "mistake": "Setting a season and then forgetting it, so characters stroll in shirtsleeves in a scene that should be freezing.",
+    "example": "Lands: \"Late October. The ferry stops running after the fifteenth, so anyone still on the island is staying all winter.\" The season creates a trap."
+   },
+   "who_is_here": {
+    "what": "The people, or kinds of people, you usually find in this place. Add one entry per person or group.",
+    "why": "A place is partly its regulars. Knowing who is here tells you who might overhear, who might help, and who would notice a stranger.",
+    "need": "useful",
+    "mistake": "Leaving places empty except for the main characters, which makes the world feel staged.",
+    "example": "\"The diner at 6 a.m.: two retired cops at the counter, the night nurse in the corner booth, and the owner's son pretending to do homework.\""
+   },
+   "governs": {
+    "what": "Who holds authority in this settlement, and how they hold it: a mayor, a council, a lord, a gang, a church, or no one at all.",
+    "why": "Rules and the people who enforce them create obstacles. If your hero needs permission, protection or a blind eye, this field tells you who to ask and what it costs.",
+    "need": "situational",
+    "mistake": "Naming a ruler but never showing how their power touches ordinary life. Power should show up in curfews, fees, fear or favors.",
+    "example": "Lands: \"The harbor master answers to no one on land. Every ship pays him, and he decides who docks first.\" Fails: \"There is a king.\""
+   },
+   "economy": {
+    "what": "How people here earn a living: the main trades, who buys, who sells, and what the town depends on.",
+    "why": "Money shapes daily life and pressure. A town that depends on one mill or one mine has a shared fear, and that fear can drive a plot.",
+    "need": "situational",
+    "mistake": "Inventing an economy that could not feed anyone, like a remote village that seems to live on selling crafts to no one.",
+    "example": "\"Everyone here works for the cannery or sells to the people who do. When the cannery talks about closing, the whole town holds its breath.\""
+   },
+   "water_food": {
+    "what": "Where the settlement gets its water and food, and how secure that supply is.",
+    "why": "Water and food are the first things a real community solves. Knowing them gives you natural stakes, such as drought, a poisoned well or a blockade.",
+    "need": "situational",
+    "mistake": "Ignoring supply entirely in a story where siege, travel or survival matters. Readers notice when a besieged city never gets hungry.",
+    "example": "\"One spring feeds the whole village, and it sits on land owned by the family everyone hates.\" The supply becomes a source of conflict."
+   },
+   "roads_power": {
+    "what": "How people and goods move in and out, and what keeps the lights or fires burning: roads, rivers, rail, horses, power lines, firewood.",
+    "why": "Travel time controls pacing and plot. If the only road washes out, nobody leaves. If the power fails, the story changes.",
+    "need": "situational",
+    "mistake": "Letting characters cross great distances instantly when the world says it should take days.",
+    "example": "Lands: \"One bridge connects the town to the highway. It closes at night for repairs.\" Fails: travel that takes as long as the plot needs it to, with no rule."
+   },
+   "defense": {
+    "what": "How the settlement protects itself: walls, guards, police, a militia, the sea, or reputation.",
+    "why": "Defenses tell you how hard it is to get in, get out, or cause trouble. They matter whenever your story has a threat from outside or a crime inside.",
+    "need": "situational",
+    "mistake": "Making defenses strong when the plot needs them strong and weak when it needs them weak. Decide them once and let the characters work around them.",
+    "example": "\"The town has one deputy, and he is also the school bus driver. Between seven and nine in the morning, there is no law here.\""
+   },
+   "districts": {
+    "what": "The neighborhoods or sections of the settlement, each with its own character. Add one entry per district.",
+    "why": "Districts let one city hold many moods and classes. Moving a character from one to another can signal danger, ambition or exile.",
+    "need": "situational",
+    "mistake": "Naming districts that all feel the same. Each should differ in who lives there, what it sounds like, or what happens there.",
+    "example": "\"The Flats: the old mill houses by the river, cheap rent, flooded every spring. The Hill: where the mill owners lived, now lawyers and dentists.\""
+   },
+   "rich_poor": {
+    "what": "Who has money and who does not, and where each group lives.",
+    "why": "Class is a source of friction, envy and secrets. Knowing the line between rich and poor tells you who looks down on whom, and who is trying to cross.",
+    "need": "situational",
+    "mistake": "Making wealth purely decoration. Money should change what characters can do, what they fear, and how others treat them.",
+    "example": "\"The rival florist rents a storefront on Main Street. Our heroine sells from a van parked at the edge of the market, and everyone knows the difference.\""
+   },
+   "population": {
+    "what": "Who lives here and roughly how many: size, mix of peoples, ages, newcomers and old families.",
+    "why": "Size controls how private life can be. In a village of three hundred, secrets do not last. In a city of millions, anyone can vanish.",
+    "need": "situational",
+    "mistake": "Choosing a size that contradicts the story, like a 'tiny town' where nobody knows anyone.",
+    "example": "\"About four hundred people, most of them related. A new face at church is news by lunch.\""
+   },
+   "senses": {
+    "what": "What the settlement sounds and smells like: the noises and odors a newcomer would notice and a local would stop hearing.",
+    "why": "Sound and smell make a place real faster than sight does, and they trigger memory. One good smell detail can do the work of a paragraph.",
+    "need": "useful",
+    "mistake": "Using only sight. Readers already picture what things look like. Sound and smell surprise them.",
+    "example": "Lands: \"Low tide smells like rot and salt. The church bell is always four minutes late.\" Fails: \"It smells nice and is pretty quiet.\""
+   },
+   "which_world": {
+    "what": "Which world this place belongs to: our ordinary world, a hidden world inside ours, or a separate world of its own.",
+    "why": "In stories with more than one world, readers need to know where they are standing and which rules apply. This field keeps you from mixing them up.",
+    "need": "situational",
+    "mistake": "Letting the worlds blur so that the rules of one leak into the other without a reason.",
+    "example": "\"The bookshop is in our world. The reading room behind the third shelf is in the hidden one, and the clocks there run backward.\""
+   },
+   "crossings": {
+    "what": "The doors, gates, mirrors or thin places where someone can pass from one world to another. Add one entry per crossing.",
+    "why": "Crossings are where plot happens: chases, escapes, arrivals, things that should not come through. Knowing them lets you plan who can reach whom.",
+    "need": "situational",
+    "mistake": "Adding a new crossing whenever a character is stuck. Too many doors make every danger escapable.",
+    "example": "\"The old well behind the chapel. It only opens on nights with no moon, and you must climb down, never jump.\""
+   },
+   "crossing_rules": {
+    "what": "The rules for passing between worlds and what crossing costs: who can cross, when, and what they lose or risk.",
+    "why": "A crossing with no cost has no tension. A cost (a memory, a year of life, a promise) makes every trip a real choice.",
+    "need": "situational",
+    "mistake": "Inventing the cost and then never charging it. If crossing costs a memory, show a character forgetting something they loved.",
+    "example": "Lands: \"Each crossing takes one name from your memory. She has already forgotten her sister's.\" Fails: \"You can cross whenever you want.\""
+   },
+   "details": {
+    "what": "Small, concrete things about this place you can bring back: a cracked step, a smell, a sound at night.",
+    "why": "A detail that returns makes a place feel lived in, and a detail that changes shows time passing without a word of explanation.",
+    "need": "useful",
+    "example": "The porch light that buzzes before it comes on. By the last chapter someone has fixed it."
+   },
+   "means": {
+    "what": "Why the story happens here and not somewhere else: what this place stands for, to the people in it and to the book.",
+    "why": "A place that means something does work in every scene set there. It can stand for safety, shame, or the life someone wants.",
+    "need": "useful",
+    "example": "The garden is the one thing the widow next door still controls. Every scene there is about control."
+   }
+  }
+ },
+ "storyworld": {
+  "about": {
+   "what": "The Story world record holds the facts that cover the whole book: when it happens, how long it lasts, how it is told, and what it is about at its core. There is one of these per project.",
+   "why": "These are the decisions every scene leans on. Viewpoint and tense shape every sentence. The one-sentence and one-paragraph summaries, the moral premise and the controlling idea keep the book pointed at one meaning. When these are vague, chapters drift, and the ending feels like it belongs to a different book.",
+   "when": "Fill what you can at the very start, even as guesses, and revise as the draft teaches you. Return here when a scene feels aimless or when you need to explain your book to someone in one breath.",
+   "mistake": "The common mistake is treating this as paperwork to finish once. These answers change as you write. Keep older versions as Developing, and mark one Decided only when you are sure.",
+   "example": "A writer starts a novel about two rival florists with only a hunch: \"pride ruins them, generosity saves them.\" That hunch becomes the moral premise, and it tells her the ending: one florist gives the other her best customer."
+  },
+  "groups": {
+   "Time": "When the story happens and how long it lasts. These fields anchor the calendar so dates, seasons and ages stay consistent.",
+   "Viewpoint": "How the story is told: whose eyes we see through, in which grammatical person and tense, and what rule governs switching. These are decisions about every sentence in the book.",
+   "Knowledge": "Whether the book keeps a secret from the reader. Turning this on lets Story Canon track what the reader knows versus what is true.",
+   "The core": "The heart of the book in compressed form. The one sentence and one paragraph come from Randy Ingermanson's Snowflake Method, which grows a novel outward from a single sentence.",
+   "Moral premise": "From Stanley D. Williams's moral premise: the theme stated as an equation, where a vice leads to defeat and a virtue leads to success. It helps every subplot argue the same truth.",
+   "Controlling idea": "From Robert McKee: the meaning of the story in one sentence, naming the value at stake and the cause that changes it."
+  },
+  "fields": {
+   "era": {
+    "what": "When the story takes place: a specific year, a decade, an age of an invented world.",
+    "why": "Era decides technology, manners, money, speech and what characters can know. A story set in 1985 has no cell phones, and that changes how secrets travel.",
+    "need": "core",
+    "mistake": "Choosing an era for flavor and then writing modern people with modern assumptions in it.",
+    "example": "Lands: \"Summer 1977. The blackout hits the city in the middle of the second act.\" The era supplies a real event that drives plot."
+   },
+   "season": {
+    "what": "The season the story mainly happens in, or the season it opens with.",
+    "why": "Season sets weather, light, holidays and work rhythms, and it can mirror the story's mood. A story that runs from autumn to spring gives you a built-in arc of dark to light.",
+    "need": "useful",
+    "mistake": "Forgetting the season after chapter one, so weather never touches anyone.",
+    "example": "\"It opens in the first week of December. Every chapter moves closer to the holiday the family is dreading.\""
+   },
+   "atmosphere_now": {
+    "what": "The overall mood of the story's world at the time the book opens: the social weather, what everyone is feeling or fearing.",
+    "why": "Characters do not live in a vacuum. A town bracing for a layoff, a city during a heat wave, a kingdom after a war: the general mood colors every private scene.",
+    "need": "useful",
+    "mistake": "Describing a mood that never touches the characters. The atmosphere should press on someone's choices.",
+    "example": "\"The whole island is waiting to hear if the ferry company will cut service. Every conversation circles back to it.\""
+   },
+   "duration": {
+    "what": "How much story time passes from the first page to the last: a weekend, a season, a year, a lifetime.",
+    "why": "Duration sets pace and pressure. A short span creates urgency. A long one allows slow change, but needs clear markers so readers do not lose track.",
+    "need": "core",
+    "mistake": "Never deciding, so the timeline stretches or shrinks to fit each scene and the reader cannot tell if a day or a month has passed.",
+    "example": "Lands: \"Eleven days, from the funeral to the reading of the will.\" Fails: \"A while.\""
+   },
+   "day_counter": {
+    "what": "A name for your story's internal clock, used to label when each scene happens, such as \"day of the feud\" or \"days since the storm.\"",
+    "why": "A story clock lets you place every scene on one timeline and spot problems, like two events on the same day that cannot both happen. It is a tool for you, not something the reader necessarily sees.",
+    "need": "useful",
+    "mistake": "Using real calendar dates when the story's own count would be clearer, or using no count and losing track of time.",
+    "example": "\"Day of the siege.\" Scene cards then read Day 1, Day 4, Day 9, and you can see at a glance that nothing happens for five days in the middle."
+   },
+   "pov_approach": {
+    "what": "Your overall plan for viewpoint: whose eyes we see through, how many viewpoint characters you have, and how you move between them. Viewpoint (POV) means the character whose thoughts and senses the reader is given.",
+    "why": "Viewpoint decides what the reader can know and feel. One narrator gives intimacy and limits. Several narrators give range and let the reader know more than any one character.",
+    "need": "core",
+    "mistake": "Adding viewpoint characters whenever you need information delivered, until no one voice holds the reader.",
+    "example": "Lands: \"Alternating first person between the two rival florists, one chapter each.\" Fails: \"Whoever is in the scene.\""
+   },
+   "pov_rule": {
+    "what": "The rule for when viewpoint can change: once per scene, once per chapter, or freely.",
+    "why": "A clear rule keeps readers oriented. Breaking your own rule mid-scene (called head-hopping, jumping from one mind to another without a break) confuses them about whose feelings they are reading.",
+    "need": "core",
+    "mistake": "Setting a rule and then breaking it by accident when a scene gets busy.",
+    "example": "\"One viewpoint per scene, marked by a scene break.\" Then if the lighthouse keeper's scene suddenly tells us what the sailor is thinking, you know it breaks the rule."
+   },
+   "pov_person": {
+    "what": "The default grammatical person: first (\"I\"), second (\"you\"), or third (\"she,\" \"he,\" \"they\").",
+    "why": "First person feels close and confessional. Third person allows more range and can move closer or farther from a character. The choice sets the voice of every line.",
+    "need": "core",
+    "mistake": "Picking first person for intimacy but then needing to show scenes the narrator could never witness.",
+    "example": "A mystery told in first person by the detective keeps the reader as puzzled as she is. Told in third, you could show the killer's scenes too. Each choice makes a different book."
+   },
+   "pov_tense": {
+    "what": "The default verb tense of the narration: past (\"she ran\") or present (\"she runs\").",
+    "why": "Past tense is the familiar storytelling voice and feels invisible to most readers. Present tense feels immediate and breathless. Both work; consistency matters most.",
+    "need": "core",
+    "mistake": "Slipping between tenses without meaning to, especially during action scenes.",
+    "example": "\"Past tense throughout, except the prologue, which is present tense because it happens after the ending.\" A deliberate exception, written down."
+   },
+   "hidden_truth": {
+    "what": "Whether your book keeps a significant truth from the reader on purpose, to reveal later. Turning this on adds views that track what the reader knows versus what is really happening.",
+    "why": "Mysteries, thrillers and twist stories depend on managing what the reader knows. Tracking the gap keeps clues fair and the reveal satisfying instead of cheap.",
+    "need": "situational",
+    "mistake": "Hiding a truth by having a viewpoint character simply not think about it, which readers feel as a cheat.",
+    "example": "Lands: the baker's mentor is secretly her father, and three small clues are planted before the reveal. Fails: the truth appears from nowhere in the last chapter."
+   },
+   "logline": {
+    "what": "One sentence of about twenty-five words that captures the whole book. Randy Ingermanson's Snowflake Method starts here. Blake Snyder adds that a strong logline carries irony: a built-in contradiction that makes the premise intriguing.",
+    "why": "If you can say the book in one sentence, you know what it is about, and the draft stays on course.",
+    "need": "core",
+    "mistake": "Cramming in every subplot and name. Stick to the central situation.",
+    "example": "Lands: \"A lighthouse keeper who has never saved anyone must keep a shipwreck survivor alive through a winter storm, though he may be the man who drowned her brother.\" Fails: \"A story about grief and hope on an island.\""
+   },
+   "paragraph": {
+    "what": "Five sentences: the setup, three disasters, and the ending. In Ingermanson's Snowflake Method this is the second step, growing the one sentence into the shape of the book. A disaster here means a turning point that makes things much worse and forces a new choice.",
+    "why": "Three disasters give the book a spine, so each act knows what it builds toward.",
+    "need": "core",
+    "mistake": "Disasters that are just bad luck. Each should force a harder choice.",
+    "example": "Setup: a baker opens on the same street as her old boss. Disaster one: he steals her recipe. Two: she copies his to retaliate and gets caught. Three: the street votes to close one shop. Ending: she wins by confessing."
+   },
+   "ending": {
+    "what": "Your best current guess at how the story ends: who wins, who loses, and what is true at the end that was not true at the start.",
+    "why": "An ending found early gives the middle somewhere to go. Every scene can then build toward it, and the setup can plant what the ending needs.",
+    "need": "core",
+    "mistake": "Refusing to guess until the draft is finished, which often produces a sagging middle that wanders.",
+    "example": "\"She keeps the lighthouse but loses the man.\" Even as a guess (marked Developing), this tells you the book needs to make both the lighthouse and the man precious."
+   },
+   "vice": {
+    "what": "In Stanley D. Williams's moral premise, the vice is the wrong value or behavior that leads characters to defeat. It is the first half of the equation \"[vice] leads to defeat, but [virtue] leads to success.\"",
+    "why": "Naming the vice gives you a way to test every subplot: the characters who cling to it should suffer for it. It turns theme from a slogan into consequences.",
+    "need": "useful",
+    "mistake": "Choosing a vice that is a crime or a cartoon (\"murder\") instead of a temptation real people feel (\"control,\" \"pride,\" \"hiding\").",
+    "example": "Lands: \"Keeping score.\" Both rival florists track every slight, and it costs each of them something. Fails: \"Being evil.\""
+   },
+   "virtue": {
+    "what": "The virtue is the right value or behavior that leads to success, the second half of Williams's moral premise. It is usually the opposite of the vice.",
+    "why": "The virtue is what your hero must learn or choose by the end. It shows you what the climax must test.",
+    "need": "useful",
+    "mistake": "Picking a virtue that does not truly oppose the vice, so the theme splits in two.",
+    "example": "Lands: vice \"keeping score,\" virtue \"giving without counting.\" The climax: one florist gives away her best arrangement with no hope of return. Fails: vice \"pride,\" virtue \"courage.\""
+   },
+   "moral_premise": {
+    "what": "The full moral premise in one sentence: \"[Vice] leads to [defeat], but [virtue] leads to [success].\" Stanley D. Williams argues that every successful story argues one such truth.",
+    "why": "One sentence lets you check any scene: does it show the vice failing or the virtue working? Scenes that do neither may not belong.",
+    "need": "useful",
+    "mistake": "Writing a sermon. The premise guides you; the story should prove it through events, never announce it.",
+    "example": "\"Keeping score leads to loneliness, but giving without counting leads to belonging.\" The two florists then embody each half until one changes."
+   },
+   "controlling_idea": {
+    "what": "Robert McKee's controlling idea: the meaning of the story in one sentence, naming the value at the end (love, justice, life) and the cause that brought it there. A value is something characters care about that can swing positive or negative.",
+    "why": "It forces you to say both what happens to the value and why. That cause is your theme in action, and it keeps the climax honest.",
+    "need": "useful",
+    "mistake": "Naming only a topic (\"grief\") instead of a value and a cause.",
+    "example": "Lands: \"Love returns when we stop guarding our old wounds.\" Fails: \"This book is about love.\""
+   }
+  }
+ },
+ "song": {
+  "about": {
+   "what": "A Song record holds one piece of music that matters in your story: a song a character loves, one that plays at a key moment, or one that defines an era. Together they form your book's soundtrack.",
+   "why": "Music carries memory and emotion faster than description. A single title can bring back a first dance, a dead parent's car, a summer. Keeping songs in records lets you reuse them on purpose, so a song heard happily in chapter two can wound in chapter twenty.",
+   "when": "Add songs whenever one shows up in a scene or in your head while drafting. Review them when planning echoes and callbacks.",
+   "mistake": "The common mistake is quoting lyrics. Song lyrics are usually copyrighted and costly to license. Use titles and artists only, and describe the feeling.",
+   "example": "A widow hears the song from her wedding on a grocery store speaker and leaves her cart in the aisle. You never quote a line. The title and her reaction do all the work."
+  },
+  "groups": {
+   "The song": "The facts about the song and the job it does in your story. Titles and artists can be named freely; lyrics should not be quoted."
+  },
+  "fields": {
+   "artist": {
+    "what": "Who performed or wrote the song. For an invented song, the invented artist.",
+    "why": "The artist places the song in a time and a culture, and says something about the character who loves it.",
+    "need": "useful",
+    "mistake": "Getting a real artist or release detail wrong, which readers who love that music will catch.",
+    "example": "A teenager in 2026 who loves a band from 1972 tells us something about who raised her."
+   },
+   "year": {
+    "what": "The year the song was released.",
+    "why": "The year keeps your timeline honest. A character cannot hear a song before it existed, and the year can date a memory precisely.",
+    "need": "useful",
+    "mistake": "Anachronism: a song playing on the radio years before its release.",
+    "example": "Lands: a scene set in summer 1985 uses a song from 1984, still on the radio. Fails: the same scene uses a song released in 1987."
+   },
+   "carries": {
+    "what": "The feeling or memory this song holds in the story: what it means to the characters who hear it. Titles only, never lyrics.",
+    "why": "This is why the song is in the book. Once a song carries a meaning, every later appearance can call it back without explanation.",
+    "need": "core",
+    "mistake": "Adding songs as background with no meaning, which makes them noise.",
+    "example": "Lands: \"The song her father whistled while fixing the boat. After he drowns, she cannot stand it.\" Fails: \"A popular song from that year.\""
+   },
+   "when_it_plays": {
+    "what": "Where and when the song appears in the story: on a radio, in a memory, at the wedding, as a chapter title.",
+    "why": "Placement turns a song into a structural echo. The same song early and late can show how much a character has changed.",
+    "need": "useful",
+    "mistake": "Playing a song once and never again, wasting its power to return.",
+    "example": "\"Chapter 2 at the county fair, happy. Chapter 19 at the hospital, on someone else's radio.\" The second time hits because of the first."
+   }
+  }
+ },
+ "being": {
+  "about": {
+   "what": "A Kind of being record describes one non-human kind in your story: a species, a race of spirits, a breed of monster, an alien people. It covers what they are, what they can do, and how they live with others.",
+   "why": "Readers need to understand a kind of being well enough to fear it, love it, or predict it. Clear abilities and, even more, clear limits let you build suspense and fair solutions. A being that can do anything removes all danger from a scene.",
+   "when": "Create one when a non-human kind first enters your story. Fill limits before you write any scene where they face a problem.",
+   "mistake": "The common mistake is listing powers and skipping weaknesses. Limits create plot; powers mostly end it.",
+   "example": "The river folk can breathe water and outswim any boat, but they cannot cross running water downstream of a bridge. A hunted child learns to run across bridges, and suddenly every chase has a rule."
+  },
+  "groups": {
+   "The kind": "What this kind of being is: its nature, origin, body, lifespan, abilities and limits. These are the facts that control what they can do on the page.",
+   "Among others": "How this kind relates to humans and to each other. These fields turn a creature into a people, with attitudes, misunderstandings and a society."
+  },
+  "fields": {
+   "what_they_are": {
+    "what": "A plain description of this kind of being: what they look like and what they are in your world's terms.",
+    "why": "This is your anchor, so every description stays consistent and readers form a clear picture.",
+    "need": "core",
+    "mistake": "Relying on a familiar label (\"vampires\") without saying how yours differ, so readers fill in someone else's rules.",
+    "example": "Lands: \"Shore-wraiths: the drowned, kept half alive by the tide. They look like the person they were, but wet and gray.\" Fails: \"Ghosts, basically.\""
+   },
+   "origin": {
+    "what": "Where this kind came from: created, evolved, fallen, born of a curse, arrived from somewhere else.",
+    "why": "Origin often explains behavior and sets up history or a secret. It can also matter to how others treat them.",
+    "need": "useful",
+    "mistake": "Writing a long origin legend that never touches the plot.",
+    "example": "\"They were the lighthouse keepers who failed. The sea took them and kept them.\" Now every keeper fears becoming one."
+   },
+   "body_senses": {
+    "what": "How their bodies work and what they perceive: what they sense that humans cannot, and what they are blind or deaf to.",
+    "why": "Senses decide what they can notice and what can be hidden from them. That is the raw material of suspense and stealth.",
+    "need": "useful",
+    "mistake": "Giving them perfect senses, which makes hiding from them impossible and boring.",
+    "example": "Lands: \"They smell fear across a whole valley but cannot see anything that does not move.\" Fails: \"They sense everything.\""
+   },
+   "lifespan": {
+    "what": "How long they live, and how they age.",
+    "why": "Lifespan shapes how they see time, love and loss. A being that lives a thousand years experiences a human friendship as a brief season.",
+    "need": "useful",
+    "mistake": "Forgetting the consequences, like long-lived beings who act as rushed and young as humans for no reason.",
+    "example": "\"They live about three hundred years and stop counting birthdays after fifty. A human friend's death is something they expect, and it still surprises them.\""
+   },
+   "abilities": {
+    "what": "What they can do that others cannot. Add one entry per ability.",
+    "why": "Abilities define their role in the story: threat, ally, tool. Clear abilities let readers anticipate and worry.",
+    "need": "useful",
+    "mistake": "Adding a new ability whenever the plot needs rescuing. Readers feel that as a cheat.",
+    "example": "\"Can hold their breath for an hour.\" \"Can hear a lie.\" Both established early, so when one hears the hero lie in chapter twelve, the reader already braced for it."
+   },
+   "limits": {
+    "what": "What they can never do, and what weakens or harms them. Add one entry per limit.",
+    "why": "Limits make better stories than powers. They give heroes a way to fight back and give beings inner struggle. A solution feels earned only if readers knew the limit beforehand.",
+    "need": "core",
+    "mistake": "Revealing a weakness at the exact moment the hero needs it. Plant it early.",
+    "example": "Lands: \"Cannot enter a home uninvited,\" shown in chapter three, used in chapter twenty. Fails: in the climax, they suddenly turn out to be allergic to copper."
+   },
+   "see_humans": {
+    "what": "How this kind views humans: as prey, pets, children, threats, curiosities or equals.",
+    "why": "Their view of humans drives how they act in scenes with people, and gives you misunderstandings and cultural friction.",
+    "need": "useful",
+    "mistake": "Making all of them think the same way, which flattens a people into a monster.",
+    "example": "\"Most think humans are loud and short-lived, like birds. A few have started to envy how fiercely humans love in so little time.\""
+   },
+   "seen_by_humans": {
+    "what": "How humans in your story see this kind: feared, worshiped, denied, hunted, unknown.",
+    "why": "The gap between what they are and how humans see them is a source of drama and irony.",
+    "need": "useful",
+    "mistake": "Making human views match the truth exactly, which wastes the chance for misunderstanding.",
+    "example": "\"The villagers think they steal children. In truth they return lost ones, and get blamed for the children who never come back.\""
+   },
+   "among_them": {
+    "what": "How they live among their own: families, leaders, customs, conflicts within the kind.",
+    "why": "A kind with its own internal life feels real and gives you characters, not just monsters. It also creates insiders and outcasts.",
+    "need": "situational",
+    "mistake": "Showing only how they treat humans, as if they have no lives when people are not looking.",
+    "example": "\"They live in pairs, never alone. One who loses a partner is considered dead by the others, even though she still walks.\""
+   }
+  }
+ },
+ "magic": {
+  "about": {
+   "what": "A Magic or power record describes one system of magic, power, or extraordinary ability in your world: where it comes from, who can use it, what it costs, and what it can never do.",
+   "why": "Magic that follows rules can solve problems satisfyingly, because readers understood the rules before the solution came. Magic without rules can create wonder or dread, but it cannot fairly rescue anyone. A real cost turns every use into a choice, which is where drama lives.",
+   "when": "Create this before any scene where magic solves or causes a problem. Fill cost and limits first.",
+   "mistake": "The common mistake is building elaborate mechanics and forgetting cost. A free power quietly removes the stakes from every scene it touches.",
+   "example": "A gardener can make anything grow, but each plant she forces takes a day off her own life. She keeps a tally on the shed wall. When her daughter's garden fails, the reader knows exactly what helping would cost."
+  },
+  "groups": {
+   "The power": "The rules of this magic or ability: source, users, cost, limits, misuse, how it shows, and who knows of it. Clear rules here let magic create tension and fair solutions."
+  },
+  "fields": {
+   "source": {
+    "what": "Where the power comes from: a god, the land, the user's own body, a bargain, an object, a bloodline.",
+    "why": "Source tells you what can threaten the magic (cut off the source) and what it means (power from a bargain feels different from power from love).",
+    "need": "useful",
+    "mistake": "Leaving the source vague when the plot later depends on it being taken away.",
+    "example": "\"It comes from the old wells. Wherever a well has been filled in, no one can work magic.\" Now a building project becomes a threat."
+   },
+   "who_can": {
+    "what": "Who can use the power and how they learn it: born with it, trained, chosen, purchased.",
+    "why": "This sets up who has power in society and who wants it. Training also gives you a structure: lessons, failures, mastery.",
+    "need": "useful",
+    "mistake": "Letting the hero master it instantly with no learning, which makes later victories feel unearned.",
+    "example": "\"Anyone can learn it, but only by apprenticing for seven years. The hero has had two.\" Her gaps become plot."
+   },
+   "cost": {
+    "what": "What using the power takes from the person who uses it: energy, memory, health, years, relationships, sanity.",
+    "why": "Cost is what makes magic dramatic. If it costs something, every use is a decision, and the reader feels the weight of it.",
+    "need": "core",
+    "mistake": "Naming a cost but never making it hurt. A cost has to land on something the character loves.",
+    "example": "Lands: \"Every spell erases a memory, chosen at random.\" She casts to save a friend and loses the day her mother died. Fails: \"It makes you a bit tired.\""
+   },
+   "never": {
+    "what": "What the power can never do. Add one entry per limit.",
+    "why": "A magic system's limits make better stories than its powers. Readers enjoy a magical solution only when they understood the rules before it. Limits also force heroes to find non-magical solutions.",
+    "need": "core",
+    "mistake": "Bending a limit at the climax to save the day. That breaks trust with the reader.",
+    "example": "Lands: \"It cannot bring back the dead,\" established early, so the hero must accept a loss instead of undoing it. Fails: \"It can do almost anything.\""
+   },
+   "misuse": {
+    "what": "What happens when the power is used wrongly, too much, or for the wrong reasons.",
+    "why": "Misuse gives you villains, warnings and temptations. It shows the danger of power before your hero feels tempted.",
+    "need": "useful",
+    "mistake": "Having no consequence for misuse, so the villain's choices cost nothing.",
+    "example": "\"Those who use it to harm slowly turn to salt from the fingertips up.\" The old woman at the market wears gloves in summer."
+   },
+   "signs": {
+    "what": "What the power looks, sounds, smells or feels like when it is used.",
+    "why": "Signs let you show magic instead of announcing it, and let characters detect when someone else is using it.",
+    "need": "useful",
+    "mistake": "Using only light shows. Smell, temperature or a sound can be more unsettling and memorable.",
+    "example": "Lands: \"The air tastes like pennies, and every clock in the room stops.\" Fails: \"Blue light comes out of her hands.\""
+   },
+   "known_by": {
+    "what": "Who knows this power exists: everyone, a secret few, no one but the user.",
+    "why": "Secrecy shapes how characters hide, reveal and fear. A known power creates rules and law. A secret one creates paranoia and discovery.",
+    "need": "useful",
+    "mistake": "Forgetting who knows, so characters react to magic in ways that do not fit their knowledge.",
+    "example": "\"Only the three keepers of the archive know. Everyone else thinks the fires are bad wiring.\""
+   }
+  }
+ },
+ "culture": {
+  "about": {
+   "what": "A Culture record describes one people or community in your story: their customs, values, taboos, food, dress, celebrations and way of speaking. It can be an invented people or a real community you are portraying.",
+   "why": "Culture explains why characters act the way they do. Two characters from different cultures can disagree without either being wrong, and that kind of conflict is rich. Specific customs make a world feel lived in rather than painted.",
+   "when": "Create one when a group's ways start to shape characters' choices. Fill values early, since everything else flows from them.",
+   "mistake": "The common mistake is building a culture from surface details (clothes, food) with no values underneath, or making a whole people think alike. Real cultures argue with themselves.",
+   "example": "In one coastal town, refusing a second cup of tea is an insult. A newcomer baker refuses, and spends half the book wondering why no one will buy her bread."
+  },
+  "groups": {
+   "The people": "The customs, values and daily textures of this culture. Values come first, because customs, taboos and celebrations usually grow from what a people care about most."
+  },
+  "fields": {
+   "customs": {
+    "what": "The everyday habits and expected behaviors of this people: greetings, manners, how guests are treated. Add one entry per custom.",
+    "why": "Customs give texture and create easy friction for outsiders. Breaking one can start a scene's conflict without a single villain.",
+    "need": "useful",
+    "mistake": "Inventing customs that have no reason behind them. Tie each to a value or history.",
+    "example": "\"You never hand someone a knife; you set it on the table.\" Rooted in an old feud where a handed knife was a challenge."
+   },
+   "values": {
+    "what": "What this people care about most: honor, family, thrift, hospitality, independence, faith. Add one entry per value.",
+    "why": "Values drive choices. When a character's personal want clashes with what their culture values, you have inner conflict.",
+    "need": "core",
+    "mistake": "Listing virtues everyone admires. Real values cost something and sometimes conflict with each other.",
+    "example": "Lands: \"Family first, even before truth.\" Now a daughter must choose between protecting her brother and telling the police. Fails: \"They value kindness.\""
+   },
+   "taboos": {
+    "what": "Things this people forbid or fear to do or speak of. Add one entry per taboo.",
+    "why": "Taboos create tension immediately: a character who must break one faces shame, punishment or exile.",
+    "need": "useful",
+    "mistake": "Creating a taboo and never letting anyone come near it. A taboo matters when the story pushes someone toward it.",
+    "example": "\"No one speaks the name of the drowned.\" The heroine needs to ask about her mother, who drowned."
+   },
+   "food": {
+    "what": "What they eat and drink, and what food means to them: comfort, status, ritual, survival.",
+    "why": "Food is one of the fastest ways to make a culture feel real, and meals are natural settings for conflict and closeness.",
+    "need": "useful",
+    "mistake": "Describing food only as decoration. Show who cooks, who eats first, what is offered to guests.",
+    "example": "\"The eldest woman serves the bread and decides who gets the heel. Getting the heel means you are favored.\""
+   },
+   "dress": {
+    "what": "How they dress, and what clothing signals: rank, marriage, mourning, belonging.",
+    "why": "Dress lets readers recognize groups at a glance and lets characters signal or hide who they are.",
+    "need": "situational",
+    "mistake": "Long costume descriptions with no meaning. One meaningful detail beats a catalog.",
+    "example": "\"Widows wear a blue thread at the wrist for one year. When she cuts hers early, the whole village notices.\""
+   },
+   "celebrations": {
+    "what": "Holidays, festivals and rites of passage: births, coming of age, weddings, funerals. Add one entry per celebration.",
+    "why": "Celebrations gather characters in one place with high emotion, which makes them natural set pieces for confrontations and reveals.",
+    "need": "useful",
+    "mistake": "Describing a festival as a tour. Put a character's want or fear at its center.",
+    "example": "\"The harvest dance, where you must dance with anyone who asks.\" The heroine's rival asks."
+   },
+   "outsiders": {
+    "what": "How this people treat strangers and newcomers: welcome, suspicion, testing, exclusion.",
+    "why": "If your hero or a viewpoint character is an outsider, this field tells you how hard every door will be to open.",
+    "need": "useful",
+    "mistake": "Making a culture hostile to outsiders with no reason. Show the history behind it.",
+    "example": "\"Strangers are fed well and watched closely. Last time they trusted one, he left with the church silver.\""
+   },
+   "speech": {
+    "what": "Their language and way of speaking: dialect, expressions, formality, what is said and what is left unsaid.",
+    "why": "Speech patterns let readers hear who is from where. They make dialogue distinct without tags.",
+    "need": "useful",
+    "mistake": "Writing heavy phonetic dialect that is hard to read. A few chosen words and rhythms work better.",
+    "example": "Lands: \"They never say no directly. They say 'we'll see.'\" Fails: whole pages of misspelled words meant to show an accent."
+   }
+  }
+ },
+ "faction": {
+  "about": {
+   "what": "A Faction record describes one organized group in your story: a gang, a church, a company, a guild, a family business, a government office. It tracks what the group wants and how it gets it.",
+   "why": "Groups create pressure that no single villain can. A faction keeps acting when its leader is offstage, has resources and rules, and can split or betray. Knowing what a faction wants tells you how it will react to anything your hero does.",
+   "when": "Create one when a group starts to push on your characters. Fill what they want and their methods before writing a scene where they act.",
+   "mistake": "The common mistake is making a faction purely evil or purely a backdrop. A strong faction believes it is right and has a goal that makes sense from inside.",
+   "example": "The town's garden club wants to keep Main Street pretty for tourists. That reasonable goal makes them the enemy of a florist who sells from a van, and they have the mayor's ear."
+  },
+  "groups": {
+   "The group": "What the group wants, who leads it, what it controls, where it sits in the web of power, how it acts, and what it hides. These fields make a group a force with a will."
+  },
+  "fields": {
+   "wants": {
+    "what": "What the group is trying to achieve: its goal as a whole.",
+    "why": "Want drives action. Once you know what a faction wants, you can predict how it will help or block every character.",
+    "need": "core",
+    "mistake": "Vague wants like \"power.\" Name what power would get them, specifically.",
+    "example": "Lands: \"To buy every storefront on the block before the new highway exit opens.\" Fails: \"To rule the town.\""
+   },
+   "leader": {
+    "what": "Who leads the group, and how they hold that position.",
+    "why": "A leader gives the group a face, and the way they lead (fear, charm, tradition) tells you how loyal members are.",
+    "need": "useful",
+    "mistake": "Making the leader the whole faction. Groups also have rivals within, doubters and successors.",
+    "example": "\"Mrs. Ferrante has run the garden club for thirty years. No one has dared to run against her since 1998.\""
+   },
+   "controls": {
+    "what": "What resources, places or powers the group controls: money, land, information, law, supply.",
+    "why": "Control is pressure waiting to be used. It tells you what the faction can withhold or grant, which is how it pressures characters.",
+    "need": "useful",
+    "mistake": "Listing control that never comes into play. Use it to squeeze someone.",
+    "example": "\"They own the only cold-storage warehouse within fifty miles.\" No warehouse, no flowers."
+   },
+   "power_over": {
+    "what": "Who this group holds power over, and who holds power over them.",
+    "why": "No faction is at the top of everything. Knowing who can pressure them gives your hero a way to fight back.",
+    "need": "useful",
+    "mistake": "Making a faction all-powerful, which leaves your hero no path.",
+    "example": "\"They control the market permits, but the county health inspector can shut them down.\" The hero now knows whom to call."
+   },
+   "methods": {
+    "what": "How the group gets what it wants: bribery, law, violence, rumor, charity, patience.",
+    "why": "Methods determine the kind of scenes the faction produces. A group that uses lawsuits gives you different scenes from one that uses fire.",
+    "need": "useful",
+    "mistake": "Giving the group methods that do not fit its character or resources.",
+    "example": "Lands: \"They never threaten. They file complaints, politely, every week.\" Fails: a polite garden club that suddenly hires hit men."
+   },
+   "secrets": {
+    "what": "What the group hides from outsiders, or from its own members. Add one entry per secret.",
+    "why": "Secrets give your hero something to discover and use. They also make the faction more human and vulnerable.",
+    "need": "useful",
+    "mistake": "Revealing secrets with no setup. Plant a hint before the reveal.",
+    "example": "\"The club's treasurer has been quietly paying off the leader's gambling debts from club funds.\""
+   }
+  }
+ },
+ "belief": {
+  "about": {
+   "what": "A Belief record describes one religion, faith, philosophy or spiritual tradition in your story: what believers hold true, how they practice it, who speaks for it, and how it shapes ordinary life.",
+   "why": "Belief shapes how characters judge right and wrong, what they fear and what comforts them. A faith gives you ritual scenes, inner conflict when doubt creeps in, and outer conflict between believers. It is one of the deepest motives a character can have.",
+   "when": "Create one when a faith influences characters' choices or the world's laws. Fill core beliefs and daily life first.",
+   "mistake": "The common mistake is writing a faith as costume (robes, chants) without convictions underneath, or treating every believer as identical. Real believers range from devout to doubting.",
+   "example": "A lighthouse keeper's people believe the sea keeps the souls of the drowned. When a survivor washes up, some see a miracle and others see a theft from the sea."
+  },
+  "groups": {
+   "The faith": "What believers hold true and how it touches their lives: the powers they honor, their rituals, their leaders, their doubters and their daily habits."
+  },
+  "fields": {
+   "gods": {
+    "what": "The gods, spirits, ancestors or powers this faith honors or fears. For a philosophy, the principles in their place.",
+    "why": "Who believers pray to, or fear, shapes the tone of their faith: loving, stern, distant, bargaining.",
+    "need": "useful",
+    "mistake": "Building a large pantheon readers cannot keep track of. Focus on the few that touch your story.",
+    "example": "\"One god of the harbor, who is fair but never forgives. Fishermen apologize to him before they lie.\""
+   },
+   "core": {
+    "what": "What believers hold to be true: about life, death, right, wrong, and how the world works.",
+    "why": "Core beliefs set what a believing character will die for and what would shake them. That is where inner conflict comes from.",
+    "need": "core",
+    "mistake": "Stating beliefs that never touch a decision anyone makes.",
+    "example": "Lands: \"A promise made at sea binds you after death.\" A sailor's deathbed promise now traps his son. Fails: \"They believe in goodness.\""
+   },
+   "rituals": {
+    "what": "The practices believers perform: prayers, offerings, feasts, fasts, rites. Add one entry per ritual.",
+    "why": "Rituals are visible and dramatic. They gather people, mark change, and give characters something to keep or break.",
+    "need": "useful",
+    "mistake": "Describing rituals with no meaning to the people doing them.",
+    "example": "\"Before a voyage, you pour a cup of fresh water into the sea.\" The day she refuses, her crew will not sail."
+   },
+   "speaks_for": {
+    "what": "Who has authority to interpret the faith: priests, elders, a book, a council, every believer alone.",
+    "why": "Authority means power. Whoever speaks for the faith can bless, condemn or exclude, which makes them a force in your plot.",
+    "need": "useful",
+    "mistake": "Ignoring that leaders can be wrong, corrupt or divided.",
+    "example": "\"The oldest fisherman's widow reads the tides for everyone. When she dies, two families claim her role.\""
+   },
+   "heresies": {
+    "what": "Beliefs the faith rejects, and doubts its believers carry quietly. Add one entry per heresy or doubt. A heresy is a belief the faith's authorities call false.",
+    "why": "Heresies and doubts are where faith becomes drama. A believing character who starts to doubt has an arc built in.",
+    "need": "useful",
+    "mistake": "Making the heretics automatically right. Let both sides have reasons.",
+    "example": "\"Some whisper that the drowned are not kept by the sea at all, that they are simply gone.\" The heroine half believes it after her brother drowns."
+   },
+   "daily_life": {
+    "what": "How the faith shapes ordinary days: food, work, dress, speech, what people avoid, what they say at meals.",
+    "why": "Daily habits show faith without sermons. They make the belief part of the world rather than a lecture.",
+    "need": "useful",
+    "mistake": "Showing faith only in temple scenes, as if it vanished the rest of the week.",
+    "example": "\"No one whistles on a boat. Children learn it before they learn to swim.\""
+   }
+  }
+ },
+ "language": {
+  "about": {
+   "what": "A Language record describes one language or dialect in your story, real or invented: how it sounds, how names are formed, key words and their meanings, and who speaks it.",
+   "why": "A consistent language makes names feel like they belong to one people, and a few chosen words add texture without slowing the reader. Knowing who speaks it and how well creates moments of misunderstanding, secrecy and belonging.",
+   "when": "Create one when you start naming people and places from a culture, so names stay consistent. Add words as you invent them.",
+   "mistake": "The common mistake is loading pages with invented words the reader must decode. Use few, and make each one clear from context.",
+   "example": "A family switches to their grandmother's language whenever they argue, so the new son-in-law knows a fight is happening without knowing what it is about. Three words are all the reader needs."
+  },
+  "groups": {
+   "The language": "The sound, naming patterns, vocabulary and speakers of this language. These keep invented names and words consistent across the whole book."
+  },
+  "fields": {
+   "sound": {
+    "what": "How the language sounds: soft or harsh, which letters and sounds it favors, rhythm, and how it looks on the page.",
+    "why": "A consistent sound makes names from one culture feel related, and different from another culture's. Readers sense that even if they cannot say why.",
+    "need": "useful",
+    "mistake": "Mixing sounds randomly so names from the same people seem to come from different worlds.",
+    "example": "Lands: \"Lots of l, m and long vowels; no hard k sounds.\" Names: Lumia, Elomar, Seyla. Fails: Lumia, Krax and Zyth as siblings."
+   },
+   "names": {
+    "what": "How people and places are named: family names, given names, titles, prefixes, what a name says about status or birth.",
+    "why": "Naming patterns make naming easy for you and meaningful for readers. A name can carry family, place or rank.",
+    "need": "useful",
+    "mistake": "Inventing every name from scratch with no pattern.",
+    "example": "\"Daughters take their mother's name with -ra added. Seyla's daughter is Seylara.\" Readers start reading family ties in the names themselves."
+   },
+   "words": {
+    "what": "Words in this language and what they mean. Add one entry per word: the word, then its meaning.",
+    "why": "A short list keeps spellings and meanings consistent across drafts. A few words, used well, add more flavor than many.",
+    "need": "useful",
+    "mistake": "Using invented words where a plain English word would do, or never defining them through context.",
+    "example": "Lands: \"maren: the hush just before a storm.\" Used once in a scene where everyone stops talking. Fails: a sentence with four invented words in a row."
+   },
+   "who_speaks": {
+    "what": "Who speaks the language, and how fluently: natives, scholars, children of immigrants, no one living.",
+    "why": "Fluency differences create secrets, power and humor. Who understands and who is left out can drive a scene.",
+    "need": "situational",
+    "mistake": "Letting every character understand everything when the plot is easier that way.",
+    "example": "\"The grandmother is fluent; her son understands but will not speak it; her granddaughter knows only the swear words.\""
+   }
+  }
+ },
+ "source": {
+  "about": {
+   "what": "A Source record holds the original story your book retells or draws from: a myth, a fairy tale, a legend, a classic novel, a folk tradition. It tracks what the original says and how your version differs.",
+   "why": "A retelling succeeds by its changes. Readers who know the original enjoy watching you keep, bend and break it. Writing down exactly what you keep and change keeps your version purposeful. It also helps you check whether the source is free to use and how to treat a living tradition with respect.",
+   "when": "Create this at the start of any retelling, before plotting. Return to it whenever you are tempted to follow the original out of habit.",
+   "mistake": "The common mistake is retelling scene by scene with new names. If nothing meaningful changes, readers wonder why they should not read the original.",
+   "example": "A retelling of a selkie legend keeps the stolen sealskin but changes who holds it: the wife hides it herself, so the story becomes about why she chose to stay."
+  },
+  "groups": {
+   "The original": "The facts about the source: where it comes from, what happens in it, and whether it is free to use. Accuracy here protects you legally and creatively.",
+   "Your version": "Your choices as the reteller: what you keep, what you change and why, and how you honor where the story came from."
+  },
+  "fields": {
+   "tradition": {
+    "what": "Where the source comes from: the myth, culture, tradition or author.",
+    "why": "Knowing the origin tells you its history, its versions and the people it belongs to. Many old stories have many versions, so say which one you are using.",
+    "need": "core",
+    "mistake": "Treating one popular version as the only one, when older or regional versions differ a lot.",
+    "example": "\"A Scottish selkie legend, in the version where the husband hides the skin in the rafters.\""
+   },
+   "original": {
+    "what": "A summary of what happens in the original, in your own words.",
+    "why": "This is your reference point. Every change you make is measured against it, and you need it clear to know what readers will expect.",
+    "need": "core",
+    "mistake": "Working from a vague memory of the original and then being caught by readers who know it well.",
+    "example": "Write the main turns in a few plain sentences: who wants what, what goes wrong, how it ends. Enough to compare against your plot."
+   },
+   "public_domain": {
+    "what": "Whether the original is free for anyone to use. Public domain means a work's copyright has expired or never existed, so it can be retold freely. Options: Yes, No, Not sure.",
+    "why": "Retelling a copyrighted work can cause legal trouble. Myths and very old works are usually free, but a particular modern translation or film version may not be.",
+    "need": "core",
+    "mistake": "Assuming a story is free because it feels old, or borrowing details that only appear in a modern copyrighted version.",
+    "example": "An old fairy tale is free to retell. A recent film's added sidekick and new ending are not."
+   },
+   "keeps": {
+    "what": "The elements of the original you keep. Add one entry per element: a character, an object, a turning point, an image.",
+    "why": "What you keep is what lets readers recognize the source. Kept elements become promises: readers expect them to matter.",
+    "need": "useful",
+    "mistake": "Keeping so much that your version feels like a copy, or so little that no one sees the connection.",
+    "example": "\"The sealskin. The seven years. The children who find it.\" Three anchors, and everything else can change."
+   },
+   "changes": {
+    "what": "What you change, and why. Add one entry per change, with its reason.",
+    "why": "Changes are where your book's meaning lives. Writing down the why keeps each change doing work for your theme rather than being random.",
+    "need": "core",
+    "mistake": "Changing things for novelty with no reason. Readers feel arbitrary changes.",
+    "example": "Lands: \"She hides the skin herself, because I want the story to be about choosing a life, not being trapped in one.\" Fails: \"Moved it to Ohio.\""
+   },
+   "honoring": {
+    "what": "How you show respect to the source, especially a living tradition or a culture not your own. A living tradition is one people still practice and hold sacred today.",
+    "why": "Retelling someone else's sacred or cultural story carries responsibility. Getting it wrong can hurt real communities and lose readers' trust.",
+    "need": "situational",
+    "mistake": "Treating a living faith or culture's stories as free decoration, or skipping research and readers from that culture.",
+    "example": "\"I read three versions collected by members of the community, and two readers from that tradition will review the draft.\""
+   }
+  }
+ },
+ "document": {
+  "about": {
+   "what": "An In-world document record holds one piece of writing that exists inside your story: a letter, diary, newspaper clipping, will, text message, report or map note. It may be shown to the reader or only described.",
+   "why": "Documents let you bring in another voice, another time, or a piece of evidence without a viewpoint character explaining it. They can deliver clues, contradict a narrator, or reveal what a character could never say aloud. Tracking who wrote them and whether they can be trusted keeps clues fair.",
+   "when": "Create one when you plan a document as a clue, a reveal or a structural device (like chapter-opening letters).",
+   "mistake": "The common mistake is using a document as a convenient info dump. A good document has a writer with a motive and a voice.",
+   "example": "A baker finds her late mother's recipe card with one ingredient crossed out and another written in a stranger's hand. One card raises the question that drives the whole book."
+  },
+  "groups": {
+   "The document": "The facts about this piece of in-world writing: its form, author, date, contents, reliability, and where it appears in your book."
+  },
+  "fields": {
+   "form": {
+    "what": "What kind of document it is: letter, diary, will, email, police report, newspaper article, sign.",
+    "why": "Form shapes voice and credibility. A police report sounds cold and official; a diary is private and may lie to itself.",
+    "need": "useful",
+    "mistake": "Choosing a form that does not fit what it says, like a formal report full of private feelings.",
+    "example": "\"A grocery list on the back of a funeral program.\" The form itself tells a story."
+   },
+   "written_by": {
+    "what": "Who wrote the document, real or claimed.",
+    "why": "The writer's motive colors everything it says. Knowing the author tells you what they would include, leave out, or distort.",
+    "need": "core",
+    "mistake": "Forgetting the author's voice, so every document sounds like the narrator.",
+    "example": "\"Written by the lighthouse keeper's predecessor, who was proud and hated admitting mistakes.\" His log will skip his failures."
+   },
+   "when_written": {
+    "what": "When the document was written, in story time.",
+    "why": "Date places the document on your timeline and decides what its writer could know. A letter written before a death cannot mention it.",
+    "need": "useful",
+    "mistake": "Including information the writer could not have had at that date.",
+    "example": "\"Three days before the shipwreck.\" So when it mentions the storm, the reader realizes the writer saw it coming."
+   },
+   "reveals": {
+    "what": "What the document tells the reader or characters: the information, clue or emotion it delivers.",
+    "why": "This is the document's job in the story. Without a clear purpose, a document becomes filler.",
+    "need": "core",
+    "mistake": "Revealing everything at once, which kills mystery.",
+    "example": "Lands: \"It reveals that the bakery was promised to someone else first.\" Fails: \"Background on the family.\""
+   },
+   "reliable": {
+    "what": "Whether the document tells the truth: accurate, mistaken, partial, or a deliberate lie.",
+    "why": "An unreliable document can mislead readers fairly and set up a twist. Tracking it keeps you from contradicting yourself later.",
+    "need": "useful",
+    "mistake": "Forgetting a document was a lie and later treating its contents as true.",
+    "example": "\"Partly reliable: the dates are real, but he lies about who was with him.\" The reader can catch the lie with an earlier clue."
+   },
+   "placement": {
+    "what": "Where the document appears in the book: which chapter, scene or beat, and whether it is shown in full or summarized.",
+    "why": "Placement controls when the reader learns. The same letter can be a setup in chapter two or a twist in chapter thirty.",
+    "need": "useful",
+    "mistake": "Placing documents wherever there is room rather than where the information does the most work.",
+    "example": "\"Opens Part Three, right after the midpoint, so readers hold it in mind while the hero walks into the trap.\""
+   }
+  }
+ },
+ "era": {
+  "about": {
+   "what": "An Era record holds one period of your world's history: a war, a golden age, a plague year, the founding of a town, the night everything changed. Together, eras form your world's timeline.",
+   "why": "History is why the present is the way it is. Old wars explain current grudges; a lost golden age explains a people's pride or grief. When you know your world's past, characters carry it in their habits, fears and loyalties, and the world feels older than the first page.",
+   "when": "Create eras when a character's attitude or a place's condition needs an explanation, or when backstory affects your plot.",
+   "mistake": "The common mistake is writing long history the story never uses, or opening the book with a history lesson. Let the past show up through what it left behind.",
+   "example": "Fifty years ago, the bridge collapsed with a school bus on it. Today the town has no bridge, a ferry, and a memorial no one looks at. Every character's route to work carries that day."
+  },
+  "groups": {
+   "The era": "When the period was, what happened, what it left behind, and who remembers it. These fields connect your world's past to the present of your story."
+  },
+  "fields": {
+   "span": {
+    "what": "When this era happened: years, an age, or a relative marker like \"before the Breaking.\"",
+    "why": "Span places the era on your timeline and tells you how many generations have passed. That decides whether people remember it firsthand or as legend.",
+    "need": "useful",
+    "mistake": "Leaving dates so vague that characters' ages and memories contradict them.",
+    "example": "\"Forty years before the story opens.\" So the town's oldest residents lived through it, and the younger ones have only heard."
+   },
+   "what_happened": {
+    "what": "A summary of the era's main events.",
+    "why": "This is your reference for history, keeping every character's version comparable to the truth.",
+    "need": "core",
+    "mistake": "Writing more history than the story will ever touch. Focus on what still matters.",
+    "example": "\"A fever swept the valley; one family's well stayed clean, and they refused to share it.\" That one fact can carry a feud for decades."
+   },
+   "legacy": {
+    "what": "What the era left behind that your story still feels: grudges, ruins, laws, traditions, fears, wealth.",
+    "why": "Legacy is the reason history belongs in the book. It turns the past into pressure on the present.",
+    "need": "core",
+    "mistake": "Inventing an era with no legacy. If nothing remains of it, the reader does not need it.",
+    "example": "Lands: \"Nobody from the Hill marries anyone from the Flats, and no one under sixty can say why.\" Fails: \"It was a sad time.\""
+   },
+   "who_remembers": {
+    "what": "Who remembers the era, and how: firsthand, through family stories, in official records, as a legend, or not at all. Add one entry per group or person.",
+    "why": "Different memories of the same events create conflict and mystery. The official version and the family version rarely match.",
+    "need": "useful",
+    "mistake": "Having everyone remember the past the same way. Memory bends toward each group's interest.",
+    "example": "\"The well family remembers protecting their children. The other families remember being turned away. The town history says nothing.\""
+   }
+  }
+ }
+}

@@ -5,6 +5,9 @@ export async function newNovel(page: Page, title: string) {
   await open(page);
   await page.getByLabel('Working title').fill(title);
   await page.getByRole('button', { name: 'Start writing' }).click();
+  // Start writing opens the blank page; the tests then begin from Where was I, as a returning author would.
+  await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Where was I' }).click();
   await expect(heroWrite(page)).toBeVisible();
 }
 export async function waitSaved(page: Page) { await expect(page.getByRole('status').filter({ hasText: 'Saved' })).toBeVisible({ timeout: 10_000 }); }

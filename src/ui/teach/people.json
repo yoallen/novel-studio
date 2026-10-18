@@ -1,0 +1,855 @@
+{
+ "character": {
+  "about": {
+   "what": "A Character record holds everything you know about one person (or being) in your story: their role, their wants, their wounds, how they look and sound, and how they change.",
+   "why": "Readers fall in love with people, not plots. A record lets you see a character whole, keep details consistent across a long draft, and connect them to their arcs, relationships and scenes. When you forget whether her eyes are gray or what she fears, the record remembers.",
+   "when": "Start a record the moment a character shows up, even with one line. Add depth as you plan, and return during drafting and revision when you need to check a detail or test a choice.",
+   "mistake": "Filling every field before writing a word, or treating a full record as a finished character. Depth is judged against the character's importance, and a minor character with three good fields is complete.",
+   "example": "Rosa, a baker who feeds the whole street and never lets anyone feed her. Her goal is to win the county pie contest and keep the shop open. Her wound is watching the bank turn her mother away. By the last page she lets her neighbors carry the ovens in."
+  },
+  "groups": {
+   "Role in the story": "The basics of this character's job in the book: who they are, how central they are, whether they narrate, and what they stand to lose. Fill these first.",
+   "Ingermanson": "Randy Ingermanson's character questions: goal, ambition, values, conflict and epiphany. Together they give a character a direction, a reason and a change.",
+   "Forces of antagonism": "From Robert McKee: the value at stake in the character's story and the forces that push on it, from inside, from people close to them, and from the wider world, down to the value's darkest form.",
+   "Identity": "Who this character is in the world: gender, pronouns, orientation, race, heritage, age, faith, culture, disability, work and family. Fill what matters to this person and this book; leaving something unsaid is a choice too.",
+   "Beyond human": "For characters who are not simply human. Link them to their kind's record for what their people share, and note their own powers and limits here.",
+   "Appearance": "How this character looks: the first impression, then the details. Use these to stay consistent, not to write a head-to-toe inventory on the page.",
+   "Language and voice": "What languages they speak, how they sound, and what they say again and again. These keep dialogue recognizable.",
+   "Physical": "Health, energy, and how they move. Bodily realities that ground a character in scenes.",
+   "Personality": "Temperament, humor, habits, strengths and weaknesses: the everyday texture of who they are.",
+   "Environmental": "Where they live and what happened before the story began.",
+   "Psychological": "The inner landscape: fears, wounds, desires and beliefs. The raw material of motivation and change.",
+   "Wound and its fallout": "One defining wound traced through its effects: the event (K.M. Weiland's Ghost), what they came to believe, what they fear, how they guard against it, and what sets it off. Angela Ackerman and Becca Puglisi's Emotional Wound Thesaurus is a strong companion here.",
+   "Traits and flaws": "Good qualities and flaws, each tied to where it came from and what it costs, so they can be shown rather than named.",
+   "Depth lenses": "Questions that test whether a character is alive beyond their plot function: their wants, their behavior under pressure, their voice, and whether they make things happen.",
+   "Contradiction layers": "The gaps between public and private self, and between what they do and why. Complex characters live in these gaps.",
+   "Comparisons": "Real people or other characters whose qualities you are borrowing, with a note of which qualities.",
+   "Writing aids (private)": "Tools just for you: an actor's voice, a song or a playlist that puts you back inside this character. Never shown as part of the book.",
+   "Other facts": "Facts that came in from your planning without a place of their own, and anything that fits nowhere else. Kept here, last, so the page above stays in order."
+  },
+  "fields": {
+   "role": {
+    "what": "The job this character does in the book's structure: lead, co-lead, B-story lead (who carries the second storyline, often teaching the theme), supporting, narrator, secret-keeper, or a hidden engine driving events offstage.",
+    "why": "The role tells you how much page time and inner life this person needs. Without it, a minor character can crowd the lead, or a key player stays thin.",
+    "need": "core",
+    "mistake": "Confusing role with personality. \"The funny one\" is a trait. \"B-story lead who shows the hero a gentler way to grieve\" is a role.",
+    "example": "Lands: Hattie, the night nurse, is the B-story lead; through her the hero learns to ask for help. Fails: Hattie is \"supporting\" and has nothing she must do."
+   },
+   "essence": {
+    "what": "A sentence or two that says who this person is at heart, the way you would describe them to a friend who will meet them tomorrow.",
+    "why": "It is your anchor. Deep in chapter twenty, unsure how they would react, this line answers. Without it, a character drifts and readers meet a different person each time.",
+    "need": "core",
+    "mistake": "Listing facts instead of a person. Age, job and hair color are not an essence. Aim for the contradiction or hunger that makes them who they are.",
+    "example": "Lands: \"A baker who feeds the whole street and never lets anyone feed her.\" Fails: \"Rosa, 42, a baker with brown hair who lives in Ohio.\""
+   },
+   "facts": {
+    "what": "A catch-all list for anything true about this character that has no field of its own: a birthday, a car, an allergy, the name of a childhood dog.",
+    "why": "Small facts are where continuity errors hide. Write them once and the dog stays named Biscuit in chapter three and chapter thirty.",
+    "need": "useful",
+    "mistake": "Letting it become the whole character. If a fact shapes who they are, such as a fear or a wound, give it its proper field so the program can connect it.",
+    "example": "Lands: \"Drives a 1994 pickup with no working radio. Allergic to shellfish. Left-handed.\" Fails: \"Afraid of water since her brother drowned,\" which belongs in Wounds.",
+    "differs": "A catch-all. A fact that has its own place on this page is easier to find there."
+   },
+   "importance": {
+    "what": "How central this person is to the book: main, supporting or minor. It is a measure of weight, not of worth.",
+    "why": "It sets how deep you need to go. A main character needs an inner life, a wound and an arc; a minor one may need only a name, a want and a voice. Story Canon judges depth against this, never against how many fields are filled.",
+    "need": "core",
+    "mistake": "Feeling you must fill every field for everyone. A walk-on with a backstory the book never uses wastes your time and the reader's.",
+    "example": "Lands: the ferry captain is minor, with a gruff voice and a wish to retire. Fails: he gets four pages of childhood and the reader waits for him to matter."
+   },
+   "narrates": {
+    "what": "Whether this character tells part of the story, and how: first person (\"I\") or close third (\"she,\" from inside her head). Viewpoint means the character whose eyes and thoughts the reader is inside.",
+    "why": "Viewpoint controls what the reader can know and feel. A narrator's blind spots become the reader's. Without tracking it, voices blur and a narrator thinks something they couldn't know.",
+    "need": "core",
+    "mistake": "Giving viewpoint to everyone who has something interesting to think. Each viewpoint you add thins the reader's bond with the others.",
+    "example": "Lands: only the lighthouse keeper narrates, in first person, so his late wife stays a mystery. Fails: the wife gets one chapter halfway in, just to explain a clue."
+   },
+   "pov_withheld_until": {
+    "what": "For a character who holds a secret: the beat or moment before which the reader never gets inside their head. A beat is one turning point in the story's structure.",
+    "why": "Keeping the reader out of a secret-keeper's mind is fair play. Dipping into their thoughts and then hiding the secret feels like cheating. Marking the line keeps you honest.",
+    "need": "situational",
+    "mistake": "Only for books with a secret-keeper, twist or mystery. The common slip is one stray early thought that later reads as a lie.",
+    "example": "Lands: we never hear the sister's thoughts until the Midpoint, when she admits she sold the farm. Fails: in chapter two she thinks, \"I miss the old place.\""
+   },
+   "stakes": {
+    "what": "What this character loses for good if they fail. Stakes are the cost of losing, not the reward for winning.",
+    "why": "Readers worry only when something real can be lost. Clear stakes turn every obstacle into tension. Without them, the character can lose a scene and the reader just shrugs.",
+    "need": "core",
+    "mistake": "Making stakes vague or too big to feel (\"the world will end\") or forgetting the personal layer. The best stakes are specific and land on this one person.",
+    "example": "Lands: if the florist loses the contest, she loses the shop her mother built, and her mother's name comes off the sign. Fails: \"She could lose everything.\""
+   },
+   "last_page": {
+    "what": "One line that says who this character is on the last page of the book. Write it even if you don't know the ending yet; you can change it.",
+    "why": "Knowing the destination shapes every step. It tells you what the character must learn, lose or refuse on the way. Without it, arcs wander and endings feel tacked on.",
+    "need": "core",
+    "mistake": "Writing the plot outcome instead of the person. \"She wins the contest\" is an event. \"She can finally hand someone else the scissors\" is who she has become.",
+    "example": "Lands: \"A man who keeps the light burning for strangers, not for a ghost.\" Fails: \"He fixes the lighthouse.\""
+   },
+   "goal": {
+    "what": "From Randy Ingermanson: the concrete, reachable thing the character is trying to get in this story. You should be able to picture the moment they win it.",
+    "why": "A goal gives the plot a spine. It tells the reader what to root for and gives each scene a direction. A character with no goal waits for things to happen to them.",
+    "need": "core",
+    "mistake": "Stating a feeling instead of a target. \"To be happy\" is not a goal; nobody can see it happen.",
+    "example": "Lands: \"Win the county pie contest and keep the bakery open past spring.\" Fails: \"To feel successful.\"",
+    "differs": "Goal is the concrete thing they chase in this plot. What they think they want is the wish they would admit to; Desires are longings of every size; the arc's Want is the chase the Lie drives."
+   },
+   "ambition": {
+    "what": "From Randy Ingermanson: the abstract hunger underneath the goal. The goal is what they chase; the ambition is why it matters to them.",
+    "why": "The gap between goal and ambition is where the truest choices come from. When winning the goal would betray the ambition, the character has to choose, and that choice reveals them. Without an ambition, a win is just a trophy.",
+    "need": "core",
+    "mistake": "Making the ambition the same as the goal, only bigger. \"Win the contest\" and \"win every contest\" are both goals.",
+    "example": "Lands: goal, win the pie contest; ambition, to be respected by the town that laughed at her father. Fails: goal, win the contest; ambition, be the best baker."
+   },
+   "values": {
+    "what": "From Randy Ingermanson: the things this character holds most dear. Finish \"Nothing is more important than ___\" as many ways as you can.",
+    "why": "Values are the engine of hard choices. When two collide, the character can't have both, and the reader leans in to see which wins.",
+    "need": "core",
+    "mistake": "Listing nice virtues that never compete. Honesty, family and kindness only matter on the page when the story makes them fight.",
+    "example": "Lands: \"Nothing is more important than loyalty to my brother\" and \"Nothing is more important than the truth,\" then her brother lies to the police. Fails: a list of five values that never meet."
+   },
+   "conflict": {
+    "what": "From Randy Ingermanson: what stands between the character and the goal. It can be a person, a force, a circumstance or something inside them.",
+    "why": "Conflict is what makes a goal hard, and hard is what makes it interesting. It creates scenes, because every attempt meets resistance. Without it, the character gets what they want on page ten.",
+    "need": "core",
+    "mistake": "Choosing conflict that can be solved with one phone call. If one honest conversation would end the problem, the reader gets impatient.",
+    "example": "Lands: the contest judge is the rival florist's husband, and the florist owes him money. Fails: the contest is hard because the florist is nervous.",
+    "differs": "What blocks the goal, in a line. What works against them (McKee) breaks the opposition into inner, personal and wider forces."
+   },
+   "epiphany": {
+    "what": "From Randy Ingermanson: what the character learns by the end, the realization that changes how they see themselves or the world.",
+    "why": "The epiphany gives the story its meaning. It is the reason the events mattered. Without one, the plot resolves but the character is untouched, and the ending feels hollow.",
+    "need": "core",
+    "mistake": "Stating it as a moral the character announces. An epiphany is shown through a new choice the old self would never make.",
+    "example": "Lands: the keeper hands the light's keys to his apprentice and walks to town for the first time in years. Fails: the keeper says, \"I've learned that life goes on.\""
+   },
+   "core_value": {
+    "what": "From Robert McKee's forces of antagonism: the value at stake in this character's own story, such as justice, love, freedom or truth. It is the quality the story puts under pressure.",
+    "why": "Naming the value lets you test it from every side. Each force against the character should push on this same value. Without it, the pressures feel random rather than pointed.",
+    "need": "useful",
+    "mistake": "Picking a value that is too broad to test. \"Goodness\" is hard to push on. \"Loyalty\" or \"self-respect\" can be attacked in specific ways.",
+    "example": "Lands: the baker's value is independence; the bank, her own pride and her sister all push on it. Fails: the value is \"happiness\" and nothing in particular threatens it."
+   },
+   "force_inner": {
+    "what": "From Robert McKee: what inside the character works against them. A fear, a habit, a flaw, a belief.",
+    "why": "Inner forces make a character complicit in their own trouble, which makes them human. Readers forgive outer obstacles but stay up late for a person fighting herself. Without an inner force, the conflict is all weather and no climate.",
+    "need": "core",
+    "mistake": "Naming an inner force that never actually costs them a scene. It has to make them do the wrong thing at least once.",
+    "example": "Lands: the florist's pride stops her from asking her rival for the wholesaler's number, and she loses the order. Fails: \"She has self-doubt,\" and nothing happens because of it.",
+    "differs": "One of three layers of opposition. Conflict, under Goal and motive, is the single obstacle in a line."
+   },
+   "force_personal": {
+    "what": "From Robert McKee: someone close to the character who works against them, a friend, partner, parent or child. Not always a villain; often someone who loves them.",
+    "why": "Opposition from someone close cuts deeper than opposition from a stranger, because the character cannot simply walk away. It brings conflict into kitchens and bedrooms where readers live.",
+    "need": "core",
+    "mistake": "Making the close opponent a cartoon. The best personal force has a good reason for standing in the way.",
+    "example": "Lands: the keeper's daughter wants him to sell the lighthouse because she is afraid he will die alone out there. Fails: the daughter wants the money and is simply greedy."
+   },
+   "force_extra_personal": {
+    "what": "From Robert McKee: what in the wider world works against the character. Institutions, laws, nature, money, society, a war, a storm.",
+    "why": "This force gives the story scale and lets the pressure come from somewhere the character can't charm or argue with. It also roots the story in a real world with rules.",
+    "need": "useful",
+    "mistake": "Leaving the wider world as backdrop. If the institution never acts, it is scenery, not a force.",
+    "example": "Lands: the county decides to automate the lighthouse, with a date on the letter. Fails: \"Times are changing,\" with no letter, no date and no one doing the changing."
+   },
+   "negation_of_negation": {
+    "what": "From Robert McKee: the worst form of the character's value, darker than its simple opposite. If the value is love, the opposite is hate, and the negation of the negation is hate disguised as love.",
+    "why": "It shows how far down the story can go. The lie that looks like their value gives you the darkest, most honest moments. Set its depth to fit this book's tone.",
+    "need": "useful",
+    "mistake": "Stopping at the simple opposite. Love against hate is a fight; love against a smothering control that calls itself love is a tragedy.",
+    "example": "Lands: the baker's independence twists into cutting off everyone who ever helped her, and calling it strength. Fails: she becomes dependent, which is only the opposite."
+   },
+   "gender": {
+    "what": "This character's gender identity, in your own words.",
+    "why": "It shapes how the world treats them and how they move through it. Story Canon uses it for checks like the Bechdel test (do two women talk to each other about something other than a man?), so the program never guesses from a name.",
+    "need": "useful",
+    "mistake": "Leaving it out and letting the program, or a reader, assume. Or treating it as a plot twist rather than part of a whole person.",
+    "example": "Lands: \"Woman.\" \"Nonbinary, out to friends, not at work.\" Fails: blank, and the program counts a character named Sam as whatever it guesses."
+   },
+   "pronouns": {
+    "what": "The pronouns this character uses (she, he, they, or others), and any that change by setting or over time.",
+    "why": "Pronouns are on nearly every page. Recording them keeps the prose consistent, especially in long drafts and for characters whose pronouns shift with the story.",
+    "need": "core",
+    "mistake": "Not recording a change in time. If a character's pronouns change partway through, note when, so earlier and later chapters stay true to their moment.",
+    "example": "Lands: \"They/them. Their grandmother still says she, and they let it go.\" That one line gives you a scene. Fails: switching between he and they in drafts with no record of which is right."
+   },
+   "orientation": {
+    "what": "Who this character is sexually attracted to, if it matters to who they are or to the story.",
+    "why": "When it shapes their desires, risks or community, recording it keeps the character consistent and specific. Leaving it unsaid is a choice too, and a fine one when it has no bearing on the book.",
+    "need": "situational",
+    "mistake": "Matters most in romance, coming-of-age and stories about community. The mistake is mentioning it once as a reveal and never letting it touch their life again.",
+    "example": "Lands: \"Bisexual; her ex-husband knows, her church doesn't,\" and that shapes the wedding chapter. Fails: a single line in chapter forty that changes nothing."
+   },
+   "romantic_orientation": {
+    "what": "Who this character is romantically drawn to, if it differs from their sexual orientation. Some people feel attraction one way and fall in love another way, or not at all.",
+    "why": "For some characters this difference is the heart of their story. Naming it keeps their relationships true and avoids flattening them into a single label.",
+    "need": "situational",
+    "mistake": "Only needed when it differs and matters, often in romance or literary fiction. The mistake is filling it in by default when it simply matches.",
+    "example": "Lands: \"Asexual, but very much falls in love,\" and the romance is built around it. Fails: repeating the orientation field word for word."
+   },
+   "sex_characteristics": {
+    "what": "Intersex traits or sex characteristics, where they matter to the character or the story. Intersex means being born with sex traits that don't fit typical definitions of male or female.",
+    "why": "When it shapes the character's body, history, medical life or identity, writing it down keeps those details true across the book.",
+    "need": "situational",
+    "mistake": "Only when it matters to this person's story. The mistake is using it as a shock reveal rather than as part of a whole life.",
+    "example": "Lands: \"Intersex; learned at fourteen from a doctor's chart left open, and has distrusted doctors since.\" Fails: a body detail dropped in only to surprise the reader."
+   },
+   "ethnicity": {
+    "what": "This character's race or ethnicity, in your own words.",
+    "why": "It shapes how others see them, what they carry from family and history, and how they move through their world. Writing it down keeps their appearance and experience consistent, and helps you see the cast as a whole.",
+    "need": "useful",
+    "mistake": "Assuming a default, so only some characters get an ethnicity named. Readers notice when one group is marked and another is treated as normal.",
+    "example": "Lands: \"Black American, Mississippi roots, raised in Chicago.\" \"Irish American, second generation.\" Fails: only the character of color has the field filled."
+   },
+   "heritage": {
+    "what": "Where this character's people come from, where they were raised, and what they call home. Nationality, roots, and the places that shaped them.",
+    "why": "Heritage gives a character a past that existed before page one: food, holidays, expressions, family stories. It is a quiet source of texture and conflict, especially when home and roots are not the same place.",
+    "need": "useful",
+    "mistake": "Listing a country and stopping. The rich part is how they feel about it.",
+    "example": "Lands: \"Grandparents from Oaxaca, raised in Tucson, calls neither place home and both places home.\" Fails: \"Mexican.\""
+   },
+   "age": {
+    "what": "How old this character is when the story starts, or in a given part.",
+    "why": "Age shapes what they can do, what they know, how others treat them, and what is at stake. A wrong age in a later chapter breaks a reader's trust.",
+    "need": "core",
+    "mistake": "Entering an age once and forgetting it changes. If the story spans years, use Year born instead and let the program work it out.",
+    "example": "Lands: \"Sixty-eight; old enough to remember the last keeper.\" Fails: she is sixty-eight in chapter one and remembers a war she would have been too young to see."
+   },
+   "being": {
+    "what": "What kind of being this character is, if not simply human: an elf, a ghost, an android, a selkie. Connect them to that kind's own record with an \"is a\" link.",
+    "why": "The kind's record holds what their people share, written once. This field holds only what is special about this one, which keeps your world consistent.",
+    "need": "situational",
+    "mistake": "Only for fantasy, science fiction, paranormal and similar books. The mistake is repeating the whole kind's rules on every character, then changing them in one place and not the other.",
+    "example": "Lands: Wren \"is a\" selkie; the selkie record says they cannot stay ashore past a year. Fails: Wren's own record says six months, a different selkie's says a year."
+   },
+   "powers": {
+    "what": "This character's own abilities, beyond what their kind shares. A gift, a skill, a magic they alone have.",
+    "why": "Powers shape what the character can do and what the plot must work around. Listing them keeps you from forgetting one in a crisis, when the reader will ask why she didn't just use it.",
+    "need": "situational",
+    "mistake": "Only for books with special abilities. The mistake is adding a power when the plot needs it. Readers enjoy a solution only when they knew about the power before it.",
+    "example": "Lands: \"Can hear lies as a ringing in her teeth,\" shown in chapter two, used in chapter thirty. Fails: in the climax she suddenly can stop time."
+   },
+   "own_limits": {
+    "what": "What this character can't do, and what weakens them. Their personal cost or limit, beyond their kind's.",
+    "why": "Limits make better stories than powers. A limit forces creative choices and creates real danger. A character with powers and no limits has no tension.",
+    "need": "situational",
+    "mistake": "Only for characters with powers. The mistake is a limit that never actually bites.",
+    "example": "Lands: \"Hearing lies gives her a migraine that lasts a day; she rations it.\" Fails: \"Using her power makes her tired,\" and she is never tired."
+   },
+   "born": {
+    "what": "The year this character was born.",
+    "why": "If each scene has a year, Story Canon works out the character's age in every scene. That matters for books that span decades, timelines that jump, or families with many generations.",
+    "need": "useful",
+    "mistake": "Doing the math in your head and getting it wrong in one chapter. Or entering a birth year that clashes with an event they remember.",
+    "example": "Lands: born 1951, so the program shows she is seventeen in the 1968 chapter and seventy-two in the frame story. Fails: she says she was ten when the mill closed, but the program shows she was four."
+   },
+   "fixed_age": {
+    "what": "An age that never changes: for a ghost, an immortal, a remembered younger self, or anyone outside of time.",
+    "why": "It tells the program not to age this character from their birth year. It also reminds you, as the writer, that this person is frozen, which is often the point of their story.",
+    "need": "situational",
+    "mistake": "Only for characters outside normal time, often in fantasy, ghost stories and memory-driven literary fiction. The mistake is forgetting, so a ghost child ages in the timeline.",
+    "example": "Lands: the drowned brother stays eight in every chapter, while his sister grows old. Fails: the program shows him as forty-one in the present-day scenes."
+   },
+   "religion": {
+    "what": "This character's faith or religion, including no faith, lapsed faith, or a complicated one.",
+    "why": "Faith shapes values, rituals, community, guilt and hope. It gives scenes texture (a prayer before meals, a holiday) and can drive conflict when belief and want collide.",
+    "need": "useful",
+    "mistake": "Naming a religion and never letting it touch a choice. Or treating every believer of a faith as the same.",
+    "example": "Lands: \"Raised Baptist, stopped going after her mother's funeral, still hums the hymns when she bakes.\" Fails: \"Christian.\""
+   },
+   "culture": {
+    "what": "The culture and community this character belongs to: the people whose customs, food, jokes and expectations they carry. It can link to a Culture record in your world.",
+    "why": "Community gives a character a place to belong or push against. It shapes what is normal to them and what shames them. It gives you scenes: church suppers, festivals, family gatherings.",
+    "need": "useful",
+    "mistake": "Treating culture as costume, a few foods and holidays, with no effect on how the character thinks or what they risk.",
+    "example": "Lands: \"A fishing town where you never ask for help and always give it,\" which is why the keeper can't accept the casserole. Fails: \"Small-town,\" with no rules."
+   },
+   "disability": {
+    "what": "Any disability, chronic illness or neurodivergence this character lives with, and how it shapes their days, in their terms. Neurodivergence means a brain that works differently from the typical, such as autism or ADHD.",
+    "why": "It makes a character specific and true. Energy, access and other people's assumptions shape their days. Recording it keeps details consistent.",
+    "need": "useful",
+    "mistake": "Using it only as a plot device: a tragedy to overcome, a cure at the end, a twist. Default to a whole person who has this, not a story about it.",
+    "example": "Lands: \"Type 1 diabetic; checks her sugar before every delivery and keeps juice boxes in the glove box.\" Fails: an illness that only appears when the plot needs a hospital scene."
+   },
+   "occupation": {
+    "what": "What this character does for work, paid or not: a job, a trade, caregiving, school.",
+    "why": "Work fills most of a person's days. It gives them skills, a vocabulary, coworkers, and a way of seeing problems. A baker sees the world in timing and heat; a lawyer in evidence.",
+    "need": "core",
+    "mistake": "Giving them a job they never seem to do. If she is a nurse, she should think like one sometimes.",
+    "example": "Lands: \"Tow-truck driver; reads people by how they act when they are stranded.\" Fails: \"Works in marketing,\" and nothing in the book shows it."
+   },
+   "family": {
+    "what": "Who this character's family is: parents, siblings, partners, children, chosen family, and where things stand with each.",
+    "why": "Family is where most wounds and loyalties start. It gives you ready-made conflict, history and stakes. Writing it down also keeps names and ages straight.",
+    "need": "core",
+    "mistake": "Listing names without the relationships. Who calls whom? Who isn't speaking?",
+    "example": "Lands: \"Two brothers; she talks to the younger every Sunday and hasn't spoken to the older since the will.\" Fails: \"Two brothers.\""
+   },
+   "appearance": {
+    "what": "The overall impression this character makes: what someone notices first, from across a room.",
+    "why": "Readers build a picture fast and keep it. A strong first impression, given early, saves you from listing features later. It also shows how others read this person, which may not be who they are.",
+    "need": "core",
+    "mistake": "Starting with a head-to-toe inventory. A first impression is one or two things, not a list.",
+    "example": "Lands: \"She looks like she is about to leave, even sitting down.\" Fails: \"Medium height, brown eyes, brown hair, jeans.\""
+   },
+   "skin": {
+    "what": "This character's skin tone, in your own words: its depth, its undertone (the warm, cool or olive cast beneath the surface), and how light finds it.",
+    "why": "Specific, respectful description helps readers see the character and keeps the description consistent. It also lets you describe every character's skin, not only some.",
+    "need": "useful",
+    "mistake": "Using food words (coffee, chocolate, caramel) for darker skin. It is a tired habit that many readers find objectifying. Or describing only non-white characters' skin.",
+    "example": "Lands: \"Deep brown with a red undertone that glows copper in lamp light.\" Fails: \"Mocha skin.\""
+   },
+   "hair": {
+    "what": "Color, texture, length and how they wear it. Hair can change over the story, so note when.",
+    "why": "Hair is one of the quickest ways to show time passing, mood, culture and care. A cut, a style or a wig can be a scene. Tracking it prevents a braid from turning into a bob without explanation.",
+    "need": "useful",
+    "mistake": "Forgetting that hair changes. If she cuts it in chapter twelve, mark the version so later chapters stay right.",
+    "example": "Lands: \"4C, kept in twists; she cuts it short after the funeral,\" with the change dated. Fails: long in chapter twenty, after she cut it in chapter twelve."
+   },
+   "eyes": {
+    "what": "Eye color, shape, and anything about how they use their eyes: a steady stare, a squint, glasses.",
+    "why": "Eyes are where many readers look first. What the eyes do (avoid, hold, narrow) often matters more than color.",
+    "need": "useful",
+    "mistake": "Over-describing. Eye color matters to the reader less than writers think. One clear note is enough.",
+    "example": "Lands: \"Gray, and he never looks at you while he is lying.\" Fails: \"Piercing emerald orbs.\""
+   },
+   "height": {
+    "what": "How tall this character is, plainly or compared to others.",
+    "why": "Height affects how a character moves through rooms, how they fight, how others treat them, and how scenes are staged. It is also a common continuity slip.",
+    "need": "useful",
+    "mistake": "Not recording it, then having a short character reach the top shelf easily.",
+    "example": "Lands: \"Six-four; ducks under every doorway in the old house.\" Fails: he is short in chapter three and towers over his brother in chapter nine."
+   },
+   "build": {
+    "what": "The shape and strength of this character's body: how they carry their weight, their size, their fitness.",
+    "why": "Build shapes action and how others react. It tells the reader how this person fills a room or a doorway.",
+    "need": "useful",
+    "mistake": "Using build as shorthand for character (the heavy one is lazy, the thin one is nervous). Readers notice the stereotype.",
+    "example": "Lands: \"Broad, strong shoulders from hauling flour sacks; soft in the middle and comfortable in it.\" Fails: \"Fat,\" as if it were a personality."
+   },
+   "features": {
+    "what": "Distinctive marks that set this character apart: scars, tattoos, birthmarks, glasses, a gap in the teeth.",
+    "why": "One distinct feature lets readers find a character in a crowded scene. A feature with a story behind it can also reveal history.",
+    "need": "useful",
+    "mistake": "Giving a feature with no story or using a scar as shorthand for villainy.",
+    "example": "Lands: \"A burn scar on her left wrist from her first oven; she rubs it when she lies.\" Fails: \"A scar,\" with nothing behind it."
+   },
+   "dress": {
+    "what": "How this character dresses: style, care, what they wear for work and for themselves.",
+    "why": "Clothes show class, taste, mood, money and how they want to be seen. A change in dress can mark a change in the character.",
+    "need": "useful",
+    "mistake": "Describing every outfit. Choose the clothes that say something.",
+    "example": "Lands: \"Her father's old flannel shirts over everything, even to church.\" Fails: a paragraph on brand names that tells us nothing about her."
+   },
+   "languages": {
+    "what": "The languages this character speaks and how well: native, fluent, conversational, a few phrases.",
+    "why": "Language decides who a character can talk to, overhear, or misunderstand. It can be a source of humor, secrecy, intimacy and conflict.",
+    "need": "useful",
+    "mistake": "Letting a character suddenly understand a language they couldn't before, or making every bilingual line a translated echo.",
+    "example": "Lands: \"Spanish at home, English at school, and her grandmother's Zapotec only in songs.\" Fails: she understands a radio broadcast in Russian with no explanation."
+   },
+   "accent": {
+    "what": "How this character sounds: accent, rhythm, pitch, and the words they choose.",
+    "why": "Rhythm and word choice carry a voice better than spelled-out dialect. Readers hear the character without tripping over apostrophes.",
+    "need": "useful",
+    "mistake": "Writing dialect phonetically (\"Ah'm gwine\"). It's hard to read and often turns into caricature.",
+    "example": "Lands: \"Slow and low, drops the ends of questions so they sound like statements.\" Fails: dropping every g with an apostrophe.",
+    "differs": "The sound of their speech. Voice, under Depth lenses, is the whole of how they talk and think."
+   },
+   "speech": {
+    "what": "Sayings, phrases and verbal habits this character repeats: a pet phrase, a way of swearing, a habit of answering with a question.",
+    "why": "A small verbal habit makes a character instantly recognizable in dialogue, even without a tag. Used well, a repeated phrase can grow in meaning.",
+    "need": "useful",
+    "mistake": "Overusing it until it becomes a tic. Or giving two characters the same saying by accident.",
+    "example": "Lands: \"Says \"we'll see\" when she means no.\" Readers learn it, then feel it when she says it to her son. Fails: three characters all say \"for real though.\""
+   },
+   "physical": {
+    "what": "Physical notes: health, energy, how they move, any bodily realities that shape their day.",
+    "why": "How a character moves and feels in their body grounds them in scenes. It shows age, mood and health without telling.",
+    "need": "useful",
+    "mistake": "Forgetting to carry a physical condition through. If her knee hurts in chapter one, it hurts on the stairs later.",
+    "example": "Lands: \"Bad left knee; takes stairs one at a time, and hates when people notice.\" Fails: a bad knee that disappears the moment she needs to run."
+   },
+   "temperament": {
+    "what": "This character's natural emotional weather: calm, quick to anger, anxious, sunny, steady. The way they tend to react before they think.",
+    "why": "Temperament makes reactions believable and lets you plan contrast in a scene. Two calm people talk; a calm person and a hothead create sparks.",
+    "need": "useful",
+    "mistake": "Confusing temperament with a single mood. A steady person can still break, and that break matters because it is rare.",
+    "example": "Lands: \"Slow to anger, slow to forgive.\" Fails: \"Moody,\" which tells you nothing about which way they go."
+   },
+   "humor": {
+    "what": "What makes this character funny, and what they find funny.",
+    "why": "Humor is one of the fastest ways to make readers like someone. What a character laughs at also shows their values and wounds.",
+    "need": "useful",
+    "mistake": "Giving every character the same humor, usually the author's. Each funny person should be funny in their own way.",
+    "example": "Lands: \"Dry, deadpan, laughs only at her own disasters.\" Fails: \"Funny.\""
+   },
+   "habits": {
+    "what": "Small repeated actions and the objects that go with them: cracking knuckles, a lucky pen, always carrying a thermos.",
+    "why": "Habits and props make a character visible and give their hands something to do in a scene. A habit can also show a feeling the character won't say.",
+    "need": "useful",
+    "mistake": "Giving the same habit to two characters by accident. Make sure each habit belongs to the right person.",
+    "example": "Lands: the keeper winds his dead wife's watch every night. Fails: two characters both twist their rings when nervous."
+   },
+   "strengths": {
+    "what": "What this character is good at, inside and out.",
+    "why": "Strengths let a character do things and earn the reader's respect. They also set up the moment when a strength fails them.",
+    "need": "useful",
+    "mistake": "Listing strengths that never show. If she is brave, there should be a scene where she is brave and it costs her.",
+    "example": "Lands: \"Can calm a crying child or a drunk customer in under a minute.\" Fails: \"Kind, smart, brave.\""
+   },
+   "weaknesses": {
+    "what": "What this character is bad at or struggles with: skills, temptations, blind spots.",
+    "why": "Weaknesses create obstacles and make success harder, which makes it sweeter. They also make a character relatable.",
+    "need": "useful",
+    "mistake": "Choosing cute weaknesses (clumsy, too caring) that never cost anything.",
+    "example": "Lands: \"Can't keep money; gives it away the day she gets it.\" That weakness can end the bakery. Fails: \"Too much of a perfectionist.\""
+   },
+   "home": {
+    "what": "Where this character lives: the house, the street, the neighborhood, and what it says about them.",
+    "why": "Home gives scenes a place to happen and shows class, taste, care and history. A home can comfort or trap a character.",
+    "need": "useful",
+    "mistake": "Describing the home but never showing how the character lives in it.",
+    "example": "Lands: \"A rented upstairs apartment over the laundromat; always smells of dryer sheets, never quiet.\" Fails: \"A nice apartment downtown.\""
+   },
+   "history": {
+    "what": "Key events in this character's past, one per entry: what happened before the story begins.",
+    "why": "History explains why a character is who they are now. It gives you material for memories, secrets and reveals. Tracking it keeps your backstory consistent.",
+    "need": "useful",
+    "mistake": "Putting all of it on the page. History is for you; the reader needs only the pieces that change a scene.",
+    "example": "Lands: \"At nineteen, left nursing school when her father got sick.\" Fails: three pages of her history before the story starts.",
+    "differs": "Past events of any kind, hurtful or not. Wounds are the hurts; the arc's Ghost is the one behind the Lie."
+   },
+   "fears": {
+    "what": "What this character is afraid of, from small dreads to the big fear underneath.",
+    "why": "Fear drives avoidance, and avoidance drives plot. A character who fears something will go out of their way not to face it, until the story makes them.",
+    "need": "useful",
+    "mistake": "Giving a fear the story never tests.",
+    "example": "Lands: \"Afraid of being needed and failing,\" and the story puts a sick child in her care. Fails: \"Afraid of spiders,\" and there are no spiders."
+   },
+   "wounds": {
+    "what": "Old hurts this character still carries: losses, betrayals, humiliations. For the single defining one, use the Wound and its fallout group.",
+    "why": "Wounds explain behavior that would otherwise seem odd. They make readers patient with a character's flaws. Angela Ackerman and Becca Puglisi's Emotional Wound Thesaurus is a strong guide to how wounds shape a person.",
+    "need": "useful",
+    "mistake": "Making every wound tragic, or adding wounds that never shape a choice.",
+    "example": "Lands: \"Her best friend took credit for her design in college.\" She now signs every sketch. Fails: a list of five tragedies that never come up.",
+    "differs": "Every old hurt they carry. The arc's Ghost is the single event behind one arc's Lie."
+   },
+   "desires": {
+    "what": "What this character longs for: small cravings and big dreams, spoken and secret.",
+    "why": "Desire is what moves a character forward. Knowing what someone wants, beyond the plot goal, makes them feel alive and gives scenes pull.",
+    "need": "useful",
+    "mistake": "Listing desires that are all for the plot. People also want naps, peace and a good tomato.",
+    "example": "Lands: \"Wants one day with no one asking her for anything.\" Fails: \"Wants to win.\"",
+    "differs": "Longings of every size, spoken or secret. Goal is the one concrete target in this plot."
+   },
+   "beliefs": {
+    "what": "What this character holds true about the world, people, God, love or themselves.",
+    "why": "Beliefs are the lens a character sees through. Beliefs that are wrong, or that the story challenges, become the material of change.",
+    "need": "useful",
+    "mistake": "Listing beliefs that never meet a challenge.",
+    "example": "Lands: \"Believes family is the only people you can trust,\" and her brother betrays her. Fails: \"Believes in hard work.\""
+   },
+   "wound_event": {
+    "what": "The wounding event: what happened, and how old they were. K.M. Weiland calls this the Ghost, the past event that haunts the character.",
+    "why": "The wound is the root of the false belief that drives the arc. A specific event makes the character's later choices make sense. Angela Ackerman and Becca Puglisi's Emotional Wound Thesaurus explores how wounds shape people.",
+    "need": "core",
+    "mistake": "Making it vague or too big. It doesn't have to be tragic, but it must be personal and convincing.",
+    "example": "Lands: \"At nine, she watched her mother beg the bank for an extension and get turned away.\" Fails: \"She had a hard childhood.\"",
+    "differs": "Weiland calls this the Ghost. If it is already on the arc, there is no need to write it here too."
+   },
+   "wound_belief": {
+    "what": "What this character came to believe because of the wound. Usually a false belief that once felt protective.",
+    "why": "This belief is the bridge between the past and the present. It explains why the character acts against their own good. In K.M. Weiland's terms, this is close to the Lie.",
+    "need": "core",
+    "mistake": "Writing a belief that is plainly false and silly. It must have felt true and kept them safe.",
+    "example": "Lands: \"If you ask for help, people will see you as weak and leave.\" Fails: \"She believes nothing good ever happens.\""
+   },
+   "wound_fear": {
+    "what": "What this character fears will happen again because of the wound.",
+    "why": "This fear explains their guarded behavior and their choices under pressure. It gives you the scene where the fear comes true, or seems to.",
+    "need": "core",
+    "mistake": "Choosing a fear that doesn't link to the wound.",
+    "example": "Lands: \"That she will lose everything again because she depended on someone.\" Fails: \"Afraid of heights.\""
+   },
+   "wound_guards": {
+    "what": "What this character avoids or guards against now, to make sure the wound doesn't happen again.",
+    "why": "Guards are visible in behavior. They show the reader the wound without telling. They are also what the story must strip away.",
+    "need": "useful",
+    "mistake": "Listing guards the character never shows in a scene.",
+    "example": "Lands: \"Pays cash for everything; never signs a loan.\" Fails: \"She protects herself.\""
+   },
+   "wound_behaviors": {
+    "what": "How the wound shows in what this character does: habits, reactions, avoidances.",
+    "why": "These behaviors are the wound made visible. They let readers feel the hurt without being told, and set up the moment when behavior changes.",
+    "need": "useful",
+    "mistake": "Telling instead of showing. A behavior is something a camera could see.",
+    "example": "Lands: \"Rereads every contract three times; leaves when someone offers to pay.\" Fails: \"She is distrustful.\""
+   },
+   "wound_triggers": {
+    "what": "What sets the wound off: situations, words or people that make the old pain rise.",
+    "why": "Triggers give you scenes where the past surges into the present. They make a character's sudden reactions understandable.",
+    "need": "useful",
+    "mistake": "Using triggers only for drama, without consequences.",
+    "example": "Lands: \"A man in a suit saying \"I'm sorry, there's nothing I can do.\"\" Fails: \"Banks,\" which is too broad to stage."
+   },
+   "positive_traits": {
+    "what": "This character's good qualities, each with where it came from and how it shows without being named. Angela Ackerman and Becca Puglisi explore traits this way in their thesaurus books.",
+    "why": "Good traits make readers like and root for a character. Knowing where each came from makes it believable and connects it to the backstory.",
+    "need": "useful",
+    "mistake": "Naming the trait on the page (\"She was generous\") instead of showing it.",
+    "example": "Lands: \"Generous: grew up with nothing and swore no one at her table would go hungry. Shows in the extra loaf in every bag.\" Fails: \"Generous.\""
+   },
+   "flaws": {
+    "what": "This character's flaws, each with what it protects them from and what it costs. Angela Ackerman and Becca Puglisi explore flaws this way in their thesaurus books.",
+    "why": "Flaws make characters human and create trouble. Knowing what a flaw protects shows you why they keep it, and what the story must take away.",
+    "need": "core",
+    "mistake": "Choosing flaws that are actually strengths in disguise, or that cost nothing.",
+    "example": "Lands: \"Stubborn: protects her from being talked out of what she knows. Costs her the bank loan and her sister's trust.\" Fails: \"Stubborn,\" with no cost."
+   },
+   "motivation_conscious": {
+    "what": "What this character thinks they want, beyond their plot function. The want they would tell you about.",
+    "why": "It gives the character a life outside the plot. It also sets up the gap between what they think they want and what drives them underneath.",
+    "need": "useful",
+    "mistake": "Repeating the plot goal. Ask what they want as a person, not as a piece of the story.",
+    "example": "Lands: \"Wants her mother to finally say she's proud.\" Fails: \"Wants to solve the case.\"",
+    "differs": "The wish they would admit to. Goal is the concrete target in this plot; the arc's Want is the chase the Lie drives."
+   },
+   "motivation_unconscious": {
+    "what": "What drives this character underneath, the need they don't see in themselves.",
+    "why": "Hidden motives create surprising but believable behavior. Readers often spot it before the character does, which builds tension and sympathy.",
+    "need": "useful",
+    "mistake": "Making the hidden motive too obvious, or announcing it in narration.",
+    "example": "Lands: she thinks she wants her mother's pride, but she wants to stop needing it. Fails: \"Deep down she just wants love.\""
+   },
+   "under_pressure": {
+    "what": "How this character behaves under pressure, uncertainty, success and failure.",
+    "why": "Pressure reveals true character. Knowing how they react lets you build scenes that test them and shows the reader who they really are.",
+    "need": "useful",
+    "mistake": "Giving the same reaction in every situation. People act differently when winning than when losing.",
+    "example": "Lands: \"Under pressure she gets quiet and efficient; after a win she gets reckless.\" Fails: \"She handles it well.\""
+   },
+   "comic_engine": {
+    "what": "What reliably makes this character funny on the page: the flaw, habit or contradiction that keeps producing laughs.",
+    "why": "A comic engine is a source, not a single joke. It gives you comedy in any scene. Without it, humor comes and goes at random.",
+    "need": "situational",
+    "mistake": "Most useful in comedies and romantic comedies, or for a comic-relief role. The mistake is relying on jokes rather than a trait that creates them.",
+    "example": "Lands: \"Treats every small problem like a military campaign.\" Fails: \"She makes witty remarks.\""
+   },
+   "voice": {
+    "what": "How this character sounds in thought and speech: vocabulary, rhythm, what they notice, how they joke.",
+    "why": "Voice makes a character recognizable without a dialogue tag. It also shows their education, mood and mind.",
+    "need": "core",
+    "mistake": "Using dialect as a shortcut. Voice lives in word choice, sentence length and attention, not spelling.",
+    "example": "Lands: \"Short sentences. Notices exits and prices. Jokes only about herself.\" Fails: \"Southern.\"",
+    "differs": "How they sound as a whole. Language and voice holds the pieces: the languages they speak, their accent, and their sayings."
+   },
+   "with_others": {
+    "what": "How this character acts with different people: a rival, an ally, family, a stranger.",
+    "why": "People change with their company. Showing this makes a character feel real and helps you plan how scenes will play.",
+    "need": "useful",
+    "mistake": "Making them act the same with everyone.",
+    "example": "Lands: \"With her sister: bossy. With her rival: overly polite. With strangers: warm.\" Fails: \"She's nice to everyone.\""
+   },
+   "agency": {
+    "what": "What this character makes happen, rather than reacts to. Agency means the power to act and cause change.",
+    "why": "Readers follow characters who drive the story. A character with agency makes choices that cause events. Without it, things just happen to them, and readers lose interest.",
+    "need": "core",
+    "mistake": "Mistaking activity for agency. Running from danger is a reaction; deciding to confront it is agency.",
+    "example": "Lands: \"She calls the newspaper herself and exposes the bank.\" Fails: \"A reporter happens to find the documents.\""
+   },
+   "public_identity": {
+    "what": "Who this character is in public: the face they show the world.",
+    "why": "Every person shows the world a version of themselves. The gap between public and private self is where drama lives.",
+    "need": "useful",
+    "mistake": "Making public and private the same, which wastes the layer.",
+    "example": "Lands: \"The cheerful baker who knows everyone's name.\" Fails: a public face no one ever looks behind."
+   },
+   "private_identity": {
+    "what": "Who this character is in private: when no one is watching.",
+    "why": "The private self is the truth the public face hides. Showing it creates intimacy with the reader.",
+    "need": "useful",
+    "mistake": "Making the private self only darker. It might be softer or more frightened.",
+    "example": "Lands: \"Cries in the walk-in freezer where no one can hear.\" Fails: \"She's secretly evil.\""
+   },
+   "demonstrated_behavior": {
+    "what": "What this character actually does, especially when it seems to contradict who they claim to be.",
+    "why": "Readers judge by actions. Showing what a character does, especially when it surprises, makes them complex.",
+    "need": "useful",
+    "mistake": "Listing behavior that matches what they say, which wastes the contrast.",
+    "example": "Lands: \"Says she hates her rival, but sends her customers when her own shop is full.\" Fails: \"She's mean to her rival.\""
+   },
+   "underlying_motivation": {
+    "what": "Why this character really does what they do, especially when the behavior seems odd.",
+    "why": "The reason behind a contradiction makes it believable. It turns inconsistency into depth.",
+    "need": "useful",
+    "mistake": "Leaving it unexplained to yourself. You don't have to tell the reader, but you should know.",
+    "example": "Lands: \"She sends customers to her rival because they apprenticed together and she still loves her.\" Fails: \"No reason.\""
+   },
+   "comparisons": {
+    "what": "A real person or character whose qualities you are borrowing. Note which qualities so it never becomes a copy.",
+    "why": "Comparisons give you a quick picture and a tone to aim for. Naming the specific quality keeps you from copying the whole person.",
+    "need": "situational",
+    "mistake": "Useful when it helps you hold a character. The mistake is borrowing too much, until the character is a copy.",
+    "example": "Lands: \"Like my aunt Dee: the way she laughs at funerals.\" Fails: \"Like Sherlock Holmes,\" and the character becomes a detective with a violin."
+   },
+   "tuning_fork": {
+    "what": "An actor whose voice and tempo help you write this character. It is private, for you only, and never a description of the character.",
+    "why": "Hearing a voice in your head makes dialogue easier and more consistent. It's a tool, like a tuning fork for an instrument.",
+    "need": "situational",
+    "mistake": "Helpful for writers who hear dialogue. The mistake is describing the actor's face as the character's.",
+    "example": "Lands: \"The pace of a weary newscaster.\" Fails: the character ends up with the actor's famous face."
+   },
+   "theme_music": {
+    "what": "A song or piece of music that captures this character's mood or essence for you. Private, for you only.",
+    "why": "Music can put you back in a character's head fast, especially after a break. It holds a feeling better than notes can.",
+    "need": "situational",
+    "mistake": "Helpful if music moves you. The mistake is quoting lyrics in the book; keep it to titles only.",
+    "example": "Lands: an old blues song you play before every chapter from her point of view. Fails: printing the lyrics in the epigraph.",
+    "differs": "A private mood note for you. To put a song in the book, add it to the Soundtrack and connect it with is the theme song of."
+   },
+   "playlist": {
+    "what": "A list of songs for this character: one for each mood, phase or relationship. Private, for you only.",
+    "why": "A playlist tracks a character's changes and helps you write scenes in the right mood.",
+    "need": "situational",
+    "mistake": "Helpful if music moves you. The mistake is spending more time on the playlist than on the pages.",
+    "example": "Lands: three songs, one for before, during and after her loss. Fails: sixty songs and no chapters."
+   }
+  }
+ },
+ "arc": {
+  "about": {
+   "what": "An Arc record tracks one way a character changes over the story: the value at stake, the false belief they start with, the truth they reach, and the tests in between.",
+   "why": "Arcs are what make readers care about the ending. A plot can resolve, but if the character doesn't change (or refuses to), the book feels empty. K.M. Weiland's framework of Lie, Want, Need, Ghost and Truth gives you a clear way to build that change step by step.",
+   "when": "Sketch the Lie and Truth early, when you know your character's goal. Add tests as you outline, and check them in revision to make sure the change happens in visible steps.",
+   "mistake": "Treating the arc as a moral at the end. An arc is built in scenes where the character chooses between the Lie and the Truth, sometimes wrongly.",
+   "example": "The lighthouse keeper's Ghost is losing his wife to the sea. His Lie is that if he loves no one, he loses no one. He wants to keep the light alone. He needs to let his apprentice in. By the end he gives her the keys."
+  },
+  "groups": {
+   "Arc": "The arc's shape: the value it is about, its type, the tests along the way, and where it ends.",
+   "Weiland Arc": "K.M. Weiland's arc framework: the Ghost (the wound), the Lie it created, the Want the Lie chases, the Need that would heal it, and the Truth that replaces the Lie."
+  },
+  "fields": {
+   "arc_value": {
+    "what": "The value this arc is about: the quality that changes in this character over the story, such as trust, courage or self-worth. One character can carry more than one arc, each on a different value.",
+    "why": "Naming the value keeps the arc focused. Every test and turn should push on it. Without it, the character changes in a general way and the reader can't say how.",
+    "need": "core",
+    "mistake": "Choosing a value too broad to track. \"Growth\" is not a value; \"trust in others\" is.",
+    "example": "Lands: the keeper's arc is about letting others in. Fails: the keeper's arc is about \"becoming better.\""
+   },
+   "arc_type": {
+    "what": "K.M. Weiland's arc types. Positive Change: the character overcomes a false belief and grows. Flat: they already hold the truth and change the world around them. Negative: they fall, clinging to the false belief or trading it for a worse one.",
+    "why": "The arc type sets the shape of the story and the tone of the ending. Knowing it early points every turn the right way.",
+    "need": "core",
+    "mistake": "Assuming every arc must be Positive. Flat arcs drive many great stories, and Negative arcs make tragedies.",
+    "example": "Lands: Positive, the baker learns to accept help. Flat, the new pastor already believes in mercy and changes a hard town. Fails: a Flat arc where the character is just unchanged and also changes nothing."
+   },
+   "ghost": {
+    "what": "K.M. Weiland's Ghost: the formative experience that explains the Lie. It need not be tragic, but it must be personal and convincing. Also called the wound.",
+    "why": "The Ghost makes the Lie believable. Readers forgive a character's mistakes when they understand where the mistakes come from. Without it, the Lie seems arbitrary.",
+    "need": "core",
+    "mistake": "Making it melodramatic for its own sake, or leaving it so vague that it explains nothing.",
+    "example": "Lands: \"At twelve, she trusted a friend with her diary and found it read aloud at school.\" Fails: \"Something bad happened to her once.\"",
+    "differs": "The Ghost is the one past event behind this arc's Lie. Wounds, on the character page, hold every old hurt; History holds past events of any kind."
+   },
+   "lie": {
+    "what": "K.M. Weiland's Lie: the false belief the character holds about themselves or the world. It once felt protective, and it is what the arc must overcome.",
+    "why": "The Lie is the engine of a change arc. It explains why the character keeps making the wrong choice, and its defeat is what the ending means. Without a Lie, a Positive Change arc has nothing to change.",
+    "need": "core",
+    "mistake": "Writing a Lie that is just a mistake about facts. It must be a belief about how life works that feels true to them.",
+    "example": "Lands: \"If people really knew me, they would leave.\" Fails: \"She thinks the bank is closed on Tuesdays.\""
+   },
+   "want": {
+    "what": "K.M. Weiland's Want: what the Lie makes the character chase. Usually an outer goal they believe will fix things.",
+    "why": "The Want drives the plot and gives the reader something to root for. Its gap from the Need is what makes the story mean something.",
+    "need": "core",
+    "mistake": "Making the Want and Need the same. If getting what they want also heals them, there is no inner conflict.",
+    "example": "Lands: she wants to win the contest alone, proving she needs no one. Fails: she wants to make friends, and she needs to make friends.",
+    "differs": "The Want belongs to this arc and is driven by the Lie. The character's Goal is the concrete target in the plot, often the same thing seen from outside."
+   },
+   "need": {
+    "what": "K.M. Weiland's Need: what would truly heal the character. Usually the opposite of the Want, and tied to the Truth.",
+    "why": "The Need is the arc's destination. When the character reaches for it at the cost of the Want, the change becomes visible.",
+    "need": "core",
+    "mistake": "Stating the Need as a lesson. A Need is a change in what they reach for, not a moral.",
+    "example": "Lands: she needs to let her neighbors help, even if it costs her the win. Fails: \"She needs to learn a lesson.\""
+   },
+   "truth": {
+    "what": "K.M. Weiland's Truth: the true belief that replaces the Lie. It is what the character finally understands.",
+    "why": "The Truth is the theme made personal. It gives the story its meaning and the ending its weight.",
+    "need": "core",
+    "mistake": "Making the Truth a slogan. It should be the exact answer to this character's Lie.",
+    "example": "Lands: Lie, \"If people knew me, they would leave.\" Truth, \"The people who stay are the ones who know me.\" Fails: \"Love conquers all.\""
+   },
+   "key_tests": {
+    "what": "The moments that test and turn this arc: where the character chooses between the Lie and the Truth, fails, and tries again. One entry per test.",
+    "why": "Change has to happen in steps the reader can see. Each test shows how far the character has come and how far they still have to go. Without them, the change at the end feels sudden.",
+    "need": "core",
+    "mistake": "Making every test a success. A character should fail some tests, or the change feels easy.",
+    "example": "Lands: she refuses help from her sister (fails), then accepts a loan from her rival (passes), then backslides when the oven breaks. Fails: one scene where she suddenly understands."
+   },
+   "final_state": {
+    "what": "Who this character is at the end of this arc.",
+    "why": "It names the destination. Every test should point toward it, or away from it if the arc is Negative.",
+    "need": "core",
+    "mistake": "Writing the plot outcome instead of the inner state.",
+    "example": "Lands: \"Lets people in, even when it is inconvenient.\" Fails: \"She wins the contest.\""
+   },
+   "unresolved": {
+    "what": "What is still unresolved in this arc: open questions, threads you haven't tied, or things the character never fully fixes.",
+    "why": "Tracking loose ends keeps you from forgetting them. Some should be tied off; others may stay open on purpose, which can make an ending feel true.",
+    "need": "useful",
+    "mistake": "Leaving loose ends by accident. Decide which ones you mean.",
+    "example": "Lands: \"She still hasn't forgiven her mother. That stays open on purpose.\" Fails: a subplot about her mother that simply disappears."
+   }
+  }
+ },
+ "relationship": {
+  "about": {
+   "what": "A Relationship record tracks what is between two characters: where they stand, what is underneath, and what is private to them.",
+   "why": "Many books are really about relationships: love stories, family sagas, rivalries. Even in plot-driven books, readers care about how people treat each other. A record lets you track how trust, power and closeness change, and keeps their private language consistent.",
+   "when": "Create one for every relationship that changes over the book, or that carries a key part of the story. Return in revision to check that changes happen on the page.",
+   "mistake": "Describing a relationship once and never tracking how it moves.",
+   "example": "Two rival florists, June and Marisol, both want the cathedral contract. Underneath, they both want their mothers' shops to survive. June secretly sends Marisol customers. By the end they share a storefront."
+  },
+  "groups": {
+   "Where they stand": "Gauges of the relationship right now: trust, respect, closeness, resentment, dependence, rivalry and power. A word or a short line is enough, such as \"high, and slipping.\" Add a new entry as it changes, and mark when each is true.",
+   "Underneath": "The hidden layer: what they share, what divides them, where it is going, and what each doesn't know.",
+   "Between them": "The private texture of the bond: names and words only they use."
+  },
+  "fields": {
+   "trust": {
+    "what": "How much these two believe each other and count on each other right now. A measure that can rise and fall over the book.",
+    "why": "Trust decides what they will tell each other, what they will risk, and how hard a betrayal lands. Tracking it lets you plan the moments it breaks or grows. Without it, trust can jump without a reason.",
+    "need": "core",
+    "mistake": "Letting trust change offstage. Every shift should happen in a scene the reader sees.",
+    "example": "Lands: \"Low. She checks every receipt he hands her.\" Then a scene where he covers for her and it rises. Fails: they distrust each other in chapter five and share secrets in chapter six with nothing between."
+   },
+   "respect": {
+    "what": "How highly each regards the other: their skill, judgment or character. It can be one-sided.",
+    "why": "Respect and liking are different. Two rivals can respect each other deeply, and two friends can quietly look down on each other. That gap gives scenes texture.",
+    "need": "useful",
+    "mistake": "Assuming respect matches affection.",
+    "example": "Lands: \"The rival florists can't stand each other, but each secretly studies the other's window.\" Fails: \"They respect each other,\" with no sign of it."
+   },
+   "intimacy": {
+    "what": "How close these two are: how much they share, how well they know each other, how they behave when alone. Not only romantic.",
+    "why": "Closeness sets what is natural between them, from silences to touches to inside jokes. Tracking it lets you show growing or fading intimacy in steps.",
+    "need": "useful",
+    "mistake": "Equating closeness with romance, or skipping the steps.",
+    "example": "Lands: \"Close enough to sit in silence in the truck for an hour.\" Fails: strangers in chapter one who finish each other's sentences in chapter three."
+   },
+   "resentment": {
+    "what": "Old or growing grudges between them: what one holds against the other.",
+    "why": "Resentment is buried fuel. It explains sharp words and sudden coldness, and it can explode at the worst moment.",
+    "need": "useful",
+    "mistake": "Naming resentment that never leaks into a scene.",
+    "example": "Lands: \"She resents that he got their father's watch.\" He wears it to the funeral. Fails: \"Some resentment,\" with no source."
+   },
+   "dependence": {
+    "what": "How much one needs the other, for money, care, safety, love, or skill. It can be mutual or lopsided.",
+    "why": "Dependence creates tension: a person who needs another can't simply leave. It also shapes power.",
+    "need": "useful",
+    "mistake": "Forgetting it cuts both ways. The person depended on may need to be needed.",
+    "example": "Lands: \"He needs her to drive him to dialysis; she needs a reason to leave her own house.\" Fails: \"He depends on her.\""
+   },
+   "rivalry": {
+    "what": "Competition between them: for a prize, a person, attention, or being right.",
+    "why": "Rivalry drives scenes and can turn into respect, love or hate. It gives each a reason to watch the other.",
+    "need": "useful",
+    "mistake": "Rivalry with no stakes. What does winning cost?",
+    "example": "Lands: \"Both florists want the cathedral contract; the winner gets the wedding season.\" Fails: \"They compete.\""
+   },
+   "power": {
+    "what": "Who holds more power in this relationship, and what kind: money, status, knowledge, love, age, secrets.",
+    "why": "Power shapes what each can say and do. When power shifts, the relationship changes, and that shift is often a turning point.",
+    "need": "core",
+    "mistake": "Treating power as fixed. The best relationship stories move it.",
+    "example": "Lands: \"The landlord has the lease; the tenant knows about his second family.\" Fails: \"He's in charge.\""
+   },
+   "shared_need": {
+    "what": "What these two share underneath any surface conflict: a common need, wound or hope.",
+    "why": "A shared need is the hidden bond that keeps two people tied together and makes reconciliation possible. In romance, it is often why they belong together. Without it, the relationship feels like only conflict.",
+    "need": "core",
+    "mistake": "Making it too obvious, or never letting the characters see it.",
+    "example": "Lands: \"Both rival florists want their mothers' shops to outlive them.\" Fails: \"They both want to be happy.\""
+   },
+   "external_opposition": {
+    "what": "What sets these two against each other on the surface: the visible conflict, the thing they argue about.",
+    "why": "Surface conflict gives scenes energy. Paired with the shared need, it creates the push and pull of a strong relationship.",
+    "need": "core",
+    "mistake": "Making it so trivial it could be solved in one honest talk.",
+    "example": "Lands: \"Both bid on the same storefront.\" Fails: \"They don't get along.\""
+   },
+   "emotional_trajectory": {
+    "what": "Where this relationship is really going: toward love, rupture, friendship, revenge, or something else. The emotional destination, not the plot.",
+    "why": "Knowing the destination keeps each scene between them moving. In romance, readers expect the trajectory; your job is to make the steps surprising.",
+    "need": "core",
+    "mistake": "Losing track of it, so the relationship circles without moving.",
+    "example": "Lands: \"From rivals to business partners who never admit they're friends.\" Fails: \"It develops.\""
+   },
+   "hidden_influence": {
+    "what": "How one shapes the other without the other knowing: a secret kindness, a manipulation, a quiet push.",
+    "why": "Hidden influence gives the relationship a layer the reader may discover before the characters do. It sets up reveals.",
+    "need": "situational",
+    "mistake": "Useful in mysteries, thrillers, family sagas and slow romances. The mistake is revealing it too soon.",
+    "example": "Lands: \"He has been paying her shop's rent through the landlord for a year.\" Fails: a secret that never comes out."
+   },
+   "false_assumptions": {
+    "what": "What each wrongly believes about the other. One entry per assumption.",
+    "why": "False assumptions create misunderstanding, which creates scenes. Correcting them can be a turning point.",
+    "need": "useful",
+    "mistake": "Assumptions so flimsy that one question would clear them up.",
+    "example": "Lands: \"She thinks he left town for money; he left to care for his dying father.\" Fails: \"She thinks he doesn't like cake.\""
+   },
+   "unequal_information": {
+    "what": "Who knows something the other doesn't. One entry per secret or gap.",
+    "why": "Unequal information creates dramatic irony (the reader knows more than a character) and suspense. It shapes every scene between them.",
+    "need": "useful",
+    "mistake": "Losing track of who knows what, so a character reacts to news they never heard.",
+    "example": "Lands: \"She knows the bakery is closing; her son doesn't.\" Fails: he mentions the closing in a scene before anyone tells him."
+   },
+   "their_names": {
+    "what": "The names these two call each other that nobody else uses: nicknames, pet names, shortened names.",
+    "why": "Private names show intimacy instantly. A change in what they call each other can signal a change in the relationship.",
+    "need": "useful",
+    "mistake": "Using the nickname inconsistently, or letting other characters use it.",
+    "example": "Lands: \"She calls him Captain only when she's mad.\" Fails: three characters call him Captain."
+   },
+   "private_words": {
+    "what": "Words or phrases only these two share, and what they mean to them.",
+    "why": "A private language shows a deep, lived-in bond. Readers feel included when they learn it.",
+    "need": "situational",
+    "mistake": "Most useful for close relationships: siblings, longtime couples, best friends. The mistake is explaining it every time.",
+    "example": "Lands: \"Biscuit means 'I'm not okay but don't ask.'\" Fails: a private word explained in narration every time it appears."
+   }
+  }
+ },
+ "interview": {
+  "about": {
+   "what": "An Interview record holds one question you ask a character and their answer in their own voice.",
+   "why": "Interviewing a character helps you find their voice and discover things you didn't plan. Speaking their answer aloud tests whether you truly know them.",
+   "when": "Use it when you are getting to know a character, or when a character feels flat or quiet during drafting.",
+   "mistake": "Answering as the author instead of the character.",
+   "example": "You ask the lighthouse keeper, \"What do you miss most?\" He answers, \"The sound of someone else breathing in the house.\""
+  },
+  "groups": {
+   "Answer": "The character's answer in their own voice, and whether it held up when you said it aloud."
+  },
+  "fields": {
+   "answer": {
+    "what": "The character's answer to this interview question, written in their own voice, as if they were speaking to you.",
+    "why": "Answering as the character tests whether you know their voice. It often turns up surprises: things they would say that you didn't plan. Without it, you know facts about them but not how they talk.",
+    "need": "core",
+    "mistake": "Answering as the author, explaining the character instead of speaking as them.",
+    "example": "Lands: \"What do you fear? Being the one who stays when everyone else leaves. Don't tell my sister.\" Fails: \"She fears abandonment because of her childhood.\""
+   },
+   "said_aloud": {
+    "what": "Whether you said the answer out loud, without looking, and whether it held up.",
+    "why": "Speaking a character's answer from memory tests whether their voice is truly in your head. If it falls apart, you know where to work.",
+    "need": "useful",
+    "mistake": "Skipping the test. Many writers find their character's voice only when they say it aloud.",
+    "example": "Lands: \"Yes, it held,\" and you heard her clearly. Fails: \"It fell apart,\" which tells you to spend more time in her voice before drafting."
+   }
+  }
+ }
+}

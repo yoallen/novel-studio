@@ -16,12 +16,13 @@ import { FilesView } from './FilesView';
 import { NovelSetup } from './NovelSetup';
 import { DraftsView } from './DraftsView';
 import { MethodsView } from './MethodsView';
+import { Help } from './Help';
 import { SprintChooser, SprintClock, SprintEnd, SprintState, enterFull, leaveFull } from './Sprint';
 import { flushEditor, currentEditor } from './flush';
 
-export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings' | 'setup' | 'drafts' | 'methods';
+export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings' | 'setup' | 'drafts' | 'methods' | 'help';
 const VIEW_NAMES: Record<View, string> = {
-  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings', setup: 'Novel setup', drafts: 'Drafts', methods: 'My methods',
+  home: 'Where was I', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings', setup: 'Novel setup', drafts: 'Drafts', methods: 'My methods', help: 'Help',
 };
 
 export interface Ctx {
@@ -35,7 +36,8 @@ export interface Ctx {
   setSaveState: (s: SaveState) => void;
   capture: () => void;
   showInMap: (sceneId: string) => void;
-  openStuck: () => void;
+  /** Open I'm stuck. Given the open scene's id (from the Writing Room), it starts at that scene's beat. */
+  openStuck: (fromSceneId?: unknown) => void;
   currentSceneId: string | null;
   /** A sprint is running: the page is all there is. */
   sprinting: boolean;
@@ -53,7 +55,10 @@ export function App() {
   const [save, setSave] = useState<SaveState>({ state: 'idle' });
   const [capturing, setCapturing] = useState(false);
   const [zoomReq, setZoomReq] = useState<ZoomRequest>(null);
-  const [stuck, setStuck] = useState(false);
+  // I'm stuck remembers the scene it was opened from, so it can start at that scene's beat.
+  const [stuck, setStuck] = useState<false | { sceneId: string | null }>(false);
+  // "Return to Writing" is offered once there is writing to return to: she has been on the page, or the page has words.
+  const [beenWriting, setBeenWriting] = useState(false);
   const [error, setError] = useState<string>('');
   const cursorRef = useRef<{ from: number; to: number } | null>(null);
   const [sprint, setSprint] = useState<SprintState | null>(null);
@@ -61,6 +66,8 @@ export function App() {
   const [sprintEnd, setSprintEnd] = useState<'time' | 'early' | 'over' | null>(null);
   const sprintRef = useRef<SprintState | null>(null);
   sprintRef.current = sprint;
+  const [helpAt, setHelpAt] = useState<string | null>(null);
+  const [helpNonce, setHelpNonce] = useState(0);
   const viewRef = useRef<View>('home');
   viewRef.current = view;
 
@@ -77,17 +84,33 @@ export function App() {
 
   useEffect(() => {
     setProject(null); setSettings(null); setSceneId(null);
+    // What a view had open belongs to its own book: switching books never shows the other book's record.
+    try {
+      if (projectId && sessionStorage.getItem('ns-book') !== projectId) {
+        for (const k of ['ns-brain-sel', 'ns-conv', 'ns-zoom-node', 'ns-zoom-tab']) sessionStorage.removeItem(k);
+        sessionStorage.setItem('ns-book', projectId);
+      }
+    } catch { /* ignore */ }
     let first: View = 'home';
     try { const v = sessionStorage.getItem('ns-open-view'); if (v) { first = v as View; sessionStorage.removeItem('ns-open-view'); } } catch { /* ignore */ }
     setView(first);
     try { if (projectId) localStorage.setItem('novel-studio-last-project', projectId); else localStorage.removeItem('novel-studio-last-project'); } catch { /* ignore */ }
     void refreshProject();
-    if (projectId) api.get(`/api/projects/${projectId}/writing-state`).then((w) => { if (w.state?.sceneId) setSceneId(w.state.sceneId); }).catch(() => {});
+    setBeenWriting(false);
+    if (projectId) api.get(`/api/projects/${projectId}/writing-state`).then((w) => {
+      if (!w.state?.sceneId) return;
+      setSceneId(w.state.sceneId);
+      // A page with words on it is worth returning to, even in a new session.
+      api.get(`/api/scenes/${w.state.sceneId}`).then((s) => { if (s.word_count > 0) setBeenWriting(true); }).catch(() => {});
+    }).catch(() => {});
   }, [projectId, refreshProject]);
+
+  useEffect(() => { if (view === 'write') setBeenWriting(true); }, [view]);
 
   // Leaving the page for anything else records a detour on the Writing Trail (R-B-016, R-B-017).
   const go = useCallback((v: View) => {
-    if (viewRef.current === 'write' && v !== 'write' && sceneId && projectId) {
+    // The Writing Trail is part of the Writing Room: opening it is not a detour of its own.
+    if (viewRef.current === 'write' && v !== 'write' && v !== 'trail' && sceneId && projectId) {
       api.post(`/api/projects/${projectId}/trail`, { from: { sceneId, cursor: cursorRef.current }, to: { view: v }, reason: `Went to ${VIEW_NAMES[v]}` }).catch(() => {});
     }
     setView(v);
@@ -102,6 +125,7 @@ export function App() {
     try {
       const next = await api.get(`/api/projects/${projectId}/next-action`);
       if (next.sceneId) { openScene(next.sceneId); return; }
+      if (next.planId) { const s = await api.post(`/api/elements/${next.planId}/write-scene`, {}); openScene(s.id); return; }
       const o = await api.get(`/api/projects/${projectId}/outline`);
       const all = (o.chapters as any[]).flatMap((c) => c.scenes as any[]);
       if (all.length) { openScene(all.reduce((a, b) => (a.updated_at > b.updated_at ? a : b)).id); return; }
@@ -128,6 +152,14 @@ export function App() {
     if (full) void enterFull();
   }
   function stopSprint() { setSprint(null); setSprintEnd(null); void leaveFull(); }
+
+  // "Learn more" anywhere opens Help at the right section; F1 opens Help.
+  useEffect(() => {
+    const f = (e: Event) => { setHelpAt(String((e as CustomEvent).detail ?? '') || null); setHelpNonce((n) => n + 1); setView('help'); };
+    const k = (e: KeyboardEvent) => { if (e.key === 'F1' && !sprintRef.current) { e.preventDefault(); setHelpAt(null); setView('help'); } };
+    window.addEventListener('ns-help', f); window.addEventListener('keydown', k);
+    return () => { window.removeEventListener('ns-help', f); window.removeEventListener('keydown', k); };
+  }, []);
 
   // Keyboard: Ctrl+Shift+N capture, Ctrl+K search, Ctrl+Shift+W return to writing.
   useEffect(() => {
@@ -162,19 +194,21 @@ export function App() {
   const ctx: Ctx = { projectId, project, settings, refreshProject, openScene, closeScene: () => { setSceneId(null); api.put(`/api/projects/${projectId}/writing-state`, { sceneId: null }).catch(() => {}); }, go, setSaveState: setSave, capture: () => setCapturing(true), currentSceneId: sceneId, cursorRef,
     sprinting: !!sprint, startSprint: () => setChoosingSprint(true),
     showInMap: (sid: string) => { void api.get(`/api/scenes/${sid}/locate`).then((node) => { setZoomReq({ node, nonce: Date.now() }); go('zoom'); }).catch((e) => setError(e.message)); },
-    openStuck: () => setStuck(true) };
+    openStuck: (from?: unknown) => setStuck({ sceneId: typeof from === 'string' ? from : null }) };
   const saveText = save.state === 'saving' ? 'Saving…' : save.state === 'saved' ? 'Saved' : save.state === 'unsaved' ? 'Not saved yet' : save.state === 'error' ? (save.message ?? 'Not saved') : '';
 
   const PRIMARY: View[] = ['home', 'write', 'brain', 'zoom', 'conversations'];
-  const SECONDARY: View[] = ['search', 'history', 'files', 'settings'];
-  const tab = (v: View) => <button key={v} aria-current={view === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>;
+  const SECONDARY: View[] = ['search', 'history', 'files', 'settings', 'help'];
+  // Pages reached from another one light up the tab they belong to.
+  const PARENT: Partial<Record<View, View>> = { setup: 'settings', methods: 'settings', trash: 'history', drafts: 'write', trail: 'write' };
+  const tab = (v: View) => <button key={v} aria-current={view === v || PARENT[view] === v ? 'page' : undefined} onClick={() => (v === 'write' ? void goWrite() : go(v))}>{VIEW_NAMES[v]}</button>;
   return (
     <div className="app" data-sprint={sprint ? true : undefined}>
       <Strip projectId={projectId} sceneId={sceneId} refresh={view} onOpen={() => go('zoom')} />
       <div className="colophon" aria-hidden="true">{BRAND.company ? `${BRAND.name}, ${BRAND.company}` : BRAND.name}</div>
       <div className="leaf" data-view={view}>
         <header className="running">
-          {view !== 'write' && sceneId && (
+          {view !== 'write' && sceneId && beenWriting && (
             <button className="ribbon" onClick={() => void returnToWriting()} title="Return to Writing (Ctrl+Shift+W)"><span>Return to Writing</span></button>
           )}
           <button className="btn link small" onClick={() => setProjectId(null)} title="All novels">Library</button>
@@ -200,6 +234,7 @@ export function App() {
           {view === 'setup' && <NovelSetup ctx={ctx} />}
           {view === 'drafts' && <DraftsView ctx={ctx} />}
           {view === 'methods' && <MethodsView ctx={ctx} />}
+          {view === 'help' && <Help key={helpNonce} anchor={helpAt} />}
         </main>
       </div>
       {/* The views, cut into the fore-edge like a dictionary's thumb index. */}
@@ -222,7 +257,7 @@ export function App() {
           onAnother={() => { stopSprint(); setChoosingSprint(true); }} />
       )}
       {choosingSprint && <SprintChooser onStart={(m, f) => void startSprint(m, f)} onClose={() => setChoosingSprint(false)} />}
-      {stuck && <Stuck ctx={ctx} onClose={() => setStuck(false)} />}
+      {stuck && <Stuck ctx={ctx} fromSceneId={stuck.sceneId} onClose={() => setStuck(false)} onShowBeat={(id) => { setStuck(false); setZoomReq({ node: { level: 'beat', id }, nonce: Date.now() }); go('zoom'); }} />}
       {capturing && <CaptureDialog ctx={ctx} sceneId={view === 'write' ? sceneId : null} onClose={() => setCapturing(false)} />}
     </div>
   );
@@ -231,7 +266,10 @@ export function App() {
 /** The book's shape, always in view: the beats (or, for a book found in the writing, its chapters), what is placed, and where she is. */
 function Strip({ projectId, sceneId, refresh, onOpen }: { projectId: string; sceneId: string | null; refresh: string; onOpen: () => void }) {
   const [d, setD] = useState<any>(null);
-  useEffect(() => { api.get(`/api/projects/${projectId}/strip${sceneId ? `?scene=${sceneId}` : ''}`).then(setD).catch(() => setD(null)); }, [projectId, sceneId, refresh]);
+  // Narrative Zoom says when the structure changes (a beat sheet chosen, a card placed), so the strip redraws at once.
+  const [bump, setBump] = useState(0);
+  useEffect(() => { const on = () => setBump((n) => n + 1); window.addEventListener('storycanon:structure', on); return () => window.removeEventListener('storycanon:structure', on); }, []);
+  useEffect(() => { api.get(`/api/projects/${projectId}/strip${sceneId ? `?scene=${sceneId}` : ''}`).then(setD).catch(() => setD(null)); }, [projectId, sceneId, refresh, bump]);
   const segs: any[] = d?.segments ?? [];
   if (!segs.length) return <div className="strip" />;
   const pct = (x: number) => `${Math.max(0, Math.min(100, x * 100))}%`;

@@ -4,6 +4,7 @@
 import { worldbuildingOn } from './catalog.js';
 import { CONDITIONAL_GROUPS, CHARACTERISTIC_FIELDS, STORY_TYPES } from './catalog.js';
 import { methods } from './methods.js';
+import { SETTING_WORDS } from './trailwords.js';
 import { settingsOf, mergeSettings, ProjectSettings } from './settings.js';
 import { templateFor, FieldDef, KIND_LABELS, BEAT_BOARD_FIELDS } from './templates.js';
 import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId } from './store.js';
@@ -118,17 +119,22 @@ export class Brain {
     return this.project(id);
   }
 
-  updateProject(id: string, patch: { title?: string; profile?: Record<string, unknown> }, expectVersion?: number, actor = ACTOR_AUTHOR) {
-    this.project(id);
+  updateProject(id: string, patch: { title?: string; profile?: Record<string, unknown> }, expectVersion?: number, actor = ACTOR_AUTHOR, reason?: string) {
+    const before = this.project(id);
     const row: Row = {};
     if (patch.title !== undefined) { if (!patch.title.trim()) throw new ValidationError('A novel needs a title.'); row.title = patch.title.trim(); }
     if (patch.profile !== undefined) row.profile_json = JSON.stringify(patch.profile);
-    this.store.batch({ projectId: id, actor, reason: 'Update novel settings' }, (w) => w.update('projects', id, row, { expectVersion }));
+    const why = reason ?? (patch.title !== undefined && patch.title.trim() !== before.title && patch.profile === undefined ? `Rename the novel to "${patch.title.trim()}"` : 'Update novel settings');
+    this.store.batch({ projectId: id, actor, reason: why }, (w) => w.update('projects', id, row, { expectVersion }));
     return this.project(id);
   }
 
-  settings(id: string): ProjectSettings {
-    return settingsOf(this.project(id).profile);
+  /** This novel's settings, plus the name the program calls her by: the name in About you, or the first word of her name here. */
+  settings(id: string): ProjectSettings & { callName: string } {
+    const s = settingsOf(this.project(id).profile);
+    let about = '';
+    try { const r = this.store.db.prepare("SELECT value_json FROM settings WHERE key='author_profile'").get() as Row | undefined; about = String(((r ? JSON.parse(r.value_json as string) : {}).about ?? {}).name ?? '').trim(); } catch { /* no profile yet */ }
+    return { ...s, callName: about || s.authorName.trim().split(/\s+/)[0] || '' };
   }
 
   /** Change novel settings. A status step still used by scenes cannot be removed (rename it instead). */
@@ -145,7 +151,10 @@ export class Brain {
         throw new ValidationError(`That step is still in use: ${names}. Move those scenes to another step first, or rename the step instead.`);
       }
     }
-    this.updateProject(id, { profile: { ...p.profile, settings: next } }, undefined, actor);
+    // Say what changed, so the Story Trail can show it in her words.
+    const cur = settingsOf(p.profile) as unknown as Record<string, unknown>;
+    const changed = Object.keys(patch).filter((k) => JSON.stringify((next as unknown as Record<string, unknown>)[k]) !== JSON.stringify(cur[k])).map((k) => SETTING_WORDS[k] ?? k);
+    this.updateProject(id, { profile: { ...p.profile, settings: next } }, undefined, actor, changed.length ? `Settings: ${changed.join(', ')}` : 'Update novel settings');
     return next;
   }
 
@@ -248,7 +257,7 @@ export class Brain {
     }
     // Author sovereignty: assistants can only propose or illustrate; only the author or her own documents establish.
     if (input.speaker.kind === 'assistant' && !['proposed', 'illustrative'].includes(input.status)) {
-      throw new ValidationError('Assistant statements can only be proposals or illustrations. The author decides.');
+      throw new ValidationError('What the collaborator or another AI says can only be a suggestion or an example. You decide.');
     }
     if (input.sourceId) {
       const s = this.store.get('sources', input.sourceId);
@@ -280,6 +289,8 @@ export class Brain {
         turn_id: input.turnId ?? null, qualifiers_json: JSON.stringify(input.qualifiers ?? {}),
       });
       for (const sid of toSupersede) w.update('statements', sid, { superseded_by_id: st.id });
+      // A question whose answer she decides moves to Answered.
+      if (el.kind === 'question' && field === 'answer' && input.status === 'established' && el.state === 'open') w.update('elements', el.id as string, { state: 'answered' });
       return parseStatement(this.store.get('statements', st.id)!);
     });
   }
@@ -302,6 +313,7 @@ export class Brain {
         if (v.current && v.current.id !== statementId) w.update('statements', v.current.id as string, { superseded_by_id: statementId });
       }
       w.update('statements', statementId, { status });
+      if (el.kind === 'question' && st.field === 'answer' && status === 'established' && el.state === 'open') w.update('elements', el.id as string, { state: 'answered' });
       return parseStatement(this.store.get('statements', statementId)!);
     });
   }
@@ -419,6 +431,26 @@ export class Brain {
       w.insert('field_defs', { project_id: projectId, kind: input.kind, field, label, group_name: (input.group ?? '').trim() || 'My fields', prompt: input.prompt ?? '', multi: input.multi ? 1 : 0, private: input.private ? 1 : 0, sort: Date.now() }));
   }
 
+  /**
+   * A field of her own on one element only (the Setup beat's list, one character's quirk), kept on the element
+   * itself so it never appears on every other element of that kind.
+   */
+  defineOwnField(elementId: string, input: { label: string; multi?: boolean; prompt?: string }, actor = ACTOR_AUTHOR) {
+    const el = this.element(elementId);
+    const label = String(input.label ?? '').trim().slice(0, 80);
+    if (!label) throw new ValidationError('Give the new field a name.');
+    const attrs = JSON.parse((el.attrs_json as string) || '{}') as Record<string, unknown>;
+    const own = ((attrs.own_fields as FieldDef[] | undefined) ?? []).slice();
+    let field = 'x_' + label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+    if (field === 'x_') field = 'x_field';
+    const taken = new Set([...this.fieldsFor(el.project_id as string, el.kind as string, { all: true }).map((d) => d.field), ...own.map((d) => d.field)]);
+    let n = 2; const base = field; while (taken.has(field)) field = `${base}_${n++}`;
+    const def: FieldDef = { field, label, group: 'My fields', prompt: input.prompt ?? '', multi: !!input.multi, custom: true };
+    own.push(def);
+    this.updateElement(elementId, { attrs: { own_fields: own } }, undefined, actor);
+    return def;
+  }
+
   removeField(fieldDefId: string, actor = ACTOR_AUTHOR) {
     const d = this.store.get('field_defs', fieldDefId);
     if (!d || d.deleted_at) throw new NotFoundError('field');
@@ -444,7 +476,9 @@ export class Brain {
         if (!cond) return true;
         if (cond.by.some((k) => on.has(k))) return true;
         const byCharacteristicOnly = cond.by.every((k) => characteristicKeys.has(k));
-        return !configured && !byCharacteristicOnly;
+        // Before she has set up the novel, only the groups the arc card and the board are built on appear.
+        // A method's own questions (Ingermanson, McKee, the thesauri, Swain, Williams) wait until she chooses it.
+        return !configured && !byCharacteristicOnly && (kind === 'arc' || kind === 'beat');
       });
       // Fields from a method of her own appear only while that method is in this novel's toolkit.
       const off = new Set(methods(this.store).filter((m) => !on.has(m.key)).map((m) => m.name));
@@ -472,6 +506,9 @@ export class Brain {
       const mine = new Set(key ? BEAT_BOARD_FIELDS[key] ?? [] : []);
       defs = defs.filter((d) => d.group !== 'On the board' || mine.has(d.field));
     }
+    // Fields she added to this one element only.
+    const own = ((JSON.parse((el.attrs_json as string) || '{}') as Record<string, unknown>).own_fields as FieldDef[] | undefined) ?? [];
+    defs = [...defs, ...own.filter((o) => !defs.some((d) => d.field === o.field)).map((o) => ({ ...o, custom: true, own: true }))];
     const used = (this.store.db.prepare('SELECT DISTINCT field FROM statements WHERE element_id=? AND deleted_at IS NULL').all(elementId) as Row[]).map((r) => r.field as string);
     // 'beat' holds a card's placement; it is shown by Narrative Zoom, not as a text field.
     const hidden = this.fieldsFor(pid, el.kind as string, { all: true });
@@ -525,6 +562,7 @@ export class Brain {
     } else if (p.kind === 'element') {
       const a = after as Record<string, unknown>;
       result = this.createElement(pid, { kind: String(a.kind), title: String(a.title), body: String(a.body ?? ''), attrs: { origin: 'assistant', accepted_by: 'author', proposal_id: id } }, actor);
+      if (t.aboutId) try { this.link(pid, { fromId: (result as Row).id as string, toId: t.aboutId as string, relation: 'relates_to' }, actor); } catch { /* what it was about may be gone */ }
     } else if (p.kind === 'link') {
       result = this.link(pid, { fromId: t.fromId as string, toId: t.toId as string, relation: t.relation as Relation, strength: 'inferred', note: p.rationale as string }, actor);
     }
@@ -559,7 +597,51 @@ export class Brain {
       "SELECT 'element' AS what, id, title, kind, reserved FROM elements WHERE project_id=? AND reserved IS NOT NULL AND deleted_at IS NULL UNION ALL SELECT 'scene' AS what, id, title, 'scene' AS kind, reserved FROM scenes WHERE project_id=? AND reserved IS NOT NULL AND deleted_at IS NULL",
     ).all(projectId, projectId) as Row[];
     const pending = [...this.proposals(projectId, 'pending'), ...this.proposals(projectId, 'deferred')];
-    return { stillOpen, choosing, questions, reserved, pending };
+    // Field names as she sees them on the record, with the kind of record they belong to.
+    const label = this.fieldLabeler(projectId);
+    const named = <T extends Record<string, unknown>>(r: T) => ({ ...r, field_label: label(r.element_kind as string, r.field as string), kind_label: (KIND_LABELS[r.element_kind as string]?.label ?? String(r.element_kind)).toLowerCase() });
+    return { stillOpen: stillOpen.map(named), choosing: choosing.map(named), questions, reserved, pending };
+  }
+
+  /** One line per record for a kind's list: a few telling fields, and how much is decided, developing and still open. */
+  kindSummaries(projectId: string, kind: string) {
+    this.project(projectId);
+    const SUMMARY: Record<string, string[]> = {
+      character: ['importance', 'role'], relationship: ['emotional_trajectory', 'shared_need'], clue: ['truth'], line: ['speaker'],
+      beat: ['event', 'function'], location: ['description'], storyline: ['letter', 'state'], event: ['function'], hidden_move: ['when'],
+      song: ['artist'], scene_plan: ['purpose'], motif: ['meaning'],
+    };
+    const want = SUMMARY[kind] ?? [];
+    const label = this.fieldLabeler(projectId);
+    const rows = this.store.db.prepare(
+      `SELECT s.element_id, s.field, s.status, s.value_json FROM statements s JOIN elements e ON e.id=s.element_id
+       WHERE e.project_id=? AND e.kind=? AND e.deleted_at IS NULL AND s.deleted_at IS NULL AND s.superseded_by_id IS NULL ORDER BY s.made_at DESC`,
+    ).all(projectId, kind) as Row[];
+    const out: Record<string, { bits: { label: string; value: string }[]; established: number; developing: number; unanswered: number }> = {};
+    for (const r of rows) {
+      const o = (out[r.element_id as string] ??= { bits: [], established: 0, developing: 0, unanswered: 0 });
+      if (r.status === 'established') o.established++;
+      else if (r.status === 'developing' || r.status === 'proposed') o.developing++;
+      else if (r.status === 'unanswered') o.unanswered++;
+    }
+    for (const id of Object.keys(out)) {
+      for (const f of want) {
+        const v = this.field(id, f);
+        const x = v.current ?? v.latest;
+        if (x && typeof x.value === 'string' && x.value.trim()) out[id]!.bits.push({ label: label(kind, f), value: x.value.trim().length > 90 ? `${x.value.trim().slice(0, 88).trimEnd()}…` : x.value.trim() });
+      }
+    }
+    return out;
+  }
+
+  /** The on-screen name of a field on a kind of record, in this novel. */
+  fieldLabeler(projectId: string) {
+    const cache = new Map<string, FieldDef[]>();
+    return (kind: string, field: string): string => {
+      if (!cache.has(kind)) { try { cache.set(kind, this.fieldsFor(projectId, kind, { all: true })); } catch { cache.set(kind, []); } }
+      const d = cache.get(kind)!.find((x) => x.field === field);
+      return d?.label ?? field.replace(/^x_/, '').replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
+    };
   }
 
   // ---------- capture ----------
