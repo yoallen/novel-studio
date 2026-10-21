@@ -871,3 +871,10 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .card-conflict { font-weight: 700; letter-spacing: -0.05em; color: var(--st-decided, #1d3f8f); }
 .board-count { font-size: 0.8rem; font-weight: 400; color: var(--muted, #6b5f73); margin-left: 0.4rem; }
 .board-teach { max-width: 70ch; }
+
+/* Bring a record from another novel */
+.bring-row { margin-top: 0.75rem; }
+.bring-list { max-height: 45vh; overflow: auto; }
+.bring-item { padding: 0.4rem 0; border-bottom: 1px solid var(--line); }
+.bring-warn { color: var(--warn); font-weight: 600; }
+.bring-done .btn.link { padding: 0; }

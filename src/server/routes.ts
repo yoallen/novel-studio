@@ -338,6 +338,9 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.delete('/api/fields/:id', async (req) => { brain.removeField(params(req, P).id); return { removed: true }; });
   app.get('/api/elements/:id/page', async (req) => brain.elementPage(params(req, P).id));
   app.get('/api/projects/:id/open-decisions', async (req) => brain.openDecisions(params(req, P).id));
+  // Bring records from another novel on her shelf, one by one, as one step she can undo.
+  app.get('/api/projects/:id/bring', async (req) => { const q = query(req, z.object({ from: id, kind: z.string().max(60) })); return brain.bringable(params(req, P).id, q.from, q.kind); });
+  app.post('/api/projects/:id/bring', async (req) => { const b = body(req, z.object({ from: id, ids: z.array(id).min(1).max(500) })); return brain.bring(params(req, P).id, b.from, b.ids); });
   app.get('/api/projects/:id/summaries', async (req) => brain.kindSummaries(params(req, P).id, query(req, z.object({ kind: z.string().max(60) })).kind));
   app.get('/api/projects/:id/proposals', async (req) => { const pid = params(req, P).id; brain.project(pid); return brain.proposals(pid, query(req, z.object({ status: z.enum(['pending', 'accepted', 'rejected', 'deferred']).optional() })).status); });
   app.post('/api/projects/:id/proposals', async (req) => {
