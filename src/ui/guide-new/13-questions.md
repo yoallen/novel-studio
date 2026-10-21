@@ -20,21 +20,21 @@ Press **F1**, or click **Help**, the last view in the list on the right. In the 
 
 ### I pressed Capture. Where did my thought go?
 
-For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**: a thought in **Captured thoughts**, a question in **Questions I have**, an idea in **Things and ideas I'm thinking about**. Unsorted thoughts also show on **Where was I** under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [The Story Brain](#the-story-brain).
+For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**: a thought in **Captured thoughts**, a question in **Questions I have**, an idea in **Things and ideas I'm thinking about**. Unsorted thoughts also show on **Where was I** under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
 
 ### What is the difference between "Just a thought" and "An idea I am thinking about"?
 
-A thought is unsorted: you catch it without deciding what it is. An idea is something you already know you might use. When in doubt, choose **Just a thought** and sort it later with **Make it a question** or **Make it an idea**. See [The Story Brain](#the-story-brain).
+A thought is unsorted: you catch it without deciding what it is. An idea is something you already know you might use. When in doubt, choose **Just a thought** and sort it later with **Make it a question** or **Make it an idea**. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
 
 ## Questions about records and their pages
 
 ### I opened a character and most of it is missing. Where is the rest?
 
-It is on the other pages. A record is laid out like a notebook with numbered pages, and one page shows at a time. Look under the record's name for the row of numbered page tabs: a character has eleven, from **1 Who they are** to **11 Notes, guardrails and writing aids**. Click a tab to turn to that page, or click **All pages**, at the end of the row, to see everything on one long page. Links at the bottom of each page go to the page before and the page after. See [The Story Brain](#the-story-brain).
+It is on the other pages. A record is laid out like a notebook with numbered pages, and one page shows at a time. Look under the record's name for the row of numbered page tabs: a character has eleven, from **1 Who they are** to **11 Notes, guardrails and writing aids**. Click a tab to turn to that page, or click **All pages**, at the end of the row, to see everything on one long page. Links at the bottom of each page go to the page before and the page after. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
 
 ### Why are some page numbers blue and others not?
 
-A page number turns ink blue once that page has something written on it. A number that is not blue means the page is still empty. It is a quick way to see, on Marisol Vega's record, that you have filled in **Who they are** and **Inner life** but not yet **Looks and voice**.
+A page number turns ink blue once that page has something written on it. A number that is not blue means the page is still empty. It is a quick way to see, on Marisol Vega's record, that you have filled in **Who they are** and **Inner life** but not yet **Looks and voice**. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
 
 ### A page I expected is not there.
 
@@ -42,11 +42,11 @@ Pages with nothing to show are left out. Some pages are made only of fields that
 
 ### I accepted a suggestion and the record jumped to another page.
 
-That is on purpose. Suggestions waiting for a record sit above the page tabs, so you see them whichever page you are on. When you accept one, the record turns to the page where it landed, so you can see it in place.
+That is on purpose. Suggestions waiting for a record sit above the page tabs, so you see them whichever page you are on. When you accept one, the record turns to the page where it landed, so you can see it in place. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
 
 ### What does "Low-energy day? One line counts" do?
 
-It sits above the page tabs on a character. Click **Fill in one line**, and Story Canon picks one empty field for you, turns to the page it is on, and puts your cursor in it. One line is a real day's work on a tired day. See [The Story Brain](#the-story-brain).
+It sits above the page tabs on a character. Click **Fill in one line**, and Story Canon picks one empty field for you, turns to the page it is on, and puts your cursor in it. One line is a real day's work on a tired day. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
 
 ### Why are some words blue, some gray, and some on a slip of paper?
 
@@ -59,9 +59,9 @@ The color of the words shows each fact's status, like ink on a page:
 | **Still open** | A blank line with a gray prompt, waiting for you. |
 | **Example** | Sepia italic, with a small boxed label reading "Example." Never a decision. |
 | **Suggestion** | On a white slip, tucked in at a slight angle, in a handwriting typeface. Someone else's idea, waiting for you. |
-| **Set aside** | Faded, with a line through it. Retired, but kept. |
+| **Set aside** | Folded away under the field, out of sight. Click **Show earlier and set-aside versions** to see it, faded, with a line through it. Retired, but kept. |
 
-The legend under a record's name is a reminder of these. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+The legend under a record's name shows a small sample of the first five, so you can glance at it whenever you forget which look is which. Set aside is not in the legend, because set-aside facts are folded away. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
 
 ### I renamed "Decided" in Settings. Did the blue ink change?
 

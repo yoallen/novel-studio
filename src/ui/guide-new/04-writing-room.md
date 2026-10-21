@@ -8,7 +8,7 @@ The Writing Room is the second tab on the right edge of the window, under **Wher
 
 | You click | Where you land |
 | --- | --- |
-| **The Writing Room** tab | The scene you had open. If none, the scene Where was I suggests under **Next**. If there is no such scene, the scene you worked on most recently. If the book has no scenes at all, a new blank scene (and a first chapter to hold it) |
+| **The Writing Room** tab | The scene you had open. If none, the scene Where was I suggests under **Next**. If there is no such scene, the scene you worked on most recently. If the book has no scenes at all, a new empty scene (and a first chapter to hold it) |
 | **Write** on Where was I | The scene named in **Next**. If that is a planned scene with no page yet, Story Canon makes its page first |
 | **Return to Writing**, the pink ribbon at the top left (or **Ctrl+Shift+W**) | The scene you were writing in, with the cursor exactly where you left it (see [Writing Room: detours and Return to Writing](#writing-room-detours-and-return-to-writing)) |
 | A scene in the list on the left, a note in **Left for later**, or **Open the page** in Narrative Zoom | That scene |
@@ -41,7 +41,7 @@ The page is the middle of the room, and the only part you truly need.
 
 **If the scene is kept for you.** When a scene is marked in **Kept for you to write or decide** (see [Writing Room: kept for you to write or decide](#writing-room-kept-for-you-to-write-or-decide)), the marker, such as *Mine to write*, appears just above the title, so you see it every time you open the page.
 
-**Example.** You open the Writing Room for the first time on *The Keeper of Gull Point*. Story Canon has made Chapter 1 with one blank scene, *Scene 1*. You click the title, type *The empty boat*, press **Enter**, and start: *The boat came in on the morning tide with nobody in it.* The word line says *11 words in this scene*.
+**Example.** You open the Writing Room for the first time on *The Keeper of Gull Point*. The book has no scenes yet, so Story Canon makes Chapter 1 with one empty scene, *Scene 1*, and opens it. You click the title, type *The empty boat*, press **Enter**, and start: *The boat came in on the morning tide with nobody in it.* The word line says *11 words in this scene*.
 
 ## Writing Room: how saving works
 
@@ -379,7 +379,7 @@ While the door is closed (see [Writing Room: door closed](#writing-room-door-clo
 
 ### Writing Room: I'm stuck
 
-**What it is.** **I'm stuck** opens a box that offers one small thing to do, so the blank page becomes a single sentence.
+**What it is.** **I'm stuck** opens a box that offers one small thing to do, so the empty page becomes a single sentence.
 
 **What it shows.** If your book has a beat sheet (a method's list of beats, in order, chosen for your book in Narrative Zoom), the box shows one beat:
 

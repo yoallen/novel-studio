@@ -361,7 +361,7 @@ Every conversation with the collaborator is kept in **Conversations**, word for 
 | Any record in the Story Brain | **Ask about this**, near the top of the record | A conversation named "About" and the record's name, already focused on that record |
 | A scene in the Writing Room | **Ask about this scene**, above the page | A conversation named "About the scene" and the scene's name. The scene goes along with every question, and the conversation is focused on its scene card |
 
-All three land you in **Conversations** with the new conversation open. (**Ask about this scene** is hidden while you are in focus mode or a writing sprint, so nothing pulls you out of the page.)
+All three land you in **Conversations** with the new conversation open. (**Ask about this scene** is hidden while you are in **Focus** in the Writing Room, with only the page on screen, or in a writing sprint, so nothing pulls you out of the page.)
 
 **How to ask, step by step:**
 
@@ -371,7 +371,7 @@ All three land you in **Conversations** with the new conversation open. (**Ask a
 4. If you like, choose a record in **Focus on… (optional)**.
 5. Click **Ask**, or press **Ctrl+Enter**. The button reads **Thinking…** while you wait.
 
-Your question and the answer appear in the conversation. Your message is signed with the name you gave in **About you** (or, if that is empty, the name in Settings under **This novel**), and the answer is signed **Collaborator**.
+Your question and the answer appear in the conversation. Your message is signed with the name you gave in **About you** (or, if that is empty, the name in Settings under **Your name**), and the answer is signed **Collaborator**.
 
 **If the collaborator is off**, the place where **Ask the collaborator** would be says "The collaborator is not set up" (or "is off for this novel"), with a link, **Turn it on in Settings**, and "Nothing is sent anywhere until you do." Nothing is broken. It is waiting for your key or your tick.
 

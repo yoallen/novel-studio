@@ -8,7 +8,7 @@ All of it is optional. With no goal at all, Story Canon still shows how many wor
 
 Your progress appears in three places:
 
-- **Where was I**, your novel's home page, under **Next**: the **drafting progress panel**, with a thin column for each day and a few figures under it. This is the main one, and most of this chapter is about it.
+- **Where was I**, your novel's home page, below **Next**: the **drafting progress panel**, with a thin column for each day and a few figures under it. This is the main one, and most of this chapter is about it.
 - **The Writing Room**, in the small line under the page: *1,204 words in this scene, today's goal 1,743*. Today's goal appears there only once you have a goal.
 - **The Writing Room binder**, at the top: the whole book's word count, and "of" your target length if you set one.
 
@@ -62,13 +62,13 @@ The panel on Where was I starts with a heading in slanted purple type: the month
 
 ### Goals: the marks on each column
 
-The columns borrow the look of the status inks: a dark solid mark for done, pencil for in progress, a blank for nothing yet. Pink is always you: today, and the days you set yourself.
+The columns borrow the look of the status inks: a dark solid mark for done, pencil for in progress, and nothing at all for no words. Pink is always you: today, and the days you set yourself.
 
 | What you see | What it means |
 | --- | --- |
 | A solid dark column | You met that day's goal. With no goal set, any day with words is dark |
 | A gray, striped column | Pencil. You wrote that day, but less than its goal |
-| No column, just the solid base line | A blank: no words that day |
+| No column, just the solid base line | No words that day |
 | A dotted gray base line | A day still ahead |
 | A dotted pink base line | A rest day you set, still ahead or with no words |
 | A thick pink base line, and the day's number in bold pink | Today |
@@ -152,7 +152,7 @@ For a week after the last day, the panel says *November is done: 51,204 words of
 | November 2 | 1,700 | 1,663 | Still ahead |
 | November 3 | 900 | 1,661 | A short day: 761 words under |
 | November 4 | 2,100 | 1,689 | The 761 words were shared over the 27 days left, so each asked about 28 more |
-| November 6 | 0 | 1,670 | A blank day |
+| November 6 | 0 | 1,670 | A day with no words |
 | November 7 | 1,500 | 1,740 | November 6's 1,670 words, shared over 24 days, added about 70 to each |
 
 By the morning of November 13, you have written 18,630 words in twelve days. 31,370 are left, over 18 days counting today, so the panel says *Today, 0 words of your 1,743.* and **To finish on time** says *about 1,743 a day, 18 days left*.
@@ -269,7 +269,7 @@ If you end a sprint early with **End the sprint**, the note says **Sprint over.*
 
 **The common mistake** is choosing 60 minutes on a tired day and feeling beaten at minute 20. On a hard day, choose 15. A small sprint you finish beats a big one you abandon.
 
-**Example.** It is November 8 and your goal is 1,680. After supper you click **Sprint**, choose **30 minutes**, and click **Start the sprint**. Marisol rows out to the reef where the boat was found. The clock says *Under a minute*, then the note says *Time. 912 words in 30 minutes.* You click **Another sprint**, and the second one takes you past the day's goal.
+**Example.** It is November 8 and your goal is 1,750. After supper you click **Sprint**, choose **30 minutes**, and click **Start the sprint**. Marisol rows out to the reef where the boat was found. The clock says *Under a minute*, then the note says *Time. 912 words in 30 minutes.* You click **Another sprint**, and the second one takes you past the day's goal.
 
 **Focus or a sprint?** **Focus** in the Writing Room hides everything too, but has no clock and no end (see [The Writing Room](#the-writing-room)). A sprint has a clock and a count at the end.
 
@@ -322,7 +322,7 @@ Here is how the pieces fit together over one month of *The Keeper of Gull Point*
 
 **November 1.** You open the book, read **Next** on Where was I, and click **Write**. You do two 30-minute sprints: Marisol finds the empty boat on her rocks. 1,800 words. The column is dark.
 
-**November 6.** You are down with a cold and write nothing. The column is blank. You don't panic: tomorrow's goal is about 70 words higher, that's all.
+**November 6.** You are down with a cold and write nothing. The column is empty. You don't panic: tomorrow's goal is about 70 words higher, that's all.
 
 **November 13.** The panel says you're 1,374 behind. You read **To finish on time** instead, *about 1,942 a day*, and write that. Ana Ruiz knocks on the lighthouse door for the first time. **Days in a row** says 7.
 
