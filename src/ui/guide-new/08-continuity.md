@@ -97,7 +97,7 @@ Most checks show your whole plan, not only what you have written. A planned scen
 
 Written scenes and cards on a beat are numbered in reading order. A card with no beat has no place in the order yet, so it has no number and is listed at the end.
 
-**Why "might" cards appear but never raise questions.** The views show "might go here" cards so you can see your whole plan. The *questions* (in the Move dialog on the Board, and in the Story review) count only decided cards and written scenes, so a guess never raises a problem. See [Narrative Zoom](#narrative-zoom) for placing cards.
+**Why "might" cards appear but never raise questions.** The views show "might go here" cards so you can see your whole plan. The *questions* (in the Move dialog, the window that shows what moving a card on the Board would change before anything moves, and in the Story review) count only decided cards and written scenes, so a guess never raises a problem. See [Narrative Zoom](#narrative-zoom) for placing cards.
 
 Four checks work only from written pages: **Viewpoint**, **Pacing**, **Reader response** and **Names**. They show only scenes that exist in the Writing Room, and each one says so.
 

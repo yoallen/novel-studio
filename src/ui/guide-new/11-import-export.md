@@ -335,7 +335,7 @@ Click **Every chapter** to go back to the whole book. The file's name says which
 | Format | Best for | What it cannot keep |
 | --- | --- | --- |
 | **Word (.docx)** | Editors, agents, critique partners, your own editing in Word. The only format whose edits can come back in with **My editor's changes**. | Nothing. |
-| **PDF** | Printing, or reading on any device. | It cannot be edited as text. A few rare characters may print as blanks; you are warned which. |
+| **PDF** | Printing, or reading on any device. | It cannot be edited as text. A few rare characters may print as empty spaces; you are warned which. |
 | **E-book (.epub)** | Kindle, Kobo, Apple Books and other e-readers. **EPUB** is the standard e-book file. | Manuscript layout and page numbers. E-readers choose their own page size. |
 | **OpenDocument (.odt)** | LibreOffice and other free word processors. | Nothing. |
 | **Rich Text (.rtf)** | Older writing programs, and almost any word processor. | Nothing. |
