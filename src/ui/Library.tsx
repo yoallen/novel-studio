@@ -103,7 +103,7 @@ export function Library({ onOpen }: { onOpen: (id: string) => void }) {
       {seeds.map((sd) => (
         <section key={sd.file} className="section seed" aria-label={`${sd.title}, ready to bring in`}>
           <h2>{sd.title} is ready</h2>
-          <p>Built from your planning: the Story Bible, both Character Breakthrough Archives, the planning conversation and the story data register. {Number(sd.counts.records).toLocaleString()} records, {Number(sd.counts.statements).toLocaleString()} facts, {Number(sd.counts.turns).toLocaleString()} conversation turns and {Number(sd.counts.passages).toLocaleString()} source passages.</p>
+          <p>Built from your planning documents and conversations. {Number(sd.counts.records).toLocaleString()} records, {Number(sd.counts.statements).toLocaleString()} facts, {Number(sd.counts.turns).toLocaleString()} conversation turns and {Number(sd.counts.passages).toLocaleString()} source passages.</p>
           <p className="small"><strong>Already brought it in on another computer?</strong> Don't bring it in here. Turn on <button className="btn link small" style={{ padding: 0, minHeight: 0, verticalAlign: 'baseline' }} type="button" onClick={() => document.getElementById('other-computers')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>Your other computers</button> below with the same shared folder, and the book comes over from there, as the same book.</p>
           <p className="small muted">Every fact keeps the status it has in your planning (decided, still developing, open, an example, or a suggestion you never accepted) and shows where it came from. Nothing was decided for you.</p>
           <div className="row">

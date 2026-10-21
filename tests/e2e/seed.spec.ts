@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
 test('I Declare War comes in from her planning, statuses and sources intact', async ({ page }) => {
   await page.goto('/#t=e2etoken0123456789');
   const offer = page.getByRole('region', { name: 'I Declare War, ready to bring in' });
-  await expect(offer).toContainText('the Story Bible, both Character Breakthrough Archives, the planning conversation');
+  await expect(offer).toContainText('Built from your planning documents and conversations');
   await offer.getByRole('button', { name: 'Bring in I Declare War' }).click();
   await expect(page.getByRole('navigation', { name: 'Views' })).toBeVisible({ timeout: 20_000 });
   await expect(page.locator('.switcher')).toContainText('I Declare War');

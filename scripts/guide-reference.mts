@@ -3,6 +3,7 @@
 // Run: npx tsx scripts/guide-reference.mts
 import { writeFileSync } from 'node:fs';
 import { TEMPLATES, KIND_LABELS } from '../src/core/templates.ts';
+import { GROUP_PLAIN } from '../src/core/groupnames.ts';
 import people from '../src/ui/fieldteach/people.json' with { type: 'json' };
 import structure from '../src/ui/fieldteach/structure.json' with { type: 'json' };
 import world from '../src/ui/fieldteach/world.json' with { type: 'json' };
@@ -39,7 +40,7 @@ for (const kind of ORDER) {
     if (!ft) continue;
     if (f.group !== group) {
       group = f.group;
-      out.push(`### ${label}: ${group === 'On the board' ? "Save the Cat's questions for this beat" : group}`, '');
+      out.push(`### ${label}: ${GROUP_PLAIN[group] ? `${GROUP_PLAIN[group]!.name} (${GROUP_PLAIN[group]!.from})` : group}`, '');
       if (t.groups?.[group]) out.push(`*${t.groups[group]}*`, '');
     }
     out.push(`**${f.label}.** ${ft.what} ${NEED[ft.need] ?? ''} ${ft.why}`.replace(/\s+/g, ' ').trim(), '');

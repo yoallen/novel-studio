@@ -358,7 +358,7 @@ function FieldBlock({ ctx, elId, kind, f, open, setOpen, showHistory, toggleHist
       {v.illustrative.map((st: any) => row(st, 'illustrative'))}
       {(v.setAside.length > 0 || v.history.length > 0) && <button className="btn link small" onClick={toggleHistory}>{showHistory ? 'Hide' : 'Show'} earlier and set-aside versions ({v.setAside.length + v.history.length})</button>}
       {showHistory && [...v.setAside, ...v.history].map((st: any) => (
-        <div key={st.id} className="small faint" style={{ marginLeft: '1rem', whiteSpace: 'pre-wrap' }}>{valueText(st.value)} ({st.superseded_by_id ? 'replaced' : statusWord(ctx.settings, st.status)}, {when(st.made_at)})
+        <div key={st.id} className="small faint" style={{ marginLeft: '1rem', whiteSpace: 'pre-wrap' }}><span style={st.status === 'set_aside' ? { textDecoration: 'line-through 1px' } : undefined}>{valueText(st.value)}</span> ({st.superseded_by_id ? 'replaced' : statusWord(ctx.settings, st.status)}, {when(st.made_at)})
           {st.status === 'set_aside' && <button className="btn link small" onClick={() => void act(api.post(`/api/statements/${st.id}/status`, { status: 'developing' }))}>Bring back</button>}
         </div>
       ))}

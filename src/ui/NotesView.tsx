@@ -48,7 +48,7 @@ export function NotesView({ ctx, embedded, onOpen }: { ctx: Ctx; embedded?: bool
       <nav className="jump-list" aria-label="On this page">
         <span className="jump-head">On this page</span>
         {GROUPS.map((g) => <a key={g.kind} href={`#notes-${g.kind}`} onClick={(e) => { e.preventDefault(); jump(g.kind); }}>{g.short} ({(items[g.kind] ?? []).filter((x) => !x.attrs.suggested).length})</a>)}
-        {suggested.length > 0 && <a href="#notes-suggested" onClick={(e) => { e.preventDefault(); document.getElementById('notes-suggested')?.scrollIntoView({ behavior: 'smooth' }); }}>Raised by the assistant ({suggested.length})</a>}
+        {suggested.length > 0 && <a href="#notes-suggested" onClick={(e) => { e.preventDefault(); document.getElementById('notes-suggested')?.scrollIntoView({ behavior: 'smooth' }); }}>Questions an AI raised ({suggested.length})</a>}
       </nav>
       {error && <div className="notice error">{error}</div>}
       {GROUPS.map((g) => {

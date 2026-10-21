@@ -14,7 +14,7 @@ interface Chapter { id: string; title: string; md: string; heads: { level: numbe
 export const CHAPTERS: Chapter[] = Object.keys(files).sort().map((path) => {
   const md = files[path]!;
   const id = path.replace(/^.*\/\d+-/, '').replace(/\.md$/, '');
-  const heads = [...md.matchAll(/^(#{1,3}) (.+)$/gm)].map((m) => ({ level: m[1]!.length, text: m[2]!.replace(/[*_`]/g, ''), id: slug(m[2]!) }));
+  const heads = [...md.matchAll(/^(#{1,4}) (.+)$/gm)].map((m) => ({ level: m[1]!.length, text: m[2]!.replace(/[*_`]/g, ''), id: slug(m[2]!) }));
   return { id, title: heads[0]?.text ?? id, md, heads };
 });
 

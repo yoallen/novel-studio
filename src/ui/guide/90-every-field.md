@@ -62,7 +62,7 @@ The common mistake: Writing the plot outcome instead of the person. "She wins th
 
 Example: Lands: "A man who keeps the light burning for strangers, not for a ghost." Fails: "He fixes the lighthouse."
 
-### Characters: Ingermanson
+### Characters: Goal and motive (Ingermanson)
 
 *Randy Ingermanson's character questions: goal, ambition, values, conflict and epiphany. Together they give a character a direction, a reason and a change.*
 
@@ -100,7 +100,7 @@ The common mistake: Stating it as a moral the character announces. An epiphany i
 
 Example: Lands: the keeper hands the light's keys to his apprentice and walks to town for the first time in years. Fails: the keeper says, "I've learned that life goes on."
 
-### Characters: Forces of antagonism
+### Characters: What works against them (McKee, forces of antagonism)
 
 *From Robert McKee: the value at stake in the character's story and the forces that push on it, from inside, from people close to them, and from the wider world, down to the value's darkest form.*
 
@@ -422,7 +422,7 @@ The common mistake: Listing beliefs that never meet a challenge.
 
 Example: Lands: "Believes family is the only people you can trust," and her brother betrays her. Fails: "Believes in hard work."
 
-### Characters: Wound and its fallout
+### Characters: Wound and its fallout (Ackerman and Puglisi)
 
 *One defining wound traced through its effects: the event (K.M. Weiland's Ghost), what they came to believe, what they fear, how they guard against it, and what sets it off. Angela Ackerman and Becca Puglisi's Emotional Wound Thesaurus is a strong companion here.*
 
@@ -464,7 +464,7 @@ The common mistake: Using triggers only for drama, without consequences.
 
 Example: Lands: "A man in a suit saying "I'm sorry, there's nothing I can do."" Fails: "Banks," which is too broad to stage.
 
-### Characters: Traits and flaws
+### Characters: Traits and flaws (Ackerman and Puglisi)
 
 *Good qualities and flaws, each tied to where it came from and what it costs, so they can be shown rather than named.*
 
@@ -648,7 +648,7 @@ The common mistake: Leaving loose ends by accident. Decide which ones you mean.
 
 Example: Lands: "She still hasn't forgiven her mother. That stays open on purpose." Fails: a subplot about her mother that simply disappears.
 
-### Arcs: Weiland Arc
+### Arcs: Lie and truth (Weiland)
 
 *K.M. Weiland's arc framework: the Ghost (the wound), the Lie it created, the Want the Lie chases, the Need that would heal it, and the Truth that replaces the Lie.*
 
@@ -880,7 +880,7 @@ The common mistake: Giving every beat its own chapter. Theme Stated is often one
 
 Example: Rival florists: the Catalyst is one scene (a wedding books them both). Fun and Games runs many chapters of sabotage. Theme Stated is a single beat: her aunt's remark at the counter.
 
-### Beats: Save the Cat's questions for this beat
+### Beats: Save the Cat's questions for this beat (Save the Cat)
 
 *Extra fields that only certain Save the Cat beats carry, such as the theme line for Theme Stated, home, work and play for the Setup, or the whiff of death for All Is Lost. They come from Blake Snyder and Jessica Brody, and they appear only on the beats they belong to.*
 
@@ -1118,7 +1118,7 @@ The common mistake: Letting the hidden story stall for long stretches, so the re
 
 Example: Visible: the sisters plan the reunion at the family house. Hidden: the older sister has already sold it.
 
-### Scene cards: Scene and sequel
+### Scene cards: Scene and sequel (Swain)
 
 *Dwight Swain's pattern: a scene (goal, conflict, disaster) is followed by a sequel (reaction, dilemma, decision), and the decision becomes the next scene's goal.*
 
@@ -1146,7 +1146,7 @@ The common mistake: A decision the next scene ignores.
 
 Example: Lands: she'll go to the co-op tonight, so the next scene is the meeting. Fails: she decides, and the next chapter follows another thread with no follow-up.
 
-### Scene cards: Emotion on the page
+### Scene cards: Emotion on the page (Ackerman and Puglisi)
 
 *How the viewpoint character's emotion shows: in the body, inside, in her thoughts, and in what she tries to hide. It follows the categories Angela Ackerman and Becca Puglisi use in their Emotion Thesaurus.*
 
@@ -1956,7 +1956,7 @@ The Story world record holds the facts that cover the whole book: when it happen
 
 **Example.** A writer starts a novel about two rival florists with only a hunch: "pride ruins them, generosity saves them." That hunch becomes the moral premise, and it tells her the ending: one florist gives the other her best customer.
 
-### Story world: The core
+### Story world: The heart of the book (Ingermanson, the Snowflake)
 
 *The heart of the book in compressed form. The one sentence and one paragraph come from Randy Ingermanson's Snowflake Method, which grows a novel outward from a single sentence.*
 
@@ -1978,7 +1978,7 @@ The common mistake: Refusing to guess until the draft is finished, which often p
 
 Example: "She keeps the lighthouse but loses the man." Even as a guess (marked Developing), this tells you the book needs to make both the lighthouse and the man precious.
 
-### Story world: Moral premise
+### Story world: Moral premise (Williams)
 
 *From Stanley D. Williams's moral premise: the theme stated as an equation, where a vice leads to defeat and a virtue leads to success. It helps every subplot argue the same truth.*
 
@@ -2000,7 +2000,7 @@ The common mistake: Writing a sermon. The premise guides you; the story should p
 
 Example: "Keeping score leads to loneliness, but giving without counting leads to belonging." The two florists then embody each half until one changes.
 
-### Story world: Controlling idea
+### Story world: Controlling idea (McKee)
 
 *From Robert McKee: the meaning of the story in one sentence, naming the value at stake and the cause that changes it.*
 
