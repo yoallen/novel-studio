@@ -118,7 +118,7 @@ If you were writing when you searched, the **Return to Writing** ribbon appears 
 A few things happen for you along the way:
 
 - **Your typing is safe.** If you were writing when you opened Search, your last words are saved first, so the replace sees them and never writes over them.
-- **Word counts update.** If "Ana" becomes "Ana Ruiz" fourteen times, that scene and your book are fourteen words longer, and the counts show it.
+- **Word counts update.** If "Ana" becomes "Ana Ruiz" fourteen times, that scene and your book are fourteen words longer, and the counts show it. Those words never count toward your daily goal or a writing push, because a replace isn't writing.
 - **Every scene keeps its old wording.** Each changed scene gets a new entry in **Earlier versions** (see [Earlier versions of a scene](#earlier-versions-of-a-scene)).
 - **Formatting stays.** Bold, italics, paragraphs and line breaks stay exactly where they were. Notes left for later, *[[like this]]*, keep their brackets; the words inside them can change like any other words.
 

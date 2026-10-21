@@ -211,11 +211,11 @@ The window closes, and the list page says what happened, such as *Brought 2 char
 
 **The common mistake** is bringing everything at once. It feels safe to tick every box, so nothing is lost. But then the new novel holds the same clutter as the old one, and the clean start is gone. Nothing in the old novel goes anywhere. It waits on your shelf. So bring only what the next scenes need, and come back for more when the story asks for it.
 
-**Example.** Yolanda is starting *The Keeper of Gull Point* fresh, and her older novel is still on the shelf with forty characters in it. She is about to write the opening, where Marisol Vega meets her sister Ana Ruiz on the dock at Port Ellery.
+**Example.** You are starting *The Keeper of Gull Point* fresh, and your older planning novel is still on the shelf with forty characters in it. You are about to write the opening, where Marisol Vega meets Ana Ruiz on the dock at Port Ellery.
 
-*Where it lands:* she opens **Characters**, clicks **Bring from another novel**, chooses the older novel, and ticks only Marisol Vega and Ana Ruiz. She also opens **Places** and brings Port Ellery. Marisol arrives with her decided hair and her want still in pencil, exactly as she left them. Cyrus Hale stays behind for now. He does not appear until chapter six, and when she gets there, she will bring him then.
+*Where it lands:* you open **Characters**, click **Bring from another novel**, choose the older novel, and tick only Marisol Vega and Ana Ruiz. You also open **Places** and bring Port Ellery. Marisol arrives with her decided hair and her want still in pencil, exactly as you left them. Cyrus Hale stays behind for now. He does not appear until chapter six, and when you get there, you will bring him then.
 
-*Where it goes wrong:* on a tired night she ticks every one of the forty characters "just in case." The new novel's Characters list fills with cut characters and half-ideas, and the clean start is gone. One **Undo** in the Story Trail takes all forty back out, and she starts again with the two she needs.
+*Where it goes wrong:* on a tired night you tick every one of the forty characters "just in case." The new novel's Characters list fills with cut characters and half-ideas, and the clean start is gone. One **Undo** in the Story Trail takes all forty back out, and you start again with the two you need.
 
 ## A record page from top to bottom
 
