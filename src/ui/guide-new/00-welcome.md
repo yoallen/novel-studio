@@ -124,11 +124,11 @@ When you leave the page to look something up, a pink bookmark ribbon hangs from 
 
 **Example.** You are writing the scene where Marisol finds an empty boat on her rocks, and you can't remember what the harbor town is called. You click **Story Brain**, find the town (Port Ellery), then click the pink **Return to Writing** ribbon. You are back in the scene, at the sentence you left.
 
-### Moving between novels
+### Switching novels keeps your place
 
 Each novel keeps its own place. When you switch to another novel with the book switcher, or open it from the Library, it opens where you left it. A view that had something open in one novel never shows the other novel's things by mistake.
 
-### Making everything bigger or smaller
+### Getting around: making everything bigger or smaller
 
 If the words are too small to read comfortably, hold **Ctrl** and press **+** to make everything bigger, **Ctrl** and **-** to make it smaller, and **Ctrl** and **0** to go back to normal size.
 
