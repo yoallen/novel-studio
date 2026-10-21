@@ -444,7 +444,8 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
   const [profile, setProfile] = useState('brody');
   const [kept, setKept] = useState<any[]>([]);
   useEffect(() => {
-    api.get(`/api/projects/${ctx.projectId}/export/presets`).then(setPresets).catch(() => {});
+    // The preset shown as chosen is applied at the start, so its choices match what is ticked.
+    api.get(`/api/projects/${ctx.projectId}/export/presets`).then((ps: any[]) => { setPresets(ps); const w = ps.find((p) => p.key === 'working'); if (w) setReq((r: any) => ({ ...r, chapterIds: null, includePrivate: false, includeExamples: true, ...w.request, options: { ...r.options, ...(w.request.options ?? {}) } })); }).catch(() => {});
     api.get(`/api/projects/${ctx.projectId}/outline`).then((o) => setOutline(o.chapters ?? [])).catch(() => {});
     api.get(`/api/projects/${ctx.projectId}/landmarks`).then((l) => { setProfiles(l.profiles ?? []); if (l.profiles?.[0]) setProfile(l.profiles[0].key); }).catch(() => {});
     api.get(`/api/projects/${ctx.projectId}/drafts`).then((d: any[]) => setKept(d.filter((x) => x.completed_at))).catch(() => {});

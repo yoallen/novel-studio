@@ -253,6 +253,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focus
         <span className="st" data-s="unanswered">{statusWord(ctx.settings, 'unanswered')} (a blank line)</span>
         <span className="st" data-s="illustrative">{statusWord(ctx.settings, 'illustrative')}, never canon</span>
         <span className="legend-slip">{statusWord(ctx.settings, 'proposed')} (a slip, tucked in)</span>
+        <span className="st legend-aside" data-s="set_aside">{statusWord(ctx.settings, 'set_aside')} (faded, kept below)</span>
       </div>
       {page.pending.length > 0 && (
         <section className="section record-section" id="sec-suggestions">
