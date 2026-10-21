@@ -464,6 +464,12 @@ To the right of every fact is its **margin**, a narrow column behind a thin line
 
 An **Example** has no **Decide this** button, on purpose; see [Example on a record](#example-on-a-record).
 
+**Why it matters.** The margin answers the three questions you will ask about any fact months from now: how sure was I, when did I write this, and whose idea was it. A fact you typed yourself has no "where it came from" line, because it is yours.
+
+**On a narrow window**, the margin moves under the fact's words instead of beside them. Nothing in it changes.
+
+**Example.** Beside "Gray-streaked, always braided" on Marisol's **Hair**, the margin reads **DECIDED** and the date, then *True when the story opens*, then **Not decided after all** and **Set aside**.
+
 ### Decide this on a fact
 
 **What it is.** The button that turns a fact into a decision: ink blue, settled, part of your story.
@@ -507,7 +513,7 @@ Click **Where did this come from?** in a fact's margin, and a window titled **Wh
 
 Click **Close** (or press **Esc**) to return to the page.
 
-Facts brought in from planning documents can carry the documents' own reference numbers, kept exactly as you wrote them. What they mean, and how to click one to see what it points to, is in [Bringing things in and sending things out](#bringing-things-in-and-sending-things-out).
+If a document you brought in labeled its entries with reference codes of its own, a fact keeps them exactly as written. Bringing documents in is taught in [Bringing things in and sending things out](#bringing-things-in-and-sending-things-out).
 
 **Why it matters.** Months from now you won't remember whether a line was your idea or an AI's. One click tells you. A suggestion that sounds like you is still a suggestion.
 
@@ -532,7 +538,7 @@ A beat has a different button instead: **Remove this beat from the novel**, with
 
 ## How each status looks and behaves on a record
 
-The six statuses are defined in [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help). This section shows each one as you meet it on a record: how it looks, how you make it, what you can do with it, and where it goes next.
+Every fact has a **status**: a word that says how settled it is. There are six, and they are always called by the same words on screen. Chapter 01 gives each a one-line meaning. This section teaches each one in full, as you meet it on a record: what it means, how it looks, how a fact gets it, what you can do with it, why it matters, the common mistake, and an example.
 
 | Status | How it looks | How it gets there | What you can do next |
 | --- | --- | --- | --- |
@@ -545,19 +551,29 @@ The six statuses are defined in [The words Story Canon uses, and getting help](#
 
 ### Decided on a record
 
-**What it means here.** This is canon: part of your story, what the collaborator and the checks treat as true.
+**What it means here.** You have made up your mind. This is canon: part of your story, what the collaborator and the checks treat as true.
 
-**How it behaves.** A one-answer field has one decision at a time; deciding a new one retires the old one, marked *replaced*. A list field can hold many decided entries at once. Decided facts are listed first under the field.
+**How it looks.** Ink blue words with a small blue square in front, like something written in pen. The margin says **DECIDED**, in blue, with its own small square.
+
+**How it behaves.** A one-answer field has one decision at a time; deciding a new one retires the old one into the field's earlier versions, marked *replaced*. A list field can hold many decided entries at once. Decided facts are listed first under the field.
+
+**Why it matters.** You can build on a decision without second-guessing it, and so can everything else in Story Canon.
 
 **The common mistake** is deciding early to make a page feel finished. Decide when you would be surprised to change it.
 
-**Example.** Marisol's **Year born**: "1983", Decided.
+**Example.** Marisol's **Year born**: "1983", Decided. And on the event *The night Eli drowned*: "October 2012, off the north rocks", Decided. You know these.
 
 ### Developing on a record
 
 **What it means here.** Pencil: an idea you are working on. Several can sit side by side in one field, which is the right way to work on anything hard. Write three wordings of a Lie, live with them, decide one.
 
+**How it looks.** Pencil-gray words with a dashed underline and a short dashed mark in front. The margin says **DEVELOPING**, in gray.
+
 **How it behaves.** Developing facts never replace each other. They wait until you decide one or set them aside. Fields that hold pencil and no decision appear in **Choices ahead**, under **Possibilities, nothing chosen**.
+
+**Why it matters.** Nothing forces you to choose before you're ready, and you can compare versions side by side.
+
+**The common mistake** is thinking two pencil answers in one field are a problem to fix. They are a choice you haven't made yet.
 
 **Example.** Two pencil ideas under **How it could happen** on the event *The boat comes in*: "Its line was cut and it drifted in on the tide" and "Someone towed it in at night and let it go."
 
@@ -565,9 +581,13 @@ The six statuses are defined in [The words Story Canon uses, and getting help](#
 
 **What it means here.** A real question you have chosen not to answer yet. It is different from an empty field: an empty field says nothing; Still open says "I know this matters, and I haven't decided."
 
-**How it behaves.** A Still open field with nothing written shows a blank line and *Still open: nothing written yet*, with a **Write it** button in its margin. Click **Write it** when you are ready; the writing box opens. If you wrote the question itself when you marked it, the words show on the blank line, and **Decide this** can make them the answer. Every Still open field appears in **Choices ahead**, under **Still open**.
+**How it looks.** Slanted gray words sitting on a ruled line, like a form waiting to be filled, with a short solid dash in front. The margin says **STILL OPEN**.
 
-**The common mistake** is reading Still open as a failure. It is a note to your future self, and it keeps you from answering by accident.
+**How it behaves.** A Still open field with nothing written shows a blank line and *Still open: nothing written yet*, with a **Write it** button in its margin. Click **Write it** when you are ready; the writing box opens. If you wrote the question itself when you marked it, the words show on the blank line, and **Decide this** can make them the answer. Every Still open field appears in **Choices ahead**, under **Still open**. Nothing in Story Canon, and nothing the collaborator does, ever fills a Still open line in by guessing.
+
+**Why it matters.** "I haven't decided" is different from "I forgot." Marking a question open keeps it in view and keeps it from being answered by accident.
+
+**The common mistake** is reading Still open as a failure, or feeling you must answer every open line before you write. It is a note to your future self. Many answers turn up while you write.
 
 **Example.** On Cyrus Hale, **What they stand to lose**: Still open, "Does he lose the harbor, or his son?"
 
@@ -575,7 +595,13 @@ The six statuses are defined in [The words Story Canon uses, and getting help](#
 
 **What it means here.** An illustration, never canon. Use it to try out what an answer could look like (for yourself, or to show the collaborator the kind of thing you mean) without committing to it.
 
+**How it looks.** Sepia (a warm brown) slanted words, in a book typeface, after a small boxed label reading "Example", so you can't mistake it for a plan. The margin says **EXAMPLE**, in sepia.
+
 **How it behaves.** An example cannot be decided. There is no **Decide this** button on it, and the program refuses to turn an example into a decision directly. If you come to love an example, write it again in the same field as your own fact, in pencil or decided, and set the example aside. That way your story never contains something you did not choose on purpose.
+
+**Why it matters.** An example teaches the shape of an answer without sneaking in as the answer.
+
+**The common mistake** is reading a vivid example as the plan. Vivid is not the same as decided.
 
 **Example.** Under Marisol's **Sayings and verbal habits**, an Example: "Weather's a liar." Her writer is trying out the flavor of her speech before choosing her real sayings.
 
@@ -583,15 +609,55 @@ The six statuses are defined in [The words Story Canon uses, and getting help](#
 
 **What it means here.** An idea someone else offered, waiting for you. It is never part of your story until you take it.
 
-**How it behaves.** A suggestion from your planning documents sits in its field as a slip, with **Decide this** and **Set aside** in its margin; clicking **Decide this** takes it in as Decided. A suggestion from the collaborator waits at the top of the record, under **Suggestions waiting for you**, until you accept it, put it off or say no. An accepted suggestion keeps its history: its margin says *Suggested by* the collaborator *, accepted by you*.
+**How it looks.** A white slip of paper with a purple left edge, tilted very slightly, in a handwriting typeface, as if someone else had written it and tucked it between the pages. The margin says **SUGGESTION** and names who suggested it, such as *Suggested by ChatGPT*.
+
+**How it behaves.** Suggestions reach a record in two ways, and the buttons differ:
+
+| Where you see it | Where it came from | What you can do |
+| --- | --- | --- |
+| Inside a field, as a slip | A document or chat you brought in | **Decide this** takes it in as Decided. **Set aside** lets it go. |
+| Under **Suggestions waiting for you**, above the page tabs | The collaborator | **Accept as Decided**, **Accept as Developing** (or a single **Accept**, for a new record or a connection), **Not yet** or **No**. See [Suggestions waiting for you on a record](#suggestions-waiting-for-you-on-a-record). |
+
+An accepted suggestion keeps its history: its margin says *Suggested by* the collaborator (or ChatGPT, or a document's name) *, accepted by you*, even once it is Decided. Deciding it makes it yours, but Story Canon still remembers where the idea started. **Choices ahead** counts every slip, and **Suggestions waiting** gathers them all on one page.
+
+**Why it matters.** You see the idea right where it applies, but it never counts as yours until you choose it.
 
 **The common mistake** is accepting everything because it all sounds good. Each idea you accept is something you have to stay consistent with. Accept as Developing when you like an idea but haven't committed.
+
+**Example.** Under **Suggestions waiting for you** on Cyrus's record: "He was the last person to see Eli alive." Marisol's writer clicks **Not yet**. It stays, marked *(you said not yet)*, until she is ready.
 
 ### Set aside on a record
 
 **What it means here.** Retired, never deleted. A set-aside fact no longer counts, no longer shows in the field, and no longer appears in Choices ahead.
 
-**How it behaves.** It waits in **Show earlier and set-aside versions**, faded, with the date you set it aside. **Bring back** returns it as Developing. Search still finds it.
+**How it looks.** You don't see it on the field. It waits under the field's link **Show earlier and set-aside versions**, faded and small, with a line through it, followed by *(Set aside,* and the date*)*. Earlier decisions that a newer one replaced sit in the same list, faded but not struck through, marked *replaced*.
+
+**How it behaves.** **Bring back** returns it as Developing. Search still finds it.
+
+**Why it matters.** Nothing in Story Canon is ever silently deleted, so you can let go of an idea without fear of losing it.
+
+**The common mistake** is deleting a whole record, or typing over a fact, to be rid of an idea. Set it aside instead: the page stays clean and the idea stays findable.
+
+**Example.** Marisol's writer sets aside "Eli drowned saving Marisol," because it made her guilt too simple. Months later it is still there under **Show earlier and set-aside versions (1)**, if she wants it back.
+
+### Statuses and the rest of the program
+
+Statuses are not decoration. The rest of Story Canon reads them:
+
+- **Where was I** lists your open questions and your latest decisions, on its page **2 Still open**.
+- **Choices ahead**, in the Story Brain, collects every Still open field, every field with pencil answers and no decision, and every suggestion waiting.
+- **Narrative Zoom** counts a scene card as placed only when its spot is decided, so its checks never report a problem based on a guess.
+- **The collaborator** treats Decided facts as true, treats pencil as possibilities, never fills in an open line by guessing, and never offers an example as a fact.
+
+So the more honest your statuses, the more useful everything else becomes.
+
+### Story Brain: statuses that look wrong but are working
+
+- **No Decide this beside an example.** On purpose. Examples can't become canon.
+- **Two or three answers in one field, all in pencil.** On purpose. They wait until you choose.
+- **A decided answer vanished after you decided a different one.** It was replaced, not lost. Click **Show earlier and set-aside versions** under that field.
+- **Your status words don't match this guide.** Someone renamed them in **Settings**, under **Words for decisions** (for example, "Inked" instead of "Decided"). Your words show everywhere, and the looks stay the same.
+- **A decided suggestion still says *Suggested by ChatGPT*.** On purpose. Deciding it makes it yours, but Story Canon still remembers where the idea started.
 
 ## Adding your own fields
 
@@ -720,84 +786,9 @@ Story Canon stores each connection once and reads it the right way from both end
 
 A few words read the same both ways (*relates to*, *is the same person as*) and appear once.
 
-### Every connection word
+### Which connection words there are
 
-Each table gives the word as it reads from the record you are on, the word as it reads from the other end, what it means, and what in Story Canon pays attention to it. Several of the things in the last column are views and checks you will meet later, in [Narrative Zoom](#narrative-zoom) and [Catching problems: the continuity checks](#catching-problems-the-continuity-checks). You don't need them to make a connection. "Your own record keeping" means no check reads the word yet. It is still worth making: you can see it on both records, and search finds it.
-
-#### Connection words for cause and effect
-
-| Forward | Backward | Meaning | Used by |
-| --- | --- | --- | --- |
-| causes | is caused by | One thing makes the other happen. | Warnings when you move a scene: an effect would come before its cause. |
-| makes possible | is made possible by | One thing opens the door for the other without forcing it. | The same move warnings. |
-| motivates | is motivated by | A reason someone acts: a wound, a want, an event. | The same move warnings. |
-| depends on | is needed by | This cannot work unless the other is in place first. | Move warnings: something would now come before what it depends on. |
-| moves forward | is moved forward by | A scene or event that pushes a storyline, arc or question along. | The Storylines view in Narrative Zoom. |
-
-#### Connection words for setups, clues and secrets
-
-| Forward | Backward | Meaning | Used by |
-| --- | --- | --- | --- |
-| plants | is planted in | Where a setup or clue first appears. | The Setups and payoffs check. |
-| pays off | pays off in | Where a setup or clue comes back and matters. | The Setups and payoffs check. |
-| foreshadows | is foreshadowed by | A hint of something that comes later. | Move warnings: the hint would no longer come first. |
-| reveals | is revealed in | Where a truth comes out to the reader or a character. | Who knows what. |
-| hides | is hidden in | Where a truth is kept out of sight on purpose. | Move warnings. |
-| raises | is raised by | A scene or event that makes the reader ask a question. | Move warnings: a question answered before it is raised. |
-| answers | is answered by | Where a question the story raised gets its answer. | The same. |
-
-#### Connection words for who knows what
-
-| Forward | Backward | Meaning | Used by |
-| --- | --- | --- | --- |
-| knows | is known by | A character knows this truth. | Who knows what. |
-| suspects | is suspected by | A character half-knows or guesses this. | Who knows what. |
-| wrongly believes | is wrongly believed by | A character is sure of something that is not true. | Who knows what. |
-| can see | can be seen by | A character is in a position to witness this. | Your own record keeping. |
-| cannot see | cannot be seen by | A character is kept from witnessing this. | Your own record keeping. |
-
-#### Connection words for where and who
-
-| Forward | Backward | Meaning | Used by |
-| --- | --- | --- | --- |
-| appears in | has in it | A character, object or line shows up in a scene. | The Cast view, *Who is here* (with ages) in the scene plan beside the page in the Writing Room, Who knows what. |
-| is the viewpoint of | is seen through | Whose eyes a scene is told through. | Ages in each scene. (The Viewpoint view reads each scene's viewpoint setting in the Writing Room.) |
-| happens at | is where … happens | Where a scene or event takes place. | Your own record keeping. |
-| is a member of | has as a member | A character belongs to a group, family or faction. | Your own record keeping. |
-| is a | includes | A character is one of a kind of being, such as a ghost or a dragon. | Worldbuilding books. |
-| is the same person as | is the same person as | Two records for one person, such as a younger self. | **Across time** on each character's Arc page. |
-
-#### Connection words for echoes and sources
-
-| Forward | Backward | Meaning | Used by |
-| --- | --- | --- | --- |
-| mirrors | is mirrored by | Two things echo each other on purpose. | Your own record keeping. |
-| contradicts | is contradicted by | Two things cannot both be true. Worth a look. | Your own record keeping. |
-| calls up | is called up by | Something in the present brings back a memory. | The Timelines view (*Calls up*, *Called up by*). |
-| is inspired by | inspired | Where an idea came from, inside or outside the book. | Your own record keeping. |
-| retells | is retold in | Your version of a myth, legend or classic. | Retellings. |
-| is written by | wrote | Who wrote a letter, diary or other in-world document. | In-world documents. |
-
-#### Connection words for music
-
-| Forward | Backward | Meaning | Used by |
-| --- | --- | --- | --- |
-| plays in | has playing in it | A song heard in a scene. | The Soundtrack view. |
-| is the theme song of | has as its theme song | A song that belongs to a character or storyline. | The Soundtrack view. |
-
-#### Connection words for structure
-
-| Forward | Backward | Meaning | Used by |
-| --- | --- | --- | --- |
-| contains | is inside | One part of the plan holds another, such as an act and its beats. | Narrative Zoom. |
-| is part of | has as a part | The other way of saying contains. | Narrative Zoom. |
-| carries out | is carried out by | A scene card that does the job a beat asks for. | Narrative Zoom and the checks. |
-
-#### The general connection word
-
-| Forward | Backward | Meaning | Used by |
-| --- | --- | --- | --- |
-| relates to | relates to | A general tie when no other word fits. It is under the heading *General*. | Relationship records: a relationship *relates to* each of its people, and that names them at the top of its page. |
+The dropdown in **Make a connection** groups its words under gray headings: *Cause and effect* (such as **causes** and **depends on**), *Setups, clues and secrets* (**plants**, **pays off**, **reveals**), *Who knows what* (**knows**, **suspects**), *Where and who* (**appears in**, **happens at**), *Echoes and sources*, *Music*, *Structure*, and *General* (**relates to**). The line under the dropdowns explains each word as you choose it, so you never need to learn them in advance. When you want the whole list, with what in Story Canon reads each word, see [Reference: every connection word](#reference-every-connection-word).
 
 ### The inferred chip
 
@@ -1196,13 +1187,7 @@ Every field can hold several ideas in pencil side by side. That is the right way
 
 Under the arc cards, **Read the Lies as a pair with** has a dropdown of your other characters. Choose one, and a box called **The two Lies, read as a pair** shows both characters' Lies, one under the other. A character with no Lie yet shows *No Lie written yet.*
 
-**Why it helps: foils and doubles.** Two characters set side by side tell the reader something about each other.
-
-- A **foil** is a character whose contrast makes another's traits visible. Their Lies pull in opposite directions.
-- A **double** shows how alike two people are. Their Lies are the same belief in different clothes.
-- A **mirror** is looser: two people alike in situation but different in what they choose.
-
-None of these is wrong, but you should know which you have.
+**Why it helps.** Two characters set side by side tell the reader something about each other. Sometimes their Lies pull in opposite directions, so each one's choices make the other's visible (writers call that pair **foils**). Sometimes their Lies are the same belief in different clothes (**doubles**). Neither is wrong, but you should know which you have. Both words, and a third, **mirrors**, are explained in [Reference: foils, doubles and mirrors](#reference-foils-doubles-and-mirrors).
 
 **The name-swap test.** Tick **Read with the names swapped**. The two Lies are shown with the characters' first names exchanged. If you can swap the names and nothing changes, the two are doubles, not foils. If you meant them to be foils, push one Lie until it pulls the other way.
 
@@ -1543,7 +1528,7 @@ Each question shows its words (a link to its own page), the date you asked it (w
 
 Click **Cancel** to close the box without changing anything.
 
-**Where questions come from.** Most arrive through Capture: choose **A question I have** in the Capture box, and the question lands here. When you capture one from a scene in the Writing Room, Capture also asks whether you need it now (**I need this to keep writing**) or can **Resolve later**. A captured thought can also become a question (see [Captured thoughts](#captured-thoughts-in-the-story-brain)). Questions brought in from planning documents keep your own wording, shorthand and all.
+**Where questions come from.** Most arrive through Capture: choose **A question I have** in the Capture box, and the question lands here. (How Capture works, including the extra choices it offers while you write, is taught in [Writing Room: Capture while writing](#writing-room-capture-while-writing).) A captured thought can also become a question (see [Captured thoughts](#captured-thoughts-in-the-story-brain)). Questions brought in from planning documents keep your own wording, shorthand and all.
 
 ### A question's own page
 
@@ -1571,7 +1556,7 @@ Click a question to open its record. It looks like any record, with two pages, *
 
 ### Captured thoughts in the Story Brain
 
-**What it is.** Everything you caught with Capture lands here, in the third section of **Questions and ideas**, exactly as you typed it. Tabs: **Not filed yet** and **Filed**.
+**What it is.** Everything you caught with Capture as **Just a thought** lands here, in the third section of **Questions and ideas**, exactly as you typed it. Tabs: **Not filed yet** and **Filed**.
 
 **What you can do with one.** Each thought has buttons to move it between the two tabs, plus **Make it a question** (it moves to Questions I have, as Open) and **Make it an idea** (it moves to Things and ideas I'm thinking about, as Considering). Click a thought's words to open its record, where you can connect it to anything.
 
@@ -1681,3 +1666,115 @@ Each entry reads as the record's name, its kind, then the field: *The empty boat
 **My Secret operations list has moves that say nothing about whose they are.** They were added from the Story Brain list. Open each one and choose its owner in **Whose move is this?**.
 
 **Where are the book-wide guardrails?** Under **Guardrails** in the left list (or under **Show every kind** until you have one). See [Guardrails for the whole book](#guardrails-for-the-whole-book).
+
+## Reference: connection words, McKee's ladder, and foils
+
+This section holds details the chapter points to but that you don't need on a first reading. Come here when a link sends you, or when you want the whole picture.
+
+### Reference: every connection word
+
+Here is every word in the **Make a connection** dropdown, grouped under the same gray headings the dropdown uses. Each table gives the word as it reads from the record you are on, the word as it reads from the other end, what it means, and what in Story Canon pays attention to it. Several of the things in the last column are views and checks you will meet later, in [Narrative Zoom](#narrative-zoom) and [Catching problems: the continuity checks](#catching-problems-the-continuity-checks). You don't need them to make a connection. "Your own record keeping" means no check reads the word yet. It is still worth making: you can see it on both records, and search finds it.
+
+#### Connection words for cause and effect
+
+| Forward | Backward | Meaning | Used by |
+| --- | --- | --- | --- |
+| causes | is caused by | One thing makes the other happen. | Warnings when you move a scene: an effect would come before its cause. |
+| makes possible | is made possible by | One thing opens the door for the other without forcing it. | The same move warnings. |
+| motivates | is motivated by | A reason someone acts: a wound, a want, an event. | The same move warnings. |
+| depends on | is needed by | This cannot work unless the other is in place first. | Move warnings: something would now come before what it depends on. |
+| moves forward | is moved forward by | A scene or event that pushes a storyline, arc or question along. | The Storylines view in Narrative Zoom. |
+
+#### Connection words for setups, clues and secrets
+
+| Forward | Backward | Meaning | Used by |
+| --- | --- | --- | --- |
+| plants | is planted in | Where a setup or clue first appears. | The Setups and payoffs check. |
+| pays off | pays off in | Where a setup or clue comes back and matters. | The Setups and payoffs check. |
+| foreshadows | is foreshadowed by | A hint of something that comes later. | Move warnings: the hint would no longer come first. |
+| reveals | is revealed in | Where a truth comes out to the reader or a character. | Who knows what. |
+| hides | is hidden in | Where a truth is kept out of sight on purpose. | Move warnings. |
+| raises | is raised by | A scene or event that makes the reader ask a question. | Move warnings: a question answered before it is raised. |
+| answers | is answered by | Where a question the story raised gets its answer. | The same. |
+
+#### Connection words for who knows what
+
+| Forward | Backward | Meaning | Used by |
+| --- | --- | --- | --- |
+| knows | is known by | A character knows this truth. | Who knows what. |
+| suspects | is suspected by | A character half-knows or guesses this. | Who knows what. |
+| wrongly believes | is wrongly believed by | A character is sure of something that is not true. | Who knows what. |
+| can see | can be seen by | A character is in a position to witness this. | Your own record keeping. |
+| cannot see | cannot be seen by | A character is kept from witnessing this. | Your own record keeping. |
+
+#### Connection words for where and who
+
+| Forward | Backward | Meaning | Used by |
+| --- | --- | --- | --- |
+| appears in | has in it | A character, object or line shows up in a scene. | The Cast view, *Who is here* (with ages) in the scene plan beside the page in the Writing Room, Who knows what. |
+| is the viewpoint of | is seen through | Whose eyes a scene is told through. | Ages in each scene. (The Viewpoint view reads each scene's viewpoint setting in the Writing Room.) |
+| happens at | is where … happens | Where a scene or event takes place. | Your own record keeping. |
+| is a member of | has as a member | A character belongs to a group, family or faction. | Your own record keeping. |
+| is a | includes | A character is one of a kind of being, such as a ghost or a dragon. | Worldbuilding books. |
+| is the same person as | is the same person as | Two records for one person, such as a younger self. | **Across time** on each character's Arc page. |
+
+#### Connection words for echoes and sources
+
+| Forward | Backward | Meaning | Used by |
+| --- | --- | --- | --- |
+| mirrors | is mirrored by | Two things echo each other on purpose. | Your own record keeping. |
+| contradicts | is contradicted by | Two things cannot both be true. Worth a look. | Your own record keeping. |
+| calls up | is called up by | Something in the present brings back a memory. | The Timelines view (*Calls up*, *Called up by*). |
+| is inspired by | inspired | Where an idea came from, inside or outside the book. | Your own record keeping. |
+| retells | is retold in | Your version of a myth, legend or classic. | Retellings. |
+| is written by | wrote | Who wrote a letter, diary or other in-world document. | In-world documents. |
+
+#### Connection words for music
+
+| Forward | Backward | Meaning | Used by |
+| --- | --- | --- | --- |
+| plays in | has playing in it | A song heard in a scene. | The Soundtrack view. |
+| is the theme song of | has as its theme song | A song that belongs to a character or storyline. | The Soundtrack view. |
+
+#### Connection words for structure
+
+| Forward | Backward | Meaning | Used by |
+| --- | --- | --- | --- |
+| contains | is inside | One part of the plan holds another, such as an act and its beats. | Narrative Zoom. |
+| is part of | has as a part | The other way of saying contains. | Narrative Zoom. |
+| carries out | is carried out by | A scene card that does the job a beat asks for. | Narrative Zoom and the checks. |
+
+#### The general connection word
+
+| Forward | Backward | Meaning | Used by |
+| --- | --- | --- | --- |
+| relates to | relates to | A general tie when no other word fits. It is under the heading *General*. | Relationship records: a relationship *relates to* each of its people, and that names them at the top of its page. |
+
+### Reference: McKee's value ladder
+
+This belongs to the character's **What opposes them** page (see [Character page: What opposes them](#character-page-what-opposes-them)), and to the field **The worst form of their value**.
+
+**What it is.** Robert McKee shows that a value (something characters care about that can swing positive or negative) doesn't just have an opposite. It has a ladder down, four steps long:
+
+1. **The positive value**: trust.
+2. **The contrary**, a step down but not the opposite: doubt.
+3. **The contradictory**, the plain opposite: betrayal.
+4. **The negation of the negation**, the value at its very darkest, where something is wrong twice over: betraying yourself and calling it loyalty.
+
+**Why it matters.** Most stories stop at the opposite. Strong ones push the character all the way down to the fourth step before the end, so the climb back means something.
+
+**How it fails.** Stopping at step three because step four feels too dark for your book. Set the fourth step for your book's tone instead: a cozy mystery's darkest point is different from a tragedy's, but both books need one.
+
+**Example.** For Marisol, whose value is trust: trust (she trusts the light, and Cyrus); doubt (the empty boat makes her wonder what Cyrus knows); betrayal (she learns he sent it); trusting no one, not even herself, and calling it keeping watch. That last one is her **The worst form of their value**.
+
+### Reference: foils, doubles and mirrors
+
+These words describe two characters set side by side. You meet them when you read two Lies as a pair (see [Reading two Lies as a pair](#reading-two-lies-as-a-pair)).
+
+- A **foil** is a character whose contrast makes another's traits visible. Their Lies pull in opposite directions.
+- A **double** shows how alike two people are. Their Lies are the same belief in different clothes.
+- A **mirror** is looser: two people alike in situation but different in what they choose.
+
+**Why it matters.** None of these is wrong, but you should know which you have. Two characters you meant as foils who turn out to be doubles will feel repetitive on the page. Doubles you chose on purpose can show the reader the road the hero did not take.
+
+**Example.** Marisol and Ana are foils: one fears being left, the other fears staying. Cyrus and Marisol are closer to mirrors: both have carried the night Eli drowned alone for twelve years, and they choose differently about what to do with it.

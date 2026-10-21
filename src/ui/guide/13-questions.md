@@ -179,7 +179,7 @@ No. Nothing goes to the collaborator until you have set a key, ticked **Use the 
 
 ### The collaborator raised a question I never asked. Did it change my story?
 
-No. A question the collaborator (or a chat you brought in) raises waits in the Story Brain, under **Questions and ideas**, in its own section, **Questions an AI raised**, apart from your own questions. Click **Make it one of my questions** to take it on, or **Not relevant** to put it away. Until you do, it is not yours. See [Questions an AI raised](#questions-an-ai-raised).
+No. A question waits for you in one of two places, depending on how it arrived. A question the collaborator offers on its own waits in **Suggestions waiting**, shown as "New question:", with **Accept** and **No**. A question you caught from an AI's words in a conversation, with **It's a question**, waits in the Story Brain under **Questions and ideas**, in its own section, **Questions an AI raised**, with **Make it one of my questions** and **Not relevant**. Until you take it on, it is not yours. See [Questions an AI raised](#questions-an-ai-raised).
 
 ### I said "sounds good" to an idea in the chat. Is it in my story now?
 

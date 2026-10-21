@@ -59,7 +59,7 @@ Here is the whole sheet in one pass, using *The Keeper of Gull Point*:
 
 Two beats also have smaller steps inside them. Setup holds **Stasis = Death**, and the Finale holds five steps. They're explained in [Smaller steps inside a beat: Stasis = Death and the Finale](#smaller-steps-inside-a-beat-stasis-death-and-the-finale).
 
-The descriptions, placement advice and examples you'll see on each Save the Cat beat come from the Save the Cat beat sheet built into Story Canon. The screens call it "the beat sheet" (and a question about where a beat falls says "Your sheet says"). Story Canon shows its words exactly as the sheet has them and credits each example to the book it comes from.
+The descriptions, placement advice and examples you'll see on each Save the Cat beat come with Story Canon. The screens call this "the beat sheet", and each example is credited to the book or film it comes from. When a question quotes the sheet's placement advice, it begins "Your sheet says".
 
 ### The other beat sheets Story Canon offers
 
@@ -94,30 +94,69 @@ A method with beats appears in the beat sheet list the next time you choose one.
 
 ### Choosing a beat sheet for a novel
 
-**Where:** **Narrative Zoom** (the fourth tab on the right edge of the window), on the **Zoom** tab, for a novel that has no beat sheet yet. The page says "This novel has no beat sheet. Frameworks are lenses you choose, never requirements. Your story works without one." The **Board** tab shows the same message.
+This is the one place in the guide that says where a beat sheet is chosen and changed. Other chapters link here.
 
-1. Open the dropdown beside that message. It lists the five built-in sheets, then any of your own methods that have beats.
-2. Click **Use this beat sheet**.
-3. The beats appear at once: on the Zoom page, on the Board, and on the story strip at the top of the window.
+**What it is.** Each novel uses one beat sheet at a time: the one whose beats appear on the Board, on the story strip and in **Where beats fall**. A novel can also have none, if you find the story as you write.
 
-You can change it later in **Novel setup**. If more than one beat sheet is switched on there, the line **The beat sheet that drives the board** picks the one the Board, the strip and the placement numbers use. Tick **Offer my placed scenes on the matching beats** before you switch, and your scene cards are offered on the matching beats of the new sheet as "might go here", waiting for you to decide. Nothing is decided for you, and nothing placed on the old sheet is lost.
+**Where you choose one.** There are two places, and they do the same thing:
+
+- **In Narrative Zoom**, while the novel has no beat sheet. The **Zoom** tab (and the **Board** tab) says "This novel has no beat sheet. Frameworks are lenses you choose, never requirements. Your story works without one."
+  1. Open the dropdown beside that message. It lists the five built-in sheets, then any of your own methods that have beats.
+  2. Click **Use this beat sheet**.
+  3. The beats appear at once: on the Zoom page, on the Board, and on the story strip at the top of the window.
+- **In Novel setup** (open **Settings**, then **Open novel setup**), on its page **5 My storytelling toolkit**. Tick a beat sheet, such as **Save the Cat (Brody for novels)**. If the novel had none, a message says it "is now the beat sheet for this novel". Your own methods that have beats are listed here too, marked *yours*.
+
+**Where you change it.** In Novel setup, on the same page **5 My storytelling toolkit**.
+
+1. Tick the beat sheet you want to move to, as well as the one you have. Once more than one is ticked, a line appears: **The beat sheet that drives the board**, with a dropdown.
+2. Before you switch, tick **Offer my placed scenes on the matching beats** if you want your scene cards carried across. They are offered on the matching beats of the new sheet as "might go here", waiting for you to decide.
+3. Choose the new sheet in **The beat sheet that drives the board**.
+
+Nothing is decided for you, and nothing placed on the old sheet is lost. If you untick the sheet that drives the board, the next ticked one takes over.
+
+**Where you change a sheet's beats.** The built-in sheets can't be edited, but you can make your own from any of them. That happens in **My methods**, as [Your own method as a beat sheet](#your-own-method-as-a-beat-sheet) explains: start from a copy of the built-in sheet and change what you like. The Story Brain's Beats page has an **Open My methods** link for this. To skip one beat in this book only, use **Remove this beat from the novel** on the beat (see [Remove this beat from the novel](#remove-this-beat-from-the-novel)).
+
+**The common mistake.** Switching beat sheets to fix a sagging middle. The sheet is a lens; if the middle sags, the new sheet will show the same gap under another name. Try **Alternate structures** first.
 
 ## The story strip across the top of the window
 
-The **story strip** is the thin map of your book that runs across the very top of the window, above every view. It's there so you always know where you are in the shape of the book.
+**What it is.** The **story strip** is a thin map of your whole book. Once a novel is open, it runs along the very top of the window, on the purple cover above the page, from the first page of the book (left) to the last (right). It is there on every view. (The row with the novel's title, the **Saved** indicator and **Capture** is a different thing: it sits at the top of the page itself, just below the strip.)
 
-What it shows, once your novel has a beat sheet:
+**Why it matters.** It tells you at a glance where you are in the shape of the book, and how much of your plan is placed, without opening anything.
 
-- **The acts**, as faint bars with their names above them.
-- **Each numbered beat**, at its place along the line. A beat that is a moment is a thin tick. A beat that covers a stretch, like Fun and Games, is a wider band.
-- **Small marks above a beat**, one for each scene card placed there (up to five). A solid mark is a card decided on that beat. An outlined mark is a card that only might go there.
-- **A colored line with a dot**, when the scene you have open in the Writing Room has a card on a beat. It means "you are here".
+**Do you need it?** You don't do anything with it. It draws itself from your beat sheet and your scene cards, or from your chapters if you have no beat sheet.
 
-Point at a beat to see its name and how many cards are placed or might go there. Click any beat to open Narrative Zoom, on whichever tab you used last.
+### Story strip: what the marks mean
 
-If your novel has no beat sheet, the strip shows your chapters instead, each as wide as its share of the words, with the marker on the chapter you're writing in.
+**With a beat sheet**, the strip shows your acts and beats:
 
-The strip hides itself during a writing sprint and while the Writing Room's **Focus** is on, so nothing distracts you from the page.
+| Mark | What it means |
+| --- | --- |
+| Slanted words above the line (*Act One*, *Act Two, first half*, *Act Two, second half*, *Act Three*) | The names of the acts, each over a faint band showing how much of the book it covers |
+| A thin white tick | One beat that is a moment, placed where it falls in the book |
+| A faint shaded band with a line at its left | One beat that covers a stretch of the book, such as Fun and Games |
+| A small solid cream box above a beat | One scene card **decided** on that beat (or on a smaller step inside it) |
+| A small hollow box, an outline only | One scene card that only **might go** there: in pencil, its spot not decided |
+| A pink pin: a thin pink line with a round head | Where the scene you have open falls in the book |
+
+Up to five boxes show above any one beat. A beat with more cards still shows five.
+
+**With no beat sheet** (you find the story as you write), the strip shows your chapters instead, each one as wide as its share of your words, with its name in slanted type above it (very short chapters go unlabeled). One box stands for one scene in that chapter, and the pink pin stands on the chapter you are writing in.
+
+**The pin.** "The scene you have open" is the scene last opened in the Writing Room, even while you are on another view. With a beat sheet, the pin shows only when that scene's card is decided on a beat; a card that only *might* go somewhere has no fixed spot to pin.
+
+### Story strip: pointing and clicking
+
+Hold the mouse over a beat, and a small label gives its name and what is there, such as *Catalyst, 1 placed, 2 might go here*. Click any beat (or chapter) to open Narrative Zoom, on whichever tab you used last.
+
+**Example.** Above the Catalyst on the strip of *The Keeper of Gull Point* is one solid box (the card "The empty boat", decided there) and two hollow ones (two other cards that might go there). While you write "The empty boat" in the Writing Room, the pink pin stands at the Catalyst.
+
+### Story strip: when it looks wrong but is working
+
+- **No pink pin.** No scene has been opened in the Writing Room yet, or the open scene's card is not decided on a beat (it only might go there, or the scene has no card).
+- **The strip shows only "Chapter 1".** Your novel has no beat sheet yet. Choose one as [Choosing a beat sheet for a novel](#choosing-a-beat-sheet-for-a-novel) explains, and the acts and beats appear.
+- **The strip is empty.** The novel has no chapters and no beat sheet yet.
+- **The strip disappeared.** A writing sprint is running, or the Writing Room's **Focus** is on. Both hide everything but the page, and the strip comes back when they end.
 
 ## Finding your way around Narrative Zoom
 
@@ -233,7 +272,7 @@ Pages with nothing to show are left out, and the numbers close up. Questions for
 
 **The common mistake** is reading page 1 and thinking the beat has nowhere to write. Page 1 is the beat sheet's lesson. Your own plan starts on **In this book**.
 
-#### Beat page 1: About this beat
+#### Beat page: About this beat
 
 This page teaches the beat. Under the heading **What this beat really does**:
 
@@ -247,7 +286,7 @@ On Stasis = Death, this page also points you to the Setup beat, where the six th
 
 If the beat has smaller steps inside it, they're listed at the bottom of this page under **Inside this beat**. Click one to open its own page.
 
-#### Beat page 2: Scenes here
+#### Beat page: Scenes here
 
 This page lists the cards decided for this beat, each with a small circle: hollow if its scene has no writing yet, filled if it has words. If none are decided, it says "No scenes placed here yet." A card decided on one of the beat's smaller steps is listed here too.
 
@@ -269,7 +308,7 @@ This places the card straight away, without the preview the Move dialog gives. I
 2. Choose **It goes here** or **It might go here**.
 3. Click **Add scene card**. The new card appears in the list. Click it to fill in its plan.
 
-#### Beat page 3: In this book
+#### Beat page: In this book
 
 From here on, the pages are the beat's own record, where you write what the beat does in *your* book. At the top of **In this book**, a fold-out called **About beats: what they are and how to use them** gives a short lesson, with **Read the full chapter in Help**, which opens the beat fields in [Every kind and every field](#every-kind-and-every-field).
 
@@ -336,9 +375,9 @@ The three sizes:
 
 Choosing a size changes nothing automatically. It's a note to yourself about pacing: a long stretch can't be rushed into a paragraph, and a quick turn padded into a chapter sags.
 
-#### Beat page 4: Questions for this beat
+#### Beat page: Questions for this beat
 
-Some beats carry one more page of fields. Its tab says **Questions for this beat**; the heading inside still credits where the questions come from, **Save the Cat's questions for this beat**. These are the extra questions Snyder and Brody ask at particular beats. As the page itself says, they belong to the beat sheet, not to the **Board** tab.
+Some beats carry one more page of fields. Its tab says **Questions for this beat**; the heading inside credits where the questions come from, **Save the Cat's questions for this beat**. These are the extra questions Snyder and Brody ask at particular beats. The page appears only when Save the Cat is your beat sheet (or the novel is not set up yet).
 
 Only the beats that need them carry them:
 
@@ -363,7 +402,7 @@ Only the beats that need them carry them:
 
 In the Setup, Save the Cat asks you to show the problems in the hero's life that the story will later fix or pay off. Brody calls them the "things that need fixing"; Snyder suggests about six. They're often small and specific: a habit, a grudge, a broken thing nobody repairs.
 
-**Where:** the **Setup** beat, page **4 Questions for this beat**, the field **Six things that need fixing**.
+**Where:** the **Setup** beat, its **Questions for this beat** page, the field **Six things that need fixing**.
 
 1. Click **Add**.
 2. Write one problem, such as "She hasn't opened Eli's room in twelve years."
@@ -378,9 +417,9 @@ In the Setup, Save the Cat asks you to show the problems in the hero's life that
 
 Stasis = Death doesn't have its own list. Its page sends you back to Setup, because the problems are planted across the whole Setup.
 
-#### Beat page 5: Notes and connections
+#### Beat page: Notes and connections
 
-The last page (page 4 on a beat without questions) holds the things every record has:
+The last page holds the things every record has:
 
 - **Notes**, a free box for anything that doesn't fit a field. It saves when you click away.
 - **Connections**, which tie this beat to other records: a character, a clue, a scene card. Under **Make a connection**, choose a connection word (such as **foreshadows** or **plants**), choose what it connects to, and click **Connect**. The line under the form reads the connection back to you as a sentence ("Reads: Setup plants …"), so you can check the direction before you save.
@@ -456,9 +495,9 @@ Under the top is one row of page tabs, then **All pages**. The first page or two
 | **The page so far** | The opening lines of its written scene, and the word count | Once the card has a page in the Writing Room |
 | **The scene** and the card's other pages | Your plan for this scene (see [The scene card's own pages](#the-scene-cards-own-pages)) | Always |
 
-So on a card with no page yet, **The scene** is page 2; once you click **Write this scene**, it becomes page 3. **Where it sits** turns ink blue once the card is decided on a beat, and **The page so far** once its scene has words. Story Canon remembers which page you were on for each card while the program is open.
+Because **The page so far** appears only once the card has a page, the number on **The scene** and every page after it goes up by one when you click **Write this scene**. Go by the page names, not the numbers. **Where it sits** turns ink blue once the card is decided on a beat, and **The page so far** once its scene has words. Story Canon remembers which page you were on for each card while the program is open.
 
-#### Scene card page 1: Where it sits
+#### Scene card page: Where it sits
 
 This page shows how the card ties into the book:
 
@@ -472,7 +511,7 @@ This page shows how the card ties into the book:
 
 Sections with nothing in them don't appear, so on a new card this page is short.
 
-#### Scene card page 2: The page so far
+#### Scene card page: The page so far
 
 Once the card has a page in the Writing Room, this page appears, under the heading **The page**: the opening lines of the scene (or "Blank so far." before you write), then its word count.
 
@@ -481,7 +520,7 @@ Once the card has a page in the Writing Room, this page appears, under the headi
 Click a name under **In this scene**, and Zoom opens that record's page, with the line "Followed through the story in order." under its name. Any record you open from Narrative Zoom, other than a beat or a scene card, opens this way. Its row of pages starts with one page of its own:
 
 - **1 Across the story**: **Where it appears** lists every scene and card the record is in, numbered in reading order ("Scene 4 of 24"). **Connections, in story order** lists every tie to it, in the same order.
-- Then the record's own pages, exactly as in the Story Brain: for a character, **2 Who they are** through **12 Notes, guardrails and writing aids**.
+- Then the record's own pages, exactly as in the Story Brain, each numbered one higher than there: for a character, **Who they are** through **Notes, guardrails and writing aids**.
 
 **When to use it.** To check that a character doesn't vanish for half the book, or that a secret is planted before it's used.
 
@@ -489,28 +528,28 @@ Click a name under **In this scene**, and Zoom opens that record's page, with th
 
 ### The scene card's own pages
 
-After **Where it sits** (and **The page so far**, when there is one) come the card's own record pages. A scene card is a notebook with up to seven pages of its own. They are numbered after the pages in front of them, so on a card with no page yet **The scene** is page 2:
+After **Where it sits** (and **The page so far**, when there is one) come the card's own record pages. A scene card is a notebook with up to seven pages of its own, in this order. They are numbered after the pages in front of them:
 
 | Page | What it holds | Shown when |
 | --- | --- | --- |
 | **The scene** | The scene's job, goal, conflict, outcome and value turn; and around it: how we got here, what must follow, when, where, and disaster, discovery or win | Always |
 | **When it happens** | Story time: day in the story, date, year, time of day, time since the previous scene; and which timeline strand | Always |
-| **Who tells it** | Who seems to be telling the scene and who really is; what the narrator believes and what is actually true | An unreliable narrator, or narration reconstructed by someone else, is turned on in Novel setup |
+| **Who tells it** | Who seems to be telling the scene and who really is; what the narrator believes and what is actually true | **Unreliable narrator** or **A narrator who is not who they seem** is ticked in Novel setup, on its page **How the story is told** |
 | **Mood and feeling** | Atmosphere: season, weather, physical and emotional atmosphere, sensory details, what the setting does to the plot; emotion on the page; heat | Always |
 | **The reader** | What the reader suspects by the end, visible or hidden story, what you want the reader to feel, callbacks | Always |
 | **Scene and sequel** | Scene or sequel, reaction, dilemma, decision | Scene and Sequel (Swain) is turned on in Novel setup |
 | **Notes and connections** | Notes, connections, fields from your planning or from a method of your own, and your own fields | Always |
 
-At the top of **The scene**, a fold-out called **About scene cards: what they are and how to use them** gives a short lesson. Because pages that have nothing to show are left out, most cards have five of these pages, and the numbers close up. Some groups inside a page also appear only when a choice in **Novel setup** turns them on:
+At the top of **The scene**, a fold-out called **About scene cards: what they are and how to use them** gives a short lesson. Because pages that have nothing to show are left out, most cards have five of these pages, and the numbers close up. That is why this guide names a card's pages rather than numbering them. Some groups inside a page also appear only when a choice in **Novel setup** turns them on:
 
 | Group | Turned on by |
 | --- | --- |
-| **Emotion on the page** | The Writers Helping Writers thesauri (Ackerman and Puglisi) |
-| **Narrator and truth** | An unreliable narrator |
-| **Who tells it** | Narration reconstructed by someone else |
-| **Timeline strand** | A dual timeline or a frame story |
-| **Callbacks** | Running gags and callbacks |
-| **Heat** | A heat level of Sensual, Steamy or Explicit |
+| **Emotion on the page** | **The Writers Helping Writers thesauri (Ackerman and Puglisi)** |
+| **Narrator and truth** | **Unreliable narrator** |
+| **Who tells it** | **A narrator who is not who they seem** |
+| **Timeline strand** | **Dual timeline** or **Frame story** |
+| **Callbacks** | **Running gags and callbacks** |
+| **Heat** | A **Heat level** of Sensual, Steamy or Explicit |
 
 **Every field on a card is optional.** Every field is listed in [Every kind and every field](#every-kind-and-every-field), and each has **Why it matters** under it. Below are the ones that most need explaining.
 
