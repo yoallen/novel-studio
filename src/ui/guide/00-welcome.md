@@ -72,6 +72,8 @@ The first five names are large. These are the main rooms, where you will spend m
 | **Narrative Zoom** | The shape of your plot, from the whole book down to one scene, like zooming a map. It also holds the checks that catch problems, such as a character who knows something before they could have learned it. |
 | **Conversations** | Your talks with the collaborator (the optional AI writing partner built into Story Canon), and any chats you bring in from ChatGPT or Claude. |
 
+**Still open, the page, and Still open, the status.** The next chapter teaches six words for how sure you are about something, and one of them is also *Still open*. The page **Still open** on Where was I is a place: it gathers what you are carrying in your head, such as your open questions and your latest decisions. The status **Still open** is a label on one thing you wrote, saying "this matters, and I haven't answered it yet".
+
 ### The five smaller views
 
 | View | What it is for |
@@ -82,8 +84,6 @@ The first five names are large. These are the main rooms, where you will spend m
 | **Settings** | Choices for this novel and for all your novels, including **Novel setup** (what kind of book this is and which methods you use), **About you**, the collaborator, goals, your other computers and backups. |
 | **Help** | This guide, inside the program. |
 
-**Still open, the page, and Still open, the status.** The next chapter teaches six words for how sure you are about something, and one of them is also *Still open*. The page **Still open** on Where was I is a place: it gathers what you are carrying in your head. The status **Still open** is a label on one thing you wrote: a question you have not answered yet. The page lists those questions, along with other things.
-
 ### Pages that light up another name
 
 A few pages are opened from inside another view. While you are on one of them, the name it belongs to stays lit in the list, so you still know where you are:
@@ -91,7 +91,7 @@ A few pages are opened from inside another view. While you are on one of them, t
 | You are on | What it is | The name that lights up |
 | --- | --- | --- |
 | **Novel setup** | Where you say what kind of book this is | **Settings** |
-| **My methods** | Where you make writing methods of your own, such as your own beat sheet | **Settings** |
+| **My methods** | Where you keep your own ways of building a story, so any of your novels can use them | **Settings** |
 | **Deleted** (opened with **Deleted things**) | Everything you deleted, waiting to be restored | **Story Trail** |
 | **Drafts** | Whole copies of the book, kept each time you finish a draft | **The Writing Room** |
 | **Writing Trail** | The list of times you left the page while writing | **The Writing Room** |
@@ -147,7 +147,7 @@ The guide follows the order in which you will meet things in the program. Each c
 
 | Chapter | What it covers |
 | --- | --- |
-| [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help) | The handful of words every screen uses, how to read a page at a glance, and every way to get help. Read this next. |
+| [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help) | The handful of words every screen uses, how to read a record at a glance, and every way to get help. Read this next. |
 | [Your first hour: the Library and a new novel](#your-first-hour-the-library-and-a-new-novel) | The shelf of novels, starting a new one, and telling Story Canon about yourself and your book. |
 | [Where was I: your novel's home page](#where-was-i-your-novels-home-page) | The page your novel opens on, and how it keeps you moving. |
 | [The Writing Room](#the-writing-room) | Writing, saving, chapters and scenes, and the tools for hard writing days. |

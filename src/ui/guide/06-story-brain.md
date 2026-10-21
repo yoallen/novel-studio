@@ -185,7 +185,7 @@ Click a record's name, and its page opens. Every kind of record uses the same la
 6. **Suggestions waiting for you**, if the collaborator has suggested something for this record.
 7. On a character, **Fill in one line**.
 8. **The page tabs**: the numbered pages and **All pages**.
-9. **One page**: its heading, the About fold-out (on page 1), and its groups of fields, each field with its facts.
+9. **One page**: its heading, the About fold-out (on the first page), and its groups of fields, each field with its facts.
 10. Links to the page before and after.
 11. **Delete** at the very bottom.
 
@@ -336,11 +336,11 @@ So on most novels a character has ten pages, and a scene card has five. A charac
 
 ### The About fold-out on a record's first page
 
-At the top of page 1 is the same **About** fold-out you saw on the kind's list page: what this kind of record is, why it matters, when to use it, the common mistake, an example, and **Read the full chapter in Help**. Fold it shut once you know it; it stays shut on every record of that kind.
+At the top of the first page is the same **About** fold-out you saw on the kind's list page: what this kind of record is, why it matters, when to use it, the common mistake, an example, and **Read the full chapter in Help**. Fold it shut once you know it; it stays shut on every record of that kind.
 
 ### Notes on a record
 
-**Notes** is a large, plain box on the **Notes and connections** page (on a character, page 11). Type anything: a hunch, a list, a paragraph you can't place yet.
+**Notes** is a large, plain box on the **Notes and connections** page (on a character, the **Notes, guardrails and writing aids** page). Type anything: a hunch, a list, a paragraph you can't place yet.
 
 - It saves when you click anywhere outside the box.
 - Notes have no status. They are your scratch paper, so nothing in them counts as decided.
@@ -350,7 +350,7 @@ At the top of page 1 is the same **About** fold-out you saw on the kind's list p
 
 ### Groups of fields on a page
 
-Each page holds one or more **groups**: fields gathered under a heading because they answer related questions. A character's page 3 has the groups *Appearance*, *Physical* and *Language and voice*.
+Each page holds one or more **groups**: fields gathered under a heading because they answer related questions. A character's **Looks and voice** page has the groups *Appearance*, *Physical* and *Language and voice*.
 
 **What you see under each group heading:** one line in gray saying what the group is for. Some headings are followed by a teacher's name in small type, such as **Goal and motive** *(Ingermanson)* or **Moral premise** *(Williams)*. That means the group comes from that writing teacher's method. The plain name says what the group is for; the small name says where it comes from. [Turning on a writing method for characters](#turning-on-a-writing-method-for-characters) explains where each one comes from.
 
@@ -559,7 +559,7 @@ The six statuses are defined in [The words Story Canon uses, and getting help](#
 
 **How it behaves.** Developing facts never replace each other. They wait until you decide one or set them aside. Fields that hold pencil and no decision appear in **Choices ahead**, under **Possibilities, nothing chosen**.
 
-**Example.** Two pencil ideas under the empty boat's **How it could happen**: "Its line was cut and it drifted in on the tide" and "Someone towed it in at night and let it go."
+**Example.** Two pencil ideas under **How it could happen** on the event *The boat comes in*: "Its line was cut and it drifted in on the tide" and "Someone towed it in at night and let it go."
 
 ### Still open on a record
 
@@ -601,7 +601,7 @@ The six statuses are defined in [The words Story Canon uses, and getting help](#
 
 **Do most writers need it?** Some do, a few times. Look first: a field you want may already exist on a page you haven't opened.
 
-**Where it is.** On the record's last page (on a character, page 11, **Notes, guardrails and writing aids**), under the heading **Add your own field**. Fields you add appear in a group called **My fields** on that same page.
+**Where it is.** On the record's last page (on a character, **Notes, guardrails and writing aids**), under the heading **Add your own field**. Fields you add appear in a group called **My fields** on that same page.
 
 ### Just this one or every one
 
@@ -614,7 +614,7 @@ The six statuses are defined in [The words Story Canon uses, and getting help](#
 
 **When to use each.** Choose **Every** when the field is a question you want to ask of every character (or place, or clue) in this book. Choose **Just this** for a detail only one record needs.
 
-**The common mistake** is adding a field that already exists under another name. Before you add *Fears*, look at page 7, **Inner life**: *Psychological* already has it.
+**The common mistake** is adding a field that already exists under another name. Before you add *Fears*, look at a character's **Inner life** page: *Psychological* already has it.
 
 **Example.** Everyone on Gull Point has a relationship with the sea. Marisol's writer adds *What the sea means to them* to **Every character**. On Cyrus Hale alone, she adds *Keys he carries* with **Just this character**.
 
@@ -645,11 +645,11 @@ A field you added to **Just this** record has no remove link. Choose its name wi
 
 ### Guardrails for one character
 
-Each character has a **Guardrails** section on page 11, **Notes, guardrails and writing aids**, with the line *What must stay true about this character. The collaborator checks every suggestion against these.* Each guardrail is a line in ink with a **Remove** button.
+Each character has a **Guardrails** section on its **Notes, guardrails and writing aids** page, with the line *What must stay true about this character. The collaborator checks every suggestion against these.* Each guardrail is a line in ink with a **Remove** button.
 
 **How to add one.**
 
-1. Open the character and click the tab **11 Notes, guardrails and writing aids**.
+1. Open the character and click the **Notes, guardrails and writing aids** tab (the last one).
 2. Type the rule in the box that says **Add a guardrail**.
 3. Click **Add**.
 
@@ -675,7 +675,7 @@ The **Guardrails** list shows every guardrail in the book: the book-wide ones, a
 
 **Do most writers need it?** Yes, a little. *Appears in* is the one nearly every book uses. The rest you add when a check would help you.
 
-**Where it is.** On the **Notes and connections** page of every record. On a character, Connections are on page 9, **Their world and their people**.
+**Where it is.** On the **Notes and connections** page of every record. On a character, Connections are on the **Their world and their people** page.
 
 ### Reading the Connections section
 
@@ -806,14 +806,14 @@ Some connections carry a small gray chip that says **inferred**. When any do, a 
 - **Why it helps:** a book you bring in arrives already connected, so the checks work from day one.
 - **What to do:** glance over them. Click **Remove** on any that is wrong. Leave the rest. An inferred connection counts exactly like one you made.
 
-## Characters in depth: the eleven pages
+## Characters in depth: a character's pages
 
 A character record holds everything you know about one person in your story: their job in the book, who they are in the world, how they look and sound, what they want and what stands in the way, what hurts them, and how they change. This part of the chapter walks through a character's pages in order, and teaches the craft behind them: Randy Ingermanson's character questions, Robert McKee's forces of antagonism, Angela Ackerman and Becca Puglisi's thesauri of wounds and traits, and K.M. Weiland's character arcs. You don't need any of that vocabulary to start. Every term is explained where it first appears.
 
 ### Starting and opening a character
 
 - **To open a character:** click **Story Brain**, then **Characters** in the left list, then the character's name.
-- **To start one:** on the Characters list, type a name in the box at the bottom (*A name is enough to start*) and click **Add character**. The new record opens on page 1.
+- **To start one:** on the Characters list, type a name in the box at the bottom (*A name is enough to start*) and click **Add character**. The new record opens on its first page, **Who they are**.
 - **Plant the seed**, offered on a brand-new novel's home page, also starts your lead character from a few short questions, all in pencil (see [Where was I: your novel's home page](#where-was-i-your-novels-home-page)). Its answers land on the character as **Who they are**, **Role** (*Lead*), **Goal**, **Conflict** and **What they stand to lose**, and its guess at the ending goes to the Story world.
 
 The Characters list shows, for each person, how many facts are decided, developing and still open, and a few telling facts such as *Narrative importance: main*.
@@ -822,23 +822,25 @@ The Characters list shows, for each person, how many facts are decided, developi
 
 ### A character's pages at a glance
 
-| Page | What it is for | Groups on it |
-| --- | --- | --- |
-| 1 Who they are | Their job in the book. Fill this first. | Role in the story |
-| 2 Identity | Who they are in the world, never guessed. | Identity; Beyond human (worldbuilding books only) |
-| 3 Looks and voice | How they look, move and sound. | Appearance, Physical, Language and voice |
-| 4 Personality | Temperament, traits and flaws, and who they remind you of. | Personality; Traits and flaws (Ackerman and Puglisi); Comparisons |
-| 5 Goals, motives and values | What they are after, and what drives them beyond the plot. | Goal and motive (Ingermanson); Depth lenses |
-| 6 What opposes them | Every force against them. Appears with McKee. | What works against them (McKee, forces of antagonism) |
-| 7 Inner life | Fears, wounds, and the gaps between their public and private selves. | Psychological; Wound and its fallout (Ackerman and Puglisi); Contradiction layers |
-| 8 Arc | How they change, and how old they are in each scene. | Arcs; Across time |
-| 9 Their world and their people | Home, history, and every connection. | Environmental; Connections |
-| 10 Interview | Questions you ask them, answered in their voice. | Interview |
-| 11 Notes, guardrails and writing aids | Scratch notes, rules, private tools, and the catch-all. | Notes; Guardrails; Writing aids (private); Other facts; My fields; Add your own field |
+| Page, in order | What it is for | Groups on it | Shown |
+| --- | --- | --- | --- |
+| Who they are | Their job in the book. Fill this first. | Role in the story | Always |
+| Identity | Who they are in the world, never guessed. | Identity; Beyond human (worldbuilding books only) | Always |
+| Looks and voice | How they look, move and sound. | Appearance, Physical, Language and voice | Always |
+| Personality | Temperament, traits and flaws, and who they remind you of. | Personality; Traits and flaws (Ackerman and Puglisi); Comparisons | Always |
+| Goals, motives and values | What they are after, and what drives them beyond the plot. | Goal and motive (Ingermanson); Depth lenses | Always |
+| What opposes them | Every force against them. | What works against them (McKee, forces of antagonism) | Only with *McKee (Story)* on in Novel setup |
+| Inner life | Fears, wounds, and the gaps between their public and private selves. | Psychological; Wound and its fallout (Ackerman and Puglisi); Contradiction layers | Always |
+| Arc | How they change, and how old they are in each scene. | Arcs; Across time | Always |
+| Their world and their people | Home, history, and every connection. | Environmental; Connections | Always |
+| Interview | Questions you ask them, answered in their voice. | Interview | Always |
+| Notes, guardrails and writing aids | Scratch notes, rules, private tools, and the catch-all. | Notes; Guardrails; Writing aids (private); Other facts; My fields; Add your own field | Always |
 
-Groups with a teacher's name come from a writing method and appear only when that method is on in Novel setup; see [Turning on a writing method for characters](#turning-on-a-writing-method-for-characters). On a novel you haven't set up yet, page 5 ends with a gray line, *More places to write come with the methods you choose in Novel setup, such as goal and motive (Ingermanson) or the wound and its fallout*, with an **Open Novel setup** link.
+So with McKee off, which is how most novels start, a character has ten pages, and **Inner life** is page 6, not 7. The numbers on your screen are the ones to trust.
 
-### Character page 1: Who they are
+Groups with a teacher's name come from a writing method and appear only when that method is on in Novel setup; see [Turning on a writing method for characters](#turning-on-a-writing-method-for-characters). On a novel you haven't set up yet, the **Goals, motives and values** page ends with a gray line, *More places to write come with the methods you choose in Novel setup, such as goal and motive (Ingermanson) or the wound and its fallout*, with an **Open Novel setup** link.
+
+### Character page: Who they are
 
 **What it is for.** The character's job in the book: what this person is *for*. It holds one group, **Role in the story**, and the program suggests filling it first, because it tells you how much of everything else this character needs.
 
@@ -852,13 +854,13 @@ Groups with a teacher's name come from a writing method and appear only when tha
 | **What they stand to lose** | What is gone for good if they fail. | Stakes make every obstacle tense. |
 | **Last page, in one line** | Who they are on the last page, in one line, even before you know the ending. | Gives every scene a direction to push them. |
 
-**Viewpoint withheld until, explained.** A **viewpoint** (or point of view) is the character whose eyes and thoughts the reader is inside for a scene. A **secret keeper** is a character who knows something the reader must not learn yet. If the reader is inside their head, the secret is hard to hide honestly. Write the name of a beat here, exactly as it appears on your Board (such as *All Is Lost*). The Story review in Narrative Zoom (a list of questions Story Canon asks about your book) then asks about any scene told from inside this character's head before that beat. In *The Keeper of Gull Point*, Cyrus Hale is the secret keeper: his viewpoint is withheld until the beat where the truth about the boat comes out.
+**Viewpoint withheld until, explained.** A **viewpoint** (or point of view) is the character whose eyes and thoughts the reader is inside for a scene. A **secret keeper** is a character who knows something the reader must not learn yet. If the reader is inside their head, the secret is hard to hide honestly. Write the name of a beat here, exactly as it appears on your Board, the planning space in Narrative Zoom (such as *All Is Lost*, Save the Cat's name for the story's lowest point; beats are taught in [Narrative Zoom](#narrative-zoom)). The Story review in Narrative Zoom (a list of questions Story Canon asks about your book) then asks about any scene told from inside this character's head before that beat. In *The Keeper of Gull Point*, Cyrus Hale is the secret keeper: his viewpoint is withheld until the beat where the truth about the boat comes out.
 
 **What they stand to lose, done well.** Stakes are the cost of losing, not the reward for winning, and they land on this one person. "She could lose everything" is vague. "If the light is automated, Marisol loses the only reason she has to stay on the island, and the only place Eli still feels near" is a stake.
 
 **Example.** Marisol Vega. *Role*: Lead. *Who they are*: "A woman who keeps a light for strangers so she never has to let anyone close." *Narrative importance*: main. *Narrates?*: Close third. *What they stand to lose*: the lighthouse, which the harbor board wants to automate. *Last page*: "She leaves the door unlocked, and someone comes in."
 
-### Character page 2: Identity
+### Character page: Identity
 
 **What it is for.** Who the character is in the world. The **Identity** group holds the facts people most often get wrong by assuming: **Gender identity**, **Pronouns**, **Sexual orientation**, **Romantic orientation, if it differs**, **Intersex or sex characteristics, if it matters**, **Race or ethnicity**, **Heritage, nationality and roots**, **Age**, **Year born**, **Age, if it never changes**, **Faith or religion**, **Culture and community**, **Disability, chronic illness or neurodivergence**, **Work**, and **Family**.
 
@@ -867,7 +869,7 @@ Groups with a teacher's name come from a writing method and appear only when tha
 - **Nothing is ever guessed.** These fields say *Not yet specified* until you write something. The program never works out a character's gender from a name, or anything from another field.
 - **Your words, always.** Some fields offer a row of common answers when you click **Add** (*Woman*, *Man*, *Nonbinary* and more for gender; *she/her*, *they/them* and more for pronouns). Click one, or type your own words. The buttons are a convenience, never a list you must choose from.
 - **Timing.** Every field here offers the **Timing** dropdown, because pronouns, orientation, age, disability, work and family can change over a story. Someone can be a nurse before the story and out of work during it, both decided.
-- **What reads these fields.** *Gender identity* (or *Pronouns*, if there is no gender) is what the Bechdel test in the Cast view uses (a quick test of whether two named women talk to each other about something other than a man). *Year born* lets the program work out the character's age in every scene that has a year (see [Character page 8: Arc](#character-page-8-arc)). Nothing else is worked out from identity.
+- **What reads these fields.** *Gender identity* (or *Pronouns*, if there is no gender) is what the Bechdel test in the Cast view uses (a quick test of whether two named women talk to each other about something other than a man). *Year born* lets the program work out the character's age in every scene that has a year (see [Character page: Arc](#character-page-arc)). Nothing else is worked out from identity.
 
 **Beyond human.** In a worldbuilding book, this page also has **Beyond human**: *Kind of being* (connect the character to its record with **is a** for everything their kind shares), *Their own powers or abilities* and *Their own limits and weaknesses*.
 
@@ -875,7 +877,7 @@ Groups with a teacher's name come from a writing method and appear only when tha
 
 **Example.** For Marisol: *Gender identity*: Woman. *Pronouns*: she/her. *Year born*: 1983. *Heritage, nationality and roots*: "Born on Gull Point; her mother's family came from the Azores." *Work*: Assistant keeper (*Before the story*); Head keeper (*True when the story opens*). *Family*: "Parents dead; younger brother Eli drowned twelve years ago."
 
-### Character page 3: Looks and voice
+### Character page: Looks and voice
 
 **What it is for.** How they look, move and sound, so you stay consistent across a long draft (her eyes were gray in chapter two). It is not a description to copy onto the page.
 
@@ -885,17 +887,17 @@ Groups with a teacher's name come from a writing method and appear only when tha
 
 **Example.** Marisol: *Hair*: "Gray-streaked, always braided" (*True when the story opens*). *Distinctive features*: "Rope burns across both palms." *Physical notes*: "Climbs the 112 stairs twice a night without thinking." *Sayings*: "Tide doesn't care."
 
-### Character page 4: Personality
+### Character page: Personality
 
 **What it is for.** Their everyday texture, and the traits that will drive their choices.
 
 - **Personality**: *Temperament* (their natural emotional weather), *Humor*, *Habits and props* (a list; make sure each habit belongs to the right character), *Strengths*, *Weaknesses*.
-- **Traits and flaws** *(Ackerman and Puglisi)*, with the thesauri method on: **Positive traits** (with where each came from, and how it shows without being named) and **Flaws** (with what each one protects them from, and what it costs). A flaw usually protects against the wound. The thesauri are explained under [Character page 7: Inner life](#character-page-7-inner-life).
+- **Traits and flaws** *(Ackerman and Puglisi)*, with the thesauri method on: **Positive traits** (with where each came from, and how it shows without being named) and **Flaws** (with what each one protects them from, and what it costs). A flaw usually protects against the wound. The thesauri are explained under [Character page: Inner life](#character-page-inner-life).
 - **Comparisons**: *Like…*, a real person or character whose qualities you are borrowing. Note which qualities, so it never becomes a copy.
 
 **Example.** Marisol. *Temperament*: "Still water; storms underneath." *Flaw*: "Self-reliance, which protects her from being left and costs her every friendship on the island." *Like…*: "The stubbornness of a lighthouse keeper's widow in an old newspaper story, without the grief."
 
-### Character page 5: Goals, motives and values
+### Character page: Goals, motives and values
 
 **What it is for.** What the character is after, and what drives them beyond their job in the plot. It holds two groups.
 
@@ -934,24 +936,15 @@ Groups with a teacher's name come from a writing method and appear only when tha
 
 **Example.** Ana Ruiz. *What she thinks she wants*: "A quiet posting where nobody needs her too much." *Under pressure*: "Gets calmer and kinder, then falls apart alone afterward." *Agency*: "She is the one who notices the dead man's hands were not a sailor's."
 
-### Character page 6: What opposes them
+### Character page: What opposes them
 
 **What it is for.** Every force working against the character, and how dark their story can get. It holds one group, **What works against them** *(McKee, forces of antagonism)*, and appears when you turn on *McKee (Story)* in Novel setup.
 
 **Who he is.** Robert McKee is a screenwriting teacher whose book *Story* is one of the most widely read books on structure. One of his central ideas is the **principle of antagonism**: a protagonist and a story can only be as interesting as the forces against them.
 
-**The idea, taught in two parts.**
+**The idea.** Every story is about a **value**: something characters care about that can swing positive or negative, such as love, justice, respect or safety. McKee asks two things of the forces against a character: that they come from every level of the character's life, and that they push the value as far down as your book allows. The second part, how far a value can fall, is a ladder of four steps, ending at its very worst form; it is taught in [Reference: McKee's value ladder](#reference-mckees-value-ladder). You can fill in these fields without it.
 
-**First, the value and how far it can fall.** Every story is about a **value**: something characters care about that can swing positive or negative, such as love, justice, respect or safety. McKee shows that a value doesn't just have an opposite; it has a ladder down:
-
-1. **The positive value**: trust.
-2. **The contrary**, a step down but not the opposite: doubt.
-3. **The contradictory**, the plain opposite: betrayal.
-4. **The negation of the negation**, the value at its very darkest, where something is wrong twice over: betraying yourself and calling it loyalty.
-
-McKee's point is that most stories stop at the opposite. Strong ones push the character all the way down to the fourth step before the end, so the climb back means something.
-
-**Second, the three levels of opposition.** The forces against a character come from three places:
+**The three levels of opposition.** The forces against a character come from three places:
 
 - **Inner**: from inside them: fear, pride, a wound, a false belief.
 - **Personal**: from people close to them: family, lovers, friends, rivals.
@@ -963,7 +956,7 @@ A full story uses all three.
 
 - **The value they live by**: the value under pressure in their own story.
 - **Inner force**, **Personal force**, **Extra-personal force**: what works against them at each level.
-- **The worst form of their value**: the negation of the negation, set for your book's tone. A cozy mystery's darkest point is different from a tragedy's.
+- **The worst form of their value**: the value at its very darkest (McKee calls it the negation of the negation), set for your book's tone. A cozy mystery's darkest point is different from a tragedy's.
 
 **Why it helps.** It shows you whether your opposition is strong enough. If one of the three forces is empty, or the value never reaches its worst form, the middle of the book may sag.
 
@@ -973,7 +966,7 @@ A full story uses all three.
 
 **Conflict versus What works against them.** Ingermanson's *Conflict* is what blocks the goal, in a line. McKee's group breaks the opposition into its three levels and follows the value to the bottom. Use either or both.
 
-### Character page 7: Inner life
+### Character page: Inner life
 
 **What it is for.** What happens inside the character: fears, wounds, desires, and the gaps between who they seem to be and who they are. It holds three groups.
 
@@ -985,7 +978,7 @@ Always there: **Fears**, **Wounds**, **Desires** and **Beliefs**, the raw materi
 
 **Who they are.** Angela Ackerman and Becca Puglisi run the Writers Helping Writers site and wrote a series of reference books called thesauri. *The Emotion Thesaurus* lists how each emotion shows in the body, the mind and behavior. *The Emotional Wound Thesaurus* traces painful past events through the beliefs and behaviors they leave behind. *The Positive Trait Thesaurus* and *The Negative Trait Thesaurus* explain where traits come from and how they show. All of them teach one thing: **show, don't tell.** Don't write "she was afraid"; write what fear does to her hands.
 
-Turning on *The Writers Helping Writers thesauri (Ackerman and Puglisi)* in Novel setup adds three groups: **Traits and flaws** on page 4, **Wound and its fallout** here, and **Emotion on the page** on each scene card (see [Scene cards](#scene-card-records)).
+Turning on *The Writers Helping Writers thesauri (Ackerman and Puglisi)* in Novel setup adds three groups: **Traits and flaws** on the **Personality** page, **Wound and its fallout** here, and **Emotion on the page** on each scene card (see [Scene cards](#scene-card-records)).
 
 **Wound and its fallout** follows one defining wound through its effects:
 
@@ -1006,7 +999,7 @@ Complex characters live in the gaps between who they seem to be and who they are
 
 **Example.** Cyrus Hale. Public: the steady harbor master everyone trusts with their boats. Private: a man terrified his son will be found out. What he does: pushes hard to automate the lighthouse. Why: an automated light means no keeper watching the rocks at night.
 
-### Character page 8: Arc
+### Character page: Arc
 
 **What it is for.** How the character changes, and how old they are across the book. It holds two sections: **Arcs**, explained fully in [Arcs: how a character changes](#arcs-how-a-character-changes), and **Across time**, explained here.
 
@@ -1014,26 +1007,26 @@ Complex characters live in the gaps between who they seem to be and who they are
 
 **Across time** appears once the character has a **Year born**, an **Age, if it never changes**, or another record connected as **is the same person as**.
 
-- **The same person at other ages.** When one person appears at different ages as separate characters (the nine-year-old in the flashbacks and the grown woman), give each self its own record and connect them with **is the same person as**. Each self's page then lists the others under *The same person at other ages*, with their ages.
-- **Age in each scene.** With a *Year born* on the character, a *Year* on a scene card (on its page **2 When it happens**), and the character connected to the scene card with **appears in** (or set as its viewpoint), the page lists, under *Age in each scene*, their age in every scene. Until then it says *Give scenes a year, and connect this character to them, to see their age in each.*
-- **Someone who never ages.** A ghost, a remembered younger self: use *Age, if it never changes*, and the page says, for example, *Always 9.*
+- **The same person at other ages.** When one person appears at different ages as separate characters (the nineteen-year-old in the flashbacks and the grown woman), give each self its own record and connect them with **is the same person as**. Each self's page then lists the others under *The same person at other ages*, with their ages.
+- **Age in each scene.** With a *Year born* on the character, a *Year* on a scene card (on its **When it happens** page), and the character connected to the scene card with **appears in** (or set as its viewpoint), the page lists, under *Age in each scene*, their age in every scene. Until then it says *Give scenes a year, and connect this character to them, to see their age in each.*
+- **Someone who never ages.** A ghost, a remembered younger self: use *Age, if it never changes*, and the page says, for example, *Always 19.*
 
 **The common mistake** is leaving the scene card's **Year** empty. Without it there is nothing to count from.
 
-**Example.** Marisol, born 1983, appears in the scene card *The empty boat*, whose *Year* is 2024: the page lists her at 41. Her writer also makes a record called "Young Marisol," with *Age, if it never changes*: 9, connected to Marisol as **is the same person as**. Young Marisol is *Always 9* in the flashback where Eli learns to row.
+**Example.** Marisol, born 1983, appears in the scene card *The empty boat*, whose *Year* is 2024: the page lists her at 41. Her writer also makes a record called "Young Marisol," with *Age, if it never changes*: 19, connected to Marisol as **is the same person as**. Young Marisol appears only in the summer flashback of 2002, when she teaches seven-year-old Eli to row, so her page says *Always 19.* and each self's page lists the other under *The same person at other ages*.
 
-### Character page 9: Their world and their people
+### Character page: Their world and their people
 
 **What it is for.** Where they come from, and everyone and everything they are tied to.
 
 - **Environmental**: *Home and neighborhood* and *History* (past events, one per entry), both with Timing.
 - **Connections**: every connection to this character, including the scene cards they appear in and **is in these relationships**. Connections work the same on every record; see [Connections between records](#connections-between-records).
 
-### Character page 10: Interview
+### Character page: Interview
 
 **What it is for.** Questions you ask the character, answered in their own voice. It is explained in [Interviewing a character](#interviewing-a-character).
 
-### Character page 11: Notes, guardrails and writing aids
+### Character page: Notes, guardrails and writing aids
 
 **What it is for.** Everything around the character rather than inside them.
 
@@ -1049,20 +1042,20 @@ Some groups are always there. Others come from a writing teacher's method and ap
 
 | Group | Page | Comes from | Appears when |
 | --- | --- | --- | --- |
-| Role in the story | 1 | Story Canon | Always |
-| Identity | 2 | Story Canon | Always |
-| Beyond human | 2 | Story Canon | Worldbuilding is on |
-| Appearance, Physical, Language and voice | 3 | Story Canon | Always |
-| Personality, Comparisons | 4 | Story Canon | Always |
-| Traits and flaws *(Ackerman and Puglisi)* | 4 | *The Positive Trait Thesaurus* and *The Negative Trait Thesaurus* | *The Writers Helping Writers thesauri* is on |
-| Goal and motive *(Ingermanson)* | 5 | Randy Ingermanson, the Snowflake Method | *Snowflake (Ingermanson)* is on |
-| Depth lenses | 5 | Story Canon | Always |
-| What works against them *(McKee, forces of antagonism)* | 6 | Robert McKee, *Story* | *McKee (Story)* is on |
-| Psychological, Contradiction layers | 7 | Story Canon | Always |
-| Wound and its fallout *(Ackerman and Puglisi)* | 7 | *The Emotional Wound Thesaurus* | *The Writers Helping Writers thesauri* is on |
-| Lie and truth *(Weiland)*, on each arc | 8 | K.M. Weiland, *Creating Character Arcs* | *Weiland (character arcs)* is on, or the novel is not set up yet |
-| Environmental | 9 | Story Canon | Always |
-| Writing aids (private), Other facts | 11 | Story Canon | Always |
+| Role in the story | Who they are | Story Canon | Always |
+| Identity | Identity | Story Canon | Always |
+| Beyond human | Identity | Story Canon | Worldbuilding is on |
+| Appearance, Physical, Language and voice | Looks and voice | Story Canon | Always |
+| Personality, Comparisons | Personality | Story Canon | Always |
+| Traits and flaws *(Ackerman and Puglisi)* | Personality | *The Positive Trait Thesaurus* and *The Negative Trait Thesaurus* | *The Writers Helping Writers thesauri* is on |
+| Goal and motive *(Ingermanson)* | Goals, motives and values | Randy Ingermanson, the Snowflake Method | *Snowflake (Ingermanson)* is on |
+| Depth lenses | Goals, motives and values | Story Canon | Always |
+| What works against them *(McKee, forces of antagonism)* | What opposes them | Robert McKee, *Story* | *McKee (Story)* is on |
+| Psychological, Contradiction layers | Inner life | Story Canon | Always |
+| Wound and its fallout *(Ackerman and Puglisi)* | Inner life | *The Emotional Wound Thesaurus* | *The Writers Helping Writers thesauri* is on |
+| Lie and truth *(Weiland)*, on each arc | Arc | K.M. Weiland, *Creating Character Arcs* | *Weiland (character arcs)* is on, or the novel is not set up yet |
+| Environmental | Their world and their people | Story Canon | Always |
+| Writing aids (private), Other facts | Notes, guardrails and writing aids | Story Canon | Always |
 
 **Turning a method on, step by step:**
 
@@ -1100,7 +1093,7 @@ The same thing written in two places is not an error. It is the same truth seen 
 
 **What an arc is.** An **arc** is the change a character goes through inside, from who they are at the start to who they are at the end. Plots resolve; arcs are what make readers feel the ending meant something.
 
-**Where arcs live.** Each arc is a record of its own, kept under its character. There is no Arcs kind in the left list. Open the character and turn to page **8 Arc**.
+**Where arcs live.** Each arc is a record of its own, kept under its character. There is no Arcs kind in the left list. Open the character and turn to its **Arc** page.
 
 Story Canon builds arcs on the teaching of **K.M. Weiland**, a novelist and writing teacher whose book *Creating Character Arcs* breaks inner change into a few linked parts. Her idea is simple and strong: a character changes because they start out believing something false, and the story forces them to test that belief until they either let it go or are destroyed by it.
 
@@ -1159,7 +1152,7 @@ Weiland describes three shapes an arc can take. You choose one in the arc's **Ar
 
 ### Adding an arc, step by step
 
-1. Open the character and click the tab **8 Arc**.
+1. Open the character and click the **Arc** tab.
 2. Click **Add an arc**. A box appears: **What part of life is this arc about?**
 3. Type a **value**: one word or a short phrase for the quality that will change, such as *trust*, *courage* or *belonging*. The box suggests *A value, such as trust, courage or belonging*. You can leave it empty.
 4. Click **Add the arc**. (Click **Cancel** to stop.)
@@ -1219,7 +1212,7 @@ The swap is only a reading test. It changes nothing you wrote. It swaps first na
 
 ## Interviewing a character
 
-**What it is.** On page **10 Interview**, under the heading **Interview** followed by the character's name, you ask the character questions and answer in their own voice.
+**What it is.** On a character's **Interview** page, under the heading **Interview** followed by the character's name, you ask the character questions and answer in their own voice.
 
 **Why it works.** A character who can answer personal questions honestly is a person. One who can't is still a plot device. Answering in the first person, as them, gets you out of your own head.
 
@@ -1248,7 +1241,7 @@ A villain exercise taught by the writer Dara Resnik. Five questions about childh
 
 **How to use it.** Answer as the villain, who believes they are right, helping, or saving someone, and that the cost is worth it. Then say the answers out loud without looking. If the villain can't answer as honestly as your hero, you have written an obstacle, not a person.
 
-**Example.** Cyrus Hale, *What makes you cry?* "My boy, asleep, when he was small. Before he did the thing I've spent two years covering." He is still the antagonist. Now he is also a father.
+**Example.** Cyrus Hale, *What makes you cry?* "My boy, asleep, when he was small. Before he did the thing I've spent twelve years covering." He is still the antagonist. Now he is also a father.
 
 ### Your own interview questions
 
@@ -1303,23 +1296,23 @@ On each person's page, the relationships they are in are listed in Connections u
 
 **What it is for.** One thread of plot that runs through the book. **1 The storyline**: *Letter (A, B, C…)* (optional; the letter is its role, not its identity), *Story type* (Blake Snyder's type for this thread; see [Story types and their ingredients](#story-types-and-their-ingredients)), *Where it stands* (Introduced, Developing, Escalating, Dormant, Resolved and so on, or your own words), *Resolves now, or held open on purpose*, *Values it carries*, and *Promises made to the reader*. Then **2 Notes and connections**. The Storylines view in Narrative Zoom reads **moves forward** connections to show which scenes push each thread.
 
-**Example.** *The empty boat* (A story): who sent it, and why. *Marisol and Ana* (B story): two women learning to stay.
+**Example.** *Who sent the boat* (A story): who set the empty boat adrift toward Gull Point, and why. *Marisol and Ana* (B story): two women learning to stay.
 
 ### Scene card records
 
-**What it is for.** Your plan for one scene, before or after you write it. Scene cards are laid out on the Board in Narrative Zoom, placed on their beats; each one also has a record here, with everything you know about it. The Scene cards list says so at the top, with an **Open Narrative Zoom** link. A scene card has up to seven pages:
+**What it is for.** Your plan for one scene, before or after you write it. Scene cards are laid out on the Board in Narrative Zoom, placed on their beats; each one also has a record here, with everything you know about it. The Scene cards list says so at the top, with an **Open Narrative Zoom** link. A scene card has up to seven pages, in this order. Most cards have five, because two of the pages appear only with a choice turned on in Novel setup, and the numbers close up when a page is left out:
 
-| Page | What it holds |
+| Page, in order | What it holds |
 | --- | --- |
-| **1 The scene** | **The scene**: what this scene must do, the viewpoint character's objective, the conflict, the intended outcome, and the **Value at the start** and **Value at the end** (what is at stake for the viewpoint character, and whether it stands well (+) or badly (-); every scene has to turn). **Around it**: how we got here, what must follow, when, where, and whether it is a disaster, discovery or win. |
-| **2 When it happens** | **Story time**: *Day in the story* (a number on your story clock), *Date*, *Year* (which gives everyone's age here), *Time of day*, *Time since the previous scene*. **Timeline strand** (*Which timeline*), with a dual timeline or frame story. |
-| **3 Who tells it** | Appears only with a narrator who is not who they seem, or an unreliable narrator, chosen in Novel setup. **Who tells it**: who seems to be telling it, who really is, and where the reader finds out. **Narrator and truth**: what the narrator believes here, and what is actually true. |
-| **4 Mood and feeling** | **Atmosphere**: season, weather, physical and emotional atmosphere, sensory details, and what the setting does to the plot. **Emotion on the page** *(Ackerman and Puglisi)*, with the thesauri on: the viewpoint character's main emotion, what the body shows, what they feel inside, what their thoughts do, and what they try to hide. **Heat**, with a sensual, steamy or explicit heat level: what is on the page, and what the intimacy changes between them. |
-| **5 The reader** | **What the reader knows**: what the reader suspects by the end, and whether this is the visible or hidden story. **Reader response**: what you want the reader to feel (*Profound*, *Funny*, *Relatable*, *Shocking*, or your own word). **Callbacks**, with running gags on: callbacks and running gags here. |
-| **6 Scene and sequel** | Appears with *Scene and Sequel (Swain)*. Dwight Swain taught that a story alternates a **scene** (goal, conflict, disaster) with a **sequel** (reaction, dilemma, decision), and that the decision becomes the next scene's goal. Fields: *Scene or sequel*, *Reaction*, *Dilemma*, *Decision*. |
-| **7 Notes and connections** | Notes, Connections (who **appears in** it, where it **happens at**), and your own fields. |
+| **The scene** | **The scene**: what this scene must do, the viewpoint character's objective, the conflict, the intended outcome, and the **Value at the start** and **Value at the end** (what is at stake for the viewpoint character, and whether it stands well (+) or badly (-); every scene has to turn). **Around it**: how we got here, what must follow, when, where, and whether it is a disaster, discovery or win. |
+| **When it happens** | **Story time**: *Day in the story* (a number on your story clock), *Date*, *Year* (which gives everyone's age here), *Time of day*, *Time since the previous scene*. **Timeline strand** (*Which timeline*), with a dual timeline or frame story. |
+| **Who tells it** | Appears only when **A narrator who is not who they seem** or **Unreliable narrator** is ticked in Novel setup, on its page **How the story is told**. **Who tells it**: who seems to be telling it, who really is, and where the reader finds out. **Narrator and truth**: what the narrator believes here, and what is actually true. |
+| **Mood and feeling** | **Atmosphere**: season, weather, physical and emotional atmosphere, sensory details, and what the setting does to the plot. **Emotion on the page** *(Ackerman and Puglisi)*, with the thesauri on: the viewpoint character's main emotion, what the body shows, what they feel inside, what their thoughts do, and what they try to hide. **Heat**, with a sensual, steamy or explicit heat level: what is on the page, and what the intimacy changes between them. |
+| **The reader** | **What the reader knows**: what the reader suspects by the end, and whether this is the visible or hidden story. **Reader response**: what you want the reader to feel (*Profound*, *Funny*, *Relatable*, *Shocking*, or your own word). **Callbacks**, with running gags on: callbacks and running gags here. |
+| **Scene and sequel** | Appears with *Scene and Sequel (Swain)*. Dwight Swain taught that a story alternates a **scene** (goal, conflict, disaster) with a **sequel** (reaction, dilemma, decision), and that the decision becomes the next scene's goal. Fields: *Scene or sequel*, *Reaction*, *Dilemma*, *Decision*. |
+| **Notes and connections** | Notes, Connections (who **appears in** it, where it **happens at**), and your own fields. |
 
-When you open a scene card in Narrative Zoom instead of here, one or two pages come first (**1 Where it sits**, and **2 The page so far** once the card has a page in the Writing Room), and these pages follow them. See [Zoom: a scene card page](#zoom-a-scene-card-page).
+When you open a scene card in Narrative Zoom instead of here, one or two pages come first (**Where it sits**, and **The page so far** once the card has a page in the Writing Room), and these pages follow them, numbered after them. So the same page can carry a different number in Narrative Zoom than here. See [Zoom: a scene card page](#zoom-a-scene-card-page).
 
 **Example.** *The empty boat*: *What this scene must do*: "Bring the mystery to Marisol's door, literally." *Value at the start*: "Safety +." *Value at the end*: "Safety -." *Year*: 2024. *Weather*: "Fog so thick the light is useless."
 
@@ -1327,13 +1320,13 @@ When you open a scene card in Narrative Zoom instead of here, one or two pages c
 
 **What it is for.** One turning point from your book's beat sheet, as it plays out in this book. A beat has up to three pages:
 
-- **1 In this book**: *What this beat does in this book*, *What it is (your plan)*, *How it could happen* (a list of ideas side by side), *One way it could be done* (examples, never decisions), *Disaster, discovery or win*, *Caused by the hero's own efforts?*, and *Scene type*.
-- **2 Questions for this beat**: the questions Save the Cat (Blake Snyder's beat sheet, adapted for novels by Jessica Brody) asks at this beat. The tab says **Questions for this beat**; the heading inside the page still credits where they come from, **Save the Cat's questions for this beat**, with the note that they belong to the beat sheet, not the Board tab. Only some beats have them: the Theme Stated beat asks for the line that states the theme; the Setup asks about the hero's *Home*, *Work* and *Play* and *Six things that need fixing*; the Debate asks its question; Break into Two asks for the hero's WANT and Break into Three for the NEED; the Midpoint and All Is Lost ask whether it is a false victory or false defeat (and All Is Lost asks for the *Whiff of death*); and the Final Image asks whether the hero is changed or rejects change. This page appears only on beats that have questions, and only when Save the Cat is your structure (or the novel is not set up yet). On any other beat, Notes and connections is page 2.
-- **3 Notes and connections**.
+- **In this book**: *What this beat does in this book*, *What it is (your plan)*, *How it could happen* (a list of ideas side by side), *One way it could be done* (examples, never decisions), *Disaster, discovery or win*, *Caused by the hero's own efforts?*, and *Scene type*.
+- **Questions for this beat**: the questions Save the Cat (Blake Snyder's beat sheet, adapted for novels by Jessica Brody) asks at this beat. The tab says **Questions for this beat**; the heading inside the page credits where they come from, **Save the Cat's questions for this beat**. Only some beats have them: the Theme Stated beat asks for the line that states the theme; the Setup asks about the hero's *Home*, *Work* and *Play* and *Six things that need fixing*; the Debate asks its question; Break into Two asks for the hero's WANT and Break into Three for the NEED; the Midpoint and All Is Lost ask whether it is a false victory or false defeat (and All Is Lost asks for the *Whiff of death*); and the Final Image asks whether the hero is changed or rejects change. This page appears only on beats that have questions, and only when Save the Cat is your structure (or the novel is not set up yet). On any other beat, Notes and connections comes straight after In this book.
+- **Notes and connections**.
 
-When you open a beat in Narrative Zoom instead of here, two pages come first, **1 About this beat** and **2 Scenes here**, and these pages follow them. See [Zoom: a beat page](#zoom-a-beat-page).
+When you open a beat in Narrative Zoom instead of here, two pages come first, **About this beat** and **Scenes here**, and these pages follow them, numbered after them. See [Zoom: a beat page](#zoom-a-beat-page).
 
-The Beats list explains when some beats have smaller steps inside them. At the bottom of a beat is **Remove this beat from the novel** instead of Delete (see [Delete at the bottom of a record](#delete-at-the-bottom-of-a-record)). To change the beat sheet itself, use **My methods**.
+The Beats list explains when some beats have smaller steps inside them. At the bottom of a beat is **Remove this beat from the novel** instead of Delete (see [Delete at the bottom of a record](#delete-at-the-bottom-of-a-record)). To choose or change the beat sheet itself, see [Choosing a beat sheet for a novel](#choosing-a-beat-sheet-for-a-novel).
 
 ### Event and reveal records
 
@@ -1447,9 +1440,9 @@ You can also add one from the Story Brain: type a name in the box at the bottom 
 - From **Novel setup** (open **Settings**, then **Open novel setup**), click **Open the story world** under **The heart of the book**.
 - In a brand-new novel, **Story world** may not be in the main list yet. It is made the first time you write the book's one sentence (when you start the novel, or in Novel setup) or a guess at the ending (with **Plant the seed**). Until then it waits under **Show every kind**. Start it from Novel setup rather than with the add box, so the book has exactly one.
 
-Its pages are **1 The heart of the book**, **2 What it means**, **3 Time, viewpoint and knowledge** and **4 Notes and connections**.
+Its pages are **The heart of the book**, **What it means** (only with *The Moral Premise (Williams)* or *McKee (Story)* on), **Time, viewpoint and knowledge** and **Notes and connections**.
 
-#### Story world page 1: The heart of the book
+#### Story world page: The heart of the book
 
 The group **The heart of the book** *(Ingermanson, the Snowflake)* has three fields. The first two are the first steps of the Snowflake Method.
 
@@ -1461,7 +1454,7 @@ The group **The heart of the book** *(Ingermanson, the Snowflake)* has three fie
 
 **The Story world and Novel setup.** **The heart of the book** appears in two places: on the Story world record, and at the top of Novel setup. They are the same place. Novel setup says so: *The one sentence and the one paragraph live in the story world. Change them here or there; it is the same place.* Type the one sentence in Novel setup, and it appears here as a fact in pencil. If the one sentence here is already Decided, a new wording typed in Novel setup stays Decided, and the earlier wording goes to the field's earlier versions. The one sentence you type when you start a novel in the Library becomes this same sentence.
 
-#### Story world page 2: What it means
+#### Story world page: What it means
 
 This page appears when you turn on one of its two methods in Novel setup. Each puts what the book *means* into one sentence.
 
@@ -1483,7 +1476,7 @@ The group has three fields: **The vice**, **The virtue**, and **The moral premis
 
 These two can sit together. The moral premise is the argument; the controlling idea is the verdict.
 
-#### Story world page 3: Time, viewpoint and knowledge
+#### Story world page: Time, viewpoint and knowledge
 
 **Time** anchors the calendar so dates, seasons and ages stay consistent: *Era or year*, *Season*, *The atmosphere now* (the mood of the story's world when the book opens), *How long the story lasts*, and *Name of your story clock*.
 
@@ -1502,7 +1495,7 @@ These two can sit together. The moral premise is the argument; the controlling i
 
 #### Story types and their ingredients
 
-If you choose one or more of Blake Snyder's ten story types in Novel setup (such as *Whydunit* or *Buddy Love*), each one adds a group to the Story world named for it, with its three ingredients as fields. *Whydunit* asks for *A detective*, *A secret* and *A dark turn*. These groups sit on the last page, **4 Notes and connections**, along with any groups that came in from your planning documents.
+If you choose one or more of Blake Snyder's ten story types in Novel setup (such as *Whydunit* or *Buddy Love*), each one adds a group to the Story world named for it, with its three ingredients as fields. *Whydunit* asks for *A detective*, *A secret* and *A dark turn*. These groups sit on the last page, **Notes and connections**, along with any groups that came in from your planning documents.
 
 ### Note records from your planning documents
 
@@ -1530,7 +1523,7 @@ A record of a kind you made has one page only, so it shows no page tabs: its Not
 
 ## Questions and ideas: your open questions and possibilities
 
-Click **Questions and ideas** at the top of the left list. This page holds three kinds of things that are not facts yet, each in its own section: **Questions I have**, **Things and ideas I'm thinking about** and **Captured thoughts**. At the top, **On this page** lists them as links with counts, such as **Questions (4)**, plus **Raised by the assistant** when an AI has raised questions. Click one to slide down to it.
+Click **Questions and ideas** at the top of the left list. This page holds three kinds of things that are not facts yet, each in its own section: **Questions I have**, **Things and ideas I'm thinking about** and **Captured thoughts**. At the top, **On this page** lists them as links with counts, such as **Questions (4)**, plus **Questions an AI raised** when there are any. Click one to slide down to it.
 
 **Why it matters.** "I haven't decided" is different from "I forgot." Writing a question down keeps it from nagging at you, and keeps it from quietly getting answered by accident.
 
@@ -1588,7 +1581,16 @@ Click a question to open its record. It looks like any record, with two pages, *
 
 ### Questions an AI raised
 
-When the collaborator, or a chat you brought in, raises a question, it waits here, apart from yours, under **Questions an AI raised**, with the line *From the collaborator, or from a chat you brought in. These are not yours until you adopt them.* Click **Make it one of my questions** to move one into Questions I have, or **Not relevant** to put it away.
+**What it is.** A fourth section, **Questions an AI raised**, appears at the end of the page (and in **On this page**, with its count) when there is one. It holds questions that an AI asked rather than you: questions you marked in a conversation from a message the collaborator wrote, or from an AI's message in a chat you brought in (marking passages in a conversation is taught in [Conversations and the collaborator](#conversations-and-the-collaborator)). They wait here, apart from yours, under the line *From the collaborator, or from a chat you brought in. These are not yours until you adopt them.*
+
+**Why it matters.** Questions I have is your own list. A question an AI asked might be a good one, but it should not be filed under your name until you say so.
+
+**What you can do with one.**
+
+- **Make it one of my questions** moves it into **Questions I have**, as Open.
+- **Not relevant** puts it away. It leaves this section and is kept, never deleted.
+
+**Not the same as a suggested question.** When the collaborator offers a question of its own during a conversation, it arrives as a suggestion instead: it waits under **Suggestions waiting**, reading *New question:* and the question, with a single **Accept** button (see [Suggestions from the collaborator](#suggestions-from-the-collaborator)). Accepting it makes it one of your questions straight away, in Questions I have.
 
 ## Suggestions waiting: ideas you have not taken yet
 
@@ -1609,7 +1611,12 @@ Under **From the collaborator**: ideas the collaborator offered during a convers
 - the idea itself;
 - under it, in small type: *Suggestion, for* the field it is meant for, the collaborator's reason if it gave one, and *(you said not yet)* if you put it off before.
 
-The buttons are the same as on a record: **Accept as Decided** (only for a fact), **Accept as Developing** (just **Accept** for a new record or a connection), **Not yet** (keeps it waiting; once you have said not yet, this button no longer shows), and **No**.
+The buttons are the same as on a record (see [Suggestions waiting for you on a record](#suggestions-waiting-for-you-on-a-record)):
+
+- **Accept as Decided** and **Accept as Developing**, for a fact.
+- A single **Accept**, for anything that is not a fact: a new record (including a question the collaborator raised, which reads *New question:*) or a connection. An accepted question goes straight into **Questions I have**; an accepted connection is marked **inferred**.
+- **Not yet** keeps it waiting, marked *(you said not yet)*. Once you have said not yet, this button no longer shows.
+- **No** turns it down. It leaves this page and does not come back. Nothing is erased: the conversation still holds the message it came from.
 
 When there are none, the part says *None waiting.* That does not mean there are no suggestions at all. Check the next part.
 
@@ -1647,7 +1654,7 @@ Each entry reads as the record's name, its kind, then the field: *The empty boat
 
 **The common mistake** is trying to empty it. A first draft written with a hundred open choices is normal. Many choices are best made on the page.
 
-**Example.** Before drafting the storm chapters, Marisol's writer scans **Possibilities, nothing chosen** and sees *The empty boat* *event*, *How it could happen (2 ideas side by side)*. She decides one, sets the other aside, and starts writing.
+**Example.** Before drafting the storm chapters, Marisol's writer scans **Possibilities, nothing chosen** and sees *The boat comes in* *event*, *How it could happen (2 ideas side by side)*. She decides one, sets the other aside, and starts writing.
 
 ## Story Brain questions people ask
 
@@ -1665,7 +1672,7 @@ Each entry reads as the record's name, its kind, then the field: *The empty boat
 
 **There's no Scenes kind.** Scenes live in the Writing Room (as prose) and on the Board (as scene cards). Each scene card has a record under **Scene cards**.
 
-**There's no Arcs kind either.** Arcs live under their character, on page 8. **Choices ahead** shows every arc field still undecided.
+**There's no Arcs kind either.** Arcs live under their character, on its **Arc** page. **Choices ahead** shows every arc field still undecided.
 
 **The arc card has no Add buttons.** The card is for reading. Click **Open and change** (or the arc's title) to change an arc.
 

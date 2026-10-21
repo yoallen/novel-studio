@@ -16,41 +16,60 @@ Click **Library** at the top left of any page. The Library lists every novel on 
 
 ### Where is the help for the screen I am on?
 
-Press **F1**, or click **Help**, the last view in the list on the right. In the Library, before any novel is open, there is a **Help** button at the top right. Many screens also have a **Learn more** link that opens Help at the right section, and under many fields a **Why it matters** link teaches what that field is for. On a record, **Read the full chapter in Help** opens the reference for that kind of record (see [Every kind and every field](#every-kind-and-every-field)).
+Press **F1**, or click **Help**, the last view in the list on the right. In the Library, before any novel is open, there is a **Help** button at the top right of the window, on the purple edge. Under many fields on a record, a **Why it matters** link teaches what that field is for. At the end of the **About** fold at the top of a record, **Read the full chapter in Help** opens the reference for that kind of record (see [Every kind and every field](#every-kind-and-every-field)). At the top of each continuity check, **How this view works** explains that check. See [Getting help](#getting-help).
 
 ### I pressed Capture. Where did my thought go?
 
-For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**: a thought in **Captured thoughts**, a question in **Questions I have**, an idea in **Things and ideas I'm thinking about**. Unsorted thoughts also show on **Where was I**, page **2 Still open**, under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**: a thought in **Captured thoughts**, a question in **Questions I have**, an idea in **Things and ideas I'm thinking about**. Unsorted thoughts also show on **Where was I**, page **2 Still open**, under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [Writing Room: Capture while writing](#writing-room-capture-while-writing).
 
 ### What is the difference between "Just a thought" and "An idea I am thinking about"?
 
-A thought is unsorted: you catch it without deciding what it is. An idea is something you already know you might use. When in doubt, choose **Just a thought** and sort it later with **Make it a question** or **Make it an idea**. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+A thought is unsorted: you catch it without deciding what it is. An idea is something you already know you might use. When in doubt, choose **Just a thought** and sort it later with **Make it a question** or **Make it an idea**. See [Captured thoughts in the Story Brain](#captured-thoughts-in-the-story-brain).
+
+### Which keys work everywhere?
+
+Press the keys together. **Ctrl** is the key in the bottom-left corner of your keyboard.
+
+| Keys | What they do | Where |
+| --- | --- | --- |
+| **F1** | Open Help | Anywhere, including the Library (not during a sprint) |
+| **Ctrl+Shift+N** | Capture a thought | Anywhere in a novel, even during a sprint |
+| **Ctrl+K** | Open Search | Anywhere in a novel (not during a sprint) |
+| **Ctrl+Shift+W** | Return to Writing, to the scene you were in | Anywhere in a novel (not during a sprint) |
+| **Ctrl+Shift+F** | Focus: hide everything but the page; press again to come back | The Writing Room |
+| **Esc** | Leave Focus, close a small window such as Capture, or close Help in the Library | The Writing Room, any small window, the Library |
+| **Ctrl+Shift+L** | Leave a note for later, \[\[like this\]\], and keep writing | On the page |
+| **Ctrl+Enter** | Save what you typed in Capture | The Capture window |
+| **Ctrl+Z** and **Ctrl+Y** | Undo and redo your typing | On the page |
+| **Ctrl and +**, **Ctrl and -**, **Ctrl and 0** | Make everything bigger, smaller, or back to normal size | Anywhere |
+
+To undo a change to your story itself (a decision, a deleted record), use **Story Trail**, where every change has its own **Undo**. See [Finding things: Search and Story Trail](#finding-things-search-and-story-trail).
 
 ## Questions about records and their pages
 
 ### I opened a character and most of it is missing. Where is the rest?
 
-It is on the other pages. A record is laid out like a notebook with numbered pages, and one page shows at a time. Look under the record's name for the row of numbered page tabs: a character has eleven, from **1 Who they are** to **11 Notes, guardrails and writing aids**. Click a tab to turn to that page, or click **All pages**, at the end of the row, to see everything on one long page. Links at the bottom of each page go to the page before and the page after. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+It is on the other pages. A record is laid out like a notebook with pages, and one page shows at a time. Look under the record's name for the row of page tabs: a character has up to eleven, from **Who they are** to **Notes, guardrails and writing aids**. Click a tab to turn to that page, or click **All pages**, at the end of the row, to see everything on one long page. Links at the bottom of each page go to the page before and the page after. See [Record pages: the numbered tabs](#record-pages-the-numbered-tabs).
 
 ### Why are some page numbers blue and others not?
 
-A page number turns ink blue once that page has something written on it. A number that is not blue means the page is still empty. It is a quick way to see, on Marisol Vega's record, that you have filled in **Who they are** and **Inner life** but not yet **Looks and voice**. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+A page number turns ink blue once that page has something written on it. A number that is not blue means the page is still empty. It is a quick way to see, on Marisol Vega's record, that you have filled in **Who they are** and **Inner life** but not yet **Looks and voice**. See [Record pages: the numbered tabs](#record-pages-the-numbered-tabs).
 
-### A page I expected is not there.
+### A page I expected is not there, or has a different number.
 
-Pages with nothing to show are left out. Some pages are made only of fields that a method adds, and those appear once that method is turned on for the novel in Novel setup. If you are looking for something specific, click **All pages**, or use Search: it opens the record on the page that holds what you found. See [Your first hour: the Library and a new novel](#your-first-hour-the-library-and-a-new-novel) for Novel setup.
+Pages with nothing to show are left out, and the pages after them close up, so their numbers change from book to book. Some pages are made only of fields that a method adds, and those appear once that method is turned on for the novel in Novel setup. That is why this guide names pages instead of numbering them. If you are looking for something specific, click **All pages**, or use Search: it opens the record on the page that holds what you found. See [Record pages: the numbered tabs](#record-pages-the-numbered-tabs), and [Novel setup: my storytelling toolkit](#novel-setup-my-storytelling-toolkit) for turning methods on.
 
 ### The same record has different page numbers in Narrative Zoom.
 
-That is on purpose. In Narrative Zoom, a record gets one or two pages in front of its own, about where it sits in the story, and its own pages are numbered after them. A beat starts with **1 About this beat** and **2 Scenes here**, so its **In this book** is page 3 there and page 1 in the Story Brain. A scene card starts with **Where it sits** (and **The page so far**, once it has a written page). Any other record, such as a character, starts with **1 Across the story**. The pages themselves are the same; only the numbers move. See [Narrative Zoom](#narrative-zoom).
+That is on purpose. In Narrative Zoom, a record gets one or two pages in front of its own, about where it sits in the story, and its own pages are numbered after them. A beat starts with **About this beat** and **Scenes here**, so its **In this book** page comes third there and first in the Story Brain. A scene card starts with **Where it sits** (and **The page so far**, once it has a written page). Any other record, such as a character, starts with **Across the story**. The pages themselves are the same; only the numbers move. Look for the page's name. See [Narrative Zoom](#narrative-zoom).
 
 ### I accepted a suggestion and the record jumped to another page.
 
-That is on purpose. Suggestions waiting for a record sit above the page tabs, so you see them whichever page you are on. When you accept one, the record turns to the page where it landed, so you can see it in place. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+That is on purpose. Suggestions waiting for a record sit above the page tabs, so you see them whichever page you are on. When you accept one, the record turns to the page where it landed, so you can see it in place. See [The Story Brain](#the-story-brain).
 
 ### What does "Low-energy day? One line counts" do?
 
-It sits above the page tabs on a character. Click **Fill in one line**, and Story Canon picks one empty field for you, turns to the page it is on, and puts your cursor in it. One line is a real day's work on a tired day. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+It sits above the page tabs on a character. Click **Fill in one line**, and Story Canon picks one empty field for you, turns to the page it is on, and puts your cursor in it. One line is a real day's work on a tired day. See [The Story Brain](#the-story-brain).
 
 ### Why are some words blue, some gray, and some on a slip of paper?
 
@@ -65,7 +84,7 @@ The color of the words shows each fact's status, like ink on a page:
 | **Suggestion** | On a white slip, tucked in at a slight angle, in a handwriting typeface. Someone else's idea, waiting for you. |
 | **Set aside** | Folded away under the field, out of sight. Click **Show earlier and set-aside versions** to see it, faded, with a line through it. Retired, but kept. |
 
-The legend under a record's name shows a small sample of all six, so you can glance at it whenever you forget which look is which. The last sample, *Set aside (faded, kept below)*, has a line through it, and "kept below" reminds you that set-aside facts are folded away under their field. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+The legend under a record's name shows a small sample of all six, so you can glance at it whenever you forget which look is which. The last sample, *Set aside (faded, kept below)*, has a line through it, and "kept below" reminds you that set-aside facts are folded away under their field. See [Reading a record: the status legend](#reading-a-record-the-status-legend).
 
 ### I renamed "Decided" in Settings. Did the blue ink change?
 
@@ -117,10 +136,6 @@ Somewhere other than this computer: a second drive, a USB stick, or a OneDrive f
 
 Install it, open it, and stay in the Library. You do not need a novel open. Scroll to **Your other computers**, below **Your novels**, give this computer a name, click **Choose the shared folder**, and pick the same folder your first computer shares through. A list headed **On your other computers** appears; click **Bring to this computer** beside each novel. See [Sharing: setting up your second computer from the Library](#sharing-setting-up-your-second-computer-from-the-library).
 
-### The Library on my new computer offers to bring in a novel. Should I click it?
-
-Not if that novel is already on your other computer. Bringing it in that way makes a second, separate book. Turn on sharing in the Library first; once the other computer's copy is in the shared folder, the offer goes away, and **Bring to this computer** brings over the same book. See [Sharing: setting up your second computer from the Library](#sharing-setting-up-your-second-computer-from-the-library).
-
 ### How do I move a novel to a new computer?
 
 Two ways. For a one-time move, click **Save an archive of this novel** in Settings, and bring it in on the new computer from the Library under **Bring in an archive** (see [Backups: getting a novel back from an archive](#backups-getting-a-novel-back-from-an-archive)). To keep writing on both, set up sharing (see [Your other computers: writing on two machines](#your-other-computers-writing-on-two-machines)).
@@ -164,7 +179,7 @@ No. Nothing goes to the collaborator until you have set a key, ticked **Use the 
 
 ### The collaborator raised a question I never asked. Did it change my story?
 
-No. A question the collaborator raises is a suggestion. It waits in **Suggestions waiting** in the Story Brain, apart from your own questions, until you **Accept** it, say **Not yet**, or say **No**. See [Conversations and the collaborator](#conversations-and-the-collaborator).
+No. A question the collaborator (or a chat you brought in) raises waits in the Story Brain, under **Questions and ideas**, in its own section, **Questions an AI raised**, apart from your own questions. Click **Make it one of my questions** to take it on, or **Not relevant** to put it away. Until you do, it is not yours. See [Questions an AI raised](#questions-an-ai-raised).
 
 ### I said "sounds good" to an idea in the chat. Is it in my story now?
 
@@ -212,10 +227,6 @@ No. Chats you already brought in say **already here** in the list. See [Conversa
 
 Search only sees what is inside Story Canon. Bring the chat in first, from the Conversations view. See [Finding things: Search and Story Trail](#finding-things-search-and-story-trail).
 
-### Search shows notes with codes I do not recognize.
-
-They came in with planning documents you brought in. Detailed planning files often carry their own reference numbers and notes to self, and Story Canon keeps them word for word so you can always check where a fact came from. Click a code to see what it points to. Novels you plan inside Story Canon will not have them. See [Finding things: Search and Story Trail](#finding-things-search-and-story-trail).
-
 ### There are 176 results. How do I narrow them?
 
 Use the row above the results: **Your pages**, **Story records**, **Conversations** or **Documents**. See [Finding things: Search and Story Trail](#finding-things-search-and-story-trail).
@@ -236,7 +247,7 @@ After your last chapter. The preview says so exactly, such as "the first one bec
 
 ### Where did my exported file go?
 
-In the Windows program you choose the place, starting in Documents, Story Canon, Exports. After saving, the notice says "Saved to" and the full path, with **Show it in its folder**. See [Bringing things in and sending things out](#bringing-things-in-and-sending-things-out).
+A save window opens so you can choose the place, starting in your Documents folder, inside **Story Canon**, then **Exports**. After saving, the notice says "Saved to" and the full path, with **Show it in its folder**. See [Bringing things in and sending things out](#bringing-things-in-and-sending-things-out).
 
 ### My [[notes for later]] printed in my export.
 

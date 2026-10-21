@@ -344,7 +344,7 @@ Page **4 How the story is told** covers everything about the book apart from its
 | **Technique** | Devices such as running gags, foreshadowing, titled chapters |
 | **Form** | The shape of the book: letters, series, novella, linked stories, a retelling |
 
-You don't need to understand every group on your first day. Choose what you already know about your book and leave the rest. Some choices add a tool or a few fields, and say so after **Turns on:**. For example, choosing an invented world adds the worldbuilding kinds of records. The last page, **What your choices switch on**, lists everything your choices have added, and each tool is taught in the chapter where you use it.
+You don't need to understand every group on your first day. Choose what you already know about your book and leave the rest. For example, choosing an invented world turns on the worldbuilding kinds of records. The last page, **What your choices switch on**, lists everything your choices have added, and each tool is taught in the chapter where you use it.
 
 **Groups that take one answer** say *One choice.* in their description and use round buttons. Choosing a new answer replaces the old one. To clear the answer, click the chosen one again.
 
@@ -354,7 +354,7 @@ You don't need to understand every group on your first day. Choose what you alre
 
 ### Novel setup: my storytelling toolkit
 
-**What it is.** Page **5 My storytelling toolkit** lists the frameworks and methods you use to build this novel. A **framework** or **method** is one teacher's way of thinking about stories. A **beat sheet** is a framework that lays out the beats of a story in order. Each item in the list has its name in bold and a line saying the job it does, such as *Weiland (character arcs): The arc: the Lie, the Ghost, the Want and the Need, and how the inside changes with the outside.* (These are K.M. Weiland's words for a character's inner journey: the **Lie** is the false belief the character lives by, the **Ghost** is the old hurt behind it, the **Want** is what they think they need, and the **Need** is what they truly need. [The Story Brain](#the-story-brain) teaches them.) If a method adds fields, a line says **Adds:** and where, such as *Goal and motive (Ingermanson) on each character*.
+**What it is.** Page **5 My storytelling toolkit** lists the frameworks and methods you use to build this novel. A **framework** or **method** is one teacher's way of thinking about stories. A **beat sheet** is a framework that lays out the beats of a story in order. Each item in the list has its name in bold and a line saying the job it does, such as *Weiland (character arcs): The arc: the Lie, the Ghost, the Want and the Need, and how the inside changes with the outside.* (These are K.M. Weiland's words for a character's inner journey: the **Lie** is the false belief the character lives by, the **Ghost** is the old hurt behind it, the **Want** is what they think they want, and the **Need** is what they truly need. [The Story Brain](#the-story-brain) teaches them.) If a method adds fields, a line says **Adds:** and where, such as *Goal and motive (Ingermanson) on each character*.
 
 The list holds:
 
@@ -394,7 +394,7 @@ When two or more beat sheets are ticked, a line appears at the bottom of the too
 
 Beside it, **Offer my placed scenes on the matching beats** (ticked at first) means: when you switch beat sheets, scene cards you had placed are offered on the matching beats of the new sheet as suggestions, waiting for you to decide. A message says so when it happens.
 
-**Where a beat sheet is chosen.** This page is where you choose and change your beat sheets. There is one shortcut: in a novel with no beat sheet yet, Narrative Zoom offers a menu to pick one on the spot (see [Choosing a beat sheet for a novel](#choosing-a-beat-sheet-for-a-novel)). Whichever way you choose it, it shows up ticked here, and this is where you change it later.
+**Where a beat sheet is chosen.** This page is where you choose and change your beat sheets. There is one shortcut: in a novel with no beat sheet yet, Narrative Zoom offers a menu to pick one on the spot (see [Choosing a beat sheet for a novel](#choosing-a-beat-sheet-for-a-novel)). To change your beat sheet later, or add another, come back to this page.
 
 ### Novel setup: what your choices switch on
 
