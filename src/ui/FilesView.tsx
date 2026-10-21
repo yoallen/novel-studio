@@ -1,5 +1,5 @@
 import { Pages } from './Pages';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { statusWord, when } from './status';
@@ -435,6 +435,8 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
   const [outline, setOutline] = useState<any[]>([]);
   const [req, setReq] = useState<any>({ format: 'docx', manuscript: true, chapterIds: null, sections: [], includePrivate: false, includeExamples: true, chapterHeading: 'number_title', options: { sceneBreak: '* * *', titlePage: true, manuscriptFormat: false, sceneTitles: false, chapterOnNewPage: true } });
   const [preset, setPreset] = useState('working');
+  // Once she changes anything, the preset arriving late never overwrites her choice.
+  const touched = useRef(false);
   const [preview, setPreview] = useState<any>(null);
   const [result, setResult] = useState<any>(null);
   const [saved, setSaved] = useState<Saved | null>(null);
@@ -446,7 +448,7 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
   const [kept, setKept] = useState<any[]>([]);
   useEffect(() => {
     // The preset shown as chosen is applied at the start, so its choices match what is ticked.
-    api.get(`/api/projects/${ctx.projectId}/export/presets`).then((ps: any[]) => { setPresets(ps); const w = ps.find((p) => p.key === 'working'); if (w) setReq((r: any) => ({ ...r, chapterIds: null, includePrivate: false, includeExamples: true, ...w.request, options: { ...r.options, ...(w.request.options ?? {}) } })); }).catch(() => {});
+    api.get(`/api/projects/${ctx.projectId}/export/presets`).then((ps: any[]) => { setPresets(ps); const w = ps.find((p) => p.key === 'working'); if (w && !touched.current) setReq((r: any) => ({ ...r, chapterIds: null, includePrivate: false, includeExamples: true, ...w.request, options: { ...r.options, ...(w.request.options ?? {}) } })); }).catch(() => {});
     api.get(`/api/projects/${ctx.projectId}/outline`).then((o) => setOutline(o.chapters ?? [])).catch(() => {});
     api.get(`/api/projects/${ctx.projectId}/landmarks`).then((l) => { setProfiles(l.profiles ?? []); if (l.profiles?.[0]) setProfile(l.profiles[0].key); }).catch(() => {});
     api.get(`/api/projects/${ctx.projectId}/drafts`).then((d: any[]) => setKept(d.filter((x) => x.completed_at))).catch(() => {});
@@ -457,9 +459,9 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
     const t = setTimeout(() => { api.post(`/api/projects/${ctx.projectId}/export/preview`, req).then(setPreview).catch((e) => setError(e.message)); }, 200);
     return () => clearTimeout(t);
   }, [req, ctx.projectId]);
-  const choose = (p: any) => { setPreset(p.key); setReq((r: any) => ({ ...r, chapterIds: null, includePrivate: false, includeExamples: true, ...p.request, options: { ...r.options, ...(p.request.options ?? {}) } })); };
-  const set = (patch: any) => { setPreset(''); setReq((r: any) => ({ ...r, ...patch })); };
-  const setOpt = (patch: any) => { setPreset(''); setReq((r: any) => ({ ...r, options: { ...r.options, ...patch } })); };
+  const choose = (p: any) => { touched.current = true; setPreset(p.key); setReq((r: any) => ({ ...r, chapterIds: null, includePrivate: false, includeExamples: true, ...p.request, options: { ...r.options, ...(p.request.options ?? {}) } })); };
+  const set = (patch: any) => { touched.current = true; setPreset(''); setReq((r: any) => ({ ...r, ...patch })); };
+  const setOpt = (patch: any) => { touched.current = true; setPreset(''); setReq((r: any) => ({ ...r, options: { ...r.options, ...patch } })); };
   const chosen = new Set<string>(req.chapterIds ?? outline.map((c) => c.id));
   async function go() {
     setError(''); setBusy(true); setResult(null); setSaved(null);

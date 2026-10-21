@@ -99,7 +99,7 @@ test('a conversation comes in word for word; a line is kept in one action and ha
   // The question the assistant raised waits apart from hers.
   await nav(page).getByRole('button', { name: 'Story Brain' }).click();
   await page.getByRole('button', { name: /^Questions and ideas/ }).click();
-  await page.getByRole('tab', { name: /^\d+Questions an AI raised \(1\)$/ }).click();
+  await page.getByRole('tab', { name: /^\d+\s*Questions an AI raised \(1\)$/ }).click();
   await expect(page.getByRole('heading', { name: 'Questions an AI raised' })).toBeVisible();
   await page.getByRole('button', { name: 'Make it one of my questions' }).click();
   await expect(page.getByRole('heading', { name: 'Questions an AI raised' })).toHaveCount(0);

@@ -1,5 +1,5 @@
 import { Pages } from './Pages';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { statusWord } from './status';
@@ -26,13 +26,20 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
   const [savedAt, setSavedAt] = useState('');
   const load = () => Promise.all([api.get(`/api/projects/${ctx.projectId}/setup`), api.get(`/api/projects/${ctx.projectId}/setup/active`)]).then(([s, a]) => { setD(s); setActive(a); }).catch((e) => setError(e.message));
   useEffect(() => { void load(); }, [ctx.projectId]);
+  // Quick clicks build on each other: each change starts from the newest choices, not the last answer the
+  // service sent back, and an older answer never overwrites a newer choice.
+  const latest = useRef<any>(null);
+  const seq = useRef(0);
   async function save(patch: Record<string, unknown>, note = '') {
     setError(''); setMsg('');
-    try { setD(await api.patch(`/api/projects/${ctx.projectId}/setup`, patch)); setActive(await api.get(`/api/projects/${ctx.projectId}/setup/active`)); if (note) setMsg(note); setSavedAt(new Date().toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', second: '2-digit' })); await ctx.refreshProject(); }
+    latest.current = { ...(latest.current ?? d.setup), ...patch };
+    setD((x: any) => (x ? { ...x, setup: latest.current } : x));
+    const mine = ++seq.current;
+    try { const res = await api.patch(`/api/projects/${ctx.projectId}/setup`, patch); if (mine !== seq.current) return; latest.current = null; setD(res); setActive(await api.get(`/api/projects/${ctx.projectId}/setup/active`)); if (note) setMsg(note); setSavedAt(new Date().toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', second: '2-digit' })); await ctx.refreshProject(); }
     catch (e) { setError((e as Error).message); }
   }
   if (!d) return <div className="content muted">{error || 'Opening…'}</div>;
-  const s = d.setup;
+  const s = latest.current ?? d.setup;
   const genreOf = (k: string) => s.genres.find((g: any) => g.key === k);
   const setGenre = (key: string, name: string, role: string | null) => save({ genres: role ? (genreOf(key) ? s.genres.map((g: any) => (g.key === key ? { ...g, role } : g)) : [...s.genres, { key, name, role }]) : s.genres.filter((g: any) => g.key !== key) });
   const typeOf = (k: string) => s.storyTypes.find((t: any) => t.key === k);
