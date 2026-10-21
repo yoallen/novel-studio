@@ -243,6 +243,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focus
           </select>
         </label>
         {el.attrs?.written_by && <span className="chip">Written by {el.attrs.written_by === 'assistant' ? aiName(el.attrs.written_by_name) : 'you'}, kept by you, placement open</span>}
+        {el.attrs?.brought_from && <span className="chip">Brought from {el.attrs.brought_from.novel} on {new Date(el.attrs.brought_from.at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>}
         {el.attrs?.suggested && <span className="chip">Suggested by {aiName(el.attrs.origin_name)}</span>}
         <button className="btn link small" onClick={() => void askAbout(ctx, { title: `About ${el.title}`, elementId: el.id }).catch((e) => setError(e.message))}>Ask about this</button>
         {(el.attrs?.turn_id) && <button className="btn link small" onClick={() => void api.get(`/api/origin?element=${el.id}`).then(setOrigin)}>Where did this come from?</button>}

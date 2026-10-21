@@ -873,3 +873,10 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .board-teach { max-width: 70ch; }
 .board-teach summary { cursor: pointer; color: var(--muted); }
 .board-teach p { margin: 0.4rem 0 0.6rem; }
+
+/* Bring a record from another novel */
+.bring-row { margin-top: 0.75rem; }
+.bring-list { max-height: 45vh; overflow: auto; }
+.bring-item { padding: 0.4rem 0; border-bottom: 1px solid var(--line); }
+.bring-warn { color: var(--warn); font-weight: 600; }
+.bring-done .btn.link { padding: 0; }

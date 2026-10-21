@@ -36,6 +36,10 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
   const [error, setError] = useState('');
   const [choicesCount, setChoicesCount] = useState<number | null>(null);
   const [summaries, setSummaries] = useState<Record<string, any>>({});
+  // Other novels on her shelf she can bring records from (removed ones are not listed).
+  const [others, setOthers] = useState<any[]>([]);
+  const [bringing, setBringing] = useState(false);
+  const [brought, setBrought] = useState<any>(null);
 
   const load = useCallback(async () => {
     try {
@@ -45,6 +49,9 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
     } catch (er) { setError((er as Error).message); }
   }, [ctx.projectId]);
   useEffect(() => { void load(); }, [load]);
+  useEffect(() => { api.get('/api/projects').then((ps: any[]) => setOthers(ps.filter((p) => p.id !== ctx.projectId))).catch(() => setOthers([])); }, [ctx.projectId]);
+  // What was just brought stays in view on that list only.
+  useEffect(() => { if (brought && !(sel.kind === 'kind' && sel.key === brought.kind)) setBrought(null); }, [sel, brought]);
   useEffect(() => { try { sessionStorage.setItem('ns-brain-sel', JSON.stringify(sel)); } catch { /* ignore */ } }, [sel]);
   // A line about each record in a list: a few telling fields and how much is decided.
   useEffect(() => { if (sel.kind === 'kind') api.get(`/api/projects/${ctx.projectId}/summaries?kind=${encodeURIComponent(sel.key)}`).then(setSummaries).catch(() => setSummaries({})); }, [sel, els, ctx.projectId]);
@@ -149,6 +156,20 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
               <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="A name is enough to start" aria-label={`New ${kindLabel(sel.key)?.label ?? 'item'}`} style={{ maxWidth: 360 }} />
               <button className="btn" type="submit">Add {kindLabel(sel.key)?.label?.toLowerCase() ?? 'item'}</button>
             </form>)}
+            {!(sel.key === 'storyworld' && count('storyworld') > 0) && (
+              <div className="bring-row">
+                <button className="btn small" disabled={others.length === 0} aria-describedby={others.length === 0 ? 'bring-none' : undefined} onClick={() => setBringing(true)}>Bring from another novel</button>
+                {others.length === 0 && <span id="bring-none" className="small muted"> There is no other novel on your shelf to bring from yet.</span>}
+              </div>
+            )}
+            {brought && brought.kind === sel.key && (
+              <div className="notice bring-done" role="status">
+                Brought {brought.brought.length} {brought.brought.length === 1 ? brought.words.one : brought.words.many} from {brought.novel}.{' '}
+                {brought.brought.map((b: any, i: number) => <span key={b.id}>{i > 0 ? ', ' : ''}<button className="btn link" onClick={() => setSel({ kind: 'element', id: b.id })}>{b.title}</button></span>)}
+              </div>
+            )}
+            {bringing && <BringDialog ctx={ctx} kind={sel.key} kindName={kindLabel(sel.key)} novels={others} onClose={() => setBringing(false)}
+              onDone={(r) => { setBringing(false); setBrought({ ...r, kind: sel.key }); void load(); }} />}
             {sel.key === 'beat' && <p className="small muted">A beat you add here joins the Board after the last beat. To change the beat sheet itself, use My methods. <button className="btn link small" onClick={() => ctx.go('methods')}>Open My methods</button></p>}
           </>
         )}
@@ -221,4 +242,68 @@ function KindList({ els, all, summaries, onOpen }: { els: any[]; all: any[]; sum
     );
   };
   return <ul className="list kind-list">{top.map((e) => row(e))}</ul>;
+}
+
+/**
+ * Bring records from another novel on her shelf. She picks the novel, ticks the records she wants, and they come
+ * over as copies, each saying where it came from. Nothing is merged and nothing in the other novel changes.
+ */
+function BringDialog({ ctx, kind, kindName, novels, onClose, onDone }: { ctx: Ctx; kind: string; kindName: any; novels: any[]; onClose: () => void; onDone: (r: any) => void }) {
+  const [from, setFrom] = useState<string>(novels.length === 1 ? novels[0].id : '');
+  const [data, setData] = useState<any>(null);
+  const [picked, setPicked] = useState<Set<string>>(new Set());
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  useEffect(() => {
+    setData(null); setPicked(new Set()); setError('');
+    if (!from) return;
+    api.get(`/api/projects/${ctx.projectId}/bring?from=${encodeURIComponent(from)}&kind=${encodeURIComponent(kind)}`).then(setData).catch((e) => setError((e as Error).message));
+  }, [from, kind, ctx.projectId]);
+  const one = (kindName?.label ?? 'record').toLowerCase(), many = (kindName?.plural ?? 'records').toLowerCase();
+  const toggle = (id: string) => setPicked((p) => { const n = new Set(p); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+  async function bring() {
+    if (!picked.size) return;
+    setBusy(true); setError('');
+    try { onDone(await api.post(`/api/projects/${ctx.projectId}/bring`, { from, ids: [...picked] })); }
+    catch (e) { setError((e as Error).message); setBusy(false); }
+  }
+  return (
+    <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="bring-h" onKeyDown={(e) => e.key === 'Escape' && onClose()}>
+      <div className="dialog">
+        <h2 id="bring-h">Bring {many} from another novel</h2>
+        <p className="small muted">Choose the ones you want. Each comes over as its own copy, with what you decided and what is still in pencil. Changing the copy never changes the original.</p>
+        <label className="field"><span>From which novel?</span>
+          <select value={from} onChange={(e) => setFrom(e.target.value)}>
+            <option value="">Choose a novel</option>
+            {novels.map((n) => <option key={n.id} value={n.id}>{n.title}</option>)}
+          </select>
+        </label>
+        {error && <div className="notice error" role="alert">{error}</div>}
+        {from && !data && !error && <p className="muted small">Looking…</p>}
+        {data && (data.records.length === 0 ? <p className="muted">{data.novel.title} has no {many} yet.</p> : (
+          <>
+            <ul className="list bring-list" aria-label={`${kindName?.plural ?? 'Records'} in ${data.novel.title}`}>
+              {data.records.map((r: any) => (
+                <li key={r.id} className="bring-item">
+                  <label className="row" style={{ alignItems: 'flex-start', gap: '0.5rem' }}>
+                    <input type="checkbox" checked={picked.has(r.id)} onChange={() => toggle(r.id)} />
+                    <span className="grow">
+                      <strong>{r.title}</strong>
+                      <span className="small muted" style={{ display: 'block' }}>{r.line}</span>
+                      {r.alreadyHere && <span className="small bring-warn" style={{ display: 'block' }}>Already here: {r.title}. If you bring it, you will have two, and you can choose later what to keep.</span>}
+                    </span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <p className="small muted">Connections stay behind, because the records they point to are in the other novel.</p>
+          </>
+        ))}
+        <div className="row" style={{ marginTop: '1rem' }}>
+          <button className="btn" disabled={!picked.size || busy} onClick={() => void bring()}>{picked.size ? `Bring ${picked.size} ${picked.size === 1 ? one : many}` : `Bring ${many}`}</button>
+          <button className="btn link" onClick={onClose}>Cancel</button>
+        </div>
+      </div>
+    </div>
+  );
 }

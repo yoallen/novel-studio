@@ -61,6 +61,7 @@ export function undoMeaning(reason: string): string {
   if (r.startsWith('Undo: ')) return 'Puts back what the undo removed.';
   if (/^Message in /.test(r)) return 'Removes this message from the conversation. Nothing in your story changes.';
   if (/^Link /.test(r)) return 'Removes this connection.';
+  if (/^Brought \d+ /.test(r)) return 'Removes the records you brought. The originals in the other novel stay as they are.';
   if (/^Add /.test(r)) return 'Removes what was added. It can be restored from Deleted things.';
   if (/^Delete /.test(r)) return 'Brings it back.';
   return 'Puts things back the way they were just before this change.';

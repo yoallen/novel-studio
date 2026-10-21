@@ -646,6 +646,102 @@ export class Brain {
     };
   }
 
+  // ---------- bring a record from another novel ----------
+  /** The words for one and for many of a kind, in this novel or the other. */
+  private kindWords(kind: string, ...projectIds: string[]) {
+    const built = KIND_LABELS[kind];
+    if (built) return { one: built.label.toLowerCase(), many: built.plural.toLowerCase() };
+    for (const pid of projectIds) { const k = this.customKind(pid, kind); if (k) return { one: String(k.label).toLowerCase(), many: String(k.plural).toLowerCase() }; }
+    return { one: 'record', many: 'records' };
+  }
+
+  /**
+   * Records of one kind in another novel, for the chooser: a short line about each, how many connections stay
+   * behind, and whether a record with the same title and kind is already in this novel.
+   */
+  bringable(projectId: string, fromProjectId: string, kind: string) {
+    this.project(projectId);
+    const from = this.project(fromProjectId);
+    if (fromProjectId === projectId) throw new ValidationError('Choose a different novel to bring from.');
+    const here = new Set(this.elements(projectId, { kind }).map((e) => String(e.title).trim().toLowerCase()));
+    const sums = this.kindSummaries(fromProjectId, kind);
+    const linkCount = this.store.db.prepare('SELECT COUNT(*) AS n FROM links WHERE (from_id=? OR to_id=?) AND deleted_at IS NULL');
+    const records = this.elements(fromProjectId, { kind }).map((e) => {
+      const s = sums[e.id as string];
+      const bits = (s?.bits ?? []).map((b) => `${b.label}: ${b.value}`);
+      const counts = s ? [s.established && `${s.established} decided`, s.developing && `${s.developing} developing`, s.unanswered && `${s.unanswered} still open`].filter(Boolean) as string[] : [];
+      const body = String(e.body ?? '').trim().split('\n')[0] ?? '';
+      const line = bits.join('. ') || (body ? (body.length > 90 ? `${body.slice(0, 88).trimEnd()}…` : body) : '') || counts.join(', ') || 'Nothing written yet.';
+      return { id: e.id as string, title: e.title as string, line, counts: counts.join(', '), connections: (linkCount.get(e.id, e.id) as { n: number }).n, alreadyHere: here.has(String(e.title).trim().toLowerCase()) };
+    });
+    return { novel: { id: from.id, title: from.title as string }, kind, words: this.kindWords(kind, projectId, fromProjectId), records };
+  }
+
+  /**
+   * Copy chosen records from another novel into this one, as one step in the Story Trail (one Undo removes them all).
+   * Each copy keeps its title, notes, own fields and every field's current entries with their status as they stand.
+   * Set-aside entries and older history stay behind, and so do connections and placements, which point at records
+   * in the other novel. Every entry says where it came from. The copy is new and independent: changing it never
+   * changes the original.
+   */
+  bring(projectId: string, fromProjectId: string, elementIds: string[], actor = ACTOR_AUTHOR) {
+    this.project(projectId);
+    const from = this.project(fromProjectId);
+    if (fromProjectId === projectId) throw new ValidationError('Choose a different novel to bring from.');
+    const ids = [...new Set(elementIds)];
+    if (!ids.length) throw new ValidationError('Tick at least one record to bring.');
+    const sources = ids.map((id) => this.element(id, fromProjectId));
+    const at = nowIso();
+    const day = new Date(at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const kinds = [...new Set(sources.map((s) => s.kind as string))];
+    const w1 = kinds.length === 1 ? this.kindWords(kinds[0]!, fromProjectId, projectId) : { one: 'record', many: 'records' };
+    const noun = ids.length === 1 ? w1.one : w1.many;
+    // Ids that point into the other novel (a conversation, a document, a suggestion) do not travel.
+    const DROP_ATTRS = ['turn_id', 'conversation_id', 'source_id', 'proposal_id', 'brought_from'];
+    const active = this.store.db.prepare(
+      "SELECT * FROM statements WHERE element_id=? AND deleted_at IS NULL AND superseded_by_id IS NULL AND status <> 'set_aside' ORDER BY made_at, created_at, rowid",
+    );
+    return this.store.batch({ projectId, actor, reason: `Brought ${ids.length} ${noun} from ${from.title}` }, (w) => {
+      const brought: { id: string; title: string; kind: string; from: string }[] = [];
+      for (const src of sources) {
+        const kind = src.kind as string;
+        // A kind of her own comes along with its record when this novel does not have it yet.
+        if (!(ELEMENT_KINDS as readonly string[]).includes(kind) && !this.customKind(projectId, kind)) {
+          const k = this.customKind(fromProjectId, kind);
+          if (!k) throw new ValidationError(`The kind of record "${src.title}" belongs to is gone from ${from.title}.`);
+          w.insert('kinds', { project_id: projectId, key: kind, label: k.label, plural: k.plural, description: k.description ?? '' });
+        }
+        const attrs = JSON.parse((src.attrs_json as string) || '{}') as Record<string, unknown>;
+        for (const k of DROP_ATTRS) delete attrs[k];
+        attrs.brought_from = { novel: from.title, projectId: fromProjectId, elementId: src.id, at };
+        const copy = this.createElement(projectId, { kind, title: src.title as string, body: (src.body as string) ?? '', state: (src.state as string) || undefined, attrs, reserved: (src.reserved as string | null) ?? null }, actor);
+        const rows = (active.all(src.id) as Row[]).filter((r) => r.field !== 'beat'); // 'beat' is a placement on the other novel's Board
+        // Fields of her own made for this kind in the other novel come along, under the same name, so the values have a home.
+        const own = new Set(((attrs.own_fields as FieldDef[] | undefined) ?? []).map((d) => d.field));
+        const known = new Set(this.fieldsFor(projectId, kind, { all: true }).map((d) => d.field));
+        for (const f of new Set(rows.map((r) => r.field as string))) {
+          if (known.has(f) || own.has(f)) continue;
+          const d = this.store.db.prepare('SELECT * FROM field_defs WHERE project_id=? AND kind=? AND field=? AND deleted_at IS NULL').get(fromProjectId, kind, f) as Row | undefined;
+          if (!d) continue;
+          w.insert('field_defs', { project_id: projectId, kind, field: f, label: d.label, group_name: d.group_name, prompt: d.prompt ?? '', multi: d.multi ?? 0, private: d.private ?? 0, sort: d.sort ?? Date.now() });
+          known.add(f);
+        }
+        for (const r of rows) {
+          const q = JSON.parse((r.qualifiers_json as string) || '{}') as Record<string, unknown>;
+          const was = String(r.note ?? '').trim();
+          this.addStatement({
+            elementId: copy.id, field: r.field as string, value: JSON.parse(r.value_json as string) as unknown, status: r.status as Status,
+            speaker: { kind: 'source', name: from.title as string }, madeAt: r.made_at as string,
+            note: `Brought from ${from.title} on ${day}.${was ? `\n\nThe note it had there: ${was}` : ''}`,
+            qualifiers: { ...q, brought_from: { novel: from.title, projectId: fromProjectId, elementId: src.id, statementId: r.id, speaker: r.speaker_kind, speakerName: r.speaker_name, at } },
+          }, actor);
+        }
+        brought.push({ id: copy.id, title: copy.title as string, kind, from: src.id as string });
+      }
+      return { novel: from.title as string, words: w1, brought, batchId: w.batchId };
+    });
+  }
+
   // ---------- capture ----------
   /** Capture a thought exactly as typed, with no category required. */
   capture(projectId: string, text: string, opts: { kind?: 'thought' | 'question' | 'idea'; linkTo?: string[]; urgency?: 'now' | 'later'; from?: string } = {}, actor = ACTOR_AUTHOR) {
