@@ -4,6 +4,7 @@ import { aiName } from '../core/io/chat-exports';
 import { KIND_LABELS } from '../core/templates';
 import { askAbout } from './ConversationsView';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { pagesFor, SPECIAL } from './recordPages';
 import { api } from './api';
 import type { Ctx } from './App';
 import { statusWord, AUTHOR_STATUSES, ownedWord, valueText, when } from './status';
@@ -22,7 +23,11 @@ const GROUP_TITLES: Record<string, Record<string, { title: string; about: string
 };
 
 /** `embedded`: shown inside Narrative Zoom, which already names the element and shows where it sits. */
-export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { ctx: Ctx; elementId: string; onOpen: (id: string) => void; onChanged: () => void; embedded?: boolean }) {
+export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focusField }: { ctx: Ctx; elementId: string; onOpen: (id: string) => void; onChanged: () => void; embedded?: boolean; focusField?: string }) {
+  const pageKey = `ns-rec-page:${elementId}`;
+  const [pageNo, setPageNoState] = useState<number | 'all'>(() => { try { const v = sessionStorage.getItem(pageKey); return v === 'all' ? 'all' : v ? Number(v) : 0; } catch { return 0; } });
+  const setPageNo = (n: number | 'all') => { setPageNoState(n); try { sessionStorage.setItem(pageKey, String(n)); } catch { /* ignore */ } };
+  const [focusDone, setFocusDone] = useState(false);
   const [page, setPage] = useState<any>(null);
   const [error, setError] = useState('');
   const [all, setAll] = useState<any[]>([]);
@@ -85,22 +90,12 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { c
   const middle = ordered.filter((x) => !FIRST.includes(x.g) && !LAST.includes(x.g));
 
   const renderGroup = ({ g: group, fs: fields }: { g: string; fs: any[] }) => {
-    // Empty groups stay folded so a new character never looks like a questionnaire (R-A-069).
-    const hasContent = fields.some(filledField);
-    const isOpen = expanded[group] ?? (hasContent || PRIMARY_GROUPS.has(group) || fields.some((f: any) => open[f.def.field] || f.def.custom) || fields.length <= 2);
+    // On a page, a group is always open: the page itself is what keeps the record from being one long scroll.
     const shown = GROUP_TITLES[el.kind]?.[group];
     const title = shown ? shown.title : <GroupName group={group} />;
-    if (!isOpen) return (
-      <section key={group} id={secId(group)} className="section record-section row">
-        <button className="btn link fold-toggle" onClick={() => setExpanded({ ...expanded, [group]: true })} aria-expanded="false"><span className="fold-mark" aria-hidden="true">▸</span>{title}</button>
-        <span className="faint small">{fields.length} place{fields.length === 1 ? '' : 's'} to write, all optional</span>
-        <div style={{ flexBasis: '100%' }}><GroupTeach kind={el.kind} group={group} /></div>
-      </section>
-    );
     return (
       <section key={group} id={secId(group)} className="section record-section">
-        {/* A group that can fold shows the same triangle as every other fold in the program. */}
-        {!hasContent ? <h2><button className="fold-toggle fold-head" onClick={() => setExpanded({ ...expanded, [group]: false })} aria-expanded="true"><span className="fold-mark" aria-hidden="true">▾</span>{title}</button></h2> : <h2>{title}</h2>}
+        <h2>{title}</h2>
         {shown?.about && <p className="small muted group-about">{shown.about}</p>}
         {!shown?.about && <GroupTeach kind={el.kind} group={group} />}
         {fields.map((f: any) => (
@@ -116,18 +111,96 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { c
     return null;
   };
 
-  // The jump list: every section on the page, in order.
-  const jumpName = (g: string) => GROUP_TITLES[el.kind]?.[g]?.title ?? groupPlain(g);
-  const jump: [string, string][] = [
-    ...(page.pending.length ? [['sec-suggestions', 'Suggestions waiting'] as [string, string]] : []),
-    ...lead.map((x) => [secId(x.g), jumpName(x.g)] as [string, string]),
-    ...(isChar ? [['sec-arcs', 'Arcs'], ['sec-guardrails', 'Guardrails']] as [string, string][] : []),
-    ...middle.map((x) => [secId(x.g), jumpName(x.g)] as [string, string]),
-    ...(isChar ? [['sec-interview', 'Interview']] as [string, string][] : []),
-    ...tail.map((x) => [secId(x.g), jumpName(x.g)] as [string, string]),
-    ['sec-connections', 'Connections'],
-  ];
+  // The record's pages: like a notebook, each page holds things that belong together.
+  const groupOf: Record<string, { g: string; fs: any[]; filled: boolean }> = Object.fromEntries(ordered.map((x) => [x.g, x]));
+  const interviews = page.children.filter((c: any) => c.element.kind === 'interview');
+  const has = (item: string) => {
+    if (!item.startsWith('@')) return !!groupOf[item];
+    if (item === SPECIAL.arcs || item === SPECIAL.guardrails || item === SPECIAL.acrossTime || item === SPECIAL.interview) return isChar;
+    return true;
+  };
+  const pages = pagesFor(el.kind, Object.keys(groups), has, kindLabel(el.kind));
+  const itemFilled = (item: string) => {
+    if (!item.startsWith('@')) return groupOf[item]?.filled ?? false;
+    if (item === SPECIAL.arcs) return arcs.length > 0;
+    if (item === SPECIAL.guardrails) return page.guardrails.length > 0;
+    if (item === SPECIAL.interview) return interviews.length > 0;
+    if (item === SPECIAL.connections) return page.links.length > 0;
+    if (item === SPECIAL.notes) return !!el.body?.trim();
+    return false;
+  };
+  const pageOfField = (field: string) => { const g = page.fields.find((f: any) => f.def.field === field)?.def.group; return g ? pages.findIndex((p) => p.items.includes(g)) : -1; };
+  if (focusField && !focusDone) { const n = pageOfField(focusField); if (n >= 0 && n !== pageNo) { setFocusDone(true); setPageNo(n); } else if (!focusDone) setFocusDone(true); }
+  const current = pageNo === 'all' ? 'all' : Math.min(pageNo, pages.length - 1);
   const between = el.kind === 'relationship' ? page.links.filter((l: any) => l.from_id === el.id && l.to_kind === 'character') : [];
+
+  const renderItem = (item: string) => {
+    if (!item.startsWith('@')) return groupOf[item] ? renderGroup(groupOf[item]!) : null;
+    if (item === SPECIAL.arcs) return (<section className="section record-section" id="sec-arcs">
+          <div className="row"><h2 className="grow">Arcs</h2>{!addingArc && <button className="btn small" onClick={() => setAddingArc(true)}>Add an arc</button>}</div>
+          {addingArc && (
+            <form className="arc-new" onSubmit={(e) => { e.preventDefault(); void addArc(); }}>
+              <label className="field"><span>What part of life is this arc about?</span>
+                <input type="text" autoFocus value={arcValue} onChange={(e) => setArcValue(e.target.value)} placeholder="A value, such as trust, courage or belonging" />
+              </label>
+              <p className="small muted">An arc follows one value as it changes. A character can carry more than one. The arc opens on its own page, where you fill in its Ghost, Lie, Want and Need.</p>
+              <div className="row"><button className="btn" type="submit">Add the arc</button><button className="btn link" type="button" onClick={() => { setAddingArc(false); setArcValue(''); }}>Cancel</button></div>
+            </form>
+          )}
+          {arcs.length === 0 && !addingArc && <p className="muted small">No arc yet. A character can carry more than one, each on a different value.</p>}
+          {arcs.map((c: any) => <ArcChain key={c.element.id} ctx={ctx} arc={c} onOpen={onOpen} />)}
+          {others.length > 0 && (
+            <div className="row small" style={{ marginTop: '0.75rem' }}>
+              <label className="row">Read the Lies as a pair with
+                <select value={compare} onChange={(e) => setCompare(e.target.value)} style={{ width: 'auto' }}><option value="">Choose a character</option>{others.map((o) => <option key={o.id} value={o.id}>{o.title}</option>)}</select>
+              </label>
+            </div>
+          )}
+          {compare && <PairedLies a={el.id} b={compare} />}
+        </section>);
+    if (item === SPECIAL.guardrails) return (<section className="section record-section" id="sec-guardrails">
+          <h2>Guardrails</h2>
+          <p className="muted small">What must stay true about this character. The collaborator checks every suggestion against these.</p>
+          <ul className="list">{page.guardrails.map((g: any) => <li key={g.id} className="row"><span className="grow st" data-s="established">{g.body || g.title}</span><button className="btn small" onClick={() => void act(api.del(`/api/elements/${g.id}`))}>Remove</button></li>)}</ul>
+          <AddLine label="Add a guardrail" onAdd={(t) => act(api.post(`/api/projects/${ctx.projectId}/elements`, { kind: 'guardrail', title: t.slice(0, 80), body: t, parentId: el.id }))} />
+        </section>);
+    if (item === SPECIAL.acrossTime) return <AcrossTime elId={el.id} tick={page} onOpen={onOpen} />;
+    if (item === SPECIAL.interview) return <Interview ctx={ctx} el={el} items={interviews} act={act} />;
+    if (item === SPECIAL.notes) return <div className="section record-section">{notes}</div>;
+    if (item === SPECIAL.connections) return (<>
+      {el.kind === 'line' && (
+        <div className="section row small">
+          <span className="grow muted">Keeping a line does not place it. To tie it to a scene, connect it with "appears in" and the scene card.</span>
+          <button className="btn small" onClick={() => { setPreset('appears_in|forward'); document.getElementById('sec-connections')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>Tie it to a scene</button>
+        </div>
+      )}
+
+      <Connections ctx={ctx} el={el} links={page.links} all={all} preset={preset} onOpen={onOpen} act={act} />
+    </>);
+    if (item === SPECIAL.ownFields) return (
+      <section className="section record-section">
+        <h3>Add your own field</h3>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          if (!newField.trim()) return;
+          const req = fieldScope === 'this' ? api.post(`/api/elements/${el.id}/own-fields`, { label: newField, multi: fieldList }) : api.post(`/api/projects/${ctx.projectId}/fields`, { kind: el.kind, label: newField, multi: fieldList });
+          void act(req).then(() => { setNewField(''); setFieldList(false); });
+        }}>
+          <div className="row">
+            <input type="text" value={newField} onChange={(e) => setNewField(e.target.value)} placeholder="For example: Weather" aria-label="New field name" style={{ maxWidth: 320 }} />
+            <button className="btn" type="submit">Add field</button>
+          </div>
+          <div className="row small" role="group" aria-label="Where the field goes" style={{ marginTop: '0.5rem' }}>
+            <label className="choice-pill"><input type="radio" name={`scope-${el.id}`} checked={fieldScope === 'this'} onChange={() => setFieldScope('this')} />Just this {kindWord}</label>
+            <label className="choice-pill"><input type="radio" name={`scope-${el.id}`} checked={fieldScope === 'every'} onChange={() => setFieldScope('every')} />Every {kindWord}</label>
+            <label className="row"><input type="checkbox" checked={fieldList} onChange={(e) => setFieldList(e.target.checked)} />A list, with several entries</label>
+          </div>
+        </form>
+      </section>
+
+    );
+    return null;
+  };
 
   return (
     <article className="record">
@@ -179,102 +252,48 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { c
         <span className="st" data-s="illustrative">{statusWord(ctx.settings, 'illustrative')}, never canon</span>
         <span className="legend-slip">{statusWord(ctx.settings, 'proposed')} (a slip, tucked in)</span>
       </div>
-      {jump.length >= 4 && (
-        <nav className="jump-list" aria-label="On this page">
-          <span className="jump-head">On this page</span>
-          {jump.map(([id, t]) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); const g = ordered.find((x) => secId(x.g) === id); if (g) setExpanded((ex) => ({ ...ex, [g.g]: true })); window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30); }}>{t}</a>)}
-        </nav>
-      )}
-      <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={slug(`${kindPlural(el.kind)}: every field`)} />
-      {!embedded && notes}
-
       {page.pending.length > 0 && (
         <section className="section record-section" id="sec-suggestions">
           <h3>Suggestions waiting for you</h3>
-          <Suggestions ctx={ctx} items={page.pending} onDone={() => void load()} />
+          <Suggestions ctx={ctx} items={page.pending} onDone={() => void load()} onAccepted={(f) => { const n = pageOfField(f); if (n >= 0) setPageNo(n); }} />
         </section>
       )}
 
-      {lead.map(renderGroup)}
+      {isChar && <FillOneLine fields={page.fields} onPick={(f) => { setOpen({ ...open, [f]: true }); const n = pageOfField(f); if (n >= 0) setPageNo(n); }} />}
 
-      {isChar && (
-        <section className="section record-section" id="sec-arcs">
-          <div className="row"><h2 className="grow">Arcs</h2>{!addingArc && <button className="btn small" onClick={() => setAddingArc(true)}>Add an arc</button>}</div>
-          {addingArc && (
-            <form className="arc-new" onSubmit={(e) => { e.preventDefault(); void addArc(); }}>
-              <label className="field"><span>What part of life is this arc about?</span>
-                <input type="text" autoFocus value={arcValue} onChange={(e) => setArcValue(e.target.value)} placeholder="A value, such as trust, courage or belonging" />
-              </label>
-              <p className="small muted">An arc follows one value as it changes. A character can carry more than one. The arc opens on its own page, where you fill in its Ghost, Lie, Want and Need.</p>
-              <div className="row"><button className="btn" type="submit">Add the arc</button><button className="btn link" type="button" onClick={() => { setAddingArc(false); setArcValue(''); }}>Cancel</button></div>
-            </form>
+      {pages.length > 1 && (
+        <nav className="record-pages" aria-label={`Pages of ${el.title}`}>
+          <div role="tablist" aria-label="Pages">
+            {pages.map((pg, i) => {
+              const filled = pg.items.some(itemFilled);
+              return (
+                <button key={pg.title} role="tab" aria-selected={current === i} className="record-page-tab" data-filled={filled ? 'yes' : undefined} onClick={() => setPageNo(i)} title={filled ? 'Something is written on this page' : 'Nothing on this page yet'}>
+                  <span className="record-page-no">{i + 1}</span>{pg.title}
+                </button>
+              );
+            })}
+            <button role="tab" aria-selected={current === 'all'} className="record-page-tab record-page-all" onClick={() => setPageNo('all')}>All pages</button>
+          </div>
+        </nav>
+      )}
+
+      {pages.map((pg, i) => (current === 'all' || current === i) && (
+        <div key={pg.title} className="record-page" role={pages.length > 1 ? 'tabpanel' : undefined} aria-label={pages.length > 1 ? `Page ${i + 1}: ${pg.title}` : undefined}>
+          {pages.length > 1 && <p className="record-page-head"><span className="record-page-no">{i + 1}</span>{pg.title}</p>}
+          {i === 0 && <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={slug(`${kindPlural(el.kind)}: every field`)} />}
+          {pg.items.map((item) => <div key={item}>{renderItem(item)}</div>)}
+          {isChar && !configured && pg.title === 'Goals, motives and values' && (
+            <p className="small muted section">More places to write come with the methods you choose in Novel setup, such as goal and motive (Ingermanson) or the wound and its fallout. <button className="btn link small" onClick={() => ctx.go('setup')}>Open Novel setup</button></p>
           )}
-          {arcs.length === 0 && !addingArc && <p className="muted small">No arc yet. A character can carry more than one, each on a different value.</p>}
-          {arcs.map((c: any) => <ArcChain key={c.element.id} ctx={ctx} arc={c} onOpen={onOpen} />)}
-          {others.length > 0 && (
-            <div className="row small" style={{ marginTop: '0.75rem' }}>
-              <label className="row">Read the Lies as a pair with
-                <select value={compare} onChange={(e) => setCompare(e.target.value)} style={{ width: 'auto' }}><option value="">Choose a character</option>{others.map((o) => <option key={o.id} value={o.id}>{o.title}</option>)}</select>
-              </label>
+          {pages.length > 1 && current !== 'all' && (
+            <div className="row record-page-turn">
+              {i > 0 && <button className="btn link small" onClick={() => setPageNo(i - 1)}>Page {i}: {pages[i - 1]!.title}</button>}
+              <span className="grow" />
+              {i < pages.length - 1 && <button className="btn link small" onClick={() => setPageNo(i + 1)}>Page {i + 2}: {pages[i + 1]!.title}</button>}
             </div>
           )}
-          {compare && <PairedLies a={el.id} b={compare} />}
-        </section>
-      )}
-
-      {isChar && (
-        <section className="section record-section" id="sec-guardrails">
-          <h2>Guardrails</h2>
-          <p className="muted small">What must stay true about this character. The collaborator checks every suggestion against these.</p>
-          <ul className="list">{page.guardrails.map((g: any) => <li key={g.id} className="row"><span className="grow st" data-s="established">{g.body || g.title}</span><button className="btn small" onClick={() => void act(api.del(`/api/elements/${g.id}`))}>Remove</button></li>)}</ul>
-          <AddLine label="Add a guardrail" onAdd={(t) => act(api.post(`/api/projects/${ctx.projectId}/elements`, { kind: 'guardrail', title: t.slice(0, 80), body: t, parentId: el.id }))} />
-        </section>
-      )}
-
-      {isChar && <AcrossTime elId={el.id} tick={page} onOpen={onOpen} />}
-
-      {isChar && <FillOneLine fields={page.fields} onPick={(f) => setOpen({ ...open, [f]: true })} />}
-
-      {middle.map(renderGroup)}
-
-      {isChar && !configured && (
-        <p className="small muted section">More places to write come with the methods you choose in Novel setup, such as goal and motive (Ingermanson) or the wound and its fallout. <button className="btn link small" onClick={() => ctx.go('setup')}>Open Novel setup</button></p>
-      )}
-
-      {isChar && <Interview ctx={ctx} el={el} items={page.children.filter((c: any) => c.element.kind === 'interview')} act={act} />}
-
-      {tail.map(renderGroup)}
-
-      {el.kind === 'line' && (
-        <div className="section row small">
-          <span className="grow muted">Keeping a line does not place it. To tie it to a scene, connect it with "appears in" and the scene card.</span>
-          <button className="btn small" onClick={() => { setPreset('appears_in|forward'); document.getElementById('sec-connections')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>Tie it to a scene</button>
         </div>
-      )}
-
-      {embedded && notes}
-
-      <section className="section record-section">
-        <h3>Add your own field</h3>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          if (!newField.trim()) return;
-          const req = fieldScope === 'this' ? api.post(`/api/elements/${el.id}/own-fields`, { label: newField, multi: fieldList }) : api.post(`/api/projects/${ctx.projectId}/fields`, { kind: el.kind, label: newField, multi: fieldList });
-          void act(req).then(() => { setNewField(''); setFieldList(false); });
-        }}>
-          <div className="row">
-            <input type="text" value={newField} onChange={(e) => setNewField(e.target.value)} placeholder="For example: Weather" aria-label="New field name" style={{ maxWidth: 320 }} />
-            <button className="btn" type="submit">Add field</button>
-          </div>
-          <div className="row small" role="group" aria-label="Where the field goes" style={{ marginTop: '0.5rem' }}>
-            <label className="choice-pill"><input type="radio" name={`scope-${el.id}`} checked={fieldScope === 'this'} onChange={() => setFieldScope('this')} />Just this {kindWord}</label>
-            <label className="choice-pill"><input type="radio" name={`scope-${el.id}`} checked={fieldScope === 'every'} onChange={() => setFieldScope('every')} />Every {kindWord}</label>
-            <label className="row"><input type="checkbox" checked={fieldList} onChange={(e) => setFieldList(e.target.checked)} />A list, with several entries</label>
-          </div>
-        </form>
-      </section>
-
-      <Connections ctx={ctx} el={el} links={page.links} all={all} preset={preset} onOpen={onOpen} act={act} />
+      ))}
 
       {el.kind === 'beat' ? (
         <div className="row small remove-beat" style={{ marginTop: '2.5rem' }}>
@@ -450,9 +469,9 @@ function AddLine({ label, onAdd }: { label: string; onAdd: (text: string) => Pro
   return <form className="row" onSubmit={(e) => { e.preventDefault(); if (t.trim()) void onAdd(t.trim()).then(() => setT('')); }} style={{ marginTop: '0.5rem' }}><input type="text" value={t} onChange={(e) => setT(e.target.value)} aria-label={label} placeholder={label} /><button className="btn" type="submit">Add</button></form>;
 }
 
-export function Suggestions({ ctx, items, onDone }: { ctx: Ctx; items: any[]; onDone: () => void }) {
+export function Suggestions({ ctx, items, onDone, onAccepted }: { ctx: Ctx; items: any[]; onDone: () => void; onAccepted?: (field: string) => void }) {
   const [error, setError] = useState('');
-  async function go(p: Promise<unknown>) { try { await p; onDone(); } catch (e) { setError((e as Error).message); } }
+  async function go(p: Promise<unknown>, field?: string) { try { await p; onDone(); if (field) onAccepted?.(field); } catch (e) { setError((e as Error).message); } }
   return (
     <>
       {error && <div className="notice error">{error}</div>}
@@ -462,8 +481,8 @@ export function Suggestions({ ctx, items, onDone }: { ctx: Ctx; items: any[]; on
             <div className="st" data-s="proposed" style={{ whiteSpace: 'pre-wrap' }}>{p.kind === 'statement' ? valueText(p.after?.value ?? p.after) : p.kind === 'element' ? `New ${p.after?.kind}: ${p.after?.title}` : `Connect: ${p.target.relation}`}</div>
             <div className="small faint">{statusWord(ctx.settings, 'proposed')}{p.target?.field ? `, for ${String(p.target.field).replace(/_/g, ' ')}` : ''}{p.rationale ? `. ${p.rationale}` : ''}{p.status === 'deferred' ? ' (you said not yet)' : ''}</div>
             <div className="row" style={{ marginTop: '0.3rem' }}>
-              {p.kind === 'statement' && <button className="btn small" onClick={() => void go(api.post(`/api/proposals/${p.id}/accept`, { status: 'established' }))}>Accept as {statusWord(ctx.settings, 'established')}</button>}
-              <button className="btn small" onClick={() => void go(api.post(`/api/proposals/${p.id}/accept`, { status: 'developing' }))}>{p.kind === 'statement' ? `Accept as ${statusWord(ctx.settings, 'developing')}` : 'Accept'}</button>
+              {p.kind === 'statement' && <button className="btn small" onClick={() => void go(api.post(`/api/proposals/${p.id}/accept`, { status: 'established' }), p.target?.field)}>Accept as {statusWord(ctx.settings, 'established')}</button>}
+              <button className="btn small" onClick={() => void go(api.post(`/api/proposals/${p.id}/accept`, { status: 'developing' }), p.target?.field)}>{p.kind === 'statement' ? `Accept as ${statusWord(ctx.settings, 'developing')}` : 'Accept'}</button>
               {p.status !== 'deferred' && <button className="btn small" onClick={() => void go(api.post(`/api/proposals/${p.id}/decide`, { status: 'deferred' }))}>Not yet</button>}
               <button className="btn small" onClick={() => void go(api.post(`/api/proposals/${p.id}/decide`, { status: 'rejected' }))}>No</button>
             </div>

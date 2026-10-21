@@ -159,8 +159,9 @@ test('the overview shows the three worlds above their acts; a beat page credits 
 
   await page.getByRole('navigation', { name: 'Where you are' }).getByRole('button', { name: 'Act One' }).click();
   await page.getByRole('button', { name: '3. Setup' }).click();
+  await page.getByRole('tab', { name: /Save the Cat/ }).click();
   await expect(page.getByText('Six things that need fixing')).toBeVisible();
-  await expect(page.getByText("Save the Cat's questions for this beat")).toBeVisible();
+  await expect(page.getByRole('heading', { name: "Save the Cat's questions for this beat" })).toBeVisible();
 });
 
 test('a field of her own can go on just one beat (finding 60)', async ({ page, request }) => {
@@ -171,6 +172,7 @@ test('a field of her own can go on just one beat (finding 60)', async ({ page, r
   await page.getByRole('tab', { name: 'Zoom' }).click();
   await page.getByRole('button', { name: 'Act One' }).click();
   await page.getByRole('button', { name: '4. Catalyst' }).click();
+  await page.getByRole('tab', { name: /Notes and connections/ }).click();
   await page.getByLabel('New field name').fill('The phone call');
   await page.getByLabel('Just this beat').check();
   await page.getByRole('button', { name: 'Add field' }).click();

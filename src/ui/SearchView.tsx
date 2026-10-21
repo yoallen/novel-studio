@@ -40,7 +40,7 @@ export function SearchView({ ctx }: { ctx: Ctx }) {
   /** Open a result where it lives: the scene, the record, the message in its conversation, or the passage in its document. */
   function openHit(h: any) {
     if (h.hit === 'scene') { ctx.openScene(h.id); return; }
-    if (h.hit === 'element' || h.hit === 'statement') { remember('ns-brain-sel', JSON.stringify({ kind: 'element', id: h.hit === 'element' ? h.id : h.element_id })); ctx.go('brain'); return; }
+    if (h.hit === 'element' || h.hit === 'statement') { remember('ns-brain-sel', JSON.stringify({ kind: 'element', id: h.hit === 'element' ? h.id : h.element_id, field: h.hit === 'statement' ? h.field : undefined })); ctx.go('brain'); return; }
     if (h.hit === 'turn') { remember('ns-conv', h.conversation_id); remember('ns-conv-turn', h.id); ctx.go('conversations'); return; }
     if (h.hit === 'passage') { remember('ns-files-tab', 'documents'); remember('ns-doc-open', h.source_id); remember('ns-doc-passage', h.id); ctx.go('files'); }
   }

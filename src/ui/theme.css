@@ -836,3 +836,23 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .home-intro-sub { font-family: var(--book); font-size: 1.25rem; color: var(--struct); margin: 0 0 0.5rem; }
 .home-intro-text { color: var(--muted); margin: 0; line-height: 1.6; }
 .home-tag { display: block; font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.02em; opacity: 0.8; line-height: 1.2; margin-top: 0.1rem; }
+
+/* ---- A record's pages: numbered tabs like the edge of a notebook ---- */
+.record-pages { margin: 1.25rem 0 0.5rem; border-bottom: 2px solid var(--line-strong); }
+.record-pages [role='tablist'] { display: flex; flex-wrap: wrap; gap: 0.25rem 0.3rem; }
+.record-page-tab { display: inline-flex; align-items: center; gap: 0.4em; border: 1px solid var(--line-strong); border-bottom: 0; background: var(--wash); color: var(--muted); font: inherit; font-size: 0.875rem; padding: 0.35rem 0.7rem 0.3rem; border-radius: var(--r-md) var(--r-md) 0 0; cursor: pointer; margin-bottom: -2px; }
+.record-page-tab:hover, .record-page-tab:focus-visible { color: var(--ink); background: var(--sheet); }
+.record-page-tab[aria-selected='true'] { background: var(--page); color: var(--struct); font-weight: 700; border-color: var(--struct); border-bottom: 2px solid var(--page); box-shadow: inset 0 3px 0 var(--magenta); }
+.record-page-no { display: inline-grid; place-items: center; min-width: 1.5em; height: 1.5em; padding: 0 0.3em; border-radius: 999px; font-size: 0.75rem; font-weight: 700; border: 1px solid currentColor; }
+.record-page-tab[data-filled='yes'] .record-page-no { background: var(--st-decided); border-color: var(--st-decided); color: var(--page); }
+.record-page-all { margin-left: auto; font-style: italic; }
+.record-page { padding-top: 0.5rem; }
+.record-page + .record-page { margin-top: 2.5rem; border-top: 1px dashed var(--line-strong); padding-top: 1.5rem; }
+.record-page-head { display: flex; align-items: center; gap: 0.5em; font-family: var(--book); font-size: 1.5rem; color: var(--struct); margin: 0.75rem 0 0.25rem; }
+.record-page-head .record-page-no { font-family: var(--ui); font-size: 0.875rem; }
+.record-page-turn { margin-top: 2rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+/* Examples from her beat sheet use the same sepia ink and readable label as every example. */
+.sheet-example { border-left-color: var(--st-example); }
+.sheet-example figcaption { color: var(--st-example); }
+.sheet-example figcaption::before { content: 'Example'; font-weight: 700; font-size: 0.6875rem; letter-spacing: 0.04em; border: 1px solid currentColor; border-radius: 2px; padding: 0 0.35em; vertical-align: 0.1em; }
+.sheet-example blockquote { color: var(--st-example); }

@@ -8,6 +8,7 @@ test('interview a character, then see the reader response map and soundtrack', a
   await seed.getByLabel('Who is this story about?').fill('Carlton');
   await seed.getByRole('button', { name: 'Plant it' }).click();
   await page.getByText('Carlton', { exact: true }).first().click();
+  await page.getByRole('tab', { name: /Interview/ }).click();
   const iv = page.getByRole('region', { name: 'Interview' });
   await iv.getByRole('button', { name: /villain interview/ }).click();
   const q = iv.getByLabel('What makes you cry?');

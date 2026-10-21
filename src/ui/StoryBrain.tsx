@@ -20,7 +20,7 @@ const KIND_NOTE: Record<string, string> = {
   hidden_move: 'A hidden move is something a character does in secret, offstage, that the reader does not see yet. Only you see these. They also show in Narrative Zoom, under Who knows what, in story order.',
   note: 'Notes that came in from your planning documents: findings, conflicts and reminders, kept word for word. Numbers in them point back to your planning documents.',
 };
-type Sel = { kind: 'kind'; key: string } | { kind: 'element'; id: string } | { kind: 'map' } | { kind: 'suggestions' } | { kind: 'notes' };
+type Sel = { kind: 'kind'; key: string } | { kind: 'element'; id: string; field?: string } | { kind: 'map' } | { kind: 'suggestions' } | { kind: 'notes' };
 
 export function StoryBrain({ ctx }: { ctx: Ctx }) {
   const [kinds, setKinds] = useState<any[]>([]);
@@ -146,7 +146,7 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
             {sel.key === 'beat' && <p className="small muted">A beat you add here joins the Board after the last beat. To change the beat sheet itself, use My methods. <button className="btn link small" onClick={() => ctx.go('methods')}>Open My methods</button></p>}
           </>
         )}
-        {sel.kind === 'element' && <ElementPage key={sel.id} ctx={ctx} elementId={sel.id} onOpen={(id) => setSel({ kind: 'element', id })} onChanged={() => void load()} />}
+        {sel.kind === 'element' && <ElementPage key={sel.id} ctx={ctx} elementId={sel.id} focusField={sel.field} onOpen={(id) => setSel({ kind: 'element', id })} onChanged={() => void load()} />}
       </div></div>
     </div>
   );

@@ -48,6 +48,7 @@ test('a character holds competing possibilities, decisions with history, and ide
   await expect(page.getByText('Not yet specified').first()).toBeVisible();
 
   // A new arc asks what it is about, then opens on its own page to be filled in.
+  await page.getByRole('tab', { name: /Arc$/ }).click();
   await page.getByRole('button', { name: 'Add an arc' }).click();
   await page.getByRole('button', { name: 'Add the arc' }).click();
   await expect(page.getByLabel('Name', { exact: true })).toHaveValue('Kevin Wickley: arc 1');
@@ -66,6 +67,7 @@ test('a character holds competing possibilities, decisions with history, and ide
   await page.getByRole('button', { name: /Back to Kevin Wickley/ }).click();
   await expect(page.locator('.st[data-s="established"]', { hasText: 'If I let my guard down' })).toBeVisible();
 
+  await page.getByRole('tab', { name: /guardrails/ }).click();
   await page.getByRole('textbox', { name: 'Add a guardrail' }).fill('Kevin is never written as a fool; the comedy is his pride, not his intelligence.');
   await page.getByRole('textbox', { name: 'Add a guardrail' }).press('Enter');
   await expect(page.getByText('never written as a fool')).toBeVisible();

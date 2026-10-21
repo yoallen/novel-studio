@@ -37,6 +37,7 @@ test('Story Brain lists, answering a question, a readable connection, and the St
   await kinds.getByRole('button', { name: /^Places/ }).click();
   await page.getByLabel('New Place').fill("Miss Francine's garden");
   await page.getByRole('button', { name: 'Add place' }).click();
+  await page.getByRole('tab', { name: /Notes and connections/ }).click();
   await page.getByLabel('Relationship').selectOption('located_at|back');
   await page.getByLabel('Connect to').selectOption({ label: 'Opening image' });
   await expect(page.locator('.link-reads')).toContainText("Miss Francine's garden is where Opening image happens");

@@ -14,6 +14,8 @@ test('I Declare War comes in from her planning, statuses and sources intact', as
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Story Brain' }).click();
   await page.getByRole('button', { name: 'Characters' }).or(page.getByText('Characters', { exact: true })).first().click();
   await page.getByText('Kevin Wickley', { exact: true }).first().click();
+  // A record is a notebook of pages; All pages shows every one of them at once.
+  await page.getByRole('tab', { name: 'All pages' }).click();
   // Her working Lie is still developing, not decided; the outdated 10-15 version is kept only as set aside.
   const lie = page.getByText('"If I let my guard down, I could lose everything again."').first();
   await expect(lie).toBeVisible();
