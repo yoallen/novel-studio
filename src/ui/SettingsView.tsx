@@ -1,3 +1,4 @@
+import { Pages } from './Pages';
 import { BRAND } from '../brand';
 import { useEffect, useState } from 'react';
 import { api } from './api';
@@ -94,13 +95,11 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
         <strong>Novel setup</strong>: genres, story types, how the story is told, and your storytelling toolkit. <button className="btn link small" onClick={() => ctx.go('setup')}>Open novel setup</button>
       </div>
       <p className="small muted settings-model">Changes on this page are kept when you press <strong>Save settings</strong> at the bottom of the window. A few things take effect the moment you change them; those sections say so.</p>
-      <nav className="jump-list" aria-label="On this page">
-        <span className="jump-head">On this page</span>
-        {SECTIONS.map(([id, t]) => <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>{t}</a>)}
-      </nav>
       {msg && <div className="notice" role="status">{msg}</div>}
       {error && <div className="notice error" role="alert">{error}</div>}
 
+      <Pages storeKey={`settings:${ctx.projectId}`} label="Settings" pages={[
+        { title: 'This novel', content: (<>
       <section className="cols settings-section" id="set-novel" aria-label="This novel">
         <label className="field"><span>Title</span><input type="text" value={title} onChange={(e) => setTitle(e.target.value)} /></label>
         <label className="field"><span>Your name</span><input type="text" value={s.authorName} onChange={(e) => setS({ ...s, authorName: e.target.value })} /><small className="muted">{(about?.name ?? '').trim() ? `${BRAND.name} calls you ${callName}, the name in About you below.` : `${BRAND.name} calls you by your first name here, unless you give it another in About you below.`}</small></label>
@@ -115,6 +114,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
         <input type="text" value={s.nextWritingAction} onChange={(e) => setS({ ...s, nextWritingAction: e.target.value })} placeholder="For example: Draft the opening scene in the driveway" />
       </section>
 
+        </>) },
+        { title: 'Goals and November', content: (<>
       <section className="section settings-section" id="set-goals" aria-label="Guidance and goals">
         <h2>Guidance and goals</h2>
         <p className="small muted">How much the collaborator speaks up about concerns, while you draft and while you plan.</p>
@@ -163,6 +164,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
 
       <DoorSetting ctx={ctx} onError={setError} />
 
+        </>) },
+        { title: 'Writing', content: (<>
       <section className="section settings-section" id="set-steps">
         <h2>Scene status steps</h2>
         <p className="muted small">Rename, add, reorder or remove steps. Tick "Counts as drafted" for steps where the scene has prose. In the binder, a scene before the first drafted step shows an empty circle, the first drafted step (Drafting) a half-filled one, and every step after it a full circle.</p>
@@ -194,12 +197,19 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
           <textarea rows={4} value={(s.reservedMarkers as string[]).join('\n')} onChange={(e) => setS({ ...s, reservedMarkers: e.target.value.split('\n').map((x) => x.trim()).filter(Boolean) })} /></label>
       </section>
 
+        </>) },
+        { title: 'The collaborator', content: (<>
       <AiSettings ctx={ctx} />
-
+        </>) },
+        { title: 'About you', content: (<>
       <div id="set-about" className="settings-section">{about && <AboutYou value={about} onChange={setAbout} />}</div>
 
+        </>) },
+        { title: 'All my novels', content: (<>
       <AuthorLevel ctx={ctx} books={books} setBooks={setBooks} stages={stages} setStages={setStages} />
 
+        </>) },
+        { title: 'Appearance', content: (<>
       <section className="section settings-section" id="set-look">
         <h2>Appearance <span className="saves-now">Takes effect right away</span></h2>
         <div className="row" role="radiogroup" aria-label="Theme">
@@ -207,6 +217,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
         </div>
       </section>
 
+        </>) },
+        { title: 'Other computers and backups', content: (<>
       <div id="set-sync" className="settings-section">
         <SyncSettings projectId={ctx.projectId} onMsg={setSyncMsg} onError={setError} />
         {syncMsg && <div className="notice" role="status">{syncMsg}</div>}
@@ -219,6 +231,9 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
         <div className="row"><button className="btn" onClick={() => void snapshot()}>Make a backup now</button><button className="btn" onClick={() => void downloadArchive()}>Save an archive of this novel</button></div>
         {backupMsg && <div className="notice" role="status" style={{ marginTop: '0.75rem' }}>{backupMsg}</div>}
       </section>
+
+        </>) },
+      ]} />
 
       <p className="small faint" style={{ margin: '2rem 0 1rem' }}>{BRAND.name}, version {__APP_VERSION__}</p>
 

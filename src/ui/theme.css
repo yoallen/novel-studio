@@ -856,3 +856,8 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .sheet-example figcaption { color: var(--st-example); }
 .sheet-example figcaption::before { content: 'Example'; font-weight: 700; font-size: 0.6875rem; letter-spacing: 0.04em; border: 1px solid currentColor; border-radius: 2px; padding: 0 0.35em; vertical-align: 0.1em; }
 .sheet-example blockquote { color: var(--st-example); }
+/* In the narrow scene panel the page tabs are smaller. */
+.pages-compact .record-pages { margin-top: 0.5rem; }
+.pages-compact .record-page-tab { font-size: 0.8125rem; padding: 0.25rem 0.5rem 0.2rem; }
+.pages-compact .record-page-all { margin-left: 0; }
+.pages-compact .record-page-turn { margin-top: 1rem; }

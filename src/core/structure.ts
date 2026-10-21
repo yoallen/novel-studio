@@ -74,7 +74,7 @@ export interface Profile { key: string; name: string; source: string; at: Record
 
 export const PROFILES: Profile[] = [
   {
-    key: 'brody', name: 'Novel percentages (Brody)', source: 'Your "BS2 Breakdown - Updated December 6 2021" sheet and your Story Bible',
+    key: 'brody', name: 'Novel percentages (Brody)', source: 'Jessica Brody, Save the Cat! Writes a Novel: where each beat falls in a novel',
     at: {
       opening_image: [0, 0.01], theme_stated: [0.05, 0.05], setup: [0.01, 0.10], stasis_death: [0.095, 0.095], catalyst: [0.10, 0.10], debate: [0.10, 0.20],
       break_into_two: [0.20, 0.20], b_story: [0.22, 0.22], fun_and_games: [0.20, 0.50], midpoint: [0.50, 0.50], bad_guys_close_in: [0.50, 0.75],
@@ -88,7 +88,7 @@ export const PROFILES: Profile[] = [
     },
   },
   {
-    key: 'snyder', name: 'Screenplay proportions (Snyder, 110 pages scaled)', source: 'Your "BS2 Breakdown - revised with word count for 250 and 300 words per page" sheet',
+    key: 'snyder', name: 'Screenplay proportions (Snyder, 110 pages scaled)', source: 'Blake Snyder, Save the Cat!: the screenplay page numbers, scaled to a book',
     at: Object.fromEntries(Object.entries({
       opening_image: [0, 1], theme_stated: [5, 5], setup: [1, 10], stasis_death: [11, 11], catalyst: [12, 12], debate: [12, 25], break_into_two: [25, 25],
       b_story: [30, 30], fun_and_games: [30, 55], midpoint: [55, 55], bad_guys_close_in: [55, 75], all_is_lost: [75, 75], dark_night: [75, 85],

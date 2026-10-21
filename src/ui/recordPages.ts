@@ -55,7 +55,7 @@ export const PAGE_PLANS: Record<string, PagePlan[]> = {
 PAGE_PLANS.reveal = PAGE_PLANS.event!;
 PAGE_PLANS.beat = [
   { title: 'In this book', items: ['In this book'] },
-  { title: "Save the Cat's questions", items: ['On the board'] },
+  { title: 'Questions for this beat', items: ['On the board'] },
   NOTES_PAGE,
 ];
 

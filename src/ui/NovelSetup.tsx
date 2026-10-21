@@ -1,3 +1,4 @@
+import { Pages } from './Pages';
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -52,6 +53,8 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
       {error && <div className="notice error" role="alert">{error}</div>}
       {msg && <div className="notice" role="status">{msg}</div>}
 
+      <Pages storeKey={`setup:${ctx.projectId}`} label="Novel setup" pages={[
+        { title: 'The heart of the book', content: (<>
       <section className="section setup-heart" aria-label="The heart of the book">
         <h2>The heart of the book</h2>
         <p className="small muted">The one sentence and the one paragraph live in the story world. Change them here or there; it is the same place.{' '}
@@ -62,6 +65,8 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
           <textarea rows={4} defaultValue={d.paragraph} key={`q-${d.paragraph}`} aria-label="The one paragraph" placeholder="Setup, three disasters, and the ending, one sentence each." onBlur={(e) => { if (e.target.value.trim() && e.target.value !== d.paragraph) void save({ paragraph: e.target.value }); }} /></label>
       </section>
 
+        </>) },
+        { title: 'Genres', content: (<>
       <section className="section" aria-label="Genres">
         <h2>Genres</h2>
         <p className="small muted">Conventional genres. Mark one or more as primary, secondary, or an influence you borrow from without taking on its conventions.</p>
@@ -94,6 +99,8 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
         )}
       </section>
 
+        </>) },
+        { title: 'Story types', content: (<>
       <section className="section" aria-label="Story types">
         <h2>Story types <span className="group-from">(Blake Snyder, Save the Cat)</span></h2>
         <p className="small muted">A separate list from genre, with its own roles. Each type names three ingredients your story needs. Tick one and a place to write each ingredient appears below.</p>
@@ -119,6 +126,8 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
         ))}
       </section>
 
+        </>) },
+        { title: 'How the story is told', content: (<>
       <section className="section" aria-label="Narrative characteristics">
         <h2>How the story is told</h2>
         <p className="small muted">Everything about the book apart from its genre: viewpoint, tense, setting, readership, tone and more. Some choices switch on tools, shown beside them. Each group takes your own entries too.</p>
@@ -156,6 +165,8 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
         </div>
       </section>
 
+        </>) },
+        { title: 'My storytelling toolkit', content: (<>
       <section className="section" aria-label="Storytelling toolkit">
         <h2>My storytelling toolkit</h2>
         <p className="small muted">The frameworks and methods you use for this novel. None is required, and using several together is deliberate, never a conflict. Say what job each one does for you.</p>
@@ -186,12 +197,15 @@ export function NovelSetup({ ctx }: { ctx: Ctx }) {
         )}
       </section>
 
-      {active.length > 0 && (
+        </>) },
+        { title: 'What your choices switch on', hidden: active.length === 0, content: (
+
         <section className="section" aria-label="What your choices switch on">
           <h2>What your choices switch on</h2>
           <ul className="small">{active.map((a) => <li key={a}>{a}</li>)}</ul>
         </section>
-      )}
+              ) },
+      ]} />
 
       <div className="save-bar" role="region" aria-label="Saving">
         <span aria-live="polite" className="save-bar-status">{savedAt ? `Saved at ${savedAt}. Every choice saves as you make it.` : 'Every choice saves as you make it.'}</span>

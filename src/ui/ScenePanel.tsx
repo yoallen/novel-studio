@@ -1,3 +1,4 @@
+import { Pages } from './Pages';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -85,8 +86,8 @@ export function ScenePanel({ ctx, sceneId, tick, onChanged, onReloadPage }: { ct
       {error && <div className="notice error" role="alert">{error}</div>}
       <h2 style={{ fontSize: '1.125rem' }}>Scene plan</h2>
       <p className="small muted plan-saving">Everything here saves by itself when you click away. Earlier versions are kept.</p>
-      <LaterList ctx={ctx} sceneId={sceneId} />
-
+      <Pages compact storeKey="scene-panel" label="Scene plan" pages={[
+        { title: 'The plan', filled: c.fields.some((f: any) => f.value != null && String(f.value).trim() !== ''), content: (<>
       {!(c.card && (c.card.beat || c.card.mightGo.length > 0)) && <JoinCard ctx={ctx} sceneId={sceneId} onJoined={() => { void load(); onChanged(); }} />}
       {c.card && (c.card.beat || c.card.mightGo.length > 0 || c.card.fields.length > 0) && (
         <section className="section from-card" aria-label="From the card">
@@ -99,6 +100,17 @@ export function ScenePanel({ ctx, sceneId, tick, onChanged, onReloadPage }: { ct
         </section>
       )}
 
+      <div className="section">
+        {c.fields.filter((f: any) => core.has(f.field)).map(fieldBox)}
+      </div>
+      <div className="section">
+        <h3>The turn, and around it</h3>
+        {c.fields.filter((f: any) => !core.has(f.field)).map(fieldBox)}
+        <datalist id="scene-places">{places.map((p) => <option key={p} value={p} />)}</datalist>
+      </div>
+
+        </>) },
+        { title: 'About it', filled: true, content: (<>
       <label className="field"><span>Status{savedNote('status')}</span>
         <select value={c.scene.status} onChange={(e) => void patchScene({ status: e.target.value }, 'status')}>
           {ladder.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}
@@ -143,14 +155,9 @@ export function ScenePanel({ ctx, sceneId, tick, onChanged, onReloadPage }: { ct
         )}
       </div>
 
-      <div className="section">
-        {c.fields.filter((f: any) => core.has(f.field)).map(fieldBox)}
-      </div>
-      <div className="section">
-        <h3>The turn, and around it</h3>
-        {c.fields.filter((f: any) => !core.has(f.field)).map(fieldBox)}
-        <datalist id="scene-places">{places.map((p) => <option key={p} value={p} />)}</datalist>
-      </div>
+        </>) },
+        { title: 'Notes', filled: c.openNotes.length > 0 || !!(c.scene.notes ?? '').trim(), content: (<>
+      <LaterList ctx={ctx} sceneId={sceneId} />
 
       <div className="section">
         <h3>Attached to this scene</h3>
@@ -184,6 +191,8 @@ export function ScenePanel({ ctx, sceneId, tick, onChanged, onReloadPage }: { ct
         </div>
         <p className="faint small">To move or delete this scene, use the links under its name on the left.</p>
       </div>
+        </>) },
+      ]} />
       {showRevs && <RevisionsDialog sceneId={sceneId} onClose={() => setShowRevs(false)} onRestored={() => { setShowRevs(false); onChanged(); onReloadPage(); }} />}
     </div>
   );

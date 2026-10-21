@@ -23,8 +23,8 @@ const GROUP_TITLES: Record<string, Record<string, { title: string; about: string
 };
 
 /** `embedded`: shown inside Narrative Zoom, which already names the element and shows where it sits. */
-export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focusField }: { ctx: Ctx; elementId: string; onOpen: (id: string) => void; onChanged: () => void; embedded?: boolean; focusField?: string }) {
-  const pageKey = `ns-rec-page:${elementId}`;
+export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focusField, leadPages = [] }: { ctx: Ctx; elementId: string; onOpen: (id: string) => void; onChanged: () => void; embedded?: boolean; focusField?: string; leadPages?: { title: string; content: React.ReactNode; filled?: boolean }[] }) {
+  const pageKey = `ns-rec-page:${elementId}:${leadPages.length}`;
   const [pageNo, setPageNoState] = useState<number | 'all'>(() => { try { const v = sessionStorage.getItem(pageKey); return v === 'all' ? 'all' : v ? Number(v) : 0; } catch { return 0; } });
   const setPageNo = (n: number | 'all') => { setPageNoState(n); try { sessionStorage.setItem(pageKey, String(n)); } catch { /* ignore */ } };
   const [focusDone, setFocusDone] = useState(false);
@@ -119,8 +119,9 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focus
     if (item === SPECIAL.arcs || item === SPECIAL.guardrails || item === SPECIAL.acrossTime || item === SPECIAL.interview) return isChar;
     return true;
   };
-  const pages = pagesFor(el.kind, Object.keys(groups), has, kindLabel(el.kind));
+  const pages = [...leadPages.map((lp, i) => ({ title: lp.title, items: [`@lead:${i}`] })), ...pagesFor(el.kind, Object.keys(groups), has, kindLabel(el.kind))];
   const itemFilled = (item: string) => {
+    if (item.startsWith('@lead:')) return !!leadPages[Number(item.slice(6))]?.filled;
     if (!item.startsWith('@')) return groupOf[item]?.filled ?? false;
     if (item === SPECIAL.arcs) return arcs.length > 0;
     if (item === SPECIAL.guardrails) return page.guardrails.length > 0;
@@ -135,6 +136,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focus
   const between = el.kind === 'relationship' ? page.links.filter((l: any) => l.from_id === el.id && l.to_kind === 'character') : [];
 
   const renderItem = (item: string) => {
+    if (item.startsWith('@lead:')) return leadPages[Number(item.slice(6))]?.content ?? null;
     if (!item.startsWith('@')) return groupOf[item] ? renderGroup(groupOf[item]!) : null;
     if (item === SPECIAL.arcs) return (<section className="section record-section" id="sec-arcs">
           <div className="row"><h2 className="grow">Arcs</h2>{!addingArc && <button className="btn small" onClick={() => setAddingArc(true)}>Add an arc</button>}</div>
@@ -280,7 +282,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focus
       {pages.map((pg, i) => (current === 'all' || current === i) && (
         <div key={pg.title} className="record-page" role={pages.length > 1 ? 'tabpanel' : undefined} aria-label={pages.length > 1 ? `Page ${i + 1}: ${pg.title}` : undefined}>
           {pages.length > 1 && <p className="record-page-head"><span className="record-page-no">{i + 1}</span>{pg.title}</p>}
-          {i === 0 && <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={slug(`${kindPlural(el.kind)}: every field`)} />}
+          {i === leadPages.length && <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={slug(`${kindPlural(el.kind)}: every field`)} />}
           {pg.items.map((item) => <div key={item}>{renderItem(item)}</div>)}
           {isChar && !configured && pg.title === 'Goals, motives and values' && (
             <p className="small muted section">More places to write come with the methods you choose in Novel setup, such as goal and motive (Ingermanson) or the wound and its fallout. <button className="btn link small" onClick={() => ctx.go('setup')}>Open Novel setup</button></p>

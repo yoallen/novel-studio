@@ -1,3 +1,4 @@
+import { Pages } from './Pages';
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -58,6 +59,15 @@ export function Home({ ctx }: { ctx: Ctx }) {
         </div>
       </section>
 
+      {w.recoveries.length > 0 && (
+        <div className="notice" role="status">
+          Unsaved typing was kept for {w.recoveries.map((r: any) => `"${r.title}"`).join(', ')}. Open the scene to choose which version to keep.
+          <div className="row" style={{ marginTop: '0.5rem' }}>{w.recoveries.map((r: any) => <button key={r.scene_id} className="btn small" onClick={() => ctx.openScene(r.scene_id)}>Open "{r.title}"</button>)}</div>
+        </div>
+      )}
+
+      <Pages storeKey={`home:${ctx.projectId}`} label="Where was I" pages={[
+        { title: 'Today', filled: true, content: (<>
       <BookLine ctx={ctx} />
 
       <SeedStart ctx={ctx} onPlanted={() => ctx.go('brain')} />
@@ -67,13 +77,6 @@ export function Home({ ctx }: { ctx: Ctx }) {
       {!ctx.project?.profile?.setup?.configured && (
         <div className="notice small" style={{ borderLeftColor: 'var(--struct)' }}>
           Whenever you like: tell the program what kind of story this is and which methods you use, and it will offer the right tools. <button className="btn link small" onClick={() => ctx.go('setup')}>Set up this novel</button>
-        </div>
-      )}
-
-      {w.recoveries.length > 0 && (
-        <div className="notice" role="status">
-          Unsaved typing was kept for {w.recoveries.map((r: any) => `"${r.title}"`).join(', ')}. Open the scene to choose which version to keep.
-          <div className="row" style={{ marginTop: '0.5rem' }}>{w.recoveries.map((r: any) => <button key={r.scene_id} className="btn small" onClick={() => ctx.openScene(r.scene_id)}>Open "{r.title}"</button>)}</div>
         </div>
       )}
 
@@ -87,6 +90,8 @@ export function Home({ ctx }: { ctx: Ctx }) {
 
       <LaterList ctx={ctx} limit={8} />
 
+        </>) },
+        { title: 'Still open', filled: w.openQuestions.length + w.decisions.length + w.recentCaptures.length + w.openTrail.length > 0, content: (
       <div className="cols where-cols">
         <section aria-labelledby="wq-h">
           <h3 id="wq-h">Questions still open</h3>
@@ -125,7 +130,9 @@ export function Home({ ctx }: { ctx: Ctx }) {
             <button className="btn link small" onClick={() => ctx.go('trail')}>Writing Trail</button>
           </section>
         )}
-        {week && (
+      </div>) },
+        { title: 'This week', filled: !!week && (week.netWords > 0 || week.decisionsMade > 0 || week.scenesTouched > 0), hidden: !week, content: week ? (
+
           <section aria-labelledby="ww-h">
             <h3 id="ww-h">This week</h3>
             <ul className="list small">
@@ -137,8 +144,8 @@ export function Home({ ctx }: { ctx: Ctx }) {
               {week.questionsAnswered > 0 && <li>{week.questionsAnswered} question{week.questionsAnswered === 1 ? '' : 's'} answered</li>}
             </ul>
           </section>
-        )}
-      </div>
+        ) : null },
+      ]} />
     </div></div>
   );
 }

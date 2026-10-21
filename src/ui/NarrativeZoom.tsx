@@ -126,7 +126,7 @@ function NoBeats({ ctx, refresh }: { ctx: Ctx; refresh: () => void }) {
 export function SheetExample({ text, from }: { text: string; from?: { title: string; author: string } | null }) {
   return (
     <figure className="sheet-example">
-      <figcaption>An example from your beat sheet{from ? <>, from <cite>{from.title}</cite> by {from.author}</> : ''}</figcaption>
+      <figcaption>An example from the beat sheet{from ? <>, from <cite>{from.title}</cite> by {from.author}</> : ''}</figcaption>
       <blockquote>{text}</blockquote>
     </figure>
   );
@@ -160,7 +160,7 @@ function ZoomBody({ ctx, view, go, onMove, refresh }: { ctx: Ctx; view: any; go:
                 ...(w ? [<li key={`w-${w.key}`} className="world-band" data-world={w.key} aria-label={w.name}>
                   <div className="world-name">{w.name}</div>
                   <div className="world-meaning">{w.meaning}</div>
-                  <details className="world-more"><summary>Read the full description from your sheet</summary><p>{w.description}</p></details>
+                  <details className="world-more"><summary>Read the full description from the beat sheet</summary><p>{w.description}</p></details>
                 </li>] : []),
                 <li key={i} className="row act-row">
                   <button className="btn link" style={{ textAlign: 'left' }} onClick={() => go(c.node)}>{c.label}</button>
@@ -214,23 +214,27 @@ function ZoomBody({ ctx, view, go, onMove, refresh }: { ctx: Ctx; view: any; go:
       <>
         <h1>{view.title}</h1>
         {view.place && <p className="small muted beat-where">At {view.place} of the book{view.length.basis === 'target' && words ? `, around word ${words[0].toLocaleString()}${words[1] !== words[0] ? ` to ${words[1].toLocaleString()}` : ''} of ${view.length.words.toLocaleString()}` : ''}.{l?.written && draftedWords > 0 && l.written.percent != null ? ` In your draft it starts ${l.written.percent}% of the way into what you have written.` : ''}</p>}
+        <ElementPage ctx={ctx} elementId={view.node.id} embedded onOpen={(id) => go({ level: 'element', id })} onChanged={refresh} leadPages={[
+          { title: 'About this beat', filled: true, content: (<>
         {d && (
-          <details open className="beat-teach"><summary className="small muted">What this beat really does</summary>
+          <div className="beat-teach"><h2>What this beat really does</h2>
             <p style={{ whiteSpace: 'pre-wrap' }}>{d.description}</p>
             {d.window && <p className="small"><strong>Where it goes:</strong> {d.window}</p>}
             {d.sceneType && <p className="small"><strong>Scene type:</strong> {d.sceneType}</p>}
             {d.test && <p className="small"><strong>A question to ask:</strong> {d.test}</p>}
             {d.example && <SheetExample text={d.example} from={d.exampleFrom} />}
             {view.key === 'stasis_death' && view.parent && <p className="small">The six things that need fixing have their own list on <button className="btn link small" style={{ padding: 0 }} onClick={() => go(view.parent.node)}>{view.parent.label}</button>.</p>}
-          </details>
+          </div>
         )}
         {view.subBeats.length > 0 && <section className="section"><h2>Inside this beat</h2>{list(view.subBeats, '')}</section>}
-        <section className="section"><h2>Scenes here</h2>{list(view.children, 'No scenes placed here yet.')}
-          {view.candidates.length > 0 && <><h3 style={{ marginTop: '1rem' }}>Could go here</h3><ul className="list">{view.candidates.map((c: any, i: number) => <li key={i} className="st" data-s="developing"><button className="btn link" onClick={() => go(c.node)}>{c.label}</button></li>)}</ul></>}
-          <PlaceCard ctx={ctx} beatId={view.node.id} cards={view.others} onPlaced={refresh} />
-          <AddCard ctx={ctx} beatId={view.node.id} onAdded={refresh} />
-        </section>
-        <section className="section"><h2>Your plan for this beat</h2><ElementPage ctx={ctx} elementId={view.node.id} embedded onOpen={(id) => go({ level: 'element', id })} onChanged={refresh} /></section>
+          </>) },
+          { title: 'Scenes here', filled: view.children.length > 0 || view.candidates.length > 0, content: (
+            <section className="section">{list(view.children, 'No scenes placed here yet.')}
+              {view.candidates.length > 0 && <><h3 style={{ marginTop: '1rem' }}>Could go here</h3><ul className="list">{view.candidates.map((c: any, i: number) => <li key={i} className="st" data-s="developing"><button className="btn link" onClick={() => go(c.node)}>{c.label}</button></li>)}</ul></>}
+              <PlaceCard ctx={ctx} beatId={view.node.id} cards={view.others} onPlaced={refresh} />
+              <AddCard ctx={ctx} beatId={view.node.id} onAdded={refresh} />
+            </section>) },
+        ]} />
       </>
     );
   }
@@ -243,6 +247,8 @@ function ZoomBody({ ctx, view, go, onMove, refresh }: { ctx: Ctx; view: any; go:
         <button className="btn" onClick={() => onMove({ kind: 'card', planId: view.node.id, title: view.title, beatId: view.placement.decided?.beatId ?? null })}>Move…</button>
         {view.position && <span className="small muted">Scene {view.position.index} of {view.position.of}</span>}
       </div>
+      <ElementPage ctx={ctx} elementId={view.node.id} embedded onOpen={(id) => go({ level: 'element', id })} onChanged={refresh} leadPages={[
+          { title: 'Where it sits', filled: !!view.placement.decided, content: (
       <div className="cols">
         <section><h3>Placement</h3>
           {view.placement.decided ? <p className="small st fact-line" data-s="established">Decided: <button className="btn link small" style={{ padding: 0 }} onClick={() => go({ level: 'beat', id: view.placement.decided.beatId })}>{view.placement.decided.name}</button></p> : <p className="small muted">Not on a beat yet.</p>}
@@ -258,8 +264,9 @@ function ZoomBody({ ctx, view, go, onMove, refresh }: { ctx: Ctx; view: any; go:
         <Rel title="Pays off" items={view.paysOff} go={go} />
         <Rel title="Depends on" items={view.dependsOn} go={go} />
       </div>
-      {view.scene && <section className="section"><h3>The page</h3><blockquote className="tail">{view.scene.opening || 'Blank so far.'}{view.scene.opening?.length >= 400 ? '…' : ''}</blockquote><p className="small muted">{view.scene.words.toLocaleString()} words</p></section>}
-      <section className="section"><h2>Your plan for this scene</h2><ElementPage ctx={ctx} elementId={view.node.id} embedded onOpen={(id) => go({ level: 'element', id })} onChanged={refresh} /></section>
+          ) },
+          ...(view.scene ? [{ title: 'The page so far', filled: view.scene.words > 0, content: <section className="section"><h3>The page</h3><blockquote className="tail">{view.scene.opening || 'Blank so far.'}{view.scene.opening?.length >= 400 ? '…' : ''}</blockquote><p className="small muted">{view.scene.words.toLocaleString()} words</p></section> }] : []),
+        ]} />
     </>
   );
   // element: follow it across the story
@@ -267,13 +274,16 @@ function ZoomBody({ ctx, view, go, onMove, refresh }: { ctx: Ctx; view: any; go:
     <>
       <h1>{view.title}</h1>
       <p className="small muted">Followed through the story in order.</p>
+      <ElementPage ctx={ctx} elementId={view.node.id} onOpen={(id) => go({ level: 'element', id })} onChanged={refresh} leadPages={[
+          { title: 'Across the story', filled: view.appearances.length > 0 || view.connections.length > 0, content: (<>
       <section><h2>Where it appears</h2>
         {view.appearances.length === 0 ? <p className="muted small">Not placed in any scene yet.</p> : <ul className="list">{view.appearances.map((a: any, i: number) => <li key={i} className="row"><span className="faint small">Scene {a.at} of {view.of}</span>{a.node ? <button className="btn link" onClick={() => go(a.node)}>{a.label}</button> : a.label}</li>)}</ul>}
       </section>
       <section className="section"><h2>Connections, in story order</h2>
         {view.connections.length === 0 ? <p className="muted small">No connections yet.</p> : <ul className="list">{view.connections.map((c: any, i: number) => <li key={i} className="row"><span className="faint small" style={{ minWidth: '5.5em' }}>{c.at ? `Scene ${c.at}` : 'Not placed'}</span><button className="btn link" onClick={() => go(c.node)}>{c.phrase}</button></li>)}</ul>}
       </section>
-      <section className="section"><ElementPage ctx={ctx} elementId={view.node.id} onOpen={(id) => go({ level: 'element', id })} onChanged={refresh} /></section>
+          </>) },
+        ]} />
     </>
   );
 }

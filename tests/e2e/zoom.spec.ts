@@ -144,14 +144,14 @@ test('the overview shows the three worlds above their acts; a beat page credits 
   await expect(overview.locator('li').nth(3)).toContainText('Act Two, first half');
   await expect(overview.locator('li').nth(5)).toContainText('Synthesis World');
   await expect(overview.locator('li').nth(6)).toContainText('Act Three');
-  await overview.getByText('Read the full description from your sheet').first().click();
+  await overview.getByText('Read the full description from the beat sheet').first().click();
   await expect(page.getByText('If events that follow did not occur')).toBeVisible();
 
   await page.getByRole('button', { name: 'Act One' }).click();
   await expect(page.locator('.act-beats > li').filter({ hasText: 'Theme Stated' })).toContainText('5%, during Setup');
   await page.getByRole('button', { name: '1. Opening Image' }).click();
   const ex = page.locator('.sheet-example');
-  await expect(ex).toContainText('An example from your beat sheet, from The Shining by Stephen King');
+  await expect(ex).toContainText('An example from the beat sheet, from The Shining by Stephen King');
   await expect(ex).toContainText('Jack Torrance is interviewing for a job');
   await page.getByLabel('A card you already have').selectOption({ label: 'Kevin waters the lawn' });
   await page.getByRole('button', { name: 'Place it here' }).click();
@@ -159,7 +159,7 @@ test('the overview shows the three worlds above their acts; a beat page credits 
 
   await page.getByRole('navigation', { name: 'Where you are' }).getByRole('button', { name: 'Act One' }).click();
   await page.getByRole('button', { name: '3. Setup' }).click();
-  await page.getByRole('tab', { name: /Save the Cat/ }).click();
+  await page.getByRole('tab', { name: /Questions for this beat/ }).click();
   await expect(page.getByText('Six things that need fixing')).toBeVisible();
   await expect(page.getByRole('heading', { name: "Save the Cat's questions for this beat" })).toBeVisible();
 });
