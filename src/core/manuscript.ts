@@ -4,6 +4,7 @@
 
 import { settingsOf } from './settings.js';
 import { withoutLater, laterIn } from './later.js';
+import { type ReplaceOptions, type DocMatch, replacePattern, findInDoc, replaceInDoc, cleanFind } from './replace.js';
 import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId, latestRevisionId, restoreSceneRevision } from './store.js';
 
 const EMPTY_DOC = '{"type":"doc","content":[]}';
@@ -305,6 +306,62 @@ export class Manuscript {
     return this.store.batch({ projectId: s.project_id as string, actor, reason: `Restore earlier version of "${s.title}"` }, (w) => {
       restoreSceneRevision(this.store, w, sceneId, revisionId);
       return this.scene(sceneId);
+    });
+  }
+
+  // ---------- find and replace in her pages ----------
+  /** Scenes with typing kept after a crash: she decides about those first, so a replace never covers them. */
+  private keptTyping(projectId: string): Set<string> {
+    return new Set((this.pendingRecoveries(projectId) as Row[]).map((r) => r.scene_id as string));
+  }
+
+  /** Every match in her pages, by chapter and scene, before anything changes. */
+  replacePreview(projectId: string, o: ReplaceOptions) {
+    const p = this.store.get('projects', projectId);
+    if (!p || p.deleted_at) throw new NotFoundError('novel');
+    const re = replacePattern(o);
+    const scenes: { sceneId: string; version: number; sceneTitle: string; sceneNumber: number; chapterTitle: string; chapterNumber: number; kept: boolean; matches: DocMatch[] }[] = [];
+    if (!re) return { total: 0, scenes };
+    const kept = this.keptTyping(projectId);
+    for (const c of this.outline(projectId)) {
+      for (const s of c.scenes as Row[]) {
+        const row = this.store.get('scenes', s.id as string)!;
+        re.lastIndex = 0;
+        if (!re.test(row.text as string)) continue;
+        const matches = findInDoc(JSON.parse(row.doc_json as string), o);
+        if (!matches.length) continue;
+        scenes.push({ sceneId: row.id as string, version: row.prose_version as number, sceneTitle: row.title as string, sceneNumber: s.number as number, chapterTitle: c.title as string, chapterNumber: c.number as number, kept: kept.has(row.id as string), matches });
+      }
+    }
+    return { total: scenes.reduce((a, s) => a + s.matches.length, 0), scenes };
+  }
+
+  /**
+   * Replace the ticked matches. Each scene is saved the usual way (word count, an earlier version kept),
+   * and the whole replace is one step in the Story Trail, so one Undo puts every scene back.
+   */
+  replaceInPages(projectId: string, o: ReplaceOptions, picks: { sceneId: string; version: number; matches: number[] }[], actor = 'author') {
+    if (!replacePattern(o)) throw new ValidationError('Type the words to find first.');
+    const kept = this.keptTyping(projectId);
+    const plans: { id: string; version: number; doc: unknown }[] = [];
+    let total = 0;
+    for (const pk of picks) {
+      if (!pk.matches.length) continue;
+      const s = this.projectOf('scenes', pk.sceneId);
+      if (s.project_id !== projectId) throw new ValidationError('That scene is in another novel.');
+      if (kept.has(pk.sceneId)) throw new ConflictError(`"${s.title as string}" has typing kept after the program closed unexpectedly. Open it in the Writing Room and decide about that first.`);
+      if (s.prose_version !== pk.version) throw new ConflictError(`"${s.title as string}" changed after you looked. Look again before you replace.`);
+      const r = replaceInDoc(JSON.parse(s.doc_json as string), o, pk.matches);
+      if (!r.count) continue;
+      plans.push({ id: pk.sceneId, version: pk.version, doc: r.doc });
+      total += r.count;
+    }
+    if (!plans.length) throw new ValidationError('Tick at least one match to replace.');
+    const find = cleanFind(o.find);
+    const reason = `Replace "${find}" with "${o.replace}" in ${total} place${total === 1 ? '' : 's'} in ${plans.length} scene${plans.length === 1 ? '' : 's'}`;
+    return this.store.batch({ projectId, actor, reason }, (w) => {
+      for (const pl of plans) this.saveScene(pl.id, { doc: pl.doc, expectVersion: pl.version, reason: 'replace' }, actor);
+      return { replaced: total, scenes: plans.length, batchId: w.batchId };
     });
   }
 
