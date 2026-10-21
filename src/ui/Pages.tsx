@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 // The notebook pattern for any long screen: numbered page tabs, one page at a time, All pages to see
 // everything, and links to the page before and after. The page you were on is remembered for the session.
+/** Open a paged screen at a given page next time it shows (0 is page 1). */
+export function openAtPage(storeKey: string, index: number) { try { sessionStorage.setItem(`ns-pages:${storeKey}`, String(index)); } catch { /* ignore */ } }
+
 export interface PageDef { title: string; content: React.ReactNode; filled?: boolean; hidden?: boolean }
 
 export function Pages({ storeKey, pages, label, compact }: { storeKey: string; pages: PageDef[]; label: string; compact?: boolean }) {

@@ -1,3 +1,4 @@
+import { openAtPage } from './Pages';
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -85,7 +86,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
       )}
 
       {!daily && !r.push && (
-        <p className="small muted">Set a daily word goal, or a writing push such as November, and this shows how you are tracking. <button className="btn link small" onClick={() => ctx.go('settings')}>Settings</button></p>
+        <p className="small muted">Set a daily word goal, or a writing push such as November, and this shows how you are tracking. <button className="btn link small" onClick={() => { openAtPage(`settings:${ctx.projectId}`, 1); ctx.go('settings'); }}>Settings</button></p>
       )}
     </section>
   );

@@ -158,7 +158,7 @@ test('the overview shows the three worlds above their acts; a beat page credits 
   await page.getByRole('tab', { name: /Scenes here/ }).click();
   await page.getByLabel('A card you already have').selectOption({ label: 'Kevin waters the lawn' });
   await page.getByRole('button', { name: 'Place it here' }).click();
-  await expect(page.locator('section', { hasText: 'Scenes here' }).getByRole('button', { name: 'Kevin waters the lawn' })).toBeVisible();
+  await expect(page.getByRole('tabpanel', { name: /Scenes here/ }).getByRole('button', { name: 'Kevin waters the lawn' })).toBeVisible();
 
   await page.getByRole('navigation', { name: 'Where you are' }).getByRole('button', { name: 'Act One' }).click();
   await page.getByRole('button', { name: '3. Setup' }).click();

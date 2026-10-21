@@ -1,156 +1,150 @@
-# Finding things and nothing lost
+# Finding things: Search and Story Trail
 
-Story Canon makes two promises that this chapter is about. You can find anything you put into it, and nothing you put into it is ever lost, not even by accident.
+This chapter is about two promises Story Canon makes. You can find anything you put into it, and nothing you put into it is ever lost, not even by accident. Read it when you are looking for something (a name, a line, a thought you saved last week), when you want to take back a change, when you deleted something you now want, or when you want to be sure a broken computer cannot cost you your book. If you are setting up a new computer, read [Settings and your other computers](#settings-and-your-other-computers) first.
 
-## Six safety nets, and when each one helps
+## Nothing is lost: which safety net to use
 
-Story Canon has several ways to find and recover things. They overlap on purpose. This table tells you which one to reach for.
+Story Canon has several ways to find and recover things. They overlap on purpose, so that if one does not have what you need, another will. Most writers only ever need the first three, but it is good to know the rest are there. This table tells you which one to reach for.
 
 | You want to | Use | Where it is |
 | --- | --- | --- |
-| Find a word, a name or a line you remember | **Search** | The **Search** tab, or **Ctrl+K** |
-| Jot down a thought without leaving what you are doing | **Capture** | The **Capture** button at the top right, or **Ctrl+Shift+N** |
-| Take back one change you made, even an old one | **Undo** in the **Story Trail** | The **Story Trail** tab |
-| Bring back a scene, chapter or record you deleted | **Deleted things** | The **Story Trail** tab, top right |
-| Get back an older wording of one scene | **Earlier versions** | The Writing Room, at the bottom of the scene plan |
-| Survive a broken computer | **Backups** and **archives** | **Settings**, under **Backups** |
+| Find a word, a name or a line you remember | **Search** | The **Search** view, or **Ctrl+K** |
+| Find a thought you saved with Capture | **Questions and ideas** | The Story Brain, at the top of its list |
+| Take back one change you made, even an old one | **Undo** in the **Story Trail** | The **Story Trail** view |
+| Bring back a scene, chapter or record you deleted | **Deleted things** | The **Story Trail** view, top right |
+| Get back an older wording of one scene | **Earlier versions** | The Writing Room, at the bottom of the scene plan's page **3 Notes** |
+| Survive a broken computer | **Backups** and **archives** | **Settings**, page **8 Other computers and backups** |
 
-Two more live elsewhere: kept drafts of the whole book (see [Drafts: keeping a whole version of the book](#drafts-keeping-a-whole-version-of-the-book)), and the copy each of your computers keeps when you write on two (see [Your other computers: writing on two machines](#your-other-computers-writing-on-two-machines)).
+Two more safety nets live elsewhere. A **kept draft** is a saved copy of the whole book exactly as it stood when you finished a draft; you keep one from the **Drafts** page, reached from Where was I (see [Where was I: your novel's home page](#where-was-i-your-novels-home-page)). And if you write on two computers, each one keeps its own copy and makes a backup before it takes in a newer one (see [Settings and your other computers](#settings-and-your-other-computers)).
 
 ## Search: finding any word in your novel
 
-**Search** looks through everything inside this novel at once: your pages, every record in the Story Brain, every conversation, and every planning document you brought in.
+**What it is.** **Search** looks through everything inside the novel that is open now, all at once: your scenes, every record in the Story Brain and every fact written on them, every conversation, and every planning document you brought in.
 
-**Where:** the **Search** tab, under the word *and* on the right edge. Or press **Ctrl+K** from anywhere in the novel.
+**Why it matters.** A novel collects hundreds of small decisions. You will forget what you named the harbor master's boat, or which scene has the storm, or where the collaborator said something useful about Marisol's brother. Search is the fastest way back to any of it, and it saves you from writing the same decision twice in two different ways.
 
-**When to use it:** "What did I call the dog?" "Where did ChatGPT say that thing about the ledger?" "Which scene has the hose fight?" Search is the fastest way back to anything.
+**Do you need it?** Yes. Every writer uses Search, usually several times a day once the book is under way.
 
-**How:**
+**Where it is.** **Search** is one of the views in the list on the right edge of the window, below the word *and*. You can also press **Ctrl+K** from anywhere in the novel. (During a sprint, Ctrl+K does nothing, because a sprint keeps you on the page. A **sprint** is a set stretch of time with nothing but writing; see [Goals, sprints and November](#goals-sprints-and-november).)
 
-1. Click **Search**, or press **Ctrl+K**. The cursor is already in the box marked **A name, a phrase, a line you remember**.
-2. Type. Results appear as you type; there is no button to press.
-3. Click a result's underlined title to open it where it lives.
+### Search, step by step
 
-To clear the box, click the **×** at its right end.
+1. Click **Search** in the list on the right, or press **Ctrl+K**. The cursor is already in the box marked **A name, a phrase, a line you remember**.
+2. Type what you remember. Results appear as you type; there is no button to press. Capital letters do not matter.
+3. Look over the results. If there are many, narrow them (see [Narrowing search results](#narrowing-search-results)).
+4. Click a result's underlined title. Story Canon opens it right where it lives (see [Where a search result opens](#where-a-search-result-opens)).
 
-**What search can and cannot see.** The grey line under the box says it: search covers everything inside this novel. A chat that lives only in Claude or ChatGPT is not here until you bring it in on the Conversations tab (see [Bringing in chats from Claude and ChatGPT exports](#bringing-in-chats-from-claude-and-chatgpt-exports)). Search also looks in one novel at a time: the one open now.
+To empty the box and start again, click the small **×** at its right end. If nothing matches, the line under the box says "Nothing matches that yet."
+
+### Search: what it can and cannot see
+
+The gray line under the box says it plainly: Search looks at everything inside this novel, meaning your pages, records, and the conversations and documents you brought in. Two things follow from that.
+
+- **Only this novel.** Search looks in the novel that is open now. To search another of your novels, open that one first from the Library.
+- **Not what you deleted.** Things in **Deleted things** are not searched. Restore them first (see [Deleted things: restoring what you removed](#deleted-things-restoring-what-you-removed)).
+- **Only what you brought in.** A chat that lives only in Claude or ChatGPT is not in Story Canon until you bring it in from the **Conversations** view (see [Conversations and the collaborator](#conversations-and-the-collaborator)). A planning document is searchable once you have brought it in on the **Import and export** view, even passages you did not put into any record (see [Bringing things in and sending things out](#bringing-things-in-and-sending-things-out)).
 
 ### Narrowing search results
 
-Above the results, a line says how many were found, then a row of choices, each with its count:
+Above the results, a line says how many were found. Under it is a row of choices, each with its count in brackets:
 
 | Choice | What it shows |
 | --- | --- |
 | **Everything** | All results. This is where you start. |
-| **Your pages** | Your manuscript: the scenes in the Writing Room. |
-| **Story records** | Records in the Story Brain and the facts written on them. |
+| **Your pages** | Your manuscript: the scenes you wrote in the Writing Room. |
+| **Story records** | Records in the Story Brain, and the facts written on them. |
 | **Conversations** | Messages in any conversation. |
-| **Documents** | Passages in the planning documents you brought in. |
+| **Documents** | Passages in the planning documents you brought in. A **passage** is one paragraph or labeled block of a document. |
 
-Click one to show only that kind. A choice with no results is greyed out and cannot be clicked.
+Click a choice to show only that kind of result. Click **Everything** to see them all again. A choice with no results is grayed out and cannot be clicked.
 
-**The common mistake** is scrolling through 176 results for a line you know is in a chat. Click **Conversations** first.
+**The common mistake** is scrolling through a hundred results for a line you know is in a chat. If you know where it lives, click that choice first.
 
 ### Reading a search result
 
-Each result has three lines:
+Each result has three lines.
 
-1. **A small grey label** saying what kind of thing it is. "Your pages" is a scene. "Story record, clue" is a whole record and its kind. "Story detail, character, Decided" is one fact on a record, its kind and its status word. "Conversation" is a message. "Document, Characters > Mara, paragraph 3" is a passage and where it sits in the document: the headings above it and its paragraph number.
-2. **The underlined title**: the scene, the record, the conversation or the document. For a fact, it is the record's name and the blank, such as "Kevin Wickley, ghost."
-3. **A few lines around the match**, in the book's typeface.
+1. **A small gray label** that says what kind of thing it is:
+   - "Your pages" is a scene.
+   - "Story record, character" is a whole record, followed by its kind.
+   - "Story detail, character, Decided" is one fact on a record, followed by the record's kind and the fact's status.
+   - "Conversation" is a message in a conversation.
+   - "Document, Characters > Ana Ruiz, paragraph 3" is a passage in a planning document, followed by where it sits in that document: the headings above it and its paragraph number.
+2. **The underlined title.** For a scene, the scene's title. For a record, its name. For a fact, the record's name and the field it is written in, such as "Marisol Vega, wounds." For a message, the conversation's title. For a passage, the document's name.
+3. **A few lines around the match**, in the book's typeface, so you can tell whether it is the one you want.
 
 The word you searched for is highlighted in each title and snippet.
 
-**Codes like CX-002 or SB L60.** Books brought in from detailed planning files, like *I Declare War*, carry reference numbers from those files. They show quietly in small grey type with a dotted underline. Click one and Story Canon tells you what it points to, with the passage itself when that document is among the ones you brought in (see [Reference numbers in imported facts](#reference-numbers-in-imported-facts)). The words "a planning note, kept with your records" mean the result is a note record (the **Notes** kind in the Story Brain) that came in from the planning files.
+**Reference numbers in results.** If you brought in detailed planning files that used their own reference codes (such as "CH-012" for an entry in a character file), those codes show in results in small gray type with a dotted underline. Click one and Story Canon tells you what it points to, with the passage itself when that document is among the ones you brought in. The Story Brain chapter explains these codes (see [The Story Brain](#the-story-brain)). The words "a planning note, kept with your records" in a result's label mean it is a note record (the **Notes** kind in the Story Brain) that came in from planning files.
 
 ### Where a search result opens
+
+Story Canon opens each result in its own home, at the exact spot.
 
 | You click a result labeled | It opens |
 | --- | --- |
 | **Your pages** | That scene in the Writing Room, ready to write. |
-| **Story record** or **Story detail** | That record in the Story Brain. |
-| **Conversation** | That conversation on the Conversations tab, scrolled to the exact message and marked in pink. If the match is in a behind-the-scenes step, those steps are shown so you can see it. |
-| **Document** | **Your documents** on the Import and export tab, with that document open, scrolled to the exact passage and marked in pink. |
+| **Story record** | That record in the Story Brain. |
+| **Story detail** | That record in the Story Brain, turned to the page that holds the fact you found. On a character, for example, a match in the **Wounds** field opens the Inner life page, not page 1. |
+| **Conversation** | That conversation on the Conversations view, scrolled to the exact message and marked with a pink bar at its left. If the match is in a behind-the-scenes step, those steps are shown so you can see it. |
+| **Document** | **Your documents** on the Import and export view, with that document open, scrolled to the exact passage and marked with a pink bar. |
 
-If you were writing when you searched, the pink **Return to Writing** ribbon at the top of the page takes you back to your exact spot.
+If you were writing when you searched, the **Return to Writing** ribbon appears at the top left of the page. Click it (or press **Ctrl+Shift+W**) to go straight back to your exact spot in the scene.
 
-**Example.** You remember a line about "playing with fire" but not where. You press **Ctrl+K**, type *fire*, click **Conversations**, and the third result is the ChatGPT message. One click opens it with the line marked.
+**Example.** You remember that Ana Ruiz once said something about "salt in the lungs," but not where. You press **Ctrl+K** and type *salt in the lungs*. Two results come up. One is labeled "Story detail, character, Developing" with the title "Ana Ruiz, speech"; the other is "Your pages." You click the Story detail, and Ana's record opens on its Looks and voice page, at her **Sayings and verbal habits**, with the line right there. You click **Return to Writing** and you are back in your sentence.
 
-## Capture: saving a thought in seconds
+## Capture: finding the thoughts you saved
 
-**Capture** saves a thought the moment you have it, exactly as you typed or dictated it, without taking you anywhere.
+**Capture** (the button at the top right of every page, or **Ctrl+Shift+N**) saves a thought in a few seconds without taking you anywhere. How to use it while you write is taught in [The Writing Room](#the-writing-room). This section is about finding those thoughts again, because a saved thought is only useful if you can get back to it.
 
-**Where:** the **Capture** button at the top right of every page, or **Ctrl+Shift+N** from anywhere in the novel, even during a sprint.
+When you save, a short line appears beside the **Capture** button saying where the thought went, such as "Saved. It waits in Captured thoughts, in Story Brain under Questions and ideas." The line fades after a few seconds.
 
-**Why it works.** Ideas arrive at the wrong time: in the middle of a sentence, while you are fixing a date, while you are reading a chat. If you stop to file the idea properly, you lose the sentence. If you do not write it down, you lose the idea. Capture takes a few seconds and puts you right back.
+Each kind of capture waits in its own place:
 
-**How:**
+| You chose | It waits in |
+| --- | --- |
+| **Just a thought** | **Captured thoughts**, in **Questions and ideas**. Recent ones also show on Where was I, page **2 Still open**, under **Thoughts waiting to be sorted**. |
+| **A question I have** | **Questions I have**, in **Questions and ideas**, where you can answer it later. |
+| **An idea I am thinking about** | **Things and ideas I'm thinking about**, in **Questions and ideas**. |
 
-1. Press **Ctrl+Shift+N** (or click **Capture**). A small window opens with the cursor in the box.
-2. Type the thought.
-3. Choose what kind it is (next section). If you do not choose, it is **Just a thought**.
-4. Click **Save it**, or press **Ctrl+Enter**. Press **Esc** or click **Cancel** to close without saving. (Saving with an empty box simply closes the window.)
+**Questions and ideas** is at the top of the Story Brain's list on the left. When no thoughts are waiting to be sorted, Where was I says "Nothing waiting. Every thought you saved has a home."
 
-Your words are kept exactly as written. Nothing is corrected or reworded.
+**Sorting a thought.** A thought is unsorted on purpose, so you can capture without deciding anything. Later, in **Questions and ideas**, each captured thought has two buttons, **Make it a question** and **Make it an idea**, so sorting it takes one click.
 
-### The three kinds of capture
+**Thoughts attached to a scene.** If you captured while a scene was open and left **Attach to this scene** ticked, the thought also waits in that scene's plan, under **Attached to this scene**, so you find it the next time you open the scene. Each one has its own buttons there: **Done** for a thought, **Answered** and **No longer relevant** for a question, **Adopt** and **Set aside** for an idea. Using one takes it off the scene's open list. Nothing is deleted.
 
-| Choice | What it is | Where it goes |
-| --- | --- | --- |
-| **Just a thought** | Anything, unsorted. Use it when you do not want to decide yet. | **Captured thoughts**, in **Questions and ideas**, marked **Not filed yet**. |
-| **A question I have** | Something you need to find out or decide. | **Questions I have**, where you can answer it later. |
-| **An idea I am thinking about** | Something you might use: a scene, a twist, a line. | **Things and ideas I'm thinking about**. |
+You can also simply search for a captured thought: it is a record, so Search finds it under **Story records**.
 
-The difference between a thought and an idea: a thought is unsorted, so you can capture without deciding anything. An idea is something you already know you might use. When in doubt, choose **Just a thought**. Later, in **Questions and ideas**, a captured thought has the buttons **Make it a question** and **Make it an idea**, so sorting it takes one click.
-
-### Capturing from inside a scene
-
-When you capture while a scene is open in the Writing Room, the window adds two things:
-
-- **Attach to this scene** is ticked. The thought is linked to the scene and waits in the scene plan under **Attached to this scene**, so you find it the next time you open the scene.
-- Two choices appear: **Resolve later** (the starting choice) or **I need this to keep writing**. The second marks the thought "needed to keep writing," so it stands out when you look at the scene plan.
-
-Untick **Attach to this scene** to capture without linking it.
-
-In the scene plan, each attached thought has its own buttons: **Done** for a thought, **Answered** and **No longer relevant** for a question, **Adopt** and **Set aside** for an idea. Using one takes it off the scene's open list. Nothing is deleted.
-
-**Example.** You are writing the hose fight and wonder what color the hose is. **Ctrl+Shift+N**, type *What color is the hose?*, **Ctrl+Enter**. You are back in the sentence in under five seconds. The question waits in the scene plan under **Attached to this scene**.
-
-**The common mistake** is using Capture for a question you need answered inside the text, like a date. For those, a note for later in double brackets, `[[like this]]`, stays right in the sentence (see [Notes for later: keep writing, fix it later](#notes-for-later-keep-writing-fix-it-later)). Capture is for thoughts that belong somewhere else.
-
-### Where captured thoughts wait
-
-- **Questions and ideas**, at the top of the Story Brain's list, holds all three kinds in three groups. See [Questions and ideas: your open questions and possibilities](#questions-and-ideas-your-open-questions-and-possibilities) and [Captured thoughts: every field](#captured-thoughts-every-field).
-- **Where was I** shows recent unsorted thoughts under **Thoughts waiting to be sorted**. When none are waiting it says "Nothing waiting. Every thought you saved has a home."
-- A thought captured from a scene also waits in that scene's plan.
+**Example.** On Tuesday you captured *Does Cyrus own a second boat?* as **A question I have**. On Friday you want it. You open the Story Brain, click **Questions and ideas**, and it is under **Questions I have**, waiting for an answer.
 
 ## Story Trail: the history of every change
 
-The **Story Trail** is a list of every change made to this novel, newest first, with a button to take back any one of them.
+**What it is.** The **Story Trail** is a list of every change made to this novel, newest first, with a button to take back any one of them.
 
-**Where:** the **Story Trail** tab, under the word *and* on the right edge.
+**Why it matters.** It means you can try anything. Rename a character, move a scene, accept a suggestion, delete a chapter. If you regret it tomorrow, or next month, one click takes it back, and nothing you did since is lost. Writers who know they can undo anything make bolder choices.
 
-**Why it matters.** You can try anything. Rename a character, move a scene, accept a suggestion, delete a chapter. If you regret it tomorrow, or next month, one click takes it back, and nothing you did since is lost.
+**Do you need it?** Most writers open it rarely, and are very glad it is there when they do. You never have to do anything to keep it: Story Canon records every change by itself.
+
+**Where it is.** **Story Trail** is in the list of views on the right edge, below the word *and*. Under its heading is the line "How your story evolved: every idea, decision and revision, newest first. Undo any one of them without losing what came after." On a brand-new novel it says "Nothing has changed yet."
 
 ### Reading a Story Trail entry
 
-Each row in the trail has:
+Each row in the trail has these parts:
 
-- **What changed**, in words: "Delete scene "Scene 2"", "Added the question "Does Miss Francine keep the ledger?"", "Changed this novel's settings", "Write "Fish-guts chain reaction"".
-- **Who did it**, when it was not you: **By the collaborator** for a message or suggestion it made, or **Brought in** for something that arrived in an import. A change with no tag is yours.
+- **What changed**, in words. For example: "Added the question "Does Cyrus own a second boat?"", "Delete scene "The empty boat"", "Changed this novel's settings", "Marisol Vega: wound", or "Write "The empty boat"". A "Write" row is one stretch of your typing in one scene. A row starting "A message in the conversation" is one message in a conversation.
+- **Who did it**, when it was not you, in a small tag: **By the collaborator** for something the collaborator made, or **Brought in** for something that arrived in an import. A change with no tag is yours.
 - **When**: the date and time.
-- **A button** on the right: **Undo**, or **Put it back** on an undo.
-- **A grey line** starting "Undo:" that tells you in plain words what clicking the button would do, such as "Undo: Brings it back." or "Undo: Removes this message from the conversation. Nothing in your story changes."
-
-A "Write" row is a stretch of your typing in one scene. A "Message in" row is one message in a conversation.
+- **A button** on the right: **Undo**, or **Put it back** on a row that is itself an undo.
+- **A gray line** starting "Undo:" that tells you in plain words what clicking the button would do, such as "Undo: Brings it back." or "Undo: Removes this message from the conversation. Nothing in your story changes." Pointing at the button shows the same words.
 
 ### Undo, and what it takes back
 
 **Undo** takes back just that one change, even an old one, and leaves everything after it alone.
 
-1. Find the change. The newest are at the top.
-2. Read its grey "Undo:" line, so you know what will happen.
-3. Click **Undo**.
+1. Click **Story Trail** in the list on the right.
+2. Find the change. The newest are at the top.
+3. Read its gray "Undo:" line, so you know exactly what will happen.
+4. Click **Undo**.
 
 What undo does depends on the change:
 
@@ -163,19 +157,21 @@ What undo does depends on the change:
 | A message in a conversation | Removes that message from the conversation. Your story does not change. |
 | Bringing in a file | Takes back what the import added, in one step. |
 
+**The common mistake** is undoing the newest rows one by one to reach an old change. You do not need to. Find the old change and undo just that one; everything after it stays.
+
 ### Put it back, and what is in effect now
 
 Undoing adds a new row at the top, in slanted type, starting **Undid:**, with a **Put it back** button. Click **Put it back** to reverse the undo.
 
-The original row stays where it was, so the history stays complete, but it changes: its text is **struck through** (a line drawn through it), its button disappears, and a line under it reads "Undone on" and the date, then "Not in effect."
+The original row stays where it was, so the history stays complete, but it changes: its words are **struck through** (a line drawn through them), its button disappears, and a line under it reads "Undone on" with the date and time, then "Not in effect."
 
 The key at the top of the trail says the rule: "Struck through means the change was undone and is no longer in effect. Everything else is in effect now."
 
-**Example.** You undo "Added the question "Does Miss Francine keep the ledger?"". At the top: "Undid: Added the question…" with **Put it back**. Further down, the original row is struck through and says "Not in effect." The question is now in **Deleted things**.
+**Example.** You undo "Added the question "Does Cyrus own a second boat?"". At the top of the trail a new slanted row appears, "Undid: Added the question…", with **Put it back**. Further down, the original row is struck through and says "Not in effect." The question is now in **Deleted things**. A minute later you change your mind and click **Put it back**; the question returns.
 
 ### When Undo asks first
 
-Sometimes later work depends on the change you want to undo. Say you added a character, then connected her to three scenes. Undoing the character would leave those connections pointing at nothing.
+Sometimes later work depends on the change you want to undo. Say you added Ana Ruiz, then connected her to three scenes. Undoing the "added" row would leave those connections pointing at nothing.
 
 In that case a notice appears at the top of the trail explaining what depends on it, with two buttons:
 
@@ -186,16 +182,22 @@ Nothing happens until you choose.
 
 ### Story Trail and the Writing Trail are different
 
-The names are close, so it is worth one line each.
+The names are close, so here is one line on each.
 
-- The **Story Trail** (this tab) is every change to your novel: records, scenes, settings, conversations.
-- The **Writing Trail** is part of the Writing Room. It lists each time you stepped away from the page to look something up, so you can get back. It changes nothing in your story. See [The Writing Trail and detours](#the-writing-trail-and-detours).
+- The **Story Trail** (this view) is every change to your novel: records, scenes, settings, conversations.
+- The **Writing Trail** is part of the Writing Room. It lists each **detour**, meaning each time you stepped away from the page to look something up, so you can get back. It changes nothing in your story. See [The Writing Room](#the-writing-room).
 
 ## Deleted things: restoring what you removed
 
-Nothing you delete is really gone. It moves to **Deleted things**, and you can restore it any time.
+**What it is.** Nothing you delete in Story Canon is really gone. It moves to **Deleted things**, and you can restore it any time.
 
-**Where:** the **Story Trail** tab, then the link **Deleted things** at the top right. The page is headed **Deleted**, with "Nothing deleted here is gone. Restore anything, any time." The **Story Trail** tab stays lit while you are there.
+**Why it matters.** You can clear out a scene that is not working without worrying that you will want a line from it later. Deleting is safe, so you can keep your binder tidy.
+
+**Do you need it?** Only when you change your mind about something you deleted. It is always there, with no setup.
+
+**Where it is.** Click **Story Trail** in the list on the right, then the link **Deleted things** at the top right. The page is headed **Deleted**, with "Nothing deleted here is gone. Restore anything, any time." The **Story Trail** entry in the list stays lit while you are there.
+
+**What sends things here.** The **Delete** link under a scene in the Writing Room, the **Delete chapter** link, the **Delete** button at the bottom of a record, and undoing something you added. Each delete asks first in a small window, such as "Move "The empty boat" to Deleted? You can restore it from Story Trail, under Deleted things." (For a chapter, the window also says how many scenes go with it.) Click **OK** to go ahead or **Cancel** to keep it.
 
 The page has three lists:
 
@@ -203,86 +205,30 @@ The page has three lists:
 | --- | --- | --- |
 | **Chapters** | The chapter's title. | **Restore with its scenes** brings back the chapter and every scene that was in it. |
 | **Scenes** | The scene's title, the chapter it came from, and its word count. | **Restore** puts it back in its chapter. |
-| **Story records** | The record's name and its kind (character, question, clue and so on). | **Restore** brings it back to the Story Brain. |
+| **Story records** | The record's name and its kind (character, question, location and so on). | **Restore** brings it back to the Story Brain. |
 
 A list with nothing in it says **None.**
 
-**What sends things here:** the **Delete** link under a scene in the Writing Room, **Delete chapter**, deleting a record, and undoing something you added. Each delete asks first in a small window (for example "Move "Scene 2" to Deleted? You can restore it from Story Trail, under Deleted things.") Click **OK** to go ahead or **Cancel** to keep it.
-
 **How to restore, step by step:**
 
-1. Click the **Story Trail** tab.
-2. Click **Deleted things**.
+1. Click **Story Trail** in the list on the right.
+2. Click **Deleted things** at the top right.
 3. Find the item and click **Restore** (or **Restore with its scenes** for a chapter).
 
-It disappears from the list and is back where it was. You can also find the "Delete" row in the Story Trail and click **Undo**, which does the same.
+It leaves the list and is back where it was. You can also find the row for that delete in the Story Trail (such as "Delete scene "The empty boat"") and click **Undo**, which does the same thing.
 
-**The common mistake** is restoring a chapter scene by scene. **Restore with its scenes** does it in one click and keeps their order.
+**The common mistake** is restoring a deleted chapter one scene at a time. **Restore with its scenes** does it in one click and keeps the scenes in their order.
+
+**Example.** You deleted the chapter "Fog Week" with its four scenes, then realized the lighthouse logbook scene in it is the one where Marisol finds Eli's handwriting. You open **Deleted things**, click **Restore with its scenes** beside "Fog Week", and the whole chapter is back in the binder.
 
 ## Earlier versions of a scene
 
-Every scene keeps its earlier wordings. You can look at any of them beside the current text and bring one back.
+Every scene keeps its earlier wordings, so a rewrite can never cost you the old draft. In the Writing Room, open the scene and click **Earlier versions** at the bottom of the scene plan's page **3 Notes** (the scene plan is the panel on the right of the page; if you hid it, click **Show scene plan** first, then the small tab **3 Notes**). A window lists each saved version with its date, time and word count. Click one to see it compared with the current text, then click **Restore this version** to bring it back, or **Close** (or **Esc**) to leave it. Restoring never throws anything away: the current text stays in the list, so you can restore it again.
 
-**Where:** in the Writing Room, open the scene. At the bottom of the scene plan on the right is the button **Earlier versions**. (If you hid the plan with **Hide scene plan**, show it again first.)
+A new version is made after you pause typing for about twenty seconds, when you leave the scene, and when you close Story Canon. The full steps are in [The Writing Room](#the-writing-room).
 
-**When a version is made.** Your typing is saved within about a second, always. A new *version* is made after you pause for about twenty seconds, when you leave the scene, and when you close Story Canon. So one sitting usually makes a handful of versions, not one per keystroke.
-
-**How:**
-
-1. Click **Earlier versions**. A window opens with the list on the left, each version's date and time with its word count under it.
-2. Click a date. The right side shows that version compared with the current text: **struck** words are only in the earlier version, **highlighted** words are only in the current one.
-3. To bring it back, click **Restore this version**. The window closes and the page shows the restored text.
-4. To leave without changing anything, click **Close** or press **Esc**.
-
-**Restoring never throws anything away.** The line beside the button says "The current text stays in this list." Restoring adds the old wording as the newest version. If you change your mind, restore the one you just replaced.
-
-**If the list is empty,** it says "No earlier versions yet. Each saved stretch of writing becomes one." Write for a bit, pause, and look again.
-
-**Example.** You rewrote the opening of "Fish-guts chain reaction" and liked yesterday's better. **Earlier versions**, click yesterday's time, see the old opening struck and the new one highlighted, **Restore this version**. Today's draft is still in the list if you want it back.
+**Example.** You rewrote the opening of "The empty boat" so that Marisol sees the boat at dawn instead of in the fog, and you liked yesterday's fog better. **Earlier versions**, click yesterday's time, **Restore this version**. Today's dawn version is still in the list if you want it back.
 
 ## Backups and archives
 
-A **backup** is a complete spare copy of all your novels, made so that a broken computer or a bad day cannot cost you your book. An **archive** is one file holding a single novel and its whole history, made so you can store it or move it.
-
-**Where:** **Settings**, the section **Backups**, near the bottom. Its heading says **Takes effect right away**: its buttons work the moment you click them, with no **Save settings** needed.
-
-### Automatic backups
-
-Story Canon makes a backup by itself every thirty minutes while you are making changes, and again when you close the program. Each one is checked for damage as it is made; a copy that fails the check is not kept. The most recent twenty automatic backups are kept, and older ones are removed as new ones arrive.
-
-The line at the top of the section says where they go, for example "Backups go to C:\Users\Dana\Documents\Story Canon\Backups, the usual place." Each backup is a single file named with the date and time it was made.
-
-### Make a backup now
-
-**Make a backup now** makes an extra copy this minute and checks it. A message says "Backup made and checked" with its size. Up to fifty of these are kept, separately from the automatic ones.
-
-**When to use it:** before anything big, like bringing in a large document, deleting a part of the book, or starting a revision.
-
-### Choosing where backups go
-
-The one thing worth doing: put your backups somewhere other than this computer. A backup on the same computer is lost along with it.
-
-1. In **Settings**, under **Backups**, click **Choose a folder**.
-2. Pick a folder on a second drive, a USB stick, or a synced folder such as OneDrive.
-3. Story Canon makes the first backup there at once and checks it. A message says "Backups now go to" the folder, "The first one is already there, checked."
-
-To go back to the starting folder, click **Back to the usual place**.
-
-If the folder cannot be written to (a USB stick that was unplugged, say), you see "That folder cannot be written to. Choose another, or check that the drive is connected." Nothing changes until you pick one that works.
-
-### Save an archive of this novel
-
-**Save an archive of this novel** saves just this one novel, with all its history, as a single file named with the title and today's date. In the Windows program you choose where to save it. Keep it anywhere: email it to yourself, put it on a USB stick, move it to a new computer.
-
-**When to use it:** before you lend your laptop to someone, when you buy a new computer, or as a "finished first draft" keepsake.
-
-### Getting a novel back from an archive
-
-1. Click **Library** at the top left of any page.
-2. Under **Bring in an archive**, choose the archive file.
-3. Story Canon shows what it holds before anything is added: the title, the counts of chapters, scenes and records, and any warnings.
-4. If this exact novel is already on your shelf, nothing is imported unless you import it as a copy. If a different version of it is there, it comes in as a separate copy and your current novel is not changed. Click **Import** (or **Import as a separate copy**), or **Cancel**.
-
-Nothing already in your Library is ever overwritten by an archive.
-
-**About backup files.** The backup files themselves cannot be opened from inside Story Canon. They are the last line of defense if a computer fails completely. For moving a novel or keeping a copy you can open yourself, use an archive.
+Search, the Story Trail, Deleted things and earlier versions all work inside the program. **Backups** and **archives** are for the day the program, or the computer, is not there. A **backup** is a complete spare copy of all your novels, made by itself while you work; an **archive** is one file holding a single novel with its whole history, which you make when you want to store a book or carry it somewhere. You will rarely go looking for anything in them, but they are what makes "nothing is ever lost" true even if your computer breaks. Both live in **Settings**, on page **8 Other computers and backups**, and both are taught in full, with the one thing every writer should do once (put backups somewhere other than this computer), in [Settings and your other computers](#settings-and-your-other-computers).

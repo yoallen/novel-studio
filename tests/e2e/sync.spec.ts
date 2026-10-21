@@ -130,6 +130,7 @@ test('notes from the road arrive from the shared folder', async ({ page }) => {
     await page.reload();
     await expect(page.getByRole('status').filter({ hasText: 'A note from the road came in' })).toBeVisible({ timeout: 15_000 });
     await views.getByRole('button', { name: 'Where was I' }).click();
+    await page.getByRole('tab', { name: /Still open/ }).click();
     await expect(page.getByText('Francine names every tomato plant.')).toBeVisible();
     await page.reload();
     await views.getByRole('button', { name: 'Where was I' }).click();

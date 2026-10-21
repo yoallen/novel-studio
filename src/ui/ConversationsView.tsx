@@ -1,3 +1,4 @@
+import { openAtPage } from './Pages';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -380,7 +381,7 @@ function Conversation({ ctx, id, onBack }: { ctx: Ctx; id: string; onBack: () =>
           )}
         </form>
       ) : (
-        <p className="small muted section">The collaborator is {aiStatus?.keySet ? 'off for this novel' : 'not set up'}. <button className="btn link small" onClick={() => ctx.go('settings')}>Turn it on in Settings</button> when you are ready. Nothing is sent anywhere until you do.</p>
+        <p className="small muted section">The collaborator is {aiStatus?.keySet ? 'off for this novel' : 'not set up'}. <button className="btn link small" onClick={() => { openAtPage(`settings:${ctx.projectId}`, 3); ctx.go('settings'); }}>Turn it on in Settings</button> when you are ready. Nothing is sent anywhere until you do.</p>
       )}
       <form onSubmit={send} className="section">
         <label className="field"><span>Add a message from elsewhere</span><textarea rows={3} value={msg} onChange={(e) => setMsg(e.target.value)} /></label>

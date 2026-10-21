@@ -48,8 +48,10 @@ test('a scene with a year shows who is in it and how old', async ({ page, reques
   const plan = page.getByRole('complementary', { name: 'Scene plan' });
   await plan.getByRole('tab', { name: /About it/ }).click();
   await plan.getByRole('combobox', { name: 'Viewpoint character' }).selectOption({ label: 'Tabitha' });
+  await plan.getByRole('tab', { name: /The plan/ }).click();
   const year = plan.getByLabel(/^Year/);
   await year.fill('2026');
   await year.blur();
+  await plan.getByRole('tab', { name: /About it/ }).click();
   await expect(plan.getByRole('region', { name: 'Who is here, and how old' })).toContainText('Tabitha, 50');
 });

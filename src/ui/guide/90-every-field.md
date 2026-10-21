@@ -2,7 +2,7 @@
 
 This chapter explains every kind of record in the Story Brain and every field on it: what it is, why it matters, whether most books need it, the common mistake, and an example. It is the same teaching you see when you click **Why it matters** under a field, gathered in one place so you can read it straight through or look one up.
 
-**Every field is optional.** A field is a place to put what you know when you know it. A blank field is never a mistake, and no book needs all of them. The labels "Most books need this", "Useful for many books" and "Only for some books" are there to help you choose where to spend your time.
+**Every field is optional.** A field is a place to put what you know when you know it. An empty field is never a mistake, and no book needs all of them. The labels "Most books need this", "Useful for many books" and "Only for some books" are there to help you choose where to spend your time.
 
 **Kinds that only some books use** (such as Magic and powers, or Languages) appear when you switch on worldbuilding for a book in Novel setup.
 
