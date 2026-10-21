@@ -223,30 +223,11 @@ It leaves the list and is back where it was. You can also find the row for that 
 
 ## Earlier versions of a scene
 
-**What it is.** Every scene keeps its earlier wordings. You can look at any of them beside the current text and bring one back.
+Every scene keeps its earlier wordings, so a rewrite can never cost you the old draft. In the Writing Room, open the scene and click **Earlier versions** at the bottom of the scene plan (the panel on the right of the page; if you hid it, click **Show scene plan** first). A window lists each saved version with its date, time and word count. Click one to see it compared with the current text, then click **Restore this version** to bring it back, or **Close** (or **Esc**) to leave it. Restoring never throws anything away: the current text stays in the list, so you can restore it again.
 
-**Why it matters.** Revision is easier when you are not afraid of losing the old draft. You can rewrite an opening five ways and still return to the first one.
+A new version is made after you pause typing for about twenty seconds, when you leave the scene, and when you close Story Canon. The full steps are in [The Writing Room](#the-writing-room).
 
-**Do you need it?** Most writers use it now and then, when a rewrite goes wrong. You never need to save versions yourself.
-
-**Where it is.** In the Writing Room, open the scene. At the bottom of the **scene plan** (the panel on the right of the page, with the scene's planning details) is the button **Earlier versions**. If you hid the plan with **Hide scene plan**, click **Show scene plan** first.
-
-**When a version is made.** Your typing is saved within about a second, always. A new *version* is made after you pause for about twenty seconds, when you leave the scene, and when you close Story Canon. So one sitting usually makes a handful of versions, not one per keystroke.
-
-**How to compare and restore:**
-
-1. Click **Earlier versions**. A window opens with a list on the left: each version's date and time, with its word count under it.
-2. Click a date. The right side shows that version compared with the current text: **struck** words are only in the earlier version, **highlighted** words are only in the current one.
-3. To bring that version back, click **Restore this version**. The window closes and the page shows the restored text.
-4. To leave without changing anything, click **Close** or press **Esc**.
-
-**Restoring never throws anything away.** The line beside the button says "The current text stays in this list." Restoring adds the old wording as the newest version. If you change your mind, restore the one you just replaced. Restoring a version is not new writing, so it never counts toward your words for the day.
-
-**If the list is empty,** it says "No earlier versions yet. Each saved stretch of writing becomes one." Write for a bit, pause, and look again.
-
-**The common mistake** is copying a whole scene into a new scene "just in case" before a rewrite. You do not need to; the earlier version is already kept.
-
-**Example.** You rewrote the opening of "The empty boat" so that Marisol sees the boat at dawn instead of in the fog, and you liked yesterday's fog better. You click **Earlier versions**, click yesterday's time, see the fog opening struck and the dawn one highlighted, and click **Restore this version**. Today's dawn version is still in the list if you want it back.
+**Example.** You rewrote the opening of "The empty boat" so that Marisol sees the boat at dawn instead of in the fog, and you liked yesterday's fog better. **Earlier versions**, click yesterday's time, **Restore this version**. Today's dawn version is still in the list if you want it back.
 
 ## Backups and archives
 
