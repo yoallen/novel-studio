@@ -87,7 +87,7 @@ export function ScenePanel({ ctx, sceneId, tick, onChanged, onReloadPage }: { ct
       <h2 style={{ fontSize: '1.125rem' }}>Scene plan</h2>
       <p className="small muted plan-saving">Everything here saves by itself when you click away. Earlier versions are kept.</p>
       <Pages compact storeKey="scene-panel" label="Scene plan" pages={[
-        { title: 'The plan', filled: c.fields.some((f: any) => f.value != null && String(f.value).trim() !== ''), content: (<>
+        { title: 'The plan', filled: !!c.card || c.fields.some((f: any) => f.value != null && String(f.value).trim() !== ''), content: (<>
       {!(c.card && (c.card.beat || c.card.mightGo.length > 0)) && <JoinCard ctx={ctx} sceneId={sceneId} onJoined={() => { void load(); onChanged(); }} />}
       {c.card && (c.card.beat || c.card.mightGo.length > 0 || c.card.fields.length > 0) && (
         <section className="section from-card" aria-label="From the card">
@@ -141,7 +141,7 @@ export function ScenePanel({ ctx, sceneId, tick, onChanged, onReloadPage }: { ct
         <input type="checkbox" checked={!!c.scene.confirmed} onChange={(e) => void patchScene({ confirmed: e.target.checked }, 'confirmed')} aria-describedby="confirm-hint" />
         <span>This draft is settled: the page wins over the plan{savedNote('confirmed')}</span>
       </label>
-      <small id="confirm-hint" className="field-hint confirm-hint">Tick it once the scene reads the way you want. Where the page and the plan below disagree, the page is the truth and the plan becomes history.</small>
+      <small id="confirm-hint" className="field-hint confirm-hint">Tick it once the scene reads the way you want. Where the page and the plan disagree, the page is the truth and the plan becomes history.</small>
 
       <SceneAges sceneId={sceneId} tick={c} />
 
@@ -149,7 +149,7 @@ export function ScenePanel({ ctx, sceneId, tick, onChanged, onReloadPage }: { ct
         <h3>Drafting readiness</h3>
         {c.readiness.ready ? <p className="small">Ready to draft.</p> : (
           <>
-            <p className="small muted">Still open below. You can write anyway.</p>
+            <p className="small muted">Still open on The plan page. You can write anyway.</p>
             <ul className="readiness small">{c.readiness.items.map((r: any) => <li key={r.item} data-ok={r.ok || undefined}>{r.ok ? 'Done: ' : 'Open: '}{r.item}</li>)}</ul>
           </>
         )}
