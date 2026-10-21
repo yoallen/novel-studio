@@ -93,6 +93,53 @@ If you were writing when you searched, the **Return to Writing** ribbon appears 
 
 **Example.** You remember writing something about "the radio going quiet" for Marisol, but not where. You press **Ctrl+K** and type *radio going quiet*. Two results come up. One is labeled "Story detail, character, Developing" with the title "Marisol Vega, wounds"; the other is "Your pages." You click the Story detail, and Marisol's record opens on its **Inner life** page, at her **Wounds** field, with the line right there: the radio went quiet the night Eli drowned in 2012. You click **Return to Writing** and you are back in your sentence.
 
+## Replace in your pages: changing a word everywhere
+
+**What it is.** **Replace in your pages** finds a word or a phrase in every scene you wrote and changes it to something else, all at once. You give it two things: the words to **find**, and the words to **replace with**. It only ever changes your pages, meaning the prose of your scenes in the Writing Room. Your Story Brain records, your conversations and the documents you brought in are never touched.
+
+**Why it matters.** Books change while you write them. On day nine you decide the harbor town is not Port Ellery after all, or that a name needs a surname, or you notice you spelled a word wrong forty times. Fixing each one by hand takes an evening and you will still miss one. Replace does it in a minute, and it shows you every single change before it makes any of them. That is a rule in Story Canon: nothing moves until you have seen what the change would do.
+
+**Do you need it?** Not every day. When you do, it saves you hours, and the preview means you can use it without fear.
+
+**Where it is.** Open **Search** (in the list on the right, or **Ctrl+K**). Under the search box, click the link **Replace in your pages**. The panel opens in place of the search results. Click **Close replace** to go back to searching.
+
+### Replace, step by step
+
+1. Open **Search** and click **Replace in your pages**. Whatever you had typed in the search box is already in **Find**.
+2. Type the words to find in **Find**, and the new words in **Replace with**. To take a word out altogether, leave **Replace with** empty.
+3. Choose the two options under the boxes:
+   - **Match case** finds only the exact capital letters you typed. With it off, *ana*, *Ana* and *ANA* are all found.
+   - **Whole words only** finds the word standing on its own, not inside a longer word. It starts out ticked.
+4. Read the preview. A line says how many matches there are, in how many scenes, and how many are ticked. Below it, the matches are grouped by chapter, then by scene. Each match shows a few words around it: the old words struck through (a line drawn through them) and shaded pink, and the new words right after them, shaded green.
+5. Untick any match you want to leave as it is. The box beside a scene's title ticks or unticks every match in that scene. **Tick all** and **Untick all** do the whole list.
+6. Click the button that says what will happen, such as **Replace 14 in 5 scenes**. Nothing changes until you click it.
+7. A line confirms it, such as "Replaced 14 in 5 scenes. To undo, use Story Trail.", with a link **Open Story Trail**.
+
+A few things happen for you along the way:
+
+- **Your typing is safe.** If you were writing when you opened Search, your last words are saved first, so the replace sees them and never writes over them.
+- **Word counts update.** If "Ana" becomes "Ana Ruiz" fourteen times, that scene and your book are fourteen words longer, and the counts show it.
+- **Every scene keeps its old wording.** Each changed scene gets a new entry in **Earlier versions** (see [Earlier versions of a scene](#earlier-versions-of-a-scene)).
+- **Formatting stays.** Bold, italics, paragraphs and line breaks stay exactly where they were. Notes left for later, *[[like this]]*, keep their brackets; the words inside them can change like any other words.
+
+### Taking back a replace
+
+The whole replace is one row in the **Story Trail**, such as "Replaced "Ana" with "Ana Ruiz" in 14 places in 5 scenes". Its gray line reads "Undo: Puts back the old words in every scene this replace changed." One click on **Undo** puts back all fourteen, in all five scenes, at once (see [Story Trail: the history of every change](#story-trail-the-history-of-every-change)).
+
+If you have typed in one of those scenes since, Undo asks first, because putting back the old wording of that scene would also take out what you typed there. Choose **Leave it**, and fix that scene by hand or from its **Earlier versions** instead.
+
+**If a scene says it has typing kept.** Now and then a scene in the preview has no boxes to tick and a note that it "has typing kept after the program closed unexpectedly." That scene has words saved from before a crash or a power cut that you have not looked at yet. Open it in the Writing Room and decide what to keep first. Then come back, and it can be replaced like the others.
+
+### The common mistake with replace
+
+**The common mistake** is replacing a short name without **Whole words only**. With **Match case** off, as it starts out, a name like *Ana* hides inside many ordinary words: *banana*, *Anabel*, *analysis*, *Diana*. With the option off, every one of those changes too, and *banana* becomes *banAna Ruiz*. That is why the option starts out ticked. Turn it off only when you mean to change part of a word, such as fixing a misspelled ending everywhere it appears.
+
+The second mistake is skipping the preview. It takes a minute to read, and it is the whole point. Look at the count first. If you expected about a dozen and it says sixty, something you did not mean is in there.
+
+**Example.** You are on day nine of November, writing *The Keeper of Gull Point*, and you decide Ana needs her full name the first time she appears in each scene. You open **Search**, click **Replace in your pages**, and type *Ana* in **Find** and *Ana Ruiz* in **Replace with**. **Whole words only** is ticked. The preview says "14 matches in 5 scenes." Under Chapter 3, in "The empty boat", you see the line where Marisol Vega hands Ana the logbook, and two more lines further down. You untick the later two, so only her first mention in that scene changes. You do the same in the other scenes, check the count, and click **Replace 5 in 5 scenes**. The confirmation appears. In the Writing Room, the first line of "The empty boat" now reads *Ana Ruiz*, and Marisol's banana on the kitchen table is still a banana.
+
+Now the same morning, done the wrong way: you untick **Whole words only** to "be thorough", skip the preview, and click the button. Cyrus Hale's line about the *banana* boat in Port Ellery now reads *banAna Ruiz boat*, and a dozen other words are broken the same way. You open **Story Trail**, find the row "Replaced "Ana" with "Ana Ruiz"…", and click **Undo**. Every scene is back as it was, in one step. Then you do it again with **Whole words only** ticked, and you read the preview first.
+
 ## Capture: finding the thoughts you saved
 
 Thoughts you save with **Capture** (taught in [Writing Room: Capture while writing](#writing-room-capture-while-writing)) wait in the Story Brain, under **Questions and ideas**, at the top of its list on the left. Each sort has its own page there, with a tab: a plain thought on **Captured thoughts**, a question on **Questions** (headed **Questions I have**), an idea on **Ideas** (headed **Things and ideas I'm thinking about**). A thought captured with **Attach to this scene** ticked also waits in that scene's plan. You can also search for a captured thought: it is a record, so Search finds it under **Story records**.
@@ -135,6 +182,7 @@ What undo does depends on the change:
 | Adding something (a scene, a record, a question) | Removes it to **Deleted things**, where it can be restored. |
 | Deleting something | Brings it back. |
 | Editing or moving something | Puts it back the way it was just before. |
+| Replacing words in your pages | Puts back the old words in every scene the replace changed, in one step. |
 | A connection between two records | Removes the connection. |
 | A message in a conversation | Removes that message from the conversation. Your story does not change. |
 | Bringing in a file | Takes back what the import added, in one step. |

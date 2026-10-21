@@ -24,7 +24,9 @@ export function describeChange(reason: string, look: TrailLookup): string {
   const status = (s: string) => look.statusWord?.(s) ?? (DEFAULT_STATUS_LABELS as Record<string, string>)[s] ?? s.replace(/_/g, ' ');
   const label = (title: string, field: string) => look.fieldLabel(title, field) ?? plainKey(field);
 
-  let m = r.match(/^Link (.*)$/);
+  let m = r.match(/^Replace "(.*)" with "(.*)" in (\d+ places? in \d+ scenes?)$/s);
+  if (m) return m[2] ? `Replaced "${m[1]}" with "${m[2]}" in ${m[3]}` : `Took out "${m[1]}" in ${m[3]}`;
+  m = r.match(/^Link (.*)$/);
   if (m) { const x = m[1]!.match(RELATION); if (x) return `Connected: ${relationSentence(x[2]!, x[1]!, x[3]!)}`; }
   if (r === 'Remove connection') return 'Removed a connection';
   m = r.match(/^(Add|Edit|Delete|Restore) ([a-z_]+) "(.*)"$/s);
@@ -61,6 +63,7 @@ export function undoMeaning(reason: string): string {
   if (r.startsWith('Undo: ')) return 'Puts back what the undo removed.';
   if (/^Message in /.test(r)) return 'Removes this message from the conversation. Nothing in your story changes.';
   if (/^Link /.test(r)) return 'Removes this connection.';
+  if (/^Replace "/.test(r)) return 'Puts back the old words in every scene this replace changed.';
   if (/^Add /.test(r)) return 'Removes what was added. It can be restored from Deleted things.';
   if (/^Delete /.test(r)) return 'Brings it back.';
   return 'Puts things back the way they were just before this change.';

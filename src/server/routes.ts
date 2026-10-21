@@ -251,6 +251,14 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     return ms.restoreRevision(p.id, p.rid);
   });
 
+  // ----- find and replace in her pages: a preview first, then only what she ticked -----
+  const replaceIn = z.object({ find: z.string().min(1).max(500), replace: z.string().max(2000), matchCase: z.boolean().optional(), wholeWords: z.boolean().optional() });
+  app.post('/api/projects/:id/replace/preview', async (req) => ms.replacePreview(params(req, P).id, body(req, replaceIn)));
+  app.post('/api/projects/:id/replace', async (req) => {
+    const b = body(req, replaceIn.extend({ picks: z.array(z.object({ sceneId: id, version: z.number().int(), matches: z.array(z.number().int().min(0)).max(100_000) })).max(10_000) }));
+    return ms.replaceInPages(params(req, P).id, b, b.picks);
+  });
+
   // ----- writing state, trail, sessions -----
   app.get('/api/projects/:id/writing-state', async (req) => { const pid = params(req, P).id; brain.project(pid); return { state: ms.writingState(pid), trail: ms.openTrail(pid), recoveries: ms.pendingRecoveries(pid) }; });
   app.put('/api/projects/:id/writing-state', async (req) => {

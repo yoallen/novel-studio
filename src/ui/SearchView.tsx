@@ -4,6 +4,7 @@ import type { Ctx } from './App';
 import { statusWord } from './status';
 import { RefText } from './RefText';
 import { KIND_LABELS } from '../core/templates';
+import { ReplacePanel } from './ReplacePanel';
 
 /** The places a result can live, so a long list can be narrowed to one. */
 const PLACES: [string, string, string[]][] = [['all', 'Everything', []], ['scene', 'Your pages', ['scene']], ['record', 'Story records', ['element', 'statement']], ['turn', 'Conversations', ['turn']], ['passage', 'Documents', ['passage']]];
@@ -14,6 +15,7 @@ export function SearchView({ ctx }: { ctx: Ctx }) {
   const [hits, setHits] = useState<any[] | null>(null);
   const [error, setError] = useState('');
   const [place, setPlace] = useState('all');
+  const [replacing, setReplacing] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
   const timer = useRef<number>();
   useEffect(() => { ref.current?.focus(); }, []);
@@ -51,9 +53,11 @@ export function SearchView({ ctx }: { ctx: Ctx }) {
       <h1>Search</h1>
       <input ref={ref} type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="A name, a phrase, a line you remember" aria-label="Search this novel" />
       <p className="small faint" style={{ marginTop: '0.4rem' }}>Searches everything inside this novel: your pages, records, the conversations and documents you brought in. Chats that live only in Claude or ChatGPT are not here until you bring them in from Conversations.</p>
+      <p className="small" style={{ marginTop: '0.4rem' }}><button className="btn link small" aria-expanded={replacing} onClick={() => setReplacing(!replacing)}>{replacing ? 'Close replace' : 'Replace in your pages'}</button></p>
+      {replacing && <ReplacePanel ctx={ctx} startWith={q} />}
       {error && <div className="notice error">{error}</div>}
-      {hits && <p className="muted small" style={{ marginTop: '0.75rem' }}>{hits.length === 0 ? 'Nothing matches that yet.' : `${hits.length} found`}</p>}
-      {hits && hits.length > 0 && (
+      {!replacing && hits && <p className="muted small" style={{ marginTop: '0.75rem' }}>{hits.length === 0 ? 'Nothing matches that yet.' : `${hits.length} found`}</p>}
+      {!replacing && hits && hits.length > 0 && (
         <div className="row search-places" role="tablist" aria-label="Where to look">
           {PLACES.map(([k, l, kinds]) => {
             const n = k === 'all' ? hits.length : hits.filter((h) => kinds.includes(h.hit)).length;
@@ -62,7 +66,7 @@ export function SearchView({ ctx }: { ctx: Ctx }) {
         </div>
       )}
       <ul className="list search-results">
-        {shown.map((h, i) => (
+        {!replacing && shown.map((h, i) => (
           <li key={h.id + i}>
             <div className="small muted">{label[h.hit] ?? h.hit}{h.kind ? `, ${kindName(String(h.kind))}` : ''}{h.status ? `, ${statusWord(ctx.settings, h.status)}` : ''}{h.hit === 'passage' ? `, ${h.locator}` : ''}</div>
             <button className="btn link" style={{ textAlign: 'left', padding: 0 }} onClick={() => openHit(h)}><RefText text={heading(h) || 'Open'} mark={q} inert /></button>
