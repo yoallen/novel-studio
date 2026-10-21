@@ -43,7 +43,7 @@ Many checks read **connections**. A connection is a link you draw between two re
 **How to make a connection:**
 
 1. Open the record the sentence starts from (for a scene, open its scene card).
-2. Turn to its last page, **Notes and connections**. (On a character, connections are on page 9, **Their world and their people**.)
+2. Turn to its **Notes and connections** page, the last one. (On a character, connections are on the **Their world and their people** page instead.)
 3. Under **Connections**, find **Make a connection**. Your record's name is already written at the start of the line.
 4. In the first dropdown, choose the connection word, such as **reveals**, **appears in** or **plants**. They are grouped by purpose: Cause and effect, Setups, clues and secrets, Who knows what, Where and who, and so on.
 5. In the second dropdown (**Choose…**), choose the other record.
@@ -123,9 +123,9 @@ Four checks work only from written pages: **Viewpoint**, **Pacing**, **Reader re
 | **Beat** | The beat it sits on, or "no beat" | Its placement |
 | **When** | Your words for when it happens | **When (story time)** on the card's page **The scene**, or beside the page in the Writing Room |
 | **Year, day or date** | The sortable time | **Year**, **Day in the story** or **Date**, on the card's page **When it happens** |
-| **Time** | Time of day | **Time of day**, page 2 of the card |
-| **Where** | The place | **Where**, page 1 of the card |
-| **Season, weather** | The season, or the weather | **Season** or **Weather**, page 4 of the card, **Mood and feeling** |
+| **Time** | Time of day | **Time of day**, on the card's **When it happens** page |
+| **Where** | The place | **Where**, on the card's **The scene** page |
+| **Season, weather** | The season, or the weather | **Season** or **Weather**, on the card's **Mood and feeling** page |
 
 "not set" means the field is empty.
 
@@ -136,7 +136,7 @@ Under a title you may see small gray lines, **Calls up:** and **Called up by:**.
 The second table, **In the order things happen**, only includes scenes with a **Year**, a **Day in the story** or a **Date**. Words like "the next morning" show in the **When** column but cannot be sorted. Below the table, a line counts the scenes that have no year, day or date yet.
 
 1. In **Timelines**, click a scene's title to open its card.
-2. Turn to page 2, **When it happens**.
+2. Turn to its **When it happens** page.
 3. Beside **Day in the story**, click **Add**, type a number on your own story clock (such as 3), and click **Save**. Or fill in **Date** or **Year** the same way.
 4. Come back to **Continuity checks** > **Timelines**. The scene now appears under **In the order things happen**.
 
@@ -146,7 +146,7 @@ Scenes on the same day are sorted by **Time of day** when it uses words like daw
 
 **The common mistake** is filling in only **When (story time)** in words and wondering why the second table is empty. Words are for you; numbers are for sorting. Use both if you like.
 
-**Example.** In *The Keeper of Gull Point*, the empty boat washes onto the rocks on day 1, and the book covers eleven days. One scene is a memory of the night Eli drowned, twelve years earlier. Every card gets a **Day in the story**; the memory scene gets day 0 and the **Year** twelve years back. In the order of the book, the memory sits in chapter 9. In the order things happen, it jumps to the top. If a card for day 6 was accidentally typed as day 16, it drops to the bottom of the second table, where you can see it.
+**Example.** In *The Keeper of Gull Point*, the empty boat washes onto the rocks on day 1, and the book covers eleven days. One scene is a memory of the night Eli drowned, twelve years earlier. Every card gets a **Day in the story**; the memory scene gets day 0 and the **Year** 2012. In the order of the book, the memory sits in chapter 9. In the order things happen, it jumps to the top. If a card for day 6 was accidentally typed as day 16, it drops to the bottom of the second table, where you can see it.
 
 ## Viewpoint: whose eyes, and can we trust them
 
@@ -175,7 +175,7 @@ Scenes on the same day are sorted by **Time of day** when it uses words like daw
 ### What's on the Viewpoint page
 
 - **Book defaults:** one line with the book's person and tense, such as "Book defaults: Third person limited; past tense."
-- **Story world and viewpoint rules:** a button that opens your book's story world record right here, so you can set the book's person, tense and **Viewpoint rule**. They are on the story world's page 3, **Time, viewpoint and knowledge**. Click **Close** under it when you are done.
+- **Story world and viewpoint rules:** a button that opens your book's story world record right here, so you can set the book's person, tense and **Viewpoint rule**. They are on the story world's **Time, viewpoint and knowledge** page. Click **Close** under it when you are done.
 - **Gaps in a character's viewpoint**, as quiet notes, such as "Cyrus Hale: no viewpoint scene from Chapter 4 to Chapter 9 (6 chapters). An observation, not a rule."
 - **One section per chapter**, with a **Viewpoint** dropdown at the right for the chapter as a whole ("None set" until you choose).
 - **A table of the chapter's scenes:**
@@ -200,7 +200,7 @@ These appear in the Story review:
 | --- | --- | --- |
 | A scene lists more than one viewpoint | Your story world's **Viewpoint rule** says one per scene, and a scene has a **Second viewpoint** | Cut the second head, or answer **It's intentional** |
 | A chapter has more than one viewpoint | Your rule says one per chapter | Split the chapter, or answer **It's intentional** |
-| A scene is in a secret keeper's head too early | A character's **Viewpoint withheld until** (page 1 of the character, **Who they are**) names a beat, and a scene placed before that beat is in their viewpoint | Move the scene later, or change its viewpoint |
+| A scene is in a secret keeper's head too early | A character's **Viewpoint withheld until** (on the character's **Who they are** page) names a beat, and a scene placed before that beat is in their viewpoint | Move the scene later, or change its viewpoint |
 | A character has no viewpoint scene for a stretch | Simple counting, three chapters or more | Only an observation. Decide whether the absence serves the book |
 
 **The common mistake** is setting the viewpoint scene by scene in a book where every chapter belongs to one character. Set it once on the chapter.
@@ -225,7 +225,7 @@ These appear in the Story review:
 
 For each secret (a record, usually an event or a reveal, that some scene **reveals**), you see:
 
-- **The truth:** what really happened, from the record's **What actually happened** field (page 2 of an event, **When, and who knows**).
+- **The truth:** what really happened, from the record's **What actually happened** field (on an event's **When, and who knows** page).
 - **When it happens:** the event's own timing, from **When it happens in the story**.
 - **When the reader meets it:** the first scene or card that reveals it, such as "scene 31, 'The logbook' (planned)".
 - **Each character who learns it,** and where. A character counts as learning it in a revealing scene if they **appear in** that scene, or if it is in their viewpoint. If you connected a character to the secret with **knows**, **suspects** or **wrongly believes**, that is shown too.
@@ -239,10 +239,10 @@ For each secret (a record, usually an event or a reveal, that some scene **revea
 | Column | What it holds | Where it comes from |
 | --- | --- | --- |
 | **Scene** | Each scene and card in reading order, with its planned tag | |
-| **Reader suspects** | What the reader suspects by the end of the scene | **What the reader suspects by the end of this scene**, page 5 of the card, **The reader** |
+| **Reader suspects** | What the reader suspects by the end of the scene | **What the reader suspects by the end of this scene**, on the card's **The reader** page |
 | **Revealed here** | Secrets this scene reveals, or "nothing" | **reveals** connections |
 | **Who learns** | Who learns what here | Characters who **appear in** the scene |
-| **Visible or hidden story** | Whether the scene shows what the characters believe (visible) or what is really going on (hidden) | **Visible or hidden story**, page 5 of the card |
+| **Visible or hidden story** | Whether the scene shows what the characters believe (visible) or what is really going on (hidden) | **Visible or hidden story**, on the card's **The reader** page |
 
 ### Secret operations (author only)
 
@@ -258,9 +258,9 @@ Hidden moves are also kept in the Story Brain, under **Secret operations**, file
 
 ### Making a reveal show up here
 
-1. In the Story Brain, make a record for the secret (an event works well). On its page 2, fill in **What actually happened**.
+1. In the Story Brain, make a record for the secret (an event works well). On its **When, and who knows** page, fill in **What actually happened**.
 2. Open the scene card where the reader finds out.
-3. On its last page, **Notes and connections**, make a connection: **reveals**, then the secret, then **Connect**.
+3. On its **Notes and connections** page, make a connection: **reveals**, then the secret, then **Connect**.
 4. Connect the characters who are there with **appears in**, if they are not already.
 5. For a character who half-knows or has it wrong, open the character and connect them to the secret with **suspects** or **wrongly believes**.
 
@@ -331,12 +331,12 @@ These appear in the Story review:
 
 **Do you need it?** If your book has more than one thread, yes. A single-thread novella can skip it.
 
-**Where it comes from.** Storyline records in the Story Brain, and **moves forward** connections from scenes and cards to them. (The check's own help calls this connection "advances".)
+**Where it comes from.** Storyline records in the Story Brain, and **moves forward** connections from scenes and cards to them.
 
 **To fill it in:**
 
 1. In the Story Brain, under **Storylines**, add each storyline. Give it a **Letter (A, B, C…)** if you like.
-2. Open a scene card. On its last page, make a connection: **moves forward**, then the storyline, then **Connect**.
+2. Open a scene card. On its **Notes and connections** page, make a connection: **moves forward**, then the storyline, then **Connect**.
 3. Repeat for each scene that moves a thread.
 
 Until you have a storyline, the page says "No storylines yet."
@@ -348,7 +348,7 @@ Until you have a storyline, the page says "No storylines yet."
 
 **The common mistake** is making a storyline for a value, like "trust" or "grief". Values ride on plot threads; they are not threads of their own. Put them on the storyline, under **Values it carries**.
 
-**Example.** *The Keeper of Gull Point* has three storylines: "A: The empty boat", "B: Marisol and Ana", and "C: Cyrus's debt". Only "The harbor inquest" moves A and C together, so the line says "1 scene moves more than one." That tells you where the mystery and the harbor master's guilt touch, and that the romance with Ana never touches the mystery at all. A scene where Ana examines the boat's owner could braid all three.
+**Example.** *The Keeper of Gull Point* has three storylines: "A: Who sent the boat", "B: Marisol and Ana", and "C: Cyrus's debt". Only "The harbor inquest" moves A and C together, so the line says "1 scene moves more than one." That tells you where the mystery and the harbor master's guilt touch, and that the romance with Ana never touches the mystery at all. A scene where Ana examines the boat's owner could braid all three.
 
 ## Cast: who is where, and the Bechdel test
 
@@ -407,7 +407,7 @@ The **Bechdel test** is a well-known quick check of how women are written in a s
 2. For each scene listed, with the women in it named beside it, click **They do** if they talk about something other than a man, or **Not here** if they do not.
 3. Click the same button again to clear your answer.
 
-**Gender comes only from what you write on each character's page, never from a name.** It is the **Gender identity** field, on page 2 of the character, **Identity**. A character with no gender recorded is listed under "No gender recorded for:", with a link to open them.
+**Gender comes only from what you write on each character's page, never from a name.** It is the **Gender identity** field, on the character's **Identity** page. A character with no gender recorded is listed under "No gender recorded for:", with a link to open them.
 
 **The results you may see:**
 
@@ -483,7 +483,7 @@ A line at the top counts how many chapters have each tab. Each chapter is listed
 
 **To set a tab:**
 
-1. Open a scene card and turn to page 5, **The reader**.
+1. Open a scene card and turn to its **The reader** page.
 2. Beside **What you want the reader to feel**, click **Add**.
 3. Click **Profound**, **Funny**, **Relatable** or **Shocking**, or type your own word.
 4. Click **Save**. Add more than one if the scene earns it.
@@ -509,7 +509,7 @@ A line at the top counts how many chapters have each tab. Each chapter is listed
 **To add a song:**
 
 1. In the Story Brain, add a record under **Soundtrack** with the song's title. Fill in **Artist** and **What it carries**.
-2. On its last page, connect it to a scene card with **plays in**, or to a character with **is the theme song of**.
+2. On its **Notes and connections** page, connect it to a scene card with **plays in**, or to a character with **is the theme song of**.
 
 "Not placed in a scene yet" means the song has no **plays in** connection to a written scene.
 
@@ -541,7 +541,7 @@ A line at the top counts how many chapters have each tab. Each chapter is listed
 
 **The common mistake** is making a record for every capitalized word. "Tuesday" and "Coast Guard" do not need records. Characters and places do.
 
-**Door closed.** **Door closed** is a setting in Settings that keeps everything in Story Canon from judging your first draft until a day you choose (see [Settings and your other computers](#settings-and-your-other-computers)). While the door is closed, this page shows "The door is closed until …, so possible misspellings of names wait until then." Click **Look anyway** to see it.
+**Door closed.** While the door is closed (see [Goals: door closed](#goals-door-closed)), this page shows "The door is closed until …, so possible misspellings of names wait until then." Click **Look anyway** to see it.
 
 ## Story review: every question in one place
 
@@ -605,9 +605,9 @@ When nothing is open, the page says "No open questions." and explains: "Every ch
 | **one viewpoint per scene** / **one viewpoint per chapter** | A head-hop against your viewpoint rule | Viewpoint |
 | **withheld viewpoint** | A secret keeper's head too early | Viewpoint |
 | **viewpoint balance** | A character has no viewpoint scene for a stretch (an observation) | Viewpoint |
-| **two places at once** | A character in two scenes on the same day, at the same time of day, in different places (a fact) | Timelines, and the cards' page 2 |
+| **two places at once** | A character in two scenes on the same day, at the same time of day, in different places (a fact) | Timelines, and each card's **When it happens** page |
 | **Ghost timing** | A Ghost (a character's past wound) marked as happening during the story instead of before it | The character's arc |
 
-**Door closed.** Like Names, the Story review waits while the door is closed for drafting: "The door is closed until …, so the story review waits until then." Click **Look anyway** to see it.
+**Door closed.** Like Names, the Story review waits while the door is closed (see [Goals: door closed](#goals-door-closed)): "The door is closed until …, so the story review waits until then." Click **Look anyway** to see it.
 
 **Example.** In *The Keeper of Gull Point*, the card "The night Eli drowned" is connected to "Marisol stops leaving the island" with **causes**. You place the drowning scene at the Midpoint as a flashback, after the scene it caused. The review asks: "'Marisol stops leaving the island' is caused by 'The night Eli drowned', but would now come first in the book. Readers would meet the effect before the cause. Is that a deliberate flashback?" It is. You type "Flashback at the Midpoint, on purpose" and click **It's intentional**. The question moves to **Your answers**, reason and all, and never nags you again.

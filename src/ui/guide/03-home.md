@@ -93,7 +93,7 @@ Unless you have written your own next step (below), Story Canon works it out fro
 
 1. **You were in a scene.** Next says *Keep writing "(the scene's name)"*, and the detail line shows its status and words.
 2. **You have planned scenes with no page yet**, and either the book has no words at all or you have no scene open. Next says *Write "(the card's name)"*, the first planned scene in story order, and the detail line names the beat it sits on, if it has one.
-3. **A scene is still at a not-started status** (Idea, Planned or Ready to draft, in the usual status steps). Next says *Draft "(that scene)" in (its chapter)*, such as *Draft "The harbor" in Chapter 3*.
+3. **A scene has not been started.** Every scene has a **status step** of its own, a label for how far along its writing is. The usual steps are *Idea*, *Planned*, *Ready to draft*, *Drafting*, *First draft complete*, *Revising*, *Revised* and *Finalized* (you can change them; see [The Writing Room](#the-writing-room)). If a scene is still at a step before the writing begins (with the usual steps, *Idea*, *Planned* or *Ready to draft*), Next says *Draft "(that scene)" in (its chapter)*, such as *Draft "The harbor" in Chapter 3*.
 4. **The book has no chapters yet.** Next says *Write the first line of your first scene*.
 5. **Every scene has been started.** Next says *Start the next scene after "(your last scene)"*.
 
@@ -154,11 +154,13 @@ On a novel with no characters yet, a card headed **Plant the seed** appears here
 
 ## Where was I: drafting progress
 
-Below the stage row is your drafting progress: a heading (the month's name, or your writing push's name, such as **November**), a sentence about today, a row of thin columns (one for each day), and a few figures underneath.
+Below the stage row is your drafting progress. It can measure your days against a daily goal, or against a **writing push**: a stretch of days with a word target, such as November and 50,000 words. Both are set in **Settings**.
+
+The section has a heading (the month's name, or your writing push's name, such as **November**), a sentence about today, a row of thin columns (one for each day), and a few figures underneath.
 
 **What it answers.** *How are my writing days going, and am I on track?*
 
-Until you set a goal, it shows how many words you wrote each day this month, with a line inviting you to set a daily goal or a writing push, and a **Settings** link. Once you set a daily goal, or a writing push (a stretch of days with a word target, such as November and 50,000 words), it measures each day against that goal and tells you what each remaining day needs.
+Until you set a goal, it shows how many words you wrote each day this month, with a line inviting you to set a daily goal or a writing push, and a **Settings** link. Once you set one, it measures each day against that goal and tells you what each remaining day needs.
 
 How to read the columns, in short:
 
@@ -182,13 +184,13 @@ The note goes away as soon as you change anything in Novel setup: one tick is en
 
 ## Where was I: where you stopped
 
-**What it is.** On page **1 Today**, under the heading **Where you stopped**, is a small gray line naming the chapter and scene you were last in (for example *Chapter 2, The empty boat*), and below it the last few lines of that scene, set off by a line down the left side. If the scene is long, the lines begin with "…" because only the end is shown. If the scene has no words yet, it says *This scene is still blank.*
+**What it is.** On page **1 Today**, under the heading **Where you stopped**, is a small gray line naming the chapter and scene you were last in (for example *Chapter 1, The empty boat*), and below it the last few lines of that scene, set off by a line down the left side. If the scene is long, the lines begin with "…" because only the end is shown. If the scene has no words yet, it says *This scene is still blank.*
 
-**Why it helps.** Rereading your last paragraph is the oldest trick for getting back into a scene. Ernest Hemingway made a habit of stopping each day while he still knew what would happen next, so the next morning he could pick up the thread at once. Where you stopped shows you the thread before you even open the page.
+**Why it helps.** Rereading your last paragraph is the oldest trick for getting back into a scene. Where you stopped shows you the thread before you even open the page.
 
 **How to use it.** Read the lines. If they bring the scene back, click **Write** at the top of the page (or **The Writing Room** in the list on the right), and you land at your cursor, in that scene.
 
-**Example.** Where you stopped shows *Chapter 2, The empty boat*, and then: *…The oars were shipped, neat as a sailor's bed. Whoever had rowed this boat had not been in a hurry to leave it.* Marisol's unease comes back at once, and so does the next line.
+**Example.** Where you stopped shows *Chapter 1, The empty boat*, and then: *…The oars were shipped, neat as a sailor's bed. Whoever had rowed this boat had not been in a hurry to leave it.* Marisol's unease comes back at once, and so does the next line.
 
 ## Where was I: left for later
 
@@ -261,9 +263,9 @@ When the list is empty, it says *Nothing waiting. Every thought you saved has a 
 
 **What it is.** A **detour** is a time you left the page in the middle of writing: you were in a scene in the Writing Room and went to another view (the Story Brain to check a name, Narrative Zoom to look at a beat, or Where was I). Story Canon notes each one, with where you were and where you went, so stepping away never costs you your place. **Detours still open** lists up to five detours you have not come back from yet, each named for where you went, such as *Went to Story Brain*. A gray line under the heading says: *A detour is a time you left the page. It closes when you return to writing, or when you mark it resolved in the Writing Trail.*
 
-Under the list is a link, **Writing Trail**, to the full record of every detour. The section sits last on page **2 Still open**, and only appears when there is at least one open detour.
+Under the list is a link, **Writing Trail**, to the full list of every detour, where you can keep a note about each one. The section sits last on page **2 Still open**, and only appears when there is at least one open detour.
 
-**How a detour closes.** Return to writing with the pink **Return to Writing** ribbon at the top left of the window, or with **Ctrl+Shift+W**. Both put you back in the scene you left, with your cursor where it was, and close every open detour at once. You can also click **Mark resolved** on a detour in the Writing Trail. The Writing Trail is taught in [The Writing Room](#the-writing-room).
+**How a detour closes.** Return to writing with the pink **Return to Writing** ribbon at the top left of the page, or with **Ctrl+Shift+W**. Both put you back in the scene you left, with your cursor where it was, and close every open detour at once. You can also click **Mark resolved** on a detour in the Writing Trail. The Writing Trail is taught in [The Writing Room](#the-writing-room).
 
 **Looks wrong, but isn't.** Clicking **The Writing Room** in the list, or a scene, does not close a detour. Only Return to Writing does. If you went back to the page another way, the detour stays listed until your next Return to Writing. Nothing is wrong with your work; the list is only a record.
 
@@ -279,12 +281,12 @@ Under the list is a link, **Writing Trail**, to the full record of every detour.
 | **scenes worked on** | Scenes you typed in |
 | **decisions made** | Things you marked **Decided** yourself |
 | **thoughts, questions or ideas saved, sorted or not** | Everything you captured or added as a thought, question or idea, whether you have sorted it yet or not |
-| **connections made between records** | Links between two records, such as a character connected to a scene they appear in. Point at the line for a reminder |
+| **connections made between records** | A **connection** is a link you make between two records to say how they relate, such as a character connected to a scene card they appear in. Connections are taught in [The Story Brain](#the-story-brain). Point at the line for a reminder |
 | **questions answered** | Questions you marked answered (this line only appears when there is at least one) |
 
 **Why it helps.** Writing a book is more than typing. A week with few new words may still hold ten decisions and twenty connections, and those are the work that makes next week's words come easily. This list counts the thinking as well as the typing, in plain numbers, with no judgment.
 
-**Looks wrong, but isn't.** Right after you bring in a planned novel, This week may say something like *51 thoughts, questions or ideas saved, sorted or not* while **Thoughts waiting to be sorted** says *Nothing waiting*. Both are true. The first counts everything created this week, including what arrived with your planning, sorted or not. The second shows only thoughts that still need sorting.
+**Looks wrong, but isn't.** Right after you bring in planning documents or chats, This week may say something like *51 thoughts, questions or ideas saved, sorted or not* while **Thoughts waiting to be sorted** says *Nothing waiting*. Both are true. The first counts everything created this week, including what arrived with what you brought in, sorted or not. The second shows only thoughts that still need sorting.
 
 ## Using Where was I to start each writing day
 

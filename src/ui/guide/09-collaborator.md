@@ -35,14 +35,14 @@ Inside a conversation:
 
 - **Stars and pound signs**, like `**Yes.**` or `## 1.`, appear in messages from ChatGPT or Claude. Those apps use these marks for bold text and headings. Story Canon keeps every character exactly as it was written, so the marks stay.
 - **A bold heading with no name or time above it** is part of the message before it. The original file had a heading inside a message that looked like a new speaker, so Story Canon shows it as a continuation, not as a new person talking.
-- **Long lists of line numbers** like "[L917]" in a message come from a document the other app read during the chat. They were in the original.
-- **"[Attached: pasted text]"** at the end of one of your messages means you pasted a long text into Claude, which tucked it away as an attachment. Story Canon brings it back in as part of your message.
+- **Short codes in square brackets** in a message, such as line or page markers, come from a document the other app read during the chat. They were in the original.
+- **A line in square brackets starting "Attached:"** at the end of one of your messages means you attached a file or pasted a long text into Claude, which tucked it away as an attachment. Story Canon brings the attached text back in as part of your message, right after that line.
 
 ### Behind-the-scenes steps, out of sight
 
 Chats from ChatGPT and Claude often contain steps nobody said out loud: the app reading a file, running code, searching the web, or leaving notes to itself. Story Canon calls these **behind-the-scenes steps**.
 
-They are kept, because nothing is ever thrown away, but they are not conversation, so they are out of sight. A line under the conversation's name says how many there are, for example "318 behind-the-scenes steps (tools, code and the app's notes to itself) are kept too, out of sight, because they are not conversation."
+They are kept, because nothing is ever thrown away, but they are not conversation, so they are out of sight. A line under the conversation's name says how many there are, for example "12 behind-the-scenes steps (tools, code and the app's notes to itself) are kept too, out of sight, because they are not conversation."
 
 - **Show them** displays them faintly, each headed "Behind the scenes:" and the step's name.
 - **Hide them** puts them away again.
@@ -159,7 +159,7 @@ After any of these (except **Cancel**), the words in the message are highlighted
 
 Select words that ask something you need to settle, and click **It's a question**. Select words that offer something you might use, and click **It's an idea**. Both go to **Questions and ideas** in the Story Brain, word for word, with a link back to the message.
 
-A question you catch from an AI's message is kept apart from your own questions, under **Questions an AI raised**, until you click **Make it one of my questions** (or **Not relevant**). That way nothing is filed under your name that you did not ask.
+A question you catch from an AI's message (the collaborator's, or ChatGPT's in a chat you brought in) is kept apart from your own questions. It waits in **Questions and ideas**, under **Questions an AI raised**, until you click **Make it one of my questions** (or **Not relevant**). That way nothing is filed under your name that you did not ask.
 
 ### Add as a possibility
 
@@ -210,7 +210,7 @@ Each tag under a message ends with a small **×**. Click it to remove that mark.
 | --- | --- |
 | **Lines you kept** | Everything you saved with **Keep this line** |
 | **Possibilities** | Everything you added with **Add as a possibility**, with the record, the field, its status word, and who said it if it was an AI |
-| **New questions** | Questions you caught with **It's a question**, plus questions the collaborator raised, marked "(the collaborator raised it; it waits in Questions and ideas)" |
+| **New questions** | Questions you caught with **It's a question** |
 | **New ideas** | Ideas you caught with **It's an idea** |
 | **Not canon** | What you ruled out, crossed through |
 | **What this touches** | The characters, scenes and other records that what you caught is linked to, plus the record this conversation was about. These are the places to look next |
@@ -239,7 +239,7 @@ The difference is what it knows and what it is allowed to do. A chat app in your
 
 - It never writes into your manuscript. It has no way to type into your pages.
 - It never decides anything. It cannot mark a fact Decided. Only you can.
-- It never drafts anything you marked as **kept for you** (a setting on a scene in the Writing Room, and near the top of any record, for work only you will do; see [The Writing Room](#the-writing-room)). On those, it asks questions or teaches instead.
+- It never drafts anything you marked as **kept for you** (a mark for work only you will do; see [Kept for you: work only you will do](#kept-for-you-work-only-you-will-do)). On those, it asks questions or teaches instead.
 - It writes sample lines only when you ask for them, and labels each one "One way it could be done", which means an example, never a decision.
 
 **Why it is built this way.** A novel has to sound like one person. The moment an AI's sentences slip into your pages, your voice starts to blur, and you can no longer tell which ideas were yours. Keeping the collaborator outside your pages, with its ideas waiting on slips, gives you a sounding board without losing authorship.
@@ -256,20 +256,20 @@ The collaborator is off until you turn it on, and it is turned on one novel at a
 
 ### Getting an API key and using it
 
-An **API key** is a private code, like a password, that lets Story Canon talk to Claude on your behalf. You get it from Anthropic, and Anthropic bills each question you ask to that key, from credit you load in advance. A Claude.ai subscription is separate and does not include this. The Installation Guide, Step 4, walks through getting a key.
+An **API key** is a private code, like a password, that lets Story Canon talk to Claude on your behalf. Anthropic bills each question you ask to that key, from credit you load in advance. A Claude.ai subscription is separate and does not include this. You create a key in Anthropic's Console (Anthropic's website for developers), after adding credit there, and paste it into Story Canon in **Settings**, page **4 The collaborator**.
 
 **Where:** **Settings**, page **4 The collaborator**. Click that tab in the row of page tabs near the top of Settings.
 
 **How:**
 
-1. Open **Settings** and scroll to **The collaborator**.
+1. Open **Settings** and click the page tab **4 The collaborator**.
 2. Click in the box marked **Claude API key** and paste your key. The letters show as dots so nobody can read it over your shoulder.
 3. Click **Use this key**. The box is replaced by the words **Your key is set.**
 4. Tick the box described in the next section.
 
 The heading says **Takes effect right away**. That means these choices are kept the moment you make them. You do not need **Save settings** for this section.
 
-**Where the key is kept.** In the Windows program, the line under the key says **The key is kept in Windows secure storage.** That is the same locked store Windows uses for its own passwords. The key is never put into your novel, your backups or your exports. If you see **In this preview the key is kept only while the program is open**, you are in a test version, and you will need to paste the key again next time. If Windows cannot store it, a note says "Your key works for now, but this computer could not store it securely, so you will need to enter it again next time."
+**Where the key is kept.** The line under the key says **The key is kept in Windows secure storage.** That is the same locked store Windows uses for its own passwords. The key is never put into your novel, your backups or your exports. If Windows cannot store it, a note says "Your key works for now, but this computer could not store it securely, so you will need to enter it again next time."
 
 **If the key is wrong**, the first question you ask shows: "Claude did not accept the API key. Check it in Settings. Your message is kept." Your question is saved in the conversation either way. Two other messages you may see: "Claude is busy right now. Try again in a minute. Your message is kept." and "The collaborator could not be reached. Check the internet connection. Your message is kept."
 
@@ -286,7 +286,7 @@ The box below it, **Also share the prose of a scene when I ask about that scene*
 - **Off:** the collaborator sees your plans and records, never your pages.
 - **On:** when you ask from inside a scene (with **Ask about this scene** in the Writing Room), it also sees the text of that one scene, up to about the last twelve thousand characters. It never sees other scenes' pages, and it is told never to rewrite them.
 
-**When to turn it on:** when you want the collaborator to comment on a scene you wrote, for example with **Critique**. Many writers leave it off while drafting and turn it on in revision.
+**When to turn it on:** when you want the collaborator to comment on a scene you wrote, for example with **Critique** (one of the six ways to ask, explained in [The six ways to ask](#the-six-ways-to-ask)). Many writers leave it off while drafting and turn it on in revision.
 
 ### Choosing which Claude answers
 
@@ -314,7 +314,7 @@ Every time you click **Ask**, Story Canon gathers a briefing about your book and
 - Your **guardrails** (the rules your story must never break, written on a record), with an instruction to warn you if an idea would break one.
 - Which scenes and records you marked as kept for you, so it never drafts them.
 - Up to twelve open questions from the Story review (see [Catching problems: the continuity checks](#catching-problems-the-continuity-checks)).
-- Your craft shelf (in Settings, under **For all my novels**), so **Where to learn more** starts with your own books.
+- Your **craft shelf**, the list of craft books and teachers you keep in **Settings**, page **6 All my novels** (see [Settings: My craft shelf](#settings-my-craft-shelf)), so **Where to learn more** starts with your own books.
 - The last thirty messages of this conversation, so it remembers what you just discussed.
 - If the conversation is focused on a record, everything on that record (see [Focusing a conversation on one record or scene](#focusing-a-conversation-on-one-record-or-scene)).
 
@@ -373,7 +373,7 @@ All three land you in **Conversations** with the new conversation open. (**Ask a
 
 Your question and the answer appear in the conversation. Your message is signed with the name you gave in **About you** (or, if that is empty, the name in Settings under **Your name**), and the answer is signed **Collaborator**.
 
-**If the collaborator is off**, the place where **Ask the collaborator** would be says "The collaborator is not set up" (or "is off for this novel"), with a link, **Turn it on in Settings**, and "Nothing is sent anywhere until you do." Nothing is broken. It is waiting for your key or your tick.
+**If the collaborator is off**, the place where **Ask the collaborator** would be says "The collaborator is not set up" (or "is off for this novel"), with a link, **Turn it on in Settings**, and "Nothing is sent anywhere until you do." The link opens Settings at page **4 The collaborator**. Nothing is broken. It is waiting for your key or your tick.
 
 ### The six ways to ask
 
@@ -435,45 +435,49 @@ These work best in a focused conversation, so the collaborator knows which scene
 
 ## Suggestions from the collaborator, and how they wait
 
-When the collaborator has an idea it thinks belongs in your story, it does not just say it. It files a **suggestion**: a proposed fact for one field of a record, a proposed question, or a proposed connection between two records (a link such as "plants" or "reveals" that the continuity checks read).
+When the collaborator has an idea it thinks belongs in your story, it does not just say it. It files a **suggestion**. A suggestion from the collaborator is one of three things:
+
+- **A proposed fact** for one field of a record, such as a motive for Cyrus.
+- **A proposed question**, one it thinks you should answer.
+- **A proposed connection** between two records (a link such as "plants" or "reveals" that the continuity checks read).
 
 After an answer that left suggestions, a note appears under the **Ask** button: "One suggestion is waiting for you. Nothing was decided." Beside it is a link, **Look at it in Suggestions waiting**.
 
-**Nothing is decided.** A suggestion changes nothing in your story. The record it is about shows it as a slip tucked in, not as a fact, under **Suggestions waiting for you** above the page tabs. Questions the collaborator raises are kept apart from your own questions until you accept them.
+**Nothing is decided.** A suggestion changes nothing in your story until you accept it. A proposed fact also shows on the record it is about, as a slip tucked in, under **Suggestions waiting for you** above the page tabs. A proposed question or connection waits only in **Suggestions waiting**.
 
 ### Answering a suggestion in Suggestions waiting
 
-**Where:** **Story Brain**, the list called **Suggestions waiting** at the top of the left column. The number beside it counts what is waiting.
+**Where:** **Story Brain**, the entry called **Suggestions waiting**, near the top of the list on the left (under **Questions and ideas** and **Choices ahead**). The number beside it counts what is waiting.
 
-Suggestions from the collaborator sit under **From the collaborator**. Ideas that came in from a chat or document you brought in sit under **From your planning documents**. ([The Story Brain](#the-story-brain) covers this list in full.)
+Suggestions from the collaborator sit under **From the collaborator**. Ideas that came in from a chat or document you brought in sit under **From your planning documents**. ([Suggestions waiting: ideas you have not taken yet](#suggestions-waiting-ideas-you-have-not-taken-yet) covers this list in full.)
 
-Each one has buttons:
+Each suggestion from the collaborator has these buttons:
 
-| Button | What it does |
-| --- | --- |
-| **Accept as Decided** | Takes in a proposed fact as settled. (Facts only.) |
-| **Accept as Developing** | Takes in a proposed fact in pencil, still yours to change. (Facts only.) |
-| **Accept** | Takes in a proposed question or connection |
-| **Not yet** | Keeps it waiting. It is marked "(you said not yet)" |
-| **No** (or **No, set it aside**) | Turns it down. It is kept in history, never thrown away |
+| Button | Shown for | What it does |
+| --- | --- | --- |
+| **Accept as Decided** | A proposed fact | Writes the fact on the record as settled |
+| **Accept as Developing** | A proposed fact | Writes the fact on the record in pencil, still yours to change |
+| **Accept** | A proposed question or connection | Makes the question one of yours, in **Questions I have**, or draws the connection |
+| **Not yet** | Every suggestion | Keeps it waiting, marked "(you said not yet)". The button then goes away, since it is already waiting |
+| **No** | Every suggestion | Turns it down. It leaves **Suggestions waiting** and the record, and nothing in your story changes. Story Canon notes that you said no, but does not show it again |
 
-Accepting a suggestion on a record's own page turns to the page where it landed.
+Ideas under **From your planning documents** have three buttons instead: **Accept as Decided**, **Accept as Developing**, and **No, set it aside**. **No, set it aside** keeps the words on their record as **Set aside**, faded with a line through them, so you can still see what you turned down.
+
+Accepting a fact on a record's own page turns to the page where it landed. Anything you accept stays marked as suggested by the collaborator and accepted by you.
 
 **The common mistake** is accepting as **Decided** because the idea sounds good today. If you are not sure, accept it as **Developing**. Pencil is free.
 
-**Example.** The collaborator suggests the question "What does Marisol lose if the boat's owner is found alive?" You click **Accept**. It becomes one of your questions in **Questions I have**, and the conversation it came from is still linked.
+**Example.** The collaborator suggests the question "What does Marisol lose if the boat's owner is found alive?" In **Suggestions waiting** it reads "New question:" and the question, with **Accept**, **Not yet** and **No**. You click **Accept**. It becomes one of your questions in **Questions I have**.
 
 ## The collaborator while the door is closed
 
-**Door closed** is a setting in Settings that keeps everything in Story Canon from judging your first draft until a day you choose. It is explained in [Settings and your other computers](#settings-and-your-other-computers).
+**Door closed** keeps everything in Story Canon from judging your first draft until a day you choose; it is taught in [Goals: door closed](#goals-door-closed).
 
 While the door is closed, any question you ask about a scene (from a conversation started with **Ask about this scene**) is treated as **Quiet**, whatever your drafting level says, and the collaborator is told you are getting the story down, not getting it right. It will not point out problems in the draft unless you ask for them by name, for example "What is weak about this scene?" Questions you ask outside a scene still use your planning level.
 
-**Why.** A first draft dies of early criticism more often than of anything else. With the door closed, the collaborator helps you keep moving.
-
 ## Turning the collaborator off, or never using AI at all
 
-**To turn it off for one novel:** open **Settings**, scroll to **The collaborator**, and untick **Use the collaborator for** and your novel's title. It takes effect right away. Your conversations stay, word for word, and nothing more is sent. Tick it again any time.
+**To turn it off for one novel:** open **Settings**, page **4 The collaborator**, and untick **Use the collaborator for** and your novel's title. It takes effect right away. Your conversations stay, word for word, and nothing more is sent. Tick it again any time.
 
 **To turn it off for every novel:** click **Remove key** in the same section. The key belongs to you, not to one book, so removing it stops the collaborator in every novel until you add a key again.
 

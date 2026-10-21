@@ -20,7 +20,7 @@ Every number in this chapter starts from one idea: **a day's words are the words
 
 - Typing new words adds to the day.
 - Cutting words takes away from it. A day of heavy cutting can come out below zero; point at its column and it says how many words were cut.
-- **Notes for later**, `[[like this]]`, never count (see [The Writing Room](#the-writing-room)).
+- **Notes for later**, `[[like this]]`, never count (see [Writing Room: notes for later](#writing-room-notes-for-later)).
 - **Not writing, so never counted:** bringing in a manuscript, accepting changes an editor sent back, restoring an earlier version of a scene, and choosing **Keep the saved version** after a crash. The words are in your book (they count in **The whole book**), but none of them is you writing that day.
 - **Days follow your computer's clock and time zone.** Words typed at 11:58 at night count for that day; words at 12:02 count for the next.
 - **Words count when they become a saved version of the scene**: about twenty seconds after you stop typing, or when you leave the scene. If **Today** looks behind, wait a moment.
@@ -35,7 +35,7 @@ Every number in this chapter starts from one idea: **a day's words are the words
 
 **How to set one.**
 
-1. Click **Settings** on the right edge of the window.
+1. Click **Settings** on the right edge of the window, then the page tab **2 Goals and November**.
 2. In the section **Guidance and goals**, open the **Everyday goal** dropdown and choose **Words per day**.
 3. In **Goal amount**, type your number, such as 500.
 4. Click **Save settings** at the bottom of the window.
@@ -108,7 +108,7 @@ Each is explained in full below. Under the figures, during a push, are **Set a l
 
 ### Goals: setting up a November push
 
-1. Click **Settings** on the right edge of the window.
+1. Click **Settings** on the right edge of the window, then the page tab **2 Goals and November**.
 2. Find the section **A writing push** and click **Plan a writing push**. Story Canon fills in November: **Name it** *November*, **First day** November 1, **Last day** November 30, **Words to write in it** 50,000.
 3. Change anything you like.
 4. Read the line under the boxes: *That is about 1,667 words a day for 30 days.* That is your daily goal on the push's days only. The rest of the time, your everyday goal applies.
@@ -219,7 +219,7 @@ If your set days already cover everything left, it says *Your set days cover wha
 
 To see it as "of" a target, such as *52,310 of 80,000 words*:
 
-1. Open **Settings**.
+1. Open **Settings** and click the page tab **1 This novel**.
 2. In the first section, type a number in **Target length in words (optional)**.
 3. Click **Save settings**.
 
@@ -246,7 +246,7 @@ The cursor goes straight to the end of the page, so the first words you type lan
 
 ### Goals: during a sprint
 
-Gone: the binder, the scene plan, the links above the page, the tabs, the strip across the top, the header (with the Saved indicator and the Capture button), most notices, the word line under the page, and red spelling underlines. Keys that lead away from the page (**Ctrl+K** for Search, **Ctrl+Shift+W** for Return to Writing, **F1** for Help) do nothing until the sprint ends.
+Gone: the binder, the scene plan, the links above the page, the tabs, the story strip across the top, the header (with the Saved indicator and the Capture button), most notices, the word line under the page, and red spelling underlines. Keys that lead away from the page (**Ctrl+K** for Search, **Ctrl+Shift+W** for Return to Writing, **F1** for Help) do nothing until the sprint ends.
 
 Still there:
 
@@ -271,7 +271,7 @@ If you end a sprint early with **End the sprint**, the note says **Sprint over.*
 
 **Example.** It is November 8 and your goal is 1,750. After supper you click **Sprint**, choose **30 minutes**, and click **Start the sprint**. Marisol rows out to the reef where the boat was found. The clock says *Under a minute*, then the note says *Time. 912 words in 30 minutes.* You click **Another sprint**, and the second one takes you past the day's goal.
 
-**Focus or a sprint?** **Focus** in the Writing Room hides everything too, but has no clock and no end (see [The Writing Room](#the-writing-room)). A sprint has a clock and a count at the end.
+**Focus or a sprint?** **Focus** in the Writing Room hides everything too, but has no clock and no end (see [Writing Room: Focus](#writing-room-focus)). A sprint has a clock and a count at the end.
 
 ## Goals: door closed
 
@@ -298,7 +298,7 @@ The link is replaced by *The door is closed through November 30. Nothing judges 
 
 **How to close it from Settings, with or without a push.**
 
-1. Open **Settings** and find the section **Door closed**.
+1. Open **Settings**, click the page tab **2 Goals and November**, and find the section **Door closed**.
 2. In **Keep it closed through**, choose a day. It suggests your push's last day, or a day thirty days from now.
 3. Click **Close the door**.
 

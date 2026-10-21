@@ -251,14 +251,14 @@ export function Storylines({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOp
   if (!d) return <p className="muted">Weaving…</p>;
   if (!d.strands.length) return <><h1>Storylines</h1><HowItWorks view="storylines"
         shows="Each storyline as a column and every scene and scene card as a row, with a mark where the scene moves that storyline forward."
-        from={<>Storyline records in the Story Brain, and connections from scenes and cards to them with "advances". Planned cards are marked.</>}
+        from={<>Storyline records in the Story Brain, and connections from scenes and cards to them with "moves forward". Planned cards are marked.</>}
         todo="Look for a storyline that goes quiet for a long stretch, or one that never shares a scene with another. The strongest scenes move more than one." /><p className="muted">No storylines yet. Add as many as the story needs in the Story Brain under Storylines, then connect scene cards to them with "advances".</p></>;
   return (
     <>
       <h1>Storylines</h1>
       <HowItWorks view="storylines"
         shows="Each storyline as a column and every scene and scene card as a row, with a mark where the scene moves that storyline forward."
-        from={<>Storyline records in the Story Brain, and connections from scenes and cards to them with "advances". Planned cards are marked.</>}
+        from={<>Storyline records in the Story Brain, and connections from scenes and cards to them with "moves forward". Planned cards are marked.</>}
         todo="Look for a storyline that goes quiet for a long stretch, or one that never shares a scene with another. The strongest scenes move more than one." />
       <p className="muted small">The strongest scenes move more than one thread. {d.touchPoints.length} scene{d.touchPoints.length === 1 ? ' moves' : 's move'} more than one.</p>
       <div style={{ overflowX: 'auto' }}>

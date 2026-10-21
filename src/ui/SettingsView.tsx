@@ -111,7 +111,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
       <section className="section settings-section">
         <h2>Your next writing action</h2>
         <p className="muted small">Leave empty and the program suggests one from where you left off.</p>
-        <input type="text" value={s.nextWritingAction} onChange={(e) => setS({ ...s, nextWritingAction: e.target.value })} placeholder="For example: Draft the opening scene in the driveway" />
+        <input type="text" value={s.nextWritingAction} onChange={(e) => setS({ ...s, nextWritingAction: e.target.value })} placeholder="For example: Draft the opening scene" />
       </section>
 
         </>) },

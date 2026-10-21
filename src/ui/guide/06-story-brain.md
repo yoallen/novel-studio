@@ -1,6 +1,6 @@
 # The Story Brain
 
-The Story Brain is where everything you know about your story lives: the people, the places, the clues, the questions you still have, the lines you want to use someday, and the big decisions that cover the whole book. This chapter walks through it in the order you will meet it: what it is and when to use it, the list down its left side, one record page from top to bottom, the six statuses as they look and behave on a record, your own fields, guardrails and connections, then characters and their arcs in depth, every other kind of record, and the three special lists (Questions and ideas, Suggestions waiting and Choices ahead). Read it the first time you open the Story Brain, and come back to the part you need whenever a screen there puzzles you. Every single field on every kind of record is described in the reference chapter, [Every kind and every field](#every-kind-and-every-field).
+The Story Brain is where everything you know about your story lives: the people, the places, the clues, the questions you still have, the lines you want to use someday, and the big decisions that cover the whole book. This chapter walks through it in the order you will meet it: what it is and when to use it, the list down its left side, one record page from top to bottom, the six statuses as they look and behave on a record, your own fields, guardrails and connections, then characters and their arcs in depth, every other kind of record, and the three special lists (Questions and ideas, Suggestions waiting and Choices ahead). A short reference section at the end holds details you can look up when you need them: every connection word, Robert McKee's value ladder, and foils, doubles and mirrors. Read it the first time you open the Story Brain, and come back to the part you need whenever a screen there puzzles you. Every single field on every kind of record is described in the reference chapter, [Every kind and every field](#every-kind-and-every-field).
 
 ## What the Story Brain is and when to use it
 
@@ -54,7 +54,7 @@ These kinds always appear, even with nothing in them yet, because almost every n
 
 | Kind | What one record holds |
 | --- | --- |
-| **Characters** | One person (or being): their job in the book, who they are, how they look and sound, what they want, what wounds them, and how they change. See [Characters in depth: the eleven pages](#characters-in-depth-the-eleven-pages). |
+| **Characters** | One person (or being): their job in the book, who they are, how they look and sound, what they want, what wounds them, and how they change. See [Characters in depth: a character's pages](#characters-in-depth-a-characters-pages). |
 | **Relationships** | What is between two or more characters: trust, power, closeness, and the private words they share. |
 | **Storylines** | One thread of plot that runs through the book, such as the A story (the main plot) or the B story (the second thread, often a relationship that carries the theme). |
 | **Scene cards** | Your plan for one scene. Scene cards are laid out on the Board, the planning space in Narrative Zoom; each one also has a record here. |
@@ -71,7 +71,7 @@ Other kinds join this part of the list on their own, as soon as your book has a 
 
 | Kind | When it shows up here |
 | --- | --- |
-| **Beats** | When your book has a beat sheet. A **beat** is one turning point the story must reach, and a **beat sheet** is a writing method's list of them in order (Save the Cat, for example, has fifteen). |
+| **Beats** | When your book has a beat sheet. A **beat** is one turning point the story must reach, and a **beat sheet** is a writing method's list of them in order (Save the Cat, for example, has fifteen). Where to choose one: [Choosing a beat sheet for a novel](#choosing-a-beat-sheet-for-a-novel). |
 | **Notes** | When notes came in from your planning documents, or you made one. |
 | **Story world** | When your book has its Story world record, the one record that holds decisions about the whole book. See [The Story world record: the heart of the book](#the-story-world-record-the-heart-of-the-book). |
 | **Secret operations** | When anyone in your book has a hidden move. See [Secret operations and hidden moves](#secret-operations-and-hidden-moves). |
@@ -169,7 +169,7 @@ The new record's page opens right away, ready for you.
 
 **The common mistake** is waiting until you know enough. You don't need to know anything but the name. A record with one line is still findable, and it can be connected to scenes.
 
-**Adding a beat here.** On the Beats page, under the add box, a note says that a beat you add here joins the Board after the last beat, and that to change the beat sheet itself you use **My methods** (the screen where you change beat sheets and keep methods of your own), with an **Open My methods** link. Add a beat here only for a one-off turn in this book; change the beat sheet in My methods.
+**Adding a beat here.** On the Beats page, under the add box, a note says that a beat you add here joins the Board after the last beat, and that to change the beat sheet itself you use **My methods**, with an **Open My methods** link. **My methods** is the screen where you build methods of your own, including their beats; it is where you change the beats of a beat sheet you made yourself. Choosing which beat sheet your novel uses, or switching to another, happens in Novel setup or Narrative Zoom, as [Choosing a beat sheet for a novel](#choosing-a-beat-sheet-for-a-novel) explains. Add a beat here only for a one-off turn in this book.
 
 **Example.** While drafting the harbor chapter, Marisol's writer realizes the ferry pilot will matter later. She clicks **Characters**, types "Tomás the ferry pilot" in the box, and clicks **Add character**. That's all. Three weeks later she connects him to the storm scene.
 
@@ -231,6 +231,8 @@ You can rename these markers, or add your own, in **Settings**, under **Words fo
 
 **Where the mark shows.** Beside the record's name in its kind's list, and in the **Kept for you** column of **Choices ahead**.
 
+**The same mark elsewhere.** Beats and scene cards in Narrative Zoom carry the same dropdown, and so does each written scene, in the Writing Room's scene plan (there it is called **Kept for you to write or decide**, and the marker shows above the scene's title). The choices and their meanings are the ones in the table above.
+
 **The common mistake** is marking everything. If every record is kept for you, the mark stops telling you anything. Keep it for the parts that are truly yours.
 
 **Example.** Marisol's writer has pictured the night Eli drowned for years. She marks that event record **Mine to write**. She will ask the collaborator about the harbor town's history, but not about that night.
@@ -267,9 +269,11 @@ Under that line is a row of six small samples. This is the **legend**, a key lik
 | **Suggestion (a slip, tucked in)**, beside a tiny slip | The words on a white slip of paper, tucked in at a slight angle, in a handwriting typeface, as if someone else wrote them. |
 | **Set aside (faded, kept below)**, faded, with a line through it | Not on the field itself. A set-aside fact moves into the field's earlier versions, folded away below the field, in small faded type with a line through it. |
 
-"Kept below" is the reminder: a set-aside fact is never deleted, only folded away under its field. Wherever a set-aside fact is shown among others, it looks faded, with a line through it, just like its sample.
+"Kept below" is the reminder: a set-aside fact is never deleted, only folded away under its field. When you show the earlier versions, a set-aside fact has a line through it, just like its sample. An earlier decision that a newer one replaced sits in the same list, faded but with no line through it, marked *replaced*.
 
-The legend is not clickable. If you renamed the status words in **Settings**, the legend uses your words. Each status is explained in full in [How each status looks and behaves on a record](#how-each-status-looks-and-behaves-on-a-record).
+In dark mode the inks are lighter versions of the same colors, so they still read clearly.
+
+The legend is not clickable. If you renamed the status words in **Settings** (on its page **3 Writing**, under **Words for decisions**), the legend uses your words, and the looks stay the same. Each status is taught in full in [How each status looks and behaves on a record](#how-each-status-looks-and-behaves-on-a-record).
 
 ### Suggestions waiting for you on a record
 
@@ -278,11 +282,12 @@ If the collaborator has suggested something for this record, a section headed **
 | Button | What it does |
 | --- | --- |
 | **Accept as Decided** | Takes the idea into your story, decided. (Only for a fact.) |
-| **Accept as Developing** | Takes the idea in, in pencil. For a new record or a connection, the button is just **Accept**. |
-| **Not yet** | Keeps it waiting, marked *(you said not yet)*. It comes back each time you open the record. |
-| **No** | Turns it down. It goes away. |
+| **Accept as Developing** | Takes the idea in, in pencil. (Only for a fact.) |
+| **Accept** | Takes the idea in. This single button replaces the two above when the suggestion is not a fact but a new record (it reads *New* followed by the kind and name, such as a new question) or a connection (it reads *Connect:* followed by the connection word). |
+| **Not yet** | Keeps it waiting, marked *(you said not yet)*. It comes back each time you open the record. Once you have said not yet, this button no longer shows. |
+| **No** | Turns it down. It leaves every list of waiting suggestions and does not come back. Nothing is erased: the conversation it came from still holds the collaborator's message, word for word. |
 
-When you accept a fact, the record turns to the page where it landed, so you can see it in place.
+When you accept a fact, the record turns to the page where it landed, so you can see it in place, and its margin says *Suggested by* the collaborator *, accepted by you*.
 
 Suggestions that came in from your planning documents don't sit here. They sit in their own fields, as slips, right where they apply. Both kinds are gathered on one page: see [Suggestions waiting: ideas you have not taken yet](#suggestions-waiting-ideas-you-have-not-taken-yet).
 
@@ -292,36 +297,42 @@ On a character, a small line reads *Low-energy day? One line counts.* with a **F
 
 ### The numbered pages and All pages
 
-**What they are.** A record reads like a notebook. Its fields are gathered onto numbered pages, each holding things that belong together, and one page shows at a time. A character has eleven pages; a place has two.
+**What they are.** A record reads like a notebook. Its fields are gathered onto numbered pages, each holding things that belong together, and one page shows at a time. A character has up to eleven pages (ten on most novels); a place has two.
 
 **Why it matters.** A character can hold more than a hundred fields. On one long scroll you would lose your place; on pages you always know where you are, and you can see at a glance which pages you have started.
 
 **How to use them.**
 
-- **The page tabs** sit in a row under the name, like the edge of a notebook. Each tab has a number and a title, such as **1 Who they are**. Click a tab to turn to that page. The page you are on is highlighted.
-- **A page number turns ink blue** when that page has something written on it (a fact, an arc, a connection, a note). Point at a tab with the mouse, and it says *Something is written on this page* or *Nothing on this page yet*.
-- **All pages**, at the end of the row, shows every page one after another, each with its number and title as a heading. Use it when you want to read the whole record, or to print it.
-- **Turning pages.** At the bottom of each page, links go to the page before and the page after, such as **Page 2: Identity** and **Page 4: Personality**.
-- **Where a record opens.** A record opens on page 1 the first time, and after that on the page you last read. Search opens a record on the page that holds what you found, and accepting a suggestion turns to the page where it landed.
+- **The page tabs** sit in a row under the name, like the edge of a notebook. Each tab has a number in a small circle and a title, such as **1 Who they are**. Click a tab to turn to that page. The page you are on is the tab joined to the page, in bold purple with a pink line across its top.
+- **A page number turns ink blue** (a filled blue circle) when that page has something written on it (a fact, an arc, a connection, a note). Point at a tab with the mouse, and it says *Something is written on this page* or *Nothing on this page yet*.
+- **All pages**, at the end of the row, shows every page one after another, each with its number and title as a heading, separated by dashed lines. There are no page-turn links in this view, because there is nothing to turn to. Use it when you want to read the whole record straight through, or when you don't know which page holds something.
+- **Turning pages.** At the bottom of each page, links go to the page before and the page after. They name the page, such as **Page 2: Identity** and **Page 4: Personality** at the bottom of a character's Looks and voice page.
+- **Where a record opens.** A record opens on its first page the first time, and after that on the page you last read, while the program is open. Search opens a record on the page that holds what you found, and accepting a suggestion turns to the page where it landed.
 
-**Pages that are left out.** A page with nothing to show is left out of the row. Most pages are always there, but a page made only of a writing method's fields appears once that method is turned on in Novel setup. (A **writing method** here means a teacher's way of building a story, such as Randy Ingermanson's Snowflake Method; you choose the ones you want on the page **My storytelling toolkit** in Novel setup.) For example, a character's page **6 What opposes them** holds only Robert McKee's fields, so it appears when you turn McKee on. A record with only one page, such as a record of a kind you made yourself, shows no tabs at all.
+**Pages that are left out, and why the numbers change.** A page with nothing to show is left out of the row, and the numbers close up behind it. Most pages are always there, but a page made only of a writing method's fields, or of fields for a choice about how the book is told, appears only once that method or choice is turned on in Novel setup. (A **writing method** here means a teacher's way of building a story, such as Randy Ingermanson's Snowflake Method; you choose the ones you want on the page **My storytelling toolkit** in Novel setup.) For example, a character's **What opposes them** page holds only Robert McKee's fields, so it appears only when you turn McKee on. Without it, the pages after it each move up one number. That is why this guide names pages (the **Arc** page) instead of giving their numbers: on your novel, the number may differ. A record with only one page, such as a record of a kind you made yourself, shows no tabs at all.
 
-**The pages of each kind.** The last page of every kind is **Notes and connections**: the Notes box, Connections, any fields of your own, and **Add your own field**. The pages before it depend on the kind:
+**Pages in front, in Narrative Zoom.** When you open a record inside Narrative Zoom (the view where you plan the book's shape), one or two pages about where it sits in the story come first, and the record's own pages follow, numbered after them. See [Zoom: a beat page](#zoom-a-beat-page), [Zoom: a scene card page](#zoom-a-scene-card-page) and [Following a record through the story](#following-a-record-through-the-story).
 
-| Kind | Its pages |
+**Other screens use the same pages.** Where was I, Settings, Novel setup and the Writing Room's scene plan are laid out the same way: numbered tabs, **All pages** at the end, links to the page before and after, and the page you were on remembered while the program is open.
+
+**The pages of each kind.** The last page of every kind is **Notes and connections**: the Notes box, Connections, any fields of your own, and **Add your own field**. The pages before it depend on the kind. Pages marked *(only with…)* appear only when that method or choice is on; the others are always there.
+
+| Kind | Its pages, in order |
 | --- | --- |
-| Character | 1 Who they are, 2 Identity, 3 Looks and voice, 4 Personality, 5 Goals, motives and values, 6 What opposes them, 7 Inner life, 8 Arc, 9 Their world and their people, 10 Interview, 11 Notes, guardrails and writing aids |
-| Scene card | 1 The scene, 2 When it happens, 3 Who tells it, 4 Mood and feeling, 5 The reader, 6 Scene and sequel, 7 Notes and connections |
-| Beat | 1 In this book, 2 Questions for this beat, 3 Notes and connections |
-| Story world | 1 The heart of the book, 2 What it means, 3 Time, viewpoint and knowledge, 4 Notes and connections |
-| Event or reveal | 1 What happens, 2 When, and who knows, 3 Notes and connections |
-| Every other kind | 1 a page named for the kind (*The place*, *The clue*, *The kept line*), 2 Notes and connections |
+| Character | Who they are; Identity; Looks and voice; Personality; Goals, motives and values; What opposes them *(only with McKee (Story))*; Inner life; Arc; Their world and their people; Interview; Notes, guardrails and writing aids |
+| Scene card | The scene; When it happens; Who tells it *(only with Unreliable narrator or A narrator who is not who they seem)*; Mood and feeling; The reader; Scene and sequel *(only with Scene and Sequel (Swain))*; Notes and connections |
+| Beat | In this book; Questions for this beat *(only on the Save the Cat beats that have questions)*; Notes and connections |
+| Story world | The heart of the book; What it means *(only with The Moral Premise (Williams) or McKee (Story))*; Time, viewpoint and knowledge; Notes and connections |
+| Event or reveal | What happens; When, and who knows; Notes and connections |
+| Every other kind | A page named for the kind (*The place*, *The clue*, *The kept line*); Notes and connections |
 
-A character is different in one way: its Notes, guardrails and its own fields are on page 11, and its Connections are on page 9, **Their world and their people**.
+So on most novels a character has ten pages, and a scene card has five. A character is different in one more way: its Notes, guardrails and its own fields are on its last page, **Notes, guardrails and writing aids**, and its Connections are on **Their world and their people**.
 
-**The common mistake** is thinking a record is empty because page 1 is. Look at the page numbers: a blue number means something is written on that page.
+**Nothing is ever hidden.** A group of fields that no page names (such as a group that came in with your planning documents) goes on the last page.
 
-**Example.** Marisol Vega's tabs show blue numbers on 1, 2, 7 and 8. Her writer has her role, her identity, her inner life and her arc started, and nothing yet on how she looks. She clicks **3 Looks and voice** and writes one line about her hands.
+**The common mistake** is thinking a record is empty because its first page is. Look at the page numbers: a blue number means something is written on that page.
+
+**Example.** Marisol Vega's tabs show blue numbers on **Who they are**, **Identity**, **Inner life** and **Arc**. Her writer has her role, her identity, her inner life and her arc started, and nothing yet on how she looks. She clicks the **Looks and voice** tab and writes one line about her hands.
 
 ### The About fold-out on a record's first page
 

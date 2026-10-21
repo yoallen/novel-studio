@@ -12,17 +12,18 @@ Open Story Canon from its desktop shortcut. (If you ever open it some other way,
 
 ### Getting around: the header, the Library link and the book switcher
 
-Once a novel is open, a thin line runs across the top of the window. This is the **header**. Reading from the left, it holds:
+Once a novel is open, the **header** is the row of buttons across the top of the page, with a thin line under it. Reading from the left, it holds:
 
-1. **Library**, a small link. Click it to go to the Library from any screen.
-2. The title of the open novel, with a small arrow. Click it and a menu lists all your novels (with each one's stage in gray, if it has one). Click another title to switch books without going through the Library. Each book opens where you left it.
-3. On the right: the name of the view you are in, and the **Capture** button.
+1. The pink **Return to Writing** ribbon, once you have been writing.
+2. **Library**, a small link. Click it to go to the Library from any screen.
+3. The title of the open novel, with a small arrow. Click it and a menu lists all your novels (with each one's stage in gray, if it has one). Click another title to switch books without going through the Library. Each book opens where you left it.
+4. On the right: the **Saved** indicator (in the Writing Room only), the name of the view you are in, and the **Capture** button.
 
-The list of views runs down the right edge of the window. The first one is **Where was I**, with the words *your novel's home page* in small type under its name.
+Above the page, on the purple cover across the top of the window, runs the **story strip**, a thin map of your whole book, explained in [Narrative Zoom](#narrative-zoom). The list of views runs down the right edge of the window. The first one is **Where was I**, with the words *your novel's home page* in small type under its name.
 
 ### Help, from the very first screen
 
-The Library has its own **Help** button at the top right of the page. Click it, or press **F1**, and the whole guide opens over the Library. Press **Esc** or close it to go back. Inside a novel, Help is one of the views in the list on the right, and F1 works there too.
+The Library has its own **Help** button at the top right of the window, on the purple edge. Click it, or press **F1**, and the whole guide opens over the Library. Press **Esc**, or click **Close Help**, to go back. Inside a novel, Help is one of the views in the list on the right, and F1 works there too.
 
 ## About you: telling Story Canon who you are
 
@@ -38,7 +39,7 @@ Every answer is optional. Small suggestions appear under some boxes; click one t
 
 | Question | What to put there |
 | --- | --- |
-| **What should I call you?** | Your first name, a nickname or a pen name. Story Canon uses it on screen, for example in the marker that shows work you have kept for yourself: *(your name), it's on you now*. |
+| **What should I call you?** | Your first name, a nickname or a pen name. Story Canon uses it on screen, for example in **Kept for you**, a label you can put on a record to say "this part is mine, the collaborator stays out of it". With your name it reads *(your name), it's on you now*. It is taught in [The Story Brain](#the-story-brain). |
 | **Your pronouns** | Type your own, or click one of the suggestions: *she/her*, *he/him*, *they/them*, *she/they*, *he/they*, *ze/zir*, *any pronouns*, *just my name*. Nothing is ever guessed from your name. |
 | **How do you find your story?** | Click *I plot first*, *I find the story as I write* or *Somewhere in between*, or use your own words. |
 | **How long have you been writing?** | Years, books finished, or "this is my first." |
@@ -72,10 +73,9 @@ From top to bottom, the Library holds the parts below. Several only appear when 
 
 | Part | What it is | When you see it |
 | --- | --- | --- |
-| **Help** (top right) | The whole guide | Always |
+| **Help** (top right of the window, on the purple edge) | The whole guide | Always |
 | The title page | *Story Canon*, the line *Where your story takes shape, and nothing gets lost.*, and the motto *Story Canon remembers. The author decides.* | Always |
 | **Before we begin, tell Story Canon about you** | The About you card, above | The first time only |
-| A novel prepared from your planning | A card offering a ready-made novel | Only if your copy came with one |
 | **Your novels** | The shelf itself | Always. With no novels, it says *Nothing here yet. Start a novel below, or bring one in from an archive.* |
 | **On your other computers** | Novels another computer has shared that are not on this one yet | Only when you share between computers and one is waiting |
 | **Your other computers** | Where you turn on sharing between two computers | Always |
@@ -133,7 +133,7 @@ They are separate, but they help each other in two ways:
 
 **What it is.** A way to tidy your shelf. Nothing in the novel is deleted. It moves to a list at the bottom of the Library, and you can put it back any time.
 
-**When to use it.** For a test novel, a book you have set down for good, or anything you don't want to see every day. Most writers use it rarely.
+**When to use it.** For a practice novel, a book you have set down for good, or anything you don't want to see every day. Most writers use it rarely.
 
 1. In the Library, find the novel's cover. Check the title on the label; the books move around.
 2. Click **Remove from shelf** at the bottom of that cover.
@@ -146,18 +146,9 @@ They are separate, but they help each other in two ways:
 
 The **Removed novels** list appears at the bottom of the Library only when you have removed at least one book. Each line shows the title, the date it was removed, and **Put back on the shelf**. Click that link and the book returns to the shelf exactly as it was, with every word, record and conversation.
 
-### A novel prepared from your planning documents
+### A novel prepared for you
 
-**What it is.** If your copy of Story Canon came with one, a card above your shelf offers a novel prepared from your planning documents: notes, chats and spreadsheets about a book you have been planning, already turned into records and facts. The card's heading is the book's title followed by *is ready*. It says what the novel was built from, and how much it holds: how many records, facts, conversation turns (single messages from chats that were brought in) and source passages (stretches of the original documents, kept word for word so you can always check where a fact came from). The small print promises that every fact keeps the status it had in your planning, and that nothing was decided for you.
-
-Most copies of Story Canon do not have this card. If yours does:
-
-1. Click **Bring in (the title)**. The button says *Bringing it in…* for a few seconds.
-2. The novel opens on **Where was I** and joins your shelf.
-
-**Not now** hides the card. It is not final: a line under the shelf heading then says *You said "Not now" to (the title). Click a title to offer it again.* Click the title and the card comes back.
-
-**On a second computer,** the card says *Already brought it in on another computer? Don't bring it in here.* Instead, turn on **Your other computers** with the same shared folder (next section), and the book comes over from there as the same book. Once your other computer has shared it, the card stops appearing on this one. That is on purpose: the two computers hold one book, not two copies.
+Now and then a card may appear above your shelf, headed with a book's title and *is ready*. It offers a novel already *Built from your planning documents and conversations.* Click **Bring in (the title)** to add it to your shelf, or **Not now** to hide the card. If you already brought that novel in on your other computer, don't bring it in again here: turn on sharing (next section) so both computers hold the same book. Most writers never see this card.
 
 ### On your other computers, and turning on sharing from the Library
 
@@ -165,10 +156,10 @@ If you write on two computers (say, a laptop at home and another at work), Story
 
 **Your other computers** is a section of the Library, below your shelf. It is here so that a brand-new second computer, with no novel on it yet, can turn on sharing without opening a book. While sharing is off, it explains how sharing works and offers:
 
-1. **Call this computer**: a name, such as *Laptop* or *Surface*, so the other computer can say where a book came from.
+1. **Call this computer**: a name, such as *Home* or *Work*, so the other computer can say where a book came from.
 2. **Choose the shared folder**: pick a folder both computers can see. (If your window cannot open a folder chooser, type the folder's path into the box instead and click **Share through this folder**.)
 
-Once sharing is on, a message says *Sharing is on. Novels your other computer has shared appear in this Library under On your other computers.* That list, **On your other computers**, appears just under your shelf whenever the other computer has shared a novel this one does not have yet. Each line shows the title, which computer shared it and when, and **Bring to this computer**. Click it, and the novel opens here. From then on the two computers keep it as one book.
+Once sharing is on, a message says *Sharing is on. Novels your other computer has shared appear in this Library under On your other computers. Bring each one here once, and from then on it stays one book on both computers.* That list, **On your other computers**, appears just under your shelf whenever the other computer has shared a novel this one does not have yet. Each line shows the title, which computer shared it and when, and **Bring to this computer**. Click it, and the novel opens here. From then on the two computers keep it as one book.
 
 **The common mistake** is starting the same novel fresh on the second computer, or bringing it in from an archive, instead of using **Bring to this computer**. That gives you two separate books that never stay in step.
 
@@ -336,22 +327,24 @@ Under each name is a line saying what it is, and **Needs:** followed by its thre
 
 Page **4 How the story is told** covers everything about the book apart from its genre. It is a set of groups, each with a short description and a list of choices. Each choice has one line under it saying what it means. Some choices also say **Turns on:** and name the tool or fields they add.
 
-| Group | What it covers | Examples of what turns on |
-| --- | --- | --- |
-| **Viewpoint** | Whose eyes, and how close: first person, third person limited, omniscient, second person, alternating | Alternating viewpoints turns on viewpoint coverage and the one-head-per-scene question |
-| **Tense** (one choice) | Past, present, or mixed | Mixed tense lets you set tense scene by scene |
-| **Construction** | One lead, two, or an ensemble | Dual protagonists show two arcs side by side |
-| **Information** | What the reader knows, and when: dramatic irony, a hidden truth, an unreliable narrator, misdirection | A hidden truth turns on the secret operations log |
-| **Time** | The order of the telling: linear, nonlinear, dual timeline, frame story, flashbacks, the present calling up the past | A dual timeline adds a timeline strand to each scene card |
-| **Setting** | When and where: now, recent past, historical, near or far future, an invented world, a hidden world inside ours | An invented world, a hidden world or the far future turns on worldbuilding |
-| **Readership** (one choice) | Adult, New Adult, Young Adult, Middle Grade | |
-| **Tone** | The feeling: comic, cozy, tender, eerie, gritty and more | |
-| **Heat level** (one choice) | How much intimacy is on the page, from closed door to explicit | Sensual and above add a heat field to each scene card |
-| **Language** (one choice) | How strong the language is, from clean to strong | |
-| **Content to flag** | Subjects a reader may want to know about first | |
-| **Romance tropes** | Familiar love-story shapes, such as enemies to lovers | |
-| **Technique** | Devices such as running gags, foreshadowing, titled chapters | Running gags add callbacks to each scene card |
-| **Form** | The shape of the book: letters, series, novella, linked stories, a retelling | A retelling turns on worldbuilding, including source records |
+| Group | What it covers |
+| --- | --- |
+| **Viewpoint** | Whose eyes the story is seen through, and how close: first person, third person limited, omniscient, second person, alternating |
+| **Tense** (one choice) | Past, present, or mixed |
+| **Construction** | One lead, two, or an ensemble |
+| **Information** | What the reader knows, and when: dramatic irony, a hidden truth, an unreliable narrator, misdirection |
+| **Time** | The order of the telling: linear, nonlinear, dual timeline, frame story, flashbacks, the present calling up the past |
+| **Setting** | When and where: now, recent past, historical, near or far future, an invented world, a hidden world inside ours |
+| **Readership** (one choice) | Adult, New Adult, Young Adult, Middle Grade |
+| **Tone** | The feeling: comic, cozy, tender, eerie, gritty and more |
+| **Heat level** (one choice) | How much intimacy is on the page, from closed door to explicit |
+| **Language** (one choice) | How strong the language is, from clean to strong |
+| **Content to flag** | Subjects a reader may want to know about first |
+| **Romance tropes** | Familiar love-story shapes, such as enemies to lovers |
+| **Technique** | Devices such as running gags, foreshadowing, titled chapters |
+| **Form** | The shape of the book: letters, series, novella, linked stories, a retelling |
+
+You don't need to understand every group on your first day. Choose what you already know about your book and leave the rest. Some choices add a tool or a few fields, and say so after **Turns on:**. For example, choosing an invented world adds the worldbuilding kinds of records. The last page, **What your choices switch on**, lists everything your choices have added, and each tool is taught in the chapter where you use it.
 
 **Groups that take one answer** say *One choice.* in their description and use round buttons. Choosing a new answer replaces the old one. To clear the answer, click the chosen one again.
 
@@ -361,12 +354,30 @@ Page **4 How the story is told** covers everything about the book apart from its
 
 ### Novel setup: my storytelling toolkit
 
-**What it is.** Page **5 My storytelling toolkit** lists the frameworks and methods you use to build this novel. A **framework** or **method** is one teacher's way of thinking about stories. A **beat sheet** is a framework that lays out the beats of a story in order. Each item in the list has its name in bold and a line saying the job it does, such as *Weiland (character arcs): The arc: the Lie, the Ghost, the Want and the Need, and how the inside changes with the outside.* If it adds fields, a line says **Adds:** and where, such as *Goal and motive (Ingermanson) on each character*.
+**What it is.** Page **5 My storytelling toolkit** lists the frameworks and methods you use to build this novel. A **framework** or **method** is one teacher's way of thinking about stories. A **beat sheet** is a framework that lays out the beats of a story in order. Each item in the list has its name in bold and a line saying the job it does, such as *Weiland (character arcs): The arc: the Lie, the Ghost, the Want and the Need, and how the inside changes with the outside.* (These are K.M. Weiland's words for a character's inner journey: the **Lie** is the false belief the character lives by, the **Ghost** is the old hurt behind it, the **Want** is what they think they need, and the **Need** is what they truly need. [The Story Brain](#the-story-brain) teaches them.) If a method adds fields, a line says **Adds:** and where, such as *Goal and motive (Ingermanson) on each character*.
 
-The list holds beat sheets (*Save the Cat (Brody for novels)*, *The Hero's Journey*, *Story Circle*, *Seven-Point Structure*, *Three-Act Structure*), character and scene methods (*McKee (Story)*, *Weiland (character arcs)*, *Snowflake (Ingermanson)*, *Scene and Sequel (Swain)*, *The Moral Premise (Williams)*, *The Writers Helping Writers thesauri (Ackerman and Puglisi)*), any methods of your own, and **I find my story as I write**.
+The list holds:
+
+| Kind of method | In the list | In one line |
+| --- | --- | --- |
+| Beat sheets | *Save the Cat (Brody for novels)* | Fifteen beats, each placed by how far into the book it falls |
+| | *The Hero's Journey* | Twelve stages of departure, ordeal and return |
+| | *Story Circle* | Dan Harmon's eight steps: someone goes somewhere unfamiliar, pays a price, and comes back changed |
+| | *Seven-Point Structure* | Dan Wells's method: decide the ending first, then the opposite beginning, then the turns between |
+| | *Three-Act Structure* | Setup, confrontation and resolution, with the turning points between them |
+| Character and scene methods | *McKee (Story)* | Robert McKee's tools for depth, including the forces that oppose the hero |
+| | *Weiland (character arcs)* | How a character changes inside as the plot changes outside |
+| | *Snowflake (Ingermanson)* | Randy Ingermanson's method of growing a story from one sentence, with a goal and motive for each character |
+| | *Scene and Sequel (Swain)* | Dwight Swain's rhythm: a scene of action, then a sequel of reaction and decision |
+| | *The Moral Premise (Williams)* | Stanley Williams's idea that a story proves a truth: a vice leads to defeat, a virtue to success |
+| | *The Writers Helping Writers thesauri (Ackerman and Puglisi)* | Reference lists for showing, not telling: wounds, traits and emotions |
+| Your own | Methods you made in **My methods** | Whatever you built them to do |
+| No outline | **I find my story as I write** | For writers who don't plan ahead |
+
+The program's own one-line description under each name says the same thing in its own words. You don't need to know any of these to start.
 
 1. Tick a method to use it. None is required, and using several together is normal.
-2. When you tick your first beat sheet, a message says, for example, *Save the Cat (Brody for novels) is now the beat sheet for this novel.* The **story strip**, the thin strip across the very top of the window that shows the shape of your book, fills in with acts and beats.
+2. When you tick your first beat sheet, a message says, for example, *Save the Cat (Brody for novels) is now the beat sheet for this novel.* The **story strip**, the thin map of your book on the purple cover above the page, fills in with acts and beats.
 3. A box called **How I use it** appears under each ticked method (*your own note, yours to change*). Write what the method does for you in this book. Click away to keep it.
 4. A method of your own is marked *yours*, with an **Edit** link that opens **My methods**, the page where your own methods live. When it is ticked and has questions of its own, they show under it after **Asks:**.
 5. **Make a method of my own** opens **My methods**, where you can add a method from any teacher or book, with its own beats, questions and fields. Every novel can use it.
@@ -381,7 +392,9 @@ The list holds beat sheets (*Save the Cat (Brody for novels)*, *The Hero's Journ
 
 When two or more beat sheets are ticked, a line appears at the bottom of the toolkit: **The beat sheet that drives the board:** with a menu. The beat sheet chosen there is the one used by the **Board** (in Narrative Zoom, where you place scene cards on beats), by the story strip, and by **I'm stuck** (the helper for when you don't know what comes next). The others stay available as other ways to look at the book.
 
-Beside it, **Offer my placed scenes on the matching beats** (ticked at first) means: when you switch beat sheets, scene cards you had placed are offered on the matching beats of the new sheet as suggestions, waiting for you to decide. A message says so when it happens. Narrative Zoom is taught in [Narrative Zoom](#narrative-zoom).
+Beside it, **Offer my placed scenes on the matching beats** (ticked at first) means: when you switch beat sheets, scene cards you had placed are offered on the matching beats of the new sheet as suggestions, waiting for you to decide. A message says so when it happens.
+
+**Where a beat sheet is chosen.** This page is where you choose and change your beat sheets. There is one shortcut: in a novel with no beat sheet yet, Narrative Zoom offers a menu to pick one on the spot (see [Choosing a beat sheet for a novel](#choosing-a-beat-sheet-for-a-novel)). Whichever way you choose it, it shows up ticked here, and this is where you change it later.
 
 ### Novel setup: what your choices switch on
 
@@ -394,7 +407,7 @@ The last page, **What your choices switch on**, sums up every field and tool you
 The page promises: *Nothing you have written is ever hidden or removed by a change here.* In practice:
 
 - **Turning a method off** removes its empty fields from your record pages. Any field that already holds something you wrote stays on the page, with its facts.
-- **Before your first choice in Novel setup,** a brand-new novel shows Weiland's arc fields (the Ghost, the Lie, the Want and the Need) on arcs, and the *Save the Cat* board fields on beats, so there is something to start from. After your first choice, only what you have chosen shows. (A novel that begins from your starting point, below, with methods already ticked, counts as set up from the start.) If empty arc fields you were using disappear, tick **Weiland (character arcs)**. This is working as designed, not a lost answer.
+- **Before your first choice in Novel setup,** a brand-new novel shows Weiland's fields (the Ghost, the Lie, the Want and the Need) on its arcs (an **arc** is a record of how one character changes over the book; see [The Story Brain](#the-story-brain)), and *Save the Cat*'s questions on beats, so there is something to start from. After your first choice, only what you have chosen shows. (A novel that begins from your starting point, below, with methods already ticked, counts as set up from the start.) If empty arc fields you were using disappear, tick **Weiland (character arcs)**. This is working as designed, not a lost answer.
 - **Genres and tones** never remove anything. They add questions and, for some genres, worldbuilding kinds.
 
 ## A starting point for new novels
@@ -411,7 +424,7 @@ The page promises: *Nothing you have written is ever hidden or removed by a chan
 | Your storytelling toolkit, and the beat sheet that drives the board | Story types and their ingredients |
 | Your **How I use it** notes | Everything under **How the story is told** |
 | Your words for decisions (what each status is called) | The one sentence and the one paragraph |
-| Your writing preferences: guidance while drafting and planning, words per page, your scene status steps | Every record, scene and word of the book |
+| Your writing preferences: how much the collaborator speaks up unasked while you draft and while you plan (its **guidance**), the words per page used to turn word counts into page counts, and your **scene status steps** (the steps a scene moves through, such as *Idea*, *Planned* and *Drafting*) | Every record, scene and word of the book |
 
 **How to do it:**
 
@@ -431,7 +444,7 @@ From then on, every novel you start in the Library begins with those choices. Yo
 
 **What it is.** A card on **Where was I** for a brand-new novel. Its heading is **Plant the seed**, and it says: *Six questions to start a blank novel. Answer any you like; skip the rest.* It asks six short questions that give an empty book its first roots: a person who wants something, with something in the way.
 
-**When you see it.** On a novel with no characters yet, until you plant it or click **Not now**. A novel brought in from your planning never shows it, because it already has characters.
+**When you see it.** On a novel with no characters yet, until you plant it or click **Not now**.
 
 **Do most writers need it?** No. But if you are staring at an empty novel and don't know where to begin, it is the gentlest start there is.
 
@@ -457,7 +470,7 @@ The gray words inside each box hint at an answer.
 3. Click **Plant it**. (It stays gray until at least one box has words.)
 4. Story Canon opens the **Story Brain** on your list of characters, where your new lead is waiting. Click the name to open the record.
 
-On the character's record, **Role**, **Who they are** and **What they stand to lose** are on page 1, *Who they are*. **Goal** and **Conflict** are on page 5, *Goals, motives and values*, under a group called **Goal and motive (Ingermanson)**. Your ending is on the story world's first page, *The heart of the book*.
+On the character's record, **Role**, **Who they are** and **What they stand to lose** are on the first page, **Who they are**. **Goal** and **Conflict** are on the page **Goals, motives and values**, under a group called **Goal and motive (Ingermanson)**. Your ending is on the story world's first page, **The heart of the book**.
 
 **Not now** puts the card away for good in this novel. Your novel is fine without it.
 

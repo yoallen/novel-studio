@@ -8,7 +8,7 @@ The Writing Room is the second tab on the right edge of the window, under **Wher
 
 | You click | Where you land |
 | --- | --- |
-| **The Writing Room** tab | The scene you had open. If none, the scene Where was I suggests under **Next**. If there is no such scene, the scene you worked on most recently. If the book has no scenes at all, a new empty scene (and a first chapter to hold it) |
+| **The Writing Room** tab | The scene you had open. If none, the scene Where was I suggests under **Next**. If Next is your next planned scene card and it has no page yet, Story Canon makes its page first, just as **Write** does (see [Writing Room: planned, not written yet](#writing-room-planned-not-written-yet)). If there is nothing to suggest, the scene you worked on most recently. If the book has no scenes at all, a new empty scene (and a first chapter to hold it) |
 | **Write** on Where was I | The scene named in **Next**. If that is a planned scene with no page yet, Story Canon makes its page first |
 | **Return to Writing**, the pink ribbon at the top left (or **Ctrl+Shift+W**) | The scene you were writing in, with the cursor exactly where you left it (see [Writing Room: detours and Return to Writing](#writing-room-detours-and-return-to-writing)) |
 | A scene in the list on the left, a note in **Left for later**, or **Open the page** in Narrative Zoom | That scene |
@@ -37,7 +37,7 @@ The page is the middle of the room, and the only part you truly need.
 
 **The text.** Click under the title and type. A brand-new scene shows the gray words *Write anything. A sentence counts.* until you start. **Ctrl+B** makes words bold, **Ctrl+I** makes them italic, **Ctrl+Z** undoes your last bit of typing and **Ctrl+Y** redoes it.
 
-**The word line.** Under the text is a small gray line, for example *63 words in this scene, today's goal 1,743*. Today's goal appears only once you have set a daily goal or a writing push (see [Goals, sprints and November](#goals-sprints-and-november)). On the right of the line is a reminder, *Ctrl+Shift+L leaves a note for later*, which [Writing Room: notes for later](#writing-room-notes-for-later) explains. Notes for later are never counted in the scene's words.
+**The word line.** Under the text is a small gray line, for example *63 words in this scene, today's goal 1,743*. Today's goal appears only once you have set a daily goal or a writing push (see [Goals, sprints and November](#goals-sprints-and-november)). On the right of the line is a reminder, *Ctrl+Shift+L leaves a note for later*, which [Writing Room: notes for later](#writing-room-notes-for-later) explains. (The reminder is hidden while the door is closed; see [Goals: door closed](#goals-door-closed).) Notes for later are never counted in the scene's words.
 
 **If the scene is kept for you.** When a scene is marked in **Kept for you to write or decide** (see [Writing Room: kept for you to write or decide](#writing-room-kept-for-you-to-write-or-decide)), the marker, such as *Mine to write*, appears just above the title, so you see it every time you open the page.
 
@@ -174,7 +174,7 @@ The scene plan and the scene card in Narrative Zoom are the same plan, seen from
 
 ### Writing Room: the scene plan's three pages
 
-The scene plan holds more than fits beside a page, so it is split into three small numbered tabs under its heading, like the pages of a record (see [Record pages: the numbered tabs](#record-pages-the-numbered-tabs)), with **All pages** at the end of the row. One page shows at a time.
+The scene plan holds more than fits beside a page, so it is split into three small numbered tabs under its heading, like the pages of a record (see [The numbered pages and All pages](#the-numbered-pages-and-all-pages)), with **All pages** at the end of the row. One page shows at a time.
 
 | Page | What is on it |
 | --- | --- |
@@ -293,23 +293,11 @@ The **viewpoint character** is the character whose eyes and thoughts a scene is 
 
 ### Writing Room: kept for you to write or decide
 
-**What it is.** This dropdown marks the scene as yours alone in some way. The collaborator may talk about a marked scene, but it never writes or decides that part for you.
+**What it is.** This dropdown marks the scene as yours alone in some way, such as **Mine to write** or **Mine to choreograph**. The collaborator may talk about a marked scene, but it never writes or decides that part for you. It is the same **Kept for you** mark that records and beats have, with the same choices; every choice is explained in [Kept for you: work only you will do](#kept-for-you-work-only-you-will-do).
 
 **Do you need it?** Only if you use the collaborator. Without it, the marker is simply a reminder to yourself above the title.
 
-| Choice | Meaning |
-| --- | --- |
-| **Not marked** | Nothing kept |
-| **(Your name), it's on you now** | Handed back to you: the collaborator offers nothing more here unless you ask |
-| **Mine to write** | You write this one. The collaborator never drafts it |
-| **Mine to build** | You work out how it is built: the mechanics, the setup, how the pieces fit |
-| **Mine to design** | You design it: how it looks, the space, the shape of the gag or the trap |
-| **Mine to choreograph** | You stage the movement: who goes where, the fight, the chase, the physical comedy |
-| **Mine to time** | You set the timing: the pacing, when a reveal lands, the beat before the punchline |
-| **Mine to escalate** | You decide how it builds, and how big it gets before it breaks |
-| **Mine to settle** | You decide the open question here. Suggestions wait; nothing is settled for you |
-
-The gray line under the dropdown explains the choice you picked. Your name in the first choice comes from **About you** in Settings, or from the first word of **Your name** on page 1 of Settings. You can rename these markers and add your own in **Settings**, under **Words for decisions**.
+**How to use it.** Open the dropdown and choose a marker; choose **Not marked** to clear it. The gray line under the dropdown explains the choice you picked, and the marker appears above the scene's title on the page.
 
 **Example.** The scene where Marisol finally says Eli's name aloud is one you want to write without help. You choose **Mine to write**, and *Mine to write* appears above the scene's title.
 
@@ -327,7 +315,7 @@ The gray line under the dropdown explains the choice you picked. Your name in th
 
 A section headed **Who is here** appears when the scene has a **Year**, or when characters connected to the scene have birth years or fixed ages. It lists each character who appears in the scene with their age that year, or *age not known yet*. If the year is set but no characters are connected to the scene, it says *Connect characters to this scene (appears in) to see their ages.*
 
-**Example.** The flashback to the night Eli drowned has the Year 2014. Who is here shows *Marisol Vega, 29* and *Eli Vega, 17*.
+**Example.** The flashback to the night Eli drowned has the Year 2012. Marisol (born 1983) and Eli (born 1995) are both connected to it, so Who is here shows *Marisol Vega, 29* and *Eli Vega, 17*.
 
 ### Writing Room: drafting readiness
 
@@ -397,7 +385,7 @@ The row of links above the page holds the tools for the moments when writing get
 
 **Long sentences.** Any sentence over 40 words is listed with its length and its first words. Click one to select it on the page. A long sentence is not wrong; it is worth reading aloud once.
 
-While the door is closed (see [Writing Room: door closed](#writing-room-door-closed)), Echoes, watch words and Long sentences wait, and a line says so, with **Look anyway** to see them on purpose. **Hear it** always works.
+While the door is closed (a setting that stops Story Canon judging your draft until a day you choose, taught in [Goals: door closed](#goals-door-closed)), Echoes, watch words and Long sentences wait, and a line says so, with **Look anyway** to see them on purpose. **Hear it** always works.
 
 **The common mistake** is fixing every chip. The panel points; you decide.
 
@@ -411,7 +399,7 @@ While the door is closed (see [Writing Room: door closed](#writing-room-door-clo
 
 **What it is.** **I'm stuck** opens a box that offers one small thing to do, so the empty page becomes a single sentence.
 
-**What it shows.** If your book has a beat sheet (a method's list of beats, in order, chosen for your book in Narrative Zoom), the box shows one beat:
+**What it shows.** If your book has a beat sheet (a writing method's list of beats, in order; where to choose one is in [Choosing a beat sheet for a novel](#choosing-a-beat-sheet-for-a-novel)), the box shows one beat:
 
 - A line at the top: *Read only this beat. Do not look at the others.* If the open scene sits at this beat, the line starts by saying so. The point is to shrink the problem to one beat.
 - The beat's number and name, such as **4. Catalyst**.
@@ -472,7 +460,7 @@ Clicking **The Writing Room** tab takes you back to the page too, but it does no
 
 ### Writing Room: Focus
 
-**What it is.** **Focus**, the last link above the page, hides everything but the page: the binder, the scene plan, the links, the tabs, the strip across the top of the window that shows the book's shape, and the header with the Saved indicator and the Capture button. Only your scene, its title and its word line remain.
+**What it is.** **Focus**, the last link above the page, hides everything but the page: the binder, the scene plan, the links, the tabs, the story strip across the top of the window (see [The story strip across the top of the window](#the-story-strip-across-the-top-of-the-window)), and the header with the Saved indicator and the Capture button. Only your scene, its title and its word line remain.
 
 **Why it matters.** Sometimes the screen itself is the distraction: you keep glancing at the word count, the binder, the open questions.
 
@@ -531,16 +519,6 @@ The box closes and your cursor is back on the page. A short line beside the Capt
 
 **Example.** Mid-sentence, you wonder whether Cyrus already knew the boat's name before Marisol told him. You press **Ctrl+Shift+N**, type the question, choose **A question I have** and **I need this to keep writing**, and press **Ctrl+Enter**. It now waits in the scene plan, on page 3 Notes, under Attached to this scene, marked *needed to keep writing*, and on Where was I under **Questions still open**.
 
-## Writing Room: door closed
-
-**Door closed** is a setting that stops Story Canon from judging your draft until a day you choose. While it is closed, the Writing Room changes in three ways:
-
-- No red spelling underlines on the page.
-- The *Ctrl+Shift+L leaves a note for later* reminder under the page is hidden.
-- **Read it back** still reads aloud, but Echoes, watch words and Long sentences wait, with **Look anyway** if you want them.
-
-How to close and open the door, and why it pairs well with a writing push, is in [Goals, sprints and November](#goals-sprints-and-november).
-
 ## Writing Room: when the program closed or two windows disagree
 
 These two boxes are rare. When one appears, the page will not take typing until you choose. That is on purpose: it means nothing can be overwritten by accident.
@@ -594,7 +572,7 @@ If the same scene is open in two Story Canon windows and you type in both, the s
 | The status, scene notes or Earlier versions are missing from the scene plan | They are on other pages of the plan. Status is on **2 About it**; notes and **Earlier versions** are on **3 Notes**. Click the tab, or **All pages** |
 | The scene plan disappeared | **Read it back** was clicked twice, or **Hide scene plan** once. Click **Show scene plan** |
 | Show in Narrative Zoom says the scene is not on the plan | The scene has no card yet. Fill any line of its scene plan, or join it to its card |
-| No red underlines and no echoes | The door is closed, or a sprint is running |
+| No red underlines and no echoes | The door is closed (see [Goals: door closed](#goals-door-closed)), or a sprint is running |
 | A new scene isn't in Planned, not written yet | That list only holds cards from your plan with no page. A scene you added is already in the binder |
 | A card you already wrote is still in Planned, not written yet | Its page was made with **Add scene**, so they are not joined. Use **Is this scene on your plan?** on page **1 The plan** of the scene plan |
 | A note for later isn't in the Left for later list yet | The list reads the saved scene. Pause a moment, or leave the scene, and it appears |

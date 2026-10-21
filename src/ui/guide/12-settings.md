@@ -1,6 +1,6 @@
 # Settings and your other computers
 
-**Settings** is the view where you tell Story Canon how you want one novel to work: the name it calls you, how long you expect the book to be, your goals, how much the collaborator speaks up, the words it uses for each status, and where your backups go. This chapter walks through Settings page by page, every section in the order you meet it on screen. Then it covers four places you reach from Settings or near it: sharing your novels between two computers (including setting up a second computer from the Library), **My methods** (making a beat sheet of your own), and **Drafts** (keeping a whole version of the book).
+**Settings** is the view where you tell Story Canon how you want one novel to work: the name it calls you, how long you expect the book to be, your goals, how much the collaborator speaks up, the words it uses for each status, and where your backups go. This chapter walks through Settings page by page, every section in the order you meet it on screen. Then it covers three things you reach from Settings or near it: sharing your novels between two computers (including setting up a second computer from the Library), **My methods** (making a beat sheet of your own), and **Drafts** (keeping a whole version of the book).
 
 Read this chapter when you want to change how Story Canon behaves, when you buy a second computer, or when something on another screen sends you here. You do not need to read it before you start writing. Nothing in Settings is required. Every choice already has a sensible starting value, and a new writer can leave the whole page alone for weeks.
 
@@ -44,7 +44,7 @@ Story Canon remembers which page of Settings you were on, for each novel, while 
 
 **Save settings works across pages.** You can change something on page 1, turn to page 3, change something there, and press **Save settings** once. Both changes are kept. Turning a page never throws away what you typed.
 
-When this guide or the program points you to a part of Settings, it names the page. For example, the line under **Your name** says *About you (page 5)*.
+When this guide or the program points you to a part of Settings, it names the page. For example, the line under **Your name** says *About you (page 5)*. Two links elsewhere open Settings straight at the right page: **Turn it on in Settings**, in a conversation while the collaborator is off, opens page **4 The collaborator**, and the **Settings** link in the drafting progress on Where was I opens page **2 Goals and November**.
 
 **Example.** You want to rename **Developing** to "Pencil" in *The Keeper of Gull Point*. You click **Settings**, then the tab **3 Writing**, and find **Words for decisions** there.
 
@@ -66,7 +66,7 @@ A few sections save the moment you change them, and their headings carry a small
 
 **The common mistake** is changing your goal, clicking another view, and finding the old goal next time. Before you leave Settings, glance at the line beside **Save settings**. If it says you have changes not saved yet, press the button.
 
-**Example.** You are writing *The Keeper of Gull Point*. You change the **Target length** to 80000, then scroll down and rename **Developing** to "Pencil." The line says **You have changes not saved yet.** You press **Save settings** once, and both changes are kept: **Saved at 9:12 PM.**
+**Example.** You are writing *The Keeper of Gull Point*. You change the **Target length** to 80000 on page **1 This novel**, then click the tab **3 Writing** and rename **Developing** to "Pencil." The line says **You have changes not saved yet.** You press **Save settings** once, and both changes are kept: **Saved at 9:12 PM.**
 
 ## Settings: This novel
 
@@ -89,7 +89,7 @@ This box is used for three things:
 - **The Kept for you marker**, through your About you name or your first name (see [Settings: the Kept for you marker](#settings-the-kept-for-you-marker)).
 - **The author name on exports**, unless you set a pen name in the next box.
 
-**This looks wrong but is fixable in one step.** A novel that came to you from someone else, such as an archive a friend sent or a novel built from another person's planning documents, arrives with that person's name in this box. Your messages in its conversations will be signed with their name until you change it. Type your own name here and press **Save settings**.
+**This looks wrong but is fixable in one step.** A novel that came to you from someone else, such as an archive a friend sent, arrives with that person's name in this box. Your messages in its conversations will be signed with their name until you change it. Type your own name here and press **Save settings**.
 
 ### Settings: Author name on this book
 
@@ -115,7 +115,7 @@ How many words make one printed page, used wherever Story Canon estimates pages.
 
 ## Settings: Your next writing action
 
-On page **1 This novel**, under its own heading below the five boxes, **Your next writing action** is one line for what you mean to write next. The gray hint in the empty box reads "For example: Draft the opening scene in the driveway."
+On page **1 This novel**, under its own heading below the five boxes, **Your next writing action** is one line for what you mean to write next, such as "Draft the opening scene, where Marisol finds the empty boat." The empty box shows a gray example of its own.
 
 What you type here shows as **Next** at the top of **Where was I**, your novel's home page (see [Where was I: your novel's home page](#where-was-i-your-novels-home-page)), and under the book's cover in the Library. So the first thing you see when you open the book tomorrow is what to do.
 
@@ -190,32 +190,7 @@ Lighter days, rest days and the catch-up math are set from **Where was I**, not 
 
 ## Settings: Door closed
 
-**Door closed** is a phrase from Stephen King: a first draft is written with the door closed, for the writer alone, and the door opens to critics only in revision. In Story Canon it is a setting that switches off everything that judges your pages, until a day you choose.
-
-The gray line under the heading explains it: "A first draft is for getting the story down, not for getting it right."
-
-**While the door is closed:**
-
-- No red spelling underlines on the page.
-- **Read it back** (Story Canon reading your scene aloud) still reads, but its notes on echoes, watch words and long sentences wait.
-- In Narrative Zoom, the story review questions and the list of possibly misspelled names wait.
-- The collaborator stays quiet about problems in the draft unless you ask for them.
-
-**What stays:** your plans, your notes, search, the Story Brain and reading aloud. Anything that waits shows a short note in its place, such as "The door is closed until November 30, so the story review waits until then," with a **Look anyway** link, so you can still check something on purpose.
-
-**How to close the door:**
-
-1. In **Settings**, on page **2 Goals and November**, find **Door closed** (just below the writing push).
-2. In **Keep it closed through**, pick the last day. It suggests the last day of your writing push if one is coming, or thirty days from today.
-3. Click **Close the door**. This acts at once; you do not need **Save settings**.
-
-The section then says "The door is closed through November 30." To move the day, pick a new one under **Change the day** and click **Save**. To open it early, click **Open the door now**. Otherwise it opens by itself the day after your date.
-
-You can also close it from Where was I (see [Goals, sprints and November](#goals-sprints-and-november)). What it changes on the page you write on is in [The Writing Room](#the-writing-room).
-
-**Why it works.** Drafting and judging use different parts of your attention. A flagged long sentence pulls you into fixing mode while you are still finding the scene. Keeping the two apart is how first drafts get finished.
-
-**The common mistake** is thinking the door hides your work or your notes. It hides only the judging. Everything you wrote and planned is still there.
+Page **2 Goals and November** ends with **Door closed**, which switches off everything that judges your pages until a day you choose. It acts through its own buttons, with no need for **Save settings**. What it does and how to use it are taught in [Goals: door closed](#goals-door-closed).
 
 ## Settings: scene status steps
 
@@ -287,23 +262,9 @@ The box **The marker for what is yours to write or decide** holds the words of t
 
 ### Settings: other markers for work you keep
 
-**Other markers for work you keep (one per line)** lists more specific "mine" marks. They say what kind of work waits for you, so a glance at a record tells you whether it needs writing or staging. The gray line under the label explains: "Different kinds of work you keep for yourself, such as Mine to build or Mine to choreograph."
-
-The starting list:
-
-| Marker | What it says |
-| --- | --- |
-| **Mine to write** | You write this one. The collaborator never drafts it. |
-| **Mine to build** | You work out how it is built: the mechanics, the setup, how the pieces fit. |
-| **Mine to design** | You design it: how it looks, the space, the shape of the trap or the clue. |
-| **Mine to choreograph** | You stage the movement: who goes where, the fight, the chase. |
-| **Mine to time** | You set the timing: the pacing, when a reveal lands. |
-| **Mine to escalate** | You decide how it builds, and how big it gets before it breaks. |
-| **Mine to settle** | You decide the open question here. Suggestions wait; nothing is settled for you. |
+**Other markers for work you keep (one per line)** lists more specific "mine" marks, which say what kind of work waits for you. The gray line under the label explains: "Different kinds of work you keep for yourself, such as Mine to build or Mine to choreograph." The starting list is **Mine to write**, **Mine to build**, **Mine to design**, **Mine to choreograph**, **Mine to time**, **Mine to escalate** and **Mine to settle**; what each one means is in [Kept for you: work only you will do](#kept-for-you-work-only-you-will-do).
 
 Add your own, one per line, such as "Mine to research." Delete a line to remove a marker. Press **Save settings**. Every marker on this list, plus the main one, appears in the **Kept for you** dropdown on records and scenes.
-
-**Example.** The storm scene where Marisol climbs the lighthouse stairs with the lamp out is all movement and timing. You mark its scene card **Mine to choreograph**. When you ask the collaborator about the scene, it talks it through with you but leaves the staging to you.
 
 ## Settings: the collaborator
 
@@ -313,7 +274,7 @@ An **API key** is a long code from Anthropic, the company that makes Claude, tha
 
 In order, the section holds:
 
-- A box, **Claude API key**, and **Use this key**. Once a key is set, the box is replaced by "Your key is set." and a **Remove key** button. A faint line says where the key is kept: in the Windows program, "The key is kept in Windows secure storage."
+- A box, **Claude API key**, and **Use this key**. Once a key is set, the box is replaced by "Your key is set." and a **Remove key** button. A faint line says where the key is kept: "The key is kept in Windows secure storage."
 - **Use the collaborator for** (your novel's title)**. Story records you ask about are sent to Claude when you ask.** Nothing is sent until this is ticked.
 - **Also share the prose of a scene when I ask about that scene.** This can only be ticked once the collaborator is on.
 - **Which Claude answers**: **Opus** (the most careful, slower, costs the most per question), **Sonnet** (a good everyday choice at a middle cost), **Haiku** (the fastest and least costly) or **Fable** (another model your key may reach; check its price with Anthropic first).
@@ -380,7 +341,7 @@ The choice belongs to this computer and applies to every novel. The status inks 
 
 ## Your other computers: writing on two machines
 
-You can write on two computers, such as a laptop at home and a Surface at work, and keep your novels in step between them. Story Canon calls this **sharing**. It is set up in a section called **Your other computers**, which appears in two places: in **Settings** inside any novel, and in the **Library** (the screen listing all your novels), below **Your novels**. The two are the same switch for the whole computer; turning sharing on in one turns it on in the other.
+You can write on two computers, such as a laptop at home and another at work, and keep your novels in step between them. Story Canon calls this **sharing**. It is set up in a section called **Your other computers**, which appears in two places: in **Settings** inside any novel, and in the **Library** (the screen listing all your novels), below **Your novels**. The two are the same switch for the whole computer; turning sharing on in one turns it on in the other.
 
 **Do most writers need it?** Only if you write on more than one computer. If you use one computer, skip to [Settings: backups and archives](#settings-backups-and-archives).
 
@@ -403,8 +364,6 @@ Each computer keeps its own full copy of your novels, so each one works with no 
 
 All your novels are copied into the shared folder at once.
 
-(In a preview of Story Canon running in a web browser, there is no folder picker. You type the folder's path instead and click **Share through this folder**.)
-
 ### Sharing: setting up your second computer from the Library
 
 A brand-new second computer has no novels yet, so you cannot open Settings inside one. That is why the Library has its own **Your other computers** section, and you set up the second computer there, with no novel open.
@@ -412,7 +371,7 @@ A brand-new second computer has no novels yet, so you cannot open Settings insid
 1. Install Story Canon on the second computer and open it. It opens on the Library.
 2. Wait for OneDrive to finish bringing the shared folder onto this computer.
 3. Scroll to **Your other computers**, below **Your novels**.
-4. In **Call this computer**, type a different name, such as *Surface*.
+4. In **Call this computer**, type a different name, such as *Office PC*.
 5. Click **Choose the shared folder** and pick **the same folder** you chose on the first computer (the folder you chose, not the **Story Canon shared** folder inside it).
 6. A message says "Sharing is on. Novels your other computer has shared appear in this Library under On your other computers. Bring each one here once, and from then on it stays one book on both computers."
 7. Just above **Your other computers**, a list headed **On your other computers** appears, with the line "Shared from another computer and not on this one yet. Bring one here and the two stay one book." Each novel shows its title, which computer shared it and when ("from Laptop, Tue 3:25 PM"), and **Bring to this computer**.
@@ -420,9 +379,9 @@ A brand-new second computer has no novels yet, so you cannot open Settings insid
 
 From then on, the two computers keep each novel as one book.
 
-**The common mistake** is getting the book onto the second computer some other way: starting it fresh, bringing in an archive, or, if the Library offers a card saying a novel built from your planning documents "is ready," clicking that. Each of those makes a second, separate book that never stays in step with the first. Turn on sharing in the Library first. Once the other computer's copy is in the shared folder, such an offer goes away by itself, and **Bring to this computer** brings over the same book.
+**The common mistake** is getting the book onto the second computer some other way, such as starting it fresh or bringing in an archive. Each of those makes a second, separate book that never stays in step with the first. Turn on sharing in the Library first, and use **Bring to this computer**, which brings over the same book.
 
-**Example.** You planned *The Keeper of Gull Point* on your home laptop. On the Surface at work, you install Story Canon, name it *Surface* in the Library, choose the same OneDrive folder, and click **Bring to this computer** beside *The Keeper of Gull Point*. It opens on its home page, with every chapter and record.
+**Example.** You planned *The Keeper of Gull Point* on your home laptop. On the computer at work, you install Story Canon, name it *Office PC* in the Library, choose the same OneDrive folder, and click **Bring to this computer** beside *The Keeper of Gull Point*. It opens on its home page, with every chapter and record.
 
 ### Sharing: what the section shows once it is on
 
@@ -437,7 +396,7 @@ From then on, the two computers keep each novel as one book.
 
 ### Sharing: bringing in work from your other computer
 
-When you open a novel and your other computer has shared newer work on it, a notice appears above the page: "Your Surface shared newer work on this novel (Tue 1:10 PM). Bring it in before you write." with **Bring it in**. Click it. Story Canon makes a backup first, then brings the newer work in and shows it. If you were typing at that very moment, it says "You were typing, so nothing was changed. Try again in a moment."
+When you open a novel and your other computer has shared newer work on it, a notice appears above the page: "Your Office PC shared newer work on this novel (Tue 1:10 PM). Bring it in before you write." with **Bring it in**. Click it. Story Canon makes a backup first, then brings the newer work in and shows it. If you were typing at that very moment, it says "You were typing, so nothing was changed. Try again in a moment."
 
 The tick box **Ask me before bringing in work from my other computer** decides how much waits for you:
 
@@ -446,18 +405,18 @@ The tick box **Ask me before bringing in work from my other computer** decides h
 
 Either way, when both computers changed a novel, you always choose (next section).
 
-If the novel is open on your other computer with changes it has not shared yet, a different notice says so: "This novel is open on your Surface with changes it has not shared yet." If you write here too, Story Canon will ask you later which version to keep as the main one, and nothing is lost. Click **Write here anyway** to hide the notice and go on.
+If the novel is open on your other computer with changes it has not shared yet, a different notice says so: "This novel is open on your Office PC with changes it has not shared yet." If you write here too, Story Canon will ask you later which version to keep as the main one, and nothing is lost. Click **Write here anyway** to hide the notice and go on.
 
 **Good habit:** close Story Canon on one computer before you start on the other. It is not required, but you will almost never be asked to choose.
 
 ### Sharing: when both computers changed a novel
 
-Say you wrote at lunch on the Surface, and the laptop at home also had changes it had not shared. Story Canon will not pick for you. A notice says "This computer and your Surface both changed this novel since they last shared," with two buttons:
+Say you wrote at lunch on the work computer, and the laptop at home also had changes it had not shared. Story Canon will not pick for you. On the laptop, a notice says "This computer and your Office PC both changed this novel since they last shared," with two buttons:
 
 - **Keep this computer's as the main version**
-- **Make the Surface's the main version**
+- **Make the Office PC's the main version**
 
-Whichever you choose becomes the main novel on both computers. The other is not thrown away. It is kept in your Library beside the main one, on both computers, named for where it came from, such as "The Keeper of Gull Point (from Surface, Oct 21, 1:10 PM)". A message tells you its exact name.
+Whichever you choose becomes the main novel on both computers. The other is not thrown away. It is kept in your Library beside the main one, on both computers, named for where it came from, such as "The Keeper of Gull Point (from Office PC, Oct 21, 1:10 PM)". A message tells you its exact name.
 
 Afterward, open the kept version, copy anything you want from it into the main one, then remove the kept version from the shelf if you like.
 

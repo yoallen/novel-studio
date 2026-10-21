@@ -33,20 +33,20 @@ On **Bring something in**, the page opens with "Nothing goes into your novel unt
 
 1. Click **Import and export** in the list on the right. The **Bring something in** tab is first.
 2. Choose what you have. There are four choices, each a round button with a short description under it (see the table below).
-3. If you chose **A planning document**, a small dropdown appears, **It is a**, with **story bible**, **archive of decisions** or **other planning document**. Pick the closest. It only names what kind of document it is.
+3. If you chose **A planning document**, a small dropdown appears, **It is a**, with three choices: **story bible**, **archive of decisions** (the screen's name for a running log of the choices you made over time) or **other planning document**. Pick the closest. It only names what kind of document it is.
 4. Click **Choose a file** and pick the file. While Story Canon reads it, the button says **Reading the file…**.
 5. The preview opens. Look it over (see [Looking over an import before it goes in](#looking-over-an-import-before-it-goes-in)) and click the button at the bottom to bring it in.
 
 | Choose | For | File types |
 | --- | --- | --- |
 | **Chapters of my manuscript** | Your book's text, from Word or another writing program. | Word (.docx), Rich Text (.rtf), Markdown (.md), OpenDocument (.odt), plain text (.txt) |
-| **A planning document** | A story bible, an archive of decisions, character notes. | .docx, .rtf, .md, .txt, .odt |
+| **A planning document** | A story bible, a log of your decisions, character notes. | .docx, .rtf, .md, .txt, .odt |
 | **A plotting spreadsheet** | Your beat sheet in Excel. | Excel (.xlsx) |
 | **My editor's changes** | A Word file you exported from Story Canon that someone revised with Track Changes. | .docx |
 
 If you pick an Excel file under any choice, Story Canon knows it is a spreadsheet and treats it as one.
 
-A few words in that table, explained. A **story bible** is the document many writers keep with everything decided about their book: characters, places, rules, history. An **archive of decisions** is a running record of choices made over time. A **beat sheet** is a list of a book's beats in order with roughly where each falls. **Track Changes** is the Word feature that records each edit (who deleted what, who added what) so the writer can accept or refuse it.
+A few words in that table, explained. A **story bible** is the document many writers keep with everything decided about their book: characters, places, rules, history. A **beat sheet** is a list of a book's beats in order with roughly where each falls. **Track Changes** is the Word feature that records each edit (who deleted what, who added what) so the writer can accept or refuse it.
 
 ### Chapters of my manuscript
 
@@ -70,7 +70,7 @@ A few words in that table, explained. A **story bible** is the document many wri
 
 **Why it matters.** If you plotted in a spreadsheet, perhaps from a class or a template, its numbers come with you, and you can switch between them and Save the Cat's.
 
-**Do you need it?** Only if you have such a spreadsheet. The sheet needs a header row whose first cell is "Beats" (or "Beat", "Stages", "Steps", "Points" or "Plot points"), with one beat on each row below it. Columns headed with "250 words per page" or "300 words per page" give the word counts. Without such a header row, Story Canon says "No beat rows were found. The importer looks for a header row that starts with "Beats"."
+**Do you need it?** Only if you have such a spreadsheet. The sheet needs a header row whose first cell names the column of beats (a word such as "Beats" or "Steps"), with one beat on each row below it. Word-count columns whose headings say how many words per page they assume are read too. The plotting sheet Story Canon exports (see [Your plotting sheet](#your-plotting-sheet)) is laid out this way, so it is a safe model. Without such a header row, Story Canon says "No beat rows were found. The importer looks for a header row that starts with "Beats"."
 
 ### My editor's changes
 
@@ -170,16 +170,18 @@ After you click **Add the checked passages**, the Done page counts the passages 
 
 ### Imported passages: how labels become statuses
 
-When your document labels a passage (for example by starting it with "Decided." or "Still open:"), Story Canon reads the label exactly and turns it into the matching status:
+When your document labels a passage (for example by starting it with "Decided." or "Still open:"), Story Canon reads the label exactly and turns it into the matching status. It knows Story Canon's own status words and a few common ones, such as:
 
 | Your document says | It comes in as |
 | --- | --- |
 | Decided | **Decided** |
-| Developing, Decided in spirit, What it is | **Developing** |
-| Still open, Open, Over to me, My move, My turn, Now I write, Hand it to me | **Still open** |
-| Example, One way it could be done, One way I could play it | **Example** |
-| Here's a suggestion, Editorial possibility | **Suggestion** |
+| Developing | **Developing** |
+| Still open, Open | **Still open** |
+| Example, One way it could be done | **Example** |
+| Here's a suggestion | **Suggestion** |
 | Set aside | **Set aside** |
+
+So if your notes use words like Decided, Developing, Open and Example at the start of a passage, they come in at the right status. A label it does not know is treated as no label.
 
 A passage with no label shows **No label** in the dropdown. For a character, an unlabeled passage comes in as **Developing**, with the note "No label in the document; it comes in as Developing. Change it if it is more or less settled."
 
@@ -193,8 +195,8 @@ The preview shows, from top to bottom:
 
 - **Make this a beat sheet of my own**, a tick box. Ticked, each row of the sheet becomes a beat, placed where the sheet puts it, and every novel can then use it, like Save the Cat. Unticked, the sheet only adds another placement for your existing beats.
 - A line saying how many rows matched your Save the Cat beats. A row that did not match shows a **no match** label.
-- Warnings, such as a word count that does not agree with its page number: "Possible typo; 27,500 is suggested."
-- **Use the numbers at 250 words per page** or **300 words per page**, when the sheet has both. This is the sheet's **page density**: how many words it counts as one page.
+- Warnings, such as a word count that does not agree with its page number, each ending "Possible typo;" and the number Story Canon suggests instead.
+- **Use the numbers at**, with a choice for each words-per-page count, when the sheet has more than one (such as 250 and 300 words per page). This is the sheet's **page density**: how many words it counts as one page.
 - **Use the suggested corrections for flagged numbers.**
 - **Keep each beat's description**, so the sheet's notes stay with each beat as your own teaching.
 - **Name for this placement choice**, the name it will have in lists.
@@ -307,7 +309,7 @@ Then the planning sections, each a tick box. Tick any to add them after the manu
 With any section ticked, two more choices appear:
 
 - **Include examples, labeled "Example"**, ticked at first. Examples stay clearly marked so a reader never takes one for a decision.
-- **Include private writing aids (casting, theme music, playlists)**, unticked at first. These are the private fields on a character's last page. Leave it unticked for anything you send to another person.
+- **Include private writing aids (casting, theme music, playlists)**, unticked at first. These are the private fields on a character's **Notes, guardrails and writing aids** page. Leave it unticked for anything you send to another person.
 
 ### Choosing chapters to export
 
@@ -357,15 +359,13 @@ Read these before you click. They are the reason nothing surprises you after the
 ### After Export: the check and where the file goes
 
 1. Click **Export**. The button reads **Making the file…**.
-2. In the Windows program, a save window opens, starting in your Documents folder, inside **Story Canon**, then **Exports**. Choose a place and a name, and click **Save**.
+2. A save window opens, starting in your Documents folder, inside **Story Canon**, then **Exports**. Choose a place and a name, and click **Save**.
 3. A notice shows the file name, its size, and the result of the check, such as "Checked: all 3 chapters are in the file, in order, word for word."
-4. Under it, one sentence says where the file went: "Saved to" and the exact path, with **Show it in its folder**, which opens that folder in Windows.
+4. Under it, one sentence says where the file went: "Saved to" and the exact path, with **Show it in its folder**, which opens that folder.
 
 **If you close the save window without saving,** the notice says "The file was made but not saved, because the save window was closed," with **Save it**. Click it to choose a place after all.
 
 **If the check fails,** the notice is shaded as a warning and starts "Not confirmed." with what is missing or different. Do not send that file; export again, or try another format.
-
-(In a test version of Story Canon running in a web browser, the file goes where the browser puts downloads, usually the Downloads folder, and the notice says so, with **Save it again**.)
 
 **The common mistake** is sending a working copy to an agent. Before you send the book to anyone, choose **Editorial manuscript** (or **Beta reader copy** for a friend), check that **Title page** is ticked, and read the notes about notes for later.
 

@@ -70,12 +70,12 @@ Each result has three lines.
    - "Story detail, character, Decided" is one fact on a record, followed by the record's kind and the fact's status.
    - "Conversation" is a message in a conversation.
    - "Document, Characters > Ana Ruiz, paragraph 3" is a passage in a planning document, followed by where it sits in that document: the headings above it and its paragraph number.
-2. **The underlined title.** For a scene, the scene's title. For a record, its name. For a fact, the record's name and the field it is written in, such as "Marisol Vega, wounds." For a message, the conversation's title. For a passage, the document's name.
+2. **The underlined title.** For a scene, the scene's title. For a record, its name. For a fact, the record's name and the field it is written in, in small letters, such as "Marisol Vega, wounds" for her **Wounds** field. (A few fields go by a shorter name here than the label on the record.) For a message, the conversation's title. For a passage, the document's name.
 3. **A few lines around the match**, in the book's typeface, so you can tell whether it is the one you want.
 
 The word you searched for is highlighted in each title and snippet.
 
-**Reference numbers in results.** If you brought in detailed planning files that used their own reference codes (such as "CH-012" for an entry in a character file), those codes show in results in small gray type with a dotted underline. Click one and Story Canon tells you what it points to, with the passage itself when that document is among the ones you brought in. The Story Brain chapter explains these codes (see [The Story Brain](#the-story-brain)). The words "a planning note, kept with your records" in a result's label mean it is a note record (the **Notes** kind in the Story Brain) that came in from planning files.
+**Reference codes in results.** If you brought in planning files that used their own short reference codes for their entries, those codes show in results in small gray type with a dotted underline. Click one and Story Canon tells you what it points to, with the passage itself when that document is among the ones you brought in. The Story Brain chapter explains these codes (see [The Story Brain](#the-story-brain)). The words "a planning note, kept with your records" in a result's label mean it is a note record (the **Notes** kind in the Story Brain) that came in from planning files.
 
 ### Where a search result opens
 
@@ -85,35 +85,17 @@ Story Canon opens each result in its own home, at the exact spot.
 | --- | --- |
 | **Your pages** | That scene in the Writing Room, ready to write. |
 | **Story record** | That record in the Story Brain. |
-| **Story detail** | That record in the Story Brain, turned to the page that holds the fact you found. On a character, for example, a match in the **Wounds** field opens the Inner life page, not page 1. |
+| **Story detail** | That record in the Story Brain, turned to the page that holds the fact you found. On a character, for example, a match in the **Wounds** field opens the **Inner life** page, not the first page. |
 | **Conversation** | That conversation on the Conversations view, scrolled to the exact message and marked with a pink bar at its left. If the match is in a behind-the-scenes step, those steps are shown so you can see it. |
 | **Document** | **Your documents** on the Import and export view, with that document open, scrolled to the exact passage and marked with a pink bar. |
 
 If you were writing when you searched, the **Return to Writing** ribbon appears at the top left of the page. Click it (or press **Ctrl+Shift+W**) to go straight back to your exact spot in the scene.
 
-**Example.** You remember that Ana Ruiz once said something about "salt in the lungs," but not where. You press **Ctrl+K** and type *salt in the lungs*. Two results come up. One is labeled "Story detail, character, Developing" with the title "Ana Ruiz, speech"; the other is "Your pages." You click the Story detail, and Ana's record opens on its Looks and voice page, at her **Sayings and verbal habits**, with the line right there. You click **Return to Writing** and you are back in your sentence.
+**Example.** You remember writing something about "the radio going quiet" for Marisol, but not where. You press **Ctrl+K** and type *radio going quiet*. Two results come up. One is labeled "Story detail, character, Developing" with the title "Marisol Vega, wounds"; the other is "Your pages." You click the Story detail, and Marisol's record opens on its **Inner life** page, at her **Wounds** field, with the line right there: the radio went quiet the night Eli drowned in 2012. You click **Return to Writing** and you are back in your sentence.
 
 ## Capture: finding the thoughts you saved
 
-**Capture** (the button at the top right of every page, or **Ctrl+Shift+N**) saves a thought in a few seconds without taking you anywhere. How to use it while you write is taught in [The Writing Room](#the-writing-room). This section is about finding those thoughts again, because a saved thought is only useful if you can get back to it.
-
-When you save, a short line appears beside the **Capture** button saying where the thought went, such as "Saved. It waits in Captured thoughts, in Story Brain under Questions and ideas." The line fades after a few seconds.
-
-Each kind of capture waits in its own place:
-
-| You chose | It waits in |
-| --- | --- |
-| **Just a thought** | **Captured thoughts**, in **Questions and ideas**. Recent ones also show on Where was I, page **2 Still open**, under **Thoughts waiting to be sorted**. |
-| **A question I have** | **Questions I have**, in **Questions and ideas**, where you can answer it later. |
-| **An idea I am thinking about** | **Things and ideas I'm thinking about**, in **Questions and ideas**. |
-
-**Questions and ideas** is at the top of the Story Brain's list on the left. When no thoughts are waiting to be sorted, Where was I says "Nothing waiting. Every thought you saved has a home."
-
-**Sorting a thought.** A thought is unsorted on purpose, so you can capture without deciding anything. Later, in **Questions and ideas**, each captured thought has two buttons, **Make it a question** and **Make it an idea**, so sorting it takes one click.
-
-**Thoughts attached to a scene.** If you captured while a scene was open and left **Attach to this scene** ticked, the thought also waits in that scene's plan, under **Attached to this scene**, so you find it the next time you open the scene. Each one has its own buttons there: **Done** for a thought, **Answered** and **No longer relevant** for a question, **Adopt** and **Set aside** for an idea. Using one takes it off the scene's open list. Nothing is deleted.
-
-You can also simply search for a captured thought: it is a record, so Search finds it under **Story records**.
+Thoughts you save with **Capture** (taught in [Writing Room: Capture while writing](#writing-room-capture-while-writing)) wait in the Story Brain, under **Questions and ideas**, at the top of its list on the left: a plain thought under **Captured thoughts**, a question under **Questions I have**, an idea under **Things and ideas I'm thinking about**. A thought captured with **Attach to this scene** ticked also waits in that scene's plan. You can also search for a captured thought: it is a record, so Search finds it under **Story records**.
 
 **Example.** On Tuesday you captured *Does Cyrus own a second boat?* as **A question I have**. On Friday you want it. You open the Story Brain, click **Questions and ideas**, and it is under **Questions I have**, waiting for an answer.
 
@@ -185,7 +167,7 @@ Nothing happens until you choose.
 The names are close, so here is one line on each.
 
 - The **Story Trail** (this view) is every change to your novel: records, scenes, settings, conversations.
-- The **Writing Trail** is part of the Writing Room. It lists each **detour**, meaning each time you stepped away from the page to look something up, so you can get back. It changes nothing in your story. See [The Writing Room](#the-writing-room).
+- The **Writing Trail** is part of the Writing Room. It lists each **detour**, meaning each time you stepped away from the page to look something up, so you can get back. It changes nothing in your story. See [Writing Room: detours and Return to Writing](#writing-room-detours-and-return-to-writing).
 
 ## Deleted things: restoring what you removed
 

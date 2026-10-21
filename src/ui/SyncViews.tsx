@@ -103,7 +103,7 @@ export function SyncSettings({ projectId, onMsg, onError, onChanged }: { project
       <h2 id="sync-h">Your other computers</h2>
       {!st.on ? (
         <>
-          <p className="muted small">Write on this computer and another, such as a laptop at home and a Surface at work. Both use a folder they can each see, like OneDrive. Each computer keeps its own copy of your novels and shares what changed every few minutes and when you close Story Canon; the other takes it in when it opens. Nothing is ever overwritten: if both computers change a novel before sharing, Story Canon asks you which is the main version and keeps the other beside it.</p>
+          <p className="muted small">Write on this computer and another, such as a laptop at home and another at work. Both use a folder they can each see, like OneDrive. Each computer keeps its own copy of your novels and shares what changed every few minutes and when you close Story Canon; the other takes it in when it opens. Nothing is ever overwritten: if both computers change a novel before sharing, Story Canon asks you which is the main version and keeps the other beside it.</p>
           <label className="field" style={{ maxWidth: 360 }}><span>Call this computer</span><input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Laptop, Surface…" maxLength={60} /></label>
           <div className="row">
             {desktop?.chooseFolder ? <button className="btn" disabled={busy} onClick={() => void choose()}>Choose the shared folder</button> : (
