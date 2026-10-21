@@ -175,7 +175,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded }: { c
       <div className="legend" aria-hidden="true">
         <span className="st" data-s="established">{statusWord(ctx.settings, 'established')} (inked)</span>
         <span className="st" data-s="developing">{statusWord(ctx.settings, 'developing')} (pencil)</span>
-        <span className="st" data-s="unanswered">{statusWord(ctx.settings, 'unanswered')} (a blank)</span>
+        <span className="st" data-s="unanswered">{statusWord(ctx.settings, 'unanswered')} (a blank line)</span>
         <span className="st" data-s="illustrative">{statusWord(ctx.settings, 'illustrative')}, never canon</span>
         <span className="legend-slip">{statusWord(ctx.settings, 'proposed')} (a slip, tucked in)</span>
       </div>

@@ -44,6 +44,11 @@ export function Home({ ctx }: { ctx: Ctx }) {
 
   return (
     <div className="scroll"><div className="content">
+      <header className="home-intro">
+        <h1>Where was I</h1>
+        <p className="home-intro-sub">This is <em>{ctx.project?.title ?? 'your novel'}</em>'s home page.</p>
+        <p className="home-intro-text">Story Canon opens here every time you come back to this book. It picks up where you left off: the next thing to write, how your words are going, notes you left for later, questions still open, and what you decided most recently. Whenever you lose your place, come back here.</p>
+      </header>
       <section className="hero" aria-labelledby="next-h">
         <h2 id="next-h" className="muted small" style={{ fontFamily: 'var(--ui)', fontWeight: 400 }}>Next</h2>
         <p className="next">{w.nextAction.text}</p>

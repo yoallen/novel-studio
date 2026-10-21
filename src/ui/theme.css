@@ -39,6 +39,11 @@
   --prose: 'Literata', Georgia, serif;
   --book: 'Libre Caslon Text', 'Literata', Georgia, serif;
   --display: 'Libre Caslon Display', 'Libre Caslon Text', Georgia, serif;
+  --hand: 'Patrick Hand', 'Atkinson Hyperlegible', system-ui, sans-serif;
+  /* Each status has its own ink, on the words themselves. */
+  --st-decided: #1d3f8f;
+  --st-example: #7a4a1c;
+  --st-suggest: #5b2a86;
   --r-sm: 2px;
   --r-md: 3px;
   color-scheme: light;
@@ -49,6 +54,7 @@
     --bg: #1c1722; --page: #1c1722; --sheet: #241e2b; --ink: #f1ebf5; --pencil: #a99fb3; --muted: #b7adc4; --faint: #8e849c; --margin: #bba2d2;
     --line: rgba(205, 180, 230, 0.16); --line-strong: rgba(205, 180, 230, 0.4); --wash: rgba(205, 180, 230, 0.06);
     --struct: #c9a7ea; --tab-profound: #b48be0; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
+    --st-decided: #9cbcf5; --st-example: #e4b98a; --st-suggest: #d6b6f2;
   }
 }
 :root[data-theme='dark'] {
@@ -56,6 +62,7 @@
   --bg: #1c1722; --page: #1c1722; --sheet: #241e2b; --ink: #f1ebf5; --pencil: #a99fb3; --muted: #b7adc4; --faint: #8e849c; --margin: #bba2d2;
   --line: rgba(205, 180, 230, 0.16); --line-strong: rgba(205, 180, 230, 0.4); --wash: rgba(205, 180, 230, 0.06);
   --struct: #c9a7ea; --tab-profound: #b48be0; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
+    --st-decided: #9cbcf5; --st-example: #e4b98a; --st-suggest: #d6b6f2;
 }
 
 * { box-sizing: border-box; }
@@ -806,3 +813,26 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 /* The Library's Help sits on the purple margin: cream text, so it reads clearly in both themes. */
 .btn.library-help { color: #faf5ef; background: transparent; border: 1px solid rgba(250, 245, 239, 0.7); }
 .btn.library-help:hover, .btn.library-help:focus-visible { background: rgba(250, 245, 239, 0.14); color: #faf5ef; }
+
+/* ---- Status inks: the colour is on what was decided, not only on its label ---- */
+.st[data-s='established'], .st[data-s='established'] > div:first-child { color: var(--st-decided); }
+.st:is(.fact, li, .legend > *)[data-s='established']::before { background: var(--st-decided); }
+.fact-status[data-s='established'] { color: var(--st-decided); }
+.fact-status[data-s='established']::before { background: var(--st-decided); }
+/* Example: its own sepia ink, and a word you can read in place of the tiny flower. */
+.st:is(.fact, li, .legend > *)[data-s='illustrative'] { padding-left: 0; }
+.st:is(.fact, li, .legend > *)[data-s='illustrative']::before { content: none; }
+.st[data-s='illustrative'] > div:first-child, .legend > .st[data-s='illustrative'] { color: var(--st-example); font-family: var(--book); font-style: italic; }
+.st.fact[data-s='illustrative'] > div:first-child::before { content: 'Example'; font-family: var(--ui); font-style: normal; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.04em; color: var(--st-example); border: 1px solid currentColor; border-radius: 2px; padding: 0 0.35em; margin-right: 0.5em; vertical-align: 0.15em; }
+.fact-status[data-s='illustrative'] { color: var(--st-example); }
+/* Suggestion: still a slip tucked in, now in someone else's handwriting. */
+.st[data-s='proposed'] > div:first-child { font-family: var(--hand); font-size: 1.1875rem; line-height: 1.45; color: var(--st-suggest); }
+.legend-slip { font-family: var(--hand); font-size: 1rem; color: var(--st-suggest); }
+.fact-status[data-s='proposed'] { color: var(--st-suggest); }
+
+/* Where was I says plainly that it is the novel's home page. */
+.home-intro { margin: 0 0 2rem; max-width: 46rem; }
+.home-intro h1 { margin-bottom: 0.2rem; }
+.home-intro-sub { font-family: var(--book); font-size: 1.25rem; color: var(--struct); margin: 0 0 0.5rem; }
+.home-intro-text { color: var(--muted); margin: 0; line-height: 1.6; }
+.home-tag { display: block; font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.02em; opacity: 0.8; line-height: 1.2; margin-top: 0.1rem; }
