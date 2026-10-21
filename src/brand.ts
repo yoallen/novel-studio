@@ -8,7 +8,7 @@ export const BRAND = {
   /** The line under the name on the Library's title page. */
   tagline: 'Where your story takes shape, and nothing gets lost.',
   /** The promise, set in italic beneath the ornament. */
-  motto: 'Story Canon remembers. The author decides.',
+  motto: 'Story Canon remembers. You decide.',
   /** The company, if and when there is one (for example "Plots and Pants"). Left blank, it never shows. */
   company: '',
 } as const;

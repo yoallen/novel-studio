@@ -18,7 +18,7 @@ You do not need to have written a novel before. You do not need to plot in advan
 
 When you open Story Canon, the first page shows its name, a short line under it (*Where your story takes shape, and nothing gets lost.*), a small flower ornament, and a motto in slanted type:
 
-*Story Canon remembers. The author decides.*
+*Story Canon remembers. You decide.*
 
 That motto is the whole program in two sentences. It says how the work is split between you and Story Canon.
 
@@ -26,7 +26,7 @@ That motto is the whole program in two sentences. It says how the work is split 
 
 Every idea you write down, every chat you bring in from planning, every change you make is kept, along with who said it and when. Nothing is quietly thrown away. Even what you delete waits in a place where you can bring it back. Months from now you can ask "where did this come from?" and get an answer.
 
-### The author decides
+### You decide
 
 Only you settle anything about your book. The program never turns a maybe into a yes for you. An idea from a friend, from an AI chat such as ChatGPT, or from the writing partner built into Story Canon stays an idea until you choose it, on purpose, with a click.
 

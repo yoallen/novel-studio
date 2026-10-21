@@ -74,7 +74,7 @@ From top to bottom, the Library holds the parts below. Several only appear when 
 | Part | What it is | When you see it |
 | --- | --- | --- |
 | **Help** (top right of the window, on the purple edge) | The whole guide | Always |
-| The title page | *Story Canon*, the line *Where your story takes shape, and nothing gets lost.*, and the motto *Story Canon remembers. The author decides.* | Always |
+| The title page | *Story Canon*, the line *Where your story takes shape, and nothing gets lost.*, and the motto *Story Canon remembers. You decide.* | Always |
 | **Before we begin, tell Story Canon about you** | The About you card, above | The first time only |
 | **Your novels** | The shelf itself | Always. With no novels, it says *Nothing here yet. Start a novel below, or bring one in from an archive.* |
 | **On your other computers** | Novels another computer has shared that are not on this one yet | Only when you share between computers and one is waiting |

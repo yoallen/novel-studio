@@ -10,7 +10,7 @@ Slips like these hide in the gaps between chapters you wrote weeks apart. You ca
 
 ### Continuity checks: questions, never errors
 
-Story Canon's motto is "Story Canon remembers. The author decides." The checks follow it. They never say something is wrong. They ask.
+Story Canon's motto is "Story Canon remembers. You decide." The checks follow it. They never say something is wrong. They ask.
 
 That is not politeness. A program cannot know your intentions. A flashback *is* an effect shown before its cause. An unreliable narrator *is* supposed to contradict the facts. A character who vanishes for ten chapters might be the twist. So every check ends with "Intended?" or a question like it, and you answer.
 
