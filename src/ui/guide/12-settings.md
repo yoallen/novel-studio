@@ -525,7 +525,7 @@ The **My methods** page lists your methods (or "None yet."). Each row shows the 
 
 Under **Its beats**, two gray notes explain the section. Leave beats empty for a method that is a lens or a habit rather than a beat sheet. With beats, the method can drive the Board (where you place scene cards on beats in Narrative Zoom), placement and Narrative Zoom just like Save the Cat.
 
-To start, click one of the **Start from** links: **A blank page**, **Save the Cat**, **The Hero's Journey**, **Story Circle**, **Seven-Point Structure** or **Three-Act Structure**. Starting from a known sheet copies its beats in for you to change. **A blank page** gives you one empty beat. **Where it comes from** is filled in for you if it was empty.
+To start, click one of the **Start from** links: **A blank page**, **Save the Cat**, **The Hero's Journey**, **Story Circle**, **Seven-Point Structure**, **Three-Act Structure** or **McKee's Five Parts**. Starting from a known sheet copies its beats in for you to change. **A blank page** gives you one empty beat. **Where it comes from** is filled in for you if it was empty.
 
 Each beat is a numbered row:
 

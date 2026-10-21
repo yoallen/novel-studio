@@ -95,7 +95,7 @@ export function NarrativeZoom({ ctx, request }: { ctx: Ctx; request: ZoomRequest
   );
 }
 
-const SHEETS: [string, string][] = [['save_the_cat', 'Save the Cat (Brody for novels)'], ['heros_journey', "The Hero's Journey"], ['story_circle', 'Story Circle'], ['seven_point', 'Seven-Point Structure'], ['three_act', 'Three-Act Structure']];
+const SHEETS: [string, string][] = [['save_the_cat', 'Save the Cat (Brody for novels)'], ['heros_journey', "The Hero's Journey"], ['story_circle', 'Story Circle'], ['seven_point', 'Seven-Point Structure'], ['three_act', 'Three-Act Structure'], ['mckee_five', "McKee's Five Parts"]];
 function NoBeats({ ctx, refresh }: { ctx: Ctx; refresh: () => void }) {
   const [pick, setPick] = useState('save_the_cat');
   const [mine, setMine] = useState<[string, string][]>([]);
@@ -378,7 +378,7 @@ function Board({ ctx, tick, onMove, onOpen, refresh }: { ctx: Ctx; tick: number;
   return (
     <>
       <p className="small muted">Drag a card onto a beat, or open a beat to add one. A card in pencil only might go there. Nothing moves until you have seen what the move would change.</p>
-      <p className="small board-teach">This is Blake Snyder's Board: four rows, one for each part of the story, with one card for each scene. Snyder aimed for about 10 cards a row, about 40 in all, to fill the road between the 15 beats. A novel often needs more, so treat 40 as a shape, not a quota. Each card should <strong>turn</strong>, starting on a plus and ending on a minus, or the other way round, and carry a <strong>conflict</strong>, marked &gt;&lt;. Both come from the card's own fields: <em>Value at the start</em>, <em>Value at the end</em> and <em>The conflict</em>.</p>
+      <details className="small board-teach"><summary>How the Board works: Snyder's cards and McKee's turn</summary><p>This is Blake Snyder's Board: four rows, one for each part of the story, with one card for each scene. Snyder aimed for about 10 cards a row, about 40 in all, to fill the road between the 15 beats. A novel often needs more, so treat 40 as a shape, not a quota. Each card should <strong>turn</strong>: Robert McKee teaches that every scene changes the charge of something at stake in a character's life, from plus to minus or minus to plus, and Snyder marks that turn on each card. Each card also carries a <strong>conflict</strong>, marked &gt;&lt;. Both come from the card's own fields: <em>Value at the start</em>, <em>Value at the end</em> and <em>The conflict</em>. With McKee on in Novel setup, each card also gets <em>The turn</em>: what turns the scene, and the gap between what the character expected and what happened.</p></details>
       {b.rows.map((r: any) => (
         <section key={r.act} className="board-act">
           <h2>{r.name} <span className="board-count">{r.count === 1 ? '1 card' : `${r.count ?? 0} cards`}{(r.count ?? 0) < 10 ? '. A full row is about 10.' : '.'}</span></h2>

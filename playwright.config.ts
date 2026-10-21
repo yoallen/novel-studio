@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 
 // End-to-end tests drive the real interface against the real local service with a fresh library.
-const PORT = 47391;
+const PORT = Number(process.env.PW_PORT) || 47391;
 export default defineConfig({
   testDir: 'tests/e2e',
   timeout: 60_000,

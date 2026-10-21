@@ -72,10 +72,29 @@ When a novel has no beat sheet yet, you can choose one of these:
 | **Story Circle** | Dan Harmon | Eight steps: go somewhere unfamiliar, pay a price, come back changed |
 | **Seven-Point Structure** | Dan Wells | Decide the ending first, then the opposite beginning, then the turns between |
 | **Three-Act Structure** | The classic shape | Setup, confrontation and resolution, with turning points between |
+| **McKee's Five Parts** | Robert McKee, *Story* | Inciting incident, progressive complications, crisis, climax and resolution |
 
 Every one of them works with the Board, the beat pages, the story strip and the checks. Their beats come with a short plain description, a usual placement ("Usually around 10% of the book.") and, on some beats, a question to test it. A few things belong to Save the Cat only: the three worlds, the **Questions for this beat** page on a beat, the sheet's examples, and the choice of two placement models in **Where beats fall**.
 
 **Which should you pick?** If you've never used one, pick **Save the Cat (Brody for novels)**. It's written for novels and Story Canon teaches it most fully. If you already think in another shape, pick that one.
+
+### McKee's Five Parts
+
+**What it is.** Robert McKee, in his book *Story*, describes one design that shapes every level of a story: a scene, a sequence of scenes, an act, and the whole book. It has five parts. **McKee's Five Parts** is that design as a beat sheet.
+
+1. **Inciting Incident.** The event that radically upsets the balance of the hero's life, for better or worse, and wakes a conscious desire to set it right. McKee places it within the first quarter of the story. It raises the question the climax will answer.
+2. **Progressive Complications.** Scene by scene, it gets harder. The hero acts, and the world answers in a way they didn't expect. McKee calls the space between what a character expects and what happens **the gap**. Each complication costs more than the last, until there is no going back.
+3. **Crisis.** At the moment of greatest pressure, the hero faces a true **dilemma**: the best of two bad choices, or two good things that can't both be kept. The choice shows who they really are.
+4. **Climax.** The action the hero takes on that choice, and the change it causes. McKee's test is that the change is *absolute and irreversible*.
+5. **Resolution.** Whatever follows the climax: the change spreading through the hero's world, and a moment for the reader to feel it.
+
+**Why it works.** The five parts are about pressure and choice, not page counts. That makes them a good partner for Save the Cat: Snyder tells you *where* the turns usually fall, and McKee tells you *what each turn must do*. Story Canon ties McKee's Crisis to Save the Cat's Break into Three, and his Climax to the Finale, so a scene placed on one sheet finds its place on the other.
+
+**The common mistake** is a crisis that isn't a real choice: the hero is rescued, or luck decides. Then the climax shows nothing about who they are. If the hero could pick the right answer without losing something, it isn't a dilemma yet.
+
+**Example.** In *The Keeper of Gull Point*, the Crisis comes when Marisol learns that Cyrus Hale hid the truth about the boat to protect Eli's memory. She can expose him and save the lighthouse, or keep the secret and lose it. Both choices cost her something she loves. That is a crisis.
+
+You can use McKee's Five Parts as the novel's beat sheet, or keep Save the Cat as the beat sheet and compare the two on the **Alternate structures** tab.
 
 ### Your own method as a beat sheet
 
@@ -83,7 +102,7 @@ If you learned structure from a teacher or book that isn't on that list, you can
 
 1. Click **Settings** on the right edge of the window, then the page tab **6 All my novels**. Under **My methods**, click **Open my methods**. (You can also get there from **Novel setup**, the page where you choose the methods a novel uses, with **Make a method of my own**.)
 2. Click **Make a method of my own** and give it a **Name**. You can also fill in **Where it comes from (teacher, book, course)** and **What it does for me**.
-3. Under **Its beats**, choose where to begin from the **Start from** choices: **A blank page** to build every beat yourself, or **Save the Cat**, **The Hero's Journey**, **Story Circle**, **Seven-Point Structure** or **Three-Act Structure** to copy that sheet's beats as a starting point you can then change. (Leave **Its beats** empty if your method is a way of thinking with its own questions and fields rather than a beat sheet.)
+3. Under **Its beats**, choose where to begin from the **Start from** choices: **A blank page** to build every beat yourself, or **Save the Cat**, **The Hero's Journey**, **Story Circle**, **Seven-Point Structure**, **Three-Act Structure** or **McKee's Five Parts** to copy that sheet's beats as a starting point you can then change. (Leave **Its beats** empty if your method is a way of thinking with its own questions and fields rather than a beat sheet.)
 4. For each beat, fill in its name, where it starts and ends (**at** and **to**, as percentages of the book), which act it belongs to, and **What this beat is and the job it does**. **A test it must pass** is optional: a question to check the beat against. Use the arrows to reorder beats, and **Add a beat** for the next one.
 5. **Lines up with… (optional)** tells Story Canon which shared moment this beat matches, such as the midpoint or the darkest point. That's how scenes placed on one beat sheet find their places when you switch to another. A beat with nothing chosen simply isn't carried across.
 6. Click **Save this method**.
@@ -652,16 +671,38 @@ The **Board** is your corkboard: every beat at once, with your scene cards pinne
 - **Four rows**, one per part of the book: **Act One**, **Act Two, first half**, **Act Two, second half**, **Act Three**.
 - **A box for each beat**, with its number and name at the top, such as **8. Fun and Games**. Click the name to open the beat page.
 - **Smaller steps** (Stasis = Death, the Finale steps) inside their beat's box, with a line beside them. Cards can go on them too.
+- **A count beside each row's name**, such as *Act One 4 cards. A full row is about 10.*
 - **Cards** under each beat. Each card shows:
   - a small circle: hollow if the scene isn't written yet, filled if it has words,
+  - its **card number**, counted straight through the Board in story order (only cards decided on a beat get a number),
   - its title (click to open the card),
-  - its value turn, if you've filled in a value,
+  - its **turn**, such as **+ to -**, from the card's *Value at the start* and *Value at the end*; *(no turn yet?)* when both ends carry the same charge,
+  - **><** when *The conflict* is filled in, or *no conflict yet* in gray when it isn't,
   - "might go here", in gray, if the card only might go there,
   - your **Kept for you** mark, if you set one.
 - **+ Add a card** at the bottom of every beat box.
 - **Not on a beat yet**, at the bottom of the Board: cards with no spot anywhere, each with a **Place on a beat…** button.
 
 The line at the top of the Board sums it up: "Drag a card onto a beat, or open a beat to add one. A card in pencil only might go there. Nothing moves until you have seen what the move would change."
+
+Under it, **How the Board works: Snyder's cards and McKee's turn** opens a short explanation. Click it once to read it; it stays folded the rest of the time.
+
+### From 15 beats to about 40 cards
+
+**What it is.** The beats are landmarks. Blake Snyder's **Board**, from his first book, *Save the Cat!*, is how you fill the road between them. He pinned index cards to a corkboard in four rows, one for each part of the story, with one card for each scene. He aimed for about 10 cards a row, about 40 in all.
+
+**Why it works.** Fifteen beats tell you *where* the story turns. They don't tell you how you get from one turn to the next. Forty cards do. A beat like **Fun and Games** or **Bad Guys Close In** is a stretch of the book, so it holds several cards; a beat like **Catalyst** is one moment, so it often holds one. When a row looks thin, you can see which part of the book still needs scenes.
+
+**A novel is not a screenplay.** Snyder counted for a two-hour film. A novel often needs more scenes, and Jessica Brody's novel version places beats by percentage of the book, not by page. So treat about 40 as a shape, not a quota. The count beside each row is a guide, never a warning. Snyder also never fixed which card number belongs to which beat; if you read that "card 5 is Theme Stated", that's someone else's tidy guess.
+
+**The two marks on every card.**
+
+- **The turn (+ and -).** Robert McKee teaches in *Story* that every scene must change the charge of something at stake in a character's life: safety, love, hope, freedom. It starts positive and ends negative, or the reverse. If nothing changes charge, McKee calls the scene a non-event, and Snyder says the same. Write the value and its charge in *Value at the start* (for example *Safety +*) and *Value at the end* (*Safety -*). The card shows **+ to -**.
+- **The conflict (><).** Snyder's mark for who is up against whom in the scene. Fill in *The conflict* and the card shows **><**. A card with no conflict is usually exposition: something the reader is told, not something that happens.
+
+**The common mistake** is filling the Board just to reach 40. Ten empty-hearted cards are worse than six that each turn and each carry a conflict. Use the count to see where the gaps are, then let the marks tell you whether each card earns its place.
+
+**Example.** Act One of *The Keeper of Gull Point* shows *4 cards. A full row is about 10.* Card 2, "The empty boat", shows **+ to -** (*Safety +* to *Safety -*: Marisol's quiet life is over) and **><** (Marisol against the harbor board). Card 1, "The lamp at dusk", shows **+ to +** *(no turn yet?)*: nothing changes charge. That's the question the Board is asking: does the opening image need a turn, or is it meant as a still picture before the story moves? Either answer can be right. You decide.
 
 ### Decided or might go here: two kinds of placement
 

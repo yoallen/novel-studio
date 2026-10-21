@@ -994,6 +994,34 @@ The common mistake: Turning the value by announcing it ("now she felt hopeless")
 
 Example: Lands: trust (-), when one sister finds the other's letter to a lawyer. Fails: they finish planning, as close as when they started.
 
+### Scene cards: The turn (McKee)
+
+*Robert McKee's tools for the moment a scene changes: what turns it, whether that is an action or a revelation, and the gap between what the character expected and what happened. They appear when McKee (Story) is on in Novel setup.*
+
+**What turns it.** The exact moment the value at stake in this scene changes charge, from plus to minus or minus to plus. Useful for many books. McKee's rule is that a scene that does not turn is a non-event. Naming the turning point proves the scene does something, and tells you where in the scene to put your strongest writing.
+
+The common mistake: Naming the topic of the scene instead of the moment it turns.
+
+Example: Lands: Marisol finds Eli's knife in the empty boat. Fails: the scene is about the boat.
+
+**Action or revelation.** Whether the scene turns on an action (something a character does) or a revelation (something a character learns). Only for some books. McKee says a story needs both. Too many revelations in a row and the hero feels passive; too many actions and nothing is understood. Tracking the kind lets you see the pattern across the book.
+
+The common mistake: Calling every turn a revelation because a character noticed something. A revelation changes what they believe, not just what they see.
+
+Example: Lands: Revelation, the knife proves Eli was on the boat that night. Fails: Revelation, she sees the boat is empty.
+
+**What they expected.** What the viewpoint character believed their action in this scene would bring. Useful for many books. You can only open a gap if you know what the character expected. Writing it down keeps their choice reasonable: they act because they expect it to work.
+
+The common mistake: Writing what the reader expects, not what the character does.
+
+Example: Lands: She expects the harbor board to vote to wait one more season. Fails: She expects trouble.
+
+**What happened instead (the gap).** What actually happened instead, and how far it is from what the character expected. Useful for many books. McKee calls this the gap. When the world answers differently from what the character expected, they must reach deeper, take a bigger risk, and the story moves forward. Scenes without a gap feel predictable even when they are busy.
+
+The common mistake: A gap that is only bad luck. The best gaps come from the forces against the character, or from the character's own flaw.
+
+Example: Lands: The board votes to automate the light at once, and Cyrus casts the deciding vote. Fails: It rains, so the meeting is postponed.
+
 ### Scene cards: Around it
 
 *How this scene connects to its neighbors: what led here, what it forces next, when and where it happens, and whether it lands as a disaster, discovery or win.*

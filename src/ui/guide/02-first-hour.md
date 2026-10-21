@@ -365,7 +365,8 @@ The list holds:
 | | *Story Circle* | Dan Harmon's eight steps: someone goes somewhere unfamiliar, pays a price, and comes back changed |
 | | *Seven-Point Structure* | Dan Wells's method: decide the ending first, then the opposite beginning, then the turns between |
 | | *Three-Act Structure* | Setup, confrontation and resolution, with the turning points between them |
-| Character and scene methods | *McKee (Story)* | Robert McKee's tools for depth, including the forces that oppose the hero |
+| | *McKee's Five Parts* | Robert McKee's design: inciting incident, progressive complications, crisis, climax and resolution |
+| Character and scene methods | *McKee (Story)* | Robert McKee's tools for depth: the forces that oppose the hero, the controlling idea, and the turn in every scene |
 | | *Weiland (character arcs)* | How a character changes inside as the plot changes outside |
 | | *Snowflake (Ingermanson)* | Randy Ingermanson's method of growing a story from one sentence, with a goal and motive for each character |
 | | *Scene and Sequel (Swain)* | Dwight Swain's rhythm: a scene of action, then a sequel of reaction and decision |

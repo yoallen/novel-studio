@@ -32,7 +32,7 @@ export const PAGE_PLANS: Record<string, PagePlan[]> = {
     { title: 'Notes, guardrails and writing aids', items: [SPECIAL.notes, SPECIAL.guardrails, 'Writing aids (private)', 'Other facts', 'My fields', 'Other', SPECIAL.ownFields] },
   ],
   scene_plan: [
-    { title: 'The scene', items: ['The scene', 'Around it'] },
+    { title: 'The scene', items: ['The scene', 'The turn', 'Around it'] },
     { title: 'When it happens', items: ['Story time', 'Timeline strand'] },
     { title: 'Who tells it', items: ['Who tells it', 'Narrator and truth'] },
     { title: 'Mood and feeling', items: ['Atmosphere', 'Emotion on the page', 'Heat'] },

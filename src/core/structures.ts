@@ -60,6 +60,15 @@ export const THREE_ACT: StructBeat[] = [
   s('resolution', 8, 'Resolution', 'III', 'span', [0.95, 1], 'The new normal, and what it means.', { moment: 'ending' }),
 ];
 
+/** Robert McKee's five-part design, from Story. The same five parts shape a scene, a sequence, an act and the whole book. */
+export const MCKEE_FIVE: StructBeat[] = [
+  s('inciting_incident', 1, 'Inciting Incident', 'I', 'point', [0.1, 0.25], "The event that radically upsets the balance of the hero's life, for better or worse, and wakes a conscious desire to set it right. McKee places it within the first quarter of the story. It raises the question the climax will answer.", { moment: 'inciting', test: "It upsets the balance of the hero's life, and the hero must respond." }),
+  s('progressive_complications', 2, 'Progressive Complications', 'IIA', 'span', [0.25, 0.75], "Scene by scene it gets harder. The hero acts, the world answers in ways they did not expect (McKee's gap), and the forces against them grow. Each complication costs more than the last, until there is no going back.", { moment: 'fun', test: 'No step backward: each turn costs more than the one before.' }),
+  s('crisis', 3, 'Crisis', 'IIB', 'point', [0.75, 0.85], 'At the moment of greatest pressure the hero faces a true dilemma: the best of two bad choices, or two goods that cannot both be kept. The choice they make shows who they really are.', { moment: 'third', test: 'A real dilemma, decided by the hero, not by luck.' }),
+  s('climax', 4, 'Climax', 'III', 'point', [0.85, 0.95], 'The action the hero takes on that choice, and the turn it causes: absolute and irreversible change. The values of the story reach their final charge.', { moment: 'climax', test: 'Absolute and irreversible: nothing can go back to how it was.' }),
+  s('resolution', 5, 'Resolution', 'III', 'span', [0.95, 1], 'Whatever follows the climax: the change spreading through the hero\'s world, and a moment for the reader to feel it.', { moment: 'ending' }),
+];
+
 /** Save the Cat beats mapped to the same moments, for translation between frameworks. */
 export const SAVE_THE_CAT_MOMENTS: Record<string, string> = {
   opening_image: 'opening', catalyst: 'inciting', debate: 'debate', break_into_two: 'threshold', fun_and_games: 'fun', midpoint: 'midpoint',
@@ -67,9 +76,9 @@ export const SAVE_THE_CAT_MOMENTS: Record<string, string> = {
 };
 
 export const STRUCTURE_NAMES: Record<string, string> = {
-  save_the_cat: 'Save the Cat', heros_journey: "The Hero's Journey", story_circle: 'Story Circle', seven_point: 'Seven-Point Structure', three_act: 'Three-Act Structure',
+  save_the_cat: 'Save the Cat', heros_journey: "The Hero's Journey", story_circle: 'Story Circle', seven_point: 'Seven-Point Structure', three_act: 'Three-Act Structure', mckee_five: "McKee's Five Parts",
 };
 
 export const OTHER_STRUCTURES: Record<string, StructBeat[]> = {
-  heros_journey: HEROS_JOURNEY, story_circle: STORY_CIRCLE, seven_point: SEVEN_POINT, three_act: THREE_ACT,
+  heros_journey: HEROS_JOURNEY, story_circle: STORY_CIRCLE, seven_point: SEVEN_POINT, three_act: THREE_ACT, mckee_five: MCKEE_FIVE,
 };

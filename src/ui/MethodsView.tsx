@@ -3,7 +3,7 @@ import { api } from './api';
 import type { Ctx } from './App';
 
 const KINDS: [string, string][] = [['character', 'Each character'], ['arc', 'Each character arc'], ['scene_plan', 'Each scene card'], ['beat', 'Each beat'], ['storyworld', 'The story world'], ['relationship', 'Each relationship'], ['location', 'Each place'], ['storyline', 'Each storyline'], ['set_piece', 'Each set piece']];
-const STARTS: [string, string][] = [['', 'A blank page'], ['save_the_cat', 'Save the Cat'], ['heros_journey', "The Hero's Journey"], ['story_circle', 'Story Circle'], ['seven_point', 'Seven-Point Structure'], ['three_act', 'Three-Act Structure']];
+const STARTS: [string, string][] = [['', 'A blank page'], ['save_the_cat', 'Save the Cat'], ['heros_journey', "The Hero's Journey"], ['story_circle', 'Story Circle'], ['seven_point', 'Seven-Point Structure'], ['three_act', 'Three-Act Structure'], ['mckee_five', "McKee's Five Parts"]];
 const ACTS: [string, string][] = [['I', 'Act 1'], ['IIA', 'Act 2, first half'], ['IIB', 'Act 2, second half'], ['III', 'Act 3']];
 const blankBeat = () => ({ name: '', at: [0, 0], act: 'I', description: '', test: '', moment: '' });
 
