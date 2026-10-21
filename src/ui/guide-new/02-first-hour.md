@@ -28,7 +28,7 @@ The Library has its own **Help** button at the top right of the page. Click it, 
 
 **What it is.** A short set of questions about you as a writer: what to call you, your pronouns, how you work, and how you like to be helped. Your answers shape how the collaborator speaks with you, and the name Story Canon uses for you on screen.
 
-**Where it is.** The first time you open Story Canon, a card near the top of the Library says **Before we begin, tell Story Canon about you**. After you answer it (or skip it), it does not ask again. The same questions live in **Settings**, in the section called **About you**, where you can change them any time.
+**Where it is.** The first time you open Story Canon, a card near the top of the Library says **Before we begin, tell Story Canon about you**. After you answer it (or skip it), it does not ask again. The same questions live in **Settings**, on page **5 About you**, where you can change them any time.
 
 **Do most writers need it?** You can write a whole book without it. But if you plan to talk with the collaborator at all, it is the best minute you will spend.
 
@@ -50,13 +50,13 @@ Every answer is optional. Small suggestions appear under some boxes; click one t
 
 1. Type into any boxes you like, and leave the rest empty.
 2. On the first-time card in the Library, click **Save**. Or click **Not now**: the card goes away and won't ask again. (**Not now** also keeps anything you had already typed.)
-3. Later, in **Settings**, change the answers in the **About you** section, then click **Save settings** at the bottom of the window. In Settings, nothing on that page is kept until you click **Save settings**.
+3. Later, in **Settings**, turn to page **5 About you** and change the answers, then click **Save settings** at the bottom of the window. In Settings, nothing on that page is kept until you click **Save settings**.
 
 **Where your answers go.** The card says it plainly: every answer stays on this computer, goes to the collaborator only when you talk with it, and shapes nothing but how it speaks with you. Your story is never changed by it.
 
 **Why it helps.** The collaborator reads these answers before every conversation. It calls you by your name, uses your pronouns, and adjusts how it explains things.
 
-**Your name in other places.** **Settings** also has a **Your name** box near the top. When About you has a name, the line under that box says Story Canon calls you by the About you name. **Author name on this book** is separate again: it is the name printed on the title page when you export, so you can put a pen name there. Settings is taught in [Settings and your other computers](#settings-and-your-other-computers).
+**Your name in other places.** **Settings** also has a **Your name** box, on its page **1 This novel**. When About you has a name, the line under that box says Story Canon calls you by the About you name. **Author name on this book** is separate again: it is the name printed on the title page when you export, so you can put a pen name there. Settings is taught in [Settings and your other computers](#settings-and-your-other-computers).
 
 **The common mistake** is skipping this because it feels like a form. It takes a minute, and it is the difference between a partner who talks over your head and one who talks to you.
 
@@ -101,7 +101,7 @@ Each novel stands on the shelf as a small cloth-covered book. Everything on its 
 
 ### Library: stages and drafts
 
-On every book's cover, and on **Where was I** just under the **Write** button, you will see two labels side by side, such as *Plotting and planning* and *First draft*. They answer two different questions. On Where was I a line says so: *The stage is what you are doing with the book now. The draft is which full pass of the manuscript you are on.*
+On every book's cover, and on **Where was I** at the top of page **1 Today**, you will see two labels side by side, such as *Plotting and planning* and *First draft*. They answer two different questions. On Where was I a line says so: *The stage is what you are doing with the book now. The draft is which full pass of the manuscript you are on.*
 
 #### Stage: what you are doing with the book now
 
@@ -109,7 +109,7 @@ A **stage** is a label for where the book is in its life. The usual list is: *Id
 
 - **Where to change it:** the stage menu on the book's cover in the Library, or the **Stage** menu on **Where was I**.
 - **What it does:** it is a label to help you keep track. It doesn't lock, hide or change anything. A new novel starts with no stage (*Choose a stage*).
-- **Your own stages:** in **Settings**, under **For all my novels**, the box **Stages a book can be in** holds the list, one stage per line. Rename, add or remove lines, then click **Save settings**.
+- **Your own stages:** in **Settings**, on page **6 All my novels**, under **For all my novels**, the box **Stages a book can be in** holds the list, one stage per line. Rename, add or remove lines, then click **Save settings**.
 
 #### Draft: which full pass you are on
 
@@ -254,13 +254,36 @@ The page title says *How (your title) is set up*. The **Settings** link at its t
 
 **The common mistake** is treating setup as homework to finish before writing. It changes whenever the story does: before the first word, after a few chapters, or halfway through revision when you realize the book is really a romance.
 
+### Novel setup: its pages
+
+Novel setup holds a lot of choices, so it is laid out like a small notebook with numbered pages. Under the two lines at the top is a row of page tabs, then **All pages** at the end of the row. One page shows at a time.
+
+| Page | What is on it |
+| --- | --- |
+| **1 The heart of the book** | The one sentence and the one paragraph |
+| **2 Genres** | The genres, their roles, and what these genres ask of your story |
+| **3 Story types** | Blake Snyder's ten story types and their three ingredients |
+| **4 How the story is told** | Viewpoint, tense, time, tone, heat level and the other groups |
+| **5 My storytelling toolkit** | Beat sheets and methods, and the beat sheet that drives the board |
+| **6 What your choices switch on** | A summary of every field and tool your choices added. This page appears only once something is switched on |
+
+**How to move around:**
+
+1. Click a tab to turn to that page.
+2. Or use the links at the bottom of each page, which name the page before and after, such as **Page 3: Story types**.
+3. Click **All pages** to see every page one after another, as one long page.
+
+Story Canon remembers which page you were on, for each novel, while the program is open. Below the pages, whatever page you are on, are the saving bar and the **Make this my starting point for new novels** button.
+
+**Example.** You want to tick *Weiland (character arcs)* for *The Keeper of Gull Point*. You open Novel setup and click the tab **5 My storytelling toolkit**.
+
 ### Novel setup: saving
 
 There is no Save button. Every tick, menu choice and typed box is kept the moment you make it (for typed boxes, when you click away from the box). A line near the top says *Every choice here is kept the moment you make it. There is nothing else to save.* A bar along the bottom of the window says *Every choice saves as you make it.*, and after a change it adds the time, such as *Saved at 3:19:42 PM.*
 
 ### Novel setup: the heart of the book
 
-The first section holds the two lines that say what your book is.
+The first page, **1 The heart of the book**, holds the two lines that say what your book is.
 
 - **The one sentence.** Your whole book in about twenty-five words. The gray words inside the empty box suggest how: *The whole book, squeezed until only its central irony is left.* If you typed one sentence in the Library, it is already here.
 - **The one paragraph.** The gray words say: *Setup, three disasters, and the ending, one sentence each.* A **disaster** here is a turning point that makes things much worse and forces a new choice.
@@ -273,7 +296,7 @@ Beside each label is its status, such as **Developing**. These two lines are kep
 
 ### Novel setup: genres and their roles
 
-**Genres** are the familiar kinds of book a bookseller shelves by: Mystery, Romance, Fantasy, Cozy Mystery, Romantic Comedy and about thirty more. Under each name is one line saying what it is.
+**Genres**, on page **2 Genres**, are the familiar kinds of book a bookseller shelves by: Mystery, Romance, Fantasy, Cozy Mystery, Romantic Comedy and about thirty more. Under each name is one line saying what it is.
 
 1. Tick a genre. A small menu appears beside it, set to **Secondary**.
 2. Change the menu to set its **role**:
@@ -294,7 +317,7 @@ Beside each label is its status, such as **Developing**. These two lines are kep
 
 ### Novel setup: story types and their three ingredients
 
-Under the heading **Story types** (*Blake Snyder, Save the Cat*) is a second list, separate from genre. Blake Snyder, a screenwriting teacher, sorted stories by their core situation rather than their shelf. There are ten: *Monster in the House*, *Golden Fleece*, *Out of the Bottle*, *Dude with a Problem*, *Rites of Passage*, *Buddy Love*, *Whydunit*, *The Fool Triumphant*, *Institutionalized* and *Superhero*.
+On page **3 Story types**, under the heading **Story types** (*Blake Snyder, Save the Cat*), is a second list, separate from genre. Blake Snyder, a screenwriting teacher, sorted stories by their core situation rather than their shelf. There are ten: *Monster in the House*, *Golden Fleece*, *Out of the Bottle*, *Dude with a Problem*, *Rites of Passage*, *Buddy Love*, *Whydunit*, *The Fool Triumphant*, *Institutionalized* and *Superhero*.
 
 Under each name is a line saying what it is, and **Needs:** followed by its three ingredients. For example, *Buddy Love* needs an incomplete hero, a counterpart, and a complication.
 
@@ -311,7 +334,7 @@ Under each name is a line saying what it is, and **Needs:** followed by its thre
 
 ### Novel setup: how the story is told
 
-This section covers everything about the book apart from its genre. It is a set of groups, each with a short description and a list of choices. Each choice has one line under it saying what it means. Some choices also say **Turns on:** and name the tool or fields they add.
+Page **4 How the story is told** covers everything about the book apart from its genre. It is a set of groups, each with a short description and a list of choices. Each choice has one line under it saying what it means. Some choices also say **Turns on:** and name the tool or fields they add.
 
 | Group | What it covers | Examples of what turns on |
 | --- | --- | --- |
@@ -338,7 +361,7 @@ This section covers everything about the book apart from its genre. It is a set 
 
 ### Novel setup: my storytelling toolkit
 
-**What it is.** The frameworks and methods you use to build this novel. A **framework** or **method** is one teacher's way of thinking about stories. A **beat sheet** is a framework that lays out the beats of a story in order. Each item in the list has its name in bold and a line saying the job it does, such as *Weiland (character arcs): The arc: the Lie, the Ghost, the Want and the Need, and how the inside changes with the outside.* If it adds fields, a line says **Adds:** and where, such as *Goal and motive (Ingermanson) on each character*.
+**What it is.** Page **5 My storytelling toolkit** lists the frameworks and methods you use to build this novel. A **framework** or **method** is one teacher's way of thinking about stories. A **beat sheet** is a framework that lays out the beats of a story in order. Each item in the list has its name in bold and a line saying the job it does, such as *Weiland (character arcs): The arc: the Lie, the Ghost, the Want and the Need, and how the inside changes with the outside.* If it adds fields, a line says **Adds:** and where, such as *Goal and motive (Ingermanson) on each character*.
 
 The list holds beat sheets (*Save the Cat (Brody for novels)*, *The Hero's Journey*, *Story Circle*, *Seven-Point Structure*, *Three-Act Structure*), character and scene methods (*McKee (Story)*, *Weiland (character arcs)*, *Snowflake (Ingermanson)*, *Scene and Sequel (Swain)*, *The Moral Premise (Williams)*, *The Writers Helping Writers thesauri (Ackerman and Puglisi)*), any methods of your own, and **I find my story as I write**.
 
@@ -362,7 +385,7 @@ Beside it, **Offer my placed scenes on the matching beats** (ticked at first) me
 
 ### Novel setup: what your choices switch on
 
-Near the bottom of the page, this list sums up every field and tool your current choices have added, one line each, such as *Save the Cat (Brody for novels): Save the Cat's questions for this beat (Save the Cat) on each beat*. Genres, which add questions rather than fields, are listed under the genres instead. The list appears once something is switched on.
+The last page, **What your choices switch on**, sums up every field and tool your current choices have added, one line each, such as *Save the Cat (Brody for novels): Save the Cat's questions for this beat (Save the Cat) on each beat*. Genres, which add questions rather than fields, are listed under the genres instead. The page appears once something is switched on; until then the row of tabs ends at **My storytelling toolkit**.
 
 **When it helps.** When you meet a group of fields on a record page and wonder where it came from. A group named *Goal and motive (Ingermanson)* came from ticking Snowflake.
 
@@ -378,7 +401,7 @@ The page promises: *Nothing you have written is ever hidden or removed by a chan
 
 **What it is.** A way to save this novel's working preferences as your defaults, so every new novel starts the way you like to work instead of from nothing.
 
-**Where it is.** The last button in Novel setup, **Make this my starting point for new novels**. The small print under it says what it keeps.
+**Where it is.** The last button in Novel setup, below the pages, **Make this my starting point for new novels**. The small print under it says what it keeps.
 
 **What carries over to new novels:**
 
@@ -393,7 +416,7 @@ The page promises: *Nothing you have written is ever hidden or removed by a chan
 **How to do it:**
 
 1. Open the novel whose setup you like, then **Novel setup** (Settings, then **Open novel setup**).
-2. Scroll to the bottom and click **Make this my starting point for new novels**.
+2. Scroll to the bottom, below the pages, and click **Make this my starting point for new novels**.
 3. A message near the top says *Saved as your defaults. New novels start this way; your other novels are unchanged.*
 
 From then on, every novel you start in the Library begins with those choices. You can change anything in a new novel's own setup.
@@ -459,6 +482,6 @@ She clicks **Plant it**. The Story Brain opens with one character, *Marisol Vega
 
 When the first hour is over, your novel has a home. **Where was I** is the novel's home page: the first view in the list on the right, with *your novel's home page* under its name. Every time you come back to this book, Story Canon opens it there (unless you just started it with **Start writing**, **Set it up first** or **Start from a manuscript or story bible**, which open the Writing Room, Novel setup or Import and export the first time).
 
-Its top says so: *This is (your title)'s home page.* Below that it shows the one next thing to do, with an orange **Write** button, and everything else you would otherwise have to remember. Whenever you lose your place, click **Where was I**.
+Its top says so: *This is (your title)'s home page.* Below that it shows the one next thing to do, with an orange **Write** button, and then, on three numbered pages (**Today**, **Still open** and **This week**), everything else you would otherwise have to remember. Whenever you lose your place, click **Where was I**.
 
 The whole page is taught, section by section, in the next chapter: [Where was I: your novel's home page](#where-was-i-your-novels-home-page).

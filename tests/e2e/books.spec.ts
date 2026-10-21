@@ -41,6 +41,7 @@ test('several books at different stages; switching keeps each one\'s place; a dr
 test('a method of her own, from any teacher, with its own beats, becomes a novel\'s beat sheet', async ({ page }) => {
   await newNovel(page, 'Method Book');
   await nav(page).getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('tab', { name: /All my novels/ }).click();
   await page.getByRole('button', { name: 'Open my methods' }).click();
   await page.getByRole('button', { name: 'Make a method of my own' }).click();
   await page.getByLabel('Name', { exact: true }).fill('Fichtean Curve');
@@ -51,6 +52,7 @@ test('a method of her own, from any teacher, with its own beats, becomes a novel
   await page.getByRole('button', { name: 'Save this method' }).click();
   await expect(page.getByRole('status')).toContainText('Fichtean Curve is saved.');
   await page.getByRole('button', { name: 'Novel setup' }).click();
+  await page.getByRole('tab', { name: /My storytelling toolkit/ }).click();
   const kit = page.getByRole('region', { name: 'Storytelling toolkit' });
   await kit.getByLabel(/Fichtean Curve/).click();
   await expect(kit.getByLabel(/Fichtean Curve/)).toBeChecked();

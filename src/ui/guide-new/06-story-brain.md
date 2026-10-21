@@ -256,7 +256,7 @@ On some records, a **Where did this come from?** link sits on the same line. It 
 
 ### The status legend and the status inks
 
-Under that line is a row of five small samples. This is the **legend**, a key like the one on a map. Each fact on the page wears one of these looks, so you can tell at a glance what is settled and what is not. The words are colored the way the facts below them are, which is why the colors are called **inks**.
+Under that line is a row of six small samples. This is the **legend**, a key like the one on a map. Each fact on the page wears one of these looks, so you can tell at a glance what is settled and what is not. The words are colored the way the facts below them are, which is why the colors are called **inks**.
 
 | In the legend | How a fact with this status looks on the page |
 | --- | --- |
@@ -265,8 +265,9 @@ Under that line is a row of five small samples. This is the **legend**, a key li
 | **Still open (a blank line)**, beside a short solid line | A blank line to write on, with a gray prompt in slanted type (*Still open: nothing written yet* when nothing is written). |
 | **Example, never canon**, in sepia slanted type | The words in sepia (a warm brown), slanted, after a small boxed label that reads "Example". |
 | **Suggestion (a slip, tucked in)**, beside a tiny slip | The words on a white slip of paper, tucked in at a slight angle, in a handwriting typeface, as if someone else wrote them. |
+| **Set aside (faded, kept below)**, faded, with a line through it | Not on the field itself. A set-aside fact moves into the field's earlier versions, folded away below the field, in small faded type with a line through it. |
 
-The sixth status, **Set aside**, is not in the legend, because a set-aside fact leaves the page: it moves into the field's earlier versions, in small faded type. Wherever a set-aside fact is shown among others, it looks faded, with a line through it.
+"Kept below" is the reminder: a set-aside fact is never deleted, only folded away under its field. Wherever a set-aside fact is shown among others, it looks faded, with a line through it, just like its sample.
 
 The legend is not clickable. If you renamed the status words in **Settings**, the legend uses your words. Each status is explained in full in [How each status looks and behaves on a record](#how-each-status-looks-and-behaves-on-a-record).
 
@@ -303,7 +304,7 @@ On a character, a small line reads *Low-energy day? One line counts.* with a **F
 - **Turning pages.** At the bottom of each page, links go to the page before and the page after, such as **Page 2: Identity** and **Page 4: Personality**.
 - **Where a record opens.** A record opens on page 1 the first time, and after that on the page you last read. Search opens a record on the page that holds what you found, and accepting a suggestion turns to the page where it landed.
 
-**Pages that are left out.** A page with nothing to show is left out of the row. Most pages are always there, but a page made only of a writing method's fields appears once that method is turned on in Novel setup. (A **writing method** here means a teacher's way of building a story, such as Randy Ingermanson's Snowflake Method; you choose the ones you want under **My storytelling toolkit** in Novel setup.) For example, a character's page **6 What opposes them** holds only Robert McKee's fields, so it appears when you turn McKee on. A record with only one page, such as a record of a kind you made yourself, shows no tabs at all.
+**Pages that are left out.** A page with nothing to show is left out of the row. Most pages are always there, but a page made only of a writing method's fields appears once that method is turned on in Novel setup. (A **writing method** here means a teacher's way of building a story, such as Randy Ingermanson's Snowflake Method; you choose the ones you want on the page **My storytelling toolkit** in Novel setup.) For example, a character's page **6 What opposes them** holds only Robert McKee's fields, so it appears when you turn McKee on. A record with only one page, such as a record of a kind you made yourself, shows no tabs at all.
 
 **The pages of each kind.** The last page of every kind is **Notes and connections**: the Notes box, Connections, any fields of your own, and **Add your own field**. The pages before it depend on the kind:
 
@@ -311,7 +312,7 @@ On a character, a small line reads *Low-energy day? One line counts.* with a **F
 | --- | --- |
 | Character | 1 Who they are, 2 Identity, 3 Looks and voice, 4 Personality, 5 Goals, motives and values, 6 What opposes them, 7 Inner life, 8 Arc, 9 Their world and their people, 10 Interview, 11 Notes, guardrails and writing aids |
 | Scene card | 1 The scene, 2 When it happens, 3 Who tells it, 4 Mood and feeling, 5 The reader, 6 Scene and sequel, 7 Notes and connections |
-| Beat | 1 In this book, 2 Save the Cat's questions, 3 Notes and connections |
+| Beat | 1 In this book, 2 Questions for this beat, 3 Notes and connections |
 | Story world | 1 The heart of the book, 2 What it means, 3 Time, viewpoint and knowledge, 4 Notes and connections |
 | Event or reveal | 1 What happens, 2 When, and who knows, 3 Notes and connections |
 | Every other kind | 1 a page named for the kind (*The place*, *The clue*, *The kept line*), 2 Notes and connections |
@@ -430,7 +431,7 @@ Leave it on **Timing** to say nothing about when. The choice you make shows in t
 
 **Example.** For Marisol, **Work** holds "Assistant keeper, under her father" (*Before the story*) and "Head keeper" (*True when the story opens*). Both are decided. They don't contradict each other, because their timing differs.
 
-### The margin beside each fact
+### Story Brain: the margin beside each fact
 
 To the right of every fact is its **margin**, a narrow column behind a thin line. From top to bottom:
 
@@ -1055,7 +1056,7 @@ Some groups are always there. Others come from a writing teacher's method and ap
 **Turning a method on, step by step:**
 
 1. Click **Settings** in the list of views, then **Open novel setup**.
-2. Scroll to **My storytelling toolkit**.
+2. Click the page tab **5 My storytelling toolkit**.
 3. Tick the method. Under each method, a line beginning **Adds:** says exactly what it puts on which records.
 4. Return to the Story Brain. The group is on every character.
 
@@ -1307,6 +1308,8 @@ On each person's page, the relationships they are in are listed in Connections u
 | **6 Scene and sequel** | Appears with *Scene and Sequel (Swain)*. Dwight Swain taught that a story alternates a **scene** (goal, conflict, disaster) with a **sequel** (reaction, dilemma, decision), and that the decision becomes the next scene's goal. Fields: *Scene or sequel*, *Reaction*, *Dilemma*, *Decision*. |
 | **7 Notes and connections** | Notes, Connections (who **appears in** it, where it **happens at**), and your own fields. |
 
+When you open a scene card in Narrative Zoom instead of here, one or two pages come first (**1 Where it sits**, and **2 The page so far** once the card has a page in the Writing Room), and these pages follow them. See [Zoom: a scene card page](#zoom-a-scene-card-page).
+
 **Example.** *The empty boat*: *What this scene must do*: "Bring the mystery to Marisol's door, literally." *Value at the start*: "Safety +." *Value at the end*: "Safety -." *Year*: 2024. *Weather*: "Fog so thick the light is useless."
 
 ### Beat records
@@ -1314,8 +1317,10 @@ On each person's page, the relationships they are in are listed in Connections u
 **What it is for.** One turning point from your book's beat sheet, as it plays out in this book. A beat has up to three pages:
 
 - **1 In this book**: *What this beat does in this book*, *What it is (your plan)*, *How it could happen* (a list of ideas side by side), *One way it could be done* (examples, never decisions), *Disaster, discovery or win*, *Caused by the hero's own efforts?*, and *Scene type*.
-- **2 Save the Cat's questions**: the questions Save the Cat (Blake Snyder's beat sheet, adapted for novels by Jessica Brody) asks at this beat. Its heading is **Save the Cat's questions for this beat**, with the note that they belong to the beat sheet, not the Board tab. Only some beats have them: the Theme Stated beat asks for the line that states the theme; the Setup asks about the hero's *Home*, *Work* and *Play* and *Six things that need fixing*; the Debate asks its question; Break into Two asks for the hero's WANT and Break into Three for the NEED; the Midpoint and All Is Lost ask whether it is a false victory or false defeat (and All Is Lost asks for the *Whiff of death*); and the Final Image asks whether the hero is changed or rejects change. This page appears when Save the Cat is your structure (or the novel is not set up yet).
+- **2 Questions for this beat**: the questions Save the Cat (Blake Snyder's beat sheet, adapted for novels by Jessica Brody) asks at this beat. The tab says **Questions for this beat**; the heading inside the page still credits where they come from, **Save the Cat's questions for this beat**, with the note that they belong to the beat sheet, not the Board tab. Only some beats have them: the Theme Stated beat asks for the line that states the theme; the Setup asks about the hero's *Home*, *Work* and *Play* and *Six things that need fixing*; the Debate asks its question; Break into Two asks for the hero's WANT and Break into Three for the NEED; the Midpoint and All Is Lost ask whether it is a false victory or false defeat (and All Is Lost asks for the *Whiff of death*); and the Final Image asks whether the hero is changed or rejects change. This page appears only on beats that have questions, and only when Save the Cat is your structure (or the novel is not set up yet). On any other beat, Notes and connections is page 2.
 - **3 Notes and connections**.
+
+When you open a beat in Narrative Zoom instead of here, two pages come first, **1 About this beat** and **2 Scenes here**, and these pages follow them. See [Zoom: a beat page](#zoom-a-beat-page).
 
 The Beats list explains when some beats have smaller steps inside them. At the bottom of a beat is **Remove this beat from the novel** instead of Delete (see [Delete at the bottom of a record](#delete-at-the-bottom-of-a-record)). To change the beat sheet itself, use **My methods**.
 

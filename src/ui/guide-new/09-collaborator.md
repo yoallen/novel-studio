@@ -258,7 +258,7 @@ The collaborator is off until you turn it on, and it is turned on one novel at a
 
 An **API key** is a private code, like a password, that lets Story Canon talk to Claude on your behalf. You get it from Anthropic, and Anthropic bills each question you ask to that key, from credit you load in advance. A Claude.ai subscription is separate and does not include this. The Installation Guide, Step 4, walks through getting a key.
 
-**Where:** **Settings**, in the section called **The collaborator**. You can jump there with **The collaborator** in the **On this page** list at the top of Settings.
+**Where:** **Settings**, page **4 The collaborator**. Click that tab in the row of page tabs near the top of Settings.
 
 **How:**
 
@@ -330,7 +330,7 @@ Every time you click **Ask**, Story Canon gathers a briefing about your book and
 
 ## Guidance levels: Quiet, Advisory and Deep
 
-A **guidance level** is how much the collaborator speaks up beyond what you asked. You set it in **Settings**, under **Guidance and goals**, with two dropdowns: **Guidance while drafting** and **Guidance while planning**. Unlike the collaborator section, these are saved with **Save settings**.
+A **guidance level** is how much the collaborator speaks up beyond what you asked. You set it in **Settings**, on page **2 Goals and November**, under **Guidance and goals**, with two dropdowns: **Guidance while drafting** and **Guidance while planning**. Unlike the collaborator section, these are saved with **Save settings**.
 
 | Level | On screen | What the collaborator does |
 | --- | --- | --- |

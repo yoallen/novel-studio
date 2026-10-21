@@ -10,6 +10,7 @@ test('fantasy opens the worldbuilding kit: kinds of beings, magic, world history
   await expect(page.getByRole('button', { name: /Kinds of beings/ })).toHaveCount(0);
   await views.getByRole('button', { name: 'Settings' }).click();
   await page.getByRole('button', { name: 'Open novel setup' }).click();
+  await page.getByRole('tab', { name: /Genres/ }).click();
   await page.getByRole('region', { name: 'Genres' }).getByLabel('Fantasy', { exact: true }).click();
   await expect(page.getByRole('region', { name: 'Genres' }).getByLabel('Fantasy', { exact: true })).toBeChecked();
   await views.getByRole('button', { name: 'Story Brain' }).click();

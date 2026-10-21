@@ -1,6 +1,6 @@
 # Where was I: your novel's home page
 
-**Where was I** is the home page of every novel. This chapter takes the page from top to bottom, in the order its sections appear on screen, and ends with a two-minute routine for starting a writing day and a table of things that look wrong but aren't. Read it after your first hour, then come back to the routine whenever a writing day is hard to start.
+**Where was I** is the home page of every novel. This chapter takes the page from top to bottom, then page by page through its three numbered pages, in the order the sections appear on screen, and ends with a two-minute routine for starting a writing day and a table of things that look wrong but aren't. Read it after your first hour, then come back to the routine whenever a writing day is hard to start.
 
 ## Where was I: what the page is for
 
@@ -16,26 +16,60 @@ While the page gathers everything, it says *Gathering where you left off…* for
 
 ### Where was I at a glance
 
-From top to bottom, the page shows these sections. Some appear only when they have something to say.
+The page has two parts. The top part is always in view. Under it, the rest of the page is laid out like a small notebook with three numbered pages, the same way a record's fields are laid out on numbered pages (see [Record pages: the numbered tabs](#record-pages-the-numbered-tabs)).
+
+**Always at the top:**
 
 | Section | What it is | When you see it |
 | --- | --- | --- |
 | The page's top | *Where was I*, *This is (your title)'s home page.* and a short paragraph | Always |
 | **Next** and **Write** | The one next step, in large type, and the orange button that takes you there | Always |
+| *Unsaved typing was kept* | Typing from a window that closed unexpectedly, waiting for you | Only after the program closed unexpectedly |
+
+**Page 1, Today:** what you need to start writing now.
+
+| Section | What it is | When you see it |
+| --- | --- | --- |
 | The stage row | **Stage**, **Draft** and a **Drafts** link: where the book is in its life | Always |
 | **Plant the seed** | Six optional questions to start an empty novel | Only on a novel with no characters yet |
 | Drafting progress | One column per day, and your word figures | Always (plain until you set a goal) |
 | The *Set up this novel* note | An invitation to tell Story Canon what kind of book this is | Until your first choice in Novel setup |
-| *Unsaved typing was kept* | Typing from a window that closed unexpectedly, waiting for you | Only after the program closed unexpectedly |
 | **Where you stopped** | The last lines of the scene you were in | Once you have opened a scene |
 | **Left for later** | Notes you left in your pages, between double square brackets | Always (it says *Nothing waiting* when empty) |
+
+**Page 2, Still open:** the things you are carrying in your head.
+
+| Section | What it is | When you see it |
+| --- | --- | --- |
 | **Questions still open** | Your newest open questions | Always |
 | **Latest decisions** | The last things you decided | Always |
 | **Thoughts waiting to be sorted** | Thoughts and ideas you saved but have not filed | Always |
 | **Detours still open** | Times you left the page and have not come back yet | Only when there are some |
-| **This week** | What you did in the last seven days | Always |
 
-The last five sit side by side in columns on a wide window, and one under another on a narrow one. The rest of this chapter takes each section in turn.
+These sit side by side in columns on a wide window, and one under another on a narrow one.
+
+**Page 3, This week:** what you did in the last seven days.
+
+The rest of this chapter takes each section in turn, in that order.
+
+### Where was I: the three pages
+
+**What they are.** Under **Next** is a row of page tabs: **1 Today**, **2 Still open**, **3 This week**, and at the end of the row, **All pages**. One page shows at a time.
+
+**Why it is laid out this way.** A home page that shows everything at once is a wall of lists, and a wall of lists is hard to start a writing day from. Page 1 holds only what you need to begin. The other two wait until you want them.
+
+**How to use them:**
+
+1. Click a tab to turn to that page. The tab you are on is joined to the page below it.
+2. Look at the numbers. A page number turns ink blue when that page has something on it. **1 Today** is always blue. **2 Still open** turns blue when any of its lists has something in it. **3 This week** turns blue once this week has new words, a scene worked on or a decision made.
+3. To turn a page without going back up, use the links at the bottom of each page. They name the page before and after, such as **Page 2: Still open**.
+4. Click **All pages** to see all three, one after another, each with its number and name as a heading.
+
+Story Canon remembers which page you were on for each novel while the program is open. Close the program and open it again, and Where was I starts on **1 Today**.
+
+**The common mistake** is thinking your questions and decisions have gone, because the page opens on Today. They are on page 2. A blue **2** tells you something is waiting there.
+
+**Example.** You open *The Keeper of Gull Point* in the morning. Page 1 shows your progress and the last lines of the storm scene. The **2** is blue, so you glance at **2 Still open** and see that yesterday you decided Eli drowned in October. You click **Page 1: Today** at the bottom and then **Write**.
 
 ## Where was I: the top of the page
 
@@ -80,7 +114,7 @@ Planning is never required first. You can always click **Write** and start.
 Sometimes you know better than the program what comes next: "Draft the scene where Ana sees the boat", or "Fix the tide times in chapter 6 before anything else". You can say so.
 
 1. Click **Settings** in the list on the right.
-2. Find **Your next writing action**, near the top. (Its small print says *Leave empty and the program suggests one from where you left off.*)
+2. On page **1 This novel**, find **Your next writing action**, under the novel's title and length. (Its small print says *Leave empty and the program suggests one from where you left off.*)
 3. Type your next step in your own words.
 4. Click **Save settings** at the bottom of the window.
 
@@ -90,9 +124,23 @@ Your words now appear under **Next**. **Write** opens the scene you were last in
 
 **Example.** *The Keeper of Gull Point* has three half-finished scenes. The writer types *Finish the scene where Marisol finds Eli's knife in the boat* and saves. Every morning that week, Where was I opens on that sentence, and **Write** opens the scene she was in. On Friday the scene is done, so she empties the box, and Next goes back to suggesting the next scene on its own.
 
+## Where was I: unsaved typing was kept
+
+**What it is.** If Story Canon closed while you were typing (a power cut, a crash, a laptop lid shut at the wrong moment), your typing is not lost. The next time you open the book, Where was I shows a notice just under **Next** and **Write**, above the page tabs, so you cannot miss it: *Unsaved typing was kept for "(the scene's name)". Open the scene to choose which version to keep.* Under it is a button, **Open "(the scene's name)"**, for each scene that has kept typing.
+
+**What to do:**
+
+1. Click **Open "(the scene's name)"**. The scene opens in the Writing Room with a box over it titled *Typing from (the date and time) was kept*.
+2. Read the **Kept typing** shown in the box. It is the end of what you typed before the program closed.
+3. Click **Use the kept typing** to make it the scene's text, or **Keep the saved version** to keep what was saved before.
+
+Either way, nothing is thrown away: the version you did not choose stays in the scene's earlier versions. Until you choose, the page will not take typing, so nothing can overwrite the kept words by accident. The full detail is in [The Writing Room](#the-writing-room).
+
+**The common mistake** is ignoring the notice and opening the scene some other way, then wondering why the page won't let you type. The page is waiting for your choice. Make it, and the page opens.
+
 ## Where was I: the stage row
 
-Just under Next is a row with three things in it, and a gray line under them: *The stage is what you are doing with the book now. The draft is which full pass of the manuscript you are on.*
+At the top of page **1 Today** is a row with three things in it, and a gray line under them: *The stage is what you are doing with the book now. The draft is which full pass of the manuscript you are on.*
 
 - **Stage** is a menu. It says what you are doing with the book now: *Plotting and planning*, *First draft*, *Revising*, *Querying*, *Resting* and so on. Choose a new one whenever the book's life changes. A new novel says *Choose a stage*.
 - **Draft:** followed by a name in bold, such as **First draft**, says which full pass of the manuscript you are on. It is a label, not a button.
@@ -132,23 +180,9 @@ Until you make your first choice in Novel setup, a one-line note appears here: *
 
 The note goes away as soon as you change anything in Novel setup: one tick is enough. A novel that started from your starting point (with methods already ticked) never shows it. Novel setup is taught in [Novel setup: telling Story Canon what kind of book this is](#novel-setup-telling-story-canon-what-kind-of-book-this-is).
 
-## Where was I: unsaved typing was kept
-
-**What it is.** If Story Canon closed while you were typing (a power cut, a crash, a laptop lid shut at the wrong moment), your typing is not lost. The next time you open the book, Where was I shows a notice: *Unsaved typing was kept for "(the scene's name)". Open the scene to choose which version to keep.* Under it is a button, **Open "(the scene's name)"**, for each scene that has kept typing.
-
-**What to do:**
-
-1. Click **Open "(the scene's name)"**. The scene opens in the Writing Room with a box over it titled *Typing from (the date and time) was kept*.
-2. Read the **Kept typing** shown in the box. It is the end of what you typed before the program closed.
-3. Click **Use the kept typing** to make it the scene's text, or **Keep the saved version** to keep what was saved before.
-
-Either way, nothing is thrown away: the version you did not choose stays in the scene's earlier versions. Until you choose, the page will not take typing, so nothing can overwrite the kept words by accident. The full detail is in [The Writing Room](#the-writing-room).
-
-**The common mistake** is ignoring the notice and opening the scene some other way, then wondering why the page won't let you type. The page is waiting for your choice. Make it, and the page opens.
-
 ## Where was I: where you stopped
 
-**What it is.** Under the heading **Where you stopped** is a small gray line naming the chapter and scene you were last in (for example *Chapter 2, The empty boat*), and below it the last few lines of that scene, set off by a line down the left side. If the scene is long, the lines begin with "…" because only the end is shown. If the scene has no words yet, it says *This scene is still blank.*
+**What it is.** On page **1 Today**, under the heading **Where you stopped**, is a small gray line naming the chapter and scene you were last in (for example *Chapter 2, The empty boat*), and below it the last few lines of that scene, set off by a line down the left side. If the scene is long, the lines begin with "…" because only the end is shown. If the scene has no words yet, it says *This scene is still blank.*
 
 **Why it helps.** Rereading your last paragraph is the oldest trick for getting back into a scene. Ernest Hemingway made a habit of stopping each day while he still knew what would happen next, so the next morning he could pick up the thread at once. Where you stopped shows you the thread before you even open the page.
 
@@ -158,7 +192,7 @@ Either way, nothing is thrown away: the version you did not choose stays in the 
 
 ## Where was I: left for later
 
-**What it is.** A **note for later** is a reminder you type inside your manuscript between double square brackets, like `[[how many steps does the tower have?]]`, so you can keep writing instead of stopping to look something up. **Left for later** gathers every such note in the book, in the order of the book. The heading shows how many there are, for example **Left for later (3)**.
+**What it is.** A **note for later** is a reminder you type inside your manuscript between double square brackets, like `[[how many steps does the tower have?]]`, so you can keep writing instead of stopping to look something up. **Left for later**, the last section on page **1 Today**, gathers every such note in the book, in the order of the book. The heading shows how many there are, for example **Left for later (3)**.
 
 Each note shows:
 
@@ -179,7 +213,7 @@ When the list is empty, it says *Nothing waiting.* and reminds you how to leave 
 
 ## Where was I: questions still open
 
-**What it is.** The eight newest questions in your book that are still open. A question is a record in the Story Brain's **Questions I have**: something you need to find out or decide, such as *Did Eli take the boat out alone that night?* Each one has a short line at its left edge, the mark for **Still open**. When there are none, the list says *None open.*
+**What it is.** The first list on page **2 Still open**: the eight newest questions in your book that are still open. A question is a record in the Story Brain's **Questions I have**: something you need to find out or decide, such as *Did Eli take the boat out alone that night?* Each one has a short line at its left edge, the mark for **Still open**. When there are none, the list says *None open.*
 
 **Where they come from.** Every question you save with **Capture** (choosing **A question I have**), every question you add in the Story Brain, and questions that arrived when you brought in your planning.
 
@@ -195,7 +229,7 @@ When the list is empty, it says *Nothing waiting.* and reminds you how to leave 
 
 ## Where was I: latest decisions
 
-**What it is.** The five things most recently decided, newest first. They are written in **Decided** ink: blue, with a small blue square at the left edge. Decisions that arrived with planning you brought in count too, so right after bringing in a book this list shows the last decisions from your planning. When there are none, it says *No decisions recorded yet.*
+**What it is.** The second list on page **2 Still open**: the five things most recently decided, newest first. They are written in **Decided** ink: blue, with a small blue square at the left edge. Decisions that arrived with planning you brought in count too, so right after bringing in a book this list shows the last decisions from your planning. When there are none, it says *No decisions recorded yet.*
 
 Each entry has three lines:
 
@@ -213,7 +247,7 @@ So an entry that reads **Cyrus Hale**, then *Role*, then *Antagonist* means: on 
 
 ## Where was I: thoughts waiting to be sorted
 
-**What it is.** The eight newest thoughts and ideas you saved that have not found a home yet. A **thought** is anything you jot down with **Capture** as **Just a thought**: unsorted, waiting for you to decide what it is. An **idea** is something you might use, saved as **An idea I am thinking about**, that you have not adopted or set aside yet. Both wait here until you sort them.
+**What it is.** The third list on page **2 Still open**: the eight newest thoughts and ideas you saved that have not found a home yet. A **thought** is anything you jot down with **Capture** as **Just a thought**: unsorted, waiting for you to decide what it is. An **idea** is something you might use, saved as **An idea I am thinking about**, that you have not adopted or set aside yet. Both wait here until you sort them.
 
 When the list is empty, it says *Nothing waiting. Every thought you saved has a home.* Under the list, **All questions and ideas** opens the Story Brain, where every question, idea and thought lives.
 
@@ -227,7 +261,7 @@ When the list is empty, it says *Nothing waiting. Every thought you saved has a 
 
 **What it is.** A **detour** is a time you left the page in the middle of writing: you were in a scene in the Writing Room and went to another view (the Story Brain to check a name, Narrative Zoom to look at a beat, or Where was I). Story Canon notes each one, with where you were and where you went, so stepping away never costs you your place. **Detours still open** lists up to five detours you have not come back from yet, each named for where you went, such as *Went to Story Brain*. A gray line under the heading says: *A detour is a time you left the page. It closes when you return to writing, or when you mark it resolved in the Writing Trail.*
 
-Under the list is a link, **Writing Trail**, to the full record of every detour. The section only appears when there is at least one open detour.
+Under the list is a link, **Writing Trail**, to the full record of every detour. The section sits last on page **2 Still open**, and only appears when there is at least one open detour.
 
 **How a detour closes.** Return to writing with the pink **Return to Writing** ribbon at the top left of the window, or with **Ctrl+Shift+W**. Both put you back in the scene you left, with your cursor where it was, and close every open detour at once. You can also click **Mark resolved** on a detour in the Writing Trail. The Writing Trail is taught in [The Writing Room](#the-writing-room).
 
@@ -237,7 +271,7 @@ Under the list is a link, **Writing Trail**, to the full record of every detour.
 
 ## Where was I: this week
 
-**What it is.** A short list of what you did in the **last seven days** (counted back from now, not from Monday):
+**What it is.** Page **3 This week**: a short list of what you did in the **last seven days** (counted back from now, not from Monday):
 
 | Line | What it counts |
 | --- | --- |
@@ -256,13 +290,13 @@ Under the list is a link, **Writing Trail**, to the full record of every detour.
 
 Here is a routine that takes about two minutes. Do it in this order.
 
-1. **Open the book.** Where was I is the first page you see.
+1. **Open the book.** Where was I is the first page you see, on **1 Today** (or the page you last looked at, if the program has stayed open).
 2. **Read Next.** If it is the right step, keep it in mind. If it isn't, you can still choose any scene in the Writing Room.
 3. **Read Where you stopped.** Let the last lines bring the scene back.
 4. **Glance at your progress.** Read the sentence about today and, during a writing push, **To finish on time**. That is today's number. Don't study the columns.
-5. **Scan Latest decisions and Questions still open.** Look only for anything that touches today's scene. If one question blocks you, answer it now; leave the rest.
-6. **Check Detours still open.** If yesterday ended in a detour, the **Return to Writing** ribbon takes you back to exactly where you were.
-7. **Click Write.**
+5. **Turn to 2 Still open and scan Latest decisions and Questions still open.** Look only for anything that touches today's scene. If one question blocks you, answer it now; leave the rest.
+6. **Check Detours still open**, on the same page. If yesterday ended in a detour, the **Return to Writing** ribbon takes you back to exactly where you were.
+7. **Click Write**, which stays at the top whatever page you are on.
 
 On a slow day, or at the end of a week, add two more steps: clear a few notes from **Left for later**, and sort two or three **Thoughts waiting to be sorted**.
 
@@ -283,3 +317,5 @@ On a slow day, or at the end of a week, add two more steps: clear a few notes fr
 | The page can't be typed on after you open a scene from the *Unsaved typing was kept* notice | The scene is waiting for you to choose **Use the kept typing** or **Keep the saved version** |
 | The *Set up this novel* note won't go away | You have not changed anything in Novel setup yet. One tick there is enough |
 | The columns don't measure anything | You have not set a goal. See [Goals, sprints and November](#goals-sprints-and-november) |
+| Your questions and decisions seem to be gone | They are on page **2 Still open**. Click its tab, or **All pages** to see everything at once |
+| Where was I opens on page 2 or 3 instead of Today | Story Canon remembers the page you were on while the program is open. Click **1 Today**. After you close and reopen the program, it starts on Today again |

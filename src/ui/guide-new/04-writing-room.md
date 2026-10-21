@@ -68,7 +68,7 @@ Saving happens in two layers.
 **Looks wrong, but isn't.** A few things wait for the saved version, not the safety copy, so they can lag behind your typing by up to twenty seconds:
 
 - **Today's words** on Where was I, and the drafting progress columns there.
-- **This week** on Where was I.
+- **This week**, page 3 of Where was I.
 - **The scene's status** moving from a not-started step to Drafting (see [Writing Room: a scene's status](#writing-room-a-scenes-status)).
 - **Left for later**, for a note you just typed.
 
@@ -164,7 +164,7 @@ Story Canon makes the scene's page, named for the card, and opens it. It goes wh
 
 The right column is the **Scene plan**: your plan for the open scene, beside the page, so you can glance at what the scene must do without leaving it. A gray line under the heading says *Everything here saves by itself when you click away. Earlier versions are kept.* When you change something and click elsewhere, a small green **Saved** appears beside its label for a moment.
 
-The scene plan and the scene card in Narrative Zoom are the same plan, seen from two places. What you type in one shows in the other. The scene plan is listed from top to bottom below, in the order you see it.
+The scene plan and the scene card in Narrative Zoom are the same plan, seen from two places. What you type in one shows in the other. The scene plan is described below page by page, in the order you see it.
 
 **Do you need it?** No. You can write any scene with an empty plan. Many writers ignore the panel while drafting and fill it in when a scene stalls.
 
@@ -172,9 +172,27 @@ The scene plan and the scene card in Narrative Zoom are the same plan, seen from
 
 **Hide scene plan**, the first link above the page, gives the page the whole width. It changes to **Show scene plan** to bring it back. Story Canon remembers your choice the next time you open the room.
 
-### Writing Room: Left for later in the scene plan
+### Writing Room: the scene plan's three pages
 
-If the open scene has notes for later in it, the scene plan starts with **Left for later** and the number, listing just this scene's notes. Click one to select it on the page. When the scene has no notes, this section doesn't appear. Notes for later are taught in full in [Writing Room: notes for later](#writing-room-notes-for-later).
+The scene plan holds more than fits beside a page, so it is split into three small numbered tabs under its heading, like the pages of a record (see [Record pages: the numbered tabs](#record-pages-the-numbered-tabs)), with **All pages** at the end of the row. One page shows at a time.
+
+| Page | What is on it |
+| --- | --- |
+| **1 The plan** | **Is this scene on your plan?** (when it applies), **From the card**, the plan's core fields, and **The turn, and around it** |
+| **2 About it** | **Status** and the circle key, **Viewpoint character**, **Kept for you to write or decide**, **This draft is settled**, **Who is here** (when it applies), and **Drafting readiness** |
+| **3 Notes** | **Left for later** in this scene (when it has any), **Attached to this scene**, **Scene notes**, and **Earlier versions** |
+
+**How to use them.** Click a tab to turn to that page, or use the links at the bottom of each page, such as **Page 2: About it**. Click **All pages** to see all three, one after another. A page number turns ink blue when that page has something on it: **1 The plan** once the scene has a card or anything typed in its plan, **3 Notes** once something is attached to the scene or its scene notes have something in them. **2 About it** is always blue, because a scene always has a status.
+
+Story Canon remembers which page of the scene plan you were on while the program is open, and keeps that page as you move from scene to scene. So if you are working through the status of every scene in a chapter, the plan stays on **2 About it** as you click each one.
+
+**The common mistake** is thinking the status or the scene notes have gone, because the plan opens on another page. Look at the tabs. Status is on **2 About it**; notes and earlier versions are on **3 Notes**.
+
+**Example.** You are drafting *The empty boat* and want the plan's job line beside you, so you keep the scene plan on **1 The plan**. When the draft is done, you click **2 About it** and set the status to **First draft complete**.
+
+### Writing Room: scene plan page 1, The plan
+
+The first page holds the plan itself: what the scene must do and how it turns.
 
 ### Writing Room: joining a written scene to its card
 
@@ -199,8 +217,40 @@ The scene takes the card's place in the plan, the card's planning shows under **
 If the scene has a card in your plan with something on it, **From the card** shows it:
 
 - **Beat:** the beat the card sits on, *Might go at* one or more beats, or *Not on a beat yet*.
-- **Every other field** filled in on the card that is not already in the scene plan below.
+- **Every other field** filled in on the card that is not already among the plan's own fields, further down this page.
 - **Open the full card** opens the card in Narrative Zoom, where you can change any of it.
+
+### Writing Room: the plan's fields
+
+Under **From the card** (or at the top of the page, when there is no card to show) are the plan's own fields, first a short group with no heading of its own. Each has a gray hint under it.
+
+| Field | What to put |
+| --- | --- |
+| **What this scene must do** | The job it does for the book. If you cut it, what would the story lose? |
+| **The viewpoint character's objective** | What the viewpoint character is trying to get or do here |
+| **Central conflict** | Who or what is in the way, and who wins |
+| **Intended outcome or change** | How things stand differently when the scene ends |
+| **What you want the reader to feel** | Funny, shocking, profound, relatable, or your own word |
+
+Then, under the heading **The turn, and around it**:
+
+| Field | What to put |
+| --- | --- |
+| **Value at the start** | What matters to the character here, and whether it is going well (+) or badly (-). For example: Trust, + |
+| **Value at the end** | The same value as the scene ends. A change from + to - (or back) is the scene turning |
+| **How we got here** | The causes: what earlier events lead to this scene, not only the scene before it |
+| **What must follow** | The consequences: what has to happen later because of this scene |
+| **When (story time)** | When it happens, in your own words: the morning after the funeral, day 3 of the feud |
+| **Year** | The calendar year as a number, such as 1987. With birth years on characters, it shows everyone's age here |
+| **Where** | Type a place, or pick one of your Places from the list that appears as you type |
+
+**How it saves.** Type in a field and click away. What you type is saved as Developing, in pencil gray, and the label shows *(developing)* until you decide it on the card in Narrative Zoom, when it turns to Decided ink blue. Each field is taught in full, with the common mistake and examples, in [Narrative Zoom](#narrative-zoom) and in [Every kind and every field](#every-kind-and-every-field).
+
+**Example.** For *The empty boat*: **What this scene must do**, *Put the mystery in Marisol's hands, so she can't ignore it.* **Central conflict**, *Marisol wants to report the boat and forget it; Cyrus wants her to say nothing. Cyrus wins, for now.* **Value at the start**, *Safety, +*. **Value at the end**, *Safety, -*.
+
+### Writing Room: scene plan page 2, About it
+
+The second page holds facts about the scene as a piece of your manuscript: how far along it is, whose eyes it is told through, and whether it is ready to write.
 
 ### Writing Room: a scene's status
 
@@ -217,7 +267,7 @@ If the scene has a card in your plan with something on it, **From the card** sho
 | Revised | The revision is done | Filled |
 | Finalized | It is finished | Filled |
 
-Under the dropdown, a small key shows which steps give which circle, with the open scene's line highlighted.
+Under the dropdown, a small key shows which steps give which circle, with the open scene's line highlighted. Status and its key are at the top of page **2 About it**.
 
 **Why it matters.** Status is how you see the shape of your progress across the whole book: which scenes are only ideas, which are drafted, which are done.
 
@@ -227,7 +277,7 @@ Under the dropdown, a small key shows which steps give which circle, with the op
 
 ### Writing Room: changing the status steps
 
-The steps are yours to change, in **Settings**, in the section **Scene status steps**:
+The steps are yours to change, in **Settings**, on page **3 Writing**, in the section **Scene status steps**:
 
 1. Rename a step by typing in its box. Use **↑** and **↓** to reorder, **Remove** to take one away, and **Add a step** for a new one.
 2. Tick **Counts as drafted** for every step where the scene has prose.
@@ -259,7 +309,7 @@ The **viewpoint character** is the character whose eyes and thoughts a scene is 
 | **Mine to escalate** | You decide how it builds, and how big it gets before it breaks |
 | **Mine to settle** | You decide the open question here. Suggestions wait; nothing is settled for you |
 
-The gray line under the dropdown explains the choice you picked. Your name in the first choice comes from **About you** in Settings, or from the first word of **Your name** at the top of Settings. You can rename these markers and add your own in **Settings**, under **Words for decisions**.
+The gray line under the dropdown explains the choice you picked. Your name in the first choice comes from **About you** in Settings, or from the first word of **Your name** on page 1 of Settings. You can rename these markers and add your own in **Settings**, under **Words for decisions**.
 
 **Example.** The scene where Marisol finally says Eli's name aloud is one you want to write without help. You choose **Mine to write**, and *Mine to write* appears above the scene's title.
 
@@ -281,37 +331,17 @@ A section headed **Who is here** appears when the scene has a **Year**, or when 
 
 ### Writing Room: drafting readiness
 
-**What it is.** **Drafting readiness** lists what is still open in the plan, item by item, each marked **Open:** or **Done:**. The items are: Viewpoint character; What this scene must do; The viewpoint character's objective; Central conflict; Intended outcome or change; and How we got here or what must follow. When everything is done, it says *Ready to draft.* Otherwise it says *Still open below. You can write anyway.*
+**What it is.** **Drafting readiness** lists what is still open in the plan, item by item, each marked **Open:** or **Done:**. The items are: Viewpoint character; What this scene must do; The viewpoint character's objective; Central conflict; Intended outcome or change; and How we got here or what must follow. It sits last on page **2 About it**. When everything is done, it says *Ready to draft.* Otherwise it says *Still open on The plan page. You can write anyway.* All the items except **Viewpoint character** are fields on page **1 The plan**; Viewpoint character is on this page, a little higher up.
 
 **It is information, never a gate.** You can write any scene at any time, planned or not. The list is there for when a scene stalls: often the reason is one of these open items.
 
-### Writing Room: the plan's fields
+### Writing Room: scene plan page 3, Notes
 
-Below readiness are the plan's own fields. Each has a gray hint under it.
+The third page holds the notes that gather around a scene while you write it, and its earlier versions.
 
-| Field | What to put |
-| --- | --- |
-| **What this scene must do** | The job it does for the book. If you cut it, what would the story lose? |
-| **The viewpoint character's objective** | What the viewpoint character is trying to get or do here |
-| **Central conflict** | Who or what is in the way, and who wins |
-| **Intended outcome or change** | How things stand differently when the scene ends |
-| **What you want the reader to feel** | Funny, shocking, profound, relatable, or your own word |
+### Writing Room: Left for later in the scene plan
 
-Then, under the heading **The turn, and around it**:
-
-| Field | What to put |
-| --- | --- |
-| **Value at the start** | What matters to the character here, and whether it is going well (+) or badly (-). For example: Trust, + |
-| **Value at the end** | The same value as the scene ends. A change from + to - (or back) is the scene turning |
-| **How we got here** | The causes: what earlier events lead to this scene, not only the scene before it |
-| **What must follow** | The consequences: what has to happen later because of this scene |
-| **When (story time)** | When it happens, in your own words: the morning after the funeral, day 3 of the feud |
-| **Year** | The calendar year as a number, such as 1987. With birth years on characters, it shows everyone's age here |
-| **Where** | Type a place, or pick one of your Places from the list that appears as you type |
-
-**How it saves.** Type in a field and click away. What you type is saved as Developing, in pencil gray, and the label shows *(developing)* until you decide it on the card in Narrative Zoom, when it turns to Decided ink blue. Each field is taught in full, with the common mistake and examples, in [Narrative Zoom](#narrative-zoom) and in [Every kind and every field](#every-kind-and-every-field).
-
-**Example.** For *The empty boat*: **What this scene must do**, *Put the mystery in Marisol's hands, so she can't ignore it.* **Central conflict**, *Marisol wants to report the boat and forget it; Cyrus wants her to say nothing. Cyrus wins, for now.* **Value at the start**, *Safety, +*. **Value at the end**, *Safety, -*.
+If the open scene has notes for later in it, page **3 Notes** starts with **Left for later** and the number, listing just this scene's notes. Click one to select it on the page. When the scene has no notes, this section doesn't appear. Notes for later are taught in full in [Writing Room: notes for later](#writing-room-notes-for-later).
 
 ### Writing Room: attached to this scene
 
@@ -329,7 +359,7 @@ Each button takes the item off this list. It stays in the Story Brain with its n
 
 ### Writing Room: earlier versions of a scene
 
-**What it is.** Every saved version of a scene is kept. **Earlier versions**, at the bottom of the scene plan, opens the list.
+**What it is.** Every saved version of a scene is kept. **Earlier versions**, at the bottom of page **3 Notes** in the scene plan, opens the list.
 
 **Why it matters.** You can cut boldly, because nothing you cut is ever really gone.
 
@@ -420,7 +450,7 @@ Clicking **The Writing Room** tab takes you back to the page too, but it does no
 
 ### Writing Room: the Writing Trail page
 
-**What it is.** **Writing Trail**, above the page (or under **Detours still open** on Where was I), opens the list of your detours, newest first. The **The Writing Room** tab stays lit while you are there. Each detour shows:
+**What it is.** **Writing Trail**, above the page (or under **Detours still open**, on page **2 Still open** of Where was I), opens the list of your detours, newest first. The **The Writing Room** tab stays lit while you are there. Each detour shows:
 
 - **Where you went**, in bold, and the date and time.
 - A gray status line: *Returned to writing* or *Not returned yet*, and *resolved* or *not resolved*.
@@ -474,7 +504,7 @@ A note can't contain square brackets or run across a line break.
 
 - On the page, a note looks like pencil in the margin: gray, slanted, on a faint shaded background, so it never reads as story. Point at it to see *A note for later. It is not counted as story words.*
 - **It is not counted.** Notes never add to a scene's words, a day's words or your push total.
-- It is listed under **Left for later** in the scene plan (this scene's notes) and on Where was I (every note in the book, in book order, with the words you wrote just before it).
+- It is listed under **Left for later** on page **3 Notes** of the scene plan (this scene's notes) and on Where was I (every note in the book, in book order, with the words you wrote just before it).
 - Clicking a note in either list opens its scene with the note selected. Type the answer, and it replaces the note.
 - A note leaves the lists when its brackets leave the page.
 - Notes are printed exactly as written if you export with them still in the text, so clear them before you send the book out.
@@ -492,14 +522,14 @@ A note can't contain square brackets or run across a line break.
    - **Just a thought**: anything, unsorted. It waits in Captured thoughts until you file it as a question or an idea, or leave it.
    - **A question I have**: something you need to find out or decide. It goes to Questions I have, where you can answer it later.
    - **An idea I am thinking about**: something you might use: a scene, a twist, a line. It goes to Things and ideas I am thinking about.
-3. In the Writing Room, two more choices appear. **Attach to this scene** (ticked at first) puts it in the scene plan under **Attached to this scene**. Then choose **Resolve later**, or **I need this to keep writing** for something that is blocking you.
+3. In the Writing Room, two more choices appear. **Attach to this scene** (ticked at first) puts it in the scene plan, on page **3 Notes**, under **Attached to this scene**. Then choose **Resolve later**, or **I need this to keep writing** for something that is blocking you.
 4. Click **Save it**, or press **Ctrl+Enter**. **Cancel** or **Esc** closes without saving.
 
 The box closes and your cursor is back on the page. A short line beside the Capture button says where the thought went (*Saved. It is attached to this scene, in the scene plan.*), then fades after a few seconds.
 
 **A note for later or Capture?** Use a note for later for something that belongs at an exact spot in the text: a missing name, a date, a number of steps. Use Capture for a thought about the story: a question, an idea for another scene. It lands in the Story Brain, where you can sort it.
 
-**Example.** Mid-sentence, you wonder whether Cyrus already knew the boat's name before Marisol told him. You press **Ctrl+Shift+N**, type the question, choose **A question I have** and **I need this to keep writing**, and press **Ctrl+Enter**. It now waits in the scene plan under Attached to this scene, marked *needed to keep writing*, and on Where was I under **Questions still open**.
+**Example.** Mid-sentence, you wonder whether Cyrus already knew the boat's name before Marisol told him. You press **Ctrl+Shift+N**, type the question, choose **A question I have** and **I need this to keep writing**, and press **Ctrl+Enter**. It now waits in the scene plan, on page 3 Notes, under Attached to this scene, marked *needed to keep writing*, and on Where was I under **Questions still open**.
 
 ## Writing Room: door closed
 
@@ -561,10 +591,11 @@ If the same scene is open in two Story Canon windows and you type in both, the s
 | The scene's status is still Idea after you wrote in it | The status moves to Drafting when the words become a saved version: after about twenty seconds' pause, or when you leave the scene |
 | The binder's circle is empty while the scene has words | Same reason. Or you chose a not-started status yourself; the circle follows the Status dropdown |
 | The page won't take typing | A box is waiting for a choice (kept typing, or two windows), or the page still says *Opening the page…* |
+| The status, scene notes or Earlier versions are missing from the scene plan | They are on other pages of the plan. Status is on **2 About it**; notes and **Earlier versions** are on **3 Notes**. Click the tab, or **All pages** |
 | The scene plan disappeared | **Read it back** was clicked twice, or **Hide scene plan** once. Click **Show scene plan** |
 | Show in Narrative Zoom says the scene is not on the plan | The scene has no card yet. Fill any line of its scene plan, or join it to its card |
 | No red underlines and no echoes | The door is closed, or a sprint is running |
 | A new scene isn't in Planned, not written yet | That list only holds cards from your plan with no page. A scene you added is already in the binder |
-| A card you already wrote is still in Planned, not written yet | Its page was made with **Add scene**, so they are not joined. Use **Is this scene on your plan?** in the scene plan |
+| A card you already wrote is still in Planned, not written yet | Its page was made with **Add scene**, so they are not joined. Use **Is this scene on your plan?** on page **1 The plan** of the scene plan |
 | A note for later isn't in the Left for later list yet | The list reads the saved scene. Pause a moment, or leave the scene, and it appears |
 | No Return to Writing ribbon | You are in the Writing Room already, no scene is open, or there is no writing to return to yet |

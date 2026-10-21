@@ -15,6 +15,7 @@ test('zoom from the whole story to a scene and its page, and back, never losing 
   await page.getByRole('button', { name: 'Act One' }).click();
   await page.getByRole('button', { name: '4. Catalyst' }).click();
   await expect(page.getByText('With the catlyst, we knock it all down.')).toBeVisible();
+  await page.getByRole('tab', { name: /Scenes here/ }).click();
   await page.getByLabel('New scene card').fill('The fish guts');
   await page.getByRole('button', { name: 'Add scene card' }).click();
   await page.getByRole('button', { name: 'The fish guts' }).first().click();
@@ -28,6 +29,7 @@ test('zoom from the whole story to a scene and its page, and back, never losing 
   await page.keyboard.type('The smell hit Anthony before the sun did.');
   await page.getByRole('button', { name: 'Show in Narrative Zoom' }).click();
   await expect(page.getByRole('heading', { name: 'The fish guts' })).toBeVisible();
+  await page.getByRole('tab', { name: /The page so far/ }).click();
   await expect(page.getByText('The smell hit Anthony before the sun did.')).toBeVisible();
   await crumbs.getByRole('button', { name: 'Act One' }).click();
   await expect(page.getByRole('heading', { name: 'Act One' })).toBeVisible();
@@ -153,6 +155,7 @@ test('the overview shows the three worlds above their acts; a beat page credits 
   const ex = page.locator('.sheet-example');
   await expect(ex).toContainText('An example from the beat sheet, from The Shining by Stephen King');
   await expect(ex).toContainText('Jack Torrance is interviewing for a job');
+  await page.getByRole('tab', { name: /Scenes here/ }).click();
   await page.getByLabel('A card you already have').selectOption({ label: 'Kevin waters the lawn' });
   await page.getByRole('button', { name: 'Place it here' }).click();
   await expect(page.locator('section', { hasText: 'Scenes here' }).getByRole('button', { name: 'Kevin waters the lawn' })).toBeVisible();

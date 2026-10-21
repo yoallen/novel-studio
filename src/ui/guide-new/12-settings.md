@@ -1,6 +1,6 @@
 # Settings and your other computers
 
-**Settings** is the view where you tell Story Canon how you want one novel to work: the name it calls you, how long you expect the book to be, your goals, how much the collaborator speaks up, the words it uses for each status, and where your backups go. This chapter walks through every section of Settings in the order you meet them on screen. Then it covers four places you reach from Settings or near it: sharing your novels between two computers (including setting up a second computer from the Library), **My methods** (making a beat sheet of your own), and **Drafts** (keeping a whole version of the book).
+**Settings** is the view where you tell Story Canon how you want one novel to work: the name it calls you, how long you expect the book to be, your goals, how much the collaborator speaks up, the words it uses for each status, and where your backups go. This chapter walks through Settings page by page, every section in the order you meet it on screen. Then it covers four places you reach from Settings or near it: sharing your novels between two computers (including setting up a second computer from the Library), **My methods** (making a beat sheet of your own), and **Drafts** (keeping a whole version of the book).
 
 Read this chapter when you want to change how Story Canon behaves, when you buy a second computer, or when something on another screen sends you here. You do not need to read it before you start writing. Nothing in Settings is required. Every choice already has a sensible starting value, and a new writer can leave the whole page alone for weeks.
 
@@ -8,15 +8,45 @@ Read this chapter when you want to change how Story Canon behaves, when you buy 
 
 **Where:** click **Settings** in the list of views on the right. It sits in the lower group of the list, below the small word *and*, between **Import and export** and **Help**.
 
-The page is headed **Settings for this novel**. That heading matters: most of what you change here belongs only to the novel you have open. If you write two novels, each keeps its own title, goal and status steps. A few sections belong to you across every novel, and they say so in their headings (**About you** and **For all my novels**), and two belong to this computer (**Appearance** and **Your other computers**).
+The page is headed **Settings for this novel**. That heading matters: most of what you change here belongs only to the novel you have open. If you write two novels, each keeps its own title, goal and status steps. A few pages belong to you across every novel (**About you** and **All my novels**), and some settings belong to this computer (**Appearance** and **Your other computers**).
 
 ### Settings: the parts of the page, from the top
 
 1. **Novel setup**, in a shaded box, with the link **Open novel setup**. Novel setup is a separate page of questions about what kind of book this is: its genres, its story types, how the story is told, and your storytelling toolkit (the methods you build with). Your answers there decide which fields and tools Story Canon shows you. It is taught in [Your first hour: the Library and a new novel](#your-first-hour-the-library-and-a-new-novel).
-2. A line explaining how saving works on this page (the next section).
-3. **On this page**, a row of links that jump straight to each section: **This novel**, **Guidance and goals**, **Writing push**, **Scene status steps**, **Words for decisions**, **The collaborator**, **About you**, **For all my novels**, **Appearance**, **Your other computers**, **Backups**.
-4. The sections themselves, in that order. Two sections have no link of their own in the row: **Your next writing action** (just after This novel) and **Door closed** (just after Writing push).
-5. At the very bottom, a small line with the program's version number. You may be asked for it if you ever report a problem.
+2. A line explaining how saving works on this page (see [Settings: Save settings, and sections that take effect right away](#settings-save-settings-and-sections-that-take-effect-right-away)).
+3. **The page tabs**: eight numbered pages, then **All pages** (next section).
+4. The page you are on.
+5. A small line with the program's version number. You may be asked for it if you ever report a problem.
+6. At the very bottom of the window, the bar with **Save settings**.
+
+### Settings: the eight pages
+
+Settings holds a lot, so it is laid out like a notebook with numbered pages, the same way a record is (see [Record pages: the numbered tabs](#record-pages-the-numbered-tabs)). One page shows at a time, with its number and name at the top.
+
+| Page | What is on it |
+| --- | --- |
+| **1 This novel** | **Title**, **Your name**, **Author name on this book**, **Target length in words**, **Words per page for page estimates**, and **Your next writing action** |
+| **2 Goals and November** | **Guidance and goals** (the guidance levels and your everyday goal), **A writing push**, and **Door closed** |
+| **3 Writing** | **Scene status steps** and **Words for decisions** |
+| **4 The collaborator** | Your API key, sharing, and which Claude answers |
+| **5 About you** | The questions about you as a writer |
+| **6 All my novels** | **For all my novels**: My craft shelf, My methods, and the stages a book can be in |
+| **7 Appearance** | Light, dark, or matching Windows |
+| **8 Other computers and backups** | **Your other computers** (sharing) and **Backups** |
+
+**How to move around:**
+
+1. Click a tab to turn to that page.
+2. Or use the links at the bottom of each page, which name the page before and after, such as **Page 3: Writing**.
+3. Click **All pages**, at the end of the row, to see every page one after another, as one long page.
+
+Story Canon remembers which page of Settings you were on, for each novel, while the program is open. On Settings, the page numbers do not turn blue the way they do on a record: every page here always has settings on it.
+
+**Save settings works across pages.** You can change something on page 1, turn to page 3, change something there, and press **Save settings** once. Both changes are kept. Turning a page never throws away what you typed.
+
+When this guide or the program points you to a part of Settings, it names the page. For example, the line under **Your name** says *About you (page 5)*.
+
+**Example.** You want to rename **Developing** to "Pencil" in *The Keeper of Gull Point*. You click **Settings**, then the tab **3 Writing**, and find **Words for decisions** there.
 
 ### Settings: Save settings, and sections that take effect right away
 
@@ -40,7 +70,7 @@ A few sections save the moment you change them, and their headings carry a small
 
 ## Settings: This novel
 
-The first section has five boxes in two columns. Everything in it belongs to this novel only.
+Page **1 This novel** starts with five boxes in two columns, then **Your next writing action**. Everything on it belongs to this novel only.
 
 ### Settings: Title
 
@@ -50,8 +80,8 @@ The novel's title. It shows on the book's cover in the Library, at the top of ev
 
 The name Story Canon uses for you in this novel. A gray line under the box tells you which name it actually calls you by:
 
-- If you gave a name in **About you** (further down this page), it calls you that, and the line says so, for example: "Story Canon calls you Dana, the name in About you below."
-- If not, it uses the first word of this box, and the line says: "Story Canon calls you by your first name here, unless you give it another in About you below."
+- If you gave a name in **About you** (page 5), it calls you that, and the line says so, for example: "Story Canon calls you Dana, the name in About you (page 5)."
+- If not, it uses the first word of this box, and the line says: "Story Canon calls you by your first name here, unless you give it another in About you (page 5)."
 
 This box is used for three things:
 
@@ -85,7 +115,7 @@ How many words make one printed page, used wherever Story Canon estimates pages.
 
 ## Settings: Your next writing action
 
-Under its own heading, **Your next writing action** is one line for what you mean to write next. The gray hint in the empty box reads "For example: Draft the opening scene in the driveway."
+On page **1 This novel**, under its own heading below the five boxes, **Your next writing action** is one line for what you mean to write next. The gray hint in the empty box reads "For example: Draft the opening scene in the driveway."
 
 What you type here shows as **Next** at the top of **Where was I**, your novel's home page (see [Where was I: your novel's home page](#where-was-i-your-novels-home-page)), and under the book's cover in the Library. So the first thing you see when you open the book tomorrow is what to do.
 
@@ -97,7 +127,7 @@ Leave it empty and Story Canon suggests one from where you left off, usually the
 
 ## Settings: Guidance and goals
 
-The line under the heading reads: "How much the collaborator speaks up about concerns, while you draft and while you plan." This section holds two kinds of setting: the guidance levels, and your everyday goal.
+Page **2 Goals and November** starts here. The line under the heading reads: "How much the collaborator speaks up about concerns, while you draft and while you plan." This section holds two kinds of setting: the guidance levels, and your everyday goal.
 
 ### Settings: the guidance levels
 
@@ -145,7 +175,7 @@ A **writing push** is a stretch of days with a word goal of its own, such as Nov
 
 **How to set one up:**
 
-1. Under the heading **A writing push**, click **Plan a writing push**.
+1. On page **2 Goals and November**, under the heading **A writing push**, click **Plan a writing push**.
 2. Four boxes appear, already filled in for the coming November and 50,000 words: **Name it**, **First day**, **Last day** and **Words to write in it**. Change any of them.
 3. A line works out the daily share, for example: "That is about 1,667 words a day for 30 days." It goes on to say that this is your daily goal on those days only (your everyday goal applies the rest of the time), that if a day comes up short the difference is shared by the days after it, and that on Where was I you can set a lighter day or a rest day ahead of time.
 4. Press **Save settings**.
@@ -175,7 +205,7 @@ The gray line under the heading explains it: "A first draft is for getting the s
 
 **How to close the door:**
 
-1. In **Settings**, find **Door closed** (just below the writing push).
+1. In **Settings**, on page **2 Goals and November**, find **Door closed** (just below the writing push).
 2. In **Keep it closed through**, pick the last day. It suggests the last day of your writing push if one is coming, or thirty days from today.
 3. Click **Close the door**. This acts at once; you do not need **Save settings**.
 
@@ -189,7 +219,7 @@ You can also close it from Where was I (see [Goals, sprints and November](#goals
 
 ## Settings: scene status steps
 
-A **status step** is a stage a scene moves through, from first idea to finished. You choose a scene's step from the **Status** dropdown in the Writing Room's scene plan (the panel beside a scene that holds its notes and settings; see [The Writing Room](#the-writing-room)). This section is where you decide what the steps are.
+A **status step** is a stage a scene moves through, from first idea to finished. You choose a scene's step from the **Status** dropdown on page **2 About it** of the Writing Room's scene plan (the panel beside a scene that holds its notes and settings; see [The Writing Room](#the-writing-room)). This section, on page **3 Writing**, is where you decide what the steps are.
 
 **Do not confuse these with the six statuses.** The statuses (Decided, Developing, Still open, Example, Suggestion, Set aside) say how settled a *fact* is. Status steps say how far along a *scene's writing* is. They are separate lists that happen to share the word "status."
 
@@ -218,7 +248,7 @@ The **binder** is the list of chapters and scenes down the side of the Writing R
 | Half filled | Being written | Drafting |
 | Full | Written | First draft complete, Revising, Revised, Finalized |
 
-The rule: steps before the first one ticked **Counts as drafted** show an empty circle. The first ticked step shows a half circle. Every step after it shows a full circle. The gray line in this section of Settings says the same thing, and the scene plan in the Writing Room shows the key under the **Status** dropdown, with your own step names.
+The rule: steps before the first one ticked **Counts as drafted** show an empty circle. The first ticked step shows a half circle. Every step after it shows a full circle. The gray line in this section of Settings says the same thing, and the scene plan in the Writing Room shows the key under the **Status** dropdown (page **2 About it**), with your own step names.
 
 **The common mistake** is ticking **Counts as drafted** on a planning step such as **Ready to draft**. The binder would then show scenes with no prose as half written.
 
@@ -226,7 +256,7 @@ The rule: steps before the first one ticked **Counts as drafted** show an empty 
 
 ## Settings: words for decisions
 
-The line under the heading says: "The words shown everywhere for how settled something is. Change any of them to your own."
+**Words for decisions** is also on page **3 Writing**, under the status steps. The line under the heading says: "The words shown everywhere for how settled something is. Change any of them to your own."
 
 ### Settings: renaming the six statuses
 
@@ -253,7 +283,7 @@ Renaming changes only the word on screen. It never changes what the status means
 
 The box **The marker for what is yours to write or decide** holds the words of the main mark. It starts as your name followed by "it's on you now," for example "Dana, it's on you now." The name is filled in for you and follows your name if it changes. A gray line says where the name came from: "Your name, Dana, comes from About you and follows it if it changes" (or "from Your name above").
 
-**If the marker shows the wrong name, or none:** fix the name in **About you** or in **Your name** at the top, and press **Save settings**. If neither has a name, the marker simply reads "It's on you now," and the gray line says "Add your name in About you and it appears here."
+**If the marker shows the wrong name, or none:** fix the name in **About you** (page 5) or in **Your name** (page 1), and press **Save settings**. If neither has a name, the marker simply reads "It's on you now," and the gray line says "Add your name in About you and it appears here."
 
 ### Settings: other markers for work you keep
 
@@ -277,7 +307,7 @@ Add your own, one per line, such as "Mine to research." Delete a line to remove 
 
 ## Settings: the collaborator
 
-This section turns the collaborator on for this novel, holds your API key, says whether a scene's prose may be shared, and picks which Claude model answers. It is tagged **Takes effect right away**.
+This section, page **4 The collaborator**, turns the collaborator on for this novel, holds your API key, says whether a scene's prose may be shared, and picks which Claude model answers. It is tagged **Takes effect right away**.
 
 An **API key** is a long code from Anthropic, the company that makes Claude, that lets Story Canon ask Claude questions on your behalf. Each question is billed to your own key.
 
@@ -294,7 +324,7 @@ If Windows cannot store the key securely, a message says the key works for now b
 
 ## Settings: About you
 
-**About you** is the same set of questions Story Canon asks the first time you open it, in the Library. Every answer is optional. The gray line explains: it stays on this computer, goes to the collaborator only when you talk with it, and shapes nothing but how the collaborator speaks with you.
+**About you**, page **5**, is the same set of questions Story Canon asks the first time you open it, in the Library. Every answer is optional. The gray line explains: it stays on this computer, goes to the collaborator only when you talk with it, and shapes nothing but how the collaborator speaks with you.
 
 | Question | What it is used for |
 | --- | --- |
@@ -310,7 +340,7 @@ Here in Settings, these answers are kept with **Save settings**. They belong to 
 
 ## Settings: for all my novels
 
-Everything in this section belongs to you across every novel, and is kept with **Save settings**.
+Page **6 All my novels** holds the section headed **For all my novels**. Everything in it belongs to you across every novel, and is kept with **Save settings**.
 
 ### Settings: My craft shelf
 
@@ -340,7 +370,7 @@ Add, rename, reorder or delete lines to make your own list, then press **Save se
 
 ## Settings: Appearance
 
-Three choices, tagged **Takes effect right away**:
+Page **7 Appearance** has three choices, tagged **Takes effect right away**:
 
 - **Match Windows** follows your Windows setting: when Windows is dark, Story Canon is too. This is the starting choice.
 - **Light**: the purple cover and cream page, always.
@@ -366,7 +396,7 @@ Each computer keeps its own full copy of your novels, so each one works with no 
 
 ### Sharing: turning it on on your first computer
 
-1. Open your novel, click **Settings**, and find **Your other computers** (or use the Library's section of the same name).
+1. Open your novel, click **Settings**, and turn to page **8 Other computers and backups**, where **Your other computers** is (or use the Library's section of the same name).
 2. In **Call this computer**, type a short name, such as *Laptop*. This is the name your other computer will show in its notices ("Your Laptop shared newer work…").
 3. Click **Choose the shared folder** and pick a folder in your OneDrive, or any folder both computers can see.
 4. A message says "Sharing is on. Your novels are in the shared folder now; install Story Canon on your other computer and choose the same folder there."
@@ -443,7 +473,7 @@ Once sharing is on, each novel gets its own notes file in your shared folder, in
 
 1. Open the file from the OneDrive app in Word.
 2. Tap the microphone and dictate. Start each note on a new line.
-3. When Story Canon has that novel open on one of your computers, each new paragraph arrives as a captured thought, waiting under **Thoughts waiting to be sorted** on Where was I. A message says "A note from the road came in."
+3. When Story Canon has that novel open on one of your computers, each new paragraph arrives as a captured thought, waiting under **Thoughts waiting to be sorted** on Where was I (page **2 Still open**). A message says "A note from the road came in."
 
 A few things to know:
 
@@ -460,13 +490,13 @@ A few things to know:
 
 A **backup** is a complete spare copy of all your novels, made so that a broken computer cannot cost you your book. An **archive** is one file holding a single novel and its whole history, made so you can store it or move it.
 
-**Where:** **Settings**, the section **Backups**, near the bottom. Its heading is tagged **Takes effect right away**: its buttons work the moment you click them. The gray line under the heading says: "Backups are also made automatically while you work. An archive is one file with this whole novel and its history, which you can keep anywhere and bring back in from the Library."
+**Where:** **Settings**, page **8 Other computers and backups**, the section **Backups**, under **Your other computers**. Its heading is tagged **Takes effect right away**: its buttons work the moment you click them. The gray line under the heading says: "Backups are also made automatically while you work. An archive is one file with this whole novel and its history, which you can keep anywhere and bring back in from the Library."
 
 ### Backups: the automatic ones
 
-Story Canon makes a backup by itself every thirty minutes while you are making changes, and again when you close the program. Each one is checked as it is made. The most recent twenty automatic backups are kept, and older ones are removed as new ones arrive. A backup is also made before work from your other computer is brought in.
+Story Canon makes a backup by itself every thirty minutes while you are making changes, and again when you close the program. Each one is checked for damage as it is made; a copy that fails the check is not kept. The most recent twenty automatic backups are kept, and older ones are removed as new ones arrive. A backup is also made before work from your other computer is brought in.
 
-The line at the top of the section says where they go, for example "Backups go to C:\Users\Dana\Documents\Story Canon\Backups, the usual place."
+The line at the top of the section says where they go, for example "Backups go to C:\Users\Dana\Documents\Story Canon\Backups, the usual place." Each backup is a single file named with the date and time it was made.
 
 ### Backups: Make a backup now
 
@@ -478,13 +508,15 @@ The line at the top of the section says where they go, for example "Backups go t
 
 The one thing worth doing in this section: put your backups somewhere other than this computer. A backup on the same computer is lost along with it.
 
-1. In **Settings**, under **Backups**, click **Choose a folder**.
-2. Pick a folder on a second drive, a USB stick, or a synced folder such as OneDrive. (A faint line under the button suggests the same.)
+1. In **Settings**, on page **8 Other computers and backups**, under **Backups**, click **Choose a folder**.
+2. Pick a folder on a second drive, a USB stick, or a synced folder such as OneDrive. (The faint line under the button says the same: "A second drive, a USB stick or a synced folder such as OneDrive keeps a copy safe even if this computer is not.")
 3. Story Canon makes the first backup there at once and checks it. A message says "Backups now go to" the folder, then "The first one is already there, checked."
 
 To go back to the starting folder, click **Back to the usual place**.
 
 If the folder cannot be written to (a USB stick that was unplugged, say), you see "That folder cannot be written to. Choose another, or check that the drive is connected." Nothing changes until you pick one that works.
+
+**The common mistake** is choosing a USB stick and then leaving it unplugged. Automatic backups need the folder to be there. A synced folder such as OneDrive is the easiest choice, because it is always connected.
 
 ### Backups: Save an archive of this novel
 
@@ -497,11 +529,13 @@ If the folder cannot be written to (a USB stick that was unplugged, say), you se
 1. Click **Library** at the top left of any page.
 2. Under **Bring in an archive**, choose the archive file.
 3. Before anything is added, a box shows what the archive holds: the title, the counts of chapters, scenes and records, and any warnings.
-4. Click **Import** when the novel is not already here. If a version of it is already on your shelf, the button is **Import as a separate copy**: the archive comes in beside your novel, and your novel is not changed. **Cancel** closes the box with nothing added.
+4. Click **Import** when the novel is not already here. If a version of it is already on your shelf, the button is **Import as a separate copy**: the archive comes in beside your novel, with "(copy)" after its title, and your novel is not changed. If the very same novel is already on your shelf, the box says "This exact novel is already in your library. Nothing will be imported unless you import it as a copy." **Cancel** closes the box with nothing added.
 
 Nothing already in your Library is ever overwritten by an archive.
 
-**About the backup files.** The backup files themselves cannot be opened from inside Story Canon. They are the last line of defense if a computer fails completely. For moving a novel, or keeping a copy you can open yourself, use an archive.
+**Example.** You are moving to a new laptop and do not want sharing. On the old one, you open *The Keeper of Gull Point*, go to **Settings**, page **8 Other computers and backups**, click **Save an archive of this novel**, and save it to a USB stick. On the new laptop, you open the Library, choose the file under **Bring in an archive**, check the counts, and click **Import**. The novel arrives with every scene, record and undo in its history.
+
+**About the backup files.** The backup files themselves cannot be opened from inside Story Canon. They are the last line of defense if a computer fails completely, and they are best restored with help. For moving a novel, or keeping a copy you can open yourself, use an archive.
 
 ## My methods: making your own beat sheet
 
@@ -511,7 +545,7 @@ A method can be a full beat sheet, a lens with its own questions and fields, or 
 
 **Do most writers need it?** No. Most writers use a built-in beat sheet. Use My methods when you learned a structure in a class or from a book that is not built in, or you adapted a known one to the way you actually work.
 
-**Where:** **Settings**, under **For all my novels**, the link **Open my methods**. Or, in Novel setup, under **My storytelling toolkit**, the button **Make a method of my own**. The **Settings** view stays lit in the list while you are there.
+**Where:** **Settings**, page **6 All my novels**, under **For all my novels**, the link **Open my methods**. Or, in Novel setup, on page **5 My storytelling toolkit**, the button **Make a method of my own**. The **Settings** view stays lit in the list while you are there.
 
 The **My methods** page lists your methods (or "None yet."). Each row shows the method's name (click it to edit), where it comes from, how many beats and fields it has (or "no beat sheet"), and "in this novel" if the open novel uses it. The **Novel setup** link at the top goes to Novel setup.
 
@@ -574,7 +608,7 @@ Each beat is a numbered row:
 A method belongs to you, so every novel can use it, but each novel chooses its own.
 
 1. Open the novel, then **Settings**, then **Open novel setup**.
-2. Under **My storytelling toolkit**, tick your method. It carries a **yours** label and an **Edit** link that brings you back to My methods.
+2. On page **5 My storytelling toolkit**, tick your method. It carries a **yours** label and an **Edit** link that brings you back to My methods.
 3. If the method has beats and the novel now has more than one beat sheet ticked, choose which one drives the Board under **The beat sheet that drives the board**. Tick **Offer my placed scenes on the matching beats** to carry scene placements across using **Lines up with**. They arrive as "might go here," waiting for you to decide.
 
 Novel setup saves each choice as you make it. Novel setup itself is taught in [Your first hour: the Library and a new novel](#your-first-hour-the-library-and-a-new-novel).

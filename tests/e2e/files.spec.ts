@@ -91,6 +91,7 @@ test('a novel can be set up first: genres, story types with ingredients, charact
   await page.getByLabel('Working title').fill('Setup Test');
   await page.getByRole('button', { name: 'Set it up first' }).click();
   await expect(page.getByRole('heading', { name: 'How Setup Test is set up' })).toBeVisible();
+  await page.getByRole('tab', { name: /Genres/ }).click();
   const genres = page.getByRole('region', { name: 'Genres' });
   await genres.getByLabel('Comedy', { exact: true }).click();
   await expect(genres.getByLabel('Comedy role')).toBeVisible();
@@ -101,22 +102,28 @@ test('a novel can be set up first: genres, story types with ingredients, charact
   await genres.getByRole('button', { name: 'Add' }).click();
   await expect(genres.getByLabel('Neighborhood farce role')).toHaveValue('secondary');
   await expect(genres).toContainText('Is every clue the solution needs planted before the reveal?');
+  await page.getByRole('tab', { name: /Story types/ }).click();
   const types = page.getByRole('region', { name: 'Story types' });
   await types.getByLabel('Buddy Love', { exact: true }).click();
   await expect(types.getByRole('group', { name: 'Buddy Love ingredients' })).toContainText('A counterpart');
+  await page.getByRole('tab', { name: /How the story is told/ }).click();
   await page.getByRole('region', { name: 'Narrative characteristics' }).getByLabel(/Unreliable narrator/).click();
   await expect(page.getByRole('region', { name: 'Narrative characteristics' }).getByLabel(/Unreliable narrator/)).toBeChecked();
+  await page.getByRole('tab', { name: /My storytelling toolkit/ }).click();
   const kit = page.getByRole('region', { name: 'Storytelling toolkit' });
   await kit.getByLabel(/Save the Cat/).click();
   await expect(page.getByRole('status')).toContainText('is now the beat sheet for this novel');
   await kit.getByLabel('How I use it').fill('The spine.');
   await kit.getByLabel('How I use it').blur();
+  await page.getByRole('tab', { name: /What your choices switch on/ }).click();
   await expect(page.getByRole('region', { name: 'What your choices switch on' })).toContainText('What the narrator believes');
   await page.reload();
   await expect(page.getByRole('button', { name: 'Set up this novel' })).toHaveCount(0);
   await nav(page).getByRole('button', { name: 'Settings' }).click();
   await page.getByRole('button', { name: 'Open novel setup' }).click();
+  await page.getByRole('tab', { name: /Genres/ }).click();
   await expect(page.getByRole('region', { name: 'Genres' }).getByLabel('Comedy role')).toHaveValue('primary');
+  await page.getByRole('tab', { name: /My storytelling toolkit/ }).click();
   await expect(page.getByRole('region', { name: 'Storytelling toolkit' }).getByLabel('How I use it')).toHaveValue('The spine.');
 });
 

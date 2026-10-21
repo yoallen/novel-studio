@@ -20,6 +20,7 @@ test('setup groups: tense keeps one answer, and her own tone stays under Tone', 
   await page.getByRole('region', { name: 'Plant the seed' }).getByRole('button', { name: 'Not now' }).click();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Settings' }).click();
   await page.getByRole('button', { name: 'Open novel setup' }).click();
+  await page.getByRole('tab', { name: /How the story is told/ }).click();
   const told = page.getByRole('region', { name: 'Narrative characteristics' });
   const tense = told.getByRole('group', { name: 'Tense' });
   await tense.getByLabel('Past tense').click();

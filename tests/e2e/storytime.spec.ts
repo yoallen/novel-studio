@@ -46,6 +46,7 @@ test('a scene with a year shows who is in it and how old', async ({ page, reques
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Where was I' }).click();
   await page.locator('.hero').getByRole('button', { name: 'Write' }).click();
   const plan = page.getByRole('complementary', { name: 'Scene plan' });
+  await plan.getByRole('tab', { name: /About it/ }).click();
   await plan.getByRole('combobox', { name: 'Viewpoint character' }).selectOption({ label: 'Tabitha' });
   const year = plan.getByLabel(/^Year/);
   await year.fill('2026');

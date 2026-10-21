@@ -21,6 +21,7 @@ test('Start writing opens the page, and the one sentence becomes the book\'s one
   expect(setup.premise).toBe('A widowed beekeeper discovers her hives are carrying messages.');
   // It is not also filed as a loose thought.
   await nav(page).getByRole('button', { name: 'Where was I' }).click();
+  await page.getByRole('tab', { name: /Still open/ }).click();
   await expect(page.getByRole('region', { name: 'Thoughts waiting to be sorted' })).toContainText('Nothing waiting');
 });
 
@@ -44,6 +45,7 @@ test('Where was I: questions and decisions open their record', async ({ page, re
   await request.post(`/api/elements/${kevin.id}/statements`, { headers: H, data: { field: 'want', value: 'To be right, once.', status: 'established' } });
   await page.reload();
   await nav(page).getByRole('button', { name: 'Where was I' }).click();
+  await page.getByRole('tab', { name: /Still open/ }).click();
   const decisions = page.getByRole('region', { name: 'Latest decisions' });
   await expect(decisions).toContainText('To be right, once.');
   await decisions.getByRole('button', { name: 'Kevin' }).click();
@@ -61,11 +63,14 @@ test('the scene plan teaches its blanks, says Saved, and the circle follows the 
   await expect(plan.getByText(/whether it is going well \(\+\) or badly \(-\)/)).toBeVisible();
   await expect(plan.getByLabel('What you want the reader to feel')).toBeVisible();
   // Readiness uses the names of the blanks.
+  await plan.getByRole('tab', { name: /About it/ }).click();
   await expect(plan).toContainText('Open: What this scene must do');
+  await plan.getByRole('tab', { name: /The plan/ }).click();
   const must = plan.getByLabel('What this scene must do');
   await must.fill('Show Kevin cannot let a slight go.');
   await plan.getByLabel('Central conflict').click();
   await expect(plan.getByRole('status').filter({ hasText: 'Saved' })).toBeVisible();
+  await plan.getByRole('tab', { name: /About it/ }).click();
   await expect(plan).toContainText('Done: What this scene must do');
   // Kept for you: each marker says what it means.
   await plan.getByLabel('Kept for you to write or decide').selectOption('Mine to choreograph');

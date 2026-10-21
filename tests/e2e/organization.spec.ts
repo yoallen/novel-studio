@@ -58,8 +58,10 @@ test('Settings: one Save, a confirmation beside it, and the name from About you'
   await request.patch('/api/author-profile', { headers: h, data: { about: { name: 'Dana', asked: true } } });
   await newNovel(page, 'Settings Book');
   await nav(page).getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('tab', { name: /Writing/ }).click();
   await expect(page.getByLabel('The marker for what is yours to write or decide')).toHaveValue("Dana, it's on you now");
   await expect(page.getByText('{author}')).toHaveCount(0);
+  await page.getByRole('tab', { name: /This novel/ }).click();
   await page.getByLabel('Target length in words (optional)').fill('90000');
   const bar = page.getByRole('region', { name: 'Save settings' });
   await expect(bar.getByRole('status')).toHaveText('You have changes not saved yet.');

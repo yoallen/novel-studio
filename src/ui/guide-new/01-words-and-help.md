@@ -210,7 +210,7 @@ When you open a record in the Story Brain, you see, from the top down:
 
 1. **The record's name**, in large letters. Click it and type to rename the record.
 2. **A row of small controls**: **Kept for you**, **Ask about this**, and sometimes **Where did this come from?** These are explained in [The Story Brain](#the-story-brain).
-3. **The status legend**, a single line of five samples (explained next).
+3. **The status legend**, a single line of six samples (explained next).
 4. **Suggestions waiting for you**, if the collaborator has left any for this record.
 5. On a character, **Low-energy day? One line counts.** with a **Fill in one line** button, while any of the simplest fields are still empty.
 6. **The page tabs**, numbered, with **All pages** at the end.
@@ -220,9 +220,9 @@ When you open a record in the Story Brain, you see, from the top down:
 
 Just under the record's name is a line of small samples, one for each status you will meet on the page:
 
-*Decided (inked)*, *Developing (pencil)*, *Still open (a blank line)*, *Example, never canon*, *Suggestion (a slip, tucked in)*
+*Decided (inked)*, *Developing (pencil)*, *Still open (a blank line)*, *Example, never canon*, *Suggestion (a slip, tucked in)*, *Set aside (faded, kept below)*
 
-Each sample is drawn the way that status looks on the page, so the legend is a key you can glance at whenever you forget which look is which. If you renamed the status words in **Settings**, the legend shows your words. Set aside does not appear in the legend, because set-aside facts are folded away out of sight (see [Set aside: folded away, never deleted](#set-aside-folded-away-never-deleted)).
+Each sample is drawn the way that status looks on the page, so the legend is a key you can glance at whenever you forget which look is which. The last one, Set aside, is faded and has a line through it. "Kept below" means a set-aside fact is not on the field itself: it is folded away under the field, out of sight until you open it (see [Set aside: folded away, never deleted](#set-aside-folded-away-never-deleted)). If you renamed the status words in **Settings**, the legend shows your words.
 
 ### Status inks: how each status looks
 
@@ -261,7 +261,7 @@ In dark mode the inks are lighter versions of the same colors, so they still rea
 
 - **What it means:** a question that matters, and that you have not answered yet.
 - **How it looks:** slanted gray words sitting on a ruled line, with a short solid dash in front. If nothing has been written at all, the line reads *Still open: nothing written yet* and offers **Write it**.
-- **Why it matters:** "I haven't decided" is different from "I forgot". Marking a question open says *this matters, and it isn't settled*. Story Canon lists it for you (on **Where was I**, under **Questions still open**) and never fills it in by guessing.
+- **Why it matters:** "I haven't decided" is different from "I forgot". Marking a question open says *this matters, and it isn't settled*. Story Canon lists it for you (on **Where was I**, page **2 Still open**, under **Questions still open**) and never fills it in by guessing.
 - **What you can do:** **Write it** opens the field so you can answer. If the open line already has words (often the question itself, or a note about what is undecided), **Decide this** settles that wording as your answer.
 - **The common mistake:** feeling you must answer every open line before you start writing. You don't. Many answers turn up while you write.
 - **Example:** on the record for the empty boat: "Whose boat is it? Not Eli's, but someone wants her to think so." The answer is the heart of the mystery, and you haven't settled it.
@@ -336,7 +336,7 @@ To change a fact you already have, use the buttons in its margin.
 
 Statuses are not decoration. The rest of the program reads them:
 
-- **Where was I** lists your open questions and your latest decisions.
+- **Where was I** lists your open questions and your latest decisions, on its page **2 Still open**.
 - **Choices ahead**, in the Story Brain, collects every open question, every field with competing pencil answers, and every suggestion waiting.
 - **Narrative Zoom** counts a scene card as placed only when its spot is decided, so its checks never report a problem based on a guess.
 - **The collaborator** treats Decided facts as true, treats pencil as possibilities, never fills in an open line by guessing, and never offers an example as a fact.
@@ -357,7 +357,7 @@ These are the pages each kind has:
 | Kind | Its pages |
 | --- | --- |
 | **Character** | 1 Who they are, 2 Identity, 3 Looks and voice, 4 Personality, 5 Goals, motives and values, 6 What opposes them, 7 Inner life, 8 Arc, 9 Their world and their people, 10 Interview, 11 Notes, guardrails and writing aids |
-| **Beat** | 1 In this book, 2 Save the Cat's questions, 3 Notes and connections |
+| **Beat** | 1 In this book, 2 Questions for this beat, 3 Notes and connections |
 | **Scene card** | 1 The scene, 2 When it happens, 3 Who tells it, 4 Mood and feeling, 5 The reader, 6 Scene and sequel, 7 Notes and connections |
 | **Story world** (the record for the whole book) | 1 The heart of the book, 2 What it means, 3 Time, viewpoint and knowledge, 4 Notes and connections |
 | **Event** and **Reveal** | 1 What happens, 2 When, and who knows, 3 Notes and connections |
@@ -366,6 +366,10 @@ These are the pages each kind has:
 **Pages with nothing to show are left out.** Some fields come with a method you turn on in **Novel setup** (for example, goal and motive from Randy Ingermanson's Snowflake method). A page made only of such fields appears once you turn that method on. So a character may show fewer than eleven tabs, and the numbers close up. A record with only one page shows no tabs at all.
 
 **Nothing is ever hidden.** A group of fields that no page names (such as a field you added yourself) goes on the last page.
+
+**In Narrative Zoom, a few pages come first.** When you open a beat, a scene card or any other record inside **Narrative Zoom** (the view for the shape of your plot), the same record shows one or two extra pages in front of its own, about where it sits in the story. A beat, for example, starts with **1 About this beat** and **2 Scenes here**, and its own **In this book** becomes page 3. The numbers close up the same way. See [Narrative Zoom](#narrative-zoom).
+
+**Other screens use the same pages.** Where was I, Settings, Novel setup and the Writing Room's scene plan are laid out the same way: numbered tabs, **All pages** at the end, links to the page before and after at the bottom, and the page you were on remembered while the program is open. Each is taught in its own chapter.
 
 ### Record pages: All pages
 
@@ -412,7 +416,7 @@ Up to five boxes show above any one beat. A beat with more still shows five.
 ### When the story strip looks broken but isn't
 
 - **No pink pin.** The pin shows only when a scene is open in the Writing Room and its scene card is decided on a beat. A scene that only *might* go somewhere has no fixed spot to pin. In a book without a beat sheet, the pin shows the chapter you are in.
-- **The strip shows only "Chapter 1".** Your novel has no beat sheet yet. Choose one in **Novel setup**, under **My storytelling toolkit**, and the acts and beats appear.
+- **The strip shows only "Chapter 1".** Your novel has no beat sheet yet. Choose one in **Novel setup**, on its page **5 My storytelling toolkit**, and the acts and beats appear.
 - **The strip is empty.** The novel has no chapters and no beat sheet yet.
 - **The strip disappeared.** You are in a sprint (a timed stretch of writing) or in **Focus** (only the page on screen). Both hide everything but the page.
 
@@ -518,7 +522,7 @@ An idea arrives mid-sentence. Don't stop to file it. Catch it.
 
 Your words are kept exactly as written. For a few seconds after you save, a short line beside the **Capture** button says where the thought went, such as "Saved. It waits in Captured thoughts, in Story Brain under Questions and ideas." or "Saved. It is attached to this scene, in the scene plan." Then it fades.
 
-Unsorted thoughts also wait on **Where was I**, under **Thoughts waiting to be sorted**. Everything you capture is in the Story Brain, under **Questions and ideas**.
+Unsorted thoughts also wait on **Where was I**, page **2 Still open**, under **Thoughts waiting to be sorted**. Everything you capture is in the Story Brain, under **Questions and ideas**.
 
 - **Do most writers need it?** Yes. It works from every view of a novel, even during a sprint.
 - **The common mistake** is stopping to sort the thought properly right then. That is how a ten-second note becomes a twenty-minute detour. Capture it and go back.

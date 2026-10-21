@@ -206,7 +206,7 @@ Click **Use this sheet** (or **Make it my beat sheet**). The Done page tells you
 
 A line counts the changes, the scenes they are in, and any comments: "14 changes in 3 scenes, and 2 comments. Nothing changes until you decide. Anything you leave undecided stays as you wrote it."
 
-- **Keep the editor's comments as notes beside each scene**, a tick box. Each comment is kept as a thought attached to its scene, so it waits in the scene plan under **Attached to this scene**, with who wrote it and the words it was near.
+- **Keep the editor's comments as notes beside each scene**, a tick box. Each comment is kept as a thought attached to its scene, so it waits in the scene plan, on page **3 Notes**, under **Attached to this scene**, with who wrote it and the words it was near.
 - For each changed scene: its name and chapter, with **Accept all** and **Turn all down**.
 - For each change: a few words before it, the removed words struck through, the added words highlighted, a few words after, and who made it and when. Then **Accept** and **Turn down**. Click a pressed button again to undo your choice.
 - If you changed a scene yourself since you exported it, a note warns "You have changed this scene since you exported it. The editor's changes were made to the earlier text."
@@ -269,7 +269,7 @@ The page opens with "Exporting never changes your novel. Each file is read back 
 
 ### Start from: the export presets
 
-A **preset** is a ready-made set of choices for a common job. Picking one fills in everything below it. You can then change anything; once you do, no preset is selected, which is fine. The page opens with **Working manuscript** chosen.
+A **preset** is a ready-made set of choices for a common job. Picking one fills in everything below it. You can then change anything; once you do, no preset is selected, which is fine. The page opens with **Working manuscript** chosen, and its choices already filled in, so what you see ticked below is exactly what that preset makes.
 
 | Preset | What it makes |
 | --- | --- |
@@ -342,7 +342,7 @@ Click **Every chapter** to go back to the whole book. The file's name says which
 | **Markdown (.md)** | Simple text with light formatting, for websites and notes apps. | Underline, centered paragraphs, page layout. |
 | **Plain text (.txt)** | The simplest copy, readable anywhere. | Italics, bold, underline, headings and page layout. |
 | **Web page (.html)** | Opening in a web browser or posting online. | Page layout and manuscript format. |
-| **Story Canon data (.json), for other programs** | A structured copy for software, not for reading. | Not meant for people. To move a novel between computers, use an archive instead (see [Save an archive of this novel](#save-an-archive-of-this-novel)). |
+| **Story Canon data (.json), for other programs** | A structured copy for software, not for reading. | Not meant for people. To move a novel between computers, use an archive instead (see [Backups: Save an archive of this novel](#backups-save-an-archive-of-this-novel)). |
 
 ### Before you export: the summary above the Export button
 

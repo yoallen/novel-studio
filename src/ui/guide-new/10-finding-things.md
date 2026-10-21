@@ -1,6 +1,6 @@
 # Finding things: Search and Story Trail
 
-This chapter is about two promises Story Canon makes. You can find anything you put into it, and nothing you put into it is ever lost, not even by accident. Read it when you are looking for something (a name, a line, a thought you saved last week), when you want to take back a change, when you deleted something you now want, or when you want to be sure a broken computer cannot cost you your book. If you are setting up a new computer, read the last section, [Backups and archives](#backups-and-archives), first.
+This chapter is about two promises Story Canon makes. You can find anything you put into it, and nothing you put into it is ever lost, not even by accident. Read it when you are looking for something (a name, a line, a thought you saved last week), when you want to take back a change, when you deleted something you now want, or when you want to be sure a broken computer cannot cost you your book. If you are setting up a new computer, read [Settings and your other computers](#settings-and-your-other-computers) first.
 
 ## Nothing is lost: which safety net to use
 
@@ -12,8 +12,8 @@ Story Canon has several ways to find and recover things. They overlap on purpose
 | Find a thought you saved with Capture | **Questions and ideas** | The Story Brain, at the top of its list |
 | Take back one change you made, even an old one | **Undo** in the **Story Trail** | The **Story Trail** view |
 | Bring back a scene, chapter or record you deleted | **Deleted things** | The **Story Trail** view, top right |
-| Get back an older wording of one scene | **Earlier versions** | The Writing Room, at the bottom of the scene plan |
-| Survive a broken computer | **Backups** and **archives** | **Settings**, under **Backups** |
+| Get back an older wording of one scene | **Earlier versions** | The Writing Room, at the bottom of the scene plan's page **3 Notes** |
+| Survive a broken computer | **Backups** and **archives** | **Settings**, page **8 Other computers and backups** |
 
 Two more safety nets live elsewhere. A **kept draft** is a saved copy of the whole book exactly as it stood when you finished a draft; you keep one from the **Drafts** page, reached from Where was I (see [Where was I: your novel's home page](#where-was-i-your-novels-home-page)). And if you write on two computers, each one keeps its own copy and makes a backup before it takes in a newer one (see [Settings and your other computers](#settings-and-your-other-computers)).
 
@@ -103,7 +103,7 @@ Each kind of capture waits in its own place:
 
 | You chose | It waits in |
 | --- | --- |
-| **Just a thought** | **Captured thoughts**, in **Questions and ideas**. Recent ones also show on Where was I under **Thoughts waiting to be sorted**. |
+| **Just a thought** | **Captured thoughts**, in **Questions and ideas**. Recent ones also show on Where was I, page **2 Still open**, under **Thoughts waiting to be sorted**. |
 | **A question I have** | **Questions I have**, in **Questions and ideas**, where you can answer it later. |
 | **An idea I am thinking about** | **Things and ideas I'm thinking about**, in **Questions and ideas**. |
 
@@ -223,7 +223,7 @@ It leaves the list and is back where it was. You can also find the row for that 
 
 ## Earlier versions of a scene
 
-Every scene keeps its earlier wordings, so a rewrite can never cost you the old draft. In the Writing Room, open the scene and click **Earlier versions** at the bottom of the scene plan (the panel on the right of the page; if you hid it, click **Show scene plan** first). A window lists each saved version with its date, time and word count. Click one to see it compared with the current text, then click **Restore this version** to bring it back, or **Close** (or **Esc**) to leave it. Restoring never throws anything away: the current text stays in the list, so you can restore it again.
+Every scene keeps its earlier wordings, so a rewrite can never cost you the old draft. In the Writing Room, open the scene and click **Earlier versions** at the bottom of the scene plan's page **3 Notes** (the scene plan is the panel on the right of the page; if you hid it, click **Show scene plan** first, then the small tab **3 Notes**). A window lists each saved version with its date, time and word count. Click one to see it compared with the current text, then click **Restore this version** to bring it back, or **Close** (or **Esc**) to leave it. Restoring never throws anything away: the current text stays in the list, so you can restore it again.
 
 A new version is made after you pause typing for about twenty seconds, when you leave the scene, and when you close Story Canon. The full steps are in [The Writing Room](#the-writing-room).
 
@@ -231,58 +231,4 @@ A new version is made after you pause typing for about twenty seconds, when you 
 
 ## Backups and archives
 
-Two words first. A **backup** is a complete spare copy of all your novels at once, made so that a broken computer or a bad day cannot cost you your book. An **archive** is one file holding a single novel with its whole history (every version, every undo), made so you can store it or move it to another computer.
-
-**Do you need them?** Backups happen by themselves, so every writer has them. The one thing every writer should do once is put them somewhere other than this computer (see [Choosing where backups go](#choosing-where-backups-go)). Archives are for when you want to carry a novel somewhere.
-
-**Where they are.** **Settings**, in the section **Backups**, near the bottom. Its heading has a small tag, **Takes effect right away**: its buttons work the moment you click them, with no **Save settings** needed. Under the heading: "Backups are also made automatically while you work. An archive is one file with this whole novel and its history, which you can keep anywhere and bring back in from the Library."
-
-### Automatic backups
-
-Story Canon makes a backup by itself every thirty minutes while you are making changes, and again when you close the program. Each one is checked for damage as it is made; a copy that fails the check is not kept. The twenty most recent automatic backups are kept, and older ones are removed as new ones arrive.
-
-The line at the top of the section says where they go, for example "Backups go to C:\Users\Dana\Documents\Story Canon\Backups, the usual place." Each backup is a single file named with the date and time it was made.
-
-### Make a backup now
-
-**Make a backup now** makes an extra copy this minute and checks it. A message says "Backup made and checked" with its size. Up to fifty of these are kept, separately from the automatic ones.
-
-**When to use it:** before anything big, like bringing in a large document, deleting a part of the book, or starting a revision.
-
-### Choosing where backups go
-
-This is the one thing worth doing: put your backups somewhere other than this computer. A backup on the same computer is lost along with it.
-
-1. In **Settings**, under **Backups**, click **Choose a folder**.
-2. Pick a folder on a second drive, a USB stick, or a synced folder such as OneDrive. (The gray line under the button says the same: "A second drive, a USB stick or a synced folder such as OneDrive keeps a copy safe even if this computer is not.")
-3. Story Canon makes the first backup there at once and checks it. A message says "Backups now go to" the folder, then "The first one is already there, checked."
-
-To go back to the starting folder, click **Back to the usual place**.
-
-If the folder cannot be written to (a USB stick that was unplugged, say), you see "That folder cannot be written to. Choose another, or check that the drive is connected." Nothing changes until you pick one that works.
-
-**The common mistake** is choosing a USB stick and then leaving it unplugged. Automatic backups need the folder to be there. A synced folder such as OneDrive is the easiest choice, because it is always connected.
-
-### Save an archive of this novel
-
-**Save an archive of this novel** saves just this one novel, with all its history, as a single file named with the title, the word "archive" and today's date, such as "The Keeper of Gull Point archive 2026-10-21.json". In the Windows program you choose where to save it. Keep it anywhere: email it to yourself, put it on a USB stick, move it to a new computer.
-
-**When to use it:** when you buy a new computer, before you lend your laptop to someone, or as a "finished first draft" keepsake.
-
-### Getting a novel back from an archive
-
-1. Click **Library** at the top left of any page.
-2. Under **Bring in an archive**, choose the archive file.
-3. A window opens, headed with the novel's title, showing what the archive holds before anything is added: a list of what it contains, counted, and any warnings.
-4. Choose:
-   - **Import** brings it in, when the novel is not already in your Library.
-   - **Import as a separate copy** appears when a version of this novel is already here. The archive comes in beside it, with "(copy)" after its title, and your current novel is not changed. If the very same novel is already on your shelf, the window says "This exact novel is already in your library. Nothing will be imported unless you import it as a copy."
-   - **Cancel** closes the window with nothing added.
-
-Nothing already in your Library is ever overwritten by an archive. (Chapter 02 shows the same steps from the Library's side: [Your first hour: the Library and a new novel](#your-first-hour-the-library-and-a-new-novel).)
-
-**Example.** You are moving to a new laptop. On the old one, you open *The Keeper of Gull Point*, go to **Settings**, click **Save an archive of this novel**, and save it to a USB stick. On the new laptop, you open the Library, choose the file under **Bring in an archive**, check the counts, and click **Import**. The novel arrives with every scene, record and undo in its history.
-
-### What backup files are for
-
-The backup files themselves cannot be opened from inside Story Canon. They are the last line of defense if a computer fails completely, and they are best restored with help. For moving a novel, or keeping a copy you can open yourself, use an archive.
+Search, the Story Trail, Deleted things and earlier versions all work inside the program. **Backups** and **archives** are for the day the program, or the computer, is not there. A **backup** is a complete spare copy of all your novels, made by itself while you work; an **archive** is one file holding a single novel with its whole history, which you make when you want to store a book or carry it somewhere. You will rarely go looking for anything in them, but they are what makes "nothing is ever lost" true even if your computer breaks. Both live in **Settings**, on page **8 Other computers and backups**, and both are taught in full, with the one thing every writer should do once (put backups somewhere other than this computer), in [Settings and your other computers](#settings-and-your-other-computers).

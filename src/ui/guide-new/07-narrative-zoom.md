@@ -59,7 +59,7 @@ Here is the whole sheet in one pass, using *The Keeper of Gull Point*:
 
 Two beats also have smaller steps inside them. Setup holds **Stasis = Death**, and the Finale holds five steps. They're explained in [Smaller steps inside a beat: Stasis = Death and the Finale](#smaller-steps-inside-a-beat-stasis-death-and-the-finale).
 
-The descriptions, placement advice and examples you'll see on each Save the Cat beat come from the Save the Cat beat sheet built into Story Canon. The screens call it "your beat sheet" or "your sheet". Story Canon shows its words exactly as the sheet has them and credits each example to the book it comes from.
+The descriptions, placement advice and examples you'll see on each Save the Cat beat come from the Save the Cat beat sheet built into Story Canon. The screens call it "the beat sheet" (and a question about where a beat falls says "Your sheet says"). Story Canon shows its words exactly as the sheet has them and credits each example to the book it comes from.
 
 ### The other beat sheets Story Canon offers
 
@@ -73,7 +73,7 @@ When a novel has no beat sheet yet, you can choose one of these:
 | **Seven-Point Structure** | Dan Wells | Decide the ending first, then the opposite beginning, then the turns between |
 | **Three-Act Structure** | The classic shape | Setup, confrontation and resolution, with turning points between |
 
-Every one of them works with the Board, the beat pages, the story strip and the checks. Their beats come with a short plain description, a usual placement ("Usually around 10% of the book.") and, on some beats, a question to test it. A few things belong to Save the Cat only: the three worlds, the **Save the Cat's questions** page on a beat, the sheet's examples, and the choice of two placement models in **Where beats fall**.
+Every one of them works with the Board, the beat pages, the story strip and the checks. Their beats come with a short plain description, a usual placement ("Usually around 10% of the book.") and, on some beats, a question to test it. A few things belong to Save the Cat only: the three worlds, the **Questions for this beat** page on a beat, the sheet's examples, and the choice of two placement models in **Where beats fall**.
 
 **Which should you pick?** If you've never used one, pick **Save the Cat (Brody for novels)**. It's written for novels and Story Canon teaches it most fully. If you already think in another shape, pick that one.
 
@@ -81,7 +81,7 @@ Every one of them works with the Board, the beat pages, the story strip and the 
 
 If you learned structure from a teacher or book that isn't on that list, you can build it yourself. Story Canon calls this a **method**: a way of working from any teacher or book, which can carry its own beats, its own questions and its own fields. Your methods belong to you, not to one novel, so every novel can use them.
 
-1. Click **Settings** on the right edge of the window. Under **My methods**, click **Open my methods**. (You can also get there from **Novel setup**, the page where you choose the methods a novel uses, with **Make a method of my own**.)
+1. Click **Settings** on the right edge of the window, then the page tab **6 All my novels**. Under **My methods**, click **Open my methods**. (You can also get there from **Novel setup**, the page where you choose the methods a novel uses, with **Make a method of my own**.)
 2. Click **Make a method of my own** and give it a **Name**. You can also fill in **Where it comes from (teacher, book, course)** and **What it does for me**.
 3. Under **Its beats**, choose where to begin from the **Start from** choices: **A blank page** to build every beat yourself, or **Save the Cat**, **The Hero's Journey**, **Story Circle**, **Seven-Point Structure** or **Three-Act Structure** to copy that sheet's beats as a starting point you can then change. (Leave **Its beats** empty if your method is a way of thinking with its own questions and fields rather than a beat sheet.)
 4. For each beat, fill in its name, where it starts and ends (**at** and **to**, as percentages of the book), which act it belongs to, and **What this beat is and the job it does**. **A test it must pass** is optional: a question to check the beat against. Use the arrows to reorder beats, and **Add a beat** for the next one.
@@ -161,7 +161,7 @@ On a Save the Cat novel, three bands sit among the acts:
 - **Antithesis World**, above Act Two (one band covers both halves)
 - **Synthesis World**, above Act Three
 
-Each band gives a one-line meaning. A fold-out under it, **Read the full description from your sheet**, opens the longer description from the beat sheet. At the bottom of the page, a section called **The three worlds** sums them up.
+Each band gives a one-line meaning. A fold-out under it, **Read the full description from the beat sheet**, opens the longer description from the beat sheet. At the bottom of the page, a section called **The three worlds** sums them up.
 
 **What they mean.** Snyder borrowed the words from an old way of arguing: a statement (thesis), its opposite (antithesis), and a new idea that combines them (synthesis). In a story, the three acts are three states of being:
 
@@ -204,28 +204,52 @@ Click a beat to open its page, or a card to open the card.
 
 **Where:** **Narrative Zoom** > **Zoom** > an act > a beat. You can also click a beat's name on the Board or in **Where beats fall**.
 
-A beat page has two parts. The top teaches the beat and shows which scene cards sit on it. The bottom, **Your plan for this beat**, is the beat's own record, where you write what the beat does in *your* book.
+A beat page is the beat's record (chapter 01 introduced records, fields and pages), with two extra pages in front: one that teaches the beat, and one that shows which scene cards sit on it. Everything is in one row of numbered pages, so you turn from the lesson to your cards to your own plan without leaving the page.
 
-#### Beat page: where it falls and what it does
+#### Beat page: the top
 
 - **The title**, such as **Catalyst**.
 - **Where it falls**, in one line: "At 10% of the book." If you've set a target length (see [Where beats fall: the numbers for your length](#where-beats-fall-the-numbers-for-your-length)), it adds the words: "around word 9,000 of 90,000". Once you've written scenes on this beat, it adds where the beat actually starts in what you've written so far.
-- **What this beat really does**, a fold-out that starts open. Click the small triangle to fold it away. Inside:
-  - the beat sheet's description of the beat,
-  - **Where it goes**: advice on placement,
-  - **Scene type**: how much room the sheet says this beat usually takes (Save the Cat only),
-  - **A question to ask**: a test for whether the beat is working, on the beats that have one,
-  - **An example from your beat sheet**, set apart with the source credited (for example, "from *The Shining* by Stephen King"). Examples are never part of your story. They show the move so you can find your own version.
+- **Kept for you**: a dropdown that marks this beat as yours alone, such as **Mine to write**. The collaborator (the optional AI writing partner) may talk about a marked beat but never writes or decides it for you. **Not marked** means no mark.
+- **Ask about this**: opens a conversation with the collaborator about this beat. See [Conversations and the collaborator](#conversations-and-the-collaborator).
+- **The legend**, one line of samples showing how each status looks on the page: **Decided (inked)**, **Developing (pencil)**, **Still open (a blank line)**, **Example, never canon**, **Suggestion (a slip, tucked in)** and **Set aside (faded, kept below)**, the last one faded with a line through it.
+- **Suggestions waiting for you**, if the collaborator has suggested anything for this beat. Accepting one turns to the page where it landed.
 
-On Stasis = Death, this fold-out also points you to the Setup beat, where the six things that need fixing have their own list.
+#### Beat page: its pages
 
-#### Beat page: Inside this beat
+Under the top is the row of page tabs, then **All pages** at the end:
 
-If the beat has smaller steps inside it, they're listed under **Inside this beat**. Click one to open its own page.
+| Page | What it holds | Shown when |
+| --- | --- | --- |
+| **1 About this beat** | The beat sheet's lesson: what the beat does, where it goes, its scene type, a question to ask, an example, and any smaller steps inside it | Always |
+| **2 Scenes here** | The scene cards on this beat, the cards that could go here, and the forms to place or add a card | Always |
+| **3 In this book** | Your plan for the beat in *your* book: its job, your event, the options you're weighing, and three checks | Always |
+| **4 Questions for this beat** | The extra questions Save the Cat asks at this particular beat | Only on beats that have questions |
+| **5 Notes and connections** | A free notes box, ties to other records, and fields of your own | Always |
 
-#### Scenes here: placing cards on a beat
+A page number turns ink blue when something is on that page: **1 About this beat** always, **2 Scenes here** once a card is placed or might go here, and the others once you've written something on them. One page shows at a time. The links at the bottom of each page go to the page before and after, and **All pages** shows every page at once, one after another. Story Canon remembers which page you were on for each beat while the program is open.
 
-**Scenes here** lists the cards decided for this beat, each with a small circle: hollow if its scene has no writing yet, filled if it has words. If none are decided, it says "No scenes placed here yet." A card decided on one of the beat's smaller steps is listed here too.
+Pages with nothing to show are left out, and the numbers close up. Questions for this beat exists only on the eight Save the Cat beats that carry extra questions, so on a beat like Catalyst the pages are **1 About this beat**, **2 Scenes here**, **3 In this book** and **4 Notes and connections**.
+
+**The common mistake** is reading page 1 and thinking the beat has nowhere to write. Page 1 is the beat sheet's lesson. Your own plan starts on **In this book**.
+
+#### Beat page 1: About this beat
+
+This page teaches the beat. Under the heading **What this beat really does**:
+
+- the beat sheet's description of the beat,
+- **Where it goes**: advice on placement,
+- **Scene type**: how much room the sheet says this beat usually takes (Save the Cat only),
+- **A question to ask**: a test for whether the beat is working, on the beats that have one,
+- **An example from the beat sheet**, set apart with the source credited (for example, "from *The Shining* by Stephen King"). Examples are never part of your story. They show the move so you can find your own version.
+
+On Stasis = Death, this page also points you to the Setup beat, where the six things that need fixing have their own list.
+
+If the beat has smaller steps inside it, they're listed at the bottom of this page under **Inside this beat**. Click one to open its own page.
+
+#### Beat page 2: Scenes here
+
+This page lists the cards decided for this beat, each with a small circle: hollow if its scene has no writing yet, filled if it has words. If none are decided, it says "No scenes placed here yet." A card decided on one of the beat's smaller steps is listed here too.
 
 **Could go here**, if it appears, lists the cards that might go on this beat.
 
@@ -245,30 +269,11 @@ This places the card straight away, without the preview the Move dialog gives. I
 2. Choose **It goes here** or **It might go here**.
 3. Click **Add scene card**. The new card appears in the list. Click it to fill in its plan.
 
-### Your plan for this beat: the beat's record
+#### Beat page 3: In this book
 
-**Your plan for this beat** is the beat's record, with the same parts as any record in Story Canon (chapter 01 introduced records, fields and pages). Across its top:
+From here on, the pages are the beat's own record, where you write what the beat does in *your* book. At the top of **In this book**, a fold-out called **About beats: what they are and how to use them** gives a short lesson, with **Read the full chapter in Help**, which opens the beat fields in [Every kind and every field](#every-kind-and-every-field).
 
-- **Kept for you**: a dropdown that marks this beat as yours alone, such as **Mine to write**. The collaborator (the optional AI writing partner) may talk about a marked beat but never writes or decides it for you. **Not marked** means no mark.
-- **Ask about this**: opens a conversation with the collaborator about this beat. See [Conversations and the collaborator](#conversations-and-the-collaborator).
-- **The legend**, one line of samples showing how each status looks on the page: **Decided (inked)**, **Developing (pencil)**, **Still open (a blank line)**, **Example, never canon** and **Suggestion (a slip, tucked in)**.
-- **Suggestions waiting for you**, if the collaborator has suggested anything for this beat. Accepting one turns to the page where it landed.
-
-Then come the **page tabs**. A beat is a small notebook with three numbered pages, followed by **All pages**:
-
-| Page | What it holds |
-| --- | --- |
-| **1 In this book** | The beat's job, your event, the options you're weighing, and three checks |
-| **2 Save the Cat's questions** | The extra questions Save the Cat asks at this particular beat |
-| **3 Notes and connections** | A free notes box, ties to other records, and fields of your own |
-
-A page number turns ink blue when something is written on that page. One page shows at a time. The links at the bottom of each page go to the page before and after, and **All pages** shows every page at once, one after another.
-
-Pages with nothing to show are left out. Page 2 exists only on the eight Save the Cat beats that carry extra questions, so on a beat like Catalyst the pages are **1 In this book** and **2 Notes and connections**.
-
-At the top of page 1, a fold-out called **About beats: what they are and how to use them** gives a short lesson, with **Read the full chapter in Help**, which opens the beat fields in [Every kind and every field](#every-kind-and-every-field).
-
-#### Beat page 1, In this book: four fields that look alike
+#### In this book: four fields that look alike
 
 The **In this book** page has seven fields. The first four confuse almost everyone at first, because they all seem to ask "what happens here?" They don't. Each holds a different kind of thinking, and keeping them apart is what lets you change your mind about the event without losing track of what the event has to do.
 
@@ -321,7 +326,7 @@ This field is a check against that. Does this turn happen because of what the he
 
 #### Scene type: how much room the beat takes
 
-**Scene type** appears twice on a Save the Cat beat page, on purpose. In the fold-out at the top, it's what the *beat sheet* says this beat usually takes. On page 1, it's your decision for *your* book.
+**Scene type** appears twice on a Save the Cat beat page, on purpose. On **About this beat**, it's what the *beat sheet* says this beat usually takes. On **In this book**, it's your decision for *your* book.
 
 The three sizes:
 
@@ -331,9 +336,9 @@ The three sizes:
 
 Choosing a size changes nothing automatically. It's a note to yourself about pacing: a long stretch can't be rushed into a paragraph, and a quick turn padded into a chapter sags.
 
-#### Beat page 2: Save the Cat's questions for this beat
+#### Beat page 4: Questions for this beat
 
-Some beats carry a second page of fields, headed **Save the Cat's questions for this beat**. These are the extra questions Snyder and Brody ask at particular beats. As the page itself says, they belong to the beat sheet, not to the **Board** tab.
+Some beats carry one more page of fields. Its tab says **Questions for this beat**; the heading inside still credits where the questions come from, **Save the Cat's questions for this beat**. These are the extra questions Snyder and Brody ask at particular beats. As the page itself says, they belong to the beat sheet, not to the **Board** tab.
 
 Only the beats that need them carry them:
 
@@ -358,7 +363,7 @@ Only the beats that need them carry them:
 
 In the Setup, Save the Cat asks you to show the problems in the hero's life that the story will later fix or pay off. Brody calls them the "things that need fixing"; Snyder suggests about six. They're often small and specific: a habit, a grudge, a broken thing nobody repairs.
 
-**Where:** the **Setup** beat, page **2 Save the Cat's questions**, the field **Six things that need fixing**.
+**Where:** the **Setup** beat, page **4 Questions for this beat**, the field **Six things that need fixing**.
 
 1. Click **Add**.
 2. Write one problem, such as "She hasn't opened Eli's room in twelve years."
@@ -373,9 +378,9 @@ In the Setup, Save the Cat asks you to show the problems in the hero's life that
 
 Stasis = Death doesn't have its own list. Its page sends you back to Setup, because the problems are planted across the whole Setup.
 
-#### Beat page 3: Notes and connections
+#### Beat page 5: Notes and connections
 
-The last page holds the things every record has:
+The last page (page 4 on a beat without questions) holds the things every record has:
 
 - **Notes**, a free box for anything that doesn't fit a field. It saves when you click away.
 - **Connections**, which tie this beat to other records: a character, a clue, a scene card. Under **Make a connection**, choose a connection word (such as **foreshadows** or **plants**), choose what it connects to, and click **Connect**. The line under the form reads the connection back to you as a sentence ("Reads: Setup plants …"), so you can check the direction before you save.
@@ -386,7 +391,7 @@ The last page holds the things every record has:
 
 #### Remove this beat from the novel
 
-At the very bottom of a beat page: **Remove this beat from the novel**, with the note "Only if this book does not use it. Your scene cards stay."
+At the very bottom of a beat page, under whichever page you are on: **Remove this beat from the novel**, with the note "Only if this book does not use it. Your scene cards stay."
 
 Use it when your book deliberately skips a beat (some books have no separate B Story, for example).
 
@@ -400,12 +405,12 @@ Nothing on the beat is lost. Your cards keep all their plans; they just lose the
 
 Some Save the Cat beats have **smaller steps**: steps inside a numbered beat, with no number of their own. You'll see them:
 
-- on the parent beat's page, under **Inside this beat**,
+- on the parent beat's page **About this beat**, under **Inside this beat**,
 - on the **Board**, inside the parent beat's box, with a line beside them,
 - in the **Move…** dialog, indented, as "Stasis = Death (a step inside Setup)",
 - in **Where beats fall**, indented under their parent.
 
-You can place cards on a step exactly as on a beat. A card decided on a step shows inside the step on the Board, and under **Scenes here** on the parent beat's page.
+You can place cards on a step exactly as on a beat. A card decided on a step shows inside the step on the Board, and on the parent beat's page **Scenes here**.
 
 #### Stasis = Death
 
@@ -433,14 +438,29 @@ A **scene card** is your plan for one scene, like an index card on a corkboard. 
 
 #### Scene card page: the top
 
+These stay at the top, whatever page of the card you are on:
+
 - **The title**, with **Rename** at the right. Click **Rename**, type the new name, and click **Save** (or **Cancel**).
 - **Write this scene** (orange). Makes the card's page in the Writing Room and takes you there. Once a page exists, this button becomes **Open the page**. See [Write this scene: from plan to page](#write-this-scene-from-plan-to-page).
 - **Move…** opens the move dialog. See [Moving a card safely with Move](#moving-a-card-safely-with-move).
 - **Scene 3 of 24** (gray): where this card falls in reading order. It appears only for cards with a place in that order, meaning a written scene or a card decided on a beat.
+- The same bar a beat has: **Kept for you**, **Ask about this**, the legend, and any **Suggestions waiting for you** (see [Beat page: the top](#beat-page-the-top)).
 
-#### Scene card page: placement and the story around it
+#### Scene card page: its pages
 
-Under the buttons, the page shows how this card ties into the book:
+Under the top is one row of page tabs, then **All pages**. The first page or two show where the card sits in the story; after them come the card's own record pages, where you write its plan.
+
+| Page | What it holds | Shown when |
+| --- | --- | --- |
+| **Where it sits** | Placement, viewpoint, a summary of the plan, and the card's ties to the scenes around it | Always |
+| **The page so far** | The opening lines of its written scene, and the word count | Once the card has a page in the Writing Room |
+| **The scene** and the card's other pages | Your plan for this scene (see [The scene card's own pages](#the-scene-cards-own-pages)) | Always |
+
+So on a card with no page yet, **The scene** is page 2; once you click **Write this scene**, it becomes page 3. **Where it sits** turns ink blue once the card is decided on a beat, and **The page so far** once its scene has words. Story Canon remembers which page you were on for each card while the program is open.
+
+#### Scene card page 1: Where it sits
+
+This page shows how the card ties into the book:
 
 - **Placement:** "Decided: Catalyst" (click the beat to open it), or "Not on a beat yet." Below it, any "Might go at Fun and Games" lines, in pencil.
 - **Viewpoint:** the scene's viewpoint character (the character whose eyes the reader sees the scene through), once its written scene has one.
@@ -449,33 +469,39 @@ Under the buttons, the page shows how this card ties into the book:
 - **What must follow:** "Causes" the cards this one causes, and "Next:" the card that follows in reading order.
 - **In this scene:** the characters, places and things connected to the card with **appears in**. Click a name to follow it through the story (see below).
 - **Reveals**, **Sets up**, **Pays off**, **Depends on:** other connections, when there are any.
-- **The page:** once the scene is written, its opening lines and word count.
 
-Sections with nothing in them don't appear, so a new card looks short.
+Sections with nothing in them don't appear, so on a new card this page is short.
 
-#### Following a character through the story
+#### Scene card page 2: The page so far
 
-Click a name under **In this scene**, and Zoom opens a page that says "Followed through the story in order". **Where it appears** lists every scene and card the character is in, numbered in reading order ("Scene 4 of 24"). **Connections, in story order** lists every tie to them, in the same order. Below that is their full record.
+Once the card has a page in the Writing Room, this page appears, under the heading **The page**: the opening lines of the scene (or "Blank so far." before you write), then its word count.
+
+#### Following a record through the story
+
+Click a name under **In this scene**, and Zoom opens that record's page, with the line "Followed through the story in order." under its name. Any record you open from Narrative Zoom, other than a beat or a scene card, opens this way. Its row of pages starts with one page of its own:
+
+- **1 Across the story**: **Where it appears** lists every scene and card the record is in, numbered in reading order ("Scene 4 of 24"). **Connections, in story order** lists every tie to it, in the same order.
+- Then the record's own pages, exactly as in the Story Brain: for a character, **2 Who they are** through **12 Notes, guardrails and writing aids**.
 
 **When to use it.** To check that a character doesn't vanish for half the book, or that a secret is planted before it's used.
 
 **Example.** Follow Ana Ruiz. If she appears in scenes 6, 7 and 9, then not again until scene 21, your B Story has gone quiet for most of Act Two, and the reader may forget why Marisol's choice at the end matters.
 
-### Your plan for this scene: the scene card's record
+### The scene card's own pages
 
-Below the summary is the card's record, under **Your plan for this scene**. It has the same bar across the top as a beat (**Kept for you**, **Ask about this**, the legend and any suggestions waiting), then its page tabs. A scene card is a notebook with up to seven numbered pages, then **All pages**:
+After **Where it sits** (and **The page so far**, when there is one) come the card's own record pages. A scene card is a notebook with up to seven pages of its own. They are numbered after the pages in front of them, so on a card with no page yet **The scene** is page 2:
 
 | Page | What it holds | Shown when |
 | --- | --- | --- |
-| **1 The scene** | The scene's job, goal, conflict, outcome and value turn; and around it: how we got here, what must follow, when, where, and disaster, discovery or win | Always |
-| **2 When it happens** | Story time: day in the story, date, year, time of day, time since the previous scene; and which timeline strand | Always |
-| **3 Who tells it** | Who seems to be telling the scene and who really is; what the narrator believes and what is actually true | An unreliable narrator, or narration reconstructed by someone else, is turned on in Novel setup |
-| **4 Mood and feeling** | Atmosphere: season, weather, physical and emotional atmosphere, sensory details, what the setting does to the plot; emotion on the page; heat | Always |
-| **5 The reader** | What the reader suspects by the end, visible or hidden story, what you want the reader to feel, callbacks | Always |
-| **6 Scene and sequel** | Scene or sequel, reaction, dilemma, decision | Scene and Sequel (Swain) is turned on in Novel setup |
-| **7 Notes and connections** | Notes, connections, fields from your planning or from a method of your own, and your own fields | Always |
+| **The scene** | The scene's job, goal, conflict, outcome and value turn; and around it: how we got here, what must follow, when, where, and disaster, discovery or win | Always |
+| **When it happens** | Story time: day in the story, date, year, time of day, time since the previous scene; and which timeline strand | Always |
+| **Who tells it** | Who seems to be telling the scene and who really is; what the narrator believes and what is actually true | An unreliable narrator, or narration reconstructed by someone else, is turned on in Novel setup |
+| **Mood and feeling** | Atmosphere: season, weather, physical and emotional atmosphere, sensory details, what the setting does to the plot; emotion on the page; heat | Always |
+| **The reader** | What the reader suspects by the end, visible or hidden story, what you want the reader to feel, callbacks | Always |
+| **Scene and sequel** | Scene or sequel, reaction, dilemma, decision | Scene and Sequel (Swain) is turned on in Novel setup |
+| **Notes and connections** | Notes, connections, fields from your planning or from a method of your own, and your own fields | Always |
 
-Because pages that have nothing to show are left out, most cards have five pages, and the numbers close up: on a card without the two optional pages, Mood and feeling is page 3. Some groups inside a page also appear only when a choice in **Novel setup** turns them on:
+At the top of **The scene**, a fold-out called **About scene cards: what they are and how to use them** gives a short lesson. Because pages that have nothing to show are left out, most cards have five of these pages, and the numbers close up. Some groups inside a page also appear only when a choice in **Novel setup** turns them on:
 
 | Group | Turned on by |
 | --- | --- |
@@ -488,7 +514,7 @@ Because pages that have nothing to show are left out, most cards have five pages
 
 **Every field on a card is optional.** Every field is listed in [Every kind and every field](#every-kind-and-every-field), and each has **Why it matters** under it. Below are the ones that most need explaining.
 
-**The common mistake.** Filling every page on every card. Most scenes need page 1 and little else. Reach for the other pages only where timing, atmosphere, a secret or a viewpoint trick actually matters.
+**The common mistake.** Filling every page on every card. Most scenes need **The scene** and little else. Reach for the other pages only where timing, atmosphere, a secret or a viewpoint trick actually matters.
 
 #### Value at the start and Value at the end: the turn
 
@@ -496,7 +522,7 @@ A **value** is something your viewpoint character cares about that can flip to i
 
 The marks **+** and **-** mean the value is standing well (+) or badly (-). Write the value and its charge, such as "Safety +".
 
-1. On page **1 The scene**, under **Value at the start**, click **Add** and write the value and its charge: "Trust in Cyrus +".
+1. On the card's page **The scene**, under **Value at the start**, click **Add** and write the value and its charge: "Trust in Cyrus +".
 2. Under **Value at the end**, click **Add** and write where it ends: "Trust in Cyrus -".
 
 Once both are filled, the Board shows them on the card ("Trust in Cyrus + → Trust in Cyrus -"), and the Pacing check shows the turn. If a written scene starts and ends on the same value, Pacing asks whether you meant it: "Every scene has to turn. Intended?"
@@ -515,7 +541,7 @@ Once both are filled, the Board shows them on the card ("Trust in Cyrus + → Tr
 
 A card has three ways to say when a scene happens, each for a different job:
 
-- **When (story time)**, on page 1: words, as loose as you like. "The night of the second storm." "The next morning." It's the same field as **When (story time)** beside the page in the Writing Room.
+- **When (story time)**, on **The scene**: words, as loose as you like. "The night of the second storm." "The next morning." It's the same field as **When (story time)** beside the page in the Writing Room.
 - **Day in the story**, **Date** and **Year**, on **When it happens**: numbers the program can sort. These are what put scenes in story order on the **Timelines** check.
 - **Time of day** and **Time since the previous scene**, also on **When it happens**: detail for continuity.
 
@@ -538,7 +564,7 @@ The decision becomes the goal of the next scene. That chain is what makes a plot
 
 1. In **Scene or sequel**, write "Scene" or "Sequel".
 2. For a sequel, fill in **Reaction**, **Dilemma** and **Decision**.
-3. Open the next card and make its goal (**The viewpoint character's objective**, on page 1) the decision you just wrote.
+3. Open the next card and make its goal (**The viewpoint character's objective**, on **The scene**) the decision you just wrote.
 
 **When to use it.** When a stretch of the book feels breathless (all scenes, no room to feel) or stalled (all sequels, no action). Labeling a run of cards shows you which.
 
@@ -552,7 +578,7 @@ On page **The reader**. Click **Add** to see four suggestions, **Profound**, **F
 
 #### Deleting a scene card
 
-At the very bottom of a card is **Delete**. It asks "Move "…" to Deleted? You can restore it from there." Click **OK** to move the card to **Deleted**, or **Cancel** to keep it.
+At the very bottom of a card, under whichever page you are on, is **Delete**. It asks "Move "…" to Deleted? You can restore it from there." Click **OK** to move the card to **Deleted**, or **Cancel** to keep it.
 
 ### Write this scene: from plan to page
 
@@ -566,9 +592,9 @@ When a card is ready, or when you simply want to start, **Write this scene** tur
 
 **Where the new scene goes.** Story Canon puts it where your plan says it belongs: right after the written scene of the nearest card before it in story order. If nothing before it is written yet, it goes at the very start of the first chapter. If the book has no chapters yet, a first chapter is made for it. You can always move it in the Writing Room.
 
-**How the plan follows you.** Beside the page, the scene plan panel shows **From the card**, with **Open the full card**. The two stay linked:
+**How the plan follows you.** Beside the page, the scene plan panel shows **From the card**, with **Open the full card**, on its page **1 The plan**. The two stay linked:
 
-- On the card, **Write this scene** becomes **Open the page**, and **The page** section shows the scene's opening lines and word count.
+- On the card, **Write this scene** becomes **Open the page**, and a new page, **The page so far**, shows the scene's opening lines and word count.
 - On the Board, the card's circle fills in once the scene has words.
 - In the Writing Room, **Show in Narrative Zoom** takes you from the page back to its card.
 
@@ -700,7 +726,7 @@ On a Save the Cat novel, a dropdown called **Placement model** chooses which num
 - **Novel percentages (Brody):** Jessica Brody's placements for novels. For a novel, this is the usual choice.
 - **Screenplay proportions (Snyder, 110 pages scaled):** Blake Snyder's page numbers for a 110-page screenplay, scaled to your length. Useful if you think in film structure or are adapting a screenplay.
 
-The two disagree slightly (Snyder's Catalyst comes a little later, for example). Neither is right. Point at the dropdown to see which sheet each one comes from. Other beat sheets have one model, their usual placement, so the dropdown doesn't appear.
+The two disagree slightly (Snyder's Catalyst comes a little later, for example). Neither is right. Point at the dropdown to see where the chosen model's numbers come from: "Jessica Brody, Save the Cat! Writes a Novel: where each beat falls in a novel" for the first, and "Blake Snyder, Save the Cat!: the screenplay page numbers, scaled to a book" for the second. Other beat sheets have one model, their usual placement, so the dropdown doesn't appear.
 
 ### Where beats fall: questions at the top
 

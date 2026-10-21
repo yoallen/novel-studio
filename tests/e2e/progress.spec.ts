@@ -9,6 +9,7 @@ test('drafting progress: a push and a daily goal, tracked day by day on Where wa
   const day = (offset: number) => page.evaluate((o) => { const d = new Date(); d.setDate(d.getDate() + o); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }, offset);
 
   await views.getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('tab', { name: /Goals and November/ }).click();
   const push = page.getByRole('region', { name: 'A writing push' });
   await push.getByRole('button', { name: 'Plan a writing push' }).click();
   await push.getByLabel('Name it').fill('The sprint');

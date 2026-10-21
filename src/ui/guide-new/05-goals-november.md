@@ -8,7 +8,7 @@ All of it is optional. With no goal at all, Story Canon still shows how many wor
 
 Your progress appears in three places:
 
-- **Where was I**, your novel's home page, below **Next**: the **drafting progress panel**, with a thin column for each day and a few figures under it. This is the main one, and most of this chapter is about it.
+- **Where was I**, your novel's home page, on its page **1 Today**: the **drafting progress panel**, with a thin column for each day and a few figures under it. This is the main one, and most of this chapter is about it.
 - **The Writing Room**, in the small line under the page: *1,204 words in this scene, today's goal 1,743*. Today's goal appears there only once you have a goal.
 - **The Writing Room binder**, at the top: the whole book's word count, and "of" your target length if you set one.
 
@@ -310,7 +310,7 @@ The link is replaced by *The door is closed through November 30. Nothing judges 
 
 November doesn't only happen at the desk. If you write on more than one computer and have turned on sharing (see [Settings and your other computers](#settings-and-your-other-computers)), each novel gets its own notes file in your shared folder. You can dictate into it from your phone, in Word, one note to a paragraph.
 
-When Story Canon has the novel open, each new paragraph arrives as a captured thought, waiting under **Thoughts waiting to be sorted** on Where was I, usually within a minute of the file syncing, and a message says *A note from the road came in.* During a sprint that message waits, so the quiet isn't broken; the note still arrives.
+When Story Canon has the novel open, each new paragraph arrives as a captured thought, waiting under **Thoughts waiting to be sorted** on Where was I (page **2 Still open**), usually within a minute of the file syncing, and a message says *A note from the road came in.* During a sprint that message waits, so the quiet isn't broken; the note still arrives.
 
 **How it fits a push.** A note from the road is a thought, not manuscript, so it never counts toward your day's words. Use it for the line about the fog over Port Ellery that comes to you in the car, then write it into the scene when you sit down. Where to find the file and how to dictate into it are in [Settings and your other computers](#settings-and-your-other-computers).
 

@@ -77,6 +77,7 @@ test('two windows on one scene: the stale save is refused and both versions are 
   await expect(b.getByRole('dialog')).toContainText('Window B words.');
   await b.getByRole('button', { name: 'Keep the saved version' }).click();
   await expect(editor(b)).toContainText('Window A words.');
+  await b.getByRole('complementary', { name: 'Scene plan' }).getByRole('tab', { name: /Notes/ }).click();
   await b.getByRole('button', { name: 'Earlier versions' }).click();
   await expect(b.getByRole('dialog')).toContainText('Earlier versions');
   // Base, A's words, B's words (kept, not chosen) and the version she kept are all there.
@@ -117,6 +118,7 @@ test('a thought captured while writing keeps its exact words and waits beside th
   await page.getByText('I need this to keep writing').click();
   await page.getByRole('button', { name: 'Save it' }).click();
   const panel = page.getByRole('complementary', { name: 'Scene plan' });
+  await panel.getByRole('tab', { name: /Notes/ }).click();
   await expect(panel).toContainText('needed to keep writing');
   await expect(panel.locator('div[style*="pre-wrap"]').filter({ hasText: 'funeral' })).toHaveText(dictated);
   await page.getByRole('link', { name: 'Add scene' }).or(page.getByRole('button', { name: 'Add scene' })).first().click();
@@ -129,10 +131,12 @@ test('a thought captured while writing keeps its exact words and waits beside th
 test('the scene status steps are the author\'s own (R-B-026)', async ({ page }) => {
   await newNovel(page, 'Ladder');
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Settings' }).click();
+  await page.getByRole('tab', { name: /Writing/ }).click();
   await page.getByLabel('Step 7 name').fill('Polished');
   await page.getByRole('button', { name: 'Save settings' }).click();
   await expect(page.getByRole('region', { name: 'Save settings' }).getByRole('status')).toContainText('Saved at');
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
+  await page.getByRole('complementary', { name: 'Scene plan' }).getByRole('tab', { name: /About it/ }).click();
   const status = page.getByRole('complementary', { name: 'Scene plan' }).getByLabel('Status');
   await status.selectOption({ label: 'Polished' });
   await page.reload();

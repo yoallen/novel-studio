@@ -8,7 +8,7 @@ Press **F1** from anywhere, including the Library, to open Help, and type a word
 
 ### Where is my novel's home page?
 
-It is **Where was I**, the first view in the list on the right. The list shows the words "your novel's home page" under its name, and the top of the page says "This is (your title)'s home page." Story Canon opens every novel there, and it picks up where you left off: the next thing to write, how your words are going, notes you left for later, and questions still open. Whenever you lose your place, click **Where was I**. See [Where was I: your novel's home page](#where-was-i-your-novels-home-page).
+It is **Where was I**, the first view in the list on the right. The list shows the words "your novel's home page" under its name, and the top of the page says "This is (your title)'s home page." Story Canon opens every novel there, and it picks up where you left off: the next thing to write at the top, then three numbered pages. **1 Today** has how your words are going and notes you left for later; **2 Still open** has questions still open and your latest decisions; **3 This week** sums up the last seven days. Whenever you lose your place, click **Where was I**. See [Where was I: your novel's home page](#where-was-i-your-novels-home-page).
 
 ### How do I get back to all my novels?
 
@@ -20,7 +20,7 @@ Press **F1**, or click **Help**, the last view in the list on the right. In the 
 
 ### I pressed Capture. Where did my thought go?
 
-For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**: a thought in **Captured thoughts**, a question in **Questions I have**, an idea in **Things and ideas I'm thinking about**. Unsorted thoughts also show on **Where was I** under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**: a thought in **Captured thoughts**, a question in **Questions I have**, an idea in **Things and ideas I'm thinking about**. Unsorted thoughts also show on **Where was I**, page **2 Still open**, under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
 
 ### What is the difference between "Just a thought" and "An idea I am thinking about"?
 
@@ -39,6 +39,10 @@ A page number turns ink blue once that page has something written on it. A numbe
 ### A page I expected is not there.
 
 Pages with nothing to show are left out. Some pages are made only of fields that a method adds, and those appear once that method is turned on for the novel in Novel setup. If you are looking for something specific, click **All pages**, or use Search: it opens the record on the page that holds what you found. See [Your first hour: the Library and a new novel](#your-first-hour-the-library-and-a-new-novel) for Novel setup.
+
+### The same record has different page numbers in Narrative Zoom.
+
+That is on purpose. In Narrative Zoom, a record gets one or two pages in front of its own, about where it sits in the story, and its own pages are numbered after them. A beat starts with **1 About this beat** and **2 Scenes here**, so its **In this book** is page 3 there and page 1 in the Story Brain. A scene card starts with **Where it sits** (and **The page so far**, once it has a written page). Any other record, such as a character, starts with **1 Across the story**. The pages themselves are the same; only the numbers move. See [Narrative Zoom](#narrative-zoom).
 
 ### I accepted a suggestion and the record jumped to another page.
 
@@ -61,7 +65,7 @@ The color of the words shows each fact's status, like ink on a page:
 | **Suggestion** | On a white slip, tucked in at a slight angle, in a handwriting typeface. Someone else's idea, waiting for you. |
 | **Set aside** | Folded away under the field, out of sight. Click **Show earlier and set-aside versions** to see it, faded, with a line through it. Retired, but kept. |
 
-The legend under a record's name shows a small sample of the first five, so you can glance at it whenever you forget which look is which. Set aside is not in the legend, because set-aside facts are folded away. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
+The legend under a record's name shows a small sample of all six, so you can glance at it whenever you forget which look is which. The last sample, *Set aside (faded, kept below)*, has a line through it, and "kept below" reminds you that set-aside facts are folded away under their field. See [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).
 
 ### I renamed "Decided" in Settings. Did the blue ink change?
 
@@ -77,7 +81,7 @@ The one exception is **Settings**, where most sections wait for **Save settings*
 
 ### I changed a setting and it went back. Is Settings broken?
 
-No. You most likely left the page without pressing **Save settings**. The line beside that button tells you: "You have changes not saved yet" means the change is not kept. Make the change again and press the button. See [Settings: Save settings, and sections that take effect right away](#settings-save-settings-and-sections-that-take-effect-right-away).
+No. You most likely left the page without pressing **Save settings**. The line beside that button tells you: "You have changes not saved yet" means the change is not kept. Make the change again and press the button. Turning from one page of Settings to another does not lose a change; only leaving Settings does. See [Settings: Save settings, and sections that take effect right away](#settings-save-settings-and-sections-that-take-effect-right-away).
 
 ### I deleted a scene by mistake. Is it gone?
 
@@ -93,7 +97,7 @@ Read the notice. It tells you what later work relies on the change. **Undo anywa
 
 ### Can I get back yesterday's version of a scene?
 
-Yes. Open the scene, click **Earlier versions** at the bottom of its scene plan, click yesterday's time, and click **Restore this version**. Today's text stays in the list, so you can change your mind. See [The Writing Room](#the-writing-room).
+Yes. Open the scene, click **Earlier versions** at the bottom of its scene plan's page **3 Notes**, click yesterday's time, and click **Restore this version**. Today's text stays in the list, so you can change your mind. See [The Writing Room](#the-writing-room).
 
 ### Earlier versions shows only one version, or none. Is it saving?
 
@@ -105,7 +109,7 @@ Not from inside Story Canon. Backups are whole-library safety copies for a compu
 
 ### Where should my backups go?
 
-Somewhere other than this computer: a second drive, a USB stick, or a OneDrive folder. In **Settings**, under **Backups**, click **Choose a folder**. A backup kept only on this computer is lost along with it. See [Backups: choosing where they go](#backups-choosing-where-they-go).
+Somewhere other than this computer: a second drive, a USB stick, or a OneDrive folder. In **Settings**, on page **8 Other computers and backups**, under **Backups**, click **Choose a folder**. A backup kept only on this computer is lost along with it. See [Backups: choosing where they go](#backups-choosing-where-they-go).
 
 ## Questions about two computers
 
@@ -138,13 +142,13 @@ No. Both computers changed the novel before sharing, so it asks which one is the
 
 ### A note I dictated on my phone never arrived.
 
-The novel has to be open in Story Canon, on a computer that shares through that folder. The note arrives about a minute after the file stops changing and syncs, and a few minutes longer just after Story Canon starts or the computer wakes. Look under **Thoughts waiting to be sorted** on Where was I. See [Sharing: notes from the road](#sharing-notes-from-the-road).
+The novel has to be open in Story Canon, on a computer that shares through that folder. The note arrives about a minute after the file stops changing and syncs, and a few minutes longer just after Story Canon starts or the computer wakes. Look under **Thoughts waiting to be sorted** on Where was I, page **2 Still open**. See [Sharing: notes from the road](#sharing-notes-from-the-road).
 
 ## Questions about the collaborator
 
 ### The collaborator says "not set up." What do I do?
 
-Add your Claude API key in **Settings**, under **The collaborator**, click **Use this key**, and tick **Use the collaborator for** this novel. If it says "off for this novel," the key is there and only the tick is missing. See [Conversations and the collaborator](#conversations-and-the-collaborator).
+Add your Claude API key in **Settings**, on page **4 The collaborator**, click **Use this key**, and tick **Use the collaborator for** this novel. If it says "off for this novel," the key is there and only the tick is missing. See [Conversations and the collaborator](#conversations-and-the-collaborator).
 
 ### Does the collaborator read my manuscript?
 
@@ -244,7 +248,7 @@ Yes. Under **The manuscript**, choose **Only the chapters I pick**, then untick 
 
 ### My plotting sheet is full of tiny numbers.
 
-The novel has no target length, so the sheet measures against the few words drafted so far. Set **Target length in words** in Settings, press **Save settings**, and export again. See [Settings: Target length in words](#settings-target-length-in-words).
+The novel has no target length, so the sheet measures against the few words drafted so far. Set **Target length in words** on page **1 This novel** of Settings, press **Save settings**, and export again. See [Settings: Target length in words](#settings-target-length-in-words).
 
 ### Which do I use, "Novel percentages (Brody)" or "Screenplay proportions (Snyder)"?
 
@@ -262,7 +266,7 @@ Each names the kind of work waiting for you: writing it, staging the movement, t
 
 ### The circle beside my scene does not match how much I wrote.
 
-The circle follows the scene's **Status** step, not its word count. It is empty before the first step ticked **Counts as drafted**, half filled at that step, and full after it. Change the scene's **Status** in its scene plan. See [Settings: Counts as drafted, and the circles in the binder](#settings-counts-as-drafted-and-the-circles-in-the-binder).
+The circle follows the scene's **Status** step, not its word count. It is empty before the first step ticked **Counts as drafted**, half filled at that step, and full after it. Change the scene's **Status** on the **About it** page of its scene plan. See [Settings: Counts as drafted, and the circles in the binder](#settings-counts-as-drafted-and-the-circles-in-the-binder).
 
 ### Is a scene's "Status" the same as Decided or Developing?
 

@@ -16,6 +16,7 @@ test('work done on the other computer comes in with one click, and the Surface s
     await newNovel(page, 'Shared Book');
     await heroWrite(page).click();
     await views.getByRole('button', { name: 'Settings' }).click();
+    await page.getByRole('tab', { name: /Other computers and backups/ }).click();
     const sync = page.getByRole('region', { name: 'Your other computers' });
     await sync.getByLabel('Call this computer').fill('Laptop');
     await sync.getByRole('textbox', { name: 'Shared folder' }).fill(shared);
@@ -72,6 +73,7 @@ test('when both computers changed a novel, she chooses the main version and the 
   try {
     await newNovel(page, 'Fork Book');
     await views.getByRole('button', { name: 'Settings' }).click();
+    await page.getByRole('tab', { name: /Other computers and backups/ }).click();
     const box = page.getByRole('region', { name: 'Your other computers' });
     await box.getByLabel('Call this computer').fill('Laptop');
     await box.getByRole('textbox', { name: 'Shared folder' }).fill(shared);
@@ -112,6 +114,7 @@ test('notes from the road arrive from the shared folder', async ({ page }) => {
   try {
     await newNovel(page, 'Road Book');
     await views.getByRole('button', { name: 'Settings' }).click();
+    await page.getByRole('tab', { name: /Other computers and backups/ }).click();
     const sync = page.getByRole('region', { name: 'Your other computers' });
     await sync.getByLabel('Call this computer').fill('Laptop');
     await sync.getByRole('textbox', { name: 'Shared folder' }).fill(shared);

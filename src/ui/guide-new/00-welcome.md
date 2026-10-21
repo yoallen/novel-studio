@@ -62,7 +62,7 @@ The first five names are large. These are the main rooms, where you will spend m
 
 | View | What it is for |
 | --- | --- |
-| **Where was I** | Your novel's home page. Under its name in the list are the words "your novel's home page". It shows the next thing to write (with a **Write** button), how your writing is going, notes you left for later, questions still open and what you decided most recently. Your novel opens here every time you come back to it. |
+| **Where was I** | Your novel's home page. Under its name in the list are the words "your novel's home page". It shows the next thing to write (with a **Write** button), then three numbered pages: **Today** (how your writing is going and notes you left for later), **Still open** (questions still open and what you decided most recently) and **This week**. Your novel opens here every time you come back to it. |
 | **The Writing Room** | Where you write the book. Your chapters and scenes are listed on the left, the page you are writing is in the middle, and the plan for that scene sits on the right. Clicking this name always lands you on a page you can write on. |
 | **Story Brain** | Everything you know about your story, with each person, place, clue or question on its own page. This is where you keep track of what is decided and what is still open. |
 | **Narrative Zoom** | The shape of your plot, from the whole book down to one scene, like zooming a map. It also holds the checks that catch problems, such as a character who knows something before they could have learned it. |
@@ -117,7 +117,7 @@ When you leave the page to look something up, a pink bookmark ribbon hangs from 
 - **What it is:** a bookmark that always points at the scene you were last writing in.
 - **When it appears:** once you have been on the page in this sitting, or once the last scene you opened has words in it. It hides while you are in the Writing Room, because you are already there.
 - **Why it matters:** writing gets interrupted all the time. You check a name, glance at the plan, answer a question. The ribbon means a detour never costs you your place.
-- **What it remembers:** each time you leave the page, Story Canon notes where you went. Story Canon calls each of these trips a **detour**. Your open detours are listed on **Where was I** under **Detours still open**, and all of them are in the **Writing Trail**. Returning to writing closes them.
+- **What it remembers:** each time you leave the page, Story Canon notes where you went. Story Canon calls each of these trips a **detour**. Your open detours are listed on **Where was I**, on its page **2 Still open**, under **Detours still open**, and all of them are in the **Writing Trail**. Returning to writing closes them.
 - **Do most writers need it?** Yes. It is the simplest habit in the program: when you have looked up what you needed, click the pink ribbon.
 
 **The common mistake** is clicking **The Writing Room** in the list on the right to get back. That works too, but the ribbon is one click from anywhere, and it also closes your detours.

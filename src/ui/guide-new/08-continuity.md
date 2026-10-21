@@ -121,8 +121,8 @@ Four checks work only from written pages: **Viewpoint**, **Pacing**, **Reader re
 | **Scene** | Its number in reading order | The Board and the Writing Room |
 | **Title** | The scene or card, with its planned tag | Click to open the card |
 | **Beat** | The beat it sits on, or "no beat" | Its placement |
-| **When** | Your words for when it happens | **When (story time)** on page 1 of the card, or beside the page in the Writing Room |
-| **Year, day or date** | The sortable time | **Year**, **Day in the story** or **Date**, on page 2 of the card, **When it happens** |
+| **When** | Your words for when it happens | **When (story time)** on the card's page **The scene**, or beside the page in the Writing Room |
+| **Year, day or date** | The sortable time | **Year**, **Day in the story** or **Date**, on the card's page **When it happens** |
 | **Time** | Time of day | **Time of day**, page 2 of the card |
 | **Where** | The place | **Where**, page 1 of the card |
 | **Season, weather** | The season, or the weather | **Season** or **Weather**, page 4 of the card, **Mood and feeling** |
@@ -142,7 +142,7 @@ The second table, **In the order things happen**, only includes scenes with a **
 
 Scenes on the same day are sorted by **Time of day** when it uses words like dawn, morning, noon, afternoon, evening or night.
 
-**What to look for.** A scene out of story order that you did not mean as a flashback. Two scenes on the same day that cannot both fit. A long gap with nothing in **Time since the previous scene** (also on page 2 of the card).
+**What to look for.** A scene out of story order that you did not mean as a flashback. Two scenes on the same day that cannot both fit. A long gap with nothing in **Time since the previous scene** (also on the card's page **When it happens**).
 
 **The common mistake** is filling in only **When (story time)** in words and wondering why the second table is empty. Words are for you; numbers are for sorting. Use both if you like.
 
@@ -479,7 +479,7 @@ A line at the top counts how many chapters have each tab. Each chapter is listed
 
 **Do you need it?** It is optional, and most useful in revision. Some writers never use it; others love seeing the color of the whole book at once.
 
-**Where it comes from.** Each scene card's **What you want the reader to feel**, on page 5 of the card, **The reader**. A chapter shows the tabs of all its scenes. Chapters belong to the Writing Room, so a card's tab shows here once its scene is written (with **Write this scene** on the card).
+**Where it comes from.** Each scene card's **What you want the reader to feel**, on the card's page **The reader**. A chapter shows the tabs of all its scenes. Chapters belong to the Writing Room, so a card's tab shows here once its scene is written (with **Write this scene** on the card).
 
 **To set a tab:**
 
