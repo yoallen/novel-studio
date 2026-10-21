@@ -1,3 +1,4 @@
+import { Pages } from './Pages';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -65,11 +66,15 @@ export function Timelines({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpe
         from={<>Each scene card's story time. "When" and "Year" are the same boxes as "When (story time)" and "Year" in the Writing Room. "Day in the story", "Date" and "Time of day" are on the card, under Story time.</>}
         todo='Give scenes a year, a day number or a date, and they line up in story order below. Words like "the next morning" show in the When column but cannot be sorted.' />
       <p className="muted small">The order the reader meets the story, and the order things actually happen. They can differ on purpose. Fill in a scene's story time on its card, or in the Writing Room beside the page.</p>
-      <h2>In the order of the book</h2>
+      <Pages storeKey={`timelines:${ctx.projectId}`} label="Two timelines" pages={[
+        { title: 'In the order of the book', filled: true, content: (<>
       <div style={{ overflowX: 'auto' }}><table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>{head}<tbody>{d.narrative.map(row)}</tbody></table></div>
-      <h2 style={{ marginTop: '1.5rem' }}>In the order things happen</h2>
+        </>) },
+        { title: 'In the order things happen', filled: d.chronological.length > 0, content: (<>
       {d.chronological.length === 0 ? <p className="muted small">No scene has a year, day or date yet.</p> : <div style={{ overflowX: 'auto' }}><table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>{head}<tbody>{d.chronological.map(row)}</tbody></table></div>}
-      {d.unplacedInTime > 0 && <p className="faint small">{d.unplacedInTime} scene{d.unplacedInTime === 1 ? ' has' : 's have'} no year, day or date yet, so {d.unplacedInTime === 1 ? 'it is' : 'they are'} not in story order.</p>}
+          {d.unplacedInTime > 0 && <p className="faint small">{d.unplacedInTime} scene{d.unplacedInTime === 1 ? ' has' : 's have'} no year, day or date yet, so {d.unplacedInTime === 1 ? 'it is' : 'they are'} not in story order.</p>}
+        </>) },
+      ]} />
     </>
   );
 }
@@ -150,6 +155,8 @@ export function Knowledge({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpe
         from={<>Connections on your scenes and cards: a scene that "reveals" something, the characters who "appear in" it, and a character who "knows", "suspects" or "believes falsely". The scene card's "What the reader suspects" and "Visible or hidden story" fill the table.</>}
         todo="Look for a character acting on something they have not learned yet, or a reveal that lands before its setup. The secret operations log keeps the true order of what a schemer does behind everyone's back." />
       <p className="muted small">Built from what each scene reveals and who is in it. Mark a scene as revealing something in its connections ("reveals"), and a character's belief with "believes falsely" or "suspects".</p>
+      <Pages storeKey={`knowledge:${ctx.projectId}`} label="Who knows what" pages={[
+        { title: 'Secrets and who learns them', filled: k.d.events.length > 0, content: (<>
       {k.d.events.length === 0 ? <p className="muted">Nothing is revealed in any scene yet.</p> : k.d.events.map((ev: any) => (
         <section key={ev.id} className="section">
           <button className="btn link" style={{ fontWeight: 700 }} onClick={() => onOpen({ level: 'element', id: ev.id })}>{ev.title}</button>
@@ -161,14 +168,16 @@ export function Knowledge({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpe
           </ul>
         </section>
       ))}
-      <h2 style={{ marginTop: '1.5rem' }}>The reader's view, scene by scene</h2>
+        </>) },
+        { title: "The reader's view, scene by scene", filled: k.d.timeline.length > 0, content: (<>
       <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>
         <thead><tr><th style={th}>Scene</th><th style={th}>Reader suspects</th><th style={th}>Revealed here</th><th style={th}>Who learns</th><th style={th}>Visible or hidden story<div className="faint small" style={{ fontWeight: 400 }}>what the characters believe, or what is really going on</div></th></tr></thead>
         <tbody>{k.d.timeline.map((t: any) => <tr key={t.index}><td style={td}>{t.planId ? <button className="btn link small" onClick={() => onOpen({ level: 'card', id: t.planId })}>{num(t.index, t.standing)}{t.title}</button> : `${num(t.index, t.standing)}${t.title}`} <Planned s={t.standing} /></td><td style={td}>{v(t.readerSuspects)}</td><td style={td}>{t.reveals.join('; ') || <span className="faint">nothing</span>}</td><td style={td}>{t.learns.join('; ')}</td><td style={td}>{v(t.layer)}</td></tr>)}</tbody>
       </table>
+        </>) },
+        { title: 'Secret operations (author only)', filled: !!(log.d && log.d.length), content: (<>
       {log.d && log.d.length > 0 && (
         <section className="section">
-          <h2>Secret operations (author only)</h2>
           <p className="muted small">The only place the real story lives in order. Never shown in viewpoint summaries.</p>
           {log.d.map((g: any, i: number) => (
             <div key={i}><h3>{g.actor?.title ?? 'Unassigned'}</h3>
@@ -179,6 +188,8 @@ export function Knowledge({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpe
         </section>
       )}
       <AddHiddenMove ctx={ctx} onAdded={() => setAdded((x) => x + 1)} />
+        </>) },
+      ]} />
     </>
   );
 }
@@ -229,18 +240,24 @@ export function Clues({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: O
         from={<>The clue's own page: "Where it is planted" and "Where it pays off", in your words. When those words name a scene card or a beat, it is shown under them. Scene connections count too: "plants", "reveals" and "pays off".</>}
         todo="Look for a payoff with nothing planted, and a clue you marked significant that never pays off. The Story review asks about both." />
       <p className="muted small">If it pays off later, it has to be here first. Fill in "Where it is planted" and "Where it pays off" on each clue, or connect a scene to a clue with "plants", "reveals" or "pays off".</p>
+      <Pages storeKey={`clues:${ctx.projectId}`} label="Setups and payoffs" pages={[
+        { title: 'Clues', filled: c.d.length > 0, content: (<>
       {c.d.length === 0 ? <p className="muted">No clues yet. Add one in the Story Brain under Clues.</p> : (
         <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '0.875rem' }}>
           <thead><tr><th style={th}>What</th><th style={th}>Planted</th><th style={th}>What it really means</th><th style={{ ...th, minWidth: "9em" }}>Truth comes out<div className="faint small" style={{ fontWeight: 400 }}>scenes that reveal it</div></th><th style={th}>Pays off</th></tr></thead>
           <tbody>{c.d.map((r: any) => <tr key={r.id}><td style={td}><button className="btn link small" onClick={() => onOpen({ level: 'element', id: r.id })}>{r.title}</button>{r.significant && <div className="faint">must pay off</div>}</td><td style={td}>{at(r.plants, r.plantedWords)}</td><td style={td}>{v(r.truth)}</td><td style={td}>{at(r.reveals)}</td><td style={td}>{at(r.payoffs, r.paidOffWords)}</td></tr>)}</tbody>
         </table>
       )}
-      {m.d && m.d.length > 0 && (
-        <section className="section"><h2>Motifs</h2>
+        </>) },
+        { title: 'Motifs', hidden: !(m.d && m.d.length > 0), filled: true, content: !(m.d && m.d.length > 0) ? null : (
+
+        <section className="section">
           {m.d.map((mo: any) => <div key={mo.id} style={{ marginBottom: '0.75rem' }}><button className="btn link" onClick={() => onOpen({ level: 'element', id: mo.id })}>{mo.title}</button>
             {mo.appearances.length === 0 ? <p className="faint small">Not placed in any scene yet.</p> : <ul className="list small">{mo.appearances.map((a: any, i: number) => <li key={i}>{a.standing === 'unplaced' ? '' : `Scene ${a.index}, `}{a.scene}{a.note ? `: ${a.note}` : ''} <Planned s={a.standing} /></li>)}</ul>}</div>)}
         </section>
-      )}
+      
+        ) },
+      ]} />
     </>
   );
 }
@@ -486,11 +503,9 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
         from={<>Your records ("appears in" on a scene card), each scene's viewpoint, and the character's name on the written page. Planned scene cards count too and are shaded, so you can see the cast of a book before it is written.</>}
         todo="Look for a character who vanishes for a long stretch, or two characters who never meet. Click a mark to open that scene or card." />
       <p className="muted small">Where each character is, scene by scene, from your records, the viewpoint, and their names on the page. Click a mark to open the scene.</p>
-      <nav className="row small cast-jump" aria-label="On this page">
-        <span className="faint">On this page:</span>
-        {['Who is together', ...(groups.d?.length ? ['Groups that keep meeting'] : []), 'Who meets whom', 'Bechdel test'].map((l) => <button key={l} className="btn link small" onClick={() => jump(l)}>{l === 'Who meets whom' ? 'Two at a time' : l === 'Bechdel test' ? 'The Bechdel test' : l}</button>)}
-      </nav>
-      {bResult && <p className="small muted">The Bechdel test, further down, asks whether two named women talk to each other about something other than a man. Right now: {bResult}. <button className="btn link small" onClick={() => jump('Bechdel test')}>Go to it</button></p>}
+      {bResult && <p className="small muted">The Bechdel test asks whether two named women talk to each other about something other than a man. Right now: {bResult}. It has its own page below.</p>}
+      <Pages storeKey={`cast:${ctx.projectId}`} label="The cast" pages={[
+        { title: 'Across the story', filled: true, content: (<>
       {(quiet.length > 0 || absent.length > 0) && (
         <section className="section" aria-label="Gone quiet">
           {quiet.map((n: any) => <div key={n.text} className="notice small">{n.text}</div>)}
@@ -522,8 +537,9 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
         </table>
       </div>
 
+        </>) },
+        { title: 'Who is together', content: (<>
       <section className="section" aria-label="Who is together">
-        <h3>Who is together</h3>
         <p className="small muted">Choose any two or more characters to see every scene they share. A relationship record can hold how things stand among them, for a pair, a family, a rivalry or a whole group.</p>
         <div className="row small" role="group" aria-label="Choose characters">
           {d.rows.map((r: any) => <button key={r.id} className={'chip' + (pick.includes(r.id) ? ' on' : '')} aria-pressed={pick.includes(r.id)} onClick={() => setPick(pick.includes(r.id) ? pick.filter((x) => x !== r.id) : [...pick, r.id])}>{r.title}</button>)}
@@ -542,9 +558,10 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
         )}
       </section>
 
-      {groups.d && groups.d.length > 0 && (
+        </>) },
+        { title: 'Groups that keep meeting', hidden: !(groups.d && groups.d.length > 0), filled: true, content: !(groups.d && groups.d.length > 0) ? null : (
+
         <section className="section" aria-label="Groups that keep meeting">
-          <h3>Groups that keep meeting</h3>
           <p className="small muted">Three or more characters who share two or more scenes.</p>
           <ul className="list small">
             {groups.d.map((g: any) => {
@@ -563,10 +580,10 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
             })}
           </ul>
         </section>
-      )}
-
+      
+        ) },
+        { title: 'Two at a time', filled: !!pairs.d?.length, content: (<>
       <section className="section" aria-label="Who meets whom">
-        <h3>Two at a time</h3>
         <p className="small muted">Every pair that shares a scene, how often, and in which acts.</p>
         {!pairs.d ? <p className="muted small">…</p> : pairs.d.length === 0 ? <p className="small faint">No two characters share a scene yet.</p> : (
           <ul className="list small">
@@ -589,8 +606,9 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
         )}
       </section>
 
+        </>) },
+        { title: 'The Bechdel test', filled: bech.d?.result === 'passes', content: (<>
       <section className="section" aria-label="Bechdel test">
-        <h3>The Bechdel test</h3>
         <p className="small muted">Does the story have at least two named women who talk to each other about something other than a man? The program finds the scenes where two or more women are together; only you can say what they talk about. Gender comes only from what you write on each character's page, never from a name.</p>
         {bech.d && (
           <>
@@ -610,6 +628,8 @@ export function Cast({ ctx, tick, onOpen }: { ctx: Ctx; tick: number; onOpen: Op
           </>
         )}
       </section>
+        </>) },
+      ]} />
     </>
   );
 }

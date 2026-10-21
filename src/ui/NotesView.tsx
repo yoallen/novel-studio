@@ -1,3 +1,4 @@
+import { Pages } from './Pages';
 import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -40,21 +41,15 @@ export function NotesView({ ctx, embedded, onOpen }: { ctx: Ctx; embedded?: bool
     await run(api.patch(`/api/elements/${n.id}`, { state: 'answered' }));
     setAnswering(null); setAnswer('');
   }
-  const jump = (kind: string) => document.getElementById(`notes-${kind}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
+  
   const body = (
     <>
       <h1>Questions and ideas</h1>
-      <nav className="jump-list" aria-label="On this page">
-        <span className="jump-head">On this page</span>
-        {GROUPS.map((g) => <a key={g.kind} href={`#notes-${g.kind}`} onClick={(e) => { e.preventDefault(); jump(g.kind); }}>{g.short} ({(items[g.kind] ?? []).filter((x) => !x.attrs.suggested).length})</a>)}
-        {suggested.length > 0 && <a href="#notes-suggested" onClick={(e) => { e.preventDefault(); document.getElementById('notes-suggested')?.scrollIntoView({ behavior: 'smooth' }); }}>Questions an AI raised ({suggested.length})</a>}
-      </nav>
       {error && <div className="notice error">{error}</div>}
-      {GROUPS.map((g) => {
+      <Pages storeKey={`notes:${ctx.projectId}`} label="Questions and ideas" pages={[...GROUPS.map((g) => {
         const all = (items[g.kind] ?? []).filter((x) => !x.attrs.suggested);
         const list = all.filter((x) => x.state === show[g.kind]);
-        return (
+        const page = (
           <section key={g.kind} id={`notes-${g.kind}`} className="notes-group">
             <h2>{g.title}</h2>
             <div className="row" role="tablist" style={{ marginBottom: '0.5rem' }}>
@@ -89,8 +84,9 @@ export function NotesView({ ctx, embedded, onOpen }: { ctx: Ctx; embedded?: bool
             )}
           </section>
         );
-      })}
-      {suggested.length > 0 && (
+        return { title: `${g.short} (${all.filter((x) => x.state === g.states[0][0]).length})`, filled: all.length > 0, content: page };
+      }),
+      { title: `Questions an AI raised (${suggested.length})`, hidden: suggested.length === 0, filled: suggested.length > 0, content: (
         <section id="notes-suggested" className="notes-group">
           <h2>Questions an AI raised</h2>
           <p className="muted small">From the collaborator, or from a chat you brought in. These are not yours until you adopt them.</p>
@@ -106,7 +102,8 @@ export function NotesView({ ctx, embedded, onOpen }: { ctx: Ctx; embedded?: bool
             ))}
           </ul>
         </section>
-      )}
+      ) },
+      ]} />
     </>
   );
   return embedded ? body : <div className="scroll"><div className="content">{body}</div></div>;

@@ -1,3 +1,4 @@
+import { Pages } from './Pages';
 import { slug } from './Help';
 import { KindTeach } from './Teach';
 import { worldbuildingOn, WORLD_KINDS } from '../core/catalog';
@@ -107,9 +108,11 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
         {sel.kind === 'suggestions' && (<>
           <h1>Suggestions waiting</h1>
           <p className="muted">A suggestion is an idea someone else offered: the collaborator, or a chat or document you brought in. Nothing here is part of your story until you accept it. Accept it as decided or as still developing, keep it waiting with "Not yet", or say no.</p>
-          <h2>From the collaborator</h2>
+          <Pages storeKey={`suggest:${ctx.projectId}`} label="Suggestions waiting" pages={[
+            { title: `From the collaborator (${pending.length})`, filled: pending.length > 0, content: (<>
           {pending.length === 0 ? <p className="muted small">None waiting.</p> : <Suggestions ctx={ctx} items={pending} onDone={() => void load()} />}
-          <h2>From your planning documents</h2>
+            </>) },
+            { title: `From your planning documents (${slips.length})`, filled: slips.length > 0, content: (<>
           <p className="muted small">These came in marked as suggestions ("Here's a suggestion") in a document or chat you brought in. Each sits on its record as a slip.</p>
           {slips.length === 0 ? <p className="muted small">None waiting.</p> : (
             <ul className="list">
@@ -126,6 +129,8 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
               ))}
             </ul>
           )}
+            </>) },
+          ]} />
         </>)}
         {sel.kind === 'kind' && (
           <>
@@ -156,6 +161,13 @@ export function StoryBrain({ ctx }: { ctx: Ctx }) {
 /** "Anthony's arc" already says arc: the kind is not said twice. */
 const kindInTitle = (title: string, kind: string) => !!kind && String(title).toLowerCase().endsWith(String(kind).toLowerCase());
 
+/** Rows gathered by the kind of record they belong to, in the order kinds first appear. */
+function byKind(rows: any[]): [string, any[]][] {
+  const m = new Map<string, any[]>();
+  for (const r of rows) { const k = r.kind_label || 'Other'; m.set(k, [...(m.get(k) ?? []), r]); }
+  return [...m.entries()];
+}
+
 function ChoicesAhead({ ctx, onOpen, onNotes }: { ctx: Ctx; onOpen: (id: string) => void; onNotes: () => void }) {
   const [m, setM] = useState<any>(null);
   useEffect(() => { api.get(`/api/projects/${ctx.projectId}/open-decisions`).then(setM).catch(() => {}); }, [ctx.projectId]);
@@ -164,13 +176,20 @@ function ChoicesAhead({ ctx, onOpen, onNotes }: { ctx: Ctx; onOpen: (id: string)
     <>
       <h1>Choices ahead</h1>
       <p className="muted">Not a list to finish before you write. Many of these will answer themselves as you draft.</p>
-      <div className="cols">
-        <section><h2>{statusWord(ctx.settings, 'unanswered')}</h2><p className="small muted">Places you marked as not decided yet.</p>{m.stillOpen.length === 0 ? <p className="muted small">Nothing marked.</p> : <ul className="list">{m.stillOpen.map((s: any) => <li key={s.id} className="st" data-s="unanswered"><button className="btn link" onClick={() => onOpen(s.element_id)}>{s.element_title}</button> {!kindInTitle(s.element_title, s.kind_label) && <span className="faint small">{s.kind_label}</span>}, {s.field_label}{valueText(s.value) ? <>: <RefText text={valueText(s.value)} projectId={ctx.projectId} /></> : ''}</li>)}</ul>}</section>
-        <section><h2>Possibilities, nothing chosen</h2><p className="small muted">Places with ideas in pencil and no decision yet.</p>{m.choosing.length === 0 ? <p className="muted small">None.</p> : <ul className="list">{m.choosing.map((c: any) => <li key={c.element_id + c.field} className="st" data-s="developing"><button className="btn link" onClick={() => onOpen(c.element_id)}>{c.element_title}</button> {!kindInTitle(c.element_title, c.kind_label) && <span className="faint small">{c.kind_label}</span>}, {c.field_label} <span className="faint small">({c.options === 1 ? 'one idea so far' : `${c.options} ideas side by side`})</span></li>)}</ul>}</section>
-        <section><h2>Questions I have</h2><p className="small muted">Your open questions, the same ones kept in Questions and ideas. <button className="btn link small" onClick={onNotes}>Open Questions and ideas</button></p>{m.questions.length === 0 ? <p className="muted small">None open.</p> : <ul className="list">{m.questions.map((q: any) => <li key={q.id} className="st" data-s="unanswered"><button className="btn link" style={{ textAlign: 'left' }} onClick={() => onOpen(q.id)}><RefText text={q.title} inert /></button></li>)}</ul>}</section>
-        <section><h2>Kept for you</h2>{m.reserved.length === 0 ? <p className="muted small">Nothing marked.</p> : <ul className="list">{m.reserved.map((r: any) => <li key={r.id}>{r.what === 'element' ? <button className="btn link" onClick={() => onOpen(r.id)}>{r.title}</button> : <span>{r.title} (scene)</span>} <span className="hers">{r.reserved}</span></li>)}</ul>}</section>
-        <section><h2>Suggestions waiting</h2><p className="small">{m.pending.length + (m.slips ?? 0) === 0 ? 'None.' : `${m.pending.length + (m.slips ?? 0)} waiting for you, in Suggestions waiting.`}</p></section>
-      </div>
+      <Pages storeKey={`choices:${ctx.projectId}`} label="Choices ahead" pages={[
+        { title: `${statusWord(ctx.settings, 'unanswered')} (${m.stillOpen.length})`, filled: m.stillOpen.length > 0, content: (
+          <section><p className="small muted">Places you marked as not decided yet, gathered by kind of record.</p>{m.stillOpen.length === 0 ? <p className="muted small">Nothing marked.</p> : byKind(m.stillOpen).map(([k, rows]) => (
+            <div key={k} className="choices-kind"><h3>{k} <span className="faint small">({rows.length})</span></h3><ul className="list">{rows.map((s: any) => <li key={s.id} className="st" data-s="unanswered"><button className="btn link" onClick={() => onOpen(s.element_id)}>{s.element_title}</button>, {s.field_label}{valueText(s.value) ? <>: <RefText text={valueText(s.value)} projectId={ctx.projectId} /></> : ''}</li>)}</ul></div>))}</section>) },
+        { title: `Possibilities (${m.choosing.length})`, filled: m.choosing.length > 0, content: (
+          <section><p className="small muted">Places with ideas in pencil and no decision yet, gathered by kind of record.</p>{m.choosing.length === 0 ? <p className="muted small">None.</p> : byKind(m.choosing).map(([k, rows]) => (
+            <div key={k} className="choices-kind"><h3>{k} <span className="faint small">({rows.length})</span></h3><ul className="list">{rows.map((c: any) => <li key={c.element_id + c.field} className="st" data-s="developing"><button className="btn link" onClick={() => onOpen(c.element_id)}>{c.element_title}</button>, {c.field_label} <span className="faint small">({c.options === 1 ? 'one idea so far' : `${c.options} ideas side by side`})</span></li>)}</ul></div>))}</section>) },
+        { title: `Questions I have (${m.questions.length})`, filled: m.questions.length > 0, content: (
+          <section><p className="small muted">Your open questions, the same ones kept in Questions and ideas. <button className="btn link small" onClick={onNotes}>Open Questions and ideas</button></p>{m.questions.length === 0 ? <p className="muted small">None open.</p> : <ul className="list">{m.questions.map((q: any) => <li key={q.id} className="st" data-s="unanswered"><button className="btn link" style={{ textAlign: 'left' }} onClick={() => onOpen(q.id)}><RefText text={q.title} inert /></button></li>)}</ul>}</section>) },
+        { title: `Kept for you (${m.reserved.length})`, filled: m.reserved.length > 0, content: (
+          <section>{m.reserved.length === 0 ? <p className="muted small">Nothing marked.</p> : <ul className="list">{m.reserved.map((r: any) => <li key={r.id}>{r.what === 'element' ? <button className="btn link" onClick={() => onOpen(r.id)}>{r.title}</button> : <span>{r.title} (scene)</span>} <span className="hers">{r.reserved}</span></li>)}</ul>}</section>) },
+        { title: `Suggestions waiting (${m.pending.length + (m.slips ?? 0)})`, filled: m.pending.length + (m.slips ?? 0) > 0, content: (
+          <section><p className="small">{m.pending.length + (m.slips ?? 0) === 0 ? 'None.' : `${m.pending.length + (m.slips ?? 0)} waiting for you, in Suggestions waiting in the list on the left.`}</p></section>) },
+      ]} />
     </>
   );
 }

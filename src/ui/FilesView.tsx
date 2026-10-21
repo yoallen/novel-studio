@@ -1,3 +1,4 @@
+import { Pages } from './Pages';
 import { useEffect, useMemo, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -485,6 +486,8 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
       <h1>Send something out</h1>
       <p className="muted">Exporting never changes your novel. Each file is read back after it is made and checked against your chapters, word for word.</p>
       {error && <div className="notice error" role="alert">{error}</div>}
+      <Pages storeKey={`export:${ctx.projectId}`} label="Send something out" pages={[
+        { title: 'Your book and records', filled: true, content: (<>
       <section className="section">
         <h2>Start from</h2>
         <div className="cols" style={{ gap: '0.5rem 1.5rem' }} role="radiogroup" aria-label="Export presets">
@@ -566,14 +569,17 @@ function ExportPanel({ ctx }: { ctx: Ctx }) {
           {saved && <SavedNote saved={saved} onAgain={() => void download(result).then(setSaved)} />}
         </div>
       )}
+        </>) },
+        { title: 'Your plotting sheet', filled: true, content: (<>
       <section className="section">
-        <h2>Your plotting sheet</h2>
-        <p className="small muted">Your beat sheet layout, filled in with this novel's length, both page densities, and what is planned at each beat.</p>
+        <p className="small muted">A beat sheet spreadsheet, filled in with this novel's length, both page densities, and what is planned at each beat.</p>
         <div className="row">
           <select value={profile} onChange={(e) => setProfile(e.target.value)} aria-label="Placement" style={{ width: 'auto' }}>{profiles.map((p) => <option key={p.key} value={p.key}>{p.name}</option>)}</select>
           <button className="btn" onClick={() => void sheet()}>Export the sheet (.xlsx)</button>
         </div>
       </section>
+        </>) },
+      ]} />
     </>
   );
 }
