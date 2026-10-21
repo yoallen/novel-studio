@@ -314,8 +314,8 @@ export class Structure {
     const sceneOf = (planId: string) => scenes.find((s) => s.plan_element_id === planId) ?? null;
     const cardInfo = (c: Row) => {
       const pm = this.placements(c.id as string);
-      const pm2 = this.brain.field(c.id as string, 'value_start'), pm3 = this.brain.field(c.id as string, 'value_end');
-      return { id: c.id, title: c.title, sort: c.sort_key, reserved: c.reserved, scene: sceneOf(c.id as string), placements: pm, valueStart: pm2.latest?.value ?? null, valueEnd: pm3.latest?.value ?? null };
+      const pm2 = this.brain.field(c.id as string, 'value_start'), pm3 = this.brain.field(c.id as string, 'value_end'), cf = this.brain.field(c.id as string, 'conflict');
+      return { id: c.id, title: c.title, sort: c.sort_key, reserved: c.reserved, scene: sceneOf(c.id as string), placements: pm, valueStart: pm2.latest?.value ?? null, valueEnd: pm3.latest?.value ?? null, conflict: cf.latest?.value ?? null };
     };
     // A placement on a beat that is no longer in this novel (removed, or another sheet) is not a spot on this board.
     const live = new Set(beats.map((b) => b.element.id as string));
@@ -329,10 +329,22 @@ export class Structure {
         candidates: infos.filter((c) => !c.onBeat && c.placements.candidates.some((p) => p.beatId === b.element.id)),
       })),
     }));
+    // Snyder's Board numbers its cards: decided cards, in the order the Board shows them (each beat's own
+    // cards, then each of its steps' cards), counted straight through all four rows.
+    const numbers: Record<string, number> = {};
+    let n = 0;
+    const counted = rows.map((r) => {
+      let count = 0;
+      for (const bt of r.beats) {
+        const order = [bt.id, ...bt.children.map((ch) => ch.id)];
+        for (const at of order) for (const c of bt.cards) if (c.placements.decided?.beatId === at && numbers[c.id as string] === undefined) { numbers[c.id as string] = ++n; count++; }
+      }
+      return { ...r, count };
+    });
     // Not decided anywhere. Of those, the ones with no "might go here" either have no spot at all.
     const unplaced = infos.filter((c) => !c.onBeat);
     const unspotted = unplaced.filter((c) => !c.mightBe);
-    return { rows, unplaced, unspotted, worlds: WORLDS };
+    return { rows: counted, numbers, unplaced, unspotted, worlds: WORLDS };
   }
 
   /**

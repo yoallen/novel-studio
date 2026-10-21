@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { ElementPage } from './ElementPage';
-import { valueText } from './status';
+import { valueText, charge } from './status';
 import { Timelines, Viewpoint, Knowledge, Clues, Storylines, Review, Pacing, Names, Cast, ReaderMap, Soundtrack } from './ContinuityViews';
 
 // Narrative Zoom: the whole story, an act, a beat, a scene, the page, and back, never losing your place
@@ -360,9 +360,10 @@ function Board({ ctx, tick, onMove, onOpen, refresh }: { ctx: Ctx; tick: number;
       className="st board-card" data-s={candidate ? 'developing' : 'established'}>
       <div className="row" style={{ gap: '0.3rem', flexWrap: 'nowrap' }}>
         <span className="mark" data-d={c.scene ? (c.scene.word_count > 0 ? 'drafted' : 'idea') : 'idea'} />
+        {!candidate && b.numbers?.[c.id] && <span className="card-no" title={`Card ${b.numbers[c.id]} on the Board`}>{b.numbers[c.id]}</span>}
         <button className="btn link small grow" style={{ textAlign: 'left', padding: 0 }} onClick={() => onOpen({ level: 'card', id: c.id })}>{c.title}</button>
       </div>
-      {(c.valueStart || c.valueEnd) && <div className="faint small">{valueText(c.valueStart) || '?'} → {valueText(c.valueEnd) || '?'}</div>}
+      <CardMarks c={c} />
       {candidate && <div className="faint small">might go here</div>}
       {c.reserved && <div className="hers">{c.reserved}</div>}
       {place && <button className="btn small" style={{ marginTop: '0.3rem' }} onClick={() => onMove({ kind: 'card', planId: c.id, title: c.title, beatId: null })}>Place on a beat…</button>}
@@ -377,9 +378,10 @@ function Board({ ctx, tick, onMove, onOpen, refresh }: { ctx: Ctx; tick: number;
   return (
     <>
       <p className="small muted">Drag a card onto a beat, or open a beat to add one. A card in pencil only might go there. Nothing moves until you have seen what the move would change.</p>
+      <p className="small board-teach">This is Blake Snyder's Board: four rows, one for each part of the story, with one card for each scene. Snyder aimed for about 10 cards a row, about 40 in all, to fill the road between the 15 beats. A novel often needs more, so treat 40 as a shape, not a quota. Each card should <strong>turn</strong>, starting on a plus and ending on a minus, or the other way round, and carry a <strong>conflict</strong>, marked &gt;&lt;. Both come from the card's own fields: <em>Value at the start</em>, <em>Value at the end</em> and <em>The conflict</em>.</p>
       {b.rows.map((r: any) => (
         <section key={r.act} className="board-act">
-          <h2>{r.name}</h2>
+          <h2>{r.name} <span className="board-count">{r.count === 1 ? '1 card' : `${r.count ?? 0} cards`}{(r.count ?? 0) < 10 ? '. A full row is about 10.' : '.'}</span></h2>
           <div className="board-row" style={{ gridTemplateColumns: `repeat(${r.beats.length}, minmax(150px, 1fr))` }}>
             {r.beats.map((bt: any) => (
               <div key={bt.id} className="board-beat" {...drop(bt.id)}>
@@ -407,6 +409,23 @@ function Board({ ctx, tick, onMove, onOpen, refresh }: { ctx: Ctx; tick: number;
         </section>
       )}
     </>
+  );
+}
+
+/** The two marks Snyder puts on every card: the emotional turn (+/-) and the conflict (><). */
+function CardMarks({ c }: { c: any }) {
+  const a = charge(c.valueStart), z = charge(c.valueEnd);
+  const conflict = valueText(c.conflict).trim();
+  if (!c.valueStart && !c.valueEnd && !conflict) return <div className="faint small card-marks">No turn or conflict yet</div>;
+  return (
+    <div className="small card-marks">
+      {(c.valueStart || c.valueEnd) && (
+        <span className="card-turn" title={`${valueText(c.valueStart) || '?'} to ${valueText(c.valueEnd) || '?'}`}>
+          {a && z ? <><b>{a}</b> to <b>{z}</b>{a === z && <span className="faint"> (no turn yet?)</span>}</> : <span className="faint">{valueText(c.valueStart) || '?'} to {valueText(c.valueEnd) || '?'}</span>}
+        </span>
+      )}
+      {conflict ? <span className="card-conflict" title={conflict} aria-label={`Conflict: ${conflict}`}>&gt;&lt;</span> : <span className="faint">no conflict yet</span>}
+    </div>
   );
 }
 

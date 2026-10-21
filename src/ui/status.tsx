@@ -26,3 +26,10 @@ export function when(iso: string): string {
   const d = new Date(iso);
   return isNaN(d.getTime()) ? '' : d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
 }
+
+/** The charge at the end of a value, as Snyder marks it: "Safety +" is a plus, "Hope -" a minus. */
+export function charge(v: unknown): '+' | '-' | null {
+  const t = valueText(v).trim();
+  const m = /([+\-−])\s*$/.exec(t) ?? /^([+\-−])/.exec(t);
+  return m ? (m[1] === '+' ? '+' : '-') : null;
+}
