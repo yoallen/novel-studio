@@ -20,7 +20,7 @@ Press **F1**, or click **Help**, the last view in the list on the right. In the 
 
 ### I pressed Capture. Where did my thought go?
 
-For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**: a thought in **Captured thoughts**, a question in **Questions I have**, an idea in **Things and ideas I'm thinking about**. Unsorted thoughts also show on **Where was I**, page **2 Still open**, under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [Writing Room: Capture while writing](#writing-room-capture-while-writing).
+For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**, each on its own page: a thought on the page **Captured thoughts**, a question on **Questions** (headed **Questions I have**), an idea on **Ideas** (headed **Things and ideas I'm thinking about**). Click the page tab to turn to it. Unsorted thoughts also show on **Where was I**, page **2 Still open**, under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [Writing Room: Capture while writing](#writing-room-capture-while-writing).
 
 ### What is the difference between "Just a thought" and "An idea I am thinking about"?
 
@@ -179,7 +179,7 @@ No. Nothing goes to the collaborator until you have set a key, ticked **Use the 
 
 ### The collaborator raised a question I never asked. Did it change my story?
 
-No. A question waits for you in one of two places, depending on how it arrived. A question the collaborator offers on its own waits in **Suggestions waiting**, shown as "New question:", with **Accept** and **No**. A question you caught from an AI's words in a conversation, with **It's a question**, waits in the Story Brain under **Questions and ideas**, in its own section, **Questions an AI raised**, with **Make it one of my questions** and **Not relevant**. Until you take it on, it is not yours. See [Questions an AI raised](#questions-an-ai-raised).
+No. A question waits for you in one of two places, depending on how it arrived. A question the collaborator offers on its own waits in **Suggestions waiting**, shown as "New question:", with **Accept** and **No**. A question you caught from an AI's words in a conversation, with **It's a question**, waits in the Story Brain under **Questions and ideas**, on its own page, **Questions an AI raised**, with **Make it one of my questions** and **Not relevant**. Until you take it on, it is not yours. See [Questions an AI raised](#questions-an-ai-raised).
 
 ### I said "sounds good" to an idea in the chat. Is it in my story now?
 
@@ -259,7 +259,7 @@ Yes. Under **The manuscript**, choose **Only the chapters I pick**, then untick 
 
 ### My plotting sheet is full of tiny numbers.
 
-The novel has no target length, so the sheet measures against the few words drafted so far. Set **Target length in words** on page **1 This novel** of Settings, press **Save settings**, and export again. See [Settings: Target length in words](#settings-target-length-in-words).
+The novel has no target length, so the sheet measures against the few words drafted so far. Set **Target length in words** on page **1 This novel** of Settings, press **Save settings**, and export the sheet again from **Send something out**, on its page **Your plotting sheet**. See [Settings: Target length in words](#settings-target-length-in-words).
 
 ### Which do I use, "Novel percentages (Brody)" or "Screenplay proportions (Snyder)"?
 

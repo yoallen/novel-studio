@@ -36,6 +36,8 @@ test('a Word manuscript comes in after she looks it over, and goes out again as 
 
   await nav(page).getByRole('button', { name: 'Import and export' }).click();
   await page.getByRole('tab', { name: 'Send something out' }).click();
+  // Wait for the presets to arrive (the chosen preset is applied then), so the format picked next is not overwritten.
+  await expect(page.getByRole('radiogroup', { name: 'Export presets' }).getByRole('radio').first()).toBeVisible();
   await page.getByRole('combobox', { name: 'Format' }).selectOption('txt');
   await expect(page.getByRole('region', { name: 'Before you export' })).toContainText('does not keep italics');
   // Chapter headings are shown with one of her own chapters, and explained.

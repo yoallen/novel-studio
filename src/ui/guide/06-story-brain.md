@@ -41,7 +41,7 @@ These three are not kinds of records. They gather things from every record in th
 | In the list | What it gathers | Its number counts |
 | --- | --- | --- |
 | **Questions and ideas** | Every question you have about the story, every idea you are turning over, and every thought you caught with Capture. | Your questions, ideas and captured thoughts together, in every state (open and answered alike). |
-| **Choices ahead** | A map of everything not yet decided: fields marked **Still open**, and fields holding ideas in pencil with nothing chosen. | Those two together. Your open questions are shown on its page but not counted here. |
+| **Choices ahead** | A map of everything not yet decided: fields marked **Still open**, and fields holding ideas in pencil with nothing chosen. | Those two together. Your open questions have a page of their own there but are not counted here. |
 | **Suggestions waiting** | Ideas someone else offered (the collaborator, or a chat or document you brought in) that you have not accepted or turned down. | Every suggestion waiting, from both places. |
 
 Each has its own section at the end of this chapter: [Questions and ideas: your open questions and possibilities](#questions-and-ideas-your-open-questions-and-possibilities), [Suggestions waiting: ideas you have not taken yet](#suggestions-waiting-ideas-you-have-not-taken-yet) and [Choices ahead: a map of what is still undecided](#choices-ahead-a-map-of-what-is-still-undecided).
@@ -129,8 +129,8 @@ The numbers in the list are counts of records, and a few of them surprise people
 
 - **Beats says 21, but the Board shows 15.** Some beats have smaller steps inside them (the Finale of Save the Cat has five). The count beside **Beats** includes those steps; the Board shows only the beats. When this happens, the Beats list page says so in a line at the top.
 - **Choices ahead is in the hundreds.** It counts every field marked **Still open** and every field with pencil ideas and nothing chosen, across the whole book. A big number early in planning is normal. It is a map, not a to-do list.
-- **Suggestions waiting says 30, but the page says "None waiting."** The Suggestions waiting page has two parts. "None waiting." under **From the collaborator** can sit right above thirty suggestions under **From your planning documents**. Scroll down.
-- **Questions and ideas counts answered questions too.** Its number counts every question, idea and captured thought, whatever state it is in.
+- **Suggestions waiting says 30, but the page says "None waiting."** Suggestions waiting has two pages. "None waiting." on **From the collaborator** can mean all thirty are on the other page. Look at the page tabs: **From your planning documents (30)** says where they are. Click it.
+- **Questions and ideas counts answered questions too.** Its number in the left list counts every question, idea and captured thought, whatever state it is in. The page tabs inside it count less: each tab counts only the first state on its page (**Open** questions, ideas you are **Considering**, thoughts **Not filed yet**).
 - **Story world says 1.** There is only ever one Story world record per book. Clicking **Story world** opens it straight away instead of showing a list of one.
 
 ## A kind's list page: every record of one kind
@@ -229,7 +229,7 @@ You can rename these markers, or add your own, in **Settings**, under **Words fo
 
 **How to do it.** Click the **Kept for you** dropdown and choose a marker. To clear it, choose **Not marked** again.
 
-**Where the mark shows.** Beside the record's name in its kind's list, and in the **Kept for you** column of **Choices ahead**.
+**Where the mark shows.** Beside the record's name in its kind's list, and on the **Kept for you** page of **Choices ahead**.
 
 **The same mark elsewhere.** Beats and scene cards in Narrative Zoom carry the same dropdown, and so does each written scene, in the Writing Room's scene plan (there it is called **Kept for you to write or decide**, and the marker shows above the scene's title). The choices and their meanings are the ones in the table above.
 
@@ -313,7 +313,7 @@ On a character, a small line reads *Low-energy day? One line counts.* with a **F
 
 **Pages in front, in Narrative Zoom.** When you open a record inside Narrative Zoom (the view where you plan the book's shape), one or two pages about where it sits in the story come first, and the record's own pages follow, numbered after them. See [Zoom: a beat page](#zoom-a-beat-page), [Zoom: a scene card page](#zoom-a-scene-card-page) and [Following a record through the story](#following-a-record-through-the-story).
 
-**Other screens use the same pages.** Where was I, Settings, Novel setup and the Writing Room's scene plan are laid out the same way: numbered tabs, **All pages** at the end, links to the page before and after, and the page you were on remembered while the program is open.
+**Other screens use the same pages.** Where was I, Settings, Novel setup, the Writing Room's scene plan, the Story Brain's **Questions and ideas**, **Choices ahead** and **Suggestions waiting**, the continuity checks **Timelines**, **Who knows what**, **Setups and payoffs** and **Cast**, and **Send something out** are laid out the same way: numbered tabs, **All pages** at the end, links to the page before and after, and the page you were on remembered while the program is open.
 
 **The pages of each kind.** The last page of every kind is **Notes and connections**: the Notes box, Connections, any fields of your own, and **Add your own field**. The pages before it depend on the kind. Pages marked *(only with…)* appear only when that method or choice is on; the others are always there.
 
@@ -569,7 +569,7 @@ Every fact has a **status**: a word that says how settled it is. There are six, 
 
 **How it looks.** Pencil-gray words with a dashed underline and a short dashed mark in front. The margin says **DEVELOPING**, in gray.
 
-**How it behaves.** Developing facts never replace each other. They wait until you decide one or set them aside. Fields that hold pencil and no decision appear in **Choices ahead**, under **Possibilities, nothing chosen**.
+**How it behaves.** Developing facts never replace each other. They wait until you decide one or set them aside. Fields that hold pencil and no decision appear in **Choices ahead**, on its page **Possibilities**.
 
 **Why it matters.** Nothing forces you to choose before you're ready, and you can compare versions side by side.
 
@@ -1508,7 +1508,18 @@ A record of a kind you made has one page only, so it shows no page tabs: its Not
 
 ## Questions and ideas: your open questions and possibilities
 
-Click **Questions and ideas** at the top of the left list. This page holds three kinds of things that are not facts yet, each in its own section: **Questions I have**, **Things and ideas I'm thinking about** and **Captured thoughts**. At the top, **On this page** lists them as links with counts, such as **Questions (4)**, plus **Questions an AI raised** when there are any. Click one to slide down to it.
+Click **Questions and ideas** at the top of the left list. This screen holds three kinds of things that are not facts yet, and each has its own numbered page, with the same page tabs a record has:
+
+| Page tab | The page's heading | What the number in the tab counts |
+| --- | --- | --- |
+| **Questions (N)** | **Questions I have** | Questions that are **Open** |
+| **Ideas (N)** | **Things and ideas I'm thinking about** | Ideas you are **Considering** |
+| **Captured thoughts (N)** | **Captured thoughts** | Thoughts **Not filed yet** |
+| **Questions an AI raised (N)** | **Questions an AI raised** | Questions waiting there. This tab appears only when there is at least one. |
+
+So a tab reads, for example, **Questions (4)**: four questions still open. The count in a tab is only the first state on that page; the counts for the other states are on the page itself (see below).
+
+**Turning the pages.** Click a tab to turn to that page, or use the links at the bottom of each page, which name the page before and after. **All pages**, at the end of the row, shows every page one after another. A page number turns ink blue when that page holds anything at all, in any state, so **Questions** can be blue while its tab says **Questions (0)**: every question on it has been answered. While the program stays open, Story Canon remembers which page you were on and opens **Questions and ideas** there next time.
 
 **Why it matters.** "I haven't decided" is different from "I forgot." Writing a question down keeps it from nagging at you, and keeps it from quietly getting answered by accident.
 
@@ -1516,7 +1527,7 @@ Click **Questions and ideas** at the top of the left list. This page holds three
 
 ### Questions I have, in the Story Brain
 
-**What it is.** Questions about your story you haven't answered yet. Under the heading are three tabs, each with a count: **Open**, **Answered**, **No longer relevant**. Click a tab to see the questions in that state. *Nothing here.* means that tab is empty.
+**What it is.** Questions about your story you haven't answered yet, on the page **Questions**. Under the heading **Questions I have** are three small tabs (separate from the page tabs above), each with a count: **Open**, **Answered**, **No longer relevant**. Click a tab to see the questions in that state. *Nothing here.* means that tab is empty.
 
 Each question shows its words (a link to its own page), the date you asked it (with *, needed to keep writing* if you said so when you captured it, and *, from a conversation* if it came from one), and buttons to move it to the other two states. An open question, for example, has **Answered** and **No longer relevant**.
 
@@ -1548,7 +1559,7 @@ Click a question to open its record. It looks like any record, with two pages, *
 
 ### Things and ideas I'm thinking about
 
-**What it is.** Possibilities you are turning over but have not committed to: a twist, a setting, a scene. Tabs: **Considering**, **Adopted**, **Set aside**. Each idea has buttons to move it between them, and its own record with **1 The idea** (*What it might change* and *Where it might fit*, both lists) and **2 Notes and connections**.
+**What it is.** Possibilities you are turning over but have not committed to: a twist, a setting, a scene. They are on the page **Ideas**. Under its heading, small tabs with counts: **Considering**, **Adopted**, **Set aside**. Each idea has buttons to move it between them, and its own record with **1 The idea** (*What it might change* and *Where it might fit*, both lists) and **2 Notes and connections**.
 
 **When to use it.** When an idea is bigger than one field. "What if Eli is alive?" touches ten records. Keep it here until you choose.
 
@@ -1556,7 +1567,7 @@ Click a question to open its record. It looks like any record, with two pages, *
 
 ### Captured thoughts in the Story Brain
 
-**What it is.** Everything you caught with Capture as **Just a thought** lands here, in the third section of **Questions and ideas**, exactly as you typed it. Tabs: **Not filed yet** and **Filed**.
+**What it is.** Everything you caught with Capture as **Just a thought** lands here, on the page **Captured thoughts** of **Questions and ideas**, exactly as you typed it. Under its heading, small tabs with counts: **Not filed yet** and **Filed**.
 
 **What you can do with one.** Each thought has buttons to move it between the two tabs, plus **Make it a question** (it moves to Questions I have, as Open) and **Make it an idea** (it moves to Things and ideas I'm thinking about, as Considering). Click a thought's words to open its record, where you can connect it to anything.
 
@@ -1566,14 +1577,14 @@ Click a question to open its record. It looks like any record, with two pages, *
 
 ### Questions an AI raised
 
-**What it is.** A fourth section, **Questions an AI raised**, appears at the end of the page (and in **On this page**, with its count) when there is one. It holds questions that an AI asked rather than you: questions you marked in a conversation from a message the collaborator wrote, or from an AI's message in a chat you brought in (marking passages in a conversation is taught in [Conversations and the collaborator](#conversations-and-the-collaborator)). They wait here, apart from yours, under the line *From the collaborator, or from a chat you brought in. These are not yours until you adopt them.*
+**What it is.** A fourth page, **Questions an AI raised**, appears as the last page tab (with its count, such as **Questions an AI raised (2)**) when there is at least one. When there are none, the tab is not there at all. It holds questions that an AI asked rather than you: questions you marked in a conversation from a message the collaborator wrote, or from an AI's message in a chat you brought in (marking passages in a conversation is taught in [Conversations and the collaborator](#conversations-and-the-collaborator)). They wait here, apart from yours, under the line *From the collaborator, or from a chat you brought in. These are not yours until you adopt them.*
 
 **Why it matters.** Questions I have is your own list. A question an AI asked might be a good one, but it should not be filed under your name until you say so.
 
 **What you can do with one.**
 
 - **Make it one of my questions** moves it into **Questions I have**, as Open.
-- **Not relevant** puts it away. It leaves this section and is kept, never deleted.
+- **Not relevant** puts it away. It leaves this page and is kept, never deleted.
 
 **Not the same as a suggested question.** When the collaborator offers a question of its own during a conversation, it arrives as a suggestion instead: it waits under **Suggestions waiting**, reading *New question:* and the question, with a single **Accept** button (see [Suggestions from the collaborator](#suggestions-from-the-collaborator)). Accepting it makes it one of your questions straight away, in Questions I have.
 
@@ -1587,11 +1598,18 @@ Click **Suggestions waiting** at the top of the left list.
 
 **When to use it.** After you bring in a chat or a planning document, and whenever the count in the left list grows. You don't have to clear it before you write.
 
-The page has two parts.
+The screen has two numbered pages, with page tabs like a record's, and **All pages** at the end of the row to see both at once:
+
+| Page tab | What is on it |
+| --- | --- |
+| **From the collaborator (N)** | Ideas the collaborator offered in a conversation |
+| **From your planning documents (N)** | Ideas that came in marked as suggestions in a document or chat you brought in |
+
+The number in each tab counts what is waiting on that page, and the page number turns ink blue when anything is. The link at the bottom of each page turns to the other one. While the program stays open, Story Canon remembers which page you were on.
 
 ### Suggestions from the collaborator
 
-Under **From the collaborator**: ideas the collaborator offered during a conversation. A suggestion can be a fact for a field, a new record (it reads *New* followed by the kind and name), or a connection (it reads *Connect:* followed by the kind of connection). Each one shows, on a slip:
+On the page **From the collaborator**: ideas the collaborator offered during a conversation. A suggestion can be a fact for a field, a new record (it reads *New* followed by the kind and name), or a connection (it reads *Connect:* followed by the kind of connection). Each one shows, on a slip:
 
 - the idea itself;
 - under it, in small type: *Suggestion, for* the field it is meant for, the collaborator's reason if it gave one, and *(you said not yet)* if you put it off before.
@@ -1603,11 +1621,11 @@ The buttons are the same as on a record (see [Suggestions waiting for you on a r
 - **Not yet** keeps it waiting, marked *(you said not yet)*. Once you have said not yet, this button no longer shows.
 - **No** turns it down. It leaves this page and does not come back. Nothing is erased: the conversation still holds the message it came from.
 
-When there are none, the part says *None waiting.* That does not mean there are no suggestions at all. Check the next part.
+When there are none, the page says *None waiting.* That does not mean there are no suggestions at all. Look at the count in the other page tab, **From your planning documents**.
 
 ### Suggestions from your planning documents
 
-Under **From your planning documents**: ideas that came in marked as suggestions ("Here's a suggestion") in a document or chat you brought in. Each one already sits on its record, in its field, as a slip. This list gathers them all in one place.
+On the page **From your planning documents**: ideas that came in marked as suggestions ("Here's a suggestion") in a document or chat you brought in. Each one already sits on its record, in its field, as a slip. This page gathers them all in one place. When there are none, it says *None waiting.*
 
 Each shows the idea, then a line such as *For Marisol Vega, last page, from ChatGPT*: the record (a link; click it to see the slip in place), the field, and who suggested it. The buttons:
 
@@ -1623,23 +1641,25 @@ Each shows the idea, then a line such as *For Marisol Vega, last page, from Chat
 
 Click **Choices ahead** in the left list. The page opens with a reminder: *Not a list to finish before you write. Many of these will answer themselves as you draft.*
 
-**What it is.** One map of every place in your book that is not settled, gathered from every record. It has five columns:
+**What it is.** One map of every place in your book that is not settled, gathered from every record. It is laid out in five numbered pages, with page tabs like a record's. Each tab shows a count in brackets, and its page number turns ink blue when that page has anything on it:
 
-| Column | What it lists |
+| Page tab | What the page lists |
 | --- | --- |
-| **Still open** | *Places you marked as not decided yet*: every field marked Still open, with the record's name (a link), its kind in gray, the field, and any words you wrote. |
-| **Possibilities, nothing chosen** | *Places with ideas in pencil and no decision yet*, with *(one idea so far)* or *(2 ideas side by side)*. Suggestion slips count here too. |
-| **Questions I have** | Your open questions, the same ones as in Questions and ideas, with an **Open Questions and ideas** link. |
-| **Kept for you** | Every record (and every scene) you marked Kept for you, with its marker. |
-| **Suggestions waiting** | How many suggestions are waiting, from the collaborator and your planning documents together. |
+| **Still open (N)** | *Places you marked as not decided yet, gathered by kind of record*: every field marked Still open, with the record's name (a link), the field, and any words you wrote. If you renamed **Still open** in **Settings**, the tab uses your word. When there are none, it says *Nothing marked.* |
+| **Possibilities (N)** | *Places with ideas in pencil and no decision yet, gathered by kind of record*, with *(one idea so far)* or *(2 ideas side by side)*. Suggestion slips count here too. |
+| **Questions I have (N)** | Your open questions, the same ones as in Questions and ideas, with an **Open Questions and ideas** link. When there are none, it says *None open.* |
+| **Kept for you (N)** | Every record (and every scene) you marked Kept for you, with its marker. |
+| **Suggestions waiting (N)** | How many suggestions are waiting, from the collaborator and your planning documents together: "3 waiting for you, in Suggestions waiting in the list on the left." |
 
-Each entry reads as the record's name, its kind, then the field: *The empty boat* *scene card*, *Value at the end*. When the record's name already ends with its kind (an arc named *Marisol's arc*, for example), the kind is not shown twice.
+Click a tab to turn to that page, or use the links at the bottom of each page, which name the page before and after. **All pages**, at the end of the row, shows all five one after another. While the program stays open, Story Canon remembers which page you were on.
+
+**Gathered by kind.** On **Still open** and **Possibilities**, entries are grouped under small headings, one for each kind of record, such as *Characters (3)* or *Scene cards (12)*, with the number of entries under that heading. The kinds come in the order they first turn up. Under a heading, each entry reads as the record's name, then the field: under *Scene cards*, *The empty boat*, *Value at the end*. The kind is in the heading, so it is not repeated after each name.
 
 **When to use it.** On a planning day, to choose what to think about next. Before drafting a section, to see what is undecided there. Never as homework.
 
 **The common mistake** is trying to empty it. A first draft written with a hundred open choices is normal. Many choices are best made on the page.
 
-**Example.** Before drafting the storm chapters, Marisol's writer scans **Possibilities, nothing chosen** and sees *The boat comes in* *event*, *How it could happen (2 ideas side by side)*. She decides one, sets the other aside, and starts writing.
+**Example.** Before drafting the storm chapters, Marisol's writer turns to the page **Possibilities** and, under the heading *event*, sees *The boat comes in*, *How it could happen (2 ideas side by side)*. She decides one, sets the other aside, and starts writing.
 
 ## Story Brain questions people ask
 

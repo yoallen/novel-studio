@@ -62,7 +62,7 @@ The checks, in the order they appear:
 
 | Check | What it shows you |
 | --- | --- |
-| **Timelines** | The order the reader meets scenes, beside the order things happen |
+| **Timelines** | The order the reader meets scenes, and the order things happen |
 | **Viewpoint** | Whose eyes each scene is seen through, in what person and tense |
 | **Who knows what** | Each secret: the truth, when the reader meets it, when each character learns it |
 | **Setups and payoffs** | Every clue: where it is planted, what it means, where it pays off |
@@ -83,6 +83,18 @@ Under each check's title is a folded line, **How this view works**, with a small
 - **What to do with it**
 
 Once you have opened it, Story Canon remembers that you have read it (on this computer), and it stays folded quietly from then on. Click it again any time.
+
+### Continuity checks with pages
+
+Four checks hold more than fits comfortably on one screen, so they are split into numbered pages, the same way a record is: **Timelines**, **Who knows what**, **Setups and payoffs** (when you have motifs) and **Cast**. Under the check's opening lines is a row of page tabs, each with a number and a name, and **All pages** at the end of the row.
+
+- **Click a tab** to turn to that page. One page shows at a time.
+- **A page number turns ink blue** when that page has something on it.
+- **At the bottom of each page**, links name the page before and the page after. Click one to turn to it.
+- **All pages** shows every page one after another, for reading the whole check straight through.
+- **Story Canon remembers** which page you were on in each check while the program is open, so a check opens where you left it.
+
+Each check's section below names its pages.
 
 ### Planned cards in the checks
 
@@ -105,16 +117,21 @@ Four checks work only from written pages: **Viewpoint**, **Pacing**, **Reader re
 
 **Where:** **Continuity checks** > **Timelines**. The page is titled **Two timelines**.
 
-**What it shows.** Every scene and scene card twice:
+**What it shows.** Every scene and scene card twice, each on its own numbered page, with page tabs like a record's:
 
-- **In the order of the book**: the order the reader meets them.
-- **In the order things happen**: the order the events take place in your story world.
+- **1 In the order of the book**: the order the reader meets them.
+- **2 In the order things happen**: the order the events take place in your story world.
+
+Click a tab to turn to that page, or use the link at the bottom of a page, which names the other page. **All pages**, at the end of the row, shows both tables one after the other, which is the easiest way to compare them. The number of **In the order things happen** turns ink blue once at least one scene has a year, a day or a date. While the program stays open, Story Canon remembers which page you were on.
 
 **Why it matters.** The two orders can differ on purpose: a flashback, a prologue from years later, a book told in two time periods. Seeing them side by side shows whether the difference is the one you meant. It is also where a week that has quietly become three days shows itself.
 
 **Do you need it?** Any book where time matters does: a ticking clock, a long span of years, flashbacks, two timelines. A book told straight through over one weekend may never need it.
 
 ### Timelines: the columns
+
+Both pages have the same columns.
+
 
 | Column | What it holds | Where it comes from |
 | --- | --- | --- |
@@ -133,20 +150,20 @@ Under a title you may see small gray lines, **Calls up:** and **Called up by:**.
 
 ### Getting scenes into story order
 
-The second table, **In the order things happen**, only includes scenes with a **Year**, a **Day in the story** or a **Date**. Words like "the next morning" show in the **When** column but cannot be sorted. Below the table, a line counts the scenes that have no year, day or date yet.
+The second page, **In the order things happen**, only includes scenes with a **Year**, a **Day in the story** or a **Date**. Until one has, the page says "No scene has a year, day or date yet." Words like "the next morning" show in the **When** column but cannot be sorted. Below the table, a line counts the scenes that have no year, day or date yet.
 
 1. In **Timelines**, click a scene's title to open its card.
 2. Turn to its **When it happens** page.
 3. Beside **Day in the story**, click **Add**, type a number on your own story clock (such as 3), and click **Save**. Or fill in **Date** or **Year** the same way.
-4. Come back to **Continuity checks** > **Timelines**. The scene now appears under **In the order things happen**.
+4. Come back to **Continuity checks** > **Timelines** and turn to the page **In the order things happen**. The scene is now in that table.
 
 Scenes on the same day are sorted by **Time of day** when it uses words like dawn, morning, noon, afternoon, evening or night.
 
 **What to look for.** A scene out of story order that you did not mean as a flashback. Two scenes on the same day that cannot both fit. A long gap with nothing in **Time since the previous scene** (also on the card's page **When it happens**).
 
-**The common mistake** is filling in only **When (story time)** in words and wondering why the second table is empty. Words are for you; numbers are for sorting. Use both if you like.
+**The common mistake** is filling in only **When (story time)** in words and wondering why the page **In the order things happen** is empty. Words are for you; numbers are for sorting. Use both if you like.
 
-**Example.** In *The Keeper of Gull Point*, the empty boat washes onto the rocks on day 1, and the book covers eleven days. One scene is a memory of the night Eli drowned, twelve years earlier. Every card gets a **Day in the story**; the memory scene gets day 0 and the **Year** 2012. In the order of the book, the memory sits in chapter 9. In the order things happen, it jumps to the top. If a card for day 6 was accidentally typed as day 16, it drops to the bottom of the second table, where you can see it.
+**Example.** In *The Keeper of Gull Point*, the empty boat washes onto the rocks on day 1, and the book covers eleven days. One scene is a memory of the night Eli drowned, twelve years earlier. Every card gets a **Day in the story**; the memory scene gets day 0 and the **Year** 2012. In the order of the book, the memory sits in chapter 9. In the order things happen, it jumps to the top. If a card for day 6 was accidentally typed as day 16, it drops to the bottom of that page, where you can see it.
 
 ## Viewpoint: whose eyes, and can we trust them
 
@@ -211,11 +228,13 @@ These appear in the Story review:
 
 **Where:** **Continuity checks** > **Who knows what**. The page is titled **Who knows what, and when**.
 
-**What it shows.** Three things:
+**What it shows.** Three things, each on its own numbered page:
 
-1. **Each secret or fact** that a scene reveals, in its own section.
-2. **The reader's view, scene by scene**, a table.
-3. **Secret operations (author only)**, a log of what a schemer does behind everyone's back, if you keep one.
+1. **Secrets and who learns them**: each secret or fact that a scene reveals, in its own section. Until a scene reveals something, it says "Nothing is revealed in any scene yet."
+2. **The reader's view, scene by scene**: a table.
+3. **Secret operations (author only)**: a log of what a schemer does behind everyone's back, if you keep one, and the form for adding to it.
+
+Turn pages with the tabs, or with the links at the bottom of each page; **All pages** shows all three (see [Continuity checks with pages](#continuity-checks-with-pages)).
 
 **Why it matters.** In a mystery, a thriller or any book with a secret, the order in which people learn things *is* the plot. A character who acts on a truth before learning it, or a reveal that lands before the question is even raised, breaks the reader's trust.
 
@@ -223,7 +242,7 @@ These appear in the Story review:
 
 ### Who knows what: each secret, and who learns it
 
-For each secret (a record, usually an event or a reveal, that some scene **reveals**), you see:
+On the page **Secrets and who learns them**, for each secret (a record, usually an event or a reveal, that some scene **reveals**), you see:
 
 - **The truth:** what really happened, from the record's **What actually happened** field (on an event's **When, and who knows** page).
 - **When it happens:** the event's own timing, from **When it happens in the story**.
@@ -236,6 +255,8 @@ For each secret (a record, usually an event or a reveal, that some scene **revea
 
 ### The reader's view, scene by scene
 
+The second page is one table:
+
 | Column | What it holds | Where it comes from |
 | --- | --- | --- |
 | **Scene** | Each scene and card in reading order, with its planned tag | |
@@ -246,11 +267,11 @@ For each secret (a record, usually an event or a reveal, that some scene **revea
 
 ### Secret operations (author only)
 
-A **hidden move** is something a character does in secret that the others misread or blame on someone else. The **Secret operations** log is "The only place the real story lives in order", and it is never shown in viewpoint summaries. Each schemer gets a table: **When**, **The hidden move**, **What the others see**, **Who takes the blame**. The table appears once you have logged at least one move.
+A **hidden move** is something a character does in secret that the others misread or blame on someone else. The **Secret operations** log is "The only place the real story lives in order", and it is never shown in viewpoint summaries. It has a page of its own, the last one, **Secret operations (author only)**. Each schemer gets a table there: **When**, **The hidden move**, **What the others see**, **Who takes the blame**. The table appears once you have logged at least one move; until then the page holds only the form for adding one.
 
 **To log a hidden move:**
 
-1. At the bottom of the page, beside **Log a hidden move**, choose the character in **Whose?**.
+1. Turn to the page **Secret operations (author only)**. At the bottom of it, beside **Log a hidden move**, choose the character in **Whose?**.
 2. Type **What they secretly do**.
 3. Click **Add**. It says "Added to the secret operations log."
 
@@ -286,6 +307,8 @@ When a move or a placement puts things out of order, the Story review asks thing
 
 ### Setups and payoffs: the clue table
 
+The clue table is on the page **Clues**. If you keep any motifs, a second page, **Motifs**, sits beside it (see below); with no motifs there is only the one page, so no page tabs show at all. Until you have a clue, the page says "No clues yet. Add one in the Story Brain under Clues."
+
 | Column | What it shows | Where it comes from |
 | --- | --- | --- |
 | **What** | The clue (click to open it), with "must pay off" under it if you marked it significant | The clue record |
@@ -296,7 +319,7 @@ When a move or a placement puts things out of order, the Story review asks thing
 
 **How your words show.** In **Planted** and **Pays off**, your own words come first, inked if Decided, in pencil if Developing. If your words name a scene card or a beat, the program finds it and shows it underneath: a card link with its planned tag, or "at the beat **Setup**". "none" means nothing is recorded.
 
-Below the table, a **Motifs** section lists each motif (a recurring image or object, kept as a Motif record in the Story Brain) and the scenes it appears in.
+**Motifs.** A **motif** is a recurring image or object, kept as a Motif record in the Story Brain. When you have at least one, the page tab **Motifs** appears after **Clues**. That page lists each motif (click its name to open it) and the scenes it appears in, or "Not placed in any scene yet."
 
 **To fill it in:**
 
@@ -354,7 +377,19 @@ Until you have a storyline, the page says "No storylines yet."
 
 **Where:** **Continuity checks** > **Cast**. The page is titled **The cast across the story**.
 
-**What it shows.** A grid: each character is a row, every scene and card is a column in reading order, and a mark sits wherever a character is. Below the grid: who shares scenes, groups that keep meeting, every pair, and the Bechdel test.
+**What it shows.** A grid: each character is a row, every scene and card is a column in reading order, and a mark sits wherever a character is. Then, each on a page of its own: who shares scenes, groups that keep meeting, every pair, and the Bechdel test.
+
+The Cast check has up to five numbered pages:
+
+| Page | What is on it |
+| --- | --- |
+| **Across the story** | The gone-quiet notes, the key, and the cast grid |
+| **Who is together** | Pick two or more characters and see every scene they share |
+| **Groups that keep meeting** | Three or more characters who share two or more scenes. This page is there only when there are any. |
+| **Two at a time** | Every pair that shares a scene |
+| **The Bechdel test** | The scenes where two or more women are together, for you to answer |
+
+Turn pages with the tabs or the links at the bottom of each page; **All pages** shows them all (see [Continuity checks with pages](#continuity-checks-with-pages)). The number of **The Bechdel test** turns ink blue only when the book passes.
 
 **Why it matters.** Characters drift. A friend introduced in chapter 2 is forgotten by chapter 10. Two characters who should clash never share a scene. The grid shows your whole cast at once.
 
@@ -362,10 +397,14 @@ Until you have a storyline, the page says "No storylines yet."
 
 **Where it comes from.** Three places: your records (**appears in** connections on scene cards), each written scene's viewpoint, and the character's name found on the written page. Planned cards count too, so you can see the cast of a book before it is written.
 
-### The top of the Cast page
+### The top of the Cast page, and the page Across the story
 
-- **On this page:** links that jump to **Who is together**, **Groups that keep meeting** (when there are any), **Two at a time** and **The Bechdel test**.
-- **The Bechdel test result**, in one line, with **Go to it**.
+Above the page tabs, so you see it whichever page you are on:
+
+- **The Bechdel test result**, in one line: "The Bechdel test asks whether two named women talk to each other about something other than a man. Right now: passes, in 1 scene. It has its own page below." To see the scenes, click the page tab **The Bechdel test**.
+
+On the first page, **Across the story**, above the grid:
+
 - **Gone-quiet notes**, in boxes. Two kinds: "Ana Ruiz is away for 9 scenes, from … to …. Intended?" for a long absence, and "The ferry captain is introduced in … and not seen after …, 30 scenes before the end. Intended?" for a character who appears and then vanishes.
 - **Not in any scene or card yet:** characters with a record who are not placed anywhere.
 
@@ -389,13 +428,15 @@ A ○ means only that the name was found in the text. If a mark looks odd, click
 
 ### Who is together, groups and pairs
 
+Each of these has its own page.
+
 **Who is together.** Click two or more names (they light up) to see every scene they share, with who else is there. Tick **Only scenes where no one else is there** to see only their scenes alone. **Clear** unpicks them.
 
 Beside the result: **Their relationship** opens their relationship record, or **Make a relationship record** makes one, already connected to each of them. A relationship record can hold a pair, a family, a rivalry or a whole group.
 
-**Groups that keep meeting.** Three or more characters who share two or more scenes. **Show scenes** lists them.
+**Groups that keep meeting.** Three or more characters who share two or more scenes. **Show scenes** lists them. When no group of three meets twice, this page is left out of the row.
 
-**Two at a time.** Every pair that shares a scene, how often, and in which acts.
+**Two at a time.** Every pair that shares a scene, how often, and in which acts, with **Show scenes** and the same relationship links. Until any two characters share a scene, it says "No two characters share a scene yet."
 
 ### The Bechdel test
 
@@ -403,7 +444,7 @@ The **Bechdel test** is a well-known quick check of how women are written in a s
 
 **How Story Canon runs it.** The program finds every scene and card where two or more women are together. Only you know what they talk about, so for each one it asks, and you answer:
 
-1. Scroll to **The Bechdel test** (or click **Go to it** at the top).
+1. Click the page tab **The Bechdel test**.
 2. For each scene listed, with the women in it named beside it, click **They do** if they talk about something other than a man, or **Not here** if they do not.
 3. Click the same button again to clear your answer.
 

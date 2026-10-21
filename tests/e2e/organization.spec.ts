@@ -24,7 +24,7 @@ test('Story Brain lists, answering a question, a readable connection, and the St
 
   // "Answered" asks for the answer right there, and the answer is kept on the question.
   await kinds.getByRole('button', { name: /^Questions and ideas/ }).click();
-  await expect(page.getByRole('navigation', { name: 'On this page' })).toContainText('Ideas (0)');
+  await expect(page.getByRole('tab', { name: /^\d+Ideas \(0\)$/ })).toBeVisible();
   await page.getByRole('button', { name: 'Answered', exact: true }).first().click();
   await page.getByLabel('The answer').fill('It is all she still controls.');
   await page.getByRole('button', { name: 'Mark answered' }).click();

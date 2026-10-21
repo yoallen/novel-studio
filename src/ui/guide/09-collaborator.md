@@ -139,8 +139,8 @@ The bar's buttons:
 | Button | What it does | Where the result goes |
 | --- | --- | --- |
 | **Keep this line** | Saves the words as a line you may want to use, credited to whoever said them | **Kept lines**, in the Story Brain |
-| **It's a question** | Files the words as a question to answer | **Questions I have**, in **Questions and ideas** |
-| **It's an idea** | Files the words as an idea you are considering | **Things and ideas I'm thinking about**, in **Questions and ideas** |
+| **It's a question** | Files the words as a question to answer | The page **Questions** (headed **Questions I have**) in **Questions and ideas**; an AI's words go to the page **Questions an AI raised** instead |
+| **It's an idea** | Files the words as an idea you are considering | The page **Ideas** (headed **Things and ideas I'm thinking about**) in **Questions and ideas** |
 | **Add as a possibility** | Opens a second row so you can add the words, in pencil, to one field on one record | The record and field you choose |
 | **Not canon** | Marks the words as never part of your story | Stays in the conversation, crossed out |
 | **Cancel** | Closes the bar. Nothing is saved | Nowhere |
@@ -159,7 +159,7 @@ After any of these (except **Cancel**), the words in the message are highlighted
 
 Select words that ask something you need to settle, and click **It's a question**. Select words that offer something you might use, and click **It's an idea**. Both go to **Questions and ideas** in the Story Brain, word for word, with a link back to the message.
 
-A question you catch from an AI's message (the collaborator's, or ChatGPT's in a chat you brought in) is kept apart from your own questions. It waits in **Questions and ideas**, under **Questions an AI raised**, until you click **Make it one of my questions** (or **Not relevant**). That way nothing is filed under your name that you did not ask.
+A question you catch from an AI's message (the collaborator's, or ChatGPT's in a chat you brought in) is kept apart from your own questions. It waits in **Questions and ideas**, on its own page, **Questions an AI raised** (that page tab appears only while there is one), until you click **Make it one of my questions** (or **Not relevant**). That way nothing is filed under your name that you did not ask.
 
 ### Add as a possibility
 
@@ -449,7 +449,7 @@ After an answer that left suggestions, a note appears under the **Ask** button: 
 
 **Where:** **Story Brain**, the entry called **Suggestions waiting**, near the top of the list on the left (under **Questions and ideas** and **Choices ahead**). The number beside it counts what is waiting.
 
-Suggestions from the collaborator sit under **From the collaborator**. Ideas that came in from a chat or document you brought in sit under **From your planning documents**. ([Suggestions waiting: ideas you have not taken yet](#suggestions-waiting-ideas-you-have-not-taken-yet) covers this list in full.)
+The screen has two numbered pages, each with its count in the page tab. Suggestions from the collaborator sit on the page **From the collaborator**. Ideas that came in from a chat or document you brought in sit on the page **From your planning documents**. ([Suggestions waiting: ideas you have not taken yet](#suggestions-waiting-ideas-you-have-not-taken-yet) covers this list in full.)
 
 Each suggestion from the collaborator has these buttons:
 

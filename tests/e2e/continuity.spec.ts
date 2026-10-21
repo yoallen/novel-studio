@@ -55,7 +55,7 @@ test('continuity counts planned scene cards and a clue\'s own words, marks plann
   await expect(how).toContainText('Where it comes from');
   await expect(page.getByRole('table', { name: 'Who is where' })).toContainText('Not on a beat yet');
   await expect(page.getByRole('button', { name: 'Kevin, in the scene (your records), The cruel exchange' })).toBeVisible();
-  await expect(page.getByRole('navigation', { name: 'On this page' }).getByRole('button', { name: 'The Bechdel test' })).toBeVisible();
+  await expect(page.getByRole('tab', { name: /^\d+The Bechdel test$/ })).toBeVisible();
 
   await page.getByRole('tab', { name: 'Setups and payoffs' }).click();
   const row = page.getByRole('row').filter({ hasText: 'No grave marker' });

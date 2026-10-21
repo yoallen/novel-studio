@@ -1,3 +1,4 @@
+import { KIND_LABELS } from '../core/templates';
 import { Pages } from './Pages';
 import { slug } from './Help';
 import { KindTeach } from './Teach';
@@ -164,7 +165,7 @@ const kindInTitle = (title: string, kind: string) => !!kind && String(title).toL
 /** Rows gathered by the kind of record they belong to, in the order kinds first appear. */
 function byKind(rows: any[]): [string, any[]][] {
   const m = new Map<string, any[]>();
-  for (const r of rows) { const k = r.kind_label || 'Other'; m.set(k, [...(m.get(k) ?? []), r]); }
+  for (const r of rows) { const k = (r.element_kind && KIND_LABELS[r.element_kind]?.plural) || (r.kind_label ? r.kind_label[0].toUpperCase() + r.kind_label.slice(1) : 'Other'); m.set(k, [...(m.get(k) ?? []), r]); }
   return [...m.entries()];
 }
 

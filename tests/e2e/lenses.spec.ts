@@ -40,10 +40,13 @@ test('the cast view: who is where, who meets whom, and the Bechdel test with her
   await nav(page).getByRole('button', { name: 'Narrative Zoom' }).click();
   await page.getByRole('tab', { name: 'Cast' }).click();
   await expect(page.getByRole('table', { name: 'Who is where' })).toContainText('Francine');
+  await page.getByRole('tab', { name: /^\d+Two at a time$/ }).click();
   await expect(page.getByRole('region', { name: 'Who meets whom' })).toContainText('Francine and Gloria');
+  await page.getByRole('tab', { name: /^\d+Who is together$/ }).click();
   const pickers = page.getByRole('group', { name: 'Choose characters' });
   for (const n of ['Francine', 'Gloria', 'Kevin']) await pickers.getByRole('button', { name: n }).click();
   await expect(page.getByRole('region', { name: 'Scenes together' })).toContainText('Francine, Gloria and Kevin: 1 scene together');
+  await page.getByRole('tab', { name: /^\d+The Bechdel test$/ }).click();
   const b = page.getByRole('region', { name: 'Bechdel test' });
   await expect(b).toContainText('Waiting for your answers.');
   await b.getByRole('button', { name: 'They do' }).click();

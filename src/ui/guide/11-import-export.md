@@ -259,15 +259,23 @@ When you arrive from Search, the document opens scrolled to the passage you foun
 
 **Where it is:** **Import and export**, then the **Send something out** tab.
 
-The page opens with "Exporting never changes your novel. Each file is read back after it is made and checked against your chapters, word for word." Then four areas from top to bottom: **Start from**, **What goes in**, **How it looks**, and the summary with the **Export** button. **Your plotting sheet** is at the very bottom.
+The page opens with "Exporting never changes your novel. Each file is read back after it is made and checked against your chapters, word for word." Under that is a row of two numbered page tabs, the same kind a record has, with **All pages** at the end of the row:
+
+| Page | What is on it |
+| --- | --- |
+| **1 Your book and records** | Everything for exporting the book or your planning, from top to bottom: **Start from**, **What goes in**, **How it looks**, the summary with the **Export** button, the check that appears after you export, and **Save these choices**. |
+| **2 Your plotting sheet** | The beat sheet spreadsheet (see [Your plotting sheet](#your-plotting-sheet)). |
+
+Click a tab to turn to that page, or use the link at the bottom of a page, which names the other page. **All pages** shows both, one after the other. Both page numbers are always ink blue, because both pages always have something on them. While the program stays open, Story Canon remembers which page you were on, so **Send something out** opens there next time.
 
 **How to export, step by step:**
 
-1. Under **Start from**, choose the preset closest to what you need.
-2. Under **What goes in**, check what is ticked: the manuscript, any planning sections, and which chapters.
-3. Under **How it looks**, check the format and the choices under it, including **Title page**.
-4. Read the summary and any shaded notes above the **Export** button.
-5. Click **Export**, then choose where to save the file.
+1. On **Send something out**, turn to the page **Your book and records** if you are not already on it.
+2. Under **Start from**, choose the preset closest to what you need.
+3. Under **What goes in**, check what is ticked: the manuscript, any planning sections, and which chapters.
+4. Under **How it looks**, check the format and the choices under it, including **Title page**.
+5. Read the summary and any shaded notes above the **Export** button.
+6. Click **Export**, then choose where to save the file.
 
 ### Start from: the export presets
 
@@ -383,7 +391,7 @@ Your preset now appears under **Start from**, with a **Remove** link. Saved pres
 
 ## Your plotting sheet
 
-**What it is.** At the bottom of **Send something out** is **Your plotting sheet**: "Your beat sheet layout, filled in with this novel's length, both page densities, and what is planned at each beat." It is an Excel file with one row per beat, showing where each beat falls in words and pages, what you planned for it, and how many scene cards are placed there.
+**What it is.** **Your plotting sheet** is the second page of **Send something out**. Its first line reads "A beat sheet spreadsheet, filled in with this novel's length, both page densities, and what is planned at each beat." It is an Excel file with one row per beat, showing where each beat falls in words and pages, what you planned for it, and how many scene cards are placed there.
 
 **Why it matters.** It turns your target length into concrete numbers: the Midpoint of a 90,000-word book is around word 45,000. Many writers print it and keep it beside the desk.
 
@@ -391,11 +399,12 @@ Your preset now appears under **Start from**, with a **Remove** link. Saved pres
 
 **How to make it:**
 
-1. In the dropdown, choose how beats are placed:
+1. On **Send something out**, click the page tab **Your plotting sheet**.
+2. In the dropdown, choose how beats are placed:
    - **Novel percentages (Brody)** places each beat at a percentage of a novel, from Jessica Brody's *Save the Cat! Writes a Novel*, which adapted the beats for novels.
    - **Screenplay proportions (Snyder, 110 pages scaled)** uses Blake Snyder's original page numbers from *Save the Cat!*, written for a 110-page screenplay, scaled to your book's length.
    - Any placement you brought in from a spreadsheet also appears, by the name you gave it.
-2. Click **Export the sheet (.xlsx)**. It saves the same way as any export, and the check says, for example, "Checked: all 15 beats are in the sheet."
+3. Click **Export the sheet (.xlsx)**. It saves the same way as any export, and the check says, for example, "Checked: all 15 beats are in the sheet."
 
 If you are writing a novel and are unsure, choose **Novel percentages (Brody)**.
 

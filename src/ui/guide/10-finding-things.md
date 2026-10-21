@@ -95,9 +95,9 @@ If you were writing when you searched, the **Return to Writing** ribbon appears 
 
 ## Capture: finding the thoughts you saved
 
-Thoughts you save with **Capture** (taught in [Writing Room: Capture while writing](#writing-room-capture-while-writing)) wait in the Story Brain, under **Questions and ideas**, at the top of its list on the left: a plain thought under **Captured thoughts**, a question under **Questions I have**, an idea under **Things and ideas I'm thinking about**. A thought captured with **Attach to this scene** ticked also waits in that scene's plan. You can also search for a captured thought: it is a record, so Search finds it under **Story records**.
+Thoughts you save with **Capture** (taught in [Writing Room: Capture while writing](#writing-room-capture-while-writing)) wait in the Story Brain, under **Questions and ideas**, at the top of its list on the left. Each sort has its own page there, with a tab: a plain thought on **Captured thoughts**, a question on **Questions** (headed **Questions I have**), an idea on **Ideas** (headed **Things and ideas I'm thinking about**). A thought captured with **Attach to this scene** ticked also waits in that scene's plan. You can also search for a captured thought: it is a record, so Search finds it under **Story records**.
 
-**Example.** On Tuesday you captured *Does Cyrus own a second boat?* as **A question I have**. On Friday you want it. You open the Story Brain, click **Questions and ideas**, and it is under **Questions I have**, waiting for an answer.
+**Example.** On Tuesday you captured *Does Cyrus own a second boat?* as **A question I have**. On Friday you want it. You open the Story Brain, click **Questions and ideas**, turn to the page **Questions**, and it is there under **Open**, waiting for an answer.
 
 ## Story Trail: the history of every change
 
