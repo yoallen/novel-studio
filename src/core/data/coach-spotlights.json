@@ -1,0 +1,471 @@
+[
+  {
+    "id": "w-01",
+    "kind": "writer",
+    "text": "Octavia E. Butler chose low-demand jobs on purpose so she could get up at two or three in the morning to write before work.",
+    "source": "https://en.wikipedia.org/wiki/Octavia_E._Butler",
+    "checked": "Early life and career section: undemanding jobs let her rise at two or three a.m. to write; series of temporary jobs."
+  },
+  {
+    "id": "w-02",
+    "kind": "writer",
+    "text": "Octavia E. Butler sold her first stories at the Clarion workshop, then faced five more years of rejection slips before she sold another word. She kept going and later became the first science fiction writer to win a MacArthur Fellowship.",
+    "source": "https://en.wikipedia.org/wiki/Octavia_E._Butler",
+    "checked": "Career section: Clarion sales, her recollection of five more years of rejection slips, 1995 MacArthur as first SF writer."
+  },
+  {
+    "id": "w-03",
+    "kind": "writer",
+    "text": "Toni Morrison was 39 when her first novel, The Bluest Eye, came out in 1970. She liked to write in the early morning, making coffee while it was still dark and starting as the sun came up.",
+    "source": "https://www.mentalfloss.com/literature/authors/toni-morrison-author-facts",
+    "checked": "Published in 1970 when she was 39; early-morning routine with coffee before sunrise."
+  },
+  {
+    "id": "w-04",
+    "kind": "writer",
+    "text": "Stephen King gave up on an early draft of Carrie and threw the pages away. His wife, Tabitha, pulled them out of the trash and urged him to keep going.",
+    "source": "https://www.goodreads.com/blog/show/1160-5-famous-books-saved-from-the-dumpster",
+    "checked": "Item 1: King threw away the Carrie draft; Tabitha retrieved it and encouraged him."
+  },
+  {
+    "id": "w-05",
+    "kind": "writer",
+    "text": "As the story goes, Harper Lee got so frustrated with To Kill a Mockingbird that she tossed the manuscript out a window into the snow. Her agent told her to go get it. The book was published in 1960 and won the Pulitzer Prize.",
+    "source": "https://www.goodreads.com/blog/show/1160-5-famous-books-saved-from-the-dumpster",
+    "checked": "Item 5: Lee threw the manuscript out a window into snow; agent reportedly told her to retrieve it; published 1960, Pulitzer the next year."
+  },
+  {
+    "id": "w-06",
+    "kind": "writer",
+    "text": "Anthony Trollope started writing at 5:30 every morning and wrote for three hours before his day job at the Post Office. He paced himself with a watch, aiming for 250 words every 15 minutes, and finished 47 novels.",
+    "source": "https://interestingliterature.com/2015/04/five-fascinating-facts-about-anthony-trollope/",
+    "checked": "Began at 5.30 each morning, three hours before Post Office job, 250 words per 15 minutes with a watch, 47 novels."
+  },
+  {
+    "id": "w-07",
+    "kind": "writer",
+    "text": "Maya Angelou rented a hotel room for months at a time just to write in. She arrived early each morning with a yellow pad, pens, a dictionary, a thesaurus and a Bible.",
+    "source": "https://famouswritingroutines.com/writing-routines/maya-angelou-writing-routine/",
+    "checked": "Hotel room rented for months, early morning arrival, armed with thesaurus, dictionary, Bible, yellow pad and pens."
+  },
+  {
+    "id": "w-08",
+    "kind": "writer",
+    "text": "Walter Mosley started writing at 34 while working as a computer programmer. He took a writing course at City College in Harlem, and his first novel, Devil in a Blue Dress, came out in 1990.",
+    "source": "https://en.wikipedia.org/wiki/Walter_Mosley",
+    "checked": "Started writing at 34; programming computers; writing course at City College; Devil in a Blue Dress, 1990."
+  },
+  {
+    "id": "w-09",
+    "kind": "writer",
+    "text": "Haruki Murakami decided to write a novel while watching a baseball game in 1978. He was running a jazz bar at the time, so he wrote late at night at his kitchen table, and the first draft took about six months.",
+    "source": "https://lithub.com/haruki-murakami-the-moment-i-became-a-novelist/",
+    "checked": "April 1978 Jingu Stadium moment; ran a jazz bar; wrote late at night at the kitchen table; Hear the Wind Sing over about six months."
+  },
+  {
+    "id": "w-10",
+    "kind": "writer",
+    "text": "To find his first style, Haruki Murakami typed the opening of his debut novel in English, which forced him into short, simple sentences. Then he rewrote it in Japanese by hand.",
+    "source": "https://lithub.com/haruki-murakami-the-moment-i-became-a-novelist/",
+    "checked": "Switched to an Olivetti typewriter, wrote the opening in English, then rendered it back into Japanese with a fountain pen."
+  },
+  {
+    "id": "w-11",
+    "kind": "writer",
+    "text": "Ray Bradbury wrote the first version of Fahrenheit 451 on a rented typewriter in the basement of the UCLA library. The machines cost ten cents per half hour, and the whole draft took nine days and $9.80 in dimes.",
+    "source": "https://www.thebillfold.com/2014/05/the-cost-of-writing-fahrenheit-451/",
+    "checked": "UCLA library basement typing room; 10 cents per half hour; 25,000-word version in nine days; dimes totalled $9.80."
+  },
+  {
+    "id": "w-12",
+    "kind": "writer",
+    "text": "Agatha Christie wrote her first novel on a dare from her sister while volunteering in a hospital dispensary during World War I. Six publishers turned it down before it was accepted.",
+    "source": "https://www.agathachristie.com/en/stories/the-mysterious-affair-at-styles",
+    "checked": "Dare from sister Madge; begun while volunteering in Torquay hospital dispensary in WWI; rejected by six publishers."
+  },
+  {
+    "id": "f-01",
+    "kind": "fun",
+    "text": "Anthony Trollope wrote dozens of novels and also had a hand in bringing the pillar box, the freestanding street post box, to Britain. The first ones were tried out on the island of Jersey in 1854.",
+    "source": "https://interestingliterature.com/2015/04/five-fascinating-facts-about-anthony-trollope/",
+    "checked": "Post Office fact: introduced the pillar box to Britain, trialled on Jersey in 1854."
+  },
+  {
+    "id": "w-13",
+    "kind": "writer",
+    "text": "Kazuo Ishiguro drafted nearly all of The Remains of the Day in about four weeks. He wrote freehand six days a week and let clumsy sentences stand so he could keep moving, then spent more time shaping it afterward.",
+    "source": "https://boingboing.net/2014/12/24/how-kazuo-ishiguro-wrote-rem.html",
+    "checked": "Describes the four-week Crash: six days a week, freehand, no revising as he went, near-complete draft written up properly later."
+  },
+  {
+    "id": "w-14",
+    "kind": "writer",
+    "text": "Zora Neale Hurston wrote Their Eyes Were Watching God in Haiti in about seven weeks. It came out in 1937, and decades later Alice Walker's 1975 essay helped bring it back to a wide audience.",
+    "source": "https://en.wikipedia.org/wiki/Their_Eyes_Were_Watching_God",
+    "checked": "Background: written in Haiti in the span of seven weeks; published 1937; revival after Walker's 1975 Ms. essay."
+  },
+  {
+    "id": "w-15",
+    "kind": "writer",
+    "text": "N. K. Jemisin wrote her early novels while working as a mental health counselor. Reader support through Patreon let her quit that job in 2016, and she went on to win the Hugo for Best Novel three years in a row.",
+    "source": "https://en.wikipedia.org/wiki/N._K._Jemisin",
+    "checked": "Day job as mental health counselor; May 2016 Patreon funding let her quit; first to win Best Novel Hugo in three consecutive years."
+  },
+  {
+    "id": "w-16",
+    "kind": "writer",
+    "text": "Terry McMillan's first novel, Mama, grew out of a short story her writers group urged her to expand. When the publisher did little to promote it, she wrote to thousands of booksellers and set up her own readings, and the first printing sold out.",
+    "source": "https://en.wikipedia.org/wiki/Terry_McMillan",
+    "checked": "Harlem Writers Guild encouraged expanding Mama; she wrote to thousands of booksellers, arranged her own tour; first 5,000 copies sold out."
+  },
+  {
+    "id": "w-17",
+    "kind": "writer",
+    "text": "J.K. Rowling first pictured Harry Potter on a delayed train in 1990. Twelve publishers turned the book down before Bloomsbury took it, after the head of the company gave the manuscript to his eight-year-old daughter, who loved it.",
+    "source": "https://www.leonardoenglish.com/podcasts/publishing-harry-potter",
+    "checked": "Idea on delayed train in summer 1990; first 12 publishers rejected it; Nigel Newton's 8-year-old daughter Alice read it."
+  },
+  {
+    "id": "w-18",
+    "kind": "writer",
+    "text": "Erin Morgenstern wrote The Night Circus over two rounds of National Novel Writing Month. The finished novel spent seven weeks on the New York Times bestseller list.",
+    "source": "https://www.mentalfloss.com/article/53481/14-published-novels-written-during-nanowrimo",
+    "checked": "Entry 1: The Night Circus written during two NaNos; seven weeks on NYT bestseller list."
+  },
+  {
+    "id": "w-19",
+    "kind": "writer",
+    "text": "Andy Weir posted The Martian a chapter at a time on his personal website while working as a programmer. When readers had trouble downloading it, he put it on Kindle for 99 cents, and soon an agent and a publisher called.",
+    "source": "https://www.deseret.com/2015/10/15/20574495/the-martian-began-in-the-most-humble-of-places-on-a-blog",
+    "checked": "Chapters posted on his site; free e-book; Kindle Direct at 99 cents; back at work as a programmer; then an agent called, then a publisher."
+  },
+  {
+    "id": "w-20",
+    "kind": "writer",
+    "text": "Hugh Howey was working in a bookstore when he self-published Wool as a short story. Readers wanted more, so he wrote four more stories, and together they became a full novel.",
+    "source": "https://techcrunch.com/2014/05/19/hugh-howey-author-of-the-silo-saga-talks-about-making-it-big-in-self-publishing",
+    "checked": "Worked at a bookstore; Wool self-published as a short story; four more stories expanded it into a novel; sales grew by word of mouth."
+  },
+  {
+    "id": "w-21",
+    "kind": "writer",
+    "text": "Beverly Jenkins worked full-time at the Michigan State University library and started writing romance for fun. Her first novel, Night Song, came out in 1994, and in 2017 she received a lifetime achievement award from Romance Writers of America.",
+    "source": "https://en.wikipedia.org/wiki/Beverly_Jenkins",
+    "checked": "MSU library circulation job; began writing romance for fun; Night Song, Avon, 1994; 2017 RWA Nora Roberts Lifetime Achievement Award."
+  },
+  {
+    "id": "w-22",
+    "kind": "writer",
+    "text": "Brit Bennett worked on her debut novel, The Mothers, for years. She wrote, rewrote and revised it starting back when she was in high school.",
+    "source": "https://www.npr.org/transcripts/497813627",
+    "checked": "Host introduction: she wrote and rewrote and revised the novel since she was in high school in Oceanside."
+  },
+  {
+    "id": "w-23",
+    "kind": "writer",
+    "text": "Alexander McCall Smith taught medical law at the University of Edinburgh and was around 50 when he was first published as a novelist for adults. He estimates he writes about 1,000 words an hour and now has more than 100 novels.",
+    "source": "https://publishersweekly.com/pw/print/20240812/95686-alexander-mccall-smith-king-of-kindness.html",
+    "checked": "Roughly 1,000 words every hour; taught medical law at Edinburgh; first adult novels around age 50; more than 100 novels."
+  },
+  {
+    "id": "w-24",
+    "kind": "writer",
+    "text": "Marissa Meyer's Cinder grew out of her 2008 National Novel Writing Month project. The idea came from a dream in which Cinderella was a cyborg who lost her foot at the ball instead of her shoe.",
+    "source": "https://en.wikipedia.org/wiki/Marissa_Meyer",
+    "checked": "Inspired by joining the 2008 NaNoWriMo contest; dream of cyborg Cinderella losing her foot; Cinder was her 2012 debut."
+  },
+  {
+    "id": "w-25",
+    "kind": "writer",
+    "text": "Sara Gruen wrote Water for Elephants as part of National Novel Writing Month. The novel spent 12 weeks on the New York Times bestseller list in 2006, later hit number one in paperback and became a film.",
+    "source": "https://en.wikipedia.org/wiki/Water_for_Elephants",
+    "checked": "Written as part of NaNoWriMo; 12 weeks on NYT list in 2006; paperback No. 1 in July 2007; 2011 film."
+  },
+  {
+    "id": "w-26",
+    "kind": "writer",
+    "text": "Rainbow Rowell's Fangirl is one of the published novels that began as a National Novel Writing Month draft.",
+    "source": "https://www.mentalfloss.com/article/53481/14-published-novels-written-during-nanowrimo",
+    "checked": "Entry 6 lists Fangirl by Rainbow Rowell among published novels written during NaNoWriMo."
+  },
+  {
+    "id": "w-27",
+    "kind": "writer",
+    "text": "After New York publishers passed on his first novel, E. Lynn Harris printed 5,500 copies of Invisible Life himself and sold them from the trunk of his car at beauty salons, bookstores and book clubs. Once he had sold 10,000 copies, Doubleday signed him.",
+    "source": "https://www.encyclopedia.com/books/culture-magazines/harris-e-lynn",
+    "checked": "Formed Consortium Press, printed 5,500 copies in 1991, sold from car trunk at salons, bookstores, book clubs; signed with Doubleday after ten thousand copies."
+  },
+  {
+    "id": "w-28",
+    "kind": "writer",
+    "text": "John Grisham wrote his first novel, A Time to Kill, from 5 to 8 each morning while working as a lawyer and state legislator. The first printing was 5,000 copies, and he sold nearly 1,000 of them himself.",
+    "source": "https://library.msstate.edu/grisham/writer",
+    "checked": "Working from 5:00 to 8:00 each morning while practicing law and serving as legislator; 5,000-copy first printing, nearly 1,000 sold by Grisham."
+  },
+  {
+    "id": "w-29",
+    "kind": "writer",
+    "text": "Kathryn Stockett collected 60 rejection letters over three and a half years while trying to sell The Help. She kept working on the same story, and it became a bestseller and a hit film.",
+    "source": "https://writersdigest.com/getting-published/60-rejection-letters-didnt-stop-kathryn-stockett-and-her-bestseller-the-help",
+    "checked": "60 rejection letters over 3 and a half years; still working on the same story; bestselling book and successful movie."
+  },
+  {
+    "id": "w-30",
+    "kind": "writer",
+    "text": "Madeleine L'Engle nearly gave up writing on her 40th birthday. A Wrinkle in Time was rejected 26 times before Farrar, Straus and Giroux took it, and it won the Newbery Medal in 1963.",
+    "source": "https://www.mentalfloss.com/literature/books/12-fantastic-facts-about-wrinkle-time",
+    "checked": "26 rejections before FSG; nearly gave up on her 40th birthday; won the 1963 Newbery."
+  },
+  {
+    "id": "w-31",
+    "kind": "writer",
+    "text": "Laura Ingalls Wilder was 65 when her first Little House book came out in 1932. Before that, in her 40s, she wrote for small farm publications in Mansfield, Missouri.",
+    "source": "https://www.pbs.org/wnet/americanmasters/8-interesting-facts-about-laura-ingalls-wilder/16581",
+    "checked": "Little House in the Big Woods published 1932 when Wilder was 65; wrote for small farming publications in Mansfield, Missouri in her 40s."
+  },
+  {
+    "id": "w-32",
+    "kind": "writer",
+    "text": "Raymond Chandler lost his oil company job during the Depression and began writing fiction at 44. He taught himself by studying and imitating a magazine story by Erle Stanley Gardner, and his first novel, The Big Sleep, came out in 1939.",
+    "source": "https://en.wikipedia.org/wiki/Raymond_Chandler",
+    "checked": "Dismissed from Dabney Oil in 1932; became a detective fiction writer at 44; imitated a Gardner novelette; The Big Sleep, 1939."
+  },
+  {
+    "id": "w-33",
+    "kind": "writer",
+    "text": "Colson Whitehead had the idea for The Underground Railroad in 2000 but waited years to write it. He said he felt he needed more maturity and a few more books behind him to do it justice.",
+    "source": "https://amp.cbc.ca/lite/story/1.3837411",
+    "checked": "Idea in 2000, too scared to write it; needed more maturity and a few more books under his belt."
+  },
+  {
+    "id": "w-34",
+    "kind": "writer",
+    "text": "Tayari Jones wrote An American Marriage three full times before she settled on its structure of three narrators taking turns. She drafts on manual typewriters because they slow her down.",
+    "source": "https://www.postbulletin.com/lifestyle/this-best-selling-author-writes-her-novels-on-manual-typewriters-heres-why",
+    "checked": "Wrote the full novel three times before settling on three alternating narrators; says the typewriter slows her down."
+  },
+  {
+    "id": "w-35",
+    "kind": "writer",
+    "text": "Ann Patchett wrote her first novel, The Patron Saint of Liars, during a fellowship at the Fine Arts Work Center in Provincetown in her late twenties. It was published in 1992.",
+    "source": "https://en.wikipedia.org/wiki/Ann_Patchett",
+    "checked": "Won a fellowship to the Fine Arts Work Center in her late twenties and wrote her first novel there; published 1992."
+  },
+  {
+    "id": "w-36",
+    "kind": "writer",
+    "text": "Frank McCourt spent years teaching in New York City schools before he published his first book. Angela's Ashes came out in 1996, when he was 66, and won the Pulitzer Prize the next year.",
+    "source": "https://www.npr.org/2009/07/19/106688871/angelas-ashes-author-frank-mccourt-dies",
+    "checked": "Retired schoolteacher who taught in New York City schools; 66 when Angela's Ashes was published in 1996; Pulitzer in 1997."
+  },
+  {
+    "id": "w-37",
+    "kind": "writer",
+    "text": "For years Stephen King set himself a goal of 2,000 words a day, and later about 1,000. He keeps writing on holidays too, taking a short break only after he finishes a manuscript.",
+    "source": "https://www.mentalfloss.com/literature/authors/stephen-king-daily-routine",
+    "checked": "Daily goal of 2,000 words for years, about 1,000 more recently; writes on holidays except 10 to 12 days off after finishing a manuscript."
+  },
+  {
+    "id": "w-38",
+    "kind": "writer",
+    "text": "James Baldwin wrote a play at 10 that impressed his teacher and published his first essay at 13. In 1951 he went off to a small village in the Swiss Alps to work on Go Tell It on the Mountain, which came out in 1953.",
+    "source": "https://www.sparknotes.com/lit/gotellit/context/",
+    "checked": "Wrote a play at age 10; first essay at 13; retreated to a Swiss Alps village in 1951 to write the novel; published 1953."
+  },
+  {
+    "id": "w-39",
+    "kind": "writer",
+    "text": "Jack Kerouac filled journals with material for On the Road for years, then typed a draft on a single 120-foot scroll in 1951. He went on to rework it through as many as six drafts before it was published.",
+    "source": "https://www.npr.org/2007/07/05/11709924/jack-kerouacs-famous-scroll-on-the-road-again",
+    "checked": "Journals 1947 to 1949; 120-foot scroll; tinkered with up to six drafts from 1951 to 1957."
+  },
+  {
+    "id": "w-40",
+    "kind": "writer",
+    "text": "Facing a contract deadline in 1866, Fyodor Dostoevsky dictated The Gambler to a 19-year-old stenographer, Anna Snitkina. With her help he finished on time, and Anna later became his wife.",
+    "source": "https://en.wikipedia.org/wiki/The_Gambler_(novel)",
+    "checked": "Background: deadline of 1 November 1866 under Stellovsky contract; dictated to 19-year-old Anna Snitkina; finished in time; she later became his wife."
+  },
+  {
+    "id": "w-41",
+    "kind": "writer",
+    "text": "Mary Shelley was 18 when Lord Byron suggested a contest to write a frightening story during the summer of 1816. A waking dream gave her the idea for Frankenstein, which was published in 1818.",
+    "source": "https://www.nlm.nih.gov/exhibition/frankenstein/exhibition1.html",
+    "checked": "1816 near Lake Geneva; Byron suggested the contest; Mary was 18; waking dream; first published anonymously in 1818."
+  },
+  {
+    "id": "w-42",
+    "kind": "writer",
+    "text": "The Tale of Peter Rabbit began as an illustrated letter Beatrix Potter wrote to a young boy in 1893. Six publishers turned it down, so she paid to print 250 copies herself, and a publisher soon came back for a full-color edition.",
+    "source": "https://tpl.ca/blogs/post/the-tale-of-beatrix-potters-peter-rabbit/",
+    "checked": "1893 picture letter to Noel Moore; six publishers declined in 1900; private printing of 250 copies in December 1901; Warne edition October 1902."
+  },
+  {
+    "id": "w-43",
+    "kind": "writer",
+    "text": "Richard Adams worked as a civil servant and made up Watership Down to entertain his two daughters on long car rides. Seven publishers rejected the manuscript before it came out in 1972, when he was in his fifties.",
+    "source": "https://www.penguin.co.uk/articles/2020/may/richard-adams-watership-down.html",
+    "checked": "Story told on long car journeys to his daughters; civil servant career; seven publishers rejected it; published 1972 when he was in his fifties."
+  },
+  {
+    "id": "w-44",
+    "kind": "writer",
+    "text": "Roald Dahl wrote in his mother's old armchair with a board on his knees as a desk. He sharpened six pencils before starting, used yellow legal paper, and worked in two-hour sessions, one in the morning and one in the afternoon.",
+    "source": "https://buckinghamshireculture.org/bucks-in-100-objects/roald-dahls-writing-chair/",
+    "checked": "Armchair belonged to his mother; baize-covered board on his knees; six Dixon Ticonderoga pencils; yellow legal paper; two two-hour sessions."
+  },
+  {
+    "id": "w-45",
+    "kind": "writer",
+    "text": "Louisa May Alcott was not eager when her editor asked for a book for girls, but she started Little Women in May 1868 and sent off the manuscript that July. Meg, Beth and Amy were based on her sisters, and Jo on herself.",
+    "source": "https://www.mentalfloss.com/literature/books/10-things-you-may-not-know-about-little-women",
+    "checked": "Thomas Niles asked for a girls' book; she was reluctant; began May 1868, sent manuscript July 15; characters based on her sisters and herself."
+  },
+  {
+    "id": "w-46",
+    "kind": "writer",
+    "text": "Ernest Hemingway wrote in the morning as soon after first light as he could. He liked to stop while he still knew what would happen next, so picking up the next day was easy, and he kept a chart of his daily word count.",
+    "source": "https://fs.blog/2013/05/hemingways-routine/",
+    "checked": "From his 1958 Paris Review interview: writes soon after first light, stops when he knows what happens next, charts daily output."
+  },
+  {
+    "id": "w-47",
+    "kind": "writer",
+    "text": "Jesmyn Ward searched for years for a publisher for her first novel and had decided to quit writing and enroll in nursing school when it was finally accepted. She later won the National Book Award for Fiction twice.",
+    "source": "https://en.wikipedia.org/wiki/Jesmyn_Ward",
+    "checked": "Where the Line Bleeds accepted by Agate in 2008 just as she had decided to give up writing for nursing; NBA for Fiction in 2011 and 2017."
+  },
+  {
+    "id": "w-48",
+    "kind": "writer",
+    "text": "Chinua Achebe mailed his only handwritten copy of Things Fall Apart to a London typing agency and then heard nothing for months. He got one typed copy back, and the novel has since sold more than 20 million copies.",
+    "source": "https://www.mentalfloss.com/literature/books/chinua-achebe-things-fall-apart-book-facts",
+    "checked": "Only handwritten copy sent to London typing agency; months of silence; one typed copy returned; more than 20 million copies sold."
+  },
+  {
+    "id": "w-49",
+    "kind": "writer",
+    "text": "Victor Hugo kept missing deadlines on The Hunchback of Notre-Dame, so he bought a new bottle of ink, put his clothes away in a wardrobe and settled in to work. He wrote a book of almost 200,000 words in about four and a half months.",
+    "source": "https://www.mentalfloss.com/literature/books/hunchback-of-notre-dame-victor-hugo-book-facts",
+    "checked": "Missed deadlines; bought new ink and a woollen body-stocking, stored clothes in a wardrobe; almost 200,000 words in four and a half months."
+  },
+  {
+    "id": "w-50",
+    "kind": "writer",
+    "text": "Georges Simenon said in a 1955 interview that he never worked more than eleven days at a time on any of his books. He wrote in a focused stretch, allowed no interruptions, and published 76 Maigret novels.",
+    "source": "https://harpers.org/archive/2019/08/georges-simenon-maigret-novels",
+    "checked": "1955 Paris Review claim of no more than eleven days at a time; isolated, uninterrupted work; 76 Maigrets published."
+  },
+  {
+    "id": "f-02",
+    "kind": "fun",
+    "text": "Georges Simenon wrote novels so quickly that when Alfred Hitchcock phoned and heard Simenon had just started a new one, Hitchcock simply said he would wait.",
+    "source": "https://harpers.org/archive/2019/08/georges-simenon-maigret-novels",
+    "checked": "Anecdote: told Simenon had started a new novel, Hitchcock replied that he would wait."
+  },
+  {
+    "id": "g-01",
+    "kind": "writing",
+    "text": "National Novel Writing Month began in July 1999 in the San Francisco Bay Area with just 21 participants. The next year it moved to November to make the most of the gloomy weather.",
+    "source": "https://en.wikipedia.org/wiki/National_Novel_Writing_Month",
+    "checked": "History: Chris Baty started it in July 1999 with 21 participants; moved to November in 2000 to take advantage of the miserable weather."
+  },
+  {
+    "id": "g-02",
+    "kind": "writing",
+    "text": "The National Novel Writing Month goal of 50,000 words in November works out to about 1,667 words a day. In 2015 more than 430,000 people took part.",
+    "source": "https://en.wikipedia.org/wiki/National_Novel_Writing_Month",
+    "checked": "50,000 words by end of November, roughly 1,667 per day; 431,626 participants in 2015."
+  },
+  {
+    "id": "g-03",
+    "kind": "writing",
+    "text": "Hundreds of novels drafted during National Novel Writing Month went on to be published, including Water for Elephants, The Night Circus, Wool, Cinder and Fangirl.",
+    "source": "https://en.wikipedia.org/wiki/National_Novel_Writing_Month",
+    "checked": "Nearly 400 NaNoWriMo novels traditionally published since 2006; examples listed include these five titles."
+  },
+  {
+    "id": "g-04",
+    "kind": "writing",
+    "text": "More than twenty publishers turned down Dune. It was finally accepted by Chilton, a company best known for car repair manuals, and went on to win both the Hugo and the Nebula.",
+    "source": "https://sfwa.org/2024/02/27/how-to-fix-your-ornithopter-the-unlikely-publishing-history-of-dune/",
+    "checked": "Over twenty publishers rejected it; Chilton specialized in car repair guides; won both the Hugo and the Nebula."
+  },
+  {
+    "id": "g-05",
+    "kind": "writing",
+    "text": "Ernest Hemingway said he rewrote the ending of A Farewell to Arms 39 times. His grandson later found 47 alternate endings among his papers.",
+    "source": "https://www.npr.org/transcripts/156991302",
+    "checked": "Hemingway told The Paris Review he rewrote the ending 39 times; Sean Hemingway found 47 alternate endings."
+  },
+  {
+    "id": "g-06",
+    "kind": "writing",
+    "text": "In On Writing, Stephen King offers a simple revision formula: the second draft equals the first draft minus 10 percent.",
+    "source": "https://alexisgrant.com/2009/12/23/stephen-kings-on-writing/",
+    "checked": "Post quotes King's formula, 2nd draft = 1st draft minus 10 percent."
+  },
+  {
+    "id": "g-07",
+    "kind": "writing",
+    "text": "Jane Austen drafted Pride and Prejudice in her early twenties under the title First Impressions. A publisher turned it down by return of post in 1797, and it came out about 15 years later, in 1813.",
+    "source": "https://www.smithsonianmag.com/history/jane-austens-pride-and-prejudice-was-initially-rejected-by-a-publisher-180987807/",
+    "checked": "Drafted 1796 to 1797 as First Impressions; Cadell declined by return of post in 1797; published January 28, 1813."
+  },
+  {
+    "id": "g-08",
+    "kind": "writing",
+    "text": "After several publishers rejected Swann's Way, Marcel Proust had it published at his own expense in November 1913. It became the opening volume of one of the most famous novels ever written.",
+    "source": "https://britannica.com/topic/Swanns-Way",
+    "checked": "Rejected by Fasquelle, Ollendorff and the NRF; issued at the author's expense in November 1913; first part of In Search of Lost Time."
+  },
+  {
+    "id": "g-09",
+    "kind": "writing",
+    "text": "J.R.R. Tolkien was grading exam papers when he found a page a student had left blank. On it he wrote the first sentence of The Hobbit, years before the book came out in 1937.",
+    "source": "https://edwardwillett.com/?p=11457",
+    "checked": "Grading School Certificate papers; wrote the hobbit sentence on a blank page; book published fall 1937."
+  },
+  {
+    "id": "g-10",
+    "kind": "writing",
+    "text": "Margaret Mitchell wrote the last chapter of Gone with the Wind first and the rest in no particular order. She kept nearly seventy chapters in manila envelopes, and the novel won the Pulitzer Prize in 1937.",
+    "source": "https://www.georgiaencyclopedia.org/articles/arts-culture/margaret-mitchell-1900-1949/",
+    "checked": "Wrote the last chapter first, others in no particular order; nearly seventy chapters in manila envelopes; Pulitzer 1937."
+  },
+  {
+    "id": "g-11",
+    "kind": "writing",
+    "text": "Freewriting, a method championed by Peter Elbow, means writing without stopping to edit. Writing teachers also note that you do not have to start at the beginning; any section will do.",
+    "source": "https://en.wikipedia.org/wiki/Writer%27s_block",
+    "checked": "Remedies section: freewriting (Elbow) writing continuously without editing; no need to begin at the beginning; starting with another section."
+  },
+  {
+    "id": "g-12",
+    "kind": "writing",
+    "text": "The Pomodoro technique, often suggested for stuck writers, is simple: write for 25 minutes, then take a 5-minute break.",
+    "source": "https://en.wikipedia.org/wiki/Writer%27s_block",
+    "checked": "Remedies section: working in pieces, such as Pomodoro, 25 minutes of writing then a 5-minute break."
+  },
+  {
+    "id": "g-13",
+    "kind": "writing",
+    "text": "Writer's Digest puts most novels somewhere above 55,000 words, with novellas at roughly 30,000 to 50,000. Short stories can run anywhere from 1,500 words up to about 30,000.",
+    "source": "https://writersdigest.com/publishing/novel-and-short-story-word-counts",
+    "checked": "Short stories 1,500 to 30,000; novellas about 30,000 to 50,000; novels 55,000 to 300,000."
+  },
+  {
+    "id": "g-14",
+    "kind": "writing",
+    "text": "According to one literary agent quoted by Writer's Digest, a first novel is easiest to sell at 80,000 to 100,000 words.",
+    "source": "https://writersdigest.com/publishing/novel-and-short-story-word-counts",
+    "checked": "Agent Lori Perkins: first-time novels easier to market at 80,000 to 100,000 words."
+  },
+  {
+    "id": "g-15",
+    "kind": "writing",
+    "text": "Christopher Paolini began Eragon as a teenager, and his family self-published it through their home-based company. He gave more than 135 talks at bookshops, libraries and schools before Knopf republished it in 2003.",
+    "source": "https://en.wikipedia.org/wiki/Eragon",
+    "checked": "Started writing as a teen; self-published via Paolini International; over 135 talks on a year-long tour; Knopf edition August 26, 2003."
+  }
+]
