@@ -37,6 +37,10 @@ describe('the push coach', () => {
     const sixty = Array.from({ length: 60 }, (_, i) => noteIndex(i, 60));
     expect(sixty.every((v, i) => i === 0 || v >= sixty[i - 1]!)).toBe(true);
     expect(noteIndex(0, 1)).toBe(29);
+    // "Almost there" (tomorrow is the last day) is always the day before the last, whatever the length.
+    for (const n of [3, 9, 10, 30, 31, 60]) { expect(noteIndex(n - 2, n)).toBe(28); expect(noteIndex(n - 3, n)).toBeLessThan(28); }
+    // No note speaks of weeks or months, so any length reads true.
+    for (const nt of PUSH_NOTES) expect(`${nt.title} ${nt.body}`).not.toMatch(/\b(week|month)\b/i);
   });
 
   it('speaks only around a push, and not at all once turned off', () => {
