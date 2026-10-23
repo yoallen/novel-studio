@@ -1,4 +1,5 @@
 import { Pages } from './Pages';
+import { CoachCard } from './Coach';
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
@@ -71,6 +72,8 @@ export function Home({ ctx }: { ctx: Ctx }) {
       <BookLine ctx={ctx} />
 
       <SeedStart ctx={ctx} onPlanted={() => ctx.go('brain')} />
+
+      <CoachCard ctx={ctx} />
 
       <DraftingProgress ctx={ctx} />
 

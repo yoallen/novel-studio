@@ -880,3 +880,16 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .bring-item { padding: 0.4rem 0; border-bottom: 1px solid var(--line); }
 .bring-warn { color: var(--warn); font-weight: 600; }
 .bring-done .btn.link { padding: 0; }
+
+/* The push coach on Where was I's Today page. */
+.coach { border-left: 3px solid var(--struct, #522875); padding: 0.6rem 0 0.6rem 1rem; margin: 0 0 1.5rem; max-width: 68ch; }
+.coach h3 { margin: 0.1rem 0 0.35rem; }
+.coach-when { margin: 0; font-size: 0.8rem; color: var(--muted); }
+.coach-body { margin: 0 0 0.3rem; }
+.coach-from { margin: 0 0 0.5rem; font-size: 0.8rem; font-style: italic; color: var(--muted); }
+.coach-pace { margin: 0.4rem 0; }
+.coach-milestone { background: color-mix(in srgb, var(--accent, #ff1493) 8%, transparent); border-radius: 4px; padding: 0.5rem 0.7rem; margin: 0.3rem 0 0.6rem; }
+.coach-actions { margin-top: 0.4rem; }
+.coach-stuck { margin-top: 0.6rem; padding: 0.6rem 0.8rem; border: 1px solid var(--rule, #d8cfe0); border-radius: 4px; }
+.coach-stuck p { margin: 0.2rem 0; }
+.coach-question { font-style: italic; margin: 0.5rem 0 !important; }

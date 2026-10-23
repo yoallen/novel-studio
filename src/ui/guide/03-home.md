@@ -152,6 +152,10 @@ The two can look like the same thing, and they are not: a book can be at the sta
 
 On a novel with no characters yet, a card headed **Plant the seed** appears here. It asks six short questions (who the story is about, who they are, what they want, what stands in the way, what they stand to lose, and how it might end). Every answer is optional and goes in as **Developing**. **Plant it** makes your lead's record and opens the Story Brain; **Not now** puts the card away for good in this novel. The card is taught in full in [Plant the seed: six questions for a new novel](#plant-the-seed-six-questions-for-a-new-novel).
 
+## Where was I: the push coach
+
+During a writing push, and for two weeks before and one week after it, a coach sits above your drafting progress: the day of the push, a short note for the day, a milestone when you cross one, your pace in plain numbers, and an **I'm stuck** button that hands you the next scene to write. It is taught in full in [Goals: the push coach](#goals-the-push-coach).
+
 ## Where was I: drafting progress
 
 Below the stage row is your drafting progress. It can measure your days against a daily goal, or against a **writing push**: a stretch of days with a word target, such as November and 50,000 words. Both are set in **Settings**.

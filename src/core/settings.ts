@@ -86,6 +86,8 @@ export interface ProjectSettings {
   dayGoals: Record<string, number>;
   /** Door closed: through this day (YYYY-MM-DD), nothing judges the draft. null when the door is open. */
   doorClosedUntil: string | null;
+  /** The push coach on Where was I: a note for the day, milestones, pace help and the next scene when stuck. */
+  coach: boolean;
 }
 
 export const DEFAULT_RESERVED_MARKERS = ['Mine to write', 'Mine to build', 'Mine to design', 'Mine to choreograph', 'Mine to time', 'Mine to escalate', 'Mine to settle'];
@@ -113,6 +115,7 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
       ? Object.fromEntries(Object.entries(s.dayGoals).filter(([d, n]) => /^\d{4}-\d{2}-\d{2}$/.test(d) && Number.isFinite(n) && (n as number) >= 0)) as Record<string, number>
       : {},
     doorClosedUntil: typeof s.doorClosedUntil === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s.doorClosedUntil) ? s.doorClosedUntil : null,
+    coach: s.coach !== false,
   };
 }
 

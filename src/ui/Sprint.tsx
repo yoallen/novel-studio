@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { api } from './api';
 import { flushEditor } from './flush';
+import { recordSprint } from './Coach';
 
 // A sprint: a set stretch of focused writing. While it runs, the page is all there is: no binder, no
 // tabs, no notices, no word counts, no red underlines. Only a small clock in the corner, and Capture
@@ -92,10 +93,10 @@ export function SprintEnd({ projectId, sprint, kind, onKeepGoing, onDone, onAnot
     let alive = true;
     void (async () => {
       await flushEditor(); // the last words typed count
-      try { const r = await api.get(`/api/projects/${projectId}/words-since?at=${encodeURIComponent(sprint.startedAt)}`); if (alive) setWords(r.words); } catch { if (alive) setWords(null); }
+      try { const r = await api.get(`/api/projects/${projectId}/words-since?at=${encodeURIComponent(sprint.startedAt)}`); if (alive) setWords(r.words); recordSprint(projectId, kind === 'time' ? sprint.minutes : (Date.now() - Date.parse(sprint.startedAt)) / 60000, r.words); } catch { if (alive) setWords(null); }
     })();
     return () => { alive = false; };
-  }, [projectId, sprint.startedAt]);
+  }, [projectId, sprint.startedAt]); // eslint-disable-line react-hooks/exhaustive-deps
   const span = kind === 'time' ? `in ${sprint.minutes} minute${sprint.minutes === 1 ? '' : 's'}` : 'this sprint';
   const counted = words == null ? 'Counting…' : words > 0 ? `${words.toLocaleString()} word${words === 1 ? '' : 's'} ${span}.` : words < 0 ? `You cut ${(-words).toLocaleString()} words ${span}. That is writing too.` : 'Time with the page counts too.';
   return (

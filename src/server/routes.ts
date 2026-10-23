@@ -116,6 +116,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       watchWords: z.array(z.string().min(1).max(40)).max(100).optional(),
       importLabels: z.array(z.object({ label: z.string().min(1).max(80), status: z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']) })).max(80).optional(),
       doorClosedUntil: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),
+      coach: z.boolean().optional(),
     }).strict());
     return brain.updateSettings(params(req, P).id, b);
   });
@@ -304,6 +305,11 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const pid = params(req, P).id; brain.project(pid);
     const tz = z.object({ tz: z.string().max(64).optional() }).parse(req.query ?? {}).tz;
     return svc.progress.progress(pid, { tz });
+  });
+  app.get('/api/projects/:id/coach', async (req) => {
+    const pid = params(req, P).id; brain.project(pid);
+    const q = z.object({ tz: z.string().max(64).optional(), wpm: z.coerce.number().min(0).max(200).optional() }).parse(req.query ?? {});
+    return svc.coach.today(pid, { tz: q.tz, wpm: q.wpm ?? null });
   });
   app.get('/api/projects/:id/words-since', async (req) => {
     const pid = params(req, P).id; brain.project(pid);

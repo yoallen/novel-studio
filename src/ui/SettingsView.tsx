@@ -52,8 +52,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
       if (stages != null && stages !== orig.stages) { await api.patch('/api/author-profile', { stages: stages.split('\n').map((x) => x.trim()).filter(Boolean) }); setOrig((o) => ({ ...o, stages })); }
       if (about != null && JSON.stringify(about) !== orig.about) { await api.patch('/api/author-profile', { about: { ...about, asked: true } }); setOrig((o) => ({ ...o, about: JSON.stringify(about) })); }
       if (title.trim() && title !== ctx.project.title) await api.patch(`/api/projects/${ctx.projectId}`, { title });
-      const { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push, targetWords, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction } = s;
-      await api.patch(`/api/projects/${ctx.projectId}/settings`, { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push: push && push.start && push.end ? { ...push, words: push.words ? Number(push.words) : null } : null, targetWords: targetWords ? Number(targetWords) : null, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction });
+      const { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push, targetWords, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction, coach } = s;
+      await api.patch(`/api/projects/${ctx.projectId}/settings`, { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push: push && push.start && push.end ? { ...push, words: push.words ? Number(push.words) : null } : null, targetWords: targetWords ? Number(targetWords) : null, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction, coach: coach !== false });
       await ctx.refreshProject();
       setBase(JSON.stringify(s) + title);
       setSaved(`Saved at ${new Date().toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}.`);
@@ -160,6 +160,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
         </>) : (
           <button className="btn small" onClick={() => { const y = new Date().getMonth() === 11 ? new Date().getFullYear() + 1 : new Date().getFullYear(); setS({ ...s, push: { name: 'November', start: `${y}-11-01`, end: `${y}-11-30`, words: 50000 } }); }}>Plan a writing push</button>
         )}
+        <label className="row small" style={{ marginTop: '0.75rem', alignItems: 'baseline' }}><input type="checkbox" checked={s.coach !== false} onChange={(e) => setS({ ...s, coach: e.target.checked })} /> <span><b>Coach me through the push.</b> On Where was I, a note for each day of the push, the milestones as you reach them, and plain help when you are behind or stuck.</span></label>
       </section>
 
       <DoorSetting ctx={ctx} onError={setError} />

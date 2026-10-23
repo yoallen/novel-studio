@@ -2,6 +2,7 @@
 // Every route validates its input; errors never expose internals.
 
 import { Progress } from '../core/progress.js';
+import { Coach } from '../core/coach.js';
 import { StoryTime } from '../core/storytime.js';
 import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { existsSync, readFileSync, statSync } from 'node:fs';
@@ -73,6 +74,7 @@ export interface Services {
   books: Books;
   cast: Cast;
   progress: Progress;
+  coach: Coach;
   storytime: StoryTime;
   sync: Sync;
   roadNotes: RoadNotes;
@@ -98,12 +100,13 @@ export async function buildApp(opts: AppOptions): Promise<{ app: FastifyInstance
   const store = new Store(opts.dataPath);
   const brain = new Brain(store), ms = new Manuscript(store);
   const structure = new Structure(store, brain, ms), ripple = new Ripple(store, brain, ms, structure);
-  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, progress: new Progress(store, ms), storytime: new StoryTime(store, brain, ms), sync: null as unknown as Sync, roadNotes: null as unknown as RoadNotes, openNovel: () => null, hereNow: () => {}, opts, backupDir: () => opts.backupDir };
+  const services: Services = { store, brain, ms, desk: new WritingDesk(store, brain, ms), convs: new Conversations(store, brain), structure, ripple, zoom: new Zoom(store, brain, ms, structure, ripple), continuity: new Continuity(store, brain, ms, structure, ripple), ai: null as unknown as Collaborator, importer: null as unknown as Importer, exporter: null as unknown as Exporter, setup: null as unknown as Setup, lenses: null as unknown as Lenses, books: null as unknown as Books, cast: null as unknown as Cast, progress: new Progress(store, ms), coach: null as unknown as Coach, storytime: new StoryTime(store, brain, ms), sync: null as unknown as Sync, roadNotes: null as unknown as RoadNotes, openNovel: () => null, hereNow: () => {}, opts, backupDir: () => opts.backupDir };
   services.backupDir = () => {
     const r = store.db.prepare("SELECT value_json FROM settings WHERE key='backup_dir'").get() as { value_json: string } | undefined;
     const chosen = r ? (JSON.parse(r.value_json) as string) : '';
     return chosen || opts.backupDir;
   };
+  services.coach = new Coach(store, brain, structure, services.progress);
   services.cast = new Cast(store, brain, ms, structure, ripple, services.desk);
   services.books = new Books(store, brain, ms, services.desk);
   services.lenses = new Lenses(store, brain, ms, structure, services.continuity);
