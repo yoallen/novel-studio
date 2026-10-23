@@ -12,7 +12,7 @@ const words = (n: number) => Array.from({ length: n }, (_, i) => `w${i}`).join('
 const KINDS = [...PHASES, ...EVENTS];
 const LIB = {
   notes: KINDS.flatMap((k) => [1, 2, 3].map((i) => ({ id: `${k}-${i}`, kind: k, title: `${k} ${i}`, body: `A note for ${k}.` }))) as CoachNote[],
-  spotlights: (['writer', 'writing', 'fun'] as const).flatMap((k) => [1, 2, 3, 4].map((i) => ({ id: `${k[0]}-${i}`, kind: k, text: `${k} fact ${i}` }))) as Spotlight[],
+  spotlights: (['writer', 'writing', 'fun'] as const).flatMap((k) => [1, 2, 3, 4].map((i) => ({ id: `${k}-${i}`, kind: k, text: `${k} fact ${i}` }))) as Spotlight[],
 };
 
 function setup(push = { name: 'November', start: '2026-11-01', end: '2026-11-30', words: 50000 }, lib = LIB) {
@@ -100,6 +100,8 @@ describe('the push coach', () => {
     expect(env.brain.settings(pid).coachOwn).toEqual(['Finish the draft. Fix it later.']);
     const kinds = Array.from({ length: 12 }, (_, i) => (coach.today(pid, { tz: 'UTC', now: at(day('2026-11-08', i)) }) as any).note);
     expect(kinds.some((n) => n.kind === 'own' && n.body === 'Finish the draft. Fix it later.')).toBe(true);
+    // Far behind every day: the behind note takes only about one day in three.
+    expect(kinds.filter((n) => n.kind === 'behind').length).toBeLessThanOrEqual(4);
     // On another computer, the novel brings them.
     env.store.db.prepare("DELETE FROM settings WHERE key='coach_own'").run();
     expect(coach.ownNotes(pid)).toEqual(['Finish the draft. Fix it later.']);

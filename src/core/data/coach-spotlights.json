@@ -184,9 +184,9 @@
   {
     "id": "w-26",
     "kind": "writer",
-    "text": "Rainbow Rowell's Fangirl is one of the published novels that began as a National Novel Writing Month draft.",
-    "source": "https://www.mentalfloss.com/article/53481/14-published-novels-written-during-nanowrimo",
-    "checked": "Entry 6 lists Fangirl by Rainbow Rowell among published novels written during NaNoWriMo."
+    "text": "William Faulkner said he wrote As I Lay Dying in about six weeks while working nights at a power plant, writing from midnight to 4 a.m. on an overturned wheelbarrow he used as a table.",
+    "source": "https://www.mentalfloss.com/literature/books/6-facts-about-william-faulkners-i-lay-dying",
+    "checked": "Faulkner's own account: about six weeks, midnight to 4 a.m. at a Mississippi power plant, overturned wheelbarrow as a table."
   },
   {
     "id": "w-27",
@@ -415,7 +415,7 @@
   {
     "id": "g-08",
     "kind": "writing",
-    "text": "After several publishers rejected Swann's Way, Marcel Proust had it published at his own expense in November 1913. It became the opening volume of one of the most famous novels ever written.",
+    "text": "After several publishers rejected Swann's Way, Marcel Proust had it published at his own expense in November 1913. It became the first volume of In Search of Lost Time.",
     "source": "https://britannica.com/topic/Swanns-Way",
     "checked": "Rejected by Fasquelle, Ollendorff and the NRF; issued at the author's expense in November 1913; first part of In Search of Lost Time."
   },
@@ -436,9 +436,9 @@
   {
     "id": "g-11",
     "kind": "writing",
-    "text": "Freewriting, a method championed by Peter Elbow, means writing without stopping to edit. Writing teachers also note that you do not have to start at the beginning; any section will do.",
+    "text": "Freewriting, a method championed by Peter Elbow, means writing steadily without stopping to edit. Writing teachers also point out that you do not have to begin at the beginning; you can start with whatever section is ready.",
     "source": "https://en.wikipedia.org/wiki/Writer%27s_block",
-    "checked": "Remedies section: freewriting (Elbow) writing continuously without editing; no need to begin at the beginning; starting with another section."
+    "checked": "Remedies section: freewriting (Elbow), writing continuously without editing; no need to begin at the beginning; starting with a section other than the introduction."
   },
   {
     "id": "g-12",
@@ -467,5 +467,411 @@
     "text": "Christopher Paolini began Eragon as a teenager, and his family self-published it through their home-based company. He gave more than 135 talks at bookshops, libraries and schools before Knopf republished it in 2003.",
     "source": "https://en.wikipedia.org/wiki/Eragon",
     "checked": "Started writing as a teen; self-published via Paolini International; over 135 talks on a year-long tour; Knopf edition August 26, 2003."
+  },
+  {
+    "id": "g-16",
+    "kind": "writing",
+    "text": "In the 1800s the German writer Gustav Freytag mapped dramatic structure as a pyramid with five parts: exposition, rising action, climax, falling action and resolution.",
+    "source": "https://writers.com/freytags-pyramid",
+    "checked": "Freytag developed the pyramid in the 19th century; five elements listed as exposition, rising action, climax, falling action, resolution."
+  },
+  {
+    "id": "g-17",
+    "kind": "writing",
+    "text": "In the Poetics, Aristotle wrote that a complete plot has a beginning, a middle and an end. He defined each one simply by what comes before it and what follows it.",
+    "source": "https://sententiaeantiquae.com/2015/06/21/the-plot-has-beginning-middle-and-end-aristotle-poetics-1450b-1451a/",
+    "checked": "Translation of Poetics 1450b to 1451a defining beginning, middle and end by what precedes and follows."
+  },
+  {
+    "id": "g-18",
+    "kind": "writing",
+    "text": "Joseph Campbell described the hero's journey, a pattern of departure, initiation and return, in his 1949 book The Hero with a Thousand Faces. George Lucas drew on it when making Star Wars.",
+    "source": "https://en.wikipedia.org/wiki/The_Hero_with_a_Thousand_Faces",
+    "checked": "Published 1949; monomyth of departure, initiation and return; Lucas deliberately used it in Star Wars."
+  },
+  {
+    "id": "g-19",
+    "kind": "writing",
+    "text": "Christopher Vogler wrote a memo for Disney on using Campbell's hero's journey as a guide for scripts. He later expanded it into the book The Writer's Journey.",
+    "source": "https://en.wikipedia.org/wiki/The_Hero_with_a_Thousand_Faces",
+    "checked": "Influence section: Vogler's Disney memo, later developed into The Writer's Journey: Mythic Structure for Writers."
+  },
+  {
+    "id": "g-20",
+    "kind": "writing",
+    "text": "Blake Snyder's Save the Cat came out in 2005. The title refers to the early scene where the hero does something that makes us want to root for them, and his beat sheet lists 15 key story beats.",
+    "source": "https://en.wikipedia.org/wiki/Blake_Snyder",
+    "checked": "Book published 2005; Save the Cat names the scene where we meet the hero and like them; Beat Sheet with 15 beats."
+  },
+  {
+    "id": "g-21",
+    "kind": "writing",
+    "text": "Lisa Genova looked for an agent for over a year, then self-published Still Alice in 2007 and sold copies out of her car. An agent later sold it to Simon and Schuster, and it became a bestseller and an award-winning film.",
+    "source": "https://authorspublish.com/still-alice-a-self-publishing-success-story",
+    "checked": "Tried to find an agent for over a year; self-published 2007; sold from her car; agent sold it at auction to Simon & Schuster; NYT bestseller and Oscar-winning film."
+  },
+  {
+    "id": "g-22",
+    "kind": "writing",
+    "text": "Charles Dickens's first novel, The Pickwick Papers, came out in 20 monthly parts from 1836 to 1837. Each part was a slim booklet in a blue paper cover.",
+    "source": "https://www.smith.edu/libraries/libs/rarebook/exhibitions/dickens/4-pickwick-club.htm",
+    "checked": "Published in twenty monthly numbers April 1836 to November 1837 in printed blue paper wrappers."
+  },
+  {
+    "id": "g-23",
+    "kind": "writing",
+    "text": "Ralph Ellison spent about seven years, from 1945 to 1952, writing his first novel, Invisible Man. It won the National Book Award for Fiction in 1953.",
+    "source": "https://www.mentalfloss.com/literature/books/10-facts-about-ralph-ellisons-invisible-man",
+    "checked": "Seven-year stretch 1945 to 1952; first-time author; National Book Award 1953."
+  },
+  {
+    "id": "g-24",
+    "kind": "writing",
+    "text": "J.R.R. Tolkien worked on The Lord of the Rings for about a dozen years, from 1937 to 1949, fitting it around his lectures and research as an Oxford don.",
+    "source": "https://www.smithsonianmag.com/arts-culture/master-of-middle-earth-58177828/",
+    "checked": "Written over a dozen years beginning in 1937, completed 1949; Oxford don with little time of his own."
+  },
+  {
+    "id": "g-25",
+    "kind": "writing",
+    "text": "Randy Ingermanson's Snowflake Method starts with a single sentence about your story, then grows it into a paragraph, a page and finally a scene list. He notes a typical novel has around 100 scenes.",
+    "source": "https://www.authormedia.com/snowflake-method-with-randy-ingermanson/",
+    "checked": "Step one is a one-sentence summary; expands to paragraph, one-page and longer synopses, then scene list; typical novel around 100 scenes."
+  },
+  {
+    "id": "g-26",
+    "kind": "writing",
+    "text": "In a 1981 talk to the Ohio Arts Council, Toni Morrison said that if you find a book you really want to read and it does not exist yet, you must write it.",
+    "source": "https://quoteinvestigator.com/2018/07/16/unwritten/",
+    "checked": "Morrison's 1981 Ohio Arts Council remarks, reported by the Cincinnati Enquirer on September 27, 1981."
+  },
+  {
+    "id": "g-27",
+    "kind": "writing",
+    "text": "Toni Morrison was not the first to say it. In an 1833 letter, Benjamin Disraeli wrote that when he wanted to read a book, he wrote one.",
+    "source": "https://quoteinvestigator.com/2018/07/16/unwritten/",
+    "checked": "Disraeli letter to his sister Sarah, April 30, 1833, reporting he said that when he wants to read a book he writes one."
+  },
+  {
+    "id": "g-28",
+    "kind": "writing",
+    "text": "National Novel Writing Month started a Young Writers Program in 2004 that let students set their own word goals. In its first year it reached 150 classrooms and about 4,000 students.",
+    "source": "https://en.wikipedia.org/wiki/National_Novel_Writing_Month",
+    "checked": "Young Writers Program launched 2004 for K to 12; students set own goals; first year 150 classrooms and 4,000 students."
+  },
+  {
+    "id": "g-29",
+    "kind": "writing",
+    "text": "Getting stuck is nothing new. The term writer's block was first described clinically in 1947, and writers from Joseph Conrad to F. Scott Fitzgerald wrestled with it and still left us their books.",
+    "source": "https://en.wikipedia.org/wiki/Writer%27s_block",
+    "checked": "Edmund Bergler described the condition in 1947; Fitzgerald and Conrad listed among writers who struggled with it."
+  },
+  {
+    "id": "f-03",
+    "kind": "fun",
+    "text": "Kurt Vonnegut wrote a master's thesis arguing that stories have shapes you can draw on graph paper. The University of Chicago rejected it, reportedly because it was simple and looked like too much fun.",
+    "source": "https://www.openculture.com/2014/02/kurt-vonnegut-masters-thesis-rejected-by-u-chicago.html",
+    "checked": "Thesis rejected because it was so simple and looked like too much fun; stories have shapes drawn on graph paper."
+  },
+  {
+    "id": "f-04",
+    "kind": "fun",
+    "text": "Gadsby, a 1939 novel by Ernest Vincent Wright, runs over 50,000 words without a single letter e. To keep himself honest, he tied down the e key on his typewriter.",
+    "source": "https://www.todayifoundout.com/index.php/2012/05/the-novel-gadsby-has-50110-words-yet-none-of-them-contain-the-letter-e/",
+    "checked": "Over 50,000 words with no e; published 1939; disabled the e key by tying it down."
+  },
+  {
+    "id": "f-05",
+    "kind": "fun",
+    "text": "Georges Perec wrote a whole French novel, La Disparition, without the letter e. Its English translator managed to keep the same rule.",
+    "source": "https://www.todayifoundout.com/index.php/2012/05/the-novel-gadsby-has-50110-words-yet-none-of-them-contain-the-letter-e/",
+    "checked": "Mentions Perec's La Disparition avoiding e and the English translation keeping the restriction."
+  },
+  {
+    "id": "f-06",
+    "kind": "fun",
+    "text": "Dr. Seuss wrote Green Eggs and Ham after his editor bet him $50 that he could not write a good children's book using only 50 different words. He did it, and the book came out in 1960.",
+    "source": "https://en.wikipedia.org/wiki/Green_Eggs_and_Ham",
+    "checked": "Bennett Cerf bet $50 that he could not write a book with only 50 distinct words; published August 12, 1960."
+  },
+  {
+    "id": "f-07",
+    "kind": "fun",
+    "text": "There is a prize for the oddest book title of the year. The very first winner, in 1978, was Proceedings of the Second International Workshop on Nude Mice.",
+    "source": "https://csmonitor.com/Books/chapter-and-verse/2010/0329/The-Diagram-Prize-seeks-out-bizarre-book-titles",
+    "checked": "Diagram Prize first awarded 1978 to Proceedings of the Second International Workshop on Nude Mice."
+  },
+  {
+    "id": "f-08",
+    "kind": "fun",
+    "text": "The oddest book title prize for 2009 went to Crocheting Adventures with Hyperbolic Planes. One runner-up was What Kind of Bean Is This Chihuahua?",
+    "source": "https://csmonitor.com/Books/chapter-and-verse/2010/0329/The-Diagram-Prize-seeks-out-bizarre-book-titles",
+    "checked": "Winner Crocheting Adventures With Hyperbolic Planes; runners-up include What Kind of Bean Is This Chihuahua?"
+  },
+  {
+    "id": "f-09",
+    "kind": "fun",
+    "text": "The interrobang, a question mark and exclamation point squished into one mark, was dreamed up in 1962 by advertising man Martin Speckter. Bang was printers' slang for the exclamation point.",
+    "source": "https://en.wikipedia.org/wiki/Interrobang",
+    "checked": "Speckter, head of an ad agency, conceived it in 1962; name from interrogatio plus bang, printers' slang for the exclamation mark."
+  },
+  {
+    "id": "f-10",
+    "kind": "fun",
+    "text": "In 1968 some Remington typewriters came with an interrobang key, so typists could ask and shout at the same time.",
+    "source": "https://en.wikipedia.org/wiki/Interrobang",
+    "checked": "In 1968 some Remington typewriters had an interrobang key."
+  },
+  {
+    "id": "f-11",
+    "kind": "fun",
+    "text": "Japanese has a word, tsundoku, for buying books and letting them pile up unread. It blends a phrase for stacking things up for later with the word for reading.",
+    "source": "https://www.alphadictionary.com/blog/?p=1982",
+    "checked": "Defines tsundoku as buying books but never reading them; from tsunde-oku (pile up for later) and dokusho (reading books)."
+  },
+  {
+    "id": "f-12",
+    "kind": "fun",
+    "text": "The earliest known printing of the word nerd is in Dr. Seuss's If I Ran the Zoo from 1950, where it is one of his made-up creatures.",
+    "source": "https://www.gpb.org/news/2025/08/20/nerd-how-the-word-popularized-by-dr-seuss-went-geeky-insult-mainstream",
+    "checked": "Leading theory: first appeared in print in If I Ran the Zoo (1950), listed among invented creatures."
+  },
+  {
+    "id": "f-13",
+    "kind": "fun",
+    "text": "In the early 1800s, schoolchildren finished reciting the alphabet with the & symbol, treating it almost like a 27th letter.",
+    "source": "https://www.dictionary.com/e/ampersand/",
+    "checked": "Early-1800s schoolchildren ended their ABCs with the symbol, effectively the 27th member of the alphabet."
+  },
+  {
+    "id": "f-14",
+    "kind": "fun",
+    "text": "Children reciting the alphabet would end with and per se and, meaning and by itself. Said fast enough, it slurred into the word ampersand.",
+    "source": "https://www.dictionary.com/e/ampersand/",
+    "checked": "Students said and per se and; over time the phrase was slurred into ampersand."
+  },
+  {
+    "id": "f-15",
+    "kind": "fun",
+    "text": "Charles Dickens had a secret door at his house disguised as a bookcase, covered in fake book spines. One joke title was The Life of a Cat, in nine volumes.",
+    "source": "https://interestingliterature.com/2014/02/five-fascinating-facts-about-charles-dickens",
+    "checked": "Fact 1: secret bookcase door at Gad's Hill with fake spines including The Life of a Cat in 9 volumes."
+  },
+  {
+    "id": "f-16",
+    "kind": "fun",
+    "text": "The Oxford English Dictionary credits Charles Dickens with the first recorded uses of butter-fingers, slow-coach and whoosh.",
+    "source": "https://interestingliterature.com/2014/02/five-fascinating-facts-about-charles-dickens",
+    "checked": "Fact 4: OED credits Dickens with first recorded uses of butter-fingers, slow-coach, whoosh and others."
+  },
+  {
+    "id": "f-17",
+    "kind": "fun",
+    "text": "About 50 cats live at Ernest Hemingway's old home in Key West, and roughly half have extra toes. Each one is named after a famous person, a tradition Hemingway started.",
+    "source": "https://www.ripleys.com/stories/ernest-hemingways-cats",
+    "checked": "About 50 cats, about half polydactyl; each named after a famous person, a practice Hemingway started."
+  },
+  {
+    "id": "f-18",
+    "kind": "fun",
+    "text": "Lewis Carroll invented chortle by mixing chuckle and snort, and galumph by mixing gallop and triumphant.",
+    "source": "https://www.dictionary.com/e/words-invented-by-lewis-carroll/",
+    "checked": "Chortle, blend of chuckle and snort; galumph, blend of gallop and triumphant."
+  },
+  {
+    "id": "f-19",
+    "kind": "fun",
+    "text": "A portmanteau is a travel bag, and Lewis Carroll borrowed the word for blends like brunch and smog, where two words are packed into one.",
+    "source": "https://www.dictionary.com/e/words-invented-by-lewis-carroll/",
+    "checked": "Carroll applied portmanteau, a travel bag, to blended words such as brunch, smog and spork."
+  },
+  {
+    "id": "f-20",
+    "kind": "fun",
+    "text": "The little dot on top of a lowercase i or j has a name: it is called a tittle.",
+    "source": "https://en.wikipedia.org/wiki/Tittle",
+    "checked": "Lead: the tittle or superscript dot is the dot on top of lowercase i and j."
+  },
+  {
+    "id": "f-21",
+    "kind": "fun",
+    "text": "The phrase to a T may come from tittle. People said to a tittle long before to a T caught on.",
+    "source": "https://en.wikipedia.org/wiki/Tittle",
+    "checked": "To a T is thought to come from tittle, since to a tittle was used long before."
+  },
+  {
+    "id": "f-22",
+    "kind": "fun",
+    "text": "Horace Walpole coined serendipity in a 1754 letter, inspired by a fairy tale about three princes of Serendip who kept making happy accidental discoveries. Serendip was an old Persian name for Sri Lanka.",
+    "source": "https://en.wikipedia.org/wiki/Serendipity",
+    "checked": "Walpole letter of 28 January 1754; The Three Princes of Serendip; Serendip an old Persian name for Sri Lanka."
+  },
+  {
+    "id": "g-30",
+    "kind": "writing",
+    "text": "As a young teen, Stephen King hung his rejection slips on a nail in his bedroom wall. By 14 the nail could not hold them, so he swapped in a spike and kept writing. At 16, editors started adding encouraging notes.",
+    "source": "https://twowritingteachers.org/2007/09/06/on-writing/",
+    "checked": "Excerpt from On Writing: nail above record player, replaced by a spike at fourteen; at sixteen, encouraging handwritten notes such as one from Algis Budrys."
+  },
+  {
+    "id": "f-23",
+    "kind": "fun",
+    "text": "The Library of Congress is the largest library in the world, with more than 173 million items and about 838 miles of bookshelves.",
+    "source": "https://www.guinnessworldrecords.com/world-records/69173-largest-library",
+    "checked": "Record: Library of Congress, 173,731,463 items and approximately 838 miles of bookshelves as of November 2021."
+  },
+  {
+    "id": "f-24",
+    "kind": "fun",
+    "text": "The first Little Free Library was built in 2009 in Hudson, Wisconsin, by Todd Bol, using wood from his old garage door, as a tribute to his mother. By 2018 there were more than 75,000 of them in 88 countries.",
+    "source": "https://en.wikipedia.org/wiki/Todd_Bol",
+    "checked": "First library 2009 from old garage door wood, honoring his mother June; Hudson, Wisconsin; over 75,000 in 88 countries per 2018."
+  },
+  {
+    "id": "f-25",
+    "kind": "fun",
+    "text": "The word robot comes from a 1920 play by Karel Čapek. He first wanted to call his creations labori, but his brother Josef suggested roboti instead.",
+    "source": "https://www.sciencefriday.com/segments/the-origin-of-the-word-robot/",
+    "checked": "Coined in 1920 play R.U.R.; Čapek first considered labori; brother Josef suggested the final name."
+  },
+  {
+    "id": "f-26",
+    "kind": "fun",
+    "text": "Guinness lists Marcel Proust's In Search of Lost Time as the longest novel, at an estimated 9,609,000 characters. Plenty of time to get comfortable.",
+    "source": "https://guinnessworldrecords.com/world-records/longest-novel",
+    "checked": "Record: A la recherche du temps perdu, estimated 9,609,000 characters."
+  },
+  {
+    "id": "f-27",
+    "kind": "fun",
+    "text": "For Roald Dahl's 100th birthday, the Oxford English Dictionary added words tied to his books, including scrumdiddlyumptious, human bean and Oompa Loompa.",
+    "source": "https://www.atlasobscura.com/articles/6-new-entries-added-to-oxford-english-dictionary-in-honor-of-roald-dahl",
+    "checked": "Six entries added for Dahl's centenary, including scrumdiddlyumptious, human bean and Oompa Loompa."
+  },
+  {
+    "id": "f-28",
+    "kind": "fun",
+    "text": "The first author we know by name is Enheduanna, a priestess and poet in the ancient city of Ur. She was the daughter of King Sargon, who lived around 2300 B.C.",
+    "source": "https://www.livescience.com/worlds-first-author",
+    "checked": "First author known by name connected to an existing text; high priestess at Ur; daughter of Sargon (about 2334 to 2279 B.C.)."
+  },
+  {
+    "id": "f-29",
+    "kind": "fun",
+    "text": "The semicolon made its first known printed appearance in 1496, in a short book by Pietro Bembo printed in Venice by the Aldine Press.",
+    "source": "https://en.wikipedia.org/wiki/Aldine_Press",
+    "checked": "Bembo's De Aetna, February 1496, printed by the Aldine Press, credited with the first printed semicolon."
+  },
+  {
+    "id": "f-30",
+    "kind": "fun",
+    "text": "The same Venetian printer that gave us the printed semicolon also made the first italic type, and in 1501 it printed a Virgil set entirely in italics.",
+    "source": "https://en.wikipedia.org/wiki/Aldine_Press",
+    "checked": "Manutius and Griffo created the first italic; the 1501 Virgil was the first book printed entirely in italic."
+  },
+  {
+    "id": "f-31",
+    "kind": "fun",
+    "text": "Lorem ipsum, the fake Latin used as placeholder text, is a scrambled passage from Cicero. A Latin scholar traced it back to the source in 1994.",
+    "source": "https://en.wikipedia.org/wiki/Lorem_ipsum",
+    "checked": "Scrambled version of Cicero's De finibus; Richard McClintock published the connection in 1994."
+  },
+  {
+    "id": "f-32",
+    "kind": "fun",
+    "text": "Sea otters sometimes hold paws while they nap so they do not drift apart. Groups of them floating together are called rafts.",
+    "source": "https://dmns.org/catalyst/museum-stories/6-things-you-otter-know-about-otters/",
+    "checked": "Sea otters link paws so they don't drift apart while napping; groups called rafts."
+  },
+  {
+    "id": "f-33",
+    "kind": "fun",
+    "text": "Sea otters have little pouches of loose skin under their forelegs where they can tuck snacks or a favorite rock.",
+    "source": "https://dmns.org/catalyst/museum-stories/6-things-you-otter-know-about-otters/",
+    "checked": "Loose-skin pouches under forearms used to carry snacks or favorite rocks."
+  },
+  {
+    "id": "f-34",
+    "kind": "fun",
+    "text": "Bluetooth is named after Harald Bluetooth, a Viking-age king who united Denmark and Norway. The logo combines the runes for his initials, H and B.",
+    "source": "https://www.creativebloq.com/news/bluetooth-logo-secret",
+    "checked": "Named after Harald Bluetooth Gormsson who united Norway and Denmark; logo combines Nordic runes for H and B."
+  },
+  {
+    "id": "f-35",
+    "kind": "fun",
+    "text": "Agatha Christie said she used to work out plots while soaking in an old-fashioned tub, lining its rim with apple cores. She also did her thinking on walks and while washing dishes.",
+    "source": "https://quoteinvestigator.com/2017/07/31/plots/",
+    "checked": "1966 New York Times: plots in the tub, lining the rim with apple cores; also walking or washing up."
+  },
+  {
+    "id": "f-36",
+    "kind": "fun",
+    "text": "The most overdue library book on record was borrowed from a Cambridge college library around 1667 and returned in 1956, roughly 288 years late.",
+    "source": "https://en.wikipedia.org/wiki/List_of_returned_long-overdue_library_books",
+    "checked": "Sidney Sussex College book borrowed 1667 to 1668, returned 16 January 1956, Guinness record for most overdue library book."
+  },
+  {
+    "id": "f-37",
+    "kind": "fun",
+    "text": "George Washington borrowed a book from the New York Society Library and never brought it back. In 2010, 221 years later, Mount Vernon staff replaced it with a copy of the same edition.",
+    "source": "https://en.wikipedia.org/wiki/List_of_returned_long-overdue_library_books",
+    "checked": "The Law of Nations, New York Society Library, 221 years overdue, returned 20 May 2010; Mount Vernon offered a replacement copy of the same edition."
+  },
+  {
+    "id": "f-38",
+    "kind": "fun",
+    "text": "In 2021 a school library in Peterborough, England, got back a book called Manners Make a Difference, 32 years late, along with a sheepish apology note. The fine was waived.",
+    "source": "https://en.wikipedia.org/wiki/List_of_returned_long-overdue_library_books",
+    "checked": "Manners Make A Difference returned to St John Fisher Catholic High School, April 2021, 32 years overdue, with an apology note; fine waived."
+  },
+  {
+    "id": "f-39",
+    "kind": "fun",
+    "text": "An octopus has three hearts and blue blood. Its blood is blue because it uses copper, not iron, to carry oxygen.",
+    "source": "https://www.smithsonianmag.com/science-nature/ten-wild-facts-about-octopuses-they-have-three-hearts-big-brains-and-blue-blood-7625828/",
+    "checked": "Three hearts; hemocyanin with copper makes the blood appear blue."
+  },
+  {
+    "id": "f-40",
+    "kind": "fun",
+    "text": "About two-thirds of an octopus's neurons are in its arms, not its head, so each arm can act a bit on its own. And the accepted plural is octopuses.",
+    "source": "https://www.smithsonianmag.com/science-nature/ten-wild-facts-about-octopuses-they-have-three-hearts-big-brains-and-blue-blood-7625828/",
+    "checked": "Roughly two-thirds of neurons in the arms, allowing semi-independent action; octopuses is the generally accepted plural."
+  },
+  {
+    "id": "f-41",
+    "kind": "fun",
+    "text": "The Oxford comma, the comma before and in a list, gets its name from Oxford University Press, which made it house style. It is also called the Harvard comma.",
+    "source": "https://en.wikipedia.org/wiki/Serial_comma",
+    "checked": "Called the Oxford comma because of Oxford University Press house style; also Harvard comma via Harvard University Press."
+  },
+  {
+    "id": "f-42",
+    "kind": "fun",
+    "text": "A missing comma once cost a Maine dairy $5 million. A state law's list had no serial comma, a court found it ambiguous, and the company settled with its delivery drivers over overtime pay.",
+    "source": "https://en.wikipedia.org/wiki/Serial_comma",
+    "checked": "O'Connor v. Oakhurst Dairy: wording without serial comma ruled ambiguous; Oakhurst settled for $5 million."
+  },
+  {
+    "id": "f-43",
+    "kind": "fun",
+    "text": "The paragraph mark, called a pilcrow, began as a C for the Latin word for little head. Scribes left blank spaces for it to be added later in red ink, and sometimes it never got filled in.",
+    "source": "https://www.smithsonianmag.com/arts-culture/the-origin-of-the-pilcrow-aka-the-strange-paragraph-symbol-8610683/",
+    "checked": "By the 12th century scribes used a C from capitulum; spaces left for rubricators who filled them in red; sometimes left empty."
+  },
+  {
+    "id": "f-44",
+    "kind": "fun",
+    "text": "Melvil Dewey was a college student working in the Amherst library when he came up with his system for shelving books. He reportedly worked it out during a long Sunday sermon.",
+    "source": "https://massmoments.org/moment-details/dewey-proposes-library-classification-system.html",
+    "checked": "Junior at Amherst working in the library in 1873; reportedly reached his solution during a long Sunday sermon."
+  },
+  {
+    "id": "f-45",
+    "kind": "fun",
+    "text": "Mark Twain's Life on the Mississippi was the first book sent to a publisher as a typewritten manuscript. Twain did not type it himself; someone typed it from his handwritten pages.",
+    "source": "https://en.wikipedia.org/wiki/Life_on_the_Mississippi",
+    "checked": "Background: first submitted to a publisher as a typewritten manuscript; Twain did not use the typewriter himself, a secretary typed from his manuscript."
   }
 ]

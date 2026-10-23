@@ -59,6 +59,12 @@ export function pick<T extends { id: string }>(items: T[], lastSeen: Map<string,
   })[0]!;
 }
 
+/** When a phase has shown every note it has in this push, the phases beside it lend theirs, nearest first. */
+const NEIGHBORS: Record<string, string[]> = {
+  early: ['slump', 'middle'], slump: ['early', 'middle'], middle: ['pressure', 'slump'], pressure: ['middle', 'dark'],
+  dark: ['pressure', 'home'], home: ['dark', 'pressure'], before: [], after: [], start: ['early'], almost: ['home'], last: ['almost'],
+};
+
 const fmt = (n: number) => n.toLocaleString('en-US');
 interface LogEntry { project: string; day: string; note: string; spot: string | null }
 
@@ -113,13 +119,14 @@ export class Coach {
       else if (yesterday && yesterday.words <= 0 && !(yesterday.set && yesterday.goal === 0) && past.some((d) => d.words > 0)) kind = 'comeback';
       else if (yesterday && past.length >= 2 && yesterday.words > 0 && past.slice(0, -1).every((d) => d.words < yesterday.words)) kind = 'bigday';
       else if (r.streak >= 7 && r.streak % 7 === 0 && r.todayWords <= 0) kind = 'streak';
-      else if (r.behind != null && evenPace > 0 && r.behind > 3 * evenPace) kind = 'behind';
-      else if (r.behind != null && evenPace > 0 && -r.behind > 3 * evenPace) kind = 'ahead';
+      // Being far behind or far ahead can last for days; it takes about one day in three, so the rest of the coach still speaks.
+      else if (dayNo! % 3 === 0 && r.behind != null && evenPace > 0 && r.behind > 3 * evenPace) kind = 'behind';
+      else if (dayNo! % 3 === 0 && r.behind != null && evenPace > 0 && -r.behind > 3 * evenPace) kind = 'ahead';
       // The first and last days always keep their own notes.
       if (calendar === 'start' || calendar === 'last' || !this.library.notes.some((n) => n.kind === kind)) kind = calendar;
     }
 
-    const { note, spotlight } = this.choose(projectId, r.today, kind);
+    const { note, spotlight } = this.choose(projectId, r.today, kind, calendar, r.start);
     const head = { ...base, kind, note, spotlight, where: this.where(projectId) };
 
     if (phase === 'before') return { ...head, phase: 'before' as const, daysUntil: daysBetween(r.today, r.start), milestone: null, next: null, pace: null, stuck: this.stuck(projectId) };
@@ -149,7 +156,7 @@ export class Coach {
   }
 
   /** Today's note and line. Chosen once a day and kept, so the page says the same thing all day. */
-  private choose(projectId: string, day: string, kind: string): { note: CoachNote; spotlight: Spotlight | null } {
+  private choose(projectId: string, day: string, kind: string, calendar: string, pushStart: string): { note: CoachNote; spotlight: Spotlight | null } {
     const log = this.log();
     const byId = new Map(this.library.notes.map((n) => [n.id, n]));
     const own = this.ownNotes(projectId).map((text) => ({ id: `own-${hash(text).toString(36)}`, kind: 'own', title: 'In your own words', body: text } as CoachNote));
@@ -166,12 +173,27 @@ export class Coach {
     const ordinary = PHASES.includes(kind as never) && kind !== 'start' && kind !== 'last';
     let note: CoachNote | null = null;
     if (own.length && ordinary && ordinal % 4 === 3) note = pick(own, lastSeen, projectId);
+    // Something not yet seen in this push: the day's own kind first; an event that has used up its notes in this push
+    // gives way to the calendar; a phase that has used up its notes borrows from the phases beside it.
+    const freshThisPush = (n: { id: string }) => { const k = lastSeen.get(n.id); return !k || k.slice(0, 10) < pushStart || !k.endsWith(`:${projectId}`); };
+    const order = [kind, ...(kind !== calendar ? [calendar] : []), ...(NEIGHBORS[calendar] ?? [])];
+    for (const k of order) {
+      if (note) break;
+      const fresh = this.library.notes.filter((n) => n.kind === k && freshThisPush(n));
+      if (fresh.length) note = pick(fresh, lastSeen, projectId);
+    }
     note ??= pick(this.library.notes.filter((n) => n.kind === kind), lastSeen, projectId) ?? pick(this.library.notes, lastSeen, projectId)!;
 
     // The line under it: just for fun on rest days, after a big day, and every third day; otherwise writers, then writing.
     const fun = kind === 'restday' || kind === 'bigday' || ordinal % 3 === 2;
     const spotKind: Spotlight['kind'] = fun ? 'fun' : ordinal % 3 === 1 ? 'writing' : 'writer';
-    const spotlight = pick(this.library.spotlights.filter((s) => s.kind === spotKind), lastSeen, projectId) ?? pick(this.library.spotlights, lastSeen, projectId);
+    const spotOrder: Spotlight['kind'][] = [spotKind, ...(['writer', 'writing', 'fun'] as const).filter((k) => k !== spotKind)];
+    let spotlight: Spotlight | null = null;
+    for (const k of spotOrder) {
+      const fresh = this.library.spotlights.filter((x) => x.kind === k && freshThisPush(x));
+      if (fresh.length) { spotlight = pick(fresh, lastSeen, projectId); break; }
+    }
+    spotlight ??= pick(this.library.spotlights.filter((x) => x.kind === spotKind), lastSeen, projectId) ?? pick(this.library.spotlights, lastSeen, projectId);
 
     log.push({ project: projectId, day, note: note.id, spot: spotlight?.id ?? null });
     this.put('coach_log', log.slice(-3000));
