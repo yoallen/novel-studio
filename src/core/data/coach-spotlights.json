@@ -30,9 +30,9 @@
   {
     "id": "w-05",
     "kind": "writer",
-    "text": "As the story goes, Harper Lee got so frustrated with To Kill a Mockingbird that she tossed the manuscript out a window into the snow. Her agent told her to go get it. The book was published in 1960 and won the Pulitzer Prize.",
-    "source": "https://www.goodreads.com/blog/show/1160-5-famous-books-saved-from-the-dumpster",
-    "checked": "Item 5: Lee threw the manuscript out a window into snow; agent reportedly told her to retrieve it; published 1960, Pulitzer the next year."
+    "text": "As the story goes, Harper Lee got so frustrated with To Kill a Mockingbird that she tossed the manuscript out a window into the snow. She called her editor, Tay Hohoff, who told her to go outside and pick up the pages. The book came out in 1960 and won the Pulitzer Prize.",
+    "source": "https://en.wikipedia.org/wiki/Tay_Hohoff",
+    "checked": "Per Shields biography as cited: Lee threw the manuscript out the window into the snow, called Hohoff in tears, and was told to go pick up the pages. Published 1960; Pulitzer 1961."
   },
   {
     "id": "w-06",
@@ -44,9 +44,9 @@
   {
     "id": "w-07",
     "kind": "writer",
-    "text": "Maya Angelou rented a hotel room for months at a time just to write in. She arrived early each morning with a yellow pad, pens, a dictionary, a thesaurus and a Bible.",
-    "source": "https://famouswritingroutines.com/writing-routines/maya-angelou-writing-routine/",
-    "checked": "Hotel room rented for months, early morning arrival, armed with thesaurus, dictionary, Bible, yellow pad and pens."
+    "text": "Maya Angelou kept a hotel room just for writing, renting it for a few months at a time. She left home at six, tried to be at work by six thirty, and asked that everything be taken off the walls.",
+    "source": "https://theparisreview.org/interviews/2279/the-art-of-fiction-no-119-maya-angelou",
+    "checked": "Paris Review Art of Fiction No. 119: rents a hotel room for a few months, leaves home at six, at work by six-thirty, everything taken off the walls."
   },
   {
     "id": "w-08",
@@ -86,16 +86,16 @@
   {
     "id": "f-01",
     "kind": "fun",
-    "text": "Anthony Trollope wrote dozens of novels and also had a hand in bringing the pillar box, the freestanding street post box, to Britain. The first ones were tried out on the island of Jersey in 1854.",
-    "source": "https://interestingliterature.com/2015/04/five-fascinating-facts-about-anthony-trollope/",
-    "checked": "Post Office fact: introduced the pillar box to Britain, trialled on Jersey in 1854."
+    "text": "Anthony Trollope wrote dozens of novels and also helped bring the pillar box, the freestanding street post box, to Britain. The first ones went into use on the island of Jersey in 1852.",
+    "source": "https://en.wikipedia.org/wiki/Pillar_box",
+    "checked": "Hill sent Trollope to the Channel Islands; first Jersey pillar boxes in public use 23 November 1852; mainland Britain 1853."
   },
   {
     "id": "w-13",
     "kind": "writer",
     "text": "Kazuo Ishiguro drafted nearly all of The Remains of the Day in about four weeks. He wrote freehand six days a week and let clumsy sentences stand so he could keep moving, then spent more time shaping it afterward.",
-    "source": "https://boingboing.net/2014/12/24/how-kazuo-ishiguro-wrote-rem.html",
-    "checked": "Describes the four-week Crash: six days a week, freehand, no revising as he went, near-complete draft written up properly later."
+    "source": "https://thebookerprizes.com/the-booker-library/features/how-kazuo-ishiguro-wrote-the-remains-of-the-day",
+    "checked": "Ishiguro's own account: the four-week Crash, 9am to 10.30pm Monday through Saturday, wrote freehand, let awful sentences remain, more or less the entire novel down, then more time to write it up properly."
   },
   {
     "id": "w-14",
@@ -121,9 +121,9 @@
   {
     "id": "w-17",
     "kind": "writer",
-    "text": "J.K. Rowling first pictured Harry Potter on a delayed train in 1990. Twelve publishers turned the book down before Bloomsbury took it, after the head of the company gave the manuscript to his eight-year-old daughter, who loved it.",
-    "source": "https://www.leonardoenglish.com/podcasts/publishing-harry-potter",
-    "checked": "Idea on delayed train in summer 1990; first 12 publishers rejected it; Nigel Newton's 8-year-old daughter Alice read it."
+    "text": "J.K. Rowling got the idea for Harry Potter on a train trip in 1990. Her agent spent a year sending the book to publishers who passed before Bloomsbury took it, after the chief executive's eight-year-old daughter read it and loved it.",
+    "source": "https://en.wikipedia.org/wiki/Harry_Potter_and_the_Philosopher%27s_Stone",
+    "checked": "Idea came on a 1990 train to London; second agent spent a year trying to sell it, most publishers thought it too long; Bloomsbury chief executive's eight-year-old daughter praised it."
   },
   {
     "id": "w-18",
@@ -142,16 +142,16 @@
   {
     "id": "w-20",
     "kind": "writer",
-    "text": "Hugh Howey was working in a bookstore when he self-published Wool as a short story. Readers wanted more, so he wrote four more stories, and together they became a full novel.",
+    "text": "Hugh Howey was helping manage a bookstore when he self-published Wool as a short story. Sales took off, so he wrote four more stories, and together they became a full novel.",
     "source": "https://techcrunch.com/2014/05/19/hugh-howey-author-of-the-silo-saga-talks-about-making-it-big-in-self-publishing",
-    "checked": "Worked at a bookstore; Wool self-published as a short story; four more stories expanded it into a novel; sales grew by word of mouth."
+    "checked": "Howey helped manage a bookstore; career took off with the short story Wool; sales rose quickly; he wrote four more stories that turned it into a full novel."
   },
   {
     "id": "w-21",
     "kind": "writer",
-    "text": "Beverly Jenkins worked full-time at the Michigan State University library and started writing romance for fun. Her first novel, Night Song, came out in 1994, and in 2017 she received a lifetime achievement award from Romance Writers of America.",
+    "text": "Beverly Jenkins started writing romance novels for fun while working at a reference desk, and she also worked in the Michigan State University library. Her first novel, Night Song, came out in 1994, and in 2017 she received a lifetime achievement award from Romance Writers of America.",
     "source": "https://en.wikipedia.org/wiki/Beverly_Jenkins",
-    "checked": "MSU library circulation job; began writing romance for fun; Night Song, Avon, 1994; 2017 RWA Nora Roberts Lifetime Achievement Award."
+    "checked": "Began writing romance for fun while at Parke Davis reference desk in Ypsilanti; worked in MSU library circulation; Night Song, Avon, 1994; 2017 RWA Nora Roberts Lifetime Achievement Award."
   },
   {
     "id": "w-22",
@@ -191,9 +191,9 @@
   {
     "id": "w-27",
     "kind": "writer",
-    "text": "After New York publishers passed on his first novel, E. Lynn Harris printed 5,500 copies of Invisible Life himself and sold them from the trunk of his car at beauty salons, bookstores and book clubs. Once he had sold 10,000 copies, Doubleday signed him.",
+    "text": "After New York publishers passed on his first novel, E. Lynn Harris put out 5,500 copies of Invisible Life through his own small press and sold them from the trunk of his car at beauty salons, bookstores and book clubs. Once he had sold 10,000 copies, Doubleday signed him.",
     "source": "https://www.encyclopedia.com/books/culture-magazines/harris-e-lynn",
-    "checked": "Formed Consortium Press, printed 5,500 copies in 1991, sold from car trunk at salons, bookstores, book clubs; signed with Doubleday after ten thousand copies."
+    "checked": "Created his own Consortium Press; 5,500 copies printed December 1991; sold from car trunk at salons, bookstores, book clubs; Doubleday signed him after ten thousand copies."
   },
   {
     "id": "w-28",
@@ -282,9 +282,9 @@
   {
     "id": "w-40",
     "kind": "writer",
-    "text": "Facing a contract deadline in 1866, Fyodor Dostoevsky dictated The Gambler to a 19-year-old stenographer, Anna Snitkina. With her help he finished on time, and Anna later became his wife.",
+    "text": "Facing a contract deadline in 1866, Fyodor Dostoevsky dictated The Gambler to a young stenographer, Anna Snitkina. With her help he finished on time, and Anna later became his wife.",
     "source": "https://en.wikipedia.org/wiki/The_Gambler_(novel)",
-    "checked": "Background: deadline of 1 November 1866 under Stellovsky contract; dictated to 19-year-old Anna Snitkina; finished in time; she later became his wife."
+    "checked": "Deadline of 1 November 1866 under Stellovsky contract; dictated to Anna Snitkina; finished in time; she later became his wife. Age removed because sources differ (19 vs 20)."
   },
   {
     "id": "w-41",
@@ -357,13 +357,6 @@
     "checked": "1955 Paris Review claim of no more than eleven days at a time; isolated, uninterrupted work; 76 Maigrets published."
   },
   {
-    "id": "f-02",
-    "kind": "fun",
-    "text": "Georges Simenon wrote novels so quickly that when Alfred Hitchcock phoned and heard Simenon had just started a new one, Hitchcock simply said he would wait.",
-    "source": "https://harpers.org/archive/2019/08/georges-simenon-maigret-novels",
-    "checked": "Anecdote: told Simenon had started a new novel, Hitchcock replied that he would wait."
-  },
-  {
     "id": "g-01",
     "kind": "writing",
     "text": "National Novel Writing Month began in July 1999 in the San Francisco Bay Area with just 21 participants. The next year it moved to November to make the most of the gloomy weather.",
@@ -402,8 +395,8 @@
     "id": "g-06",
     "kind": "writing",
     "text": "In On Writing, Stephen King offers a simple revision formula: the second draft equals the first draft minus 10 percent.",
-    "source": "https://alexisgrant.com/2009/12/23/stephen-kings-on-writing/",
-    "checked": "Post quotes King's formula, 2nd draft = 1st draft minus 10 percent."
+    "source": "https://law.marquette.edu/facultyblog/2011/10/stephen-king-on-writing/",
+    "checked": "Quotes the note King kept by his typewriter, as told in On Writing: 2nd Draft = 1st Draft minus 10%."
   },
   {
     "id": "g-07",
@@ -423,8 +416,8 @@
     "id": "g-09",
     "kind": "writing",
     "text": "J.R.R. Tolkien was grading exam papers when he found a page a student had left blank. On it he wrote the first sentence of The Hobbit, years before the book came out in 1937.",
-    "source": "https://edwardwillett.com/?p=11457",
-    "checked": "Grading School Certificate papers; wrote the hobbit sentence on a blank page; book published fall 1937."
+    "source": "https://www.tes.com/magazine/archive/hobbit-forming",
+    "checked": "Marking exam scripts in the 1930s, Tolkien found a blank page and wrote the hobbit sentence on it; The Hobbit published autumn 1937."
   },
   {
     "id": "g-10",
@@ -548,9 +541,9 @@
   {
     "id": "g-27",
     "kind": "writing",
-    "text": "Toni Morrison was not the first to say it. In an 1833 letter, Benjamin Disraeli wrote that when he wanted to read a book, he wrote one.",
+    "text": "Toni Morrison was not the first with the idea. In an 1833 letter, Benjamin Disraeli recounted a dinner conversation where the same thought came up: when you want to read a book, write one.",
     "source": "https://quoteinvestigator.com/2018/07/16/unwritten/",
-    "checked": "Disraeli letter to his sister Sarah, April 30, 1833, reporting he said that when he wants to read a book he writes one."
+    "checked": "Disraeli letter to his sister Sarah, April 30, 1833, recounting a conversation in which the line about writing a book when you want to read one came up (framed via Dr Johnson)."
   },
   {
     "id": "g-28",
@@ -660,9 +653,9 @@
   {
     "id": "f-16",
     "kind": "fun",
-    "text": "The Oxford English Dictionary credits Charles Dickens with the first recorded uses of butter-fingers, slow-coach and whoosh.",
-    "source": "https://interestingliterature.com/2014/02/five-fascinating-facts-about-charles-dickens",
-    "checked": "Fact 4: OED credits Dickens with first recorded uses of butter-fingers, slow-coach, whoosh and others."
+    "text": "In 2012 linguist David Crystal counted 252 words whose first recorded use in the Oxford English Dictionary came from Charles Dickens, including slow-coach and whoosh.",
+    "source": "https://www.goodreads.com/author_blog_posts/2570061-on-first-recorded-usages-in-dickens?tab=book",
+    "checked": "David Crystal blog post, June 2012: 252 words with OED first recorded use in Dickens, including slow-coach (Pickwick, 1837) and whoosh (Letters, 1856). Butter-fingers removed because earlier uses have since been found."
   },
   {
     "id": "f-17",
@@ -765,16 +758,16 @@
   {
     "id": "f-30",
     "kind": "fun",
-    "text": "The same Venetian printer that gave us the printed semicolon also made the first italic type, and in 1501 it printed a Virgil set entirely in italics.",
+    "text": "The same Venetian printer that gave us the printed semicolon also made the first italic type, and in 1501 it printed a Virgil that was the first book set in italic.",
     "source": "https://en.wikipedia.org/wiki/Aldine_Press",
-    "checked": "Manutius and Griffo created the first italic; the 1501 Virgil was the first book printed entirely in italic."
+    "checked": "Aldine Press first used italic in 1500; the 1501 Virgil was the first book printed in italic type."
   },
   {
     "id": "f-31",
     "kind": "fun",
-    "text": "Lorem ipsum, the fake Latin used as placeholder text, is a scrambled passage from Cicero. A Latin scholar traced it back to the source in 1994.",
+    "text": "Lorem ipsum, the fake Latin used as placeholder text, is a scrambled passage from Cicero. A Latin scholar, Richard McClintock, published the link to its source in 1994.",
     "source": "https://en.wikipedia.org/wiki/Lorem_ipsum",
-    "checked": "Scrambled version of Cicero's De finibus; Richard McClintock published the connection in 1994."
+    "checked": "Derived from De finibus 1.10.32 to 1.10.33; McClintock's explanation first published in 1994 in a letter to Before and After magazine."
   },
   {
     "id": "f-32",
