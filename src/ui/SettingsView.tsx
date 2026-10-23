@@ -161,6 +161,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
           <button className="btn small" onClick={() => { const y = new Date().getMonth() === 11 ? new Date().getFullYear() + 1 : new Date().getFullYear(); setS({ ...s, push: { name: 'November', start: `${y}-11-01`, end: `${y}-11-30`, words: 50000 } }); }}>Plan a writing push</button>
         )}
         <label className="row small" style={{ marginTop: '0.75rem', alignItems: 'baseline' }}><input type="checkbox" checked={s.coach !== false} onChange={(e) => setS({ ...s, coach: e.target.checked })} /> <span><b>Coach me through the push.</b> On Where was I, a note for each day of the push, the milestones as you reach them, and plain help when you are behind or stuck.</span></label>
+        <OwnCoachNotes ctx={ctx} />
       </section>
 
       <DoorSetting ctx={ctx} onError={setError} />
@@ -352,6 +353,31 @@ function BackupPlace({ onMsg, onError }: { onMsg: (m: string) => void; onError: 
         {loc.chosen && <button className="btn link small" onClick={() => void use(null)}>Back to the usual place</button>}
       </div>
       <p className="small faint" style={{ margin: '0.3rem 0 0.8rem' }}>A second drive, a USB stick or a synced folder such as OneDrive keeps a copy safe even if this computer is not.</p>
+    </div>
+  );
+}
+
+/** Her own notes for the push coach: one per line. They mix in with the coach's notes, about one ordinary day in four. */
+function OwnCoachNotes({ ctx }: { ctx: Ctx }) {
+  const [text, setText] = useState<string | null>(null);
+  const [saved, setSaved] = useState('');
+  const [msg, setMsg] = useState('');
+  useEffect(() => { api.get(`/api/projects/${ctx.projectId}/coach/own-notes`).then((r) => { const t = r.notes.join('\n'); setText(t); setSaved(t); }).catch(() => setText('')); }, [ctx.projectId]);
+  if (text == null) return null;
+  async function save() {
+    const r = await api.put(`/api/projects/${ctx.projectId}/coach/own-notes`, { notes: (text ?? '').split('\n') });
+    const t = r.notes.join('\n'); setText(t); setSaved(t);
+    setMsg(r.notes.length ? `Saved. ${r.notes.length === 1 ? 'Your note' : `Your ${r.notes.length} notes`} will mix in with the coach's.` : 'Saved. The coach will use only its own notes.');
+  }
+  return (
+    <div className="field" style={{ marginTop: '0.75rem' }}>
+      <span><b>Your own notes for the coach</b></span>
+      <p className="small muted" style={{ margin: '0.15rem 0 0.35rem' }}>One per line. A line that keeps you going, something a mentor told you, why this book matters. They mix in with the coach's notes on ordinary days, and they come with this novel to your other computer.</p>
+      <textarea rows={4} value={text} onChange={(e) => { setText(e.target.value); setMsg(''); }} aria-label="Your own notes for the coach" placeholder="For example: Finish the draft. Fix it later." />
+      <div className="row small" style={{ marginTop: '0.35rem' }}>
+        <button className="btn small" disabled={text === saved} onClick={() => void save()}>Save my notes</button>
+        {msg && <span className="muted" role="status">{msg}</span>}
+      </div>
     </div>
   );
 }

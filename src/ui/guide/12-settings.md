@@ -178,7 +178,7 @@ A **writing push** is a stretch of days with a word goal of its own, such as Nov
 1. On page **2 Goals and November**, under the heading **A writing push**, click **Plan a writing push**.
 2. Four boxes appear, already filled in for the coming November and 50,000 words: **Name it**, **First day**, **Last day** and **Words to write in it**. Change any of them.
 3. A line works out the daily share, for example: "That is about 1,667 words a day for 30 days." It goes on to say that this is your daily goal on those days only (your everyday goal applies the rest of the time), that if a day comes up short the difference is shared by the days after it, and that on Where was I you can set a lighter day or a rest day ahead of time.
-4. Leave **Coach me through the push** ticked if you want the push coach on Where was I: a note for each day, the milestones as you reach them, and plain help when you are behind or stuck. Untick it to work without the coach. See [Goals: the push coach](#goals-the-push-coach).
+4. Leave **Coach me through the push** ticked if you want the push coach on Where was I: a note for each day, the milestones as you reach them, and plain help when you are behind or stuck. Untick it to work without the coach. Under it, **Your own notes for the coach** takes notes of your own, one per line; click **Save my notes**. See [Goals: the push coach](#goals-the-push-coach).
 5. Press **Save settings**.
 
 To remove the push, click **No push** and press **Save settings**.

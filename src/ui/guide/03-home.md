@@ -154,7 +154,7 @@ On a novel with no characters yet, a card headed **Plant the seed** appears here
 
 ## Where was I: the push coach
 
-During a writing push, and for two weeks before and one week after it, a coach sits above your drafting progress: the day of the push, a short note for the day, a milestone when you cross one, your pace in plain numbers, and an **I'm stuck** button that hands you the next scene to write. It is taught in full in [Goals: the push coach](#goals-the-push-coach).
+During a writing push, and for two weeks before and one week after it, a coach sits above your drafting progress: the day of the push, a short note for the day, a line about a writer, about writing or just for fun, where your next scene sits in the book, a milestone when you cross one, your pace in plain numbers, and an **I'm stuck** button that hands you the next scene to write. It is taught in full in [Goals: the push coach](#goals-the-push-coach).
 
 ## Where was I: drafting progress
 

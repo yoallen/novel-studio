@@ -136,27 +136,39 @@ For a week after the last day, the panel says *November is done: 51,204 words of
 
 ## Goals: the push coach
 
-**What it is.** During a writing push, the **Today** page of Where was I carries a coach: a short section above your drafting progress that helps you through the push, not just counts it. Tracking tells you where you are. The coach helps you keep going.
+**What it is.** During a writing push, the **Today** page of Where was I carries a coach: a short section above your drafting progress that helps you through the push, not just counts it. Tracking tells you where you are. The coach helps you keep going. It works for a push of any length, from a few days to a year.
 
 **What it shows.**
 
 - **The day:** *Day 9 of 30*, or before the push, *November starts in 5 days*.
-- **A note for the day.** A heading and a few sentences that fit where you are in the push. Day 1 is about starting messy. A few days in comes a note for the slump almost everyone feels once the excitement fades. The last days are about finishing. Where a note teaches a craft idea, a line under it credits the teacher it comes from, such as *From Stephen King, On Writing.* The notes are written in Story Canon's own words; nothing is quoted.
-- **A milestone** when you cross one: the first tenth of your goal, a quarter, halfway, three quarters, ninety percent, and the goal itself. Each says what that point means for the book, not just "well done." A milestone stays on the page the day after, so you don't miss it.
+- **A note for the day.** A heading and a few sentences, chosen for where you are in the push or for what just happened. Where a note teaches a craft idea, a line under it credits the teacher it comes from, such as *From Stephen King, On Writing.* The notes are written in Story Canon's own words; nothing is quoted.
+- **A line about a writer, about writing, or just for fun.** *About a writer* tells how a real novelist worked or kept going. *About writing* is a true, encouraging fact about how books get made. *Just for fun* is a light, true fact for days your brain needs a rest, mostly about words and books. Every one comes from a checked source.
+- **Where you are in the book.** The beat your next unwritten scene sits at, with one line from your beat sheet about what that beat asks.
+- **A milestone** when you cross one: the first tenth of your goal, a quarter, halfway, three quarters, ninety percent, and the goal itself. Each says what that point means for the book. A milestone stays on the page the day after, so you don't miss it.
 - **Your pace, in plain numbers.** Ahead, behind or on pace against an even share of the push, what today asks, and how much of it is still to go. If you have run sprints on this computer, it also says how many sprints that is at your own sprint pace. It never scolds: being behind is already spread over the days left.
 - **Next milestone,** with how many words to go.
 - **I'm stuck.** Click it and the coach hands you the next scene card you haven't written, in story order, with what the scene must do, its turn and its conflict if you filled them in, and one question to start on. **Write this scene** opens the page.
 - **Turn off the coach,** if you'd rather work without it. You can turn it back on in Settings.
 
-**How the notes fit any push.** There are thirty notes, one for each day of a thirty-day push. A shorter or longer push is mapped onto them, so your first day always gets the first note, the day before your last always gets *Almost there*, your last day gets *The last day*, and the rest are spaced in order between them. None of the notes mentions weeks or months, so they read true for a nine-day push or a sixty-day one. In the two weeks before a push starts, three notes help you get ready: plan just enough, clear the decks, and decide where you'll start. For a week after it ends, the coach shows a recap: your total, how many days you wrote, and your biggest day.
+### Goals: how the coach chooses
 
-**Where your sprint pace comes from.** Each sprint you finish on a computer is remembered on that computer: how many minutes, and how many words. The coach divides one by the other. It's an estimate for planning, never a target, and it's kept only for this.
+**By phase, not by day number.** Every push moves through the same phases, however long it is: the first day, early momentum, the first slump when the excitement fades, the middle, rising pressure, the dark stretch, the home stretch, the day before the last, and the last day. The coach works out the phase from how far through the push you are, so a nine-day push and a hundred-day push both get a beginning, a middle and an end. In the two weeks before a push, the notes help you get ready; for a week after it, they help you rest and come back to the draft, beside a recap of your total, the days you wrote, and your biggest day.
 
-**Why it matters.** A push is mostly won or lost in the middle, on ordinary days when nothing feels exciting. The notes are there for those days. The pace line turns a vague worry ("I'm so far behind") into one number for today. And the stuck button removes the hardest question, "what do I write now?", by answering it from your own plan.
+**What happened comes first.** On some days, a note about what you just did takes the day's place: coming back after a day or more away, the day after your biggest day so far, a long run of days in a row, a rest day you set, being well behind, or being well ahead. The first and last days always keep their own notes.
 
-**The common mistake** is treating the notes as rules. They are encouragement and craft reminders, not instructions. If a note doesn't fit your day, write anyway. And if the next scene the coach hands you isn't the one you want to write, skip ahead; one of the coach's own notes says the same.
+**No repeats.** There are well over a hundred notes and more than a hundred facts. The coach remembers what it has shown you on this computer, across every push and every novel, and shows something new until it has shown everything of that kind. Only then does it come back around, starting with what you saw longest ago. The note and the line are chosen once a day, so the page says the same thing all day.
 
-**Example.** It's day 8 of November. The coach says *When the excitement fades*, and under it, *From Chris Baty, No Plot? No Problem!*. The pace line reads *You are 2,100 words behind an even pace. That is already spread over the 23 days left, so today asks 1,758. At your sprint pace, about 640 words in 30 minutes, that is 3 sprints.* You click **I'm stuck**. It offers *The ledger (Bad Guys Close In)*, with the question *What does your viewpoint character expect to happen here, and what happens instead?* You click **Write this scene** and start a sprint.
+**Just for fun, on purpose.** The light line comes on rest days, the day after a big day, and every third day or so. The other days alternate between writers and writing.
+
+**Your own notes.** On page **2 Goals and November** of Settings, under **Coach me through the push**, type notes of your own, one per line: a line that keeps you going, something a mentor told you, why this book matters. Click **Save my notes**. They mix in with the coach's notes on about one ordinary day in four, headed *In your own words*. They are kept on this computer and come with this novel to your other computer.
+
+**Where your sprint pace comes from.** Each sprint you finish on a computer is remembered on that computer: how many minutes, and how many words. The coach divides one by the other. It's an estimate for planning, never a target.
+
+**Why it matters.** A push is mostly won or lost in the middle, on ordinary days when nothing feels exciting. The notes are there for those days, and because they don't repeat, they stay worth reading. The pace line turns a vague worry ("I'm so far behind") into one number for today. And the stuck button removes the hardest question, "what do I write now?", by answering it from your own plan.
+
+**The common mistake** is treating the notes as rules. They are encouragement and craft reminders, not instructions. If a note doesn't fit your day, write anyway. And if the next scene the coach hands you isn't the one you want to write, skip ahead.
+
+**Example.** It's day 8 of November, and yesterday you wrote nothing. The coach opens with a note about coming back after a day away, and under it, *About a writer*, a line about a novelist who wrote in the early mornings before a day job. The pace line reads *You are 2,100 words behind an even pace. That is already spread over the 23 days left, so today asks 1,758. At your sprint pace, about 640 words in 30 minutes, that is 3 sprints.* *Where you are in the book* says your next scene sits at **Bad Guys Close In**. You click **I'm stuck**. It offers *The ledger*, with the question *What does your viewpoint character expect to happen here, and what happens instead?* You click **Write this scene** and start a sprint.
 
 ## Goals: catch-up math, or how a short day is shared
 

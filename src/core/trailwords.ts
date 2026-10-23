@@ -76,5 +76,5 @@ export const SETTING_WORDS: Record<string, string> = {
   guidanceWhilePlanning: 'guidance while planning', goal: 'everyday goal', push: 'writing push', targetWords: 'target length',
   wordsPerPage: 'words per page', statusLabels: 'words for decisions', ownedLabel: 'the "on you now" marker', reservedMarkers: 'markers for work you keep',
   nextWritingAction: 'next writing action', importLabels: 'words read from your documents', watchWords: 'words to watch', dayGoals: 'lighter and rest days',
-  doorClosedUntil: 'door closed', coach: 'the push coach',
+  doorClosedUntil: 'door closed', coach: 'the push coach', coachOwn: 'your own coach notes',
 };

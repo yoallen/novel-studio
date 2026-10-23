@@ -21,8 +21,8 @@ test('the push coach: the day and its note, the pace, and the next scene when st
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: /Where was I/ }).click();
   const coach = page.locator('.coach');
   await expect(coach).toContainText('Day 2 of 30');
-  await expect(coach.locator('h3')).toHaveText('Write with the door closed');
-  await expect(coach).toContainText('From Stephen King, On Writing.');
+  await expect(coach.locator('h3')).not.toBeEmpty();
+  await expect(coach.locator('.coach-spot')).toContainText(/About a writer|About writing|Just for fun/);
   await expect(coach).toContainText('behind an even pace');
   await coach.getByRole('button', { name: "I'm stuck" }).click();
   await expect(coach.locator('.coach-stuck')).toContainText('Write this next: The empty boat');

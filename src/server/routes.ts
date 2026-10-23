@@ -311,6 +311,12 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const q = z.object({ tz: z.string().max(64).optional(), wpm: z.coerce.number().min(0).max(200).optional() }).parse(req.query ?? {});
     return svc.coach.today(pid, { tz: q.tz, wpm: q.wpm ?? null });
   });
+  app.get('/api/projects/:id/coach/own-notes', async (req) => { const pid = params(req, P).id; brain.project(pid); return { notes: svc.coach.ownNotes(pid) }; });
+  app.put('/api/projects/:id/coach/own-notes', async (req) => {
+    const pid = params(req, P).id; brain.project(pid);
+    const b = body(req, z.object({ notes: z.array(z.string().max(500)).max(200) }));
+    return { notes: svc.coach.setOwnNotes(pid, b.notes) };
+  });
   app.get('/api/projects/:id/words-since', async (req) => {
     const pid = params(req, P).id; brain.project(pid);
     const at = z.object({ at: z.string().datetime() }).parse(req.query ?? {}).at;

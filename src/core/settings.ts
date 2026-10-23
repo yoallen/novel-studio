@@ -88,6 +88,8 @@ export interface ProjectSettings {
   doorClosedUntil: string | null;
   /** The push coach on Where was I: a note for the day, milestones, pace help and the next scene when stuck. */
   coach: boolean;
+  /** Her own notes for the push coach, carried with the novel so they reach her other computer. */
+  coachOwn: string[];
 }
 
 export const DEFAULT_RESERVED_MARKERS = ['Mine to write', 'Mine to build', 'Mine to design', 'Mine to choreograph', 'Mine to time', 'Mine to escalate', 'Mine to settle'];
@@ -116,6 +118,7 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
       : {},
     doorClosedUntil: typeof s.doorClosedUntil === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s.doorClosedUntil) ? s.doorClosedUntil : null,
     coach: s.coach !== false,
+    coachOwn: Array.isArray(s.coachOwn) ? s.coachOwn.filter((x): x is string => typeof x === 'string') : [],
   };
 }
 

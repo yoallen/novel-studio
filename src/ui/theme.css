@@ -893,3 +893,7 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .coach-stuck { margin-top: 0.6rem; padding: 0.6rem 0.8rem; border: 1px solid var(--rule, #d8cfe0); border-radius: 4px; }
 .coach-stuck p { margin: 0.2rem 0; }
 .coach-question { font-style: italic; margin: 0.5rem 0 !important; }
+.coach-spot { margin: 0.5rem 0 0.3rem; font-size: 0.92rem; }
+.coach-spot-head { font-style: italic; color: var(--struct, #522875); }
+.coach-where { margin: 0.3rem 0; }
+.coach-own { font-family: var(--hand, inherit); }

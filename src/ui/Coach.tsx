@@ -60,9 +60,13 @@ export function CoachCard({ ctx }: { ctx: Ctx }) {
           <strong>{c.milestone.title}: {n(c.milestone.words)} words{c.milestone.when === 'yesterday' ? ', reached yesterday' : ''}.</strong> {c.milestone.body}
         </div>
       )}
-      <h3 id="coach-h">{c.note.title}</h3>
+      <h3 id="coach-h">{c.note.kind === 'own' ? <span className="coach-own">{c.note.title}</span> : c.note.title}</h3>
       <p className="coach-body">{c.note.body}</p>
       {c.note.from && <p className="coach-from">From {c.note.from}.</p>}
+      {c.spotlight && (
+        <p className="coach-spot"><span className="coach-spot-head">{c.spotlight.kind === 'fun' ? 'Just for fun' : c.spotlight.kind === 'writer' ? 'About a writer' : 'About writing'}.</span> {c.spotlight.text}</p>
+      )}
+      {c.where?.beat && <p className="small coach-where"><span className="muted">Where you are in the book:</span> your next scene sits at <b>{c.where.beat}</b>.{c.where.text ? ` ${c.where.text}` : ''}</p>}
       {c.recap && (
         <p className="coach-pace">
           You wrote <b>{n(c.recap.total)}</b> words{c.recap.goal ? ` of ${n(c.recap.goal)}` : ''}{c.recap.met ? ', and you reached your goal' : ''}. You wrote on {c.recap.daysWritten} of {c.recap.daysTotal} days{c.recap.best ? `, and your biggest day was ${n(c.recap.best.words)} words` : ''}.
