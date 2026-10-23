@@ -330,7 +330,7 @@ Every time you click **Ask**, Story Canon gathers a briefing about your book and
 
 ## Guidance levels: Quiet, Advisory and Deep
 
-A **guidance level** is how much the collaborator speaks up beyond what you asked. You set it in **Settings**, on page **2 Goals and November**, under **Guidance and goals**, with two dropdowns: **Guidance while drafting** and **Guidance while planning**. Unlike the collaborator section, these are saved with **Save settings**.
+A **guidance level** is how much the collaborator speaks up beyond what you asked. You set it in **Settings**, on page **2 Goals and focused efforts**, under **Guidance and goals**, with two dropdowns: **Guidance while drafting** and **Guidance while planning**. Unlike the collaborator section, these are saved with **Save settings**.
 
 | Level | On screen | What the collaborator does |
 | --- | --- | --- |

@@ -33,9 +33,9 @@ test('notes for later: typed in the page, left out of the count, gathered on Whe
 test('a lighter day, then a sprint with nothing but the page', async ({ page }) => {
   await newNovel(page, 'Sprint Test');
   await views(page).getByRole('button', { name: 'Settings' }).click();
-  await page.getByRole('tab', { name: /Goals and November/ }).click();
+  await page.getByRole('tab', { name: /Goals and focused efforts/ }).click();
   const push = page.getByRole('region', { name: 'A writing push' });
-  await push.getByRole('button', { name: 'Plan a writing push' }).click();
+  await push.getByRole('button', { name: 'November, 50,000 words' }).click();
   await push.getByLabel('Name it').fill('November');
   await push.getByLabel('First day').fill(await day(page, 0));
   await push.getByLabel('Last day').fill(await day(page, 9));

@@ -188,7 +188,7 @@ export class Exporter {
     // Notes left for later print exactly as written, so she sees them before the file goes anywhere.
     const chosen = req.chapterIds?.length ? new Set((this.ms.outline(projectId) as unknown as { id: string; number: number }[]).filter((c) => req.chapterIds!.includes(c.id)).map((c) => c.number)) : null;
     const notes = this.ms.laterNotes(projectId).filter((n) => !chosen || chosen.has(n.chapterNumber));
-    if (notes.length) out.push(`${notes.length} note${notes.length === 1 ? '' : 's'} left for later, [[in double brackets]], ${notes.length === 1 ? 'is' : 'are'} still in the text and will print as written. They are listed on Where was I.`);
+    if (notes.length) out.push(`${notes.length} note${notes.length === 1 ? '' : 's'} left for later, [[in double brackets]], ${notes.length === 1 ? 'is' : 'are'} still in the text and will print as written. They are listed on Where was I?.`);
     return out;
   }
 

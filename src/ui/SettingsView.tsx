@@ -81,10 +81,10 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
   async function snapshot() { try { const r = await api.post('/api/backups/snapshot'); setBackupMsg(`Backup made and checked (${Math.round(r.bytes / 1024).toLocaleString()} KB).`); } catch (e) { setError((e as Error).message); } }
   const SECTIONS: [string, string][] = [['set-novel', 'This novel'], ['set-goals', 'Guidance and goals'], ['set-push', 'Writing push'], ['set-steps', 'Scene status steps'], ['set-words', 'Words for decisions'], ['set-collab', 'The collaborator'], ['set-about', 'About you'], ['set-all', 'For all my novels'], ['set-look', 'Appearance'], ['set-sync', 'Your other computers'], ['set-backups', 'Backups']];
   const GOAL_HELP: Record<string, string> = {
-    none: 'No daily number. Where was I still shows what you wrote.',
-    words: 'A number of words each day. Where was I tracks it every day you write.',
-    scenes: 'A number of scenes each week. It is kept as your goal; Where was I counts words for now.',
-    time: 'Minutes of writing each day. It is kept as your goal; Where was I counts words for now.',
+    none: 'No daily number. Where was I? still shows what you wrote.',
+    words: 'A number of words each day. Where was I? tracks it every day you write.',
+    scenes: 'A number of scenes each week. It is kept as your goal; Where was I? counts words for now.',
+    time: 'Minutes of writing each day. It is kept as your goal; Where was I? counts words for now.',
     milestones: 'No daily number. Write the milestones you are working toward, such as Act One drafted by March. They are yours to tick off.',
   };
 
@@ -115,7 +115,7 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
       </section>
 
         </>) },
-        { title: 'Goals and November', content: (<>
+        { title: 'Goals and focused efforts', content: (<>
       <section className="section settings-section" id="set-goals" aria-label="Guidance and goals">
         <h2>Guidance and goals</h2>
         <p className="small muted">How much the collaborator speaks up about concerns, while you draft and while you plan.</p>
@@ -139,10 +139,10 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
 
       <section className="section settings-section" id="set-push" aria-labelledby="push-h">
         <h2 id="push-h">A writing push</h2>
-        <p className="muted small">A stretch of days with a word goal, such as November and 50,000 words. Where was I shows how you are tracking, from two weeks before it starts.</p>
+        <p className="muted small">A stretch of days with a word goal: thirty days of focus, a month like November and 50,000 words, or any dates you choose. Where was I? shows how you are tracking, from two weeks before it starts.</p>
         {s.push ? (<>
           <div className="cols">
-            <label className="field"><span>Name it</span><input type="text" value={s.push.name} maxLength={60} onChange={(e) => setS({ ...s, push: { ...s.push, name: e.target.value } })} placeholder="November" /></label>
+            <label className="field"><span>Name it</span><input type="text" value={s.push.name} maxLength={60} onChange={(e) => setS({ ...s, push: { ...s.push, name: e.target.value } })} placeholder="For example: Spring push" /></label>
             <label className="field"><span>First day</span><input type="date" value={s.push.start} onChange={(e) => setS({ ...s, push: { ...s.push, start: e.target.value } })} /></label>
             <label className="field"><span>Last day</span><input type="date" value={s.push.end} onChange={(e) => setS({ ...s, push: { ...s.push, end: e.target.value } })} /></label>
             <label className="field"><span>Words to write in it</span><input type="number" value={s.push.words ?? ''} onChange={(e) => setS({ ...s, push: { ...s.push, words: e.target.value ? Number(e.target.value) : null } })} /></label>
@@ -152,15 +152,22 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
             const perDay = days > 0 && s.push.words ? Math.ceil(Number(s.push.words) / days) : 0;
             return (
               <div className="row small">
-                {perDay > 0 && <span>That is about {perDay.toLocaleString()} words a day for {days} days. It is your daily goal on those days only; the rest of the time, your everyday goal applies. If a day comes up short, the difference is shared by the days after it, and on Where was I you can set a lighter day or a rest day ahead of time.</span>}
+                {perDay > 0 && <span>That is about {perDay.toLocaleString()} words a day for {days} days. It is your daily goal on those days only; the rest of the time, your everyday goal applies. If a day comes up short, the difference is shared by the days after it, and on Where was I? you can set a lighter day or a rest day ahead of time.</span>}
                 <button className="btn link small" onClick={() => setS({ ...s, push: null })}>No push</button>
               </div>
             );
           })()}
         </>) : (
-          <button className="btn small" onClick={() => { const y = new Date().getMonth() === 11 ? new Date().getFullYear() + 1 : new Date().getFullYear(); setS({ ...s, push: { name: 'November', start: `${y}-11-01`, end: `${y}-11-30`, words: 50000 } }); }}>Plan a writing push</button>
+          <div className="push-starts">
+            <p className="small" style={{ margin: '0 0 0.4rem' }}><b>Plan a writing push.</b> Start from one of these, then change anything:</p>
+            <div className="row small">
+              <button className="btn small" onClick={() => { const a = new Date(); const b = new Date(); b.setDate(b.getDate() + 29); const d = (x: Date) => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`; setS({ ...s, push: { name: 'Thirty days', start: d(a), end: d(b), words: 30000 } }); }}>30 days from today</button>
+              <button className="btn small" onClick={() => { const y = new Date().getMonth() === 11 ? new Date().getFullYear() + 1 : new Date().getFullYear(); setS({ ...s, push: { name: 'November', start: `${y}-11-01`, end: `${y}-11-30`, words: 50000 } }); }}>November, 50,000 words</button>
+              <button className="btn small" onClick={() => { const a = new Date(); const d = (x: Date) => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`; setS({ ...s, push: { name: '', start: d(a), end: d(a), words: null } }); }}>My own dates</button>
+            </div>
+          </div>
         )}
-        <label className="row small" style={{ marginTop: '0.75rem', alignItems: 'baseline' }}><input type="checkbox" checked={s.coach !== false} onChange={(e) => setS({ ...s, coach: e.target.checked })} /> <span><b>Coach me through the push.</b> On Where was I, a note for each day of the push, the milestones as you reach them, and plain help when you are behind or stuck.</span></label>
+        <label className="small coach-check"><input type="checkbox" checked={s.coach !== false} onChange={(e) => setS({ ...s, coach: e.target.checked })} /><span><b>Coach me through the push.</b> On Where was I?, a note for each day of the push, the milestones as you reach them, and plain help when you are behind or stuck.</span></label>
         <OwnCoachNotes ctx={ctx} />
       </section>
 

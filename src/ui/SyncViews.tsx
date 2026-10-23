@@ -19,7 +19,7 @@ export function SyncNotice({ projectId, onTook }: { projectId: string | null; on
     if (firstTook.current === undefined) firstTook.current = s?.tookAt ?? null;
     else if (s?.tookAt && s.tookAt !== firstTook.current) { await flushEditor(); window.location.reload(); return; }
     if (s?.notesIn > 0) {
-      setMsg(`${s.notesIn === 1 ? 'A note' : `${s.notesIn} notes`} from the road came in. ${s.notesIn === 1 ? 'It is' : 'They are'} under Thoughts waiting to be sorted, on Where was I.`);
+      setMsg(`${s.notesIn === 1 ? 'A note' : `${s.notesIn} notes`} from the road came in. ${s.notesIn === 1 ? 'It is' : 'They are'} under Thoughts waiting to be sorted, on Where was I?.`);
       window.dispatchEvent(new Event('ns-captured'));
     }
     setSt(s);

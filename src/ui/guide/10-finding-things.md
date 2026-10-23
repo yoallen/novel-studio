@@ -15,7 +15,7 @@ Story Canon has several ways to find and recover things. They overlap on purpose
 | Get back an older wording of one scene | **Earlier versions** | The Writing Room, at the bottom of the scene plan's page **3 Notes** |
 | Survive a broken computer | **Backups** and **archives** | **Settings**, page **8 Other computers and backups** |
 
-Two more safety nets live elsewhere. A **kept draft** is a saved copy of the whole book exactly as it stood when you finished a draft; you keep one from the **Drafts** page, reached from Where was I (see [Where was I: your novel's home page](#where-was-i-your-novels-home-page)). And if you write on two computers, each one keeps its own copy and makes a backup before it takes in a newer one (see [Settings and your other computers](#settings-and-your-other-computers)).
+Two more safety nets live elsewhere. A **kept draft** is a saved copy of the whole book exactly as it stood when you finished a draft; you keep one from the **Drafts** page, reached from Where was I? (see [Where was I? Your novel's home page](#where-was-i-your-novels-home-page)). And if you write on two computers, each one keeps its own copy and makes a backup before it takes in a newer one (see [Settings and your other computers](#settings-and-your-other-computers)).
 
 ## Search: finding any word in your novel
 

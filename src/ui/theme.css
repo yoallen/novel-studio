@@ -44,6 +44,9 @@
   --st-decided: #1d3f8f;
   --st-example: #7a4a1c;
   --st-suggest: #5b2a86;
+  --coach-ink: #7b1f5e;         /* the coach's handwriting: deep plum, not the suggestion purple */
+  --coach-paper: #fffaf3;
+  --celebrate: #efe6f6;
   --r-sm: 2px;
   --r-md: 3px;
   color-scheme: light;
@@ -54,7 +57,7 @@
     --bg: #1c1722; --page: #1c1722; --sheet: #241e2b; --ink: #f1ebf5; --pencil: #a99fb3; --muted: #b7adc4; --faint: #8e849c; --margin: #bba2d2;
     --line: rgba(205, 180, 230, 0.16); --line-strong: rgba(205, 180, 230, 0.4); --wash: rgba(205, 180, 230, 0.06);
     --struct: #c9a7ea; --tab-profound: #b48be0; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
-    --st-decided: #9cbcf5; --st-example: #e4b98a; --st-suggest: #d6b6f2;
+    --st-decided: #9cbcf5; --st-example: #e4b98a; --st-suggest: #d6b6f2; --coach-ink: #f2b2d8; --coach-paper: #2b2332; --celebrate: #33263f;
   }
 }
 :root[data-theme='dark'] {
@@ -62,7 +65,7 @@
   --bg: #1c1722; --page: #1c1722; --sheet: #241e2b; --ink: #f1ebf5; --pencil: #a99fb3; --muted: #b7adc4; --faint: #8e849c; --margin: #bba2d2;
   --line: rgba(205, 180, 230, 0.16); --line-strong: rgba(205, 180, 230, 0.4); --wash: rgba(205, 180, 230, 0.06);
   --struct: #c9a7ea; --tab-profound: #b48be0; --ok: #8fd1a5; --warn: #f0b36a; --danger: #ff8aa8; color-scheme: dark;
-    --st-decided: #9cbcf5; --st-example: #e4b98a; --st-suggest: #d6b6f2;
+    --st-decided: #9cbcf5; --st-example: #e4b98a; --st-suggest: #d6b6f2; --coach-ink: #f2b2d8; --coach-paper: #2b2332; --celebrate: #33263f;
 }
 
 * { box-sizing: border-box; }
@@ -384,14 +387,14 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .drafting-lead b { font-weight: 600; }
 .tally { --col: 72px; position: relative; list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: 3px; max-width: 46rem; }
 .tally li { display: flex; flex-direction: column; align-items: stretch; }
-.tally-col { position: relative; height: var(--col); display: flex; align-items: flex-end; border-bottom: 1.5px solid var(--ink); }
+.tally-col { position: relative; height: var(--col); display: flex; align-items: flex-end; border-bottom: 1.5px solid var(--line-strong); }
 .tally-goal { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--line-strong); pointer-events: none; }
 .tally-goal[data-set] { border-top: 1.5px solid var(--yours); }
 .tally li[data-mark="rest"] .tally-col { border-bottom: 1.5px dotted var(--yours); }
 .set-days { margin-top: 1rem; }
 .set-days ul { list-style: none; padding: 0; margin: 0 0 0.4rem; }
-.tally-bar { display: block; width: 100%; }
-.tally li[data-mark="ink"] .tally-bar { background: var(--ink); }
+.tally-bar { display: block; width: 62%; margin: 0 auto; border-radius: 3px 3px 0 0; }
+.tally li[data-mark="ink"] .tally-bar { background: var(--st-decided); }
 .tally li[data-mark="pencil"] .tally-bar { background: repeating-linear-gradient(180deg, var(--pencil) 0 3px, transparent 3px 5px); opacity: .8; }
 .tally li[data-mark="future"] .tally-col { border-bottom: 1.5px dotted var(--line-strong); }
 .tally li[data-today] .tally-col { border-bottom: 3px solid var(--yours); }
@@ -399,7 +402,7 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .tally li[data-today] .tally-day { color: var(--yours); font-weight: 700; }
 .drafting-figures { display: flex; flex-wrap: wrap; gap: .5rem 2.25rem; margin: 0; }
 .drafting-figures dt { font-family: var(--book); font-style: italic; color: var(--margin); font-size: .9375rem; }
-.drafting-figures dd { margin: 0; font-size: 1.0625rem; }
+.drafting-figures dd { margin: 0; font-family: var(--book); font-size: 1.125rem; color: var(--ink); }
 @media (max-width: 560px) { .tally { --col: 56px; gap: 2px; } .tally-day { font-size: .625rem; } }
 
 /* Novel setup: each group of characteristics as its own small panel. */
@@ -881,19 +884,42 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .bring-warn { color: var(--warn); font-weight: 600; }
 .bring-done .btn.link { padding: 0; }
 
-/* The push coach on Where was I's Today page. */
-.coach { border-left: 3px solid var(--struct, #522875); padding: 0.6rem 0 0.6rem 1rem; margin: 0 0 1.5rem; max-width: 68ch; }
-.coach h3 { margin: 0.1rem 0 0.35rem; }
-.coach-when { margin: 0; font-size: 0.8rem; color: var(--muted); }
-.coach-body { margin: 0 0 0.3rem; }
-.coach-from { margin: 0 0 0.5rem; font-size: 0.8rem; font-style: italic; color: var(--muted); }
-.coach-pace { margin: 0.4rem 0; }
-.coach-milestone { background: color-mix(in srgb, var(--accent, #ff1493) 8%, transparent); border-radius: 4px; padding: 0.5rem 0.7rem; margin: 0.3rem 0 0.6rem; }
+
+/* The push coach on Where was I?'s Today page: a note from someone in your corner. The handwritten note is the
+   one bold thing; everything around it stays quiet. */
+.coach { margin: 0 0 2.25rem; max-width: 40rem; }
+.coach-top { margin-bottom: 1rem; }
+.coach-when { margin: 0 0 0.45rem; font-family: var(--display); font-size: 1.35rem; color: var(--struct); }
+.coach-push { font-family: var(--book); font-style: italic; font-size: 1rem; color: var(--margin); }
+.coach-ribbon { position: relative; height: 6px; border-radius: 3px; background: var(--wash); box-shadow: inset 0 0 0 1px var(--line); max-width: 28rem; }
+.coach-ribbon-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: linear-gradient(90deg, var(--struct), var(--coach-ink)); }
+.coach-ribbon-tick { position: absolute; top: -3px; width: 2px; height: 12px; margin-left: -1px; border-radius: 1px; background: var(--line-strong); }
+.coach-ribbon-tick[data-passed] { background: var(--coach-ink); }
+.coach-ribbon-label { margin: 0.4rem 0 0; font-family: var(--book); font-style: italic; font-size: 0.9rem; color: var(--margin); }
+.coach-milestone { display: flex; gap: 0.75rem; align-items: flex-start; background: var(--celebrate); border-radius: 6px; padding: 0.8rem 1rem; margin: 0 0 1.1rem; }
+.coach-milestone-mark { font-size: 1.6rem; line-height: 1; color: var(--struct); }
+.coach-milestone-title { margin: 0 0 0.2rem; font-family: var(--display); font-size: 1.15rem; color: var(--struct); }
+.coach-milestone-body { margin: 0; font-family: var(--prose); }
+.coach-note { background: var(--coach-paper); border-radius: 4px; padding: 1rem 1.25rem 0.9rem; margin: 0 0 1.25rem; box-shadow: 0 1px 2px rgba(60, 30, 80, 0.12), 0 6px 18px rgba(60, 30, 80, 0.07); transform: rotate(-0.35deg); }
+.coach-note h3 { margin: 0 0 0.3rem; font-family: var(--hand); font-size: 1.55rem; font-weight: 400; color: var(--coach-ink); line-height: 1.2; }
+.coach-body { margin: 0; font-family: var(--hand); font-size: 1.25rem; line-height: 1.45; color: var(--coach-ink); }
+.coach-from { margin: 0.55rem 0 0; font-family: var(--book); font-style: italic; font-size: 0.85rem; color: var(--margin); }
+.coach-note[data-own] { border-left: 3px solid var(--yours); }
+.coach-spot { margin: 0 0 1.25rem; padding: 0.15rem 0 0.15rem 1rem; border-left: 2px solid var(--line-strong); }
+.coach-spot-head { margin: 0 0 0.2rem; font-family: var(--book); font-style: italic; font-size: 0.95rem; color: var(--struct); }
+.coach-spot[data-kind="fun"] .coach-spot-head { color: var(--yours); }
+.coach-spot-text { margin: 0; font-family: var(--prose); font-size: 1rem; line-height: 1.55; }
+.coach-pace { margin: 0 0 0.9rem; font-family: var(--prose); font-size: 1.05rem; line-height: 1.55; }
+.coach-where { margin: 0 0 0.9rem; font-family: var(--prose); font-size: 0.95rem; color: var(--muted); }
+.coach-where-head { font-family: var(--book); font-style: italic; color: var(--struct); }
 .coach-actions { margin-top: 0.4rem; }
-.coach-stuck { margin-top: 0.6rem; padding: 0.6rem 0.8rem; border: 1px solid var(--rule, #d8cfe0); border-radius: 4px; }
-.coach-stuck p { margin: 0.2rem 0; }
-.coach-question { font-style: italic; margin: 0.5rem 0 !important; }
-.coach-spot { margin: 0.5rem 0 0.3rem; font-size: 0.92rem; }
-.coach-spot-head { font-style: italic; color: var(--struct, #522875); }
-.coach-where { margin: 0.3rem 0; }
-.coach-own { font-family: var(--hand, inherit); }
+.coach-stuck { margin-top: 0.75rem; padding: 0.8rem 1rem; background: var(--sheet); border: 1px solid var(--line); border-radius: 4px; }
+.coach-stuck p { margin: 0.25rem 0; }
+.coach-question { font-family: var(--hand); font-size: 1.2rem; color: var(--coach-ink); margin: 0.6rem 0 !important; }
+@media (prefers-reduced-motion: reduce) { .coach-note { transform: none; } }
+
+/* The stage menu on the Library's purple covers: the list it opens is read on cream, not cloth. */
+.shelf .book select option { background: var(--sheet); color: var(--ink); }
+.coach-check { display: flex; gap: 0.6rem; align-items: flex-start; margin-top: 0.9rem; max-width: 60ch; }
+.coach-check input { margin-top: 0.2rem; flex: none; }
+.push-starts { margin: 0.3rem 0 0.5rem; }

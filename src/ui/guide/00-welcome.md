@@ -66,13 +66,13 @@ The first five names are large. These are the main rooms, where you will spend m
 
 | View | What it is for |
 | --- | --- |
-| **Where was I** | Your novel's home page. Under its name in the list are the words "your novel's home page". It shows the next thing to write (with a **Write** button), then three numbered pages: **Today** (how your writing is going and notes you left for later), **Still open** (questions you have not answered yet and what you decided most recently) and **This week**. Your novel opens here every time you come back to it. |
-| **The Writing Room** | Where you write the book. Your chapters and scenes are listed on the left, the page you are writing is in the middle, and the plan for that scene sits on the right. Clicking this name always lands you on a page you can write on: the scene you had open; or, if none is open, the scene Where was I suggests next; or a new page for the next scene you planned but haven't written; or the scene you worked on most recently; or, in an empty book, a first empty scene. |
+| **Where was I?** | Your novel's home page. Under its name in the list are the words "your novel's home page". It shows the next thing to write (with a **Write** button), then three numbered pages: **Today** (how your writing is going and notes you left for later), **Still open** (questions you have not answered yet and what you decided most recently) and **This week**. Your novel opens here every time you come back to it. |
+| **The Writing Room** | Where you write the book. Your chapters and scenes are listed on the left, the page you are writing is in the middle, and the plan for that scene sits on the right. Clicking this name always lands you on a page you can write on: the scene you had open; or, if none is open, the scene Where was I? suggests next; or a new page for the next scene you planned but haven't written; or the scene you worked on most recently; or, in an empty book, a first empty scene. |
 | **Story Brain** | Everything you know about your story, with each person, place, clue or question on its own page. This is where you keep track of what is decided and what is still open. |
 | **Narrative Zoom** | The shape of your plot, from the whole book down to one scene, like zooming a map. It also holds the checks that catch problems, such as a character who knows something before they could have learned it. |
 | **Conversations** | Your talks with the collaborator (the optional AI writing partner built into Story Canon), and any chats you bring in from ChatGPT or Claude. |
 
-**Still open, the page, and Still open, the status.** The next chapter teaches six words for how sure you are about something, and one of them is also *Still open*. The page **Still open** on Where was I is a place: it gathers what you are carrying in your head, such as your open questions and your latest decisions. The status **Still open** is a label on one thing you wrote, saying "this matters, and I haven't answered it yet".
+**Still open, the page, and Still open, the status.** The next chapter teaches six words for how sure you are about something, and one of them is also *Still open*. The page **Still open** on Where was I? is a place: it gathers what you are carrying in your head, such as your open questions and your latest decisions. The status **Still open** is a label on one thing you wrote, saying "this matters, and I haven't answered it yet".
 
 ### The five smaller views
 
@@ -149,7 +149,7 @@ The guide follows the order in which you will meet things in the program. Each c
 | --- | --- |
 | [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help) | The handful of words every screen uses, how to read a record at a glance, and every way to get help. Read this next. |
 | [Your first hour: the Library and a new novel](#your-first-hour-the-library-and-a-new-novel) | The shelf of novels, starting a new one, and telling Story Canon about yourself and your book. |
-| [Where was I: your novel's home page](#where-was-i-your-novels-home-page) | The page your novel opens on, and how it keeps you moving. |
+| [Where was I? Your novel's home page](#where-was-i-your-novels-home-page) | The page your novel opens on, and how it keeps you moving. |
 | [The Writing Room](#the-writing-room) | Writing, saving, chapters and scenes, and the tools for hard writing days. |
 | [Goals, sprints and November](#goals-sprints-and-november) | Word goals, timed writing, and writing a novel in a month. |
 | [The Story Brain](#the-story-brain) | Everything you know about your story, including characters and how they change. |

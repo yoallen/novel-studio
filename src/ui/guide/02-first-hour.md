@@ -8,7 +8,7 @@ Open Story Canon from its desktop shortcut. (If you ever open it some other way,
 
 **The first time,** you land in the Library, because there is no novel to open yet. The Library is taught in full below, in [The Library: your shelf of novels](#the-library-your-shelf-of-novels).
 
-**Every time after that,** Story Canon opens the novel you had open last, on its home page, **Where was I**. You do not have to pass through the Library each day. When you want the Library, you go to it.
+**Every time after that,** Story Canon opens the novel you had open last, on its home page, **Where was I?**. You do not have to pass through the Library each day. When you want the Library, you go to it.
 
 ### Getting around: the header, the Library link and the book switcher
 
@@ -19,7 +19,7 @@ Once a novel is open, the **header** is the row of buttons across the top of the
 3. The title of the open novel, with a small arrow. Click it and a menu lists all your novels (with each one's stage in gray, if it has one). Click another title to switch books without going through the Library. Each book opens where you left it.
 4. On the right: the **Saved** indicator (in the Writing Room only), the name of the view you are in, and the **Capture** button.
 
-Above the page, on the purple cover across the top of the window, runs the **story strip**, a thin map of your whole book, explained in [Narrative Zoom](#narrative-zoom). The list of views runs down the right edge of the window. The first one is **Where was I**, with the words *your novel's home page* in small type under its name.
+Above the page, on the purple cover across the top of the window, runs the **story strip**, a thin map of your whole book, explained in [Narrative Zoom](#narrative-zoom). The list of views runs down the right edge of the window. The first one is **Where was I?**, with the words *your novel's home page* in small type under its name.
 
 ### Help, from the very first screen
 
@@ -89,25 +89,25 @@ Each novel stands on the shelf as a small cloth-covered book. Everything on its 
 
 | On the cover | What it is |
 | --- | --- |
-| The title, on a white label | Click it to open the novel. It is a button, even though it looks like a printed label. The novel opens on **Where was I**. |
+| The title, on a white label | Click it to open the novel. It is a button, even though it looks like a printed label. The novel opens on **Where was I?**. |
 | The stage menu (such as *Plotting and planning*) | Where the book is in its life. Choose a different stage from it any time. A new novel says *Choose a stage* until you pick one. See [Library: stages and drafts](#library-stages-and-drafts). |
 | A draft name in gray (such as *First draft*) | Which full pass of the manuscript you are on. It shows only when it differs from the stage, so a book whose stage is *Second draft* doesn't say it twice. |
 | A word count (such as *1,240 words*, or *1,240 words of 80,000*) | Words in your manuscript. The second number appears once you set a target length in **Settings**. |
 | A genre (such as *Mystery*) | Your primary genre, once you choose one in **Novel setup** (below). |
-| **Next:** and a few words | The next thing to do, such as *Keep writing "The empty boat"*. It is the same suggestion **Where was I** shows. |
+| **Next:** and a few words | The next thing to do, such as *Keep writing "The empty boat"*. It is the same suggestion **Where was I?** shows. |
 | **Remove from shelf** (small, underlined, at the bottom) | Takes the book off the shelf without deleting anything. See below. |
 
 **The order of the books.** The novel you worked on most recently stands first, at the left. So the order changes as you work. Read the title before you click anything on a cover.
 
 ### Library: stages and drafts
 
-On every book's cover, and on **Where was I** at the top of page **1 Today**, you will see two labels side by side, such as *Plotting and planning* and *First draft*. They answer two different questions. On Where was I a line says so: *The stage is what you are doing with the book now. The draft is which full pass of the manuscript you are on.*
+On every book's cover, and on **Where was I?** at the top of page **1 Today**, you will see two labels side by side, such as *Plotting and planning* and *First draft*. They answer two different questions. On Where was I? a line says so: *The stage is what you are doing with the book now. The draft is which full pass of the manuscript you are on.*
 
 #### Stage: what you are doing with the book now
 
 A **stage** is a label for where the book is in its life. The usual list is: *Idea*, *Plotting and planning*, *First draft*, *Second draft*, *Third draft*, *Revising*, *Editing*, *With beta readers* (trusted early readers), *With an editor*, *Querying* (sending the book to literary agents), *On submission* (an agent is offering it to publishers), *Published* and *Resting*.
 
-- **Where to change it:** the stage menu on the book's cover in the Library, or the **Stage** menu on **Where was I**.
+- **Where to change it:** the stage menu on the book's cover in the Library, or the **Stage** menu on **Where was I?**.
 - **What it does:** it is a label to help you keep track. It doesn't lock, hide or change anything. A new novel starts with no stage (*Choose a stage*).
 - **Your own stages:** in **Settings**, on page **6 All my novels**, under **For all my novels**, the box **Stages a book can be in** holds the list, one stage per line. Rename, add or remove lines, then click **Save settings**.
 
@@ -115,7 +115,7 @@ A **stage** is a label for where the book is in its life. The usual list is: *Id
 
 A **draft** is one complete pass through the manuscript. Your first draft is the first full version; revising it from start to finish makes a second. Story Canon numbers drafts for you, starting at *First draft*.
 
-- **Where it shows:** on **Where was I** as *Draft: First draft*, with a **Drafts** link beside it, and in gray on the book's cover when it differs from the stage.
+- **Where it shows:** on **Where was I?** as *Draft: First draft*, with a **Drafts** link beside it, and in gray on the book's cover when it differs from the stage.
 - **What it does:** when you finish a draft, the **Drafts** page keeps an exact copy of the whole book as it stood, so you can compare any scene with any earlier draft. The Drafts page is taught in [The Writing Room](#the-writing-room).
 
 #### How stage and draft move together
@@ -236,7 +236,7 @@ None of these locks you in. A novel started with **Start writing** can be set up
 **Where it is:**
 
 - **Set it up first** in the Library opens it straight away.
-- On **Where was I**, until you make your first choice here, a note says *Whenever you like: tell the program what kind of story this is and which methods you use, and it will offer the right tools.* with a **Set up this novel** link.
+- On **Where was I?**, until you make your first choice here, a note says *Whenever you like: tell the program what kind of story this is and which methods you use, and it will offer the right tools.* with a **Set up this novel** link.
 - Any time: **Settings**, then **Open novel setup** in the box at the top of the page.
 
 The page title says *How (your title) is set up*. The **Settings** link at its top left takes you to Settings.
@@ -443,7 +443,7 @@ From then on, every novel you start in the Library begins with those choices. Yo
 
 ## Plant the seed: six questions for a new novel
 
-**What it is.** A card on **Where was I** for a brand-new novel. Its heading is **Plant the seed**, and it says: *Six questions to start a blank novel. Answer any you like; skip the rest.* It asks six short questions that give an empty book its first roots: a person who wants something, with something in the way.
+**What it is.** A card on **Where was I?** for a brand-new novel. Its heading is **Plant the seed**, and it says: *Six questions to start a blank novel. Answer any you like; skip the rest.* It asks six short questions that give an empty book its first roots: a person who wants something, with something in the way.
 
 **When you see it.** On a novel with no characters yet, until you plant it or click **Not now**.
 
@@ -466,7 +466,7 @@ The gray words inside each box hint at an answer.
 
 ### Plant the seed: step by step
 
-1. Click **Where was I** in the list on the right.
+1. Click **Where was I?** in the list on the right.
 2. Answer any of the six questions. Skip the rest.
 3. Click **Plant it**. (It stays gray until at least one box has words.)
 4. Story Canon opens the **Story Brain** on your list of characters, where your new lead is waiting. Click the name to open the record.
@@ -492,10 +492,10 @@ On the character's record, **Role**, **Who they are** and **What they stand to l
 
 She clicks **Plant it**. The Story Brain opens with one character, *Marisol Vega*, and every answer in pencil.
 
-## Where you land: Where was I
+## Where you land: Where was I?
 
-When the first hour is over, your novel has a home. **Where was I** is the novel's home page: the first view in the list on the right, with *your novel's home page* under its name. Every time you come back to this book, Story Canon opens it there (unless you just started it with **Start writing**, **Set it up first** or **Start from a manuscript or story bible**, which open the Writing Room, Novel setup or Import and export the first time).
+When the first hour is over, your novel has a home. **Where was I?** is the novel's home page: the first view in the list on the right, with *your novel's home page* under its name. Every time you come back to this book, Story Canon opens it there (unless you just started it with **Start writing**, **Set it up first** or **Start from a manuscript or story bible**, which open the Writing Room, Novel setup or Import and export the first time).
 
-Its top says so: *This is (your title)'s home page.* Below that it shows the one next thing to do, with an orange **Write** button, and then, on three numbered pages (**Today**, **Still open** and **This week**), everything else you would otherwise have to remember. Whenever you lose your place, click **Where was I**.
+Its top says so: *This is (your title)'s home page.* Below that it shows the one next thing to do, with an orange **Write** button, and then, on three numbered pages (**Today**, **Still open** and **This week**), everything else you would otherwise have to remember. Whenever you lose your place, click **Where was I?**.
 
-The whole page is taught, section by section, in the next chapter: [Where was I: your novel's home page](#where-was-i-your-novels-home-page).
+The whole page is taught, section by section, in the next chapter: [Where was I? Your novel's home page](#where-was-i-your-novels-home-page).

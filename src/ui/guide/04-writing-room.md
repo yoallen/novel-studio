@@ -4,12 +4,12 @@
 
 ## Writing Room: getting in
 
-The Writing Room is the second tab on the right edge of the window, under **Where was I** (your novel's home page, described in [Where was I: your novel's home page](#where-was-i-your-novels-home-page)). There are four ways in, and each lands you in a slightly different place.
+The Writing Room is the second tab on the right edge of the window, under **Where was I?** (your novel's home page, described in [Where was I? Your novel's home page](#where-was-i-your-novels-home-page)). There are four ways in, and each lands you in a slightly different place.
 
 | You click | Where you land |
 | --- | --- |
-| **The Writing Room** tab | The scene you had open. If none, the scene Where was I suggests under **Next**. If Next is your next planned scene card and it has no page yet, Story Canon makes its page first, just as **Write** does (see [Writing Room: planned, not written yet](#writing-room-planned-not-written-yet)). If there is nothing to suggest, the scene you worked on most recently. If the book has no scenes at all, a new empty scene (and a first chapter to hold it) |
-| **Write** on Where was I | The scene named in **Next**. If that is a planned scene with no page yet, Story Canon makes its page first |
+| **The Writing Room** tab | The scene you had open. If none, the scene Where was I? suggests under **Next**. If Next is your next planned scene card and it has no page yet, Story Canon makes its page first, just as **Write** does (see [Writing Room: planned, not written yet](#writing-room-planned-not-written-yet)). If there is nothing to suggest, the scene you worked on most recently. If the book has no scenes at all, a new empty scene (and a first chapter to hold it) |
+| **Write** on Where was I? | The scene named in **Next**. If that is a planned scene with no page yet, Story Canon makes its page first |
 | **Return to Writing**, the pink ribbon at the top left (or **Ctrl+Shift+W**) | The scene you were writing in, with the cursor exactly where you left it (see [Writing Room: detours and Return to Writing](#writing-room-detours-and-return-to-writing)) |
 | A scene in the list on the left, a note in **Left for later**, or **Open the page** in Narrative Zoom | That scene |
 
@@ -67,8 +67,8 @@ Saving happens in two layers.
 
 **Looks wrong, but isn't.** A few things wait for the saved version, not the safety copy, so they can lag behind your typing by up to twenty seconds:
 
-- **Today's words** on Where was I, and the drafting progress columns there.
-- **This week**, page 3 of Where was I.
+- **Today's words** on Where was I?, and the drafting progress columns there.
+- **This week**, page 3 of Where was I?.
 - **The scene's status** moving from a not-started step to Drafting (see [Writing Room: a scene's status](#writing-room-a-scenes-status)).
 - **Left for later**, for a note you just typed.
 
@@ -434,18 +434,18 @@ Writing gets interrupted. You check Ana's age in the Story Brain, look at a beat
 
 **Return to Writing.** Whenever you are away from the page with a scene open, a pink ribbon, **Return to Writing**, hangs at the top left of the window. (It appears once there is writing to return to: you have been on the page this session, or the scene has words in it.) Click it, or press **Ctrl+Shift+W** from anywhere, and you land back in the scene you left, cursor and all. It also closes every open detour.
 
-Clicking **The Writing Room** tab takes you back to the page too, but it does not close detours. That is why **Detours still open** on Where was I can keep listing a detour after you came back: it closes the next time you use the ribbon or Ctrl+Shift+W, or when you mark it resolved.
+Clicking **The Writing Room** tab takes you back to the page too, but it does not close detours. That is why **Detours still open** on Where was I? can keep listing a detour after you came back: it closes the next time you use the ribbon or Ctrl+Shift+W, or when you mark it resolved.
 
 ### Writing Room: the Writing Trail page
 
-**What it is.** **Writing Trail**, above the page (or under **Detours still open**, on page **2 Still open** of Where was I), opens the list of your detours, newest first. The **The Writing Room** tab stays lit while you are there. Each detour shows:
+**What it is.** **Writing Trail**, above the page (or under **Detours still open**, on page **2 Still open** of Where was I?), opens the list of your detours, newest first. The **The Writing Room** tab stays lit while you are there. Each detour shows:
 
 - **Where you went**, in bold, and the date and time.
 - A gray status line: *Returned to writing* or *Not returned yet*, and *resolved* or *not resolved*.
 - A box, *What came of it, if you like: an answer, a decision*, for a note about what the detour was for.
 - **Mark resolved** (or **Mark unresolved**), and **Go back to that scene**.
 
-**Returned and resolved are two different things.** *Returned* means you came back to the page. *Resolved* means you did what you went to do. You might return without finding the answer and resolve it later. Marking a detour resolved also closes it, so it leaves Detours still open on Where was I.
+**Returned and resolved are two different things.** *Returned* means you came back to the page. *Resolved* means you did what you went to do. You might return without finding the answer and resolve it later. Marking a detour resolved also closes it, so it leaves Detours still open on Where was I?.
 
 **To keep a note about a detour:**
 
@@ -492,7 +492,7 @@ A note can't contain square brackets or run across a line break.
 
 - On the page, a note looks like pencil in the margin: gray, slanted, on a faint shaded background, so it never reads as story. Point at it to see *A note for later. It is not counted as story words.*
 - **It is not counted.** Notes never add to a scene's words, a day's words or your push total.
-- It is listed under **Left for later** on page **3 Notes** of the scene plan (this scene's notes) and on Where was I (every note in the book, in book order, with the words you wrote just before it).
+- It is listed under **Left for later** on page **3 Notes** of the scene plan (this scene's notes) and on Where was I? (every note in the book, in book order, with the words you wrote just before it).
 - Clicking a note in either list opens its scene with the note selected. Type the answer, and it replaces the note.
 - A note leaves the lists when its brackets leave the page.
 - Notes are printed exactly as written if you export with them still in the text, so clear them before you send the book out.
@@ -517,7 +517,7 @@ The box closes and your cursor is back on the page. A short line beside the Capt
 
 **A note for later or Capture?** Use a note for later for something that belongs at an exact spot in the text: a missing name, a date, a number of steps. Use Capture for a thought about the story: a question, an idea for another scene. It lands in the Story Brain, where you can sort it.
 
-**Example.** Mid-sentence, you wonder whether Cyrus already knew the boat's name before Marisol told him. You press **Ctrl+Shift+N**, type the question, choose **A question I have** and **I need this to keep writing**, and press **Ctrl+Enter**. It now waits in the scene plan, on page 3 Notes, under Attached to this scene, marked *needed to keep writing*, and on Where was I under **Questions still open**.
+**Example.** Mid-sentence, you wonder whether Cyrus already knew the boat's name before Marisol told him. You press **Ctrl+Shift+N**, type the question, choose **A question I have** and **I need this to keep writing**, and press **Ctrl+Enter**. It now waits in the scene plan, on page 3 Notes, under Attached to this scene, marked *needed to keep writing*, and on Where was I? under **Questions still open**.
 
 ## Writing Room: when the program closed or two windows disagree
 
@@ -527,7 +527,7 @@ These two boxes are rare. When one appears, the page will not take typing until 
 
 If Story Canon closes before your latest typing became a saved version (a crash, a power cut, a laptop battery running out), the safety copy is still there. Two things happen:
 
-- **Where was I** shows *Unsaved typing was kept for "the scene". Open the scene to choose which version to keep.*, with a button to open it.
+- **Where was I?** shows *Unsaved typing was kept for "the scene". Open the scene to choose which version to keep.*, with a button to open it.
 - **When you open that scene**, a box appears over the page titled *Typing from (date and time) was kept*. It says: *The program closed before this typing became a saved version. Nothing has been lost. Choose which one to keep; the other stays in this scene's earlier versions.* It shows the end of the **Kept typing**.
 
 Choose one:

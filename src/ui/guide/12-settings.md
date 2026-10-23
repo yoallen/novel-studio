@@ -26,7 +26,7 @@ Settings holds a lot, so it is laid out like a notebook with numbered pages, the
 | Page | What is on it |
 | --- | --- |
 | **1 This novel** | **Title**, **Your name**, **Author name on this book**, **Target length in words**, **Words per page for page estimates**, and **Your next writing action** |
-| **2 Goals and November** | **Guidance and goals** (the guidance levels and your everyday goal), **A writing push**, and **Door closed** |
+| **2 Goals and focused efforts** | **Guidance and goals** (the guidance levels and your everyday goal), **A writing push**, and **Door closed** |
 | **3 Writing** | **Scene status steps** and **Words for decisions** |
 | **4 The collaborator** | Your API key, sharing, and which Claude answers |
 | **5 About you** | The questions about you as a writer |
@@ -44,7 +44,7 @@ Story Canon remembers which page of Settings you were on, for each novel, while 
 
 **Save settings works across pages.** You can change something on page 1, turn to page 3, change something there, and press **Save settings** once. Both changes are kept. Turning a page never throws away what you typed.
 
-When this guide or the program points you to a part of Settings, it names the page. For example, the line under **Your name** says *About you (page 5)*. Two links elsewhere open Settings straight at the right page: **Turn it on in Settings**, in a conversation while the collaborator is off, opens page **4 The collaborator**, and the **Settings** link in the drafting progress on Where was I opens page **2 Goals and November**.
+When this guide or the program points you to a part of Settings, it names the page. For example, the line under **Your name** says *About you (page 5)*. Two links elsewhere open Settings straight at the right page: **Turn it on in Settings**, in a conversation while the collaborator is off, opens page **4 The collaborator**, and the **Settings** link in the drafting progress on Where was I? opens page **2 Goals and focused efforts**.
 
 **Example.** You want to rename **Developing** to "Pencil" in *The Keeper of Gull Point*. You click **Settings**, then the tab **3 Writing**, and find **Words for decisions** there.
 
@@ -117,17 +117,17 @@ How many words make one printed page, used wherever Story Canon estimates pages.
 
 On page **1 This novel**, under its own heading below the five boxes, **Your next writing action** is one line for what you mean to write next, such as "Draft the opening scene, where Marisol finds the empty boat." The empty box shows a gray example of its own.
 
-What you type here shows as **Next** at the top of **Where was I**, your novel's home page (see [Where was I: your novel's home page](#where-was-i-your-novels-home-page)), and under the book's cover in the Library. So the first thing you see when you open the book tomorrow is what to do.
+What you type here shows as **Next** at the top of **Where was I?**, your novel's home page (see [Where was I? Your novel's home page](#where-was-i-your-novels-home-page)), and under the book's cover in the Library. So the first thing you see when you open the book tomorrow is what to do.
 
 Leave it empty and Story Canon suggests one from where you left off, usually the next scene you planned. The gray line under the heading says so: "Leave empty and the program suggests one from where you left off."
 
 **Why it helps.** The hardest minute of a writing day is the first one, when you have to decide what to do. Writing tonight's decision down means tomorrow's you only has to start.
 
-**Example.** At the end of a session you type "Marisol rows out to the empty boat and finds the name scratched off the stern," and press **Save settings**. Tomorrow, Where was I opens with that line under **Next**.
+**Example.** At the end of a session you type "Marisol rows out to the empty boat and finds the name scratched off the stern," and press **Save settings**. Tomorrow, Where was I? opens with that line under **Next**.
 
 ## Settings: Guidance and goals
 
-Page **2 Goals and November** starts here. The line under the heading reads: "How much the collaborator speaks up about concerns, while you draft and while you plan." This section holds two kinds of setting: the guidance levels, and your everyday goal.
+Page **2 Goals and focused efforts** starts here. The line under the heading reads: "How much the collaborator speaks up about concerns, while you draft and while you plan." This section holds two kinds of setting: the guidance levels, and your everyday goal.
 
 ### Settings: the guidance levels
 
@@ -147,10 +147,10 @@ Drafting starts at **Quiet** and planning at **Advisory**. "Drafting" applies wh
 
 | Choice | What it does |
 | --- | --- |
-| **No goals** | No daily number. Where was I still shows what you wrote. This is where every novel starts. |
-| **Words per day** | A number of words each day. Where was I tracks it every day you write. |
-| **Scenes per week** | A number of scenes each week. It is kept as your goal, but for now Where was I counts words. |
-| **Minutes per day** | Minutes of writing each day. It is kept as your goal, but for now Where was I counts words. |
+| **No goals** | No daily number. Where was I? still shows what you wrote. This is where every novel starts. |
+| **Words per day** | A number of words each day. Where was I? tracks it every day you write. |
+| **Scenes per week** | A number of scenes each week. It is kept as your goal, but for now Where was I? counts words. |
+| **Minutes per day** | Minutes of writing each day. It is kept as your goal, but for now Where was I? counts words. |
 | **Milestones** | No daily number. A box called **My milestones** opens, for the milestones you are working toward, one per line, such as "Act One drafted by March." They are yours to tick off. |
 
 For **Words per day**, **Scenes per week** and **Minutes per day**, a box called **Goal amount** appears beside the dropdown for the number.
@@ -161,7 +161,7 @@ For **Words per day**, **Scenes per week** and **Minutes per day**, a box called
 2. Type a number in **Goal amount** (or your milestones in **My milestones**).
 3. Press **Save settings**.
 
-How the goal shows on Where was I, day by day, is in [Goals, sprints and November](#goals-sprints-and-november).
+How the goal shows on Where was I?, day by day, is in [Goals, sprints and November](#goals-sprints-and-november).
 
 **The common mistake** is setting the goal you would hit on a perfect day. Set the number you can hit on a tired Tuesday. Meeting a small goal every day builds a book; missing a big one builds guilt.
 
@@ -169,29 +169,29 @@ How the goal shows on Where was I, day by day, is in [Goals, sprints and Novembe
 
 ## Settings: planning a writing push
 
-A **writing push** is a stretch of days with a word goal of its own, such as November and 50,000 words, the challenge many writers know as NaNoWriMo (National Novel Writing Month). While a push runs, its daily share replaces your everyday goal. **Where was I** shows how you are tracking against it, starting two weeks before the first day so you can see it coming.
+A **writing push** is a stretch of days with a word goal of its own, such as November and 50,000 words, the challenge many writers know as NaNoWriMo (National Novel Writing Month). While a push runs, its daily share replaces your everyday goal. **Where was I?** shows how you are tracking against it, starting two weeks before the first day so you can see it coming.
 
 **Do most writers need it?** Only if you are doing a challenge or a deadline sprint. Leave it alone otherwise.
 
 **How to set one up:**
 
-1. On page **2 Goals and November**, under the heading **A writing push**, click **Plan a writing push**.
-2. Four boxes appear, already filled in for the coming November and 50,000 words: **Name it**, **First day**, **Last day** and **Words to write in it**. Change any of them.
-3. A line works out the daily share, for example: "That is about 1,667 words a day for 30 days." It goes on to say that this is your daily goal on those days only (your everyday goal applies the rest of the time), that if a day comes up short the difference is shared by the days after it, and that on Where was I you can set a lighter day or a rest day ahead of time.
-4. Leave **Coach me through the push** ticked if you want the push coach on Where was I: a note for each day, the milestones as you reach them, and plain help when you are behind or stuck. Untick it to work without the coach. Under it, **Your own notes for the coach** takes notes of your own, one per line; click **Save my notes**. See [Goals: the push coach](#goals-the-push-coach).
+1. On page **2 Goals and focused efforts**, under the heading **A writing push**, choose where to start: **30 days from today** (30,000 words), **November, 50,000 words**, or **My own dates**.
+2. Four boxes appear, filled in from your choice: **Name it**, **First day**, **Last day** and **Words to write in it**. Change any of them.
+3. A line works out the daily share, for example: "That is about 1,667 words a day for 30 days." It goes on to say that this is your daily goal on those days only (your everyday goal applies the rest of the time), that if a day comes up short the difference is shared by the days after it, and that on Where was I? you can set a lighter day or a rest day ahead of time.
+4. Leave **Coach me through the push** ticked if you want the push coach on Where was I? A note for each day, the milestones as you reach them, and plain help when you are behind or stuck. Untick it to work without the coach. Under it, **Your own notes for the coach** takes notes of your own, one per line; click **Save my notes**. See [Goals: the push coach](#goals-the-push-coach).
 5. Press **Save settings**.
 
 To remove the push, click **No push** and press **Save settings**.
 
 A push can run up to a year. The last day cannot come before the first; if it does, Settings tells you so when you save.
 
-Lighter days, rest days and the catch-up math are set from **Where was I**, not here. See [Goals, sprints and November](#goals-sprints-and-november).
+Lighter days, rest days and the catch-up math are set from **Where was I?**, not here. See [Goals, sprints and November](#goals-sprints-and-november).
 
 **Example.** You want to finish Act One of *The Keeper of Gull Point* over spring break. Name it "Spring break," set the first and last days, and type 15000. The line says "That is about 1,667 words a day for 9 days." Save.
 
 ## Settings: Door closed
 
-Page **2 Goals and November** ends with **Door closed**, which switches off everything that judges your pages until a day you choose. It acts through its own buttons, with no need for **Save settings**. What it does and how to use it are taught in [Goals: door closed](#goals-door-closed).
+Page **2 Goals and focused efforts** ends with **Door closed**, which switches off everything that judges your pages until a day you choose. It acts through its own buttons, with no need for **Save settings**. What it does and how to use it are taught in [Goals: door closed](#goals-door-closed).
 
 ## Settings: scene status steps
 
@@ -326,7 +326,7 @@ A line, "Methods from any teacher or book, with their own beats, questions and f
 
 ### Settings: Stages a book can be in
 
-A **stage** is where a whole book stands in its life. You choose it from a dropdown on the book's cover in the Library, and from the **Stage** menu on Where was I. The box **Stages a book can be in** lists the choices, one per line: Idea, Plotting and planning, First draft, Second draft, Third draft, Revising, Editing, With beta readers (trusted early readers), With an editor, Querying (sending to literary agents), On submission (an agent is offering it to publishers), Published, Resting.
+A **stage** is where a whole book stands in its life. You choose it from a dropdown on the book's cover in the Library, and from the **Stage** menu on Where was I?. The box **Stages a book can be in** lists the choices, one per line: Idea, Plotting and planning, First draft, Second draft, Third draft, Revising, Editing, With beta readers (trusted early readers), With an editor, Querying (sending to literary agents), On submission (an agent is offering it to publishers), Published, Resting.
 
 Add, rename, reorder or delete lines to make your own list, then press **Save settings**. Stages are labels only. They never lock, hide or change anything. How a stage differs from a draft is explained in [Drafts: keeping a whole version of the book](#drafts-keeping-a-whole-version-of-the-book).
 
@@ -433,7 +433,7 @@ Once sharing is on, each novel gets its own notes file in your shared folder, in
 
 1. Open the file from the OneDrive app in Word.
 2. Tap the microphone and dictate. Start each note on a new line.
-3. When Story Canon has that novel open on one of your computers, each new paragraph arrives as a captured thought, waiting under **Thoughts waiting to be sorted** on Where was I (page **2 Still open**). A message says "A note from the road came in."
+3. When Story Canon has that novel open on one of your computers, each new paragraph arrives as a captured thought, waiting under **Thoughts waiting to be sorted** on Where was I? (page **2 Still open**). A message says "A note from the road came in."
 
 A few things to know:
 
@@ -581,7 +581,7 @@ Novel setup saves each choice as you make it. Novel setup itself is taught in [Y
 
 A **draft** is one complete pass through your book. Your first draft is the first full version; revising it from start to finish makes a second. When you finish one, Story Canon can keep an exact copy of the whole book as it stood, so any scene can be compared with it later.
 
-**Where:** on **Where was I**, next to the **Stage** menu, a line says **Draft:** and the current draft's name, with the link **Drafts**. Click it. (**The Writing Room** stays lit in the list of views while you are on the Drafts page.)
+**Where:** on **Where was I?**, next to the **Stage** menu, a line says **Draft:** and the current draft's name, with the link **Drafts**. Click it. (**The Writing Room** stays lit in the list of views while you are on the Drafts page.)
 
 **Why it helps.** Revision is braver when the old version is one click away. You can cut a scene to the bone without saving a copy "just in case."
 

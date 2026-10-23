@@ -8,7 +8,7 @@ Press **F1** from anywhere, including the Library, to open Help, and type a word
 
 ### Where is my novel's home page?
 
-It is **Where was I**, the first view in the list on the right. The list shows the words "your novel's home page" under its name, and the top of the page says "This is (your title)'s home page." Story Canon opens every novel there, and it picks up where you left off: the next thing to write at the top, then three numbered pages. **1 Today** has how your words are going and notes you left for later; **2 Still open** has questions still open and your latest decisions; **3 This week** sums up the last seven days. Whenever you lose your place, click **Where was I**. See [Where was I: your novel's home page](#where-was-i-your-novels-home-page).
+It is **Where was I?**, the first view in the list on the right. The list shows the words "your novel's home page" under its name, and the top of the page says "This is (your title)'s home page." Story Canon opens every novel there, and it picks up where you left off: the next thing to write at the top, then three numbered pages. **1 Today** has how your words are going and notes you left for later; **2 Still open** has questions still open and your latest decisions; **3 This week** sums up the last seven days. Whenever you lose your place, click **Where was I?**. See [Where was I? Your novel's home page](#where-was-i-your-novels-home-page).
 
 ### How do I get back to all my novels?
 
@@ -20,7 +20,7 @@ Press **F1**, or click **Help**, the last view in the list on the right. In the 
 
 ### I pressed Capture. Where did my thought go?
 
-For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**, each on its own page: a thought on the page **Captured thoughts**, a question on **Questions** (headed **Questions I have**), an idea on **Ideas** (headed **Things and ideas I'm thinking about**). Click the page tab to turn to it. Unsorted thoughts also show on **Where was I**, page **2 Still open**, under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [Writing Room: Capture while writing](#writing-room-capture-while-writing).
+For a few seconds after you capture, a short line beside the **Capture** button says where the thought went; then it fades. Captured thoughts wait in the Story Brain under **Questions and ideas**, each on its own page: a thought on the page **Captured thoughts**, a question on **Questions** (headed **Questions I have**), an idea on **Ideas** (headed **Things and ideas I'm thinking about**). Click the page tab to turn to it. Unsorted thoughts also show on **Where was I?**, page **2 Still open**, under **Thoughts waiting to be sorted**, and a thought captured inside a scene also waits in that scene's plan, under **Attached to this scene**. See [Writing Room: Capture while writing](#writing-room-capture-while-writing).
 
 ### What is the difference between "Just a thought" and "An idea I am thinking about"?
 
@@ -157,7 +157,7 @@ No. Both computers changed the novel before sharing, so it asks which one is the
 
 ### A note I dictated on my phone never arrived.
 
-The novel has to be open in Story Canon, on a computer that shares through that folder. The note arrives about a minute after the file stops changing and syncs, and a few minutes longer just after Story Canon starts or the computer wakes. Look under **Thoughts waiting to be sorted** on Where was I, page **2 Still open**. See [Sharing: notes from the road](#sharing-notes-from-the-road).
+The novel has to be open in Story Canon, on a computer that shares through that folder. The note arrives about a minute after the file stops changing and syncs, and a few minutes longer just after Story Canon starts or the computer wakes. Look under **Thoughts waiting to be sorted** on Where was I?, page **2 Still open**. See [Sharing: notes from the road](#sharing-notes-from-the-road).
 
 ## Questions about the collaborator
 

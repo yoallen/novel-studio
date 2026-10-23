@@ -1,6 +1,6 @@
 # Goals, sprints and November
 
-This chapter is about the number side of writing: how Story Canon counts your words each day, a daily goal for ordinary days, a **writing push** such as November and 50,000 words, how Story Canon works out what each day needs, what happens on the days you fall short, and how to plan a lighter day or a rest day without feeling you have failed. It also covers **sprints** (writing against a clock), **door closed** (no judging until a day you choose), and notes you dictate away from the desk. Read it when you want a goal, before a November push, or the first time the columns on Where was I puzzle you.
+This chapter is about the number side of writing: how Story Canon counts your words each day, a daily goal for ordinary days, a **writing push** such as November and 50,000 words, how Story Canon works out what each day needs, what happens on the days you fall short, and how to plan a lighter day or a rest day without feeling you have failed. It also covers **sprints** (writing against a clock), **door closed** (no judging until a day you choose), and notes you dictate away from the desk. Read it when you want a goal, before a November push, or the first time the columns on Where was I? puzzle you.
 
 All of it is optional. With no goal at all, Story Canon still shows how many words you wrote each day, and never judges a day.
 
@@ -8,7 +8,7 @@ All of it is optional. With no goal at all, Story Canon still shows how many wor
 
 Your progress appears in three places:
 
-- **Where was I**, your novel's home page, on its page **1 Today**: the **drafting progress panel**, with a thin column for each day and a few figures under it. This is the main one, and most of this chapter is about it.
+- **Where was I?**, your novel's home page, on its page **1 Today**: the **drafting progress panel**, with a thin column for each day and a few figures under it. This is the main one, and most of this chapter is about it.
 - **The Writing Room**, in the small line under the page: *1,204 words in this scene, today's goal 1,743*. Today's goal appears there only once you have a goal.
 - **The Writing Room binder**, at the top: the whole book's word count, and "of" your target length if you set one.
 
@@ -35,21 +35,21 @@ Every number in this chapter starts from one idea: **a day's words are the words
 
 **How to set one.**
 
-1. Click **Settings** on the right edge of the window, then the page tab **2 Goals and November**.
+1. Click **Settings** on the right edge of the window, then the page tab **2 Goals and focused efforts**.
 2. In the section **Guidance and goals**, open the **Everyday goal** dropdown and choose **Words per day**.
 3. In **Goal amount**, type your number, such as 500.
 4. Click **Save settings** at the bottom of the window.
 
-Where was I now measures every day this month against 500. The top line says *Today, 74 words of your 500.*, each day's column gets a thin dashed line at the goal's height, and the columns turn dark on days you reach it.
+Where was I? now measures every day this month against 500. The top line says *Today, 74 words of your 500.*, each day's column gets a thin dashed line at the goal's height, and the columns turn dark on days you reach it.
 
 **The choices in the dropdown.** A gray line under the dropdown says what the one you picked does.
 
 | Choice | What it does now |
 | --- | --- |
-| **No goals** | No daily number. Where was I still shows what you wrote each day |
-| **Words per day** | A number of words each day. Where was I tracks it every day you write |
-| **Scenes per week** | Kept as your goal in Settings. Where was I counts words for now, so the columns show no goal line |
-| **Minutes per day** | Kept as your goal in Settings. Where was I counts words for now |
+| **No goals** | No daily number. Where was I? still shows what you wrote each day |
+| **Words per day** | A number of words each day. Where was I? tracks it every day you write |
+| **Scenes per week** | Kept as your goal in Settings. Where was I? counts words for now, so the columns show no goal line |
+| **Minutes per day** | Kept as your goal in Settings. Where was I? counts words for now |
 | **Milestones** | No daily number. A box, **My milestones**, holds the milestones you are working toward, one per line, such as *Act One drafted by March*. They are kept in Settings for you to read and tick off yourself |
 
 **The common mistake** is setting the everyday goal to your best-day number. A goal you meet four days out of five builds a habit; one you miss four days out of five builds dread. Set the number you can reach on a tired Tuesday.
@@ -58,7 +58,7 @@ Where was I now measures every day this month against 500. The top line says *To
 
 ## Goals: reading the drafting progress panel
 
-The panel on Where was I starts with a heading in slanted purple type: the month's name, or your push's name (or *Your writing push* if you left the name empty). Under it is a sentence about today, such as *Today, 600 words of your 1,743.* Then come the columns: one thin column per day of the month (or of the push), with day numbers underneath.
+The panel on Where was I? starts with a heading in slanted purple type: the month's name, or your push's name (or *Your writing push* if you left the name empty). Under it is a sentence about today, such as *Today, 600 words of your 1,743.* Then come the columns: one thin column per day of the month (or of the push), with day numbers underneath.
 
 ### Goals: the marks on each column
 
@@ -108,8 +108,8 @@ Each is explained in full below. Under the figures, during a push, are **Set a l
 
 ### Goals: setting up a November push
 
-1. Click **Settings** on the right edge of the window, then the page tab **2 Goals and November**.
-2. Find the section **A writing push** and click **Plan a writing push**. Story Canon fills in November: **Name it** *November*, **First day** November 1, **Last day** November 30, **Words to write in it** 50,000.
+1. Click **Settings** on the right edge of the window, then the page tab **2 Goals and focused efforts**.
+2. Find the section **A writing push**. Under **Plan a writing push**, click **November, 50,000 words**. Story Canon fills in **Name it** *November*, **First day** November 1, **Last day** November 30, **Words to write in it** 50,000. (The other choices are **30 days from today**, which starts at 30,000 words, and **My own dates**.)
 3. Change anything you like.
 4. Read the line under the boxes: *That is about 1,667 words a day for 30 days.* That is your daily goal on the push's days only. The rest of the time, your everyday goal applies.
 5. Click **Save settings** at the bottom of the window.
@@ -118,7 +118,7 @@ To remove the push, click **No push** in the same section, then **Save settings*
 
 ### Goals: before the push starts
 
-Where was I starts showing the push **two weeks before its first day**, so you can see it coming. The heading says **November**, and the panel says *November starts on November 1. 50,000 words in 30 days is about 1,667 a day.* Under it: *Today, 74 words. The chart below fills in once November begins.* Today's words still count toward your everyday goal, if you have one.
+Where was I? starts showing the push **two weeks before its first day**, so you can see it coming. The heading says **November**, and the panel says *November starts on November 1. 50,000 words in 30 days is about 1,667 a day.* Under it: *Today, 74 words. The chart below fills in once November begins.* Today's words still count toward your everyday goal, if you have one.
 
 This is the time to set any lighter or rest days you already know about (see [Goals: lighter days and rest days](#goals-lighter-days-and-rest-days)) and to decide whether to close the door for the month (see [Goals: door closed](#goals-door-closed)).
 
@@ -136,7 +136,7 @@ For a week after the last day, the panel says *November is done: 51,204 words of
 
 ## Goals: the push coach
 
-**What it is.** During a writing push, the **Today** page of Where was I carries a coach: a short section above your drafting progress that helps you through the push, not just counts it. Tracking tells you where you are. The coach helps you keep going. It works for a push of any length, from a few days to a year.
+**What it is.** During a writing push, the **Today** page of Where was I? carries a coach: a short section above your drafting progress that helps you through the push, not just counts it. Tracking tells you where you are. The coach helps you keep going. It works for a push of any length, from a few days to a year.
 
 **What it shows.**
 
@@ -160,7 +160,7 @@ For a week after the last day, the panel says *November is done: 51,204 words of
 
 **Just for fun, on purpose.** The light line comes on rest days, the day after a big day, and every third day or so. The other days alternate between writers and writing.
 
-**Your own notes.** On page **2 Goals and November** of Settings, under **Coach me through the push**, type notes of your own, one per line: a line that keeps you going, something a mentor told you, why this book matters. Click **Save my notes**. They mix in with the coach's notes on about one ordinary day in four, headed *In your own words*. They are kept on this computer and come with this novel to your other computer.
+**Your own notes.** On page **2 Goals and focused efforts** of Settings, under **Coach me through the push**, type notes of your own, one per line: a line that keeps you going, something a mentor told you, why this book matters. Click **Save my notes**. They mix in with the coach's notes on about one ordinary day in four, headed *In your own words*. They are kept on this computer and come with this novel to your other computer.
 
 **Where your sprint pace comes from.** Each sprint you finish on a computer is remembered on that computer: how many minutes, and how many words. The coach divides one by the other. It's an estimate for planning, never a target.
 
@@ -201,7 +201,7 @@ November has days when 1,667 words won't happen: a late shift, a birthday, Thank
 
 **What it is.** A **set day** is a day in your push whose goal you choose yourself. A **lighter day** has a smaller number, such as 300. A **rest day** has zero. You can also set a **bigger day**, such as 3,000 for a free Saturday. On a set day, your number is that day's goal, and meeting it counts as meeting the day.
 
-**Where it is.** On Where was I, under the progress figures, the link **Set a lighter day**. It appears only with a push that has a word goal, from two weeks before it starts until its last day.
+**Where it is.** On Where was I?, under the progress figures, the link **Set a lighter day**. It appears only with a push that has a word goal, from two weeks before it starts until its last day.
 
 **How to set a day.**
 
@@ -325,7 +325,7 @@ Your plans, notes, search and reading aloud all stay. Anything that waits shows 
 
 **Why pair it with a push.** A push is about getting words down. Judging them is a different kind of attention, and it pulls you into fixing. Closing the door for the push keeps the two apart.
 
-**How to close it from Where was I.**
+**How to close it from Where was I?.**
 
 1. Under your push's figures, find the link **Close the door through November 30** (it always names your push's last day).
 2. Click it.
@@ -334,7 +334,7 @@ The link is replaced by *The door is closed through November 30. Nothing judges 
 
 **How to close it from Settings, with or without a push.**
 
-1. Open **Settings**, click the page tab **2 Goals and November**, and find the section **Door closed**.
+1. Open **Settings**, click the page tab **2 Goals and focused efforts**, and find the section **Door closed**.
 2. In **Keep it closed through**, choose a day. It suggests your push's last day, or a day thirty days from now.
 3. Click **Close the door**.
 
@@ -346,7 +346,7 @@ The link is replaced by *The door is closed through November 30. Nothing judges 
 
 November doesn't only happen at the desk. If you write on more than one computer and have turned on sharing (see [Settings and your other computers](#settings-and-your-other-computers)), each novel gets its own notes file in your shared folder. You can dictate into it from your phone, in Word, one note to a paragraph.
 
-When Story Canon has the novel open, each new paragraph arrives as a captured thought, waiting under **Thoughts waiting to be sorted** on Where was I (page **2 Still open**), usually within a minute of the file syncing, and a message says *A note from the road came in.* During a sprint that message waits, so the quiet isn't broken; the note still arrives.
+When Story Canon has the novel open, each new paragraph arrives as a captured thought, waiting under **Thoughts waiting to be sorted** on Where was I? (page **2 Still open**), usually within a minute of the file syncing, and a message says *A note from the road came in.* During a sprint that message waits, so the quiet isn't broken; the note still arrives.
 
 **How it fits a push.** A note from the road is a thought, not manuscript, so it never counts toward your day's words. Use it for the line about the fog over Port Ellery that comes to you in the car, then write it into the scene when you sit down. Where to find the file and how to dictate into it are in [Settings and your other computers](#settings-and-your-other-computers).
 
@@ -354,9 +354,9 @@ When Story Canon has the novel open, each new paragraph arrives as a captured th
 
 Here is how the pieces fit together over one month of *The Keeper of Gull Point*.
 
-**October 18.** You open **Settings**, click **Plan a writing push**, keep November and 50,000, and click **Save settings**. On Where was I, a **November** panel appears: *November starts on November 1. 50,000 words in 30 days is about 1,667 a day.* You know Thanksgiving week will be hard, so you click **Set a lighter day** and set November 26 to 300 and November 27 as a rest day. You click **Close the door through November 30**.
+**October 18.** You open **Settings**, click **November, 50,000 words** under **Plan a writing push**, keep November and 50,000, and click **Save settings**. On Where was I?, a **November** panel appears: *November starts on November 1. 50,000 words in 30 days is about 1,667 a day.* You know Thanksgiving week will be hard, so you click **Set a lighter day** and set November 26 to 300 and November 27 as a rest day. You click **Close the door through November 30**.
 
-**November 1.** You open the book, read **Next** on Where was I, and click **Write**. You do two 30-minute sprints: Marisol finds the empty boat on her rocks. 1,800 words. The column is dark.
+**November 1.** You open the book, read **Next** on Where was I?, and click **Write**. You do two 30-minute sprints: Marisol finds the empty boat on her rocks. 1,800 words. The column is dark.
 
 **November 6.** You are down with a cold and write nothing. The column is empty. You don't panic: tomorrow's goal is about 70 words higher, that's all.
 
@@ -381,6 +381,6 @@ Here is how the pieces fit together over one month of *The Keeper of Gull Point*
 | **Set a lighter day** isn't there | It appears only with a writing push that has a word goal, until the push ends |
 | A day you set has gone from the list | The list shows set days from today on. Past set days still count, in the columns and in Against the plan |
 | Days in a row didn't reset after a missed day | The missed day was a rest day you set, or today isn't over yet |
-| Scenes per week or Minutes per day shows no goal line | Those goals are kept in Settings, but Where was I measures words for now |
+| Scenes per week or Minutes per day shows no goal line | Those goals are kept in Settings, but Where was I? measures words for now |
 | No word line or goal under the page | A sprint is running. It comes back when the sprint ends |
 | No goal on the word line on a rest day | A rest day's goal is zero, so there is nothing to show |

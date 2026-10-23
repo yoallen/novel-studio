@@ -4,7 +4,7 @@ import { api } from './api';
 import type { Ctx } from './App';
 import { doorClosed } from '../core/goals';
 
-// Drafting progress on Where was I: one column per day, marked the way facts are marked.
+// Drafting progress on Where was I? One column per day, marked the way facts are marked.
 // Ink where the day's goal was met, pencil where words went down short of it, a blank line
 // where none did, and the author's magenta under today.
 
@@ -50,7 +50,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
           : <>Today, <b>{n(Math.max(0, r.todayWords))}</b> words{daily ? <> of your {n(daily)}</> : ''}.{daily && r.todayWords >= daily ? ' The day’s goal is met.' : ''}</>}</p>
       )}
 
-      <ol className="tally" aria-label={`Words each day, ${longDay(r.start)} to ${longDay(r.end)}`} style={{ gridTemplateColumns: `repeat(${r.days.length}, minmax(0, 1fr))` }}>
+      <ol className="tally" aria-label={`Words each day, ${longDay(r.start)} to ${longDay(r.end)}`} style={{ gridTemplateColumns: `repeat(${r.days.length}, minmax(0, 2.25rem))` }}>
         {r.days.map((d: any, i: number) => (
           <li key={d.day} data-mark={markOf(d)} data-today={d.today || undefined} aria-label={said(d)} title={said(d)}>
             <span className="tally-col">

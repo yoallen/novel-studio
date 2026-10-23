@@ -359,7 +359,7 @@ Click **Every chapter** to go back to the whole book. The file's name says which
 Just above the **Export** button, a short summary updates as you choose, such as "3 chapters and Character profiles, as Word (.docx)." Under it, shaded notes warn you about anything this particular file would lose, or include by surprise:
 
 - What the format cannot keep, counted for your book: "Plain text does not keep italics (12 passages). Your manuscript itself is unchanged."
-- "2 notes left for later, [[in double brackets]], are still in the text and will print as written. They are listed on Where was I." A **note for later** is a reminder you typed inside your pages between double square brackets (see [The Writing Room](#the-writing-room)). Notes print exactly as typed, so clear them first, or leave them on purpose for a working copy.
+- "2 notes left for later, [[in double brackets]], are still in the text and will print as written. They are listed on Where was I?." A **note for later** is a reminder you typed inside your pages between double square brackets (see [The Writing Room](#the-writing-room)). Notes print exactly as typed, so clear them first, or leave them on purpose for a working copy.
 - "Part titles (such as "Part One") are not printed yet. The chapters export without them."
 
 Read these before you click. They are the reason nothing surprises you after the file is sent.

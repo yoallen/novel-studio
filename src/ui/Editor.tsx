@@ -69,7 +69,7 @@ export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; 
   const hush = !!quiet || doorClosed(ctx.settings);
   useEffect(() => { editor?.view.dom.setAttribute('spellcheck', hush ? 'false' : 'true'); }, [editor, hush]);
 
-  // Today's goal, as Where was I works it out (a day she set, or an even share of what is left).
+  // Today's goal, as Where was I? works it out (a day she set, or an even share of what is left).
   const [target, setTarget] = useState<number | null>(null);
   useEffect(() => {
     const tz = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone; } catch { return ''; } })();

@@ -358,7 +358,7 @@ On a character, a small line reads *Low-energy day? One line counts.* with a **F
 
 **Pages in front, in Narrative Zoom.** When you open a record inside Narrative Zoom (the view where you plan the book's shape), one or two pages about where it sits in the story come first, and the record's own pages follow, numbered after them. See [Zoom: a beat page](#zoom-a-beat-page), [Zoom: a scene card page](#zoom-a-scene-card-page) and [Following a record through the story](#following-a-record-through-the-story).
 
-**Other screens use the same pages.** Where was I, Settings, Novel setup, the Writing Room's scene plan, the Story Brain's **Questions and ideas**, **Choices ahead** and **Suggestions waiting**, the continuity checks **Timelines**, **Who knows what**, **Setups and payoffs** and **Cast**, and **Send something out** are laid out the same way: numbered tabs, **All pages** at the end, links to the page before and after, and the page you were on remembered while the program is open.
+**Other screens use the same pages.** Where was I?, Settings, Novel setup, the Writing Room's scene plan, the Story Brain's **Questions and ideas**, **Choices ahead** and **Suggestions waiting**, the continuity checks **Timelines**, **Who knows what**, **Setups and payoffs** and **Cast**, and **Send something out** are laid out the same way: numbered tabs, **All pages** at the end, links to the page before and after, and the page you were on remembered while the program is open.
 
 **The pages of each kind.** The last page of every kind is **Notes and connections**: the Notes box, Connections, any fields of your own, and **Add your own field**. The pages before it depend on the kind. Pages marked *(only with…)* appear only when that method or choice is on; the others are always there.
 
@@ -691,7 +691,7 @@ An accepted suggestion keeps its history: its margin says *Suggested by* the col
 
 Statuses are not decoration. The rest of Story Canon reads them:
 
-- **Where was I** lists your open questions and your latest decisions, on its page **2 Still open**.
+- **Where was I?** lists your open questions and your latest decisions, on its page **2 Still open**.
 - **Choices ahead**, in the Story Brain, collects every Still open field, every field with pencil answers and no decision, and every suggestion waiting.
 - **Narrative Zoom** counts a scene card as placed only when its spot is decided, so its checks never report a problem based on a guess.
 - **The collaborator** treats Decided facts as true, treats pencil as possibilities, never fills in an open line by guessing, and never offers an example as a fact.
@@ -852,7 +852,7 @@ A character record holds everything you know about one person in your story: the
 
 - **To open a character:** click **Story Brain**, then **Characters** in the left list, then the character's name.
 - **To start one:** on the Characters list, type a name in the box at the bottom (*A name is enough to start*) and click **Add character**. The new record opens on its first page, **Who they are**.
-- **Plant the seed**, offered on a brand-new novel's home page, also starts your lead character from a few short questions, all in pencil (see [Where was I: your novel's home page](#where-was-i-your-novels-home-page)). Its answers land on the character as **Who they are**, **Role** (*Lead*), **Goal**, **Conflict** and **What they stand to lose**, and its guess at the ending goes to the Story world.
+- **Plant the seed**, offered on a brand-new novel's home page, also starts your lead character from a few short questions, all in pencil (see [Where was I? Your novel's home page](#where-was-i-your-novels-home-page)). Its answers land on the character as **Who they are**, **Role** (*Lead*), **Goal**, **Conflict** and **What they stand to lose**, and its guess at the ending goes to the Story world.
 
 The Characters list shows, for each person, how many facts are decided, developing and still open, and a few telling facts such as *Narrative importance: main*.
 

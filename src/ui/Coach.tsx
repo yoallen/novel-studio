@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 
-// The push coach on Where was I's Today page: during a writing push, a note for the day, a milestone
+// The push coach on the Today page of Where was I?: during a writing push, a note for the day, a milestone
 // when one is crossed, what being behind or ahead takes, and, when she's stuck, the next scene to write
 // with one question to start on. It speaks only during a push, and Settings can turn it off.
 
@@ -51,29 +51,53 @@ export function CoachCard({ ctx }: { ctx: Ctx }) {
   const when = c.phase === 'before'
     ? (c.daysUntil === 1 ? `${c.name} starts tomorrow` : `${c.name} starts in ${c.daysUntil} days`)
     : c.phase === 'after' ? `${c.name} is done` : `Day ${c.dayNo} of ${c.daysTotal}`;
+  const share = c.goal ? Math.min(1, Math.max(0, c.total / c.goal)) : null;
+  const spotHead = c.spotlight ? (c.spotlight.kind === 'fun' ? 'Just for fun' : c.spotlight.kind === 'writer' ? 'About a writer' : 'About writing') : '';
 
   return (
     <section className="coach" aria-labelledby="coach-h">
-      <p className="coach-when">{when}</p>
+      <header className="coach-top">
+        <p className="coach-when">{when}{c.phase === 'during' && c.name ? <span className="coach-push"> of {c.name}</span> : null}</p>
+        {share != null && c.phase !== 'before' && (
+          <div className="coach-ribbon" role="img" aria-label={`${n(c.total)} of ${n(c.goal)} words`}>
+            <span className="coach-ribbon-fill" style={{ width: `${share * 100}%` }} />
+            {[0.1, 0.25, 0.5, 0.75, 0.9].map((m) => <span key={m} className="coach-ribbon-tick" data-passed={share >= m || undefined} style={{ left: `${m * 100}%` }} />)}
+          </div>
+        )}
+        {share != null && c.phase !== 'before' && <p className="coach-ribbon-label">{n(c.total)} of {n(c.goal)} words{c.next && c.phase === 'during' ? <>. Next: {c.next.title.toLowerCase()}, {n(c.next.toGo)} to go.</> : '.'}</p>}
+      </header>
+
       {c.milestone && (
         <div className="coach-milestone" role="status">
-          <strong>{c.milestone.title}: {n(c.milestone.words)} words{c.milestone.when === 'yesterday' ? ', reached yesterday' : ''}.</strong> {c.milestone.body}
+          <span className="coach-milestone-mark" aria-hidden="true">&#10086;</span>
+          <div>
+            <p className="coach-milestone-title">{c.milestone.title}{c.milestone.when === 'yesterday' ? ', yesterday' : ''}: {n(c.milestone.words)} words</p>
+            <p className="coach-milestone-body">{c.milestone.body}</p>
+          </div>
         </div>
       )}
-      <h3 id="coach-h">{c.note.kind === 'own' ? <span className="coach-own">{c.note.title}</span> : c.note.title}</h3>
-      <p className="coach-body">{c.note.body}</p>
-      {c.note.from && <p className="coach-from">From {c.note.from}.</p>}
+
+      <article className="coach-note" data-own={c.note.kind === 'own' || undefined}>
+        <h3 id="coach-h">{c.note.title}</h3>
+        <p className="coach-body">{c.note.body}</p>
+        {c.note.from && <p className="coach-from">From {c.note.from}</p>}
+      </article>
+
       {c.spotlight && (
-        <p className="coach-spot"><span className="coach-spot-head">{c.spotlight.kind === 'fun' ? 'Just for fun' : c.spotlight.kind === 'writer' ? 'About a writer' : 'About writing'}.</span> {c.spotlight.text}</p>
+        <aside className="coach-spot" data-kind={c.spotlight.kind}>
+          <p className="coach-spot-head">{spotHead}</p>
+          <p className="coach-spot-text">{c.spotlight.text}</p>
+        </aside>
       )}
-      {c.where?.beat && <p className="small coach-where"><span className="muted">Where you are in the book:</span> your next scene sits at <b>{c.where.beat}</b>.{c.where.text ? ` ${c.where.text}` : ''}</p>}
+
       {c.recap && (
         <p className="coach-pace">
           You wrote <b>{n(c.recap.total)}</b> words{c.recap.goal ? ` of ${n(c.recap.goal)}` : ''}{c.recap.met ? ', and you reached your goal' : ''}. You wrote on {c.recap.daysWritten} of {c.recap.daysTotal} days{c.recap.best ? `, and your biggest day was ${n(c.recap.best.words)} words` : ''}.
         </p>
       )}
       {c.pace && <p className="coach-pace" data-kind={c.pace.kind}>{c.pace.text}</p>}
-      {c.next && c.phase === 'during' && <p className="small muted">Next milestone: {c.next.title.toLowerCase()} at {n(c.next.words)} words, {n(c.next.toGo)} to go.</p>}
+      {c.where?.beat && <p className="coach-where"><span className="coach-where-head">Where you are in the book.</span> Your next scene sits at <b>{c.where.beat}</b>.{c.where.text ? ` ${c.where.text}` : ''}</p>}
+
       <div className="row small coach-actions">
         {c.stuck && !stuck && <button className="btn small" onClick={() => setStuck(true)}>I'm stuck</button>}
         <span className="grow" />

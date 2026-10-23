@@ -86,7 +86,7 @@ export interface ProjectSettings {
   dayGoals: Record<string, number>;
   /** Door closed: through this day (YYYY-MM-DD), nothing judges the draft. null when the door is open. */
   doorClosedUntil: string | null;
-  /** The push coach on Where was I: a note for the day, milestones, pace help and the next scene when stuck. */
+  /** The push coach on Where was I? A note for the day, milestones, pace help and the next scene when stuck. */
   coach: boolean;
   /** Her own notes for the push coach, carried with the novel so they reach her other computer. */
   coachOwn: string[];

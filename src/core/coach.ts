@@ -1,4 +1,4 @@
-// The push coach: during a writing push (any length, such as November and 50,000 words), Where was I's
+// The push coach: during a writing push (any length, such as November and 50,000 words), Where was I?'s
 // Today page carries a short note for the day, a line about a writer, about writing or just for fun,
 // the milestones that mean something, plain help with pace, a line about where the next scene sits in
 // the book, and the next unwritten scene when she's stuck.
@@ -35,7 +35,7 @@ export const MILESTONES: { share: number; title: string; body: string }[] = [
   { share: 0.5, title: 'Halfway', body: 'Snyder and Brody put the Midpoint here: the place a story changes direction. If your draft feels different now than it did on the first day, the story is finding itself.' },
   { share: 0.75, title: 'Three quarters', body: 'This stretch often feels darkest, for writers and heroes alike. The end is close enough to see. Keep going.' },
   { share: 0.9, title: 'Ninety percent', body: 'You can finish from here on ordinary days. No heroics needed.' },
-  { share: 1, title: 'You reached your goal', body: 'Write the date down. Whatever the draft needs next, it exists now, and a draft that exists can be made better. One that does not exist cannot.' },
+  { share: 1, title: 'You reached your goal', body: 'You set a goal and kept it. Whatever the draft needs next, it exists now, and a draft that exists can be made better. One that does not exist cannot.' },
 ];
 
 /** The phase of day i (0-based) of a push n days long. */
