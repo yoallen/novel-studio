@@ -1,12 +1,10 @@
 // The shape of the book: the geometry behind the drawing on the Today page, kept free of the page
 // so it can be tested.
 //
-// The line is the whole book, from its first word to THE END, as long as her target length (or, with no
-// target, as long as the push would make it). Where she is comes from words alone: every word in the
-// book over that length. The line's rise and fall is a story's tension: quiet in the set-up, wobbling
-// through the struggle, dropping at the dark moment, peaking at the climax. The beats are signposts at
-// the share of the book their sheet gives them. A writing push is a stretch marked under the line,
-// from where the book stood on its first day to where its goal would take it.
+// The line is the whole book, from its first word to THE END. Its rise and fall is a story's tension: quiet
+// in the set-up, wobbling through the struggle, dropping at the dark moment, peaking at the climax. The beats
+// are signposts at the share of the book their sheet gives them. Where she is comes from her writing, never
+// from a word count: a beat is in ink once a scene on it has words, in pink while she is writing in it.
 
 export type ShapeDay = { day: string; words: number; goal?: number | null; set?: boolean; future?: boolean; today?: boolean };
 export type ShapeSegment = { id: string; name: string; from: number; to: number; moment?: string | null; written?: boolean };
@@ -15,18 +13,30 @@ export type BeatState = 'written' | 'now' | 'ahead';
 export type ShapeLabel = { id: string; name: string; x: number; y: number; state: BeatState; tick: [number, number] };
 export type Box = { x0: number; x1: number; y0: number; y1: number };
 
-export const W = 700, H = 300;
-const L = 20, R = 640, BASE = 255;
+// The drawing is wide, the whole width of the page, so the beats have room to breathe; THE END is written
+// past the end of the line, not under it.
+export const W = 1000, H = 360;
+const L = 20, R = 850, BASE = 275;
 /** Label sizes, in drawing units: beats reached, beats ahead, and the words that must always be there. */
-export const SIZE = { reached: 30, ahead: 25, here: 27, end: 36, push: 24 };
+export const SIZE = { reached: 34, ahead: 29, here: 31, end: 42, push: 24 };
+/** The least space between any two things on the map, in drawing units. */
+export const GAP = 10;
 
-/** A label's width in the pen's narrow hand, a little generous so nothing touches. */
-export const labelWidth = (name: string, size: number) => name.length * size * 0.42 + 10;
-/** A pen label's box at a baseline, anchored at its start, middle or end. */
+/**
+ * A label's width in the pen's narrow hand, measured from Just Another Hand: capitals and the wide m and w
+ * take more room than the rest. A little generous, so nothing touches.
+ */
+export const labelWidth = (name: string, size: number) =>
+  [...name].reduce((a, ch) => a + (ch === ' ' ? 0.15 : /[A-Z]/.test(ch) ? 0.37 : /[mwMW]/.test(ch) ? 0.4 : 0.27), 0) * size + 8;
+/** A pen label's box at a baseline, anchored at its start, middle or end: tall letters above, tails below. */
 export function boxAt(x: number, y: number, name: string, size: number, anchor: 'start' | 'middle' | 'end' = 'middle'): Box {
   const w = labelWidth(name, size), x0 = anchor === 'start' ? x : anchor === 'end' ? x - w : x - w / 2;
-  return { x0, x1: x0 + w, y0: y - size, y1: y + 3 };
+  return { x0, x1: x0 + w, y0: y - size * 0.78, y1: y + size * 0.32 };
 }
+const hits = (a: Box, b: Box, gap = GAP) => a.x0 < b.x1 + gap && a.x1 > b.x0 - gap && a.y0 < b.y1 + gap && a.y1 > b.y0 - gap;
+/** Does a box touch the line, with room to spare? */
+const onLine = (pts: [number, number][], b: Box, gap = GAP - 2) => pts.some(([x, y]) => x >= b.x0 - gap && x <= b.x1 + gap && y >= b.y0 - gap && y <= b.y1 + gap);
+const inside = (b: Box) => b.x0 >= 2 && b.x1 <= W - 2 && b.y0 >= 2 && b.y1 <= H - 2;
 
 /** Tension by share of the book: a common dramatic shape, not any one sheet's, and not her plot. */
 const K: [number, number][] = [[0, 0], [0.08, 4], [0.1, 18], [0.18, 24], [0.2, 50], [0.35, 80], [0.5, 130], [0.62, 152], [0.74, 186], [0.77, 104], [0.8, 96], [0.84, 165], [0.95, 220], [0.985, 130], [1, 104]];
@@ -114,29 +124,99 @@ export const stretchOf = (s: ShapeSegment): [number, number] => [s.from, Math.mi
  * the move into act three, the climax), then any others wherever they don't crowd a label or cross the line.
  * Beats written in and beats being written are larger; beats still ahead smaller, in pencil.
  */
-export function labels(pts: [number, number][], segs: ShapeSegment[], stateOf: (s: ShapeSegment) => BeatState, reserved: Box[] = []): ShapeLabel[] {
+export function labels(pts: [number, number][], segs: ShapeSegment[], stateOf: (s: ShapeSegment) => BeatState, reserved: Box[] = [], only?: (s: ShapeSegment) => boolean, rows = 2): ShapeLabel[] {
   if (!segs.length) return [];
   const rank = (s: ShapeSegment) => (stateOf(s) === 'now' ? -1 : s.moment && MAJOR.includes(s.moment) ? MAJOR.indexOf(s.moment) : s.moment ? 10 : 20);
-  const order = segs.map((s, i) => ({ s, i })).sort((a, b) => rank(a.s) - rank(b.s) || a.i - b.i);
-  const boxes: Box[] = [...reserved];
+  const order = segs.map((s, i) => ({ s, i })).filter(({ s }) => !only || only(s)).sort((a, b) => rank(a.s) - rank(b.s) || a.i - b.i);
+  const boxes: Box[] = reserved;
   const placed: (ShapeLabel & { i: number })[] = [];
   for (const { s, i } of order) {
     const t = spotOf(s), [x, y] = at(pts, t), state = stateOf(s);
     const size = state === 'ahead' ? SIZE.ahead : SIZE.reached, w = labelWidth(s.name, size);
-    const slope = at(pts, Math.min(1, t + 0.02))[1] - at(pts, Math.max(0, t - 0.02))[1];
-    const cx = Math.min(W - w / 2 - 4, Math.max(w / 2 + 4, x));
-    const under = pts.filter(([px]) => px >= cx - w / 2 && px <= cx + w / 2).map(([, py]) => py);
-    const top = Math.min(y, ...under), bottom = Math.max(y, ...under);
-    const above = [top - 10, top - 10 - size - 4], below = [bottom + size + 8, bottom + 2 * size + 12];
-    const tries = slope > 25 ? [...below, ...above] : [above[0]!, below[0]!, above[1]!, below[1]!];
-    for (const ly of tries) {
-      const b = { x0: cx - w / 2, x1: cx + w / 2, y0: ly - size, y1: ly + 3 };
-      if (b.y0 < 0 || b.y1 > H) continue;
-      if (boxes.some((o) => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0)) continue;
+    // Right by its beat: above the line, then below, then nudged a little to either side, then one step
+    // further off. The first spot that touches nothing else wins. A name never floats away from its beat:
+    // one that finds no clear spot close by is left off the line (it is still in the chooser).
+    const tries: [number, number][] = [];
+    for (let dy = 0; dy < rows; dy++) for (const dx of [0, -0.3, 0.3, -0.45, 0.45]) {
+      tries.push([x + dx * w, -(GAP + dy * (size * 0.9))]);
+      tries.push([x + dx * w, GAP + dy * (size * 0.9)]);
+    }
+    for (const [cx0, off] of tries) {
+      const cx = Math.min(W - w / 2 - 4, Math.max(w / 2 + 4, cx0));
+      const under = pts.filter(([px]) => px >= cx - w / 2 - GAP && px <= cx + w / 2 + GAP).map(([, py]) => py);
+      const ly = off < 0 ? Math.min(...under) + off - size * 0.32 : Math.max(...under) + off + size * 0.78;
+      const b = boxAt(cx, ly, s.name, size);
+      if (!inside(b) || onLine(pts, b) || boxes.some((o) => hits(b, o))) continue;
       boxes.push(b);
       placed.push({ i, id: s.id, name: s.name, x: cx, y: ly, state, tick: [x, y] });
       break;
     }
   }
   return placed.sort((a, b) => a.i - b.i).map(({ i: _i, ...l }) => l);
+}
+
+export type HereMark = { id: string; x: number; y: number; text: string; lx: number; ly: number; anchor: 'start' | 'end'; leader: string };
+
+/** Points along a gentle curve from the dot to its words, for drawing and for keeping other words off it. */
+function leaderPts(x: number, y: number, ex: number, ey: number): [number, number][] {
+  // A hand's curl: out from the dot along the slant, then easing level into the words.
+  const cx = x + (ex - x) * 0.35, cy = ey;
+  const out: [number, number][] = [];
+  for (let i = 0; i <= 40; i++) { const u = i / 40, v = 1 - u; out.push([v * v * x + 2 * v * u * cx + u * u * ex, v * v * y + 2 * v * u * cy + u * u * ey]); }
+  return out;
+}
+
+/**
+ * The whole map's words, placed so nothing crowds anything: THE END past the end of the line, then the
+ * names of the beats she is writing in, then *writing here* / *and here* by each pink dot, its fine pen
+ * stroke kept clear of every word, then the turning points, then every other beat that fits.
+ */
+export function layout(pts: [number, number][], segs: ShapeSegment[], stateOf: (s: ShapeSegment) => BeatState) {
+  const [ex, ey] = at(pts, 1);
+  const end = { x: ex + 18, y: ey + SIZE.end * 0.3 };
+  const boxes: Box[] = [boxAt(end.x, end.y, 'THE END', SIZE.end, 'start')];
+  const nowSegs = segs.filter((s) => stateOf(s) === 'now');
+  // Room for each dot, so no word sits on one.
+  for (const s of nowSegs) { const [x, y] = at(pts, spotOf(s)); boxes.push({ x0: x - 7, x1: x + 7, y0: y - 7, y1: y + 7 }); }
+  const major = (s: ShapeSegment) => !!s.moment && MAJOR.includes(s.moment);
+  const nowLabels = labels(pts, segs, stateOf, boxes, (s) => stateOf(s) === 'now');
+  const marks: HereMark[] = [];
+  nowSegs.forEach((s) => {
+    const [x, y] = at(pts, spotOf(s)), size = SIZE.here;
+    // Two pink beats side by side share one set of words: a second *and here* there would only crowd.
+    if (marks.some((m) => Math.hypot(m.x - x, m.y - y) < 100)) return;
+    const text = marks.length === 0 ? 'writing here' : 'and here';
+    const w = labelWidth(text, size);
+    const tries: [number, number, 'start' | 'end'][] = [];
+    // Every nearby spot, closest first (below a little ahead of above), so there is always a clear one.
+    // Close by, never far: a stroke longer than a short reach would wander across the map, so a dot with no
+    // clear spot near it keeps only its pink name. Slanting spots read best, below a little before above.
+    for (let dx = 20; dx <= 130; dx += 10) for (let dy = -110; dy <= 110; dy += 10) for (const side of [1, -1] as const) {
+      if (Math.abs(dy) < 20) continue;
+      tries.push([x + side * dx, y + dy, side > 0 ? 'start' : 'end']);
+    }
+    const cost = ([lx, ly]: [number, number, unknown]) => Math.hypot(lx - x, ly - y) * (ly > y ? 0.9 : 1) + Math.abs(Math.abs(lx - x) - Math.abs(ly - y)) * 0.4;
+    tries.sort((a, b) => cost(a) - cost(b));
+    let pick: HereMark | null = null;
+    for (const [lx, ly, anchor] of tries) {
+      const b = boxAt(lx, ly, text, size, anchor);
+      if (!inside(b) || onLine(pts, b) || boxes.some((o) => hits(b, o))) continue;
+      const tx = anchor === 'start' ? lx - 4 : lx + 4, ty = ly - size * 0.3;
+      const lp = leaderPts(x + Math.sign(tx - x) * 6, y + Math.sign(ty - y) * 6, tx, ty);
+      // The stroke leaves from its own dot, but must not cross the line again or touch any word.
+      if (lp.slice(6).some(([px, py]) => pts.some(([qx, qy]) => Math.abs(px - qx) < 4 && Math.abs(py - qy) < 4))) continue;
+      if (lp.slice(6).some(([px, py]) => boxes.some((o) => px > o.x0 - 3 && px < o.x1 + 3 && py > o.y0 - 3 && py < o.y1 + 3))) continue;
+      boxes.push(b);
+      for (const [px, py] of lp) boxes.push({ x0: px - 2, x1: px + 2, y0: py - 2, y1: py + 2 });
+      pick = { id: s.id, x, y, text, lx, ly, anchor, leader: 'M' + lp.map(([px, py]) => `${px.toFixed(1)} ${py.toFixed(1)}`).join(' L') };
+      break;
+    }
+    if (pick) marks.push(pick);
+  });
+  // Then the turning points, so she can find her way along the line, and last every other beat that fits.
+  const turning = labels(pts, segs, stateOf, boxes, (s) => stateOf(s) !== 'now' && major(s));
+  const rest = labels(pts, segs, stateOf, boxes, (s) => stateOf(s) !== 'now' && !major(s));
+  const order = new Map(segs.map((s, i) => [s.id, i]));
+  const dots = nowSegs.map((s) => { const [x, y] = at(pts, spotOf(s)); return { id: s.id, x, y }; });
+  return { end, dots, marks, words: [...nowLabels, ...turning, ...rest].sort((a, b) => order.get(a.id)! - order.get(b.id)!), boxes };
 }

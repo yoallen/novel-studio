@@ -5,7 +5,7 @@ import type { Ctx } from './App';
 import { doorClosed } from '../core/goals';
 import { Recap } from './Ink';
 import { PushLine } from './PushTrack';
-import { W, H, SIZE, line, path, at, labels, boxAt, labelWidth, spotOf, stretchOf, type ShapeSegment, type BeatState } from './bookShape';
+import { W, H, SIZE, line, path, layout, stretchOf, type ShapeSegment, type BeatState } from './bookShape';
 
 // Drafting progress on Where was I?: the shape of the book, drawn in one pen line. Ink for what she
 // has written, pencil for what is ahead, a tick where each day ended, a wingback chair for a rest day
@@ -129,9 +129,9 @@ function SetDays({ ctx, r, onChanged }: { ctx: Ctx; r: any; onChanged: () => voi
 }
 
 /**
- * The book map, at the top of Where was I?: the whole book as one pen line from its first word to THE END
- * (her target length), every word in it moving her along, the beats of her sheet written where they fall,
- * and the beat her plan says she is in, in plum. No push appears here: a push is its own measure, below.
+ * The book map, at the top of Where was I?: the whole book as one pen line from its first word to THE END,
+ * across the width of the page, the beats of her sheet where they fall: in ink once written in, in pink where
+ * she is writing now, in pencil ahead. No push appears here: a push is its own measure, below.
  */
 export function BookMap({ ctx }: { ctx: Ctx }) {
   const [r, setR] = useState<any>(null);
@@ -163,18 +163,8 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
   const stateOf = (sg: ShapeSegment): BeatState => (nowIds.has(sg.id) ? 'now' : sg.written ? 'written' : 'ahead');
   const nowSegs = strip.segs.filter((sg) => nowIds.has(sg.id));
   const pts = line(ctx.projectId);
-  const [ex, ey] = at(pts, 1);
-  const marks = nowSegs.slice(0, 4).map((sg, k) => {
-    const [x, y] = at(pts, spotOf(sg)), text = k === 0 ? 'writing here' : 'and here';
-    const left = x > W * 0.6;
-    const lx = left ? x - 40 : Math.min(x + 40, W - labelWidth(text, SIZE.here) - 4);
-    // Under the line all the way across the label, so the words never sit on the line.
-    const w = labelWidth(text, SIZE.here), x0 = left ? lx - w : lx, x1 = left ? lx : lx + w;
-    const low = Math.max(y, ...pts.filter(([px]) => px >= x0 && px <= x1).map(([, py]) => py));
-    return { id: sg.id, x, y, text, lx, ly: Math.min(H - 4, Math.max(y + 40, low + 30)), left };
-  });
-  const reserved = [boxAt(ex + 8, ey + 46, 'THE END', SIZE.end, 'end'), ...marks.map((m) => boxAt(m.lx, m.ly, m.text, SIZE.here, m.left ? 'end' : 'start'))];
-  const words = labels(pts, strip.segs, stateOf, reserved);
+  // Every word on the map is placed so nothing crowds anything else; see layout() in bookShape.
+  const { end, dots, marks, words } = layout(pts, strip.segs, stateOf);
   const names = nowSegs.map((sg) => sg.name);
   const listed = names.length <= 1 ? names[0] ?? '' : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
   const summary = `Your book, ${n(r.bookWords)} words. ${strip.segs.filter((sg) => sg.written).length} of ${strip.segs.length} beats written in.${listed ? ` Writing now: ${listed}.` : ''}`;
@@ -206,11 +196,11 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
             <text className={l.state === 'now' ? 'here-lbl' : l.state === 'written' ? 'lbl-ink' : 'lbl-ahead'} x={l.x} y={l.y} fontSize={l.state === 'ahead' ? SIZE.ahead : SIZE.reached} textAnchor="middle">{l.name}</text>
           </g>
         ))}
-        <text className="the-end" x={ex + 8} y={ey + 46} fontSize={SIZE.end} textAnchor="end">THE END</text>
+        <text className="the-end" x={end.x} y={end.y} fontSize={SIZE.end}>THE END</text>
+        {dots.map((d) => <circle key={`d${d.id}`} className="here" cx={d.x} cy={d.y} r={5.5} />)}
         {marks.map((m) => <g key={`m${m.id}`}>
-          <circle className="here" cx={m.x} cy={m.y} r={5.5} />
-          <path className="here-line" d={m.left ? `M${m.x - 6} ${m.y + 12} Q${m.x - 12} ${m.ly - 22} ${m.lx + 4} ${m.ly - 22}` : `M${m.x + 6} ${m.y + 12} Q${m.x + 12} ${m.ly - 22} ${m.lx - 4} ${m.ly - 22}`} strokeWidth={1} />
-          <text className="here-lbl" x={m.lx} y={m.ly} fontSize={SIZE.here} textAnchor={m.left ? 'end' : 'start'}>{m.text}</text>
+          <path className="here-line" d={m.leader} strokeWidth={1} />
+          <text className="here-lbl" x={m.lx} y={m.ly} fontSize={SIZE.here} textAnchor={m.anchor}>{m.text}</text>
         </g>)}
       </svg>
       {/* One quiet row under the map: the note asking for a length, if it is needed, and the finish link. */}

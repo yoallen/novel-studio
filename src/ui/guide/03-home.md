@@ -107,13 +107,13 @@ The word count appears only in the heading. Setting or changing your target leng
 | --- | --- |
 | A faint dotted line | Pencil: the whole book, before any of it is written |
 | A solid purple stretch | Ink: a beat with written scenes in it |
-| A pink stretch with a pink dot, *writing here* | A beat you are writing in now. A second or third one says *and here* |
+| A pink stretch with a pink dot, *writing here* | A beat you are writing in now. Another one further along says *and here*; two side by side share one |
 | A beat's name in pink | A beat you are writing in now |
 | A beat's name, larger and in purple | A beat written in |
 | A beat's name, smaller and gray | A beat still ahead |
-| **THE END** | The end of the book |
+| **THE END** | The end of the book, written just past the end of the line |
 
-There isn't room to write every beat on the line, so it writes the beats you are writing in first, then the turning points every beat sheet shares (the moment the story starts moving, the move into Act Two, the Midpoint, the lowest point, the move into Act Three, the climax), then as many others as fit without crowding. Every beat, named on the line or not, is in the row under **Change**. Without a beat sheet, the line is drawn with no beat names on it.
+**Nothing on the map crowds anything else.** The map runs the full width of the page, and every word on it keeps clear of the line and of every other word. Each name sits right beside its own beat; a name is never pushed far away to make it fit. When there isn't room for every beat, the map writes the beats you are writing in first, then their *writing here* words, then the turning points every beat sheet shares (the moment the story starts moving, the move into Act Two, the Midpoint, the lowest point, the move into Act Three, the climax), then as many others as fit. A beat left off the line is still in the row under **Change**. Without a beat sheet, the line is drawn with no beat names on it.
 
 **Why it helps.** It answers the question underneath every writing session: *where am I in this book, and what's next?* Because it follows what you actually wrote and what you say you are writing, it stays true when you write out of order.
 

@@ -36,7 +36,21 @@ test('the book map and the push are separate: beats belong to the book, the push
   await expect(map.locator('.writing-now')).toContainText('Debate and Finale');
   await expect(map.getByRole('img', { name: /Writing now: Debate and Finale/ })).toContainText('writing here');
   await expect(map.getByRole('img', { name: /Writing now: Debate and Finale/ })).toContainText('and here');
-  if (process.env.SHOT_DIR) await map.screenshot({ path: `${process.env.SHOT_DIR}/map-writing-now.png` });
+  if (process.env.SHOT_DIR) {
+    await page.setViewportSize({ width: 1440, height: 1100 });
+    await map.screenshot({ path: `${process.env.SHOT_DIR}/map-writing-now.png` });
+    // A few harder cases for the eye: neighbors, a crowded opening, four at once.
+    const sets = [['Debate', 'Break into Two'], ['Opening Image', 'Catalyst'], ['Fun and Games', 'Bad Guys Close In', 'Dark Night of the Soul', 'Final Image']];
+    for (const [k, set] of sets.entries()) {
+      await chooser.getByRole('button', { name: 'Let Story Canon follow my scenes' }).click();
+      await expect(map.locator('.writing-now')).toContainText('Where are you writing?');
+      for (const b of set) await chooser.getByRole('button', { name: b, exact: true }).click();
+      await page.waitForTimeout(300);
+      await map.locator('svg').screenshot({ path: `${process.env.SHOT_DIR}/map-case-${k + 1}.png` });
+    }
+    await chooser.getByRole('button', { name: 'Let Story Canon follow my scenes' }).click();
+    for (const b of ['Debate', 'Finale']) await chooser.getByRole('button', { name: b, exact: true }).click();
+  }
   await chooser.getByRole('button', { name: 'Let Story Canon follow my scenes' }).click();
   await expect(map.locator('.writing-now')).toContainText('Where are you writing?');
   await chooser.getByRole('button', { name: 'Done' }).click();
