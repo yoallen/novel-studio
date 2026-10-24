@@ -193,14 +193,14 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
           <text className="here-lbl" x={hereX} y={hy + 40} fontSize={SIZE.here}>{here}</text>
         </>}
       </svg>
-      {r.bookWords >= 1000 && current && !confirming && !(finished && daysSince < 7) && (
-        <p className="finish-row"><button className="btn link small" onClick={() => setConfirming(true)}>I finished this draft</button></p>
+      {current && !confirming && !(finished && daysSince < 7) && (
+        <p className="finish-row"><button className="btn link small" title="Only when it's true: you have written the last scene of this draft." onClick={() => setConfirming(true)}>I finished this draft</button></p>
       )}
       {confirming && current && (
         <div className="finish-confirm" role="group" aria-label="Finish this draft">
-          <p className="small" style={{ margin: '0 0 0.5rem' }}>Mark the {String(current.name).toLowerCase()} of <em>{title}</em> finished? Every page is kept exactly as it stands, the next draft begins, and nothing in your manuscript changes. If you change your mind, you can reopen it from <button className="btn link small" onClick={() => ctx.go('drafts')}>Drafts</button>.</p>
+          <p className="small" style={{ margin: '0 0 0.5rem' }}>Mark the {String(current.name).toLowerCase()} of <em>{title}</em> finished? Click yes only if it's true: you have written the last scene of this draft, whatever your word count says. Every page is kept exactly as it stands, the next draft begins, and nothing in your manuscript changes. If you change your mind, you can reopen it from <button className="btn link small" onClick={() => ctx.go('drafts')}>Drafts</button>.</p>
           <div className="row small">
-            <button className="btn small write" onClick={() => void finish()}>Yes, I wrote the end</button>
+            <button className="btn small write" onClick={() => void finish()}>Yes, I'm finished with this draft</button>
             <button className="btn link small" onClick={() => setConfirming(false)}>Not yet</button>
           </div>
           {error && <div className="notice error small" role="alert">{error}</div>}

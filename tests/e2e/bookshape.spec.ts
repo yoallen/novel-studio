@@ -60,17 +60,18 @@ test('finishing a draft: a button she has to mean, the coach says so for a week,
   await page.reload();
   await heroWrite(page).click();
   await editor(page).click();
-  await page.keyboard.insertText(Array.from({ length: 1001 }, (_, i) => `w${i}`).join(' ') + '.');
+  await page.keyboard.insertText('A short draft, finished whenever she says so.');
   await waitSaved(page);
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: /Where was I/ }).click();
   const map = page.locator('.book-map');
+  // There from the day the book is made: Story Canon never guesses when a draft is done.
   await map.getByRole('button', { name: 'I finished this draft' }).click();
   await expect(map.getByRole('group', { name: 'Finish this draft' })).toContainText('Mark the first draft of Done Book finished?');
   await map.getByRole('button', { name: 'Not yet' }).click();
   await expect(map.locator('.finished-note')).toHaveCount(0);
   await map.getByRole('button', { name: 'I finished this draft' }).click();
   if (process.env.SHOT_DIR) { await page.setViewportSize({ width: 1440, height: 1100 }); await page.screenshot({ path: `${process.env.SHOT_DIR}/finish-confirm.png` }); }
-  await map.getByRole('button', { name: 'Yes, I wrote the end' }).click();
+  await map.getByRole('button', { name: "Yes, I'm finished with this draft" }).click();
   await expect(map.locator('.finished-note')).toContainText('You finished the first draft of Done Book');
   if (process.env.SHOT_DIR) { await page.setViewportSize({ width: 1440, height: 1100 }); await page.screenshot({ path: `${process.env.SHOT_DIR}/finished.png` }); }
   await page.getByRole('tab', { name: /The shelf/ }).click();
