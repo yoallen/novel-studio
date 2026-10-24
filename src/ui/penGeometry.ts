@@ -48,3 +48,58 @@ export function layoutShelf(days: ShelfDay[], width: number, seed: string, leans
 
 /** Pages in a manuscript at a number of words to the page. */
 export const pagesOf = (words: number, perPage = 250) => Math.max(0, Math.round(words / perPage));
+
+const fmt = (x: number) => x.toLocaleString('en-US');
+
+/** A push as the bookcase sees it. */
+export type PushShelf = { name: string; start: string; end: string; goal: number | null; total: number; done: boolean; current: boolean; dayNo: number; daysTotal: number };
+
+/** A push is over when its last day has passed, or when a new push took its place. */
+export const pushEnded = (p: PushShelf) => p.done || !p.current;
+
+/**
+ * What a push came to, in plain words: how many it wrote and whether it reached its goal. A running push
+ * adds the day it is on; a finished one says only what it came to. Never "57,309 of 30".
+ */
+export function pushSaid(p: PushShelf): string {
+  const t = Math.max(0, p.total), g = p.goal;
+  if (!pushEnded(p)) {
+    const amount = g ? (t >= g ? `${fmt(t)} words, goal of ${fmt(g)} met` : `${fmt(t)} of ${fmt(g)} words`) : `${fmt(t)} words`;
+    return `${amount}, day ${p.dayNo} of ${p.daysTotal}`;
+  }
+  if (!g) return `${fmt(t)} word${t === 1 ? '' : 's'}.`;
+  if (t > g) return `${fmt(t)} words. Goal of ${fmt(g)} met, ${fmt(t - g)} extra.`;
+  if (t === g) return `${fmt(t)} words. Goal met.`;
+  return `${fmt(t)} of ${fmt(g)} words.`;
+}
+
+/** Did a push reach its goal (or, with no goal, write anything)? Ink if so, pencil if not. */
+export const pushMet = (p: PushShelf) => (p.goal ? p.total >= p.goal : p.total > 0);
+
+export type PushBook = { key: string; p: PushShelf; x: number; w: number; h: number; size: number; row: number; ink: boolean };
+
+/**
+ * Finished pushes as single books on shared shelves, in the order they were written, oldest first. A book is
+ * as thick as the push's words (a small test push slim, a November fat), tall enough for its name down the
+ * spine, and a new shelf starts when one is full.
+ */
+export function layoutPushBooks(pushes: PushShelf[], width: number): { books: PushBook[]; rows: number; ends: number[] } {
+  const books: PushBook[] = [];
+  const ends: number[] = [];
+  let x = 0, row = 0;
+  for (const p of pushes) {
+    const w = Math.round(Math.max(28, Math.min(62, 24 + Math.sqrt(Math.max(0, p.total)) / 6)));
+    const size = Math.min(22, Math.max(15, w * 0.6));
+    // The name runs down the spine in the pen hand: roughly 0.27 of the size to a letter.
+    const nameLen = [...p.name].reduce((a, ch) => a + (ch === ' ' ? 0.15 : /[A-Z]/.test(ch) ? 0.37 : /[mwMW]/.test(ch) ? 0.4 : 0.27), 0) * size;
+    const r = rng(`${p.start}|${p.name}`);
+    const h = Math.round(Math.min(178, Math.max(112, nameLen + 34 + r() * 14)));
+    // A very long name gets a smaller hand rather than running off the spine.
+    const fit = nameLen > h - 30 ? size * (h - 30) / nameLen : size;
+    if (x > 0 && x + w > width) { ends.push(x); x = 0; row++; }
+    books.push({ key: `${p.start}|${p.name}`, p, x, w, h, size: fit, row, ink: pushMet(p) });
+    x += w + 4;
+  }
+  ends.push(x);
+  return { books, rows: row + 1, ends };
+}

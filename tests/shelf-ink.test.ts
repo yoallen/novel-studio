@@ -50,3 +50,33 @@ describe('past pushes are kept as shelves', () => {
     expect(shelves[0]!.days.find((d) => d.day === '2026-11-07')).toMatchObject({ rest: true });
   });
 });
+
+import { pushSaid, layoutPushBooks, type PushShelf } from '../src/ui/penGeometry';
+describe('what a push came to, in plain words', () => {
+  const p = (x: Partial<PushShelf>): PushShelf => ({ name: 'Nothing Push', start: '2026-10-23', end: '2026-10-23', goal: 30, total: 17, done: true, current: false, dayNo: 1, daysTotal: 1, ...x });
+  it('a finished push says what it wrote and whether it reached its goal, never "57,309 of 30"', () => {
+    expect(pushSaid(p({}))).toBe('17 of 30 words.');
+    expect(pushSaid(p({ total: 30 }))).toBe('30 words. Goal met.');
+    expect(pushSaid(p({ total: 52 }))).toBe('52 words. Goal of 30 met, 22 extra.');
+    expect(pushSaid(p({ goal: null, total: 1 }))).toBe('1 word.');
+  });
+  it('a running push adds the day it is on', () => {
+    expect(pushSaid(p({ done: false, current: true, goal: 5000, total: 1240, dayNo: 6, daysTotal: 14 }))).toBe('1,240 of 5,000 words, day 6 of 14');
+    expect(pushSaid(p({ done: false, current: true, goal: 30, total: 45, dayNo: 1, daysTotal: 2 }))).toBe('45 words, goal of 30 met, day 1 of 2');
+  });
+  it('a push replaced before its end counts as finished', () => {
+    expect(pushSaid(p({ done: false, current: false }))).toBe('17 of 30 words.');
+  });
+  it('finished pushes are books as thick as their words, sharing shelves until one is full', () => {
+    const pushes = [p({ total: 17 }), p({ name: 'November 2025', start: '2025-11-01', total: 51200, goal: 50000 }), p({ name: 'Spring Revision Sprint', start: '2026-03-01', total: 8300, goal: 10000 })];
+    const { books, rows } = layoutPushBooks(pushes, 600);
+    expect(rows).toBe(1);
+    expect(books[1]!.w).toBeGreaterThan(books[2]!.w);
+    expect(books[2]!.w).toBeGreaterThan(books[0]!.w);
+    expect(books.map((b) => b.ink)).toEqual([false, true, false]);
+    const many = Array.from({ length: 30 }, (_, i) => p({ name: `Push ${i}`, start: `2026-01-${String(i + 1).padStart(2, '0')}`, total: 40000 }));
+    const laid = layoutPushBooks(many, 600);
+    expect(laid.rows).toBeGreaterThan(1);
+    for (const b of laid.books) expect(b.x + b.w).toBeLessThanOrEqual(600);
+  });
+});

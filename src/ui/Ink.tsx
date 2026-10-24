@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
-import { rng, stroke, layoutShelf, pagesOf, CHAIR_W, type ShelfDay } from './penGeometry';
+import { rng, stroke, layoutShelf, pagesOf, CHAIR_W, pushSaid, pushEnded, layoutPushBooks, type ShelfDay } from './penGeometry';
 
 // Pen drawings that keep the shape of the book company: the wingback chair for a rest day, a push's shelf
 // of books, and the manuscript lying on the desk. One fine pen, ink and pencil, nothing filled in, and the
@@ -45,9 +45,8 @@ export function ShelfDrawing({ shelf, label = true }: { shelf: Shelf; label?: bo
   const shown = rows.filter((row, k) => k === 0 || row.some((d) => !d.future));
   const r = rng(`${shelf.start}|board`);
   const name = shelf.name || 'Your writing push';
-  const said = shelf.done
-    ? `${n(shelf.total)}${shelf.goal ? ` of ${n(shelf.goal)}` : ''} words. ${shelf.goal && shelf.total >= shelf.goal ? 'Done.' : 'Finished.'}`
-    : `${n(shelf.total)}${shelf.goal ? ` of ${n(shelf.goal)}` : ''} words, day ${shelf.dayNo} of ${shelf.daysTotal}`;
+  const said = pushSaid(shelf);
+  const left = shelf.daysTotal - shelf.dayNo;
   const H = top + (shown.length - 1) * rowH + 16;
   return (
     <svg className="pen-drawing shelf-drawing" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${name}: ${said}`}>
@@ -55,7 +54,9 @@ export function ShelfDrawing({ shelf, label = true }: { shelf: Shelf; label?: bo
       {shown.map((row, k) => {
         const base = top + k * rowH, last = k === shown.length - 1;
         const { items, end } = layoutShelf(row, W - ox - 120, `${shelf.start}${shelf.name}${k}`, true);
-        const board = Math.max(W - ox - 40, end + 40);
+        // The shelf is as long as the push: a short push, a short shelf.
+        // An ended push's shelf stops just past its bookend: nothing is left to wait for.
+        const board = pushEnded(shelf) ? end + 150 : Math.max(end + 40, Math.min(W - ox - 40, row.length * 22 + 60), last && left > 0 ? end + 140 : 0);
         return (
           <g key={k}>
             {items.map((it) => it.kind === 'chair'
@@ -77,14 +78,59 @@ export function ShelfDrawing({ shelf, label = true }: { shelf: Shelf; label?: bo
               <path d={stroke([[ox - 14, base + 1], [ox - 14, base + 8]], r)} strokeWidth={0.9} />
               <path d={stroke([[ox + board, base + 1], [ox + board, base + 8]], r)} strokeWidth={0.9} />
             </g>
-            {last && !shelf.done && end + 160 < board && <>
-              <path className="pen-pencil" d={stroke([[ox + end + 10, base - 4], [ox + board - 12, base - 4]], r)} strokeWidth={0.8} fill="none" />
-              <text className="pen-pencil-text" x={ox + end + 22} y={base - 18} fontSize={22}>room for the rest</text>
+            {last && !pushEnded(shelf) && left > 0 && <>
+              <path className="pen-pencil" d={stroke([[ox + end + 10, base - 4], [ox + Math.max(board, end + 130) - 12, base - 4]], r)} strokeWidth={0.8} fill="none" />
+              <text className="pen-pencil-text" x={ox + end + 22} y={base - 18} fontSize={22}>{left === 1 ? '1 more day' : `${left} more days`}</text>
             </>}
-            {last && shelf.done && <>
+            {last && pushEnded(shelf) && <>
               <path className="pen-ink" d={stroke([[ox + end + 6, base], [ox + end + 6, base - 46], [ox + end + 12, base - 46], [ox + end + 12, base - 4], [ox + end + 26, base - 4], [ox + end + 26, base]], r)} fill="none" strokeWidth={1.2} />
               <text className="pen-ink-text" x={ox + end + 36} y={base - 8} fontSize={26}>THE END</text>
             </>}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+/** Finished pushes, each closed into one book on a shared shelf: as thick as its words, its name down the spine, ink if it reached its goal. */
+export function FinishedShelf({ shelves }: { shelves: Shelf[] }) {
+  const W = 680, ox = 40, top = 56, gap = 34;
+  const oldest = [...shelves].sort((a, b) => a.start.localeCompare(b.start));
+  const { books, rows, ends } = layoutPushBooks(oldest, W - ox - 90);
+  // Each shelf sits just under its tallest book, so there is no empty air above the books.
+  const bases: number[] = [];
+  for (let k = 0, y = top; k < rows; k++) { y += Math.max(60, ...books.filter((b) => b.row === k).map((b) => b.h)); bases.push(y); y += gap; }
+  const H = bases[rows - 1]! + 16;
+  const r = rng('finished|board');
+  return (
+    <svg className="pen-drawing shelf-drawing finished-shelf" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Finished pushes: ${oldest.map((p) => `${p.name || 'Writing push'}, ${pushSaid(p)}`).join(' ')}`}>
+      <text className="pen-ink" x={ox - 14} y={34} fontSize={28}>Finished pushes</text>
+      {Array.from({ length: rows }, (_, k) => {
+        const base = bases[k]!, end = ends[k]!, board = Math.max(end + 50, 220);
+        return (
+          <g key={k}>
+            {books.filter((b) => b.row === k).map((b) => {
+              const name = b.p.name || 'Writing push', x = ox + b.x;
+              return (
+                <g key={b.key} className={b.ink ? 'pen-ink' : 'pen-pencil'} fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <title>{`${name}, ${longDay(b.p.start)} to ${longDay(b.p.end)}: ${pushSaid(b.p)}`}</title>
+                  <rect x={x} y={base - b.h} width={b.w} height={b.h} fill="transparent" stroke="none" />
+                  <path d={stroke([[x, base], [x, base - b.h], [x + b.w, base - b.h], [x + b.w, base]], r)} strokeWidth={b.ink ? 1.15 : 0.95} />
+                  <path d={stroke([[x + 1.5, base - b.h + 7], [x + b.w - 1.5, base - b.h + 7]], r)} strokeWidth={0.7} />
+                  <path d={stroke([[x + 1.5, base - b.h + 10], [x + b.w - 1.5, base - b.h + 10]], r)} strokeWidth={0.7} />
+                  <path d={stroke([[x + 1.5, base - 9], [x + b.w - 1.5, base - 9]], r)} strokeWidth={0.7} />
+                  <text className={b.ink ? 'pen-ink-text' : 'pen-pencil-text'} transform={`translate(${x + b.w / 2 - b.size * 0.33} ${base - b.h + 19}) rotate(90)`} fontSize={b.size} stroke="none">{name}</text>
+                </g>
+              );
+            })}
+            <path className="pen-ink" d={stroke([[ox + end + 6, base], [ox + end + 6, base - 46], [ox + end + 12, base - 46], [ox + end + 12, base - 4], [ox + end + 26, base - 4], [ox + end + 26, base]], r)} fill="none" strokeWidth={1.2} />
+            <g className="pen-ink" fill="none" strokeLinecap="round">
+              <path d={stroke([[ox - 14, base + 1], [ox + board, base + 1]], r)} strokeWidth={1.4} />
+              <path d={stroke([[ox - 14, base + 8], [ox + board, base + 8]], r)} strokeWidth={0.9} />
+              <path d={stroke([[ox - 14, base + 1], [ox - 14, base + 8]], r)} strokeWidth={0.9} />
+              <path d={stroke([[ox + board, base + 1], [ox + board, base + 8]], r)} strokeWidth={0.9} />
+            </g>
           </g>
         );
       })}
@@ -140,6 +186,9 @@ export function ShelfPage({ ctx }: { ctx: Ctx }) {
   const s = ctx.settings ?? {};
   const pp = perPage(s), target = s.targetWords as number | null;
   const pages = pagesOf(words ?? 0, pp);
+  // The push she is in stands on its own shelf, day by day, above the books of the pushes already finished.
+  const running = shelves?.find((x) => !pushEnded(x)) ?? null;
+  const ended = shelves?.filter((x) => pushEnded(x)) ?? [];
   return (
     <div className="shelf-page">
       <section aria-labelledby="ms-h" className="ms-so-far">
@@ -157,8 +206,9 @@ export function ShelfPage({ ctx }: { ctx: Ctx }) {
       <section aria-labelledby="bc-h" className="bookcase">
         <h3 id="bc-h">Your writing pushes</h3>
         {shelves && shelves.length === 0 && <p className="muted">Your first writing push starts the first shelf. Set one in Settings, page 2 Goals and focused efforts.</p>}
-        {shelves?.map((sh) => <ShelfDrawing key={`${sh.start}|${sh.name}`} shelf={sh} />)}
-        {shelves && shelves.length > 0 && <p className="small muted">A thick book was a big day, a slim one a short day. Ink for a day you met your goal, pencil for a day you wrote less; a chair is a rest day you set. Point at a book for its day.</p>}
+        {running && <ShelfDrawing shelf={running} />}
+        {ended.length > 0 && <FinishedShelf shelves={ended} />}
+        {shelves && shelves.length > 0 && <p className="small muted">{running ? 'On the push you are in, a book is a day: a thick book was a big day, a slim one a short day, ink for a day you met your goal, pencil for a day you wrote less, and a chair is a rest day you set. ' : ''}When a push ends, its days close into one book on the shelf of finished pushes: as thick as the words it wrote, in ink if it reached its goal. Point at any book for its figures.</p>}
       </section>
     </div>
   );

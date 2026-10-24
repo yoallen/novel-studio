@@ -35,6 +35,17 @@ export function pushInView(push: WritingPush | null, today: string): boolean {
   return !!push && daysBetween(today, push.start) <= 14 && daysBetween(push.end, today) <= 7;
 }
 
+/**
+ * The words a save wrote. Only her own saves count, and words she pasted in (her draft from elsewhere, a
+ * chapter brought over) are not words written: a save that pasted words counts what changed less what she
+ * pasted. Anything else (a scene made from an import, a restore) is not writing at all.
+ */
+export function written(reason: string, change: number): number | null {
+  if (reason === 'save') return change;
+  const m = /^save, pasted (\d+) words$/.exec(reason);
+  return m ? change - Number(m[1]) : null;
+}
+
 export class Progress {
   constructor(private store: Store, private ms: Manuscript) {}
 
@@ -48,9 +59,10 @@ export class Progress {
     let scene = '', prev = 0;
     for (const r of rows) {
       if (r.scene_id !== scene) { scene = r.scene_id; prev = 0; }
-      if (r.reason === 'save') {
+      const w = written(r.reason, r.word_count - prev);
+      if (w != null) {
         const day = dayIn(tz, new Date(r.created_at));
-        byDay.set(day, (byDay.get(day) ?? 0) + (r.word_count - prev));
+        byDay.set(day, (byDay.get(day) ?? 0) + w);
       }
       prev = r.word_count;
     }
@@ -66,7 +78,8 @@ export class Progress {
     let scene = '', prev = 0, n = 0;
     for (const r of rows) {
       if (r.scene_id !== scene) { scene = r.scene_id; prev = 0; }
-      if (r.reason === 'save' && r.created_at >= at) n += r.word_count - prev;
+      const w = written(r.reason, r.word_count - prev);
+      if (w != null && r.created_at >= at) n += w;
       prev = r.word_count;
     }
     return n;

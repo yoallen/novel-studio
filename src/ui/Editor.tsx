@@ -34,6 +34,10 @@ export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; 
   // The latest text lives in a ref so it can still be saved after the editor itself is torn down.
   const latest = useRef<unknown>(null);
   const recoveryPending = useRef(false);
+  // Words pasted in since the last commit, less words cut out (moving a passage is not new writing either
+  // way). Pasted words are kept in the scene but never counted as words written.
+  const pasted = useRef(0);
+  const cutBank = useRef(0);
   // Until the page can take typing, say so: nothing typed before then can be lost.
   const [opening, setOpening] = useState(true);
 
@@ -41,6 +45,17 @@ export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; 
     extensions: [StarterKit.configure({ link: false }), Placeholder.configure({ placeholder: 'Write anything. A sentence counts.' }), LaterNotes],
     content: { type: 'doc', content: [] },
     editable: false,
+    editorProps: {
+      handlePaste: (_view, _event, slice) => {
+        const n = countWords(slice.content.textBetween(0, slice.content.size, '\n', ' '));
+        const moved = Math.min(n, cutBank.current);
+        cutBank.current -= moved; pasted.current += n - moved;
+        return false;
+      },
+      handleDOMEvents: {
+        cut: (view) => { const { from, to } = view.state.selection; cutBank.current += countWords(view.state.doc.textBetween(from, to, '\n', ' ')); return false; },
+      },
+    },
     onUpdate: ({ editor: ed }) => {
       latest.current = ed.getJSON();
       dirty.current = true;
@@ -95,7 +110,9 @@ export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; 
     if (busy.current) await busy.current;
     const run = (async () => {
       try {
-        const saved = await api.put(`/api/scenes/${sceneId}/prose`, { doc: JSON.parse(docJson), expectVersion: version.current }, opts);
+        const p = pasted.current;
+        const saved = await api.put(`/api/scenes/${sceneId}/prose`, { doc: JSON.parse(docJson), expectVersion: version.current, ...(p > 0 ? { pasted: p } : {}) }, opts);
+        pasted.current = Math.max(0, pasted.current - p);
         version.current = saved.prose_version;
         committedJson.current = docJson;
         dirty.current = JSON.stringify(latest.current) !== docJson;

@@ -145,7 +145,7 @@ From November 1, the push line measures November's 50,000 words, and every figur
 
 ### Goals: after the push ends
 
-For a week after the last day, the panel shows the push's **recap** in place of the push line: the manuscript lying on the desk, *You wrote 51,204 words.* in the coach's pen, *That's this: 205 pages that did not exist on the first day of November.*, how many days you wrote and your biggest day, and the push's full shelf of books with its bookend. If no words went down in the push, it says so plainly and kindly, and nothing more. After that week, the panel goes back to the current month. The push keeps its shelf on page **4 The shelf** (see [Where was I? The shelf](#where-was-i-the-shelf)).
+For a week after the last day, the panel shows the push's **recap** in place of the push line: the manuscript lying on the desk, *You wrote 51,204 words.* in the coach's pen, *That's this: 205 pages that did not exist on the first day of November.*, how many days you wrote and your biggest day, and the push's full shelf of books with its bookend. If no words went down in the push, it says so plainly and kindly, and nothing more. After that week, the panel goes back to the current month. On page **4 The shelf**, the push closes into one book on the shelf of finished pushes (see [Where was I? The shelf](#where-was-i-the-shelf)).
 
 ## Goals: the push coach
 

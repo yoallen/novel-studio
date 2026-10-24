@@ -215,3 +215,20 @@ describe('drafting progress', () => {
     expect(after.dailyGoal).toBeGreaterThan(1667); // today and the days ahead take up the difference
   });
 });
+
+describe('pasted words are not words written', () => {
+  it('a manuscript pasted in counts for nothing; what she types around it counts', () => {
+    const { p, ch, progress } = setup();
+    const s = env.ms.addScene(ch.id);
+    const save = (total: number, pasted?: number) => {
+      const sc = env.ms.scene(s.id);
+      env.ms.saveScene(s.id, { doc: env.doc(words(total)), expectVersion: sc.prose_version as number, pasted });
+      const last = env.store.db.prepare('SELECT id FROM scene_revisions WHERE scene_id=? ORDER BY rowid DESC LIMIT 1').get(s.id) as { id: string };
+      env.store.db.prepare('UPDATE scene_revisions SET created_at=? WHERE id=?').run('2026-11-03T15:00:00.000Z', last.id);
+    };
+    save(57000, 57000); // her draft, pasted from elsewhere
+    save(57120, 0);     // then 120 words of her own
+    save(57420, 250);   // 250 pasted plus 50 typed in the same stretch
+    expect(progress.dailyWords(p.id as string, 'UTC').get('2026-11-03')).toBe(170);
+  });
+});

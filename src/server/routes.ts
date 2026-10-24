@@ -230,7 +230,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     return out;
   });
   app.put('/api/scenes/:id/prose', async (req) => {
-    const b = body(req, z.object({ doc, expectVersion: z.number().int(), reason: z.string().max(200).optional() }));
+    const b = body(req, z.object({ doc, expectVersion: z.number().int(), reason: z.string().max(200).optional(), pasted: z.number().int().min(0).max(10_000_000).optional() }));
     return ms.saveScene(params(req, P).id, b);
   });
   app.put('/api/scenes/:id/autosave', async (req) => {

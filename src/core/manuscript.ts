@@ -189,7 +189,7 @@ export class Manuscript {
    * Commit prose. expectVersion protects against two windows overwriting each other.
    * Creates a revision and clears the autosave journal for the scene.
    */
-  saveScene(id: string, input: { doc: unknown; expectVersion: number; reason?: string }, actor = 'author') {
+  saveScene(id: string, input: { doc: unknown; expectVersion: number; reason?: string; pasted?: number }, actor = 'author') {
     const s = this.projectOf('scenes', id);
     if (typeof input.expectVersion !== 'number') throw new ValidationError('Missing version.');
     const doc = validateDoc(input.doc);
@@ -221,7 +221,7 @@ export class Manuscript {
       const updated = this.store.get('scenes', id)!;
       const revId = newId();
       this.store.db.prepare('INSERT INTO scene_revisions(id,scene_id,version,doc_json,text,word_count,reason,created_at) VALUES (?,?,?,?,?,?,?,?)')
-        .run(revId, id, updated.prose_version, docJson, text, words, input.reason ?? 'save', nowIso());
+        .run(revId, id, updated.prose_version, docJson, text, words, input.reason ?? (input.pasted ? `save, pasted ${input.pasted} words` : 'save'), nowIso());
       w.note('scenes', id, 'revision', beforeRev, revId);
       this.store.db.prepare('DELETE FROM autosave_journal WHERE scene_id=?').run(id);
       this.trackSessionScene(s.project_id as string, id);

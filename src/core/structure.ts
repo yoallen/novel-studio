@@ -368,7 +368,7 @@ export class Structure {
         const b = this.decidedBeat(sc.plan_element_id as string); if (b) written.add(parentOf(b));
       }
       // Writing now, on its own: the beat of the scene she most recently wrote in, when that scene came from a card on a beat.
-      const last = this.store.db.prepare(`SELECT s.plan_element_id FROM scene_revisions r JOIN scenes s ON s.id = r.scene_id WHERE s.project_id=? AND s.deleted_at IS NULL AND r.reason='save' ORDER BY r.created_at DESC LIMIT 1`).get(projectId) as Row | undefined;
+      const last = this.store.db.prepare(`SELECT s.plan_element_id FROM scene_revisions r JOIN scenes s ON s.id = r.scene_id WHERE s.project_id=? AND s.deleted_at IS NULL AND (r.reason='save' OR r.reason LIKE 'save, pasted %') ORDER BY r.created_at DESC LIMIT 1`).get(projectId) as Row | undefined;
       const autoBeat = last?.plan_element_id ? this.decidedBeat(last.plan_element_id as string) : null;
       return {
         mode: 'beats' as const,
