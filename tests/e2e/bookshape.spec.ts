@@ -52,3 +52,27 @@ test('the book map and the push are separate: beats belong to the book, the push
   expect(await page.locator('.coach-note h3').evaluate((e) => getComputedStyle(e).fontFamily)).toContain('Just Another Hand');
   expect(await page.locator('.coach-body').last().evaluate((e) => getComputedStyle(e).fontStyle)).toBe('italic');
 });
+
+test('finishing a draft: a button she has to mean, the coach says so for a week, and the shelf remembers', async ({ page, request }) => {
+  await newNovel(page, 'Done Book');
+  const pid = await pidOf(request, 'Done Book');
+  await request.patch(`/api/projects/${pid}/settings`, { headers: H, data: { targetWords: 1000 } });
+  await page.reload();
+  await heroWrite(page).click();
+  await editor(page).click();
+  await page.keyboard.insertText(Array.from({ length: 1001 }, (_, i) => `w${i}`).join(' ') + '.');
+  await waitSaved(page);
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: /Where was I/ }).click();
+  const map = page.locator('.book-map');
+  await map.getByRole('button', { name: 'I finished this draft' }).click();
+  await expect(map.getByRole('group', { name: 'Finish this draft' })).toContainText('Mark the first draft of Done Book finished?');
+  await map.getByRole('button', { name: 'Not yet' }).click();
+  await expect(map.locator('.finished-note')).toHaveCount(0);
+  await map.getByRole('button', { name: 'I finished this draft' }).click();
+  if (process.env.SHOT_DIR) { await page.setViewportSize({ width: 1440, height: 1100 }); await page.screenshot({ path: `${process.env.SHOT_DIR}/finish-confirm.png` }); }
+  await map.getByRole('button', { name: 'Yes, I wrote the end' }).click();
+  await expect(map.locator('.finished-note')).toContainText('You finished the first draft of Done Book');
+  if (process.env.SHOT_DIR) { await page.setViewportSize({ width: 1440, height: 1100 }); await page.screenshot({ path: `${process.env.SHOT_DIR}/finished.png` }); }
+  await page.getByRole('tab', { name: /The shelf/ }).click();
+  await expect(page.locator('.ms-say')).toContainText('First draft finished');
+});

@@ -131,7 +131,9 @@ const perPage = (s: any) => (Array.isArray(s?.wordsPerPage) && s.wordsPerPage[0]
 export function ShelfPage({ ctx }: { ctx: Ctx }) {
   const [shelves, setShelves] = useState<Shelf[] | null>(null);
   const [words, setWords] = useState<number | null>(null);
+  const [finished, setFinished] = useState<any[]>([]);
   useEffect(() => {
+    api.get(`/api/projects/${ctx.projectId}/drafts`).then((d: any[]) => setFinished(d.filter((x) => x.completed_at))).catch(() => setFinished([]));
     api.get(`/api/projects/${ctx.projectId}/shelves${tz ? `?tz=${encodeURIComponent(tz)}` : ''}`).then(setShelves).catch(() => setShelves([]));
     api.get(`/api/projects/${ctx.projectId}/progress${tz ? `?tz=${encodeURIComponent(tz)}` : ''}`).then((r: any) => setWords(r.bookWords)).catch(() => setWords(0));
   }, [ctx.projectId]);
@@ -147,6 +149,7 @@ export function ShelfPage({ ctx }: { ctx: Ctx }) {
           <div className="ms-say">
             <p className="pen-big">{n(pages)} page{pages === 1 ? '' : 's'}</p>
             <p className="pen-line">{n(words ?? 0)} words, about {pp} to a page.</p>
+            {finished.map((d) => <p key={d.id} className="pen-line pen-plum-text">{d.name} finished {longDay(String(d.completed_at).slice(0, 10))}, {n(d.words ?? 0)} words.</p>)}
             {target ? <p className="pen-line">{(words ?? 0) >= target ? `Past the ${n(target)} words you set.` : `At ${n(target)} words it will be about ${n(pagesOf(target, pp))}.`}</p> : null}
           </div>
         </div>

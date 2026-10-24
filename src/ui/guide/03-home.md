@@ -110,6 +110,19 @@ There isn't room to write every beat on the line, so it writes the beat your pla
 
 **Example.** Your novel's target is 80,000 words and it holds 49,600. The heading reads *Your book, 49,600 of 80,000 words*. The purple line runs up through **Catalyst**, **Break into Two** and **Fun and Games** to your pink dot. Your next scene card sits on **Bad Guys Close In**, so that beat is written in plum, and ahead in gray pencil the line climbs toward **All Is Lost** and **THE END**.
 
+### Where was I? Finishing a draft
+
+**What it is.** Only you know when you have written the end. Story Canon can't tell from a word count: a book meant to be 80,000 words might end at 74,000 or run to 92,000. So under your book map, once the book has at least 1,000 words, is a small link, **I finished this draft**.
+
+**How to use it.**
+
+1. Click **I finished this draft**. A note asks you to be sure: *Mark the first draft of (your title) finished?* It explains that every page is kept exactly as it stands, the next draft begins, and nothing in your manuscript changes.
+2. Click **Yes, I wrote the end**, or **Not yet** to leave it.
+
+**What happens.** Your draft is kept as it stood, the same as finishing a draft in **Drafts** (see [Drafts: keeping a whole version of the book](#drafts-keeping-a-whole-version-of-the-book)), and the next draft begins. If the book's stage was a draft, it moves to the next one. For a week, the top of Where was I? carries the coach's word on it, in the coach's pen: *You did it! You finished the first draft of (your title), and I couldn't be more proud. Your hard work and commitment paid off. Way to go!*, with the day you finished and the word count. Page **4 The shelf** remembers it beside your manuscript, such as *First draft finished October 24, 23,000 words.*
+
+**The common mistake** is clicking it when you reach your target length or the end of a push. Neither is the end of a draft. Click it when you have written the last scene of this draft, whatever the count. If you click it by mistake, reopen the draft from **Drafts**.
+
 ## Next and Write: the one step that stands out
 
 **What it is.** Under the small word **Next** is a single sentence in large type, such as *Keep writing "The empty boat"*. Below it is the orange **Write** button. Beside the button, in small gray type, there is sometimes a detail line: the scene's status and word count (for example *Drafting, 640 words*), or where a planned scene sits in your plan (for example *Your next planned scene, at Catalyst*).

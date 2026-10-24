@@ -136,12 +136,26 @@ function SetDays({ ctx, r, onChanged }: { ctx: Ctx; r: any; onChanged: () => voi
 export function BookMap({ ctx }: { ctx: Ctx }) {
   const [r, setR] = useState<any>(null);
   const [strip, setStrip] = useState<{ segs: ShapeSegment[]; next: string | null }>({ segs: [], next: null });
+  const [drafts, setDrafts] = useState<any[]>([]);
+  const [confirming, setConfirming] = useState(false);
+  const [error, setError] = useState('');
+  const loadDrafts = () => api.get(`/api/projects/${ctx.projectId}/drafts`).then(setDrafts).catch(() => setDrafts([]));
   useEffect(() => {
+    void loadDrafts();
     api.get(`/api/projects/${ctx.projectId}/progress${tz ? `?tz=${encodeURIComponent(tz)}` : ''}`).then(setR).catch(() => setR(null));
     api.get(`/api/projects/${ctx.projectId}/strip`).then((d: any) => setStrip(d?.mode === 'beats' ? { segs: d.segments, next: d.next ?? null } : { segs: [], next: null })).catch(() => setStrip({ segs: [], next: null }));
   }, [ctx.projectId]);
   if (!r) return null;
   const f = frame({ bookWords: r.bookWords, total: r.bookWords, target: r.targetWords, pushGoal: null });
+  const title = ctx.project?.title || 'your novel';
+  const current = drafts.find((d) => !d.completed_at);
+  const finished = drafts.filter((d) => d.completed_at).sort((a, b) => String(b.completed_at).localeCompare(String(a.completed_at)))[0];
+  const daysSince = finished ? (Date.now() - Date.parse(finished.completed_at)) / 86_400_000 : Infinity;
+  async function finish() {
+    setError('');
+    try { await api.post(`/api/projects/${ctx.projectId}/drafts/complete`, {}); setConfirming(false); await loadDrafts(); await ctx.refreshProject(); }
+    catch (e) { setError((e as Error).message); }
+  }
   const pts = line(ctx.projectId);
   const done = f ? Math.min(1, r.bookWords / f.length) : 0;
   const [hx, hy] = at(pts, done), [ex, ey] = at(pts, 1);
@@ -153,7 +167,15 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
   const summary = f ? `Your book: ${Math.round(done * 100)}% of the way, ${n(r.bookWords)} of ${n(Math.round(f.length))} words${now ? `; your next scene is in ${now.name}` : ''}.` : `Your book's beats, from the first word to the end.`;
   return (
     <section className="book-map" aria-labelledby="map-h">
-      <h3 id="map-h">Your book{f ? <span className="book-map-figures">, {n(r.bookWords)} of {n(Math.round(f.length))} words</span> : null}</h3>
+      {/* The week after she says the draft is done, the coach says so too, with the book's name. */}
+      {finished && daysSince < 7 && (
+        <div className="finished-note" role="status">
+          <p className="finished-title">You did it!</p>
+          <p className="coach-body">You finished the {String(finished.name).toLowerCase()} of <span className="finished-book">{title}</span>, and I couldn't be more proud. Your hard work and commitment paid off. Way to go!</p>
+          <p className="small muted" style={{ margin: '0.4rem 0 0' }}>Finished {longDay(String(finished.completed_at).slice(0, 10))}, {n(finished.words ?? 0)} words. Your pages are kept as they stood; the {String(current?.name ?? 'next draft').toLowerCase()} begins where they are.</p>
+        </div>
+      )}
+      <h3 id="map-h">Your book{f ? <span className="book-map-figures">, {n(r.bookWords)} of {n(r.targetWords ?? Math.round(f.length))} words</span> : null}</h3>
       <svg className="book-shape" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={summary}>
         <path className="ahead" d={path(pts, done, 1)} fill="none" strokeWidth={1.3} strokeDasharray="1 4" strokeLinecap="round" />
         {done > 0 && <path className="ink" d={path(pts, 0, done)} fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />}
@@ -171,6 +193,19 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
           <text className="here-lbl" x={hereX} y={hy + 40} fontSize={SIZE.here}>{here}</text>
         </>}
       </svg>
+      {r.bookWords >= 1000 && current && !confirming && !(finished && daysSince < 7) && (
+        <p className="finish-row"><button className="btn link small" onClick={() => setConfirming(true)}>I finished this draft</button></p>
+      )}
+      {confirming && current && (
+        <div className="finish-confirm" role="group" aria-label="Finish this draft">
+          <p className="small" style={{ margin: '0 0 0.5rem' }}>Mark the {String(current.name).toLowerCase()} of <em>{title}</em> finished? Every page is kept exactly as it stands, the next draft begins, and nothing in your manuscript changes. If you change your mind, you can reopen it from <button className="btn link small" onClick={() => ctx.go('drafts')}>Drafts</button>.</p>
+          <div className="row small">
+            <button className="btn small write" onClick={() => void finish()}>Yes, I wrote the end</button>
+            <button className="btn link small" onClick={() => setConfirming(false)}>Not yet</button>
+          </div>
+          {error && <div className="notice error small" role="alert">{error}</div>}
+        </div>
+      )}
       {!f && <p className="small muted book-shape-note">Set your book's target length in <button className="btn link small" onClick={() => { openAtPage(`settings:${ctx.projectId}`, 0); ctx.go('settings'); }}>Settings</button>, and your place in the book appears on the line.</p>}
     </section>
   );
