@@ -32,7 +32,7 @@ The page has two parts. The top part is always in view. Under it, the rest of th
 | --- | --- | --- |
 | The stage row | **Stage**, **Draft** and a **Drafts** link: where the book is in its life | Always |
 | **Plant the seed** | Six optional questions to start an empty novel | Only on a novel with no characters yet |
-| Drafting progress | One column per day, and your word figures | Always (plain until you set a goal) |
+| Drafting progress | The shape of your book, and your word figures | Always (plain until you set a goal) |
 | The *Set up this novel* note | An invitation to tell Story Canon what kind of book this is | Until your first choice in Novel setup |
 | **Where you stopped** | The last lines of the scene you were in | Once you have opened a scene |
 | **Left for later** | Notes you left in your pages, between double square brackets | Always (it says *Nothing waiting* when empty) |
@@ -160,23 +160,24 @@ During a writing push, and for two weeks before and one week after it, a coach s
 
 Below the stage row is your drafting progress. It can measure your days against a daily goal, or against a **writing push**: a stretch of days with a word target, such as November and 50,000 words. Both are set in **Settings**.
 
-The section has a heading (the month's name, or your writing push's name, such as **November**), a sentence about today, a row of thin columns (one for each day), and a few figures underneath.
+The section has a heading (the month's name, or your writing push's name, such as **November**), a sentence about today, **the shape of your book**, and a few figures underneath.
 
 **What it answers.** *How are my writing days going, and am I on track?*
 
-Until you set a goal, it shows how many words you wrote each day this month, with a line inviting you to set a daily goal or a writing push, and a **Settings** link. Once you set one, it measures each day against that goal and tells you what each remaining day needs.
+Until you set a goal, it shows your figures for this month, with a line inviting you to set a daily goal or a writing push, and a **Settings** link. Once you set one, it measures each day against that goal and tells you what each remaining day needs.
 
-How to read the columns, in short:
+**The shape of your book** is one hand-drawn line that runs from your first word to **THE END**, rising and falling the way a story's tension does. Words, and only words, move you along it: your words over your goal. In short:
 
 | What you see | What it means |
 | --- | --- |
-| A solid dark column | You met that day's goal (or wrote anything at all, when there is no goal) |
-| A gray striped column | You wrote that day, but less than its goal |
-| A flat line and no column | No words that day |
-| A dotted line | A day still ahead |
-| A thick pink line under a day, with a pink number | Today |
+| A solid purple line | The part of the book you have written |
+| A faint dotted line | The part still ahead |
+| The pink dot | Where you are today |
+| A small tick under the line | Where one day's writing ended |
+| A small wingback chair | A rest day you set |
+| Beat names along the line | Your beat sheet's beats, larger once you have reached them |
 
-Point at any column to see that day's exact count. The sentence above the columns says how today is going, such as *Today, 0 words of your 1,000.* Under the columns are figures such as *(month) so far*, **To finish on time**, **Against the plan**, **Days in a row** and **The whole book** (some appear only once you have a goal or a push). Everything about goals, pushes, catching up, lighter days and rest days is in [Goals, sprints and November](#goals-sprints-and-november).
+Point at a tick, a chair or the pink dot to see that day's exact count. The sentence above the shape says how today is going, such as *Today, 0 words of your 1,000.* Under it are figures such as *(month) so far*, **To finish on time**, **Against the plan**, **Days in a row** and **The whole book** (some appear only once you have a goal or a push). The shape is taught in full, with everything about goals, pushes, catching up, lighter days and rest days, in [Goals: the shape of your book](#goals-the-shape-of-your-book).
 
 **Looks wrong, but isn't.** Words you type today can take a little while to appear in the sentence about today, because a day's words are counted from saved versions of your scenes, and a version is saved after a short pause in typing or when you leave the scene. Come back from the Writing Room, and the count catches up. How versions are saved is taught in [The Writing Room](#the-writing-room).
 
@@ -299,7 +300,7 @@ Here is a routine that takes about two minutes. Do it in this order.
 1. **Open the book.** Where was I? is the first page you see, on **1 Today** (or the page you last looked at, if the program has stayed open).
 2. **Read Next.** If it is the right step, keep it in mind. If it isn't, you can still choose any scene in the Writing Room.
 3. **Read Where you stopped.** Let the last lines bring the scene back.
-4. **Glance at your progress.** Read the sentence about today and, during a writing push, **To finish on time**. That is today's number. Don't study the columns.
+4. **Glance at your progress.** Read the sentence about today and, during a writing push, **To finish on time**. That is today's number. A glance at the shape of your book tells you how far in you are.
 5. **Turn to 2 Still open and scan Latest decisions and Questions still open.** Look only for anything that touches today's scene. If one question blocks you, answer it now; leave the rest.
 6. **Check Detours still open**, on the same page. If yesterday ended in a detour, the **Return to Writing** ribbon takes you back to exactly where you were.
 7. **Click Write**, which stays at the top whatever page you are on.
@@ -322,6 +323,6 @@ On a slow day, or at the end of a week, add two more steps: clear a few notes fr
 | Detours still open keeps listing a detour you came back from | You came back with the list on the right or a scene link, not with **Return to Writing**. Click the ribbon, or press **Ctrl+Shift+W**, once |
 | The page can't be typed on after you open a scene from the *Unsaved typing was kept* notice | The scene is waiting for you to choose **Use the kept typing** or **Keep the saved version** |
 | The *Set up this novel* note won't go away | You have not changed anything in Novel setup yet. One tick there is enough |
-| The columns don't measure anything | You have not set a goal. See [Goals, sprints and November](#goals-sprints-and-november) |
+| The shape of your book doesn't show | There is nothing to measure against yet: set a writing push, or your book's target length. See [Goals, sprints and November](#goals-sprints-and-november) |
 | Your questions and decisions seem to be gone | They are on page **2 Still open**. Click its tab, or **All pages** to see everything at once |
 | Where was I? opens on page 2 or 3 instead of Today | Story Canon remembers the page you were on while the program is open. Click **1 Today**. After you close and reopen the program, it starts on Today again |

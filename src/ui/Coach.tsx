@@ -58,13 +58,8 @@ export function CoachCard({ ctx }: { ctx: Ctx }) {
     <section className="coach" aria-labelledby="coach-h">
       <header className="coach-top">
         <p className="coach-when">{when}{c.phase === 'during' && c.name ? <span className="coach-push"> of {c.name}</span> : null}</p>
-        {share != null && c.phase !== 'before' && (
-          <div className="coach-ribbon" role="img" aria-label={`${n(c.total)} of ${n(c.goal)} words`}>
-            <span className="coach-ribbon-fill" style={{ width: `${share * 100}%` }} />
-            {[0.1, 0.25, 0.5, 0.75, 0.9].map((m) => <span key={m} className="coach-ribbon-tick" data-passed={share >= m || undefined} style={{ left: `${m * 100}%` }} />)}
-          </div>
-        )}
-        {share != null && c.phase !== 'before' && <p className="coach-ribbon-label">{n(c.total)} of {n(c.goal)} words{c.next && c.phase === 'during' ? <>. Next: {c.next.title.toLowerCase()}, {n(c.next.toGo)} to go.</> : '.'}</p>}
+        {/* How far along is drawn below, in the shape of the book; here, only the next milestone. */}
+        {share != null && c.phase === 'during' && c.next && <p className="coach-next">Next milestone: {c.next.title.toLowerCase()}, {n(c.next.toGo)} words to go.</p>}
       </header>
 
       {c.milestone && (

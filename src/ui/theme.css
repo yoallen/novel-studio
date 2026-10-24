@@ -40,6 +40,7 @@
   --book: 'Libre Caslon Text', 'Literata', Georgia, serif;
   --display: 'Libre Caslon Display', 'Libre Caslon Text', Georgia, serif;
   --hand: 'Patrick Hand', 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --pen: 'Just Another Hand', 'Patrick Hand', system-ui, sans-serif;   /* the coach and the shape of the book: one pen */
   /* Each status has its own ink, on the words themselves. */
   --st-decided: #1d3f8f;
   --st-example: #7a4a1c;
@@ -891,18 +892,13 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .coach-top { margin-bottom: 1rem; }
 .coach-when { margin: 0 0 0.45rem; font-family: var(--display); font-size: 1.35rem; color: var(--struct); }
 .coach-push { font-family: var(--book); font-style: italic; font-size: 1rem; color: var(--margin); }
-.coach-ribbon { position: relative; height: 6px; border-radius: 3px; background: var(--wash); box-shadow: inset 0 0 0 1px var(--line); max-width: 28rem; }
-.coach-ribbon-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: linear-gradient(90deg, var(--struct), var(--coach-ink)); }
-.coach-ribbon-tick { position: absolute; top: -3px; width: 2px; height: 12px; margin-left: -1px; border-radius: 1px; background: var(--line-strong); }
-.coach-ribbon-tick[data-passed] { background: var(--coach-ink); }
-.coach-ribbon-label { margin: 0.4rem 0 0; font-family: var(--book); font-style: italic; font-size: 0.9rem; color: var(--margin); }
 .coach-milestone { display: flex; gap: 0.75rem; align-items: flex-start; background: var(--celebrate); border-radius: 6px; padding: 0.8rem 1rem; margin: 0 0 1.1rem; }
 .coach-milestone-mark { font-size: 1.6rem; line-height: 1; color: var(--struct); }
 .coach-milestone-title { margin: 0 0 0.2rem; font-family: var(--display); font-size: 1.15rem; color: var(--struct); }
 .coach-milestone-body { margin: 0; font-family: var(--prose); }
 .coach-note { background: var(--coach-paper); border-radius: 4px; padding: 1rem 1.25rem 0.9rem; margin: 0 0 1.25rem; box-shadow: 0 1px 2px rgba(60, 30, 80, 0.12), 0 6px 18px rgba(60, 30, 80, 0.07); transform: rotate(-0.35deg); }
-.coach-note h3 { margin: 0 0 0.3rem; font-family: var(--hand); font-size: 1.55rem; font-weight: 400; color: var(--coach-ink); line-height: 1.2; }
-.coach-body { margin: 0; font-family: var(--hand); font-size: 1.25rem; line-height: 1.45; color: var(--coach-ink); }
+.coach-note h3 { margin: 0 0 0.25rem; font-family: var(--pen); font-size: 2.1rem; font-weight: 400; color: var(--coach-ink); line-height: 1.05; }
+.coach-body { margin: 0; font-family: var(--pen); font-size: 1.7rem; line-height: 1.15; color: var(--coach-ink); }
 .coach-from { margin: 0.55rem 0 0; font-family: var(--book); font-style: italic; font-size: 0.85rem; color: var(--margin); }
 .coach-note[data-own] { border-left: 3px solid var(--yours); }
 .coach-spot { margin: 0 0 1.25rem; padding: 0.15rem 0 0.15rem 1rem; border-left: 2px solid var(--line-strong); }
@@ -915,7 +911,7 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .coach-actions { margin-top: 0.4rem; }
 .coach-stuck { margin-top: 0.75rem; padding: 0.8rem 1rem; background: var(--sheet); border: 1px solid var(--line); border-radius: 4px; }
 .coach-stuck p { margin: 0.25rem 0; }
-.coach-question { font-family: var(--hand); font-size: 1.2rem; color: var(--coach-ink); margin: 0.6rem 0 !important; }
+.coach-question { font-family: var(--pen); font-size: 1.6rem; color: var(--coach-ink); margin: 0.6rem 0 !important; }
 @media (prefers-reduced-motion: reduce) { .coach-note { transform: none; } }
 
 /* The stage menu on the Library's purple covers: the list it opens is read on cream, not cloth. */
@@ -923,3 +919,20 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .coach-check { display: flex; gap: 0.6rem; align-items: flex-start; margin-top: 0.9rem; max-width: 60ch; }
 .coach-check input { margin-top: 0.2rem; flex: none; }
 .push-starts { margin: 0.3rem 0 0.5rem; }
+
+/* The shape of the book (replaces the tally): one pen line for the push, ink where written, pencil ahead. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.book-shape { display: block; width: 100%; max-width: 60rem; height: auto; margin: 0 0 1rem; overflow: visible; }
+.book-shape text { font-family: var(--pen); }
+.book-shape .ink { stroke: var(--struct); }
+.book-shape .ahead { stroke: var(--pencil); }
+.book-shape .lbl-ink { fill: var(--struct); }
+.book-shape .lbl-ahead { fill: var(--faint); }
+.book-shape .day { stroke: var(--coach-ink); }
+.book-shape .chair { stroke: var(--coach-ink); fill: none; }
+.book-shape .chair-lbl { fill: var(--coach-ink); }
+.book-shape .here { fill: var(--yours); }
+.book-shape .here-lbl { fill: var(--yours); }
+.book-shape .here-line { stroke: var(--yours); fill: none; }
+.book-shape .the-end { fill: var(--struct); }
+.coach-next { margin: 0 0 0.2rem; font-family: var(--book); font-style: italic; font-size: 0.95rem; color: var(--margin); }

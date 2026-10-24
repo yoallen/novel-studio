@@ -1,6 +1,6 @@
 # Goals, sprints and November
 
-This chapter is about the number side of writing: how Story Canon counts your words each day, a daily goal for ordinary days, a **writing push** such as November and 50,000 words, how Story Canon works out what each day needs, what happens on the days you fall short, and how to plan a lighter day or a rest day without feeling you have failed. It also covers **sprints** (writing against a clock), **door closed** (no judging until a day you choose), and notes you dictate away from the desk. Read it when you want a goal, before a November push, or the first time the columns on Where was I? puzzle you.
+This chapter is about the number side of writing: how Story Canon counts your words each day, a daily goal for ordinary days, a **writing push** such as November and 50,000 words, how Story Canon works out what each day needs, what happens on the days you fall short, and how to plan a lighter day or a rest day without feeling you have failed. It also covers **sprints** (writing against a clock), **door closed** (no judging until a day you choose), and notes you dictate away from the desk. Read it when you want a goal, before a November push, or the first time the shape of your book on Where was I? puzzles you.
 
 All of it is optional. With no goal at all, Story Canon still shows how many words you wrote each day, and never judges a day.
 
@@ -8,24 +8,24 @@ All of it is optional. With no goal at all, Story Canon still shows how many wor
 
 Your progress appears in three places:
 
-- **Where was I?**, your novel's home page, on its page **1 Today**: the **drafting progress panel**, with a thin column for each day and a few figures under it. This is the main one, and most of this chapter is about it.
+- **Where was I?**, your novel's home page, on its page **1 Today**: the **drafting progress panel**, with the shape of your book drawn as one line and a few figures under it. This is the main one, and most of this chapter is about it.
 - **The Writing Room**, in the small line under the page: *1,204 words in this scene, today's goal 1,743*. Today's goal appears there only once you have a goal.
 - **The Writing Room binder**, at the top: the whole book's word count, and "of" your target length if you set one.
 
-With no goal and no push, the panel shows this month's columns and says *Set a daily word goal, or a writing push such as November, and this shows how you are tracking.*, with a **Settings** link.
+With no goal and no push, the panel shows this month's figures and says *Set a daily word goal, or a writing push such as November, and this shows how you are tracking.*, with a **Settings** link.
 
 ## Goals: what counts as a day's words
 
 Every number in this chapter starts from one idea: **a day's words are the words you typed that day, minus the words you cut.**
 
 - Typing new words adds to the day.
-- Cutting words takes away from it. A day of heavy cutting can come out below zero; point at its column and it says how many words were cut.
+- Cutting words takes away from it. A day of heavy cutting can come out below zero; point at that day on the shape of your book and it says how many words were cut.
 - **Notes for later**, `[[like this]]`, never count (see [Writing Room: notes for later](#writing-room-notes-for-later)).
 - **Not writing, so never counted:** bringing in a manuscript, accepting changes an editor sent back, restoring an earlier version of a scene, and choosing **Keep the saved version** after a crash. The words are in your book (they count in **The whole book**), but none of them is you writing that day.
 - **Days follow your computer's clock and time zone.** Words typed at 11:58 at night count for that day; words at 12:02 count for the next.
 - **Words count when they become a saved version of the scene**: about twenty seconds after you stop typing, or when you leave the scene. If **Today** looks behind, wait a moment.
 
-**Why it matters.** A tracker you can't trust is worse than none. Counting only what you typed keeps the columns honest: a day with 3,000 imported words and 200 written ones shows 200.
+**Why it matters.** A tracker you can't trust is worse than none. Counting only what you typed keeps the numbers honest: a day with 3,000 imported words and 200 written ones shows 200.
 
 ## Goals: an everyday goal for ordinary days
 
@@ -40,7 +40,7 @@ Every number in this chapter starts from one idea: **a day's words are the words
 3. In **Goal amount**, type your number, such as 500.
 4. Click **Save settings** at the bottom of the window.
 
-Where was I? now measures every day this month against 500. The top line says *Today, 74 words of your 500.*, each day's column gets a thin dashed line at the goal's height, and the columns turn dark on days you reach it.
+Where was I? now measures every day this month against 500. The top line says *Today, 74 words of your 500.*, and pointing at any day says whether you met it.
 
 **The choices in the dropdown.** A gray line under the dropdown says what the one you picked does.
 
@@ -48,45 +48,62 @@ Where was I? now measures every day this month against 500. The top line says *T
 | --- | --- |
 | **No goals** | No daily number. Where was I? still shows what you wrote each day |
 | **Words per day** | A number of words each day. Where was I? tracks it every day you write |
-| **Scenes per week** | Kept as your goal in Settings. Where was I? counts words for now, so the columns show no goal line |
+| **Scenes per week** | Kept as your goal in Settings. Where was I? counts words for now, so days are measured in words |
 | **Minutes per day** | Kept as your goal in Settings. Where was I? counts words for now |
 | **Milestones** | No daily number. A box, **My milestones**, holds the milestones you are working toward, one per line, such as *Act One drafted by March*. They are kept in Settings for you to read and tick off yourself |
 
 **The common mistake** is setting the everyday goal to your best-day number. A goal you meet four days out of five builds a habit; one you miss four days out of five builds dread. Set the number you can reach on a tired Tuesday.
 
-**Example.** *The Keeper of Gull Point* moves slowly through the autumn. You set **Words per day** to 300. Most days you write 400 or 500, and the columns are dark. On the day you write 150, the column is gray and striped, and the next day's goal is still just 300. An everyday goal never carries a shortfall forward; only a writing push does that.
+**Example.** *The Keeper of Gull Point* moves slowly through the autumn. You set **Words per day** to 300. Most days you write 400 or 500, and the top line says the day's goal is met. On the day you write 150, it says *150 words of your 300*, and the next day's goal is still just 300. An everyday goal never carries a shortfall forward; only a writing push does that.
 
 ## Goals: reading the drafting progress panel
 
-The panel on Where was I? starts with a heading in slanted purple type: the month's name, or your push's name (or *Your writing push* if you left the name empty). Under it is a sentence about today, such as *Today, 600 words of your 1,743.* Then come the columns: one thin column per day of the month (or of the push), with day numbers underneath.
+The panel on Where was I? starts with a heading in slanted purple type: the month's name, or your push's name (or *Your writing push* if you left the name empty). Under it is a sentence about today, such as *Today, 600 words of your 1,743.* Then comes **the shape of your book**, and under it a few figures in plain numbers.
 
-### Goals: the marks on each column
+### Goals: the shape of your book
 
-The columns borrow the look of the status inks: a dark solid mark for done, pencil for in progress, and nothing at all for no words. Pink is always you: today, and the days you set yourself.
+**What it is.** A single hand-drawn line that runs the length of your book, from its first word on the left to **THE END** on the right. It isn't flat. It rises and falls the way a story's tension does: quiet through the set-up, wobbling as the struggle builds, dropping at the dark moment, climbing to the climax, and settling at the end. The beats of your beat sheet are written along it, in the same handwriting the coach uses.
+
+**What moves you along it: words, and only words.** Where you are on the line is your words divided by your goal. With 19,600 words of a 50,000-word push you are 39% of the way, so your pink dot sits 39% of the way along. The beats are signposts placed the same way: a beat sheet puts the Midpoint about halfway through a book, so with a 50,000-word goal it sits at about 25,000 words. Writing the Finale early still moves you forward by those words; the line shows how much book you have written, not which scenes.
+
+**What you see on it.**
 
 | What you see | What it means |
 | --- | --- |
-| A solid dark column | You met that day's goal. With no goal set, any day with words is dark |
-| A gray, striped column | Pencil. You wrote that day, but less than its goal |
-| No column, just the solid base line | No words that day |
-| A dotted gray base line | A day still ahead |
-| A dotted pink base line | A rest day you set, still ahead or with no words |
-| A thick pink base line, and the day's number in bold pink | Today |
-| A thin dashed line across a column | That day's goal, at its height |
-| A solid pink line across a column | The goal of a day you set yourself (a lighter or bigger day) |
+| A solid purple line | Ink: the part of the book you have written |
+| A faint dotted line | Pencil: the part still ahead |
+| The pink dot, with *you are here, day 12* | Where today's words have taken you. Before a push begins it says where the push starts; after it ends, where you finished |
+| A small tick under the line | Where one day's writing ended. Big days spread the ticks apart; small days bunch them up |
+| A small wingback chair, *a rest day* | A rest day you set, at the place in the book where you rested |
+| Nothing at all | A day with no words. Nothing moved, so nothing is marked, and nothing is held against you |
+| A beat's name, larger and in purple | A beat you have reached |
+| A beat's name, smaller and gray | A beat still ahead |
+| **THE END** | Your goal |
 
-The numbers under the columns show only the first day, today, and every fifth day, to keep the row readable. The height of each column is in proportion to the biggest day shown, so a short column next to a tall one is a real difference.
+There isn't room to write every beat on the line, so it always writes the beat you are in and the next one, then as many others as fit without crowding. Without a beat sheet, the line is drawn the same way with no beat names on it.
 
-### Goals: pointing at a column
+**What the line measures against.** During a push with a word goal, the push is the length of the line. Without a push, it is your book's target length from Settings, and the words already in the book before this month count toward where you are. With neither, there is nothing to measure against, so the panel shows only its figures.
 
-Point at any column to see its exact story, for example:
+**A day that cuts words** never walks you backwards on the line. The line holds at the farthest point you have reached, and the figures underneath give the exact count.
+
+**Why it matters.** A column chart answers "how many words did I write on the 9th?" The shape answers the question you actually carry around during a push: *how far into this book am I, and what's next?* Seeing the Midpoint 5,400 words ahead of your dot is a reason to sit down tonight.
+
+**The common mistake** is reading the shape as a judgement of your story. The rise and fall is a common dramatic shape, the same for every novel, not a picture of your plot. It shows where you are in the length of the book, nothing else.
+
+**Example.** It's day 12 of November and you have 19,600 words of 50,000. The purple line runs from the left edge up through **Catalyst** and **Break into Two** and stops at your pink dot just past **Fun and Games**. Behind the dot are nine small ticks for the days you wrote and a little wingback chair where you took your rest day on the 7th. The 4th has no tick: you didn't write, and the line simply goes on. Ahead, in gray pencil, **Midpoint** waits about 5,400 words away, and the dotted line climbs toward **THE END**.
+
+### Goals: pointing at a day
+
+Point at a day's tick, at a wingback chair, or at the pink dot to see that day's exact story, for example:
 
 - *November 3: 900 words of 1,661*
 - *November 8: 2,400 words, goal met*
 - *November 13 (today): 600 words of 1,743*
-- *November 26, still ahead, a day you set at 300*
+- *November 7: 0 words, a rest day you set*
 
-### Goals: the figures under the columns
+A screen reader reads every day of the push this way, in order, whether or not the day has a mark.
+
+### Goals: the figures under the shape
 
 | Figure | What it says | When it shows |
 | --- | --- | --- |
@@ -118,13 +135,13 @@ To remove the push, click **No push** in the same section, then **Save settings*
 
 ### Goals: before the push starts
 
-Where was I? starts showing the push **two weeks before its first day**, so you can see it coming. The heading says **November**, and the panel says *November starts on November 1. 50,000 words in 30 days is about 1,667 a day.* Under it: *Today, 74 words. The chart below fills in once November begins.* Today's words still count toward your everyday goal, if you have one.
+Where was I? starts showing the push **two weeks before its first day**, so you can see it coming. The heading says **November**, and the panel says *November starts on November 1. 50,000 words in 30 days is about 1,667 a day.* Under it: *Today, 74 words. The line below fills in once November begins.* Today's words still count toward your everyday goal, if you have one.
 
 This is the time to set any lighter or rest days you already know about (see [Goals: lighter days and rest days](#goals-lighter-days-and-rest-days)) and to decide whether to close the door for the month (see [Goals: door closed](#goals-door-closed)).
 
 ### Goals: during the push
 
-From November 1, the columns are November's thirty days, and every figure is about the push. The sentence at the top changes with the day:
+From November 1, the shape of your book measures November's 50,000 words, and every figure is about the push. The sentence at the top changes with the day:
 
 - *Today, 600 words of your 1,743.* while you are working toward today's goal.
 - *Today, 1,800 words of your 1,743. The day's goal is met.* once you reach it. **To finish on time** then switches to what the days after today need.
@@ -132,7 +149,7 @@ From November 1, the columns are November's thirty days, and every figure is abo
 
 ### Goals: after the push ends
 
-For a week after the last day, the panel says *November is done: 51,204 words of 50,000.* with the month's columns still showing. After that week, it goes back to showing the current month with your everyday goal.
+For a week after the last day, the panel says *November is done: 51,204 words of 50,000.* with the shape showing where you finished. After that week, it goes back to showing the current month with your everyday goal.
 
 ## Goals: the push coach
 
@@ -141,12 +158,12 @@ For a week after the last day, the panel says *November is done: 51,204 words of
 **What it shows.**
 
 - **The day:** *Day 9 of 30*, or before the push, *November starts in 5 days*.
-- **A note for the day.** A heading and a few sentences, chosen for where you are in the push or for what just happened. Where a note teaches a craft idea, a line under it credits the teacher it comes from, such as *From Stephen King, On Writing.* The notes are written in Story Canon's own words; nothing is quoted.
+- **A note for the day,** handwritten in plum on a slip of paper, in the same pen that writes the beats on the shape of your book. A heading and a few sentences, chosen for where you are in the push or for what just happened. Where a note teaches a craft idea, a line under it credits the teacher it comes from, such as *From Stephen King, On Writing.* The notes are written in Story Canon's own words; nothing is quoted.
 - **A line about a writer, about writing, or just for fun.** *About a writer* tells how a real novelist worked or kept going. *About writing* is a true, encouraging fact about how books get made. *Just for fun* is a light, true fact for days your brain needs a rest, mostly about words and books. Every one comes from a checked source.
 - **Where you are in the book.** The beat your next unwritten scene sits at, with one line from your beat sheet about what that beat asks.
 - **A milestone** when you cross one: the first tenth of your goal, a quarter, halfway, three quarters, ninety percent, and the goal itself. Each says what that point means for the book. A milestone stays on the page the day after, so you don't miss it.
 - **Your pace, in plain numbers.** Ahead, behind or on pace against an even share of the push, what today asks, and how much of it is still to go. If you have run sprints on this computer, it also says how many sprints that is at your own sprint pace. It never scolds: being behind is already spread over the days left.
-- **Next milestone,** with how many words to go.
+- **Next milestone,** with how many words to go, in a small line under the day. How far along you are is drawn just below the coach, in the shape of your book.
 - **I'm stuck.** Click it and the coach hands you the next scene card you haven't written, in story order, with what the scene must do, its turn and its conflict if you filled them in, and one question to start on. **Write this scene** opens the page.
 - **Turn off the coach,** if you'd rather work without it. You can turn it back on in Settings.
 
@@ -209,7 +226,7 @@ November has days when 1,667 words won't happen: a late shift, a birthday, Thank
 2. In **Day**, choose the date. You can choose any day from today (or from the push's first day, before it starts) to its last day.
 3. Either type the words in **Words** (it starts at 500) and click **Set it**, or click **Make it a rest day**.
 
-The day you set now appears in a list under the figures, such as *November 26: 300 words* or *November 27: rest day*, each with a **Clear** link that puts it back to an ordinary day. The list shows the set days from today on. The day's column shows a solid pink goal line (a lighter or bigger day) or a dotted pink base line (a rest day). **To finish on time** adds *counting the days you set*.
+The day you set now appears in a list under the figures, such as *November 26: 300 words* or *November 27: rest day*, each with a **Clear** link that puts it back to an ordinary day. The list shows the set days from today on. Once a rest day you set has passed, the shape of your book marks it with a small wingback chair; pointing at any day says whether it was a day you set. **To finish on time** adds *counting the days you set*.
 
 **What happens to the difference.** The days you have not set share it. In the worked example, on November 13 you set November 26 to 300 and November 27 as a rest day. Those two days now carry 300 words instead of about 3,486, so the other 16 days share the rest: today's goal rises from 1,743 to 1,942.
 
@@ -217,7 +234,7 @@ The day you set now appears in a list under the figures, such as *November 26: 3
 
 **The common mistake** is waiting until the bad day to admit it. If you know Thanksgiving will be a 300-word day, set it now. The other days absorb it a little at a time.
 
-**Example.** The Port Ellery library has asked you to give a talk on November 14, and family visits on November 22 and 23. On November 1 you set the 14th to 500, and the 22nd and 23rd as rest days. Your daily goal for the other days rises from 1,667 to 1,834, and those three days show pink marks in the columns. On the 22nd, the panel says *Today is a rest day you set.*, and your **Days in a row** stays unbroken.
+**Example.** The Port Ellery library has asked you to give a talk on November 14, and family visits on November 22 and 23. On November 1 you set the 14th to 500, and the 22nd and 23rd as rest days. Your daily goal for the other days rises from 1,667 to 1,834, and pointing at those days says they are days you set. On the 22nd, the panel says *Today is a rest day you set.*, your **Days in a row** stays unbroken, and afterwards a little wingback chair sits on the line where you rested.
 
 ### Goals: when set days leave words with nowhere to go
 
@@ -251,7 +268,7 @@ If your set days already cover everything left, it says *Your set days cover wha
 
 ## Goals: the whole book and your target length
 
-**The whole book** is every word in your manuscript right now, in every scene that isn't deleted. Unlike the day columns, it includes words you brought in, restored or accepted from an editor. Notes for later aren't counted.
+**The whole book** is every word in your manuscript right now, in every scene that isn't deleted. Unlike the day counts, it includes words you brought in, restored or accepted from an editor. Notes for later aren't counted.
 
 To see it as "of" a target, such as *52,310 of 80,000 words*:
 
@@ -356,15 +373,15 @@ Here is how the pieces fit together over one month of *The Keeper of Gull Point*
 
 **October 18.** You open **Settings**, click **November, 50,000 words** under **Plan a writing push**, keep November and 50,000, and click **Save settings**. On Where was I?, a **November** panel appears: *November starts on November 1. 50,000 words in 30 days is about 1,667 a day.* You know Thanksgiving week will be hard, so you click **Set a lighter day** and set November 26 to 300 and November 27 as a rest day. You click **Close the door through November 30**.
 
-**November 1.** You open the book, read **Next** on Where was I?, and click **Write**. You do two 30-minute sprints: Marisol finds the empty boat on her rocks. 1,800 words. The column is dark.
+**November 1.** You open the book, read **Next** on Where was I?, and click **Write**. You do two 30-minute sprints: Marisol finds the empty boat on her rocks. 1,800 words. The ink line on the shape of your book starts to climb.
 
-**November 6.** You are down with a cold and write nothing. The column is empty. You don't panic: tomorrow's goal is about 70 words higher, that's all.
+**November 6.** You are down with a cold and write nothing. No tick appears for the day. You don't panic: tomorrow's goal is about 70 words higher, that's all.
 
 **November 13.** The panel says you're 1,374 behind. You read **To finish on time** instead, *about 1,942 a day*, and write that. Ana Ruiz knocks on the lighthouse door for the first time. **Days in a row** says 7.
 
 **November 27.** Rest day. The panel says *Today is a rest day you set.* You walk the harbor wall instead, and dictate one line about Cyrus's boots into your notes from the road.
 
-**November 30.** You write 2,300 words and **To finish on time** says **Done. Everything now is extra.** For a week, the panel shows *November is done*, with thirty columns of your month. On December 1 the door opens by itself, and Read it back's echoes and long sentences are waiting for revision.
+**November 30.** You write 2,300 words and **To finish on time** says **Done. Everything now is extra.** For a week, the panel shows *November is done*, with your pink dot at **THE END**. On December 1 the door opens by itself, and Read it back's echoes and long sentences are waiting for revision.
 
 ## Goals: when the numbers look wrong but are working
 
@@ -379,7 +396,7 @@ Here is how the pieces fit together over one month of *The Keeper of Gull Point*
 | **So far** and **Days in a row** aren't there | The push hasn't begun yet. They return on its first day |
 | **Against the plan** isn't there | It shows only during a push, when you are 50 or more words ahead or behind |
 | **Set a lighter day** isn't there | It appears only with a writing push that has a word goal, until the push ends |
-| A day you set has gone from the list | The list shows set days from today on. Past set days still count, in the columns and in Against the plan |
+| A day you set has gone from the list | The list shows set days from today on. Past set days still count, on the shape of your book and in Against the plan |
 | Days in a row didn't reset after a missed day | The missed day was a rest day you set, or today isn't over yet |
 | Scenes per week or Minutes per day shows no goal line | Those goals are kept in Settings, but Where was I? measures words for now |
 | No word line or goal under the page | A sprint is running. It comes back when the sprint ends |
