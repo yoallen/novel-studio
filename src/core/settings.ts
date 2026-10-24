@@ -92,6 +92,8 @@ export interface ProjectSettings {
   coach: boolean;
   /** Her own notes for the push coach, carried with the novel so they reach her other computer. */
   coachOwn: string[];
+  /** The beats she says she is writing in now, by id. null: Story Canon follows the scene she is writing. */
+  writingNow: string[] | null;
 }
 
 export const DEFAULT_RESERVED_MARKERS = ['Mine to write', 'Mine to build', 'Mine to design', 'Mine to choreograph', 'Mine to time', 'Mine to escalate', 'Mine to settle'];
@@ -122,6 +124,7 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
     doorClosedUntil: typeof s.doorClosedUntil === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s.doorClosedUntil) ? s.doorClosedUntil : null,
     coach: s.coach !== false,
     coachOwn: Array.isArray(s.coachOwn) ? s.coachOwn.filter((x): x is string => typeof x === 'string') : [],
+    writingNow: Array.isArray(s.writingNow) ? s.writingNow.filter((x): x is string => typeof x === 'string').slice(0, 40) : null,
   };
 }
 

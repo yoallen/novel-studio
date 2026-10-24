@@ -362,6 +362,14 @@ export class Structure {
       const spine = this.spine(projectId);
       const defs: StructBeat[] = spine === 'save_the_cat' ? saveTheCatAsBeats() : (this.registry().beats[spine ?? ''] ?? []);
       const hereBeat = scene?.plan_element_id ? this.decidedBeat(scene.plan_element_id as string) : null;
+      // Written: a beat with a scene that has words in it, from a card decided there (or on one of its steps).
+      const written = new Set<string>();
+      for (const sc of this.store.db.prepare('SELECT plan_element_id FROM scenes WHERE project_id=? AND deleted_at IS NULL AND plan_element_id IS NOT NULL AND word_count > 0').all(projectId) as Row[]) {
+        const b = this.decidedBeat(sc.plan_element_id as string); if (b) written.add(parentOf(b));
+      }
+      // Writing now, on its own: the beat of the scene she most recently wrote in, when that scene came from a card on a beat.
+      const last = this.store.db.prepare(`SELECT s.plan_element_id FROM scene_revisions r JOIN scenes s ON s.id = r.scene_id WHERE s.project_id=? AND s.deleted_at IS NULL AND r.reason='save' ORDER BY r.created_at DESC LIMIT 1`).get(projectId) as Row | undefined;
+      const autoBeat = last?.plan_element_id ? this.decidedBeat(last.plan_element_id as string) : null;
       return {
         mode: 'beats' as const,
         acts: ACT_NAMES,
@@ -369,11 +377,13 @@ export class Structure {
           const def = defs.find((d) => d.key === b.attrs.template_key);
           const at = def?.at ?? [i / n, (i + 1) / n];
           const id = b.element.id as string;
-          return { id, name: b.element.title as string, act: (b.act as string) ?? 'I', from: at[0], to: Math.max(at[1], at[0]), moment: def?.moment ?? null,
+          return { id, name: b.element.title as string, act: (b.act as string) ?? 'I', from: at[0], to: Math.max(at[1], at[0]), moment: def?.moment ?? null, written: written.has(id),
             decided: cards.filter((c) => c.p.decided && parentOf(c.p.decided.beatId) === id).length,
             maybe: cards.filter((c) => !c.p.decided && c.p.candidates.some((x) => parentOf(x.beatId) === id)).length };
         }),
         here: hereBeat ? parentOf(hereBeat) : null,
+        auto: autoBeat ? parentOf(autoBeat) : null,
+        writingNow: (() => { const w = settingsOf(this.brain.project(projectId).profile).writingNow; return w ? w.filter((id) => top.some((b) => b.element.id === id)) : null; })(),
         // Where her plan says she is: the beat of the first card in story order with no words yet.
         next: (() => { const c = this.plannedOrder(projectId).find((x) => !x.words || x.words <= 0); return c?.beatId ? parentOf(c.beatId) : null; })(),
       };

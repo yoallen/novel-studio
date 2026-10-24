@@ -983,3 +983,13 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .finished-title { margin: 0 0 0.25rem; font-family: var(--pen); font-size: 2.4rem; line-height: 1; color: var(--struct); }
 .finished-book { font-style: normal; }
 @media (prefers-reduced-motion: reduce) { .finished-note { transform: none; } }
+
+/* Where she is writing: pink on the line, and a row of her beats to choose from. */
+.book-shape .now-ink { stroke: var(--yours); }
+.writing-now { margin: 0; }
+.writing-now .now-names { font-family: var(--pen); font-size: 1.35rem; color: var(--yours); }
+.beat-chooser { margin: 0.5rem 0 0; padding: 0.75rem 1rem; border-left: 3px solid var(--coach-ink); background: var(--coach-paper); }
+.beat-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.beat-chip { font: inherit; font-size: 0.875rem; padding: 0.2rem 0.7rem; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--page); color: var(--struct); cursor: pointer; }
+.beat-chip[aria-pressed='true'] { border-color: var(--yours); color: var(--yours); background: color-mix(in srgb, var(--yours) 8%, var(--page)); }
+.beat-chip:focus-visible { outline: 2px solid var(--yours); outline-offset: 2px; }

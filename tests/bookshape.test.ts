@@ -52,7 +52,7 @@ describe('the shape of the book', () => {
     expect(line('p1')).toEqual(line('p1'));
   });
 
-  it('she always sees the beat she is in and the next; labels never crowd each other', () => {
+  it('the beats she is writing come first, then the turning points; labels never crowd each other', () => {
     const segs = [
       ['Opening Image', 0, 0.01], ['Theme Stated', 0.05, 0.05], ['Set-Up', 0.01, 0.1], ['Catalyst', 0.1, 0.1], ['Debate', 0.1, 0.2],
       ['Break into Two', 0.2, 0.2], ['B Story', 0.22, 0.22], ['Fun and Games', 0.2, 0.5], ['Midpoint', 0.5, 0.5], ['Bad Guys Close In', 0.5, 0.75],
@@ -61,23 +61,26 @@ describe('the shape of the book', () => {
     const pts = line('p1');
     const moments: Record<string, string> = { 'Opening Image': 'opening', Catalyst: 'inciting', 'Break into Two': 'threshold', Midpoint: 'midpoint', 'All Is Lost': 'lowest', 'Break into Three': 'third', Finale: 'climax', 'Final Image': 'ending' };
     for (const sg of segs) (sg as any).moment = moments[sg.name] ?? null;
-    const got = labels(pts, segs, 0.392, [], 'b7');
+    // Written in the opening beats; writing now in Fun and Games and, out of order, the Finale.
+    const written = new Set(['b0', 'b1', 'b2', 'b3']), now = new Set(['b7', 'b13']);
+    const got = labels(pts, segs, (sg) => (now.has(sg.id) ? 'now' : written.has(sg.id) ? 'written' : 'ahead'));
     const names = got.map((l) => l.name);
     expect(names).toContain('Fun and Games');
     expect(names).toContain('Midpoint');
     // The turning points come before minor beats.
     for (const k of ['Catalyst', 'Break into Two', 'All Is Lost', 'Break into Three']) expect(names, k).toContain(k);
-    expect(got.find((l) => l.name === 'Fun and Games')!.now).toBe(true);
-    expect(got.find((l) => l.name === 'Fun and Games')!.reached).toBe(true);
-    expect(got.find((l) => l.name === 'Midpoint')!.reached).toBe(false);
+    expect(got.find((l) => l.name === 'Fun and Games')!.state).toBe('now');
+    expect(got.find((l) => l.name === 'Finale')!.state).toBe('now');
+    expect(got.find((l) => l.name === 'Catalyst')!.state).toBe('written');
+    expect(got.find((l) => l.name === 'Midpoint')!.state).toBe('ahead');
     expect(got.length).toBeGreaterThanOrEqual(6);
-    const box = (l: (typeof got)[number]) => { const size = l.reached || l.now ? SIZE.reached : SIZE.ahead, w = labelWidth(l.name, size); return { x0: l.x - w / 2, x1: l.x + w / 2, y0: l.y - size, y1: l.y + 3 }; };
+    const box = (l: (typeof got)[number]) => { const size = l.state === 'ahead' ? SIZE.ahead : SIZE.reached, w = labelWidth(l.name, size); return { x0: l.x - w / 2, x1: l.x + w / 2, y0: l.y - size, y1: l.y + 3 }; };
     for (const l of got) { const b = box(l); expect(pts.some(([x, y]) => x >= b.x0 && x <= b.x1 && y >= b.y0 && y <= b.y1), `${l.name} crosses the line`).toBe(false); }
     for (const a of got) for (const b of got) if (a !== b) { const p = box(a), q = box(b); expect(p.x0 < q.x1 && p.x1 > q.x0 && p.y0 < q.y1 && p.y1 > q.y0, `${a.name} / ${b.name}`).toBe(false); }
     expect(at(pts, 1)[0]).toBeGreaterThan(at(pts, 0)[0]);
   });
-  it('with no words yet, no beat is written as reached, not even the first', () => {
-    const segs = [{ id: 'a', name: 'Opening Image', from: 0, to: 0.01, moment: 'opening' }, { id: 'b', name: 'Catalyst', from: 0.1, to: 0.1, moment: 'inciting' }];
-    expect(labels(line('z'), segs, 0).every((l) => !l.reached)).toBe(true);
+  it('word count never decides a beat: with nothing written in it and not chosen, every beat is ahead', () => {
+    const segs = [{ id: 'a', name: 'Opening Image', from: 0, to: 0.01, moment: 'opening', written: false }, { id: 'b', name: 'Catalyst', from: 0.1, to: 0.1, moment: 'inciting', written: false }];
+    expect(labels(line('z'), segs, (sg) => (sg.written ? 'written' : 'ahead')).every((l) => l.state === 'ahead')).toBe(true);
   });
 });

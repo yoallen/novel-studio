@@ -23,7 +23,7 @@ The page has two parts. The top part is always in view. Under it, the rest of th
 | Section | What it is | When you see it |
 | --- | --- | --- |
 | The page's top | *Where was I?*, *This is (your title)'s home page.* and a short paragraph | Always |
-| **Your book map** | The whole book drawn as one pen line, with your beats along it and where you are | Always (your place appears once you set a target length) |
+| **Your book map** | The whole book drawn as one pen line, with your beats along it and the beats you are writing now | Always (the beats appear once the novel has a beat sheet) |
 | **Next** and **Write** | The one next step, in large type, and the orange button that takes you there | Always |
 | *Unsaved typing was kept* | Typing from a window that closed unexpectedly, waiting for you | Only after the program closed unexpectedly |
 
@@ -84,31 +84,42 @@ That last sentence is the whole idea. If you get lost anywhere in the program, c
 
 ## Where was I? Your book map
 
-**What it is.** Under the opening paragraph, with room above and below, is **your book map**: the whole book drawn as a single hand-inked line, from its first word on the left to **THE END** on the right. The heading above it says *Your book* and, once you set a target length, how many words of it you have, such as *Your book, 49,600 of 80,000 words*. The line isn't flat. It rises and falls the way a story's tension does: quiet through the set-up, wobbling as the struggle builds, dropping at the dark moment, climbing to the climax, and settling at the end. The beats of your beat sheet are written along it, in the same handwriting the coach uses.
+**What it is.** Under the opening paragraph, with room above and below, is **your book map**: the whole book drawn as a single hand-inked line, from its first word on the left to **THE END** on the right. The heading above it says *Your book* and how many words the book holds, with your target length if you set one, such as *Your book, 49,600 of 80,000 words*. The line isn't flat. It rises and falls the way a story's tension does: quiet through the set-up, wobbling as the struggle builds, dropping at the dark moment, climbing to the climax, and settling at the end. The beats of your beat sheet are written along it, in the same handwriting the coach uses.
 
-**What moves you along it.** Every word in the book, over your book's target length (set on page **1 This novel** of Settings, for example 80,000 words). With 49,600 words of an 80,000-word book your pink dot sits 62% of the way along. The beats are placed by the share of the book their sheet gives them, so in an 80,000-word book the Midpoint sits near 40,000 words. Change the target length and the beats move with it. Until you set one, the map shows the beats in pencil and a line asking for a length, and no dot. A book that runs past its length shows *you are here, past your length*.
+**Where you are comes from you, not from your word count.** Words can't tell Story Canon where you are in a story. You might write the Finale first, or have 40,000 words that are all set-up. So the map shows three things, and none of them is worked out from a count:
 
-**Which beat you are in comes from your plan, not from arithmetic.** Word counts only say roughly where the beats fall. The beat your next unwritten scene card sits on, in story order, is written in the coach's plum ink. If you are writing the Finale first, that is what you will see.
+- **Written (ink).** A beat turns to ink once a scene planned on it has words in it. A beat you skipped stays in pencil, however many words the book has.
+- **Writing now (pink).** The beats you are working in. On its own, Story Canon follows the scene you last wrote in: the beat its card sits on is your pink beat. When you say where you are writing, your choice wins. You can be writing in more than one beat at once, and each gets its own pink stretch and dot.
+- **Still ahead (pencil).** Everything else.
+
+The word count appears only in the heading. Setting or changing your target length never moves anything on the map.
+
+**How to say where you are writing:**
+
+1. Under the map, the line *Writing now:* names your pink beats. If Story Canon chose them from your last scene, it says so: *(from the scene you last wrote in)*. Click **Change** (or **Choose**, if nothing is pink yet).
+2. A row of your beats opens. Click each beat you are working in; a check mark shows it is chosen. Click it again to take it off.
+3. Click **Done**.
+4. To go back to letting Story Canon follow your scenes, open the row again and click **Let Story Canon follow my scenes**, or take every check mark off.
 
 **A writing push never appears on the map.** A push measures words toward its own goal, not a place in the story, so it has its own line further down the page (see [Goals: the push line](#goals-the-push-line)).
 
 | What you see | What it means |
 | --- | --- |
-| A solid purple line | Ink: the part of the book you have written |
-| A faint dotted line | Pencil: the part still ahead |
-| The pink dot, *you are here* | Where every word in the book has taken you |
-| A beat's name in plum | The beat your next unwritten scene card sits on |
-| A beat's name, larger and in purple | A beat you have reached |
+| A faint dotted line | Pencil: the whole book, before any of it is written |
+| A solid purple stretch | Ink: a beat with written scenes in it |
+| A pink stretch with a pink dot, *writing here* | A beat you are writing in now. A second or third one says *and here* |
+| A beat's name in pink | A beat you are writing in now |
+| A beat's name, larger and in purple | A beat written in |
 | A beat's name, smaller and gray | A beat still ahead |
-| **THE END** | Your target length |
+| **THE END** | The end of the book |
 
-There isn't room to write every beat on the line, so it writes the beat your plan says you are in first, then the turning points every beat sheet shares (the moment the story starts moving, the move into Act Two, the Midpoint, the lowest point, the move into Act Three, the climax), then as many others as fit without crowding. Without a beat sheet, the line is drawn with no beat names on it.
+There isn't room to write every beat on the line, so it writes the beats you are writing in first, then the turning points every beat sheet shares (the moment the story starts moving, the move into Act Two, the Midpoint, the lowest point, the move into Act Three, the climax), then as many others as fit without crowding. Every beat, named on the line or not, is in the row under **Change**. Without a beat sheet, the line is drawn with no beat names on it.
 
-**Why it helps.** It answers the question underneath every writing session: *where am I in this book, and what's next?* It sits at the top so you see it before anything else.
+**Why it helps.** It answers the question underneath every writing session: *where am I in this book, and what's next?* Because it follows what you actually wrote and what you say you are writing, it stays true when you write out of order.
 
-**The common mistake** is reading the rise and fall as a judgement of your story. The shape is a common dramatic shape, the same for every novel, not a picture of your plot. It shows where you are in the length of the book, nothing else.
+**The common mistake** is reading the rise and fall as a judgement of your story. The shape is a common dramatic shape, the same for every novel, not a picture of your plot. A second mistake is expecting a beat to turn to ink because the word count passed it. Only written scenes ink a beat in.
 
-**Example.** Your novel's target is 80,000 words and it holds 49,600. The heading reads *Your book, 49,600 of 80,000 words*. The purple line runs up through **Catalyst**, **Break into Two** and **Fun and Games** to your pink dot. Your next scene card sits on **Bad Guys Close In**, so that beat is written in plum, and ahead in gray pencil the line climbs toward **All Is Lost** and **THE END**.
+**Example.** Your novel holds 49,600 words. You have written scenes for **Opening Image** through **Fun and Games**, so those beats are in ink. Last night you wrote in a **Bad Guys Close In** scene, so that beat is pink and the line under the map reads *Writing now: Bad Guys Close In (from the scene you last wrote in)*. You have also been drafting the Finale on the side, so you click **Change**, check **Finale** as well, and click **Done**. Now two pink stretches show, *writing here* and *and here*, and everything between them waits in pencil.
 
 ### Where was I? Finishing a draft
 
@@ -372,7 +383,7 @@ Here is a routine that takes about two minutes. Do it in this order.
 1. **Open the book.** Where was I? is the first page you see, on **1 Today** (or the page you last looked at, if the program has stayed open).
 2. **Read Next.** If it is the right step, keep it in mind. If it isn't, you can still choose any scene in the Writing Room.
 3. **Read Where you stopped.** Let the last lines bring the scene back.
-4. **Glance at your progress.** Read the sentence about today and, during a writing push, **To finish on time**. That is today's number. A glance at your book map, at the top, tells you how far into the story you are.
+4. **Glance at your progress.** Read the sentence about today and, during a writing push, **To finish on time**. That is today's number. A glance at your book map, at the top, tells you which beats are written and which you are writing now.
 5. **Turn to 2 Still open and scan Latest decisions and Questions still open.** Look only for anything that touches today's scene. If one question blocks you, answer it now; leave the rest.
 6. **Check Detours still open**, on the same page. If yesterday ended in a detour, the **Return to Writing** ribbon takes you back to exactly where you were.
 7. **Click Write**, which stays at the top whatever page you are on.
@@ -395,7 +406,7 @@ On a slow day, or at the end of a week, add two more steps: clear a few notes fr
 | Detours still open keeps listing a detour you came back from | You came back with the list on the right or a scene link, not with **Return to Writing**. Click the ribbon, or press **Ctrl+Shift+W**, once |
 | The page can't be typed on after you open a scene from the *Unsaved typing was kept* notice | The scene is waiting for you to choose **Use the kept typing** or **Keep the saved version** |
 | The *Set up this novel* note won't go away | You have not changed anything in Novel setup yet. One tick there is enough |
-| Your book map shows no pink dot | No target length is set yet. Set one on page **1 This novel** of Settings |
+| Your book map shows no pink dot | You haven't written in a scene on a beat yet, and haven't chosen one. Click **Choose** under the map, or write in a scene planned on a beat |
 | The push line doesn't show | There is no writing push with a word goal. See [Goals, sprints and November](#goals-sprints-and-november) |
 | Your questions and decisions seem to be gone | They are on page **2 Still open**. Click its tab, or **All pages** to see everything at once |
 | Where was I? opens on page 2 or 3 instead of Today | Story Canon remembers the page you were on while the program is open. Click **1 Today**. After you close and reopen the program, it starts on Today again |

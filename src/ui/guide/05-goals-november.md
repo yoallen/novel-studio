@@ -379,7 +379,7 @@ Here is how the pieces fit together over one month of *The Keeper of Gull Point*
 
 **November 27.** Rest day. The panel says *Today is a rest day you set.* You walk the harbor wall instead, and dictate one line about Cyrus's boots into your notes from the road.
 
-**November 30.** You write 2,300 words and **To finish on time** says **Done. Everything now is extra.** For a week, the panel shows *November is done*, with your pink dot at **THE END**. On December 1 the door opens by itself, and Read it back's echoes and long sentences are waiting for revision.
+**November 30.** You write 2,300 words and **To finish on time** says **Done. Everything now is extra.** For a week, the panel shows *November is done*, with your pink dot at the end of the push line, past *goal, 50,000 words*. On December 1 the door opens by itself, and Read it back's echoes and long sentences are waiting for revision.
 
 ## Goals: when the numbers look wrong but are working
 

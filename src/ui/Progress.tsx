@@ -5,7 +5,7 @@ import type { Ctx } from './App';
 import { doorClosed } from '../core/goals';
 import { Recap } from './Ink';
 import { PushLine } from './PushTrack';
-import { W, H, SIZE, line, path, at, frame, walk, marks, labels, boxAt, labelWidth, type ShapeSegment } from './bookShape';
+import { W, H, SIZE, line, path, at, labels, boxAt, labelWidth, spotOf, stretchOf, type ShapeSegment, type BeatState } from './bookShape';
 
 // Drafting progress on Where was I?: the shape of the book, drawn in one pen line. Ink for what she
 // has written, pencil for what is ahead, a tick where each day ended, a wingback chair for a rest day
@@ -135,18 +135,19 @@ function SetDays({ ctx, r, onChanged }: { ctx: Ctx; r: any; onChanged: () => voi
  */
 export function BookMap({ ctx }: { ctx: Ctx }) {
   const [r, setR] = useState<any>(null);
-  const [strip, setStrip] = useState<{ segs: ShapeSegment[]; next: string | null }>({ segs: [], next: null });
+  const [strip, setStrip] = useState<{ segs: ShapeSegment[]; auto: string | null; mine: string[] | null }>({ segs: [], auto: null, mine: null });
+  const [choosing, setChoosing] = useState(false);
   const [drafts, setDrafts] = useState<any[]>([]);
   const [confirming, setConfirming] = useState(false);
   const [error, setError] = useState('');
+  const loadStrip = () => api.get(`/api/projects/${ctx.projectId}/strip`).then((d: any) => setStrip(d?.mode === 'beats' ? { segs: d.segments, auto: d.auto ?? null, mine: d.writingNow ?? null } : { segs: [], auto: null, mine: null })).catch(() => setStrip({ segs: [], auto: null, mine: null }));
   const loadDrafts = () => api.get(`/api/projects/${ctx.projectId}/drafts`).then(setDrafts).catch(() => setDrafts([]));
   useEffect(() => {
     void loadDrafts();
     api.get(`/api/projects/${ctx.projectId}/progress${tz ? `?tz=${encodeURIComponent(tz)}` : ''}`).then(setR).catch(() => setR(null));
-    api.get(`/api/projects/${ctx.projectId}/strip`).then((d: any) => setStrip(d?.mode === 'beats' ? { segs: d.segments, next: d.next ?? null } : { segs: [], next: null })).catch(() => setStrip({ segs: [], next: null }));
-  }, [ctx.projectId]);
+    void loadStrip();
+  }, [ctx.projectId]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!r) return null;
-  const f = frame({ bookWords: r.bookWords, total: r.bookWords, target: r.targetWords, pushGoal: null });
   const title = ctx.project?.title || 'your novel';
   const current = drafts.find((d) => !d.completed_at);
   const finished = drafts.filter((d) => d.completed_at).sort((a, b) => String(b.completed_at).localeCompare(String(a.completed_at)))[0];
@@ -156,15 +157,32 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
     try { await api.post(`/api/projects/${ctx.projectId}/drafts/complete`, {}); setConfirming(false); await loadDrafts(); await ctx.refreshProject(); }
     catch (e) { setError((e as Error).message); }
   }
+  // Where she is comes from her, never from her word count: the beats she says she is writing in, or, until
+  // she says, the beat of the scene she last wrote in. A beat is written in once a scene on it has words.
+  const nowIds = new Set(strip.mine && strip.mine.length ? strip.mine : strip.auto ? [strip.auto] : []);
+  const stateOf = (sg: ShapeSegment): BeatState => (nowIds.has(sg.id) ? 'now' : sg.written ? 'written' : 'ahead');
+  const nowSegs = strip.segs.filter((sg) => nowIds.has(sg.id));
   const pts = line(ctx.projectId);
-  const done = f ? Math.min(1, r.bookWords / f.length) : 0;
-  const [hx, hy] = at(pts, done), [ex, ey] = at(pts, 1);
-  const here = f ? (f.past ? 'you are here, past your length' : 'you are here') : '';
-  const hereX = Math.min(hx + 40, W - labelWidth(here || 'x', SIZE.here) - 4);
-  const reserved = [boxAt(ex + 8, ey + 46, 'THE END', SIZE.end, 'end'), ...(f ? [boxAt(hereX, hy + 40, here, SIZE.here, 'start')] : [])];
-  const words = labels(pts, strip.segs, done, reserved, strip.next);
-  const now = strip.segs.find((s) => s.id === strip.next);
-  const summary = f ? `Your book: ${Math.round(done * 100)}% of the way, ${n(r.bookWords)} of ${n(Math.round(f.length))} words${now ? `; your next scene is in ${now.name}` : ''}.` : `Your book's beats, from the first word to the end.`;
+  const [ex, ey] = at(pts, 1);
+  const marks = nowSegs.slice(0, 4).map((sg, k) => {
+    const [x, y] = at(pts, spotOf(sg)), text = k === 0 ? 'writing here' : 'and here';
+    const left = x > W * 0.6;
+    const lx = left ? x - 40 : Math.min(x + 40, W - labelWidth(text, SIZE.here) - 4);
+    // Under the line all the way across the label, so the words never sit on the line.
+    const w = labelWidth(text, SIZE.here), x0 = left ? lx - w : lx, x1 = left ? lx : lx + w;
+    const low = Math.max(y, ...pts.filter(([px]) => px >= x0 && px <= x1).map(([, py]) => py));
+    return { id: sg.id, x, y, text, lx, ly: Math.min(H - 4, Math.max(y + 40, low + 30)), left };
+  });
+  const reserved = [boxAt(ex + 8, ey + 46, 'THE END', SIZE.end, 'end'), ...marks.map((m) => boxAt(m.lx, m.ly, m.text, SIZE.here, m.left ? 'end' : 'start'))];
+  const words = labels(pts, strip.segs, stateOf, reserved);
+  const names = nowSegs.map((sg) => sg.name);
+  const listed = names.length <= 1 ? names[0] ?? '' : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+  const summary = `Your book, ${n(r.bookWords)} words. ${strip.segs.filter((sg) => sg.written).length} of ${strip.segs.length} beats written in.${listed ? ` Writing now: ${listed}.` : ''}`;
+  async function setMine(ids: string[] | null) {
+    await api.patch(`/api/projects/${ctx.projectId}/settings`, { writingNow: ids });
+    await loadStrip();
+  }
+  const toggle = (id: string) => { const cur = strip.mine && strip.mine.length ? strip.mine : strip.auto ? [strip.auto] : []; void setMine(cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]); };
   return (
     <section className="book-map" aria-labelledby="map-h">
       {/* The week after she says the draft is done, the coach says so too, with the book's name. */}
@@ -175,31 +193,52 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
           <p className="small muted" style={{ margin: '0.4rem 0 0' }}>Finished {longDay(String(finished.completed_at).slice(0, 10))}, {n(finished.words ?? 0)} words. Your pages are kept as they stood; the {String(current?.name ?? 'next draft').toLowerCase()} begins where they are.</p>
         </div>
       )}
-      <h3 id="map-h">Your book{f ? <span className="book-map-figures">, {n(r.bookWords)} of {n(r.targetWords ?? Math.round(f.length))} words</span> : null}</h3>
+      <h3 id="map-h">Your book<span className="book-map-figures">, {n(r.bookWords)}{r.targetWords ? ` of ${n(r.targetWords)}` : ''} words</span></h3>
       <svg className="book-shape" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={summary}>
-        <path className="ahead" d={path(pts, done, 1)} fill="none" strokeWidth={1.3} strokeDasharray="1 4" strokeLinecap="round" />
-        {done > 0 && <path className="ink" d={path(pts, 0, done)} fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />}
-        {done > 0 && <path className="ink" d={path(pts, 0, done)} fill="none" strokeWidth={0.6} opacity={0.35} transform="translate(.6 .9)" />}
+        <path className="ahead" d={path(pts, 0, 1)} fill="none" strokeWidth={1.3} strokeDasharray="1 4" strokeLinecap="round" />
+        {strip.segs.filter((sg) => stateOf(sg) !== 'ahead').map((sg) => { const [a0, b0] = stretchOf(sg); const st = stateOf(sg); return <g key={sg.id}>
+          <path className={st === 'now' ? 'now-ink' : 'ink'} d={path(pts, a0, b0)} fill="none" strokeWidth={st === 'now' ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round" />
+          {st === 'written' && <path className="ink" d={path(pts, a0, b0)} fill="none" strokeWidth={0.6} opacity={0.35} transform="translate(.6 .9)" />}
+        </g>; })}
         {words.map((l) => (
           <g key={l.id}>
-            <line className={l.reached || l.now ? 'ink' : 'ahead'} x1={l.tick[0]} x2={l.tick[0]} y1={l.tick[1] - 6} y2={l.tick[1] + 6} strokeWidth={1.3} />
-            <text className={l.now ? 'lbl-now' : l.reached ? 'lbl-ink' : 'lbl-ahead'} x={l.x} y={l.y} fontSize={l.reached || l.now ? SIZE.reached : SIZE.ahead} textAnchor="middle">{l.name}</text>
+            <line className={l.state === 'now' ? 'now-ink' : l.state === 'written' ? 'ink' : 'ahead'} x1={l.tick[0]} x2={l.tick[0]} y1={l.tick[1] - 6} y2={l.tick[1] + 6} strokeWidth={1.3} />
+            <text className={l.state === 'now' ? 'here-lbl' : l.state === 'written' ? 'lbl-ink' : 'lbl-ahead'} x={l.x} y={l.y} fontSize={l.state === 'ahead' ? SIZE.ahead : SIZE.reached} textAnchor="middle">{l.name}</text>
           </g>
         ))}
         <text className="the-end" x={ex + 8} y={ey + 46} fontSize={SIZE.end} textAnchor="end">THE END</text>
-        {f && <>
-          <circle className="here" cx={hx} cy={hy} r={5.5} />
-          <path className="here-line" d={`M${hx + 6} ${hy + 16} q8 12 30 16`} strokeWidth={1} />
-          <text className="here-lbl" x={hereX} y={hy + 40} fontSize={SIZE.here}>{here}</text>
-        </>}
+        {marks.map((m) => <g key={`m${m.id}`}>
+          <circle className="here" cx={m.x} cy={m.y} r={5.5} />
+          <path className="here-line" d={m.left ? `M${m.x - 6} ${m.y + 12} Q${m.x - 12} ${m.ly - 22} ${m.lx + 4} ${m.ly - 22}` : `M${m.x + 6} ${m.y + 12} Q${m.x + 12} ${m.ly - 22} ${m.lx - 4} ${m.ly - 22}`} strokeWidth={1} />
+          <text className="here-lbl" x={m.lx} y={m.ly} fontSize={SIZE.here} textAnchor={m.left ? 'end' : 'start'}>{m.text}</text>
+        </g>)}
       </svg>
       {/* One quiet row under the map: the note asking for a length, if it is needed, and the finish link. */}
       <div className="map-foot">
-        {!f ? <p className="small muted book-shape-note">Set your book's target length in <button className="btn link small" onClick={() => { openAtPage(`settings:${ctx.projectId}`, 0); ctx.go('settings'); }}>Settings</button>, and your place in the book appears on the line.</p> : <span />}
+        {strip.segs.length ? (
+          <p className="small writing-now">{listed
+            ? <>Writing now: <span className="now-names">{listed}</span>{strip.mine && strip.mine.length ? '' : <span className="muted"> (from the scene you last wrote in)</span>}. </>
+            : <>Where are you writing? </>}
+            <button className="btn link small" aria-expanded={choosing} onClick={() => setChoosing(!choosing)}>{listed ? 'Change' : 'Choose'}</button></p>
+        ) : <span />}
         {current && !confirming && !(finished && daysSince < 7) && (
           <button className="btn link small" title="Only when it's true: you have written the last scene, and this draft of the novel is complete." onClick={() => setConfirming(true)}>I finished this draft</button>
         )}
       </div>
+      {choosing && strip.segs.length > 0 && (
+        <div className="beat-chooser" role="group" aria-label="Where are you writing?">
+          <p className="small" style={{ margin: '0 0 0.5rem' }}>Pick every beat you're working in. Story Canon follows the scene you're writing on its own; what you pick here wins.</p>
+          <div className="beat-chips">
+            {strip.segs.map((sg) => <button key={sg.id} className="beat-chip" aria-pressed={nowIds.has(sg.id)} data-written={sg.written || undefined} onClick={() => toggle(sg.id)}>{nowIds.has(sg.id) ? '\u2713 ' : ''}{sg.name}</button>)}
+          </div>
+          <div className="row small" style={{ marginTop: '0.5rem' }}>
+            <span className="muted">Ink: beats with scenes written. Pink: writing now. Pencil: still ahead.</span>
+            <span className="grow" />
+            {strip.mine && strip.mine.length > 0 && <button className="btn link small" onClick={() => void setMine(null)}>Let Story Canon follow my scenes</button>}
+            <button className="btn link small" onClick={() => setChoosing(false)}>Done</button>
+          </div>
+        </div>
+      )}
       {confirming && current && (
         <div className="finish-confirm" role="group" aria-label="Finish this draft">
           <p className="small" style={{ margin: '0 0 0.5rem' }}>Mark the {String(current.name).toLowerCase()} of <em>{title}</em> finished? Click yes only if it's true: you have written the last scene, and this draft of the novel is now complete. Every page is kept exactly as it stands, the next draft begins, and nothing in your manuscript changes. If you change your mind, you can reopen it from <button className="btn link small" onClick={() => ctx.go('drafts')}>Drafts</button>.</p>

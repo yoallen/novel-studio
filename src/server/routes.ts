@@ -117,6 +117,7 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       importLabels: z.array(z.object({ label: z.string().min(1).max(80), status: z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']) })).max(80).optional(),
       doorClosedUntil: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),
       coach: z.boolean().optional(),
+      writingNow: z.array(z.string().max(64)).max(40).nullable().optional(),
     }).strict());
     return brain.updateSettings(params(req, P).id, b);
   });

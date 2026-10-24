@@ -22,11 +22,24 @@ test('the book map and the push are separate: beats belong to the book, the push
   await waitSaved(page);
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: /Where was I/ }).click();
 
-  // With no target length, the map shows the beats and asks for a length; it shows no place yet.
+  // The map goes by where she is writing, never by word count: nothing is written in a beat yet, so all is pencil.
   const map = page.locator('.book-map');
   await expect(map).toContainText('Midpoint');
-  await expect(map.locator('.book-shape-note')).toContainText("Set your book's target length");
-  await expect(map).not.toContainText('you are here');
+  await expect(map).not.toContainText('writing here');
+  await expect(map.locator('.writing-now')).toContainText('Where are you writing?');
+  // She says where she is: two beats at once, out of order.
+  await map.getByRole('button', { name: 'Choose' }).click();
+  const chooser = map.getByRole('group', { name: 'Where are you writing?' });
+  await chooser.getByRole('button', { name: 'Debate' }).click();
+  await expect(map.locator('.writing-now')).toContainText('Writing now: Debate');
+  await chooser.getByRole('button', { name: 'Finale' }).click();
+  await expect(map.locator('.writing-now')).toContainText('Debate and Finale');
+  await expect(map.getByRole('img', { name: /Writing now: Debate and Finale/ })).toContainText('writing here');
+  await expect(map.getByRole('img', { name: /Writing now: Debate and Finale/ })).toContainText('and here');
+  if (process.env.SHOT_DIR) await map.screenshot({ path: `${process.env.SHOT_DIR}/map-writing-now.png` });
+  await chooser.getByRole('button', { name: 'Let Story Canon follow my scenes' }).click();
+  await expect(map.locator('.writing-now')).toContainText('Where are you writing?');
+  await chooser.getByRole('button', { name: 'Done' }).click();
 
   // The push: 40 of 100, on its own line, with no beat on it.
   const push = page.getByRole('img', { name: /^Nothing Push: 40 of 100 words/ });
@@ -37,12 +50,12 @@ test('the book map and the push are separate: beats belong to the book, the push
   await expect(page.locator('.drafting')).not.toContainText('The whole book');
   await expect(page.locator('.drafting')).toContainText("Today's share of Nothing Push is");
 
-  // With a target length, the map places her in the whole book: 40 of 1,000 is 4%.
+  // A target length shows in the heading only; it never moves her on the map.
   await request.patch(`/api/projects/${pid}/settings`, { headers: H, data: { targetWords: 1000 } });
   await page.reload();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: /Where was I/ }).click();
-  await expect(page.getByRole('img', { name: /^Your book: 4% of the way, 40 of 1,000 words/ })).toBeVisible();
-  await expect(map).toContainText('you are here');
+  await expect(map.locator('h3')).toHaveText('Your book, 40 of 1,000 words');
+  await expect(map).not.toContainText('writing here');
   // The map sits above Next.
   const mapTop = (await map.boundingBox())!.y, nextTop = (await page.locator('.hero').boundingBox())!.y;
   expect(mapTop).toBeLessThan(nextTop);

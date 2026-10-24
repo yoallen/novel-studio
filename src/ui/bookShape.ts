@@ -9,8 +9,10 @@
 // from where the book stood on its first day to where its goal would take it.
 
 export type ShapeDay = { day: string; words: number; goal?: number | null; set?: boolean; future?: boolean; today?: boolean };
-export type ShapeSegment = { id: string; name: string; from: number; to: number; moment?: string | null };
-export type ShapeLabel = { id: string; name: string; x: number; y: number; reached: boolean; now: boolean; tick: [number, number] };
+export type ShapeSegment = { id: string; name: string; from: number; to: number; moment?: string | null; written?: boolean };
+/** How a beat stands: written in (ink), being written now (pink), or still ahead (pencil). */
+export type BeatState = 'written' | 'now' | 'ahead';
+export type ShapeLabel = { id: string; name: string; x: number; y: number; state: BeatState; tick: [number, number] };
 export type Box = { x0: number; x1: number; y0: number; y1: number };
 
 export const W = 700, H = 300;
@@ -101,24 +103,26 @@ export function marks(days: ShapeDay[], length: number, base = 0) {
 /** The turning points every sheet shares, in the order she should always be able to find them. */
 const MAJOR = ['inciting', 'threshold', 'midpoint', 'lowest', 'third', 'climax'];
 
+/** Where a beat sits on the line: a moment at its point, a stretch at its middle. */
+export const spotOf = (s: ShapeSegment) => (s.to - s.from < 0.015 ? s.from : (s.from + s.to) / 2);
+/** The stretch of line a beat covers, at least wide enough to see. */
+export const stretchOf = (s: ShapeSegment): [number, number] => [s.from, Math.min(1, Math.max(s.to, s.from + 0.012))];
+
 /**
- * Which beats get written on the line. There isn't room for every one, so the beat her plan says she is in
- * comes first, then the turning points (the inciting moment, the move into act two, the midpoint, the lowest
- * point, the move into act three, the climax), then any others wherever they don't crowd a label or cross
- * the line. Beats behind her are written larger, in ink; beats ahead smaller, in pencil.
+ * Which beats get written on the line. There isn't room for every one, so the beats she is writing now come
+ * first, then the turning points (the inciting moment, the move into act two, the midpoint, the lowest point,
+ * the move into act three, the climax), then any others wherever they don't crowd a label or cross the line.
+ * Beats written in and beats being written are larger; beats still ahead smaller, in pencil.
  */
-export function labels(pts: [number, number][], segs: ShapeSegment[], done: number, reserved: Box[] = [], nowId: string | null = null): ShapeLabel[] {
+export function labels(pts: [number, number][], segs: ShapeSegment[], stateOf: (s: ShapeSegment) => BeatState, reserved: Box[] = []): ShapeLabel[] {
   if (!segs.length) return [];
-  const spot = (s: ShapeSegment) => (s.to - s.from < 0.015 ? s.from : (s.from + s.to) / 2);
-  const rank = (s: ShapeSegment) => (s.id === nowId ? -1 : s.moment && MAJOR.includes(s.moment) ? MAJOR.indexOf(s.moment) : s.moment ? 10 : 20);
+  const rank = (s: ShapeSegment) => (stateOf(s) === 'now' ? -1 : s.moment && MAJOR.includes(s.moment) ? MAJOR.indexOf(s.moment) : s.moment ? 10 : 20);
   const order = segs.map((s, i) => ({ s, i })).sort((a, b) => rank(a.s) - rank(b.s) || a.i - b.i);
   const boxes: Box[] = [...reserved];
   const placed: (ShapeLabel & { i: number })[] = [];
   for (const { s, i } of order) {
-    const t = spot(s), [x, y] = at(pts, t), reached = done > 0 && t <= done, now = s.id === nowId;
-    const size = reached || now ? SIZE.reached : SIZE.ahead, w = labelWidth(s.name, size);
-    // Above the line first; where the line falls away (the dark moment), below it. A label sits clear of
-    // the line across its whole width, and steps further out rather than crowd another label.
+    const t = spotOf(s), [x, y] = at(pts, t), state = stateOf(s);
+    const size = state === 'ahead' ? SIZE.ahead : SIZE.reached, w = labelWidth(s.name, size);
     const slope = at(pts, Math.min(1, t + 0.02))[1] - at(pts, Math.max(0, t - 0.02))[1];
     const cx = Math.min(W - w / 2 - 4, Math.max(w / 2 + 4, x));
     const under = pts.filter(([px]) => px >= cx - w / 2 && px <= cx + w / 2).map(([, py]) => py);
@@ -130,7 +134,7 @@ export function labels(pts: [number, number][], segs: ShapeSegment[], done: numb
       if (b.y0 < 0 || b.y1 > H) continue;
       if (boxes.some((o) => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0)) continue;
       boxes.push(b);
-      placed.push({ i, id: s.id, name: s.name, x: cx, y: ly, reached, now, tick: [x, y] });
+      placed.push({ i, id: s.id, name: s.name, x: cx, y: ly, state, tick: [x, y] });
       break;
     }
   }
