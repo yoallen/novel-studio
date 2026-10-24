@@ -40,8 +40,7 @@
   --book: 'Libre Caslon Text', 'Literata', Georgia, serif;
   --display: 'Libre Caslon Display', 'Libre Caslon Text', Georgia, serif;
   --hand: 'Patrick Hand', 'Atkinson Hyperlegible', system-ui, sans-serif;
-  --pen: 'Just Another Hand', 'Patrick Hand', system-ui, sans-serif;
-  --pen-light: 'Shadows Into Light Two', 'Just Another Hand', system-ui, sans-serif;   /* a finer pen, for the coach's sentences */   /* the coach and the shape of the book: one pen */
+  --pen: 'Just Another Hand', 'Patrick Hand', system-ui, sans-serif;   /* the coach and the shape of the book: one pen */
   /* Each status has its own ink, on the words themselves. */
   --st-decided: #1d3f8f;
   --st-example: #7a4a1c;
@@ -895,8 +894,8 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .coach-push { font-family: var(--book); font-style: italic; font-size: 1rem; color: var(--margin); }
 .coach-note { background: var(--coach-paper); border-radius: 4px; padding: 1rem 1.25rem 0.9rem; margin: 0 0 1.25rem; box-shadow: 0 1px 2px rgba(60, 30, 80, 0.12), 0 6px 18px rgba(60, 30, 80, 0.07); transform: rotate(-0.35deg); }
 .coach-note h3 { margin: 0 0 0.25rem; font-family: var(--pen); font-size: 2.1rem; font-weight: 400; color: var(--coach-ink); line-height: 1.05; }
-.coach-body { margin: 0; font-family: var(--pen-light); font-size: 1.3rem; line-height: 1.45; color: var(--coach-ink); }
-.coach[data-body='caslon'] .coach-body { font-family: var(--book); font-style: italic; font-size: 1.0625rem; line-height: 1.6; }
+/* The note's title is the coach's pen; its sentences are Caslon italic in the same plum, lighter than the pen. */
+.coach-body { margin: 0; font-family: var(--book); font-style: italic; font-size: 1.0625rem; line-height: 1.6; color: var(--coach-ink); }
 .coach-from { margin: 0.55rem 0 0; font-family: var(--book); font-style: italic; font-size: 0.85rem; color: var(--margin); }
 .coach-note[data-own] { border-left: 3px solid var(--yours); }
 .coach-spot { margin: 0 0 1.25rem; padding: 0.15rem 0 0.15rem 1rem; border-left: 2px solid var(--line-strong); }
@@ -970,7 +969,7 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .book-map { margin: 0 0 2.75rem; max-width: 40rem; }
 .book-map h3 { margin: 0 0 0.25rem; }
 .book-map-figures { font-style: italic; }
-.push-line, .push-pages { max-width: 40rem; margin: 0.25rem 0 1.25rem; }
+.push-line { max-width: 40rem; margin: 0.25rem 0 1.25rem; }
 .pen-drawing .here { fill: var(--yours); }
 .pen-drawing .here-lbl { fill: var(--yours); }
 .pen-drawing .pen-plum, .pen-drawing .pen-plum path { stroke: var(--coach-ink); }

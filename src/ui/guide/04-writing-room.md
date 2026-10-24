@@ -67,7 +67,7 @@ Saving happens in two layers.
 
 **Looks wrong, but isn't.** A few things wait for the saved version, not the safety copy, so they can lag behind your typing by up to twenty seconds:
 
-- **Today's words** on Where was I?, and the shape of your book there.
+- **Today's words** on Where was I?, and the push line there.
 - **This week**, page 3 of Where was I?.
 - **The scene's status** moving from a not-started step to Drafting (see [Writing Room: a scene's status](#writing-room-a-scenes-status)).
 - **Left for later**, for a note you just typed.

@@ -30,14 +30,14 @@ export const EVENTS = ['restday', 'comeback', 'bigday', 'streak', 'behind', 'ahe
 
 /** Milestones as shares of the push goal, with what each one means for the book. */
 export const MILESTONES: { share: number; title: string; body: string }[] = [
-  { share: 0.1, title: 'The first tenth', body: 'The hardest words of any push are the first ones, and they are behind you. You have proved the habit exists.' },
+  { share: 0.1, title: 'The first tenth', body: 'The first tenth is in. Getting the engine to turn over is the hardest part of any push, and it\'s turning. Keep it running.' },
   // Milestones are shares of the push, not of the book: a push may be a whole short novel or one stretch of a long one,
   // so none of them names a beat. Where she is in the story comes from her own plan.
-  { share: 0.25, title: 'A quarter of the way', body: 'The start-up cost of this push is paid. From here the work is keeping the rhythm, not finding it.' },
-  { share: 0.5, title: 'Halfway', body: 'Every word left in this push is fewer than you have already written. If the draft feels different now than it did on the first day, it is finding its feet.' },
-  { share: 0.75, title: 'Three quarters', body: 'This stretch often feels darkest, for writers and heroes alike. The end is close enough to see. Keep going.' },
-  { share: 0.9, title: 'Ninety percent', body: 'You can finish from here on ordinary days. No heroics needed.' },
-  { share: 1, title: 'You reached your goal', body: 'You set a goal and kept it. Whatever the draft needs next, it exists now, and a draft that exists can be made better. One that does not exist cannot.' },
+  { share: 0.25, title: 'A quarter of the way', body: 'A quarter done. The start-up cost is paid. From here it\'s about rhythm, not inspiration. Show up at your usual time and let the work be ordinary.' },
+  { share: 0.5, title: 'Halfway', body: 'Halfway. Everything left is less than what you\'ve already written. This is also where pushes get skipped to death, one quiet day at a time. Not this one.' },
+  { share: 0.75, title: 'Three quarters', body: 'Three quarters. You can see the finish from here, and that\'s exactly when people start to coast. Don\'t. Finish the way you started.' },
+  { share: 0.9, title: 'Ninety percent', body: 'Ninety percent. You can finish this on ordinary days. No heroics needed, just no disappearing either.' },
+  { share: 1, title: 'You reached your goal', body: 'You said you\'d write it, and you did. That\'s a promise to yourself, kept. Enjoy it. Then decide: done for this push, or just warming up?' },
 ];
 
 /** The phase of day i (0-based) of a push n days long. */

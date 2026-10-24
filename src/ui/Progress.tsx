@@ -4,9 +4,7 @@ import { api } from './api';
 import type { Ctx } from './App';
 import { doorClosed } from '../core/goals';
 import { Recap } from './Ink';
-import { PushLine, PushPages } from './PushTrack';
-/** Which push drawing to show, while she chooses between the two. */
-const pushDesign = () => { try { return localStorage.getItem('ns-push-design') || 'line'; } catch { return 'line'; } };
+import { PushLine } from './PushTrack';
 import { W, H, SIZE, line, path, at, frame, walk, marks, labels, boxAt, labelWidth, type ShapeSegment } from './bookShape';
 
 // Drafting progress on Where was I?: the shape of the book, drawn in one pen line. Ink for what she
@@ -51,11 +49,12 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
         <p className="drafting-lead">{daily === 0 && r.todaySet
           ? <>Today is a rest day you set.{r.todayWords > 0 ? <> You wrote <b>{n(r.todayWords)}</b> words anyway, and they all count.</> : ''}</>
           : daily === 0 && r.push?.words && r.remaining > 0 ? <>Today, <b>{n(Math.max(0, r.todayWords))}</b> words. Your set days cover what is left, so today is yours to spend.</>
+          : r.push && daily ? <>Today's share of {name} is {n(daily)} words. You've written <b>{n(Math.max(0, r.todayWords))}</b>{r.todayWords >= daily ? ', so today is done.' : '.'}</>
           : <>Today, <b>{n(Math.max(0, r.todayWords))}</b> words{daily ? <> of your {n(daily)}</> : ''}.{daily && r.todayWords >= daily ? ' The day’s goal is met.' : ''}</>}</p>
       )}
 
       {r.status === 'ended' && r.push ? <Recap ctx={ctx} r={r} name={name} />
-        : r.push && r.goal ? (pushDesign() === 'pages' ? <PushPages r={r} name={name} /> : <PushLine r={r} name={name} said={said} />) : null}
+        : r.push && r.goal ? <PushLine r={r} name={name} said={said} /> : null}
       {/* The days in words, for a screen reader: the drawing says the same thing in ink. */}
       <ol className="sr-only" aria-label={`Words each day, ${longDay(r.start)} to ${longDay(r.end)}`}>
         {r.days.map((d: any) => <li key={d.day} data-mark={markOf(d)} data-today={d.today || undefined} aria-label={said(d)}>{said(d)}</li>)}
@@ -74,7 +73,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
           <div><dt>Against the plan</dt><dd>{r.behind > 0 ? <>{n(r.behind)} behind<span className="muted">, spread over the days ahead</span></> : <>{n(-r.behind)} ahead</>}</dd></div>
         ) : null}
         {r.status !== 'ahead' && <div><dt>Days in a row</dt><dd>{r.streak === 0 ? <span className="muted">Starts with your next words</span> : n(r.streak)}</dd></div>}
-        <div><dt>The whole book</dt><dd>{n(r.bookWords)}{r.targetWords ? <span className="muted"> of {n(r.targetWords)}</span> : null} words</dd></div>
+        {!r.push && <div><dt>The whole book</dt><dd>{n(r.bookWords)}{r.targetWords ? <span className="muted"> of {n(r.targetWords)}</span> : null} words</dd></div>}
       </dl>
 
       {r.push?.words && r.status !== 'ended' ? <SetDays ctx={ctx} r={r} onChanged={() => void load()} /> : null}

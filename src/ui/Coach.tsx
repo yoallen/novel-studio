@@ -55,7 +55,7 @@ export function CoachCard({ ctx }: { ctx: Ctx }) {
   const spotHead = c.spotlight ? (c.spotlight.kind === 'fun' ? 'Just for fun' : c.spotlight.kind === 'writer' ? 'About a writer' : 'About writing') : '';
 
   return (
-    <section className="coach" aria-labelledby="coach-h" data-body={(() => { try { return localStorage.getItem('ns-coach-body') || 'pen'; } catch { return 'pen'; } })()}>
+    <section className="coach" aria-labelledby="coach-h">
       <header className="coach-top">
         <p className="coach-when">{when}</p>
         {/* How far along is drawn below, in the shape of the book; here, only the next milestone. */}

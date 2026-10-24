@@ -44,11 +44,11 @@ test('a lighter day, then a sprint with nothing but the page', async ({ page }) 
 
   await views(page).getByRole('button', { name: 'Where was I' }).click();
   const progress = page.getByRole('region', { name: 'November' });
-  await expect(progress).toContainText('Today, 0 words of your 100.');
+  await expect(progress).toContainText("Today's share of November is 100 words. You've written 0.");
   await progress.getByRole('button', { name: 'Set a lighter day' }).click();
   await progress.getByLabel('Words', { exact: true }).fill('20');
   await progress.getByRole('button', { name: 'Set it' }).click();
-  await expect(progress).toContainText('Today, 0 words of your 20.');
+  await expect(progress).toContainText("Today's share of November is 20 words. You've written 0.");
   // The other nine days share the rest: 980 over 9.
   await expect(progress).toContainText('about 109 a day');
   await expect(progress.getByRole('list', { name: 'Days you set' })).toContainText('20 words');
@@ -95,7 +95,7 @@ test('a lighter day, then a sprint with nothing but the page', async ({ page }) 
   await waitSaved(page);
 
   await views(page).getByRole('button', { name: 'Where was I' }).click();
-  await expect(progress).toContainText('Today, 12 words of your 20.');
+  await expect(progress).toContainText("Today's share of November is 20 words. You've written 12.");
 });
 
 // When the clock runs out, the page stays; she can keep going.

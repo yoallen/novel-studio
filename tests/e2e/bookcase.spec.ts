@@ -35,6 +35,6 @@ test('the shelf page: the manuscript so far, and a shelf for every push; a push 
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: /Where was I/ }).click();
   await page.getByRole('tab', { name: /Today/ }).click();
   await expect(page.locator('.recap')).toContainText('Fall Draft is over.');
-  await expect(page.locator('.book-shape')).toHaveCount(0);
+  await expect(page.locator('.push-line')).toHaveCount(0);
   if (process.env.SHOT_DIR) await page.locator('.drafting').screenshot({ path: `${process.env.SHOT_DIR}/recap.png` });
 });

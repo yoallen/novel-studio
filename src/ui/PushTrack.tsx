@@ -14,7 +14,7 @@ function ends(days: Day[], goal: number) {
   return days.map((d) => { if (!d.future) { run += d.words; far = Math.max(far, run); } return { ...d, t: far / goal }; });
 }
 
-/** Option A, the ruled line: one pen line from the first word of the push to its goal. */
+/** The ruled line: one pen line from the first word of the push to its goal. Nothing on it is about the story. */
 export function PushLine({ r, name, said }: { r: any; name: string; said: (d: any) => string }) {
   const goal: number = r.goal, total = Math.max(0, r.total);
   const W = 700, H = 150, x0 = 28, x1 = 560, y = 84;
@@ -40,39 +40,11 @@ export function PushLine({ r, name, said }: { r: any; name: string; said: (d: an
         {ticks.map((d) => <g key={d.day}><path className="pen-plum" d={`M${xAt(d.t)} ${y + 5} L${xAt(d.t)} ${y + 11}`} strokeWidth={0.9} /><path d={`M${xAt(d.t)} ${y - 4} L${xAt(d.t)} ${y + 16}`} stroke="transparent" strokeWidth={9}><title>{said(d)}</title></path></g>)}
       </g>
       {marks.map(([t, l]) => <text key={l} className={share >= t ? 'pen-ink-text' : 'pen-pencil-text'} x={xAt(t)} y={y - 14} fontSize={27} textAnchor="middle">{l}</text>)}
-      <text className="pen-ink-text" x={x1} y={y - 20} fontSize={32} textAnchor="middle">{n(goal)} words</text>
+      <text className="pen-ink-text" x={x1} y={y - 20} fontSize={32} textAnchor="middle">goal, {n(goal)} words</text>
       {chairs.map((d) => <Chair key={d.day} x={xAt(d.t) - 22} y={y + 50} title={said(d)} />)}
       <circle className="here" cx={hx} cy={y + Math.sin(Math.min(share, 1) * 9) * 1.6} r={5.5} />
       <path className="pen-pink" d={`M${hx + 4} ${y + 14} q8 12 26 16`} fill="none" strokeWidth={1} />
       <text className="here-lbl" x={Math.min(hx + 34, W - hereText.length * 12)} y={y + 40} fontSize={28}>{hereText}</text>
-    </svg>
-  );
-}
-
-/** Option B, ten pages: the push's goal as ten sheets of paper, each a tenth of it, written in as she goes. */
-export function PushPages({ r, name }: { r: any; name: string }) {
-  const goal: number = r.goal, total = Math.max(0, r.total);
-  const per = goal / 10, extra = Math.max(0, Math.min(5, Math.ceil((total - goal) / per)));
-  const count = 10 + extra, pw = 46, ph = 60, gap = 14, W = 700, H = 130;
-  const rr = rng(`${r.start}${name}pages`);
-  return (
-    <svg className="pen-drawing push-pages" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${name}: ${n(total)} of ${n(goal)} words, ${Math.min(10, Math.floor(total / per))} of 10 pages written.`}>
-      {Array.from({ length: count }, (_, i) => {
-        const x = 20 + i * (pw + gap), yy = 20 + (rr() - 0.5) * 4, rot = (rr() - 0.5) * 4;
-        const fill = Math.max(0, Math.min(1, (total - i * per) / per));
-        const isExtra = i >= 10;
-        const cls = fill > 0 ? (isExtra ? 'pen-pink' : 'pen-ink') : 'pen-pencil';
-        const lines = Math.round(fill * 6);
-        return (
-          <g key={i} transform={`rotate(${rot} ${x + pw / 2} ${yy + ph / 2})`} fill="none" strokeLinecap="round">
-            <rect x={x} y={yy} width={pw} height={ph} className="pen-sheet" />
-            <path className={cls} d={stroke([[x, yy], [x + pw, yy], [x + pw, yy + ph], [x, yy + ph]], rr, true)} strokeWidth={fill > 0 ? 1.2 : 0.9} strokeDasharray={fill > 0 ? undefined : '2 3'} />
-            {Array.from({ length: lines }, (_, k) => <path key={k} className={cls} d={stroke([[x + 6, yy + 10 + k * 7.5], [x + 6 + (pw - 12) * (k === lines - 1 && fill < 1 ? 0.55 : 0.9 + rr() * 0.1), yy + 10 + k * 7.5]], rr)} strokeWidth={0.7} />)}
-          </g>
-        );
-      })}
-      <text className="pen-pencil-text" x={20} y={H - 8} fontSize={26}>each page is a tenth of {name}: {n(Math.round(per))} words</text>
-      <text className="pen-ink-text" x={20 + 10 * (pw + gap) - gap} y={H - 8} fontSize={30} textAnchor="end">{n(goal)} words</text>
     </svg>
   );
 }

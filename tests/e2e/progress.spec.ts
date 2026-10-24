@@ -23,7 +23,7 @@ test('drafting progress: a push and a daily goal, tracked day by day on Where wa
   await views.getByRole('button', { name: 'Where was I' }).click();
   const progress = page.getByRole('region', { name: 'The sprint' });
   // Two days in with nothing written: all 50 words are shared by the 8 days left, so 7 today.
-  await expect(progress).toContainText('Today, 0 words of your 7.');
+  await expect(progress).toContainText("Today's share of The sprint is 7 words. You've written 0.");
   await expect(progress.getByRole('list', { name: /^Words each day/ }).getByRole('listitem')).toHaveCount(10);
 
   await heroWrite(page).click();
@@ -33,7 +33,7 @@ test('drafting progress: a push and a daily goal, tracked day by day on Where wa
   await waitSaved(page);
 
   await views.getByRole('button', { name: 'Where was I' }).click();
-  await expect(progress).toContainText('Today, 7 words of your 7. The day’s goal is met.');
+  await expect(progress).toContainText("Today's share of The sprint is 7 words. You've written 7, so today is done.");
   const today = progress.locator('li[data-today]');
   await expect(today).toHaveAttribute('data-mark', 'ink');
   await expect(today).toHaveAttribute('aria-label', /7 words, goal met/);
