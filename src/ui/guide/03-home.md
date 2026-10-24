@@ -116,7 +116,7 @@ There isn't room to write every beat on the line, so it writes the beat your pla
 
 **How to use it.**
 
-1. Click **I finished this draft**. A note asks you to be sure: *Mark the first draft of (your title) finished?* It reminds you to click yes only if you have written the last scene of this draft, whatever your word count says, and explains that every page is kept exactly as it stands, the next draft begins, and nothing in your manuscript changes.
+1. Click **I finished this draft**. A note asks you to be sure: *Mark the first draft of (your title) finished?* It reminds you to click yes only if it's true: you have written the last scene, and this draft of the novel is now complete. It also explains that every page is kept exactly as it stands, the next draft begins, and nothing in your manuscript changes.
 2. Click **Yes, I'm finished with this draft**, or **Not yet** to leave it.
 
 **What happens.** Your draft is kept as it stood, the same as finishing a draft in **Drafts** (see [Drafts: keeping a whole version of the book](#drafts-keeping-a-whole-version-of-the-book)), and the next draft begins. If the book's stage was a draft, it moves to the next one. For a week, the top of Where was I? carries the coach's word on it, in the coach's pen: *You did it! You finished the first draft of (your title), and I couldn't be more proud. Your hard work and commitment paid off. Way to go!*, with the day you finished and the word count. Page **4 The shelf** remembers it beside your manuscript, such as *First draft finished October 24, 23,000 words.*
