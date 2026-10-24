@@ -193,9 +193,13 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
           <text className="here-lbl" x={hereX} y={hy + 40} fontSize={SIZE.here}>{here}</text>
         </>}
       </svg>
-      {current && !confirming && !(finished && daysSince < 7) && (
-        <p className="finish-row"><button className="btn link small" title="Only when it's true: you have written the last scene, and this draft of the novel is complete." onClick={() => setConfirming(true)}>I finished this draft</button></p>
-      )}
+      {/* One quiet row under the map: the note asking for a length, if it is needed, and the finish link. */}
+      <div className="map-foot">
+        {!f ? <p className="small muted book-shape-note">Set your book's target length in <button className="btn link small" onClick={() => { openAtPage(`settings:${ctx.projectId}`, 0); ctx.go('settings'); }}>Settings</button>, and your place in the book appears on the line.</p> : <span />}
+        {current && !confirming && !(finished && daysSince < 7) && (
+          <button className="btn link small" title="Only when it's true: you have written the last scene, and this draft of the novel is complete." onClick={() => setConfirming(true)}>I finished this draft</button>
+        )}
+      </div>
       {confirming && current && (
         <div className="finish-confirm" role="group" aria-label="Finish this draft">
           <p className="small" style={{ margin: '0 0 0.5rem' }}>Mark the {String(current.name).toLowerCase()} of <em>{title}</em> finished? Click yes only if it's true: you have written the last scene, and this draft of the novel is now complete. Every page is kept exactly as it stands, the next draft begins, and nothing in your manuscript changes. If you change your mind, you can reopen it from <button className="btn link small" onClick={() => ctx.go('drafts')}>Drafts</button>.</p>
@@ -206,7 +210,6 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
           {error && <div className="notice error small" role="alert">{error}</div>}
         </div>
       )}
-      {!f && <p className="small muted book-shape-note">Set your book's target length in <button className="btn link small" onClick={() => { openAtPage(`settings:${ctx.projectId}`, 0); ctx.go('settings'); }}>Settings</button>, and your place in the book appears on the line.</p>}
     </section>
   );
 }

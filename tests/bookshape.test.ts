@@ -76,4 +76,8 @@ describe('the shape of the book', () => {
     for (const a of got) for (const b of got) if (a !== b) { const p = box(a), q = box(b); expect(p.x0 < q.x1 && p.x1 > q.x0 && p.y0 < q.y1 && p.y1 > q.y0, `${a.name} / ${b.name}`).toBe(false); }
     expect(at(pts, 1)[0]).toBeGreaterThan(at(pts, 0)[0]);
   });
+  it('with no words yet, no beat is written as reached, not even the first', () => {
+    const segs = [{ id: 'a', name: 'Opening Image', from: 0, to: 0.01, moment: 'opening' }, { id: 'b', name: 'Catalyst', from: 0.1, to: 0.1, moment: 'inciting' }];
+    expect(labels(line('z'), segs, 0).every((l) => !l.reached)).toBe(true);
+  });
 });

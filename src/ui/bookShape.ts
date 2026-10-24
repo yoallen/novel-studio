@@ -115,7 +115,7 @@ export function labels(pts: [number, number][], segs: ShapeSegment[], done: numb
   const boxes: Box[] = [...reserved];
   const placed: (ShapeLabel & { i: number })[] = [];
   for (const { s, i } of order) {
-    const t = spot(s), [x, y] = at(pts, t), reached = t <= done, now = s.id === nowId;
+    const t = spot(s), [x, y] = at(pts, t), reached = done > 0 && t <= done, now = s.id === nowId;
     const size = reached || now ? SIZE.reached : SIZE.ahead, w = labelWidth(s.name, size);
     // Above the line first; where the line falls away (the dark moment), below it. A label sits clear of
     // the line across its whole width, and steps further out rather than crowd another label.
