@@ -8,7 +8,7 @@ Press **F1** from anywhere, including the Library, to open Help, and type a word
 
 ### Where is my novel's home page?
 
-It is **Where was I?**, the first view in the list on the right. The list shows the words "your novel's home page" under its name, and the top of the page says "This is (your title)'s home page." Story Canon opens every novel there, and it picks up where you left off: the next thing to write at the top, then three numbered pages. **1 Today** has how your words are going and notes you left for later; **2 Still open** has questions still open and your latest decisions; **3 This week** sums up the last seven days. Whenever you lose your place, click **Where was I?**. See [Where was I? Your novel's home page](#where-was-i-your-novels-home-page).
+It is **Where was I?**, the first view in the list on the right. The list shows the words "your novel's home page" under its name, and the top of the page says "This is (your title)'s home page." Story Canon opens every novel there, and it picks up where you left off: the next thing to write at the top, then four numbered pages. **1 Today** has how your words are going and notes you left for later; **2 Still open** has questions still open and your latest decisions; **3 This week** sums up the last seven days; **4 The shelf** shows your manuscript so far and a shelf for every writing push. Whenever you lose your place, click **Where was I?**. See [Where was I? Your novel's home page](#where-was-i-your-novels-home-page).
 
 ### How do I get back to all my novels?
 

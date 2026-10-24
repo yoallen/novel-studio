@@ -1,6 +1,6 @@
 # Where was I? Your novel's home page
 
-**Where was I?** is the home page of every novel. This chapter takes the page from top to bottom, then page by page through its three numbered pages, in the order the sections appear on screen, and ends with a two-minute routine for starting a writing day and a table of things that look wrong but aren't. Read it after your first hour, then come back to the routine whenever a writing day is hard to start.
+**Where was I?** is the home page of every novel. This chapter takes the page from top to bottom, then page by page through its four numbered pages, in the order the sections appear on screen, and ends with a two-minute routine for starting a writing day and a table of things that look wrong but aren't. Read it after your first hour, then come back to the routine whenever a writing day is hard to start.
 
 ## Where was I? What the page is for
 
@@ -16,7 +16,7 @@ While the page gathers everything, it says *Gathering where you left off…* for
 
 ### Where was I? at a glance
 
-The page has two parts. The top part is always in view. Under it, the rest of the page is laid out like a small notebook with three numbered pages, the same way a record's fields are laid out on numbered pages (see [Record pages: the numbered tabs](#record-pages-the-numbered-tabs)).
+The page has two parts. The top part is always in view. Under it, the rest of the page is laid out like a small notebook with four numbered pages, the same way a record's fields are laid out on numbered pages (see [Record pages: the numbered tabs](#record-pages-the-numbered-tabs)).
 
 **Always at the top:**
 

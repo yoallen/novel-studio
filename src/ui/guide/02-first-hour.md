@@ -496,6 +496,6 @@ She clicks **Plant it**. The Story Brain opens with one character, *Marisol Vega
 
 When the first hour is over, your novel has a home. **Where was I?** is the novel's home page: the first view in the list on the right, with *your novel's home page* under its name. Every time you come back to this book, Story Canon opens it there (unless you just started it with **Start writing**, **Set it up first** or **Start from a manuscript or story bible**, which open the Writing Room, Novel setup or Import and export the first time).
 
-Its top says so: *This is (your title)'s home page.* Below that it shows the one next thing to do, with an orange **Write** button, and then, on three numbered pages (**Today**, **Still open** and **This week**), everything else you would otherwise have to remember. Whenever you lose your place, click **Where was I?**.
+Its top says so: *This is (your title)'s home page.* Below that it shows the one next thing to do, with an orange **Write** button, and then, on four numbered pages (**Today**, **Still open**, **This week** and **The shelf**), everything else you would otherwise have to remember. Whenever you lose your place, click **Where was I?**.
 
 The whole page is taught, section by section, in the next chapter: [Where was I? Your novel's home page](#where-was-i-your-novels-home-page).

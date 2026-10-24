@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
-import { rng, stroke, layoutShelf, pagesOf, CHAIR_W, type ShelfDay } from './ink';
+import { rng, stroke, layoutShelf, pagesOf, CHAIR_W, type ShelfDay } from './penGeometry';
 
 // Pen drawings that keep the shape of the book company: the wingback chair for a rest day, a push's shelf
 // of books, and the manuscript lying on the desk. One fine pen, ink and pencil, nothing filled in, and the

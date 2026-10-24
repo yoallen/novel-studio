@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { layoutShelf, pagesOf, type ShelfDay } from '../src/ui/ink';
+import { layoutShelf, pagesOf, type ShelfDay } from '../src/ui/penGeometry';
 import { mergeSettings, settingsOf } from '../src/core/settings';
 import { freshStore } from './helpers.js';
 import { Progress } from '../src/core/progress.js';
