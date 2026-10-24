@@ -3,7 +3,7 @@ import { CoachCard } from './Coach';
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
-import { DraftingProgress } from './Progress';
+import { DraftingProgress, BookMap } from './Progress';
 import { ShelfPage } from './Ink';
 import { SeedStart } from './SeedStart';
 import { LaterList } from './LaterList';
@@ -52,6 +52,7 @@ export function Home({ ctx }: { ctx: Ctx }) {
         <p className="home-intro-sub">This is <em>{ctx.project?.title ?? 'your novel'}</em>'s home page.</p>
         <p className="home-intro-text">Story Canon opens here every time you come back to this book. It picks up where you left off: the next thing to write, how your words are going, notes you left for later, questions still open, and what you decided most recently. Whenever you lose your place, come back here.</p>
       </header>
+      <BookMap ctx={ctx} />
       <section className="hero" aria-labelledby="next-h">
         <h2 id="next-h" className="muted small" style={{ fontFamily: 'var(--ui)', fontWeight: 400 }}>Next</h2>
         <p className="next">{w.nextAction.text}</p>

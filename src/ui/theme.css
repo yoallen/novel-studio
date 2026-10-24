@@ -40,7 +40,8 @@
   --book: 'Libre Caslon Text', 'Literata', Georgia, serif;
   --display: 'Libre Caslon Display', 'Libre Caslon Text', Georgia, serif;
   --hand: 'Patrick Hand', 'Atkinson Hyperlegible', system-ui, sans-serif;
-  --pen: 'Just Another Hand', 'Patrick Hand', system-ui, sans-serif;   /* the coach and the shape of the book: one pen */
+  --pen: 'Just Another Hand', 'Patrick Hand', system-ui, sans-serif;
+  --pen-light: 'Shadows Into Light Two', 'Just Another Hand', system-ui, sans-serif;   /* a finer pen, for the coach's sentences */   /* the coach and the shape of the book: one pen */
   /* Each status has its own ink, on the words themselves. */
   --st-decided: #1d3f8f;
   --st-example: #7a4a1c;
@@ -384,7 +385,7 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 
 /* Drafting progress on Where was I: a tally of days, marked like facts. */
 .drafting { margin: 0 0 2rem; }
-.drafting-lead { font-family: var(--prose); font-size: 1.25rem; margin: 0 0 1rem; }
+.drafting-lead { font-family: var(--ui); font-size: 1.0625rem; margin: 0 0 1rem; }
 .drafting-lead b { font-weight: 600; }
 .tally { --col: 72px; position: relative; list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: 3px; max-width: 46rem; }
 .tally li { display: flex; flex-direction: column; align-items: stretch; }
@@ -403,7 +404,7 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .tally li[data-today] .tally-day { color: var(--yours); font-weight: 700; }
 .drafting-figures { display: flex; flex-wrap: wrap; gap: .5rem 2.25rem; margin: 0; }
 .drafting-figures dt { font-family: var(--book); font-style: italic; color: var(--margin); font-size: .9375rem; }
-.drafting-figures dd { margin: 0; font-family: var(--book); font-size: 1.125rem; color: var(--ink); }
+.drafting-figures dd { margin: 0; font-family: var(--ui); font-size: 1rem; color: var(--ink); }
 @media (max-width: 560px) { .tally { --col: 56px; gap: 2px; } .tally-day { font-size: .625rem; } }
 
 /* Novel setup: each group of characteristics as its own small panel. */
@@ -894,15 +895,16 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .coach-push { font-family: var(--book); font-style: italic; font-size: 1rem; color: var(--margin); }
 .coach-note { background: var(--coach-paper); border-radius: 4px; padding: 1rem 1.25rem 0.9rem; margin: 0 0 1.25rem; box-shadow: 0 1px 2px rgba(60, 30, 80, 0.12), 0 6px 18px rgba(60, 30, 80, 0.07); transform: rotate(-0.35deg); }
 .coach-note h3 { margin: 0 0 0.25rem; font-family: var(--pen); font-size: 2.1rem; font-weight: 400; color: var(--coach-ink); line-height: 1.05; }
-.coach-body { margin: 0; font-family: var(--pen); font-size: 1.7rem; line-height: 1.15; color: var(--coach-ink); }
+.coach-body { margin: 0; font-family: var(--pen-light); font-size: 1.3rem; line-height: 1.45; color: var(--coach-ink); }
+.coach[data-body='caslon'] .coach-body { font-family: var(--book); font-style: italic; font-size: 1.0625rem; line-height: 1.6; }
 .coach-from { margin: 0.55rem 0 0; font-family: var(--book); font-style: italic; font-size: 0.85rem; color: var(--margin); }
 .coach-note[data-own] { border-left: 3px solid var(--yours); }
 .coach-spot { margin: 0 0 1.25rem; padding: 0.15rem 0 0.15rem 1rem; border-left: 2px solid var(--line-strong); }
 .coach-spot-head { margin: 0 0 0.2rem; font-family: var(--book); font-style: italic; font-size: 0.95rem; color: var(--struct); }
 .coach-spot[data-kind="fun"] .coach-spot-head { color: var(--yours); }
-.coach-spot-text { margin: 0; font-family: var(--prose); font-size: 1rem; line-height: 1.55; }
-.coach-pace { margin: 0 0 0.9rem; font-family: var(--prose); font-size: 1.05rem; line-height: 1.55; }
-.coach-where { margin: 0 0 0.9rem; font-family: var(--prose); font-size: 0.95rem; color: var(--muted); }
+.coach-spot-text { margin: 0; font-family: var(--ui); font-size: 1rem; line-height: 1.6; color: var(--ink); }
+.coach-pace { margin: 0 0 0.9rem; font-family: var(--ui); font-size: 1rem; line-height: 1.6; }
+.coach-where { margin: 0 0 0.9rem; font-family: var(--ui); font-size: 1rem; line-height: 1.6; color: var(--muted); }
 .coach-where-head { font-family: var(--book); font-style: italic; color: var(--struct); }
 .coach-actions { margin-top: 0.4rem; }
 .coach-stuck { margin-top: 0.75rem; padding: 0.8rem 1rem; background: var(--sheet); border: 1px solid var(--line); border-radius: 4px; }
@@ -963,3 +965,12 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .ms-so-far { margin: 0 0 2.5rem; }
 .bookcase .shelf-drawing { margin: 0 0 1.75rem; }
 .recap { margin: 0.5rem 0 1.5rem; }
+
+/* The book map, under the page's opening words, with room above and below. */
+.book-map { margin: 0 0 2.75rem; max-width: 40rem; }
+.book-map h3 { margin: 0 0 0.25rem; }
+.book-map-figures { font-style: italic; }
+.push-line, .push-pages { max-width: 40rem; margin: 0.25rem 0 1.25rem; }
+.pen-drawing .here { fill: var(--yours); }
+.pen-drawing .here-lbl { fill: var(--yours); }
+.pen-drawing .pen-plum, .pen-drawing .pen-plum path { stroke: var(--coach-ink); }
