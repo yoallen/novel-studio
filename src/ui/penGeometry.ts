@@ -13,10 +13,15 @@ export function stroke(points: [number, number][], r: () => number, close = fals
   return 'M' + points.map(([x, y]) => `${(x + j()).toFixed(1)} ${(y + j()).toFixed(1)}`).join(' L') + (close ? ' Z' : '');
 }
 
-export type ShelfDay = { day: string; words: number; met: boolean; rest: boolean; today: boolean; future: boolean };
+export type ShelfDay = { day: string; words: number; met: boolean; rest: boolean; today: boolean; future: boolean; paused?: boolean };
 export type ShelfItem =
   | { kind: 'book'; day: string; x: number; w: number; h: number; ink: boolean; lean: number; today: boolean }
-  | { kind: 'chair'; day: string; x: number };
+  | { kind: 'chair'; day: string; x: number }
+  | { kind: 'pause'; day: string; x: number; days: number; through: string };
+
+/** A pause is a stack of books lying on their sides, one for each paused day, up to about two books high. */
+export const PAUSE_W = 70;
+export const PAUSE_MAX = 12;
 
 export const CHAIR_W = 34;
 
@@ -32,8 +37,14 @@ export function layoutShelf(days: ShelfDay[], width: number, seed: string, leans
     const minW = Math.max(4, Math.min(6, maxW / 3));
     const items: ShelfItem[] = [];
     let x = 0;
+    let pause: Extract<ShelfItem, { kind: 'pause' }> | null = null;
     for (const d of days) {
       if (d.future) continue;
+      if (d.paused) {
+        if (pause) { pause.days++; pause.through = d.day; }
+        else { pause = { kind: 'pause', day: d.day, x, days: 1, through: d.day }; items.push(pause); x += PAUSE_W + 6; }
+        if (d.words <= 0) continue;
+      } else pause = null;
       if (d.rest && d.words <= 0) { items.push({ kind: 'chair', day: d.day, x }); x += CHAIR_W + 4; continue; }
       if (d.words <= 0) continue;
       const w = minW + Math.min(1, d.words / top) * (maxW - minW);
@@ -52,7 +63,7 @@ export const pagesOf = (words: number, perPage = 250) => Math.max(0, Math.round(
 const fmt = (x: number) => x.toLocaleString('en-US');
 
 /** A push as the bookcase sees it. */
-export type PushShelf = { name: string; start: string; end: string; goal: number | null; total: number; done: boolean; current: boolean; dayNo: number; daysTotal: number };
+export type PushShelf = { name: string; start: string; end: string; goal: number | null; total: number; done: boolean; current: boolean; dayNo: number; daysTotal: number; endedEarly?: { on: string; plannedDays: number } | null; paused?: { back: string } | null };
 
 /** A push is over when its last day has passed, or when a new push took its place. */
 export const pushEnded = (p: PushShelf) => p.done || !p.current;
@@ -65,8 +76,10 @@ export function pushSaid(p: PushShelf): string {
   const t = Math.max(0, p.total), g = p.goal;
   if (!pushEnded(p)) {
     const amount = g ? (t >= g ? `${fmt(t)} words, goal of ${fmt(g)} met` : `${fmt(t)} of ${fmt(g)} words`) : `${fmt(t)} words`;
+    if (p.paused) return `${amount}, paused until ${new Date(`${p.paused.back}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' })}`;
     return `${amount}, day ${p.dayNo} of ${p.daysTotal}`;
   }
+  if (p.endedEarly) return `Ended early, day ${p.daysTotal} of ${p.endedEarly.plannedDays}: ${g ? `${fmt(t)} of ${fmt(g)} words` : `${fmt(t)} word${t === 1 ? '' : 's'}`}.`;
   if (!g) return `${fmt(t)} word${t === 1 ? '' : 's'}.`;
   if (t > g) return `${fmt(t)} words. Goal of ${fmt(g)} met, ${fmt(t - g)} extra.`;
   if (t === g) return `${fmt(t)} words. Goal met.`;

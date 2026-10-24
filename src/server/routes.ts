@@ -97,6 +97,12 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     return brain.updateProject(params(req, P).id, b, b.expectVersion);
   });
   app.get('/api/projects/:id/settings', async (req) => brain.settings(params(req, P).id));
+  app.post('/api/projects/:id/push/pause', async (req) => {
+    const b = body(req, z.object({ back: z.string().max(10), extend: z.boolean() }));
+    return brain.pushAction(params(req, P).id, 'pause', b);
+  });
+  app.post('/api/projects/:id/push/resume', async (req) => brain.pushAction(params(req, P).id, 'resume'));
+  app.post('/api/projects/:id/push/end', async (req) => brain.pushAction(params(req, P).id, 'end'));
   app.patch('/api/projects/:id/settings', async (req) => {
     const step = z.object({ key: z.string(), label: z.string().max(80), drafted: z.boolean().optional() });
     const b = body(req, z.object({
@@ -106,7 +112,8 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
       guidanceWhileDrafting: z.enum(['quiet', 'advisory', 'deep']).optional(),
       guidanceWhilePlanning: z.enum(['quiet', 'advisory', 'deep']).optional(),
       goal: z.object({ type: z.enum(['none', 'words', 'scenes', 'time', 'milestones']), target: z.number().nullable(), note: z.string().max(500) }).optional(),
-      push: z.object({ name: z.string().max(60), start: z.string().max(10), end: z.string().max(10), words: z.number().nullable() }).nullable().optional(),
+      push: z.object({ id: z.string().max(64).optional(), name: z.string().max(60), start: z.string().max(10), end: z.string().max(10), words: z.number().nullable(), deadline: z.boolean().optional() }).nullable().optional(),
+      nextPush: z.object({ id: z.string().max(64).optional(), name: z.string().max(60), start: z.string().max(10), end: z.string().max(10), words: z.number().nullable(), deadline: z.boolean().optional() }).nullable().optional(),
       targetWords: z.number().nullable().optional(),
       wordsPerPage: z.array(z.number()).min(1).max(4).optional(),
       statusLabels: z.partialRecord(z.enum(['established', 'developing', 'unanswered', 'illustrative', 'proposed', 'set_aside']), z.string().max(80)).optional(),

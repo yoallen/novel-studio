@@ -24,11 +24,12 @@ export function PushLine({ r, name, said }: { r: any; name: string; said: (d: an
   const pts = (a: number, b: number) => { const out: [number, number][] = []; for (let i = 0; i <= 24; i++) { const t = a + (b - a) * (i / 24); out.push([xAt(t), y + Math.sin(t * 9) * 1.6]); } return out; };
   const e = ends(r.days, goal);
   const ticks = e.filter((d) => !d.future && d.words > 0 && !d.today);
-  const chairs = e.filter((d) => !d.future && d.set && d.goal === 0);
+  const chairs = e.filter((d: any) => !d.future && d.set && d.goal === 0 && !d.paused);
   const dayNo = r.days.findIndex((d: any) => d.today) + 1;
   const hx = xAt(share);
   const marks: [number, string][] = [[0.25, 'a quarter'], [0.5, 'halfway'], [0.75, 'three quarters']];
-  const hereText = r.status === 'ahead' ? `${name} starts here` : over ? `${n(total)} words, ${n(total - goal)} extra` : r.status === 'ended' ? 'where you finished' : dayNo > 0 ? `you are here, day ${dayNo}` : 'you are here';
+  const pausedNow = !!r.paused;
+  const hereText = pausedNow ? 'paused here' : r.status === 'ahead' ? `${name} starts here` : over ? `${n(total)} words, ${n(total - goal)} extra` : r.status === 'ended' ? 'where you finished' : dayNo > 0 ? `you are here, day ${dayNo}` : 'you are here';
   return (
     <svg className="pen-drawing push-line" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${name}: ${n(total)} of ${n(goal)} words${over ? ', past the goal' : ''}.`}>
       <g fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -42,9 +43,11 @@ export function PushLine({ r, name, said }: { r: any; name: string; said: (d: an
       {marks.map(([t, l]) => <text key={l} className={share >= t ? 'pen-ink-text' : 'pen-pencil-text'} x={xAt(t)} y={y - 14} fontSize={27} textAnchor="middle">{l}</text>)}
       <text className="pen-ink-text" x={x1} y={y - 20} fontSize={32} textAnchor="middle">goal, {n(goal)} words</text>
       {chairs.map((d) => <Chair key={d.day} x={xAt(d.t) - 22} y={y + 50} title={said(d)} />)}
-      <circle className="here" cx={hx} cy={y + Math.sin(Math.min(share, 1) * 9) * 1.6} r={5.5} />
-      <path className="pen-pink" d={`M${hx + 4} ${y + 14} q8 12 26 16`} fill="none" strokeWidth={1} />
-      <text className="here-lbl" x={Math.min(hx + 34, W - hereText.length * 12)} y={y + 40} fontSize={28}>{hereText}</text>
+      {/* Paused: a book set down on the line where she stopped. */}
+      {pausedNow && <g className="pen-pencil" fill="none" strokeLinecap="round"><path d={stroke([[hx - 30, y - 3], [hx - 30, y - 13], [hx + 30, y - 13], [hx + 30, y - 3], [hx - 30, y - 3]], rr)} strokeWidth={0.95} /><path d={stroke([[hx - 23, y - 11.5], [hx - 23, y - 4.5]], rr)} strokeWidth={0.7} /><path d={stroke([[hx - 20, y - 11.5], [hx - 20, y - 4.5]], rr)} strokeWidth={0.7} /></g>}
+      {!pausedNow && <circle className="here" cx={hx} cy={y + Math.sin(Math.min(share, 1) * 9) * 1.6} r={5.5} />}
+      <path className={pausedNow ? 'pen-pencil' : 'pen-pink'} d={`M${hx + 4} ${y + 14} q8 12 26 16`} fill="none" strokeWidth={1} />
+      <text className={pausedNow ? 'pen-pencil-text' : 'here-lbl'} x={Math.min(hx + 34, W - hereText.length * 12)} y={y + 40} fontSize={28}>{hereText}</text>
     </svg>
   );
 }

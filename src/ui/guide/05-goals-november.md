@@ -122,12 +122,12 @@ Each is explained in full below. Under the figures, during a push, are **Set a l
 ### Goals: setting up a November push
 
 1. Click **Settings** on the right edge of the window, then the page tab **2 Goals and focused efforts**.
-2. Find the section **A writing push**. Under **Plan a writing push**, click **November, 50,000 words**. Story Canon fills in **Name it** *November*, **First day** November 1, **Last day** November 30, **Words to write in it** 50,000. (The other choices are **30 days from today**, which starts at 30,000 words, and **My own dates**.)
+2. Find the section **A writing push**. Under **Plan a writing push**, click **November, 50,000 words**. Story Canon fills in **Name it** *November*, **First day** November 1, **Last day** November 30, **Words to write in it** 50,000, and ticks **This push has a real deadline**, because November ends when November ends. (The other choices are **30 days from today**, which starts at 30,000 words, and **My own dates**.)
 3. Change anything you like.
 4. Read the line under the boxes: *That is about 1,667 words a day for 30 days.* That is your daily goal on the push's days only. The rest of the time, your everyday goal applies.
 5. Click **Save settings** at the bottom of the window.
 
-To remove the push, click **No push** in the same section, then **Save settings**.
+A push that has not started yet can be taken away with **Don't plan this push**. Once a push is running, it holds until it ends: you can change it, pause it or end it early, but a new push never starts on top of it (see [Goals: changing, pausing or ending a push](#goals-changing-pausing-or-ending-a-push)).
 
 ### Goals: before the push starts
 
@@ -146,6 +146,45 @@ From November 1, the push line measures November's 50,000 words, and every figur
 ### Goals: after the push ends
 
 For a week after the last day, the panel shows the push's **recap** in place of the push line: the manuscript lying on the desk, *You wrote 51,204 words.* in the coach's pen, *That's this: 205 pages that did not exist on the first day of November.*, how many days you wrote and your biggest day, and the push's full shelf of books with its bookend. If no words went down in the push, it says so plainly and kindly, and nothing more. After that week, the panel goes back to the current month. On page **4 The shelf**, the push closes into one book on the shelf of finished pushes (see [Where was I? The shelf](#where-was-i-the-shelf)).
+
+## Goals: changing, pausing or ending a push
+
+**What it is.** A push is a promise: these days, these words. So while a push is running, Settings shows it under *The push you're in* and offers three things, and only three:
+
+- **Change it.** Edit its name, its last day, its words, or whether it has a real deadline, and press **Save settings**. It stays the same push; fixing a typo in its name never makes a second book on your shelf.
+- **Pause it.** Step away for a while, and come back on a day you choose.
+- **End it early.** Close it honestly when it can't go on.
+
+There is no button to start another push while one is running. That is on purpose: if a new promise were one click away, it would be easy to slip out of this one the moment it got hard, which is exactly when a push is meant to hold you. You can still plan the next one (below).
+
+**Why pause and end are different.** A pause says *I'm stepping away, and I'm coming back.* An early end says *this push is over.* A rest day is different again: one day you plan inside the push, while the push keeps running and that day's share moves to the days after it. A pause stops the push's clock.
+
+**How to pause:**
+
+1. Open **Settings**, page **2 Goals and focused efforts**, and find *The push you're in*.
+2. Click **Pause this push**. A slip in the coach's pen opens: *Stepping away is allowed. Coming back is the promise. Pick the day you'll be back.*
+3. Set **Back on**, the day you'll return. A pause always has a return day; you can come back sooner, and an open-ended pause tends to become a quiet ending.
+4. Under **When you come back**, choose what happens to the last day. **Move the last day out by the days I pause** keeps the full length you promised yourself; the slip shows the new last day so you can see it. **Keep the last day** leaves the end where it is and shares the words left over the days that remain. If the push has a real deadline, keeping the last day is chosen for you, and the other choice reads **Move the last day anyway**.
+5. Click **Pause until** (the day). It takes effect at once.
+
+**While a push is paused:** there is no daily goal, the coach stays quiet, and the Today page says *(Name) is paused until (day). Nothing is asked of you today.*, with a book lying across the push line where you stopped. Anything you write still counts toward the push, as a bonus, never a debt. On the day you come back, the coach leaves one welcome-back note. To come back sooner, click **Come back now** on the Today page or in Settings; if the pause had moved the last day out, the days you didn't use come off again.
+
+**On your shelf,** each paused day is a book lying on its side, stacked one on another, with *paused 4 days* pencilled above. The stack grows about two books high and then keeps the true count beside it. It is meant to be seen.
+
+**How to end a push early:**
+
+1. In *The push you're in*, click **End this push early**.
+2. The slip asks you to mean it: *Only end it if you need to. Needing a few days off is what a pause is for.* Click **Yes, end this push**, **Keep going**, or **Pause it instead**.
+
+An ended push goes to your Finished shelf as it stands, marked plainly, for example *Ended early, day 6 of 14: 1,240 of 5,000 words.* Every word stays in your book. Settings then shows *(Name) ended early (day).* and the starting points for your next push.
+
+**Planning your next push.** While a push is running, click **Plan your next push** to set the one that follows. It must begin after the current push ends, and it starts by itself on its first day; the push before it goes to your Finished shelf. **Don't plan a next push** takes it away again.
+
+**A push that starts partway through a day** counts only from the moment it starts. If you end a push early in the morning and start a new one in the afternoon, the morning's words stay with the push they were written for.
+
+**The common mistake** is ending a push when what you need is a pause. If you mean to come back, pause. An early end is for a push that is truly over: the plan changed, the book changed, or life did.
+
+**Example.** On day 6 of a 14-day push called *Third Push*, a work deadline swallows your week. You click **Pause this push**, set **Back on** for Thursday, keep **Move the last day out** (the slip says it would end November 16), and pause. For three days the Today page asks nothing. On Wednesday you have a quiet hour and write 300 words; they count. On Thursday the coach says *Welcome back*, and your shelf shows a short stack of three books on their sides between day 5 and today.
 
 ## Goals: the push coach
 

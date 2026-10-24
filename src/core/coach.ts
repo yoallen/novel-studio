@@ -26,7 +26,7 @@ export const NOTES = NOTES_RAW as CoachNote[];
 export const SPOTLIGHTS = SPOTS_RAW as Spotlight[];
 
 export const PHASES = ['before', 'start', 'early', 'slump', 'middle', 'pressure', 'dark', 'home', 'almost', 'last', 'after'] as const;
-export const EVENTS = ['restday', 'comeback', 'bigday', 'streak', 'behind', 'ahead'] as const;
+export const EVENTS = ['restday', 'comeback', 'bigday', 'streak', 'behind', 'ahead', 'back'] as const;
 
 /** Milestones as shares of the push goal, with what each one means for the book. */
 export const MILESTONES: { share: number; title: string; body: string }[] = [
@@ -104,6 +104,9 @@ export class Coach {
     const st = settingsOf(this.profile(projectId));
     const r = this.progress.progress(projectId, { tz: opts.tz, now: opts.now });
     if (!st.coach || !r.push) return { show: false as const };
+    // A paused push: the coach stays quiet until she comes back, then says so once.
+    if (r.paused) return { show: false as const };
+    const backToday = !!st.push?.pauses?.some((x) => x.back === r.today);
     const daysTotal = r.days.length;
     const name = r.push.name || 'Your writing push';
     const base = { show: true as const, name, daysTotal, goal: r.goal, total: r.total };
@@ -117,7 +120,8 @@ export class Coach {
       const past = r.days.filter((d) => d.day < r.today);
       const yesterday = past[past.length - 1];
       const evenPace = r.goal ? r.goal / daysTotal : 0;
-      if (r.dailyGoal === 0 && r.todaySet) kind = 'restday';
+      if (backToday) kind = 'back';
+      else if (r.dailyGoal === 0 && r.todaySet) kind = 'restday';
       else if (yesterday && yesterday.words <= 0 && !(yesterday.set && yesterday.goal === 0) && past.some((d) => d.words > 0)) kind = 'comeback';
       else if (yesterday && past.length >= 2 && yesterday.words > 0 && past.slice(0, -1).every((d) => d.words < yesterday.words)) kind = 'bigday';
       else if (r.streak >= 7 && r.streak % 7 === 0 && r.todayWords <= 0) kind = 'streak';
@@ -125,7 +129,7 @@ export class Coach {
       else if (dayNo! % 3 === 0 && r.behind != null && evenPace > 0 && r.behind > 3 * evenPace) kind = 'behind';
       else if (dayNo! % 3 === 0 && r.behind != null && evenPace > 0 && -r.behind > 3 * evenPace) kind = 'ahead';
       // The first and last days always keep their own notes.
-      if (calendar === 'start' || calendar === 'last' || !this.library.notes.some((n) => n.kind === kind)) kind = calendar;
+      if ((kind !== 'back' && (calendar === 'start' || calendar === 'last')) || !this.library.notes.some((n) => n.kind === kind)) kind = calendar;
     }
 
     const { note, spotlight } = this.choose(projectId, r.today, kind, calendar, r.start);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
-import { rng, stroke, layoutShelf, pagesOf, CHAIR_W, pushSaid, pushEnded, layoutPushBooks, type ShelfDay } from './penGeometry';
+import { rng, stroke, layoutShelf, pagesOf, CHAIR_W, PAUSE_W, PAUSE_MAX, pushSaid, pushEnded, layoutPushBooks, type ShelfDay } from './penGeometry';
 
 // Pen drawings that keep the shape of the book company: the wingback chair for a rest day, a push's shelf
 // of books, and the manuscript lying on the desk. One fine pen, ink and pencil, nothing filled in, and the
@@ -33,15 +33,47 @@ export function Chair({ x, y, scale = 0.75, title }: { x: number; y: number; sca
   );
 }
 
-export type Shelf = { name: string; start: string; end: string; goal: number | null; total: number; done: boolean; current: boolean; days: ShelfDay[]; dayNo: number; daysTotal: number };
+export type Shelf = { name: string; start: string; end: string; goal: number | null; total: number; done: boolean; current: boolean; days: ShelfDay[]; dayNo: number; daysTotal: number; endedEarly?: { on: string; plannedDays: number } | null; paused?: { back: string } | null };
 
 const dayTitle = (d: ShelfDay) => d.rest && d.words <= 0 ? `${longDay(d.day)}: a rest day you set` : `${longDay(d.day)}${d.today ? ' (today)' : ''}: ${n(d.words)} words${d.met ? ', goal met' : ''}`;
 
 /** One push, as a shelf of books: a book for each day written, as thick as its words. A long push fills more than one shelf, a month to each. */
+/** A pause: books lying on their sides, one for each day she stepped away, stacked up to about two books high. */
+const PAUSE_TH = 10.5;
+function PauseStack({ x, base, days, seed, title }: { x: number; base: number; days: number; seed: string; title: string }) {
+  const r = rng(seed);
+  const shown = Math.min(days, PAUSE_MAX);
+  let y = base;
+  const books = Array.from({ length: shown }, () => {
+    const len = PAUSE_W - 6 + (r() - 0.5) * 8, th = PAUSE_TH - 1 + r() * 2, off = (r() - 0.5) * 6;
+    const b = { x: x + 3 + off, y, len, th };
+    y -= th + 0.4;
+    return b;
+  });
+  return (
+    <g className="pen-pencil" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <title>{title}</title>
+      <rect x={x} y={y} width={PAUSE_W} height={base - y} fill="transparent" stroke="none" />
+      {books.map((b, i) => <g key={i}>
+        <path d={stroke([[b.x, b.y], [b.x, b.y - b.th], [b.x + b.len, b.y - b.th], [b.x + b.len, b.y], [b.x, b.y]], r)} strokeWidth={0.95} />
+        <path d={stroke([[b.x + 7, b.y - b.th + 1.5], [b.x + 7, b.y - 1.5]], r)} strokeWidth={0.7} />
+        <path d={stroke([[b.x + 10, b.y - b.th + 1.5], [b.x + 10, b.y - 1.5]], r)} strokeWidth={0.7} />
+        <path d={stroke([[b.x + b.len - 9, b.y - b.th + 1.5], [b.x + b.len - 9, b.y - 1.5]], r)} strokeWidth={0.7} />
+      </g>)}
+      <text className="pen-pencil-text" x={x + 2} y={y - 8} fontSize={20} stroke="none">{`paused ${days} day${days === 1 ? '' : 's'}`}</text>
+    </g>
+  );
+}
+
 export function ShelfDrawing({ shelf, label = true }: { shelf: Shelf; label?: boolean }) {
-  const W = 680, ox = 40, top = label ? 138 : 92, rowH = 116;
+  const W = 680, ox = 40;
   const rows: ShelfDay[][] = [];
   for (let i = 0; i < shelf.days.length; i += 31) rows.push(shelf.days.slice(i, i + 31));
+  // Room above each shelf for its tallest thing: a standing book, or a pause stack and its words.
+  let longest = 0, run = 0;
+  for (const d of shelf.days) { run = d.paused && !d.future ? run + 1 : 0; longest = Math.max(longest, run); }
+  const space = Math.max(86, longest ? Math.min(longest, PAUSE_MAX) * (PAUSE_TH + 0.4) + 34 : 0);
+  const top = (label ? 52 : 8) + space, rowH = space + 30;
   const shown = rows.filter((row, k) => k === 0 || row.some((d) => !d.future));
   const r = rng(`${shelf.start}|board`);
   const name = shelf.name || 'Your writing push';
@@ -61,6 +93,8 @@ export function ShelfDrawing({ shelf, label = true }: { shelf: Shelf; label?: bo
           <g key={k}>
             {items.map((it) => it.kind === 'chair'
               ? <Chair key={it.day} x={ox + it.x - 4} y={base} title={dayTitle(row.find((d) => d.day === it.day)!)} />
+              : it.kind === 'pause'
+              ? <PauseStack key={it.day} x={ox + it.x} base={base} days={it.days} seed={`${shelf.start}|${it.day}`} title={`Paused ${longDay(it.day)}${it.days > 1 ? ` to ${longDay(it.through)}` : ''}: ${it.days} day${it.days === 1 ? '' : 's'}`} />
               : (
                 <g key={it.day} className={it.ink ? 'pen-ink' : 'pen-pencil'} transform={it.lean ? `rotate(${it.lean} ${ox + it.x + it.w} ${base})` : undefined} fill="none" strokeLinecap="round" strokeLinejoin="round">
                   <title>{dayTitle(row.find((d) => d.day === it.day)!)}</title>

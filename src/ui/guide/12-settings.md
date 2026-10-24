@@ -176,12 +176,12 @@ A **writing push** is a stretch of days with a word goal of its own, such as Nov
 **How to set one up:**
 
 1. On page **2 Goals and focused efforts**, under the heading **A writing push**, choose where to start: **30 days from today** (30,000 words), **November, 50,000 words**, or **My own dates**.
-2. Four boxes appear, filled in from your choice: **Name it**, **First day**, **Last day** and **Words to write in it**. Change any of them.
+2. Four boxes appear, filled in from your choice: **Name it**, **First day**, **Last day** and **Words to write in it**. Change any of them. Under them, tick **This push has a real deadline** for a contest, a due date or November; a pause then keeps its last day unless you say otherwise. The November choice ticks it for you.
 3. A line works out the daily share, for example: "That is about 1,667 words a day for 30 days." It goes on to say that this is your daily goal on those days only (your everyday goal applies the rest of the time), that if a day comes up short the difference is shared by the days after it, and that on Where was I? you can set a lighter day or a rest day ahead of time.
 4. Leave **Coach me through the push** ticked if you want the push coach on Where was I? A note for each day, the milestones as you reach them, and plain help when you are behind or stuck. Untick it to work without the coach. Under it, **Your own notes for the coach** takes notes of your own, one per line; click **Save my notes**. See [Goals: the push coach](#goals-the-push-coach).
 5. Press **Save settings**.
 
-To remove the push, click **No push** and press **Save settings**.
+While a push is running, this section shows it under *The push you're in*. You can change it (it stays the same push), **Pause this push**, **End this push early**, or **Plan your next push** to begin after it ends, but you can't start another push on top of it. A push that hasn't started yet can be taken away with **Don't plan this push**. See [Goals: changing, pausing or ending a push](#goals-changing-pausing-or-ending-a-push).
 
 A push can run up to a year. The last day cannot come before the first; if it does, Settings tells you so when you save.
 

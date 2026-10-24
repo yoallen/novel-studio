@@ -994,3 +994,13 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .beat-chip { font: inherit; font-size: 0.875rem; padding: 0.2rem 0.7rem; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--page); color: var(--struct); cursor: pointer; }
 .beat-chip[aria-pressed='true'] { border-color: var(--yours); color: var(--yours); background: color-mix(in srgb, var(--yours) 8%, var(--page)); }
 .beat-chip:focus-visible { outline: 2px solid var(--yours); outline-offset: 2px; }
+
+/* A writing push in Settings: the slips for pausing, ending early and a push that has ended. */
+.settings-sub { font-family: var(--book); font-style: italic; color: var(--margin); font-size: 1.0625rem; margin: 0.4rem 0 0.3rem; }
+.push-slip { background: var(--coach-paper, var(--sheet)); border-left: 3px solid var(--coach-ink); padding: 0.75rem 1rem; margin: 0.6rem 0; }
+.push-slip .pen-title { font-family: var(--pen); font-size: 1.65rem; line-height: 1.1; color: var(--struct); margin: 0; }
+.push-slip .pen-line { font-family: var(--pen); font-size: 1.4rem; color: var(--pencil); margin: 0.15rem 0 0; }
+.push-slip .coach-body { margin: 0.35rem 0; }
+.push-choice { display: flex; gap: 0.5rem; align-items: flex-start; margin: 0.3rem 0; }
+.deadline-check { max-width: none; margin: 0.25rem 0 0.9rem; }
+.push-perday { margin: 0 0 0.6rem; }

@@ -52,8 +52,8 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
       if (stages != null && stages !== orig.stages) { await api.patch('/api/author-profile', { stages: stages.split('\n').map((x) => x.trim()).filter(Boolean) }); setOrig((o) => ({ ...o, stages })); }
       if (about != null && JSON.stringify(about) !== orig.about) { await api.patch('/api/author-profile', { about: { ...about, asked: true } }); setOrig((o) => ({ ...o, about: JSON.stringify(about) })); }
       if (title.trim() && title !== ctx.project.title) await api.patch(`/api/projects/${ctx.projectId}`, { title });
-      const { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push, targetWords, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction, coach } = s;
-      await api.patch(`/api/projects/${ctx.projectId}/settings`, { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push: push && push.start && push.end ? { ...push, words: push.words ? Number(push.words) : null } : null, targetWords: targetWords ? Number(targetWords) : null, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction, coach: coach !== false });
+      const { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push, nextPush, targetWords, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction, coach } = s;
+      await api.patch(`/api/projects/${ctx.projectId}/settings`, { sceneLadder, authorName, byline, guidanceWhileDrafting, guidanceWhilePlanning, goal, push: push && push.start && push.end ? { ...push, words: push.words ? Number(push.words) : null } : null, nextPush: nextPush && nextPush.start && nextPush.end ? { ...nextPush, words: nextPush.words ? Number(nextPush.words) : null } : null, targetWords: targetWords ? Number(targetWords) : null, wordsPerPage, statusLabels, ownedLabel, reservedMarkers, nextWritingAction, coach: coach !== false });
       await ctx.refreshProject();
       setBase(JSON.stringify(s) + title);
       setSaved(`Saved at ${new Date().toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}.`);
@@ -140,33 +140,13 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
       <section className="section settings-section" id="set-push" aria-labelledby="push-h">
         <h2 id="push-h">A writing push</h2>
         <p className="muted small">A stretch of days with a word goal: thirty days of focus, a month like November and 50,000 words, or any dates you choose. Where was I? shows how you are tracking, from two weeks before it starts.</p>
-        {s.push ? (<>
-          <div className="cols">
-            <label className="field"><span>Name it</span><input type="text" value={s.push.name} maxLength={60} onChange={(e) => setS({ ...s, push: { ...s.push, name: e.target.value } })} placeholder="For example: Spring push" /></label>
-            <label className="field"><span>First day</span><input type="date" value={s.push.start} onChange={(e) => setS({ ...s, push: { ...s.push, start: e.target.value } })} /></label>
-            <label className="field"><span>Last day</span><input type="date" value={s.push.end} onChange={(e) => setS({ ...s, push: { ...s.push, end: e.target.value } })} /></label>
-            <label className="field"><span>Words to write in it</span><input type="number" value={s.push.words ?? ''} onChange={(e) => setS({ ...s, push: { ...s.push, words: e.target.value ? Number(e.target.value) : null } })} /></label>
-          </div>
-          {(() => {
-            const days = s.push.start && s.push.end ? Math.round((Date.parse(s.push.end) - Date.parse(s.push.start)) / 86400000) + 1 : 0;
-            const perDay = days > 0 && s.push.words ? Math.ceil(Number(s.push.words) / days) : 0;
-            return (
-              <div className="row small">
-                {perDay > 0 && <span>That is about {perDay.toLocaleString()} words a day for {days} days. It is your daily goal on those days only; the rest of the time, your everyday goal applies. If a day comes up short, the difference is shared by the days after it, and on Where was I? you can set a lighter day or a rest day ahead of time.</span>}
-                <button className="btn link small" onClick={() => setS({ ...s, push: null })}>No push</button>
-              </div>
-            );
-          })()}
-        </>) : (
-          <div className="push-starts">
-            <p className="small" style={{ margin: '0 0 0.4rem' }}><b>Plan a writing push.</b> Start from one of these, then change anything:</p>
-            <div className="row small">
-              <button className="btn small" onClick={() => { const a = new Date(); const b = new Date(); b.setDate(b.getDate() + 29); const d = (x: Date) => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`; setS({ ...s, push: { name: 'Thirty days', start: d(a), end: d(b), words: 30000 } }); }}>30 days from today</button>
-              <button className="btn small" onClick={() => { const y = new Date().getMonth() === 11 ? new Date().getFullYear() + 1 : new Date().getFullYear(); setS({ ...s, push: { name: 'November', start: `${y}-11-01`, end: `${y}-11-30`, words: 50000 } }); }}>November, 50,000 words</button>
-              <button className="btn small" onClick={() => { const a = new Date(); const d = (x: Date) => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`; setS({ ...s, push: { name: '', start: d(a), end: d(a), words: null } }); }}>My own dates</button>
-            </div>
-          </div>
-        )}
+        <PushSettings ctx={ctx} s={s} setS={setS} onAction={(next) => {
+          // A pause or an early end is saved at once; keep everything else she has typed and not saved.
+          const keep = (o: any) => ({ ...o, push: next.push, pastPushes: next.pastPushes, nextPush: next.nextPush });
+          setS(keep(s));
+          setBase((b0) => { try { const t = b0.slice(0, b0.length - title.length); return JSON.stringify(keep(JSON.parse(t))) + title; } catch { return b0; } });
+          void ctx.refreshProject();
+        }} />
         <label className="small coach-check"><input type="checkbox" checked={s.coach !== false} onChange={(e) => setS({ ...s, coach: e.target.checked })} /><span><b>Coach me through the push.</b> On Where was I?, a note for each day of the push, the milestones as you reach them, and plain help when you are behind or stuck.</span></label>
         <OwnCoachNotes ctx={ctx} />
       </section>
@@ -387,4 +367,127 @@ function OwnCoachNotes({ ctx }: { ctx: Ctx }) {
       </div>
     </div>
   );
+}
+
+const localDay = (x = new Date()) => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
+const plusDays = (d: string, n: number) => new Date(Date.parse(`${d}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
+const longDate = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString(undefined, { month: 'long', day: 'numeric', timeZone: 'UTC' });
+const spanDays = (a: string, b: string) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86_400_000) + 1;
+
+/** The fields of a push: its name, days, words and whether it has a real deadline. */
+function PushFields({ p, set }: { p: any; set: (p: any) => void }) {
+  const days = p.start && p.end ? spanDays(p.start, p.end) : 0;
+  const perDay = days > 0 && p.words ? Math.ceil(Number(p.words) / days) : 0;
+  return (<>
+    <div className="cols">
+      <label className="field"><span>Name it</span><input type="text" value={p.name} maxLength={60} onChange={(e) => set({ ...p, name: e.target.value })} placeholder="For example: Spring push" /></label>
+      <label className="field"><span>First day</span><input type="date" value={p.start} onChange={(e) => set({ ...p, start: e.target.value })} /></label>
+      <label className="field"><span>Last day</span><input type="date" value={p.end} onChange={(e) => set({ ...p, end: e.target.value })} /></label>
+      <label className="field"><span>Words to write in it</span><input type="number" value={p.words ?? ''} onChange={(e) => set({ ...p, words: e.target.value ? Number(e.target.value) : null })} /></label>
+    </div>
+    <label className="small coach-check deadline-check"><input type="checkbox" checked={!!p.deadline} onChange={(e) => set({ ...p, deadline: e.target.checked })} /><span><b>This push has a real deadline</b> (a contest, a due date, November). Its end date stays put if you pause.</span></label>
+    {perDay > 0 && <p className="small push-perday">That is about {perDay.toLocaleString()} words a day for {days} day{days === 1 ? '' : 's'}. It is your daily goal on those days only; the rest of the time, your everyday goal applies. If a day comes up short, the difference is shared by the days after it, and on Where was I? you can set a lighter day or a rest day ahead of time.</p>}
+  </>);
+}
+
+/** Starting points for a push: change anything after. `from` is the first day it may begin. */
+function PushStarts({ from, onPick }: { from: string; onPick: (p: any) => void }) {
+  const y = Number(from.slice(0, 4)) + (from > `${from.slice(0, 4)}-11-01` ? 1 : 0);
+  return (
+    <div className="row small">
+      <button className="btn small" onClick={() => onPick({ name: 'Thirty days', start: from, end: plusDays(from, 29), words: 30000, deadline: false })}>30 days from {from === localDay() ? 'today' : longDate(from)}</button>
+      <button className="btn small" onClick={() => onPick({ name: 'November', start: `${y}-11-01`, end: `${y}-11-30`, words: 50000, deadline: true })}>November, 50,000 words</button>
+      <button className="btn small" onClick={() => onPick({ name: '', start: from, end: from, words: null, deadline: false })}>My own dates</button>
+    </div>
+  );
+}
+
+/**
+ * A writing push in Settings. A push that is running can be changed, paused or ended early, never replaced:
+ * a new push waits until it ends. Its next push can be planned to begin after it.
+ */
+function PushSettings({ ctx, s, setS, onAction }: { ctx: Ctx; s: any; setS: (x: any) => void; onAction: (next: any) => void }) {
+  const today = localDay();
+  const p = s.push;
+  const running = !!p && !p.endedEarly && p.start <= today && today <= p.end;
+  const pause = running ? (p.pauses ?? []).find((x: any) => x.from <= today && today < x.back) : null;
+  // A push that ended (or was ended early) is shown as done, with what it came to, until a new one is set.
+  const lastEarly = !p && s.pastPushes?.length && s.pastPushes[s.pastPushes.length - 1].endedEarly ? s.pastPushes[s.pastPushes.length - 1] : null;
+  const shown = p ?? lastEarly;
+  const ended = !!shown && (!!shown.endedEarly || today > shown.end);
+  const [mode, setMode] = useState<'' | 'pause' | 'end'>('');
+  const [back, setBack] = useState(() => plusDays(today, 3));
+  const [extend, setExtend] = useState<boolean | null>(null);
+  const [err, setErr] = useState('');
+  const [endedSaid, setEndedSaid] = useState('');
+  useEffect(() => {
+    if (!ended || !shown) { setEndedSaid(''); return; }
+    api.get(`/api/projects/${ctx.projectId}/shelves`).then((list: any[]) => {
+      const sh = list.find((x) => x.start === shown.start && x.name === shown.name);
+      if (sh) {
+        const t = Math.max(0, sh.total), g = sh.goal;
+        setEndedSaid(!g ? `${t.toLocaleString()} words.` : t > g ? `${t.toLocaleString()} words. Goal of ${g.toLocaleString()} met, ${(t - g).toLocaleString()} extra.` : t === g ? `${t.toLocaleString()} words. Goal met.` : `${t.toLocaleString()} of ${g.toLocaleString()} words.`);
+      }
+    }).catch(() => setEndedSaid(''));
+  }, [ctx.projectId, ended, shown?.start, shown?.name]); // eslint-disable-line react-hooks/exhaustive-deps
+  const name = shown?.name || 'your push';
+  const extendOn = extend ?? !p?.deadline;
+  const away = back > today ? spanDays(today, back) - 1 : 0;
+  async function act(path: string, body: any) {
+    setErr('');
+    try { const next = await api.post(`/api/projects/${ctx.projectId}/push/${path}`, body); setMode(''); onAction(next); }
+    catch (e) { setErr((e as Error).message); }
+  }
+  const nextFrom = p && !ended ? plusDays(p.end, 1) : today;
+  return (<>
+    {running && <>
+      <p className="settings-sub">The push you're in</p>
+      {pause && <div className="push-slip"><p className="pen-title">{name} is paused until {longDate(pause.back)}.</p><p className="small" style={{ margin: '4px 0 0' }}>Nothing is asked of you until then. <button className="btn link small" onClick={() => void act('resume', {})}>Come back now</button></p></div>}
+      <PushFields p={p} set={(x) => setS({ ...s, push: x })} />
+      <p className="muted small">Changing these edits this push; fixing its name or moving its last day never makes a second book.</p>
+      {mode === '' && <div className="row small">
+        {!pause && <button className="btn small" onClick={() => { setMode('pause'); setExtend(null); }}>Pause this push</button>}
+        <button className="btn small" onClick={() => setMode('end')}>End this push early</button>
+        <span className="grow" />
+        {!s.nextPush && <button className="btn link small" onClick={() => setS({ ...s, nextPush: { name: '', start: nextFrom, end: plusDays(nextFrom, 29), words: null, deadline: false } })}>Plan your next push</button>}
+      </div>}
+      {mode === 'pause' && <div className="push-slip" role="group" aria-label={`Pause ${name}`}>
+        <p className="pen-title">Pause {name}</p>
+        <p className="coach-body">Stepping away is allowed. Coming back is the promise. Pick the day you'll be back.</p>
+        <label className="field" style={{ maxWidth: '16rem' }}><span>Back on</span><input type="date" value={back} min={plusDays(today, 1)} onChange={(e) => setBack(e.target.value)} /></label>
+        <p className="small" style={{ margin: '0.6rem 0 0.2rem' }}><b>When you come back:</b></p>
+        <label className="small push-choice"><input type="radio" name="push-end" checked={extendOn} onChange={() => setExtend(true)} /><span>{p.deadline ? 'Move the last day anyway' : 'Move the last day out by the days I pause, so I keep the full push'}{away > 0 ? <span className="muted"> (it would end {longDate(plusDays(p.end, away))})</span> : null}.</span></label>
+        <label className="small push-choice"><input type="radio" name="push-end" checked={!extendOn} onChange={() => setExtend(false)} /><span>Keep the last day, {longDate(p.end)}, and share the words left over the days that remain.{p.deadline ? ' This push has a real deadline, so this is chosen for you.' : ''}</span></label>
+        <p className="muted small" style={{ margin: '0.5rem 0 0' }}>While it's paused there is no daily goal and the coach stays quiet. Anything you write still counts toward the push.</p>
+        <div className="row small"><button className="btn small" disabled={!(back > today)} onClick={() => void act('pause', { back, extend: extendOn })}>Pause until {back > today ? longDate(back) : '...'}</button><button className="btn link small" onClick={() => setMode('')}>Never mind</button></div>
+      </div>}
+      {mode === 'end' && <div className="push-slip" role="group" aria-label={`End ${name} early`}>
+        <p className="pen-title">End {name} early?</p>
+        <p className="coach-body">Only end it if you need to. Needing a few days off is what a pause is for.</p>
+        <p className="small" style={{ margin: '0.4rem 0' }}>{name} goes to your Finished shelf as it stands, marked ended early. Every word stays in your book.</p>
+        <div className="row small"><button className="btn small" onClick={() => void act('end', {})}>Yes, end this push</button><button className="btn link small" onClick={() => setMode('')}>Keep going</button>{!pause && <button className="btn link small" onClick={() => { setMode('pause'); setExtend(null); }}>Pause it instead</button>}</div>
+      </div>}
+      {s.nextPush && <>
+        <p className="settings-sub">Your next push</p>
+        <p className="muted small">It begins on its own first day, after {name} ends.</p>
+        <PushFields p={s.nextPush} set={(x) => setS({ ...s, nextPush: x })} />
+        <div className="row small"><button className="btn link small" onClick={() => setS({ ...s, nextPush: null })}>Don't plan a next push</button></div>
+      </>}
+    </>}
+    {p && !running && !ended && <>
+      <p className="settings-sub">Your next push</p>
+      <PushFields p={p} set={(x) => setS({ ...s, push: x })} />
+      <div className="row small"><button className="btn link small" onClick={() => setS({ ...s, push: null })}>Don't plan this push</button></div>
+    </>}
+    {ended && <>
+      <div className="push-slip"><p className="pen-title">{name} {shown.endedEarly ? 'ended early' : 'ended'} {longDate(shown.endedEarly ? shown.endedEarly.on : shown.end)}.</p>{endedSaid && <p className="pen-line">{endedSaid} It's on your Finished shelf.</p>}</div>
+      <p className="small" style={{ margin: '0.6rem 0 0.4rem' }}><b>Plan your next push.</b> Start from one of these, then change anything:</p>
+      <PushStarts from={today} onPick={(x) => setS({ ...s, push: x })} />
+    </>}
+    {!p && !ended && <div className="push-starts">
+      <p className="small" style={{ margin: '0 0 0.4rem' }}><b>Plan a writing push.</b> Start from one of these, then change anything:</p>
+      <PushStarts from={today} onPick={(x) => setS({ ...s, push: x })} />
+    </div>}
+    {err && <p className="notice error small">{err}</p>}
+  </>);
 }

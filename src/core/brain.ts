@@ -5,7 +5,7 @@ import { worldbuildingOn } from './catalog.js';
 import { CONDITIONAL_GROUPS, CHARACTERISTIC_FIELDS, STORY_TYPES } from './catalog.js';
 import { methods } from './methods.js';
 import { SETTING_WORDS } from './trailwords.js';
-import { settingsOf, mergeSettings, ProjectSettings } from './settings.js';
+import { settingsOf, mergeSettings, ProjectSettings, pausePush, resumePush, endPushEarly } from './settings.js';
 import { templateFor, FieldDef, KIND_LABELS, BEAT_BOARD_FIELDS } from './templates.js';
 import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId } from './store.js';
 
@@ -155,6 +155,17 @@ export class Brain {
     const cur = settingsOf(p.profile) as unknown as Record<string, unknown>;
     const changed = Object.keys(patch).filter((k) => JSON.stringify((next as unknown as Record<string, unknown>)[k]) !== JSON.stringify(cur[k])).map((k) => SETTING_WORDS[k] ?? k);
     this.updateProject(id, { profile: { ...p.profile, settings: next } }, undefined, actor, changed.length ? `Settings: ${changed.join(', ')}` : 'Update novel settings');
+    return next;
+  }
+
+  /** Pause, come back early, or end the running push: kept as the push's own history, never a second book. */
+  pushAction(id: string, action: 'pause' | 'resume' | 'end', opts: { back?: string; extend?: boolean } = {}, actor = ACTOR_AUTHOR): ProjectSettings {
+    const p = this.project(id);
+    const cur = settingsOf(p.profile);
+    const name = cur.push?.name || 'Writing push';
+    const next = action === 'pause' ? pausePush(cur, opts.back ?? '', !!opts.extend) : action === 'resume' ? resumePush(cur) : endPushEarly(cur);
+    const why = action === 'pause' ? `${name} paused until ${opts.back}` : action === 'resume' ? `${name} back from a pause` : `${name} ended early`;
+    this.updateProject(id, { profile: { ...p.profile, settings: next } }, undefined, actor, why);
     return next;
   }
 

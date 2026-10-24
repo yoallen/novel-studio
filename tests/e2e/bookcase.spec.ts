@@ -40,11 +40,15 @@ test('the shelf page: the manuscript so far, and a shelf for every push; a push 
   if (process.env.SHOT_DIR) { await page.setViewportSize({ width: 1440, height: 1400 }); await page.locator('.bookcase').screenshot({ path: `${process.env.SHOT_DIR}/shelf-page.png` }); }
 
   // The week after a push ends, the Today page shows its recap in place of the shape.
-  await request.patch(`/api/projects/${pid}/settings`, { headers: H, data: { push: { name: 'Fall Draft', start: day(-30), end: day(-1), words: 3000 } } });
+  // A running push is never replaced; she ends it early first. Then a push that is already over shows its recap.
+  const refused = await request.patch(`/api/projects/${pid}/settings`, { headers: H, data: { push: { name: 'Last Month', start: day(-30), end: day(-1), words: 3000 } } });
+  expect(refused.status()).toBe(400);
+  expect((await request.post(`/api/projects/${pid}/push/end`, { headers: H, data: {} })).ok()).toBe(true);
+  await request.patch(`/api/projects/${pid}/settings`, { headers: H, data: { push: { name: 'Last Month', start: day(-30), end: day(-1), words: 3000 } } });
   await page.reload();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: /Where was I/ }).click();
   await page.getByRole('tab', { name: /Today/ }).click();
-  await expect(page.locator('.recap')).toContainText('Fall Draft is over.');
+  await expect(page.locator('.recap')).toContainText('Last Month is over.');
   await expect(page.locator('.push-line')).toHaveCount(0);
   if (process.env.SHOT_DIR) await page.locator('.drafting').screenshot({ path: `${process.env.SHOT_DIR}/recap.png` });
 });

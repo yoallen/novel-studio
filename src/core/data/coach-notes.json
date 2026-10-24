@@ -1097,5 +1097,35 @@
   "kind": "ahead",
   "title": "Take a bold risk",
   "body": "Now's a good time to take a risk in the draft. A strange scene, a new point of view, a turn you weren't planning. If it fails, you've got room to recover. If it works, the story is richer for it."
+ },
+ {
+  "id": "back-01",
+  "kind": "back",
+  "title": "Welcome back",
+  "body": "You said you'd be back, and here you are. That's the promise kept. Don't spend today making up for the days away. Just write today's share, and let the push pick up its rhythm again."
+ },
+ {
+  "id": "back-02",
+  "kind": "back",
+  "title": "Pick up the thread",
+  "body": "Before you write a word, read the last page you wrote before the pause. Only that page. Let the story remind you where it was going, then follow it."
+ },
+ {
+  "id": "back-03",
+  "kind": "back",
+  "title": "The pause is over",
+  "body": "Rest did its job. Now it's time to work again. Sit down, open the scene, and give it twenty honest minutes before you decide how today is going."
+ },
+ {
+  "id": "back-04",
+  "kind": "back",
+  "title": "Start small, start now",
+  "body": "The first day back is the one most likely to slip away. Make it easy: one scene, one paragraph, one sentence. Getting started is what counts today."
+ },
+ {
+  "id": "back-05",
+  "kind": "back",
+  "title": "Back at the desk",
+  "body": "Welcome back. The days away are done and don't need explaining. What matters now is the next scene. Open it before you check anything else, and write until today's share is behind you."
  }
 ]

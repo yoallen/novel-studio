@@ -46,7 +46,9 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
       ) : r.status === 'ended' ? (
         r.push ? null : <p className="drafting-lead">{name} is done: <b>{n(r.total)}</b> words{r.goal ? ` of ${n(r.goal)}` : ''}.</p>
       ) : (
-        <p className="drafting-lead">{daily === 0 && r.todaySet
+        <p className="drafting-lead">{r.paused
+          ? <>{name} is paused until {longDay(r.paused.back)}. Nothing is asked of you today.{r.todayWords > 0 ? <> You wrote <b>{n(r.todayWords)}</b> words anyway, and they count toward it.</> : ''} <button className="btn link small" onClick={() => void api.post(`/api/projects/${ctx.projectId}/push/resume`, {}).then(() => ctx.refreshProject()).then(load)}>Come back now</button></>
+          : daily === 0 && r.todaySet
           ? <>Today is a rest day you set.{r.todayWords > 0 ? <> You wrote <b>{n(r.todayWords)}</b> words anyway, and they all count.</> : ''}</>
           : daily === 0 && r.push?.words && r.remaining > 0 ? <>Today, <b>{n(Math.max(0, r.todayWords))}</b> words. Your set days cover what is left, so today is yours to spend.</>
           : r.push && daily ? <>Today's share of {name} is {n(daily)} words. You've written <b>{n(Math.max(0, r.todayWords))}</b>{r.todayWords >= daily ? ', so today is done.' : '.'}</>
@@ -76,7 +78,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
         {!r.push && <div><dt>The whole book</dt><dd>{n(r.bookWords)}{r.targetWords ? <span className="muted"> of {n(r.targetWords)}</span> : null} words</dd></div>}
       </dl>
 
-      {r.push?.words && r.status !== 'ended' ? <SetDays ctx={ctx} r={r} onChanged={() => void load()} /> : null}
+      {r.push?.words && r.status !== 'ended' && !r.paused ? <SetDays ctx={ctx} r={r} onChanged={() => void load()} /> : null}
       {r.push && r.status !== 'ended' && (
         doorClosed(ctx.settings)
           ? <p className="small door-note" style={{ margin: '0.5rem 0 0' }}>The door is closed through {longDay(ctx.settings.doorClosedUntil)}. Nothing judges the draft until then.</p>

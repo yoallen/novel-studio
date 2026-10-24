@@ -368,9 +368,10 @@ Under the list is a link, **Writing Trail**, to the full list of every detour, w
 | A wingback chair | A rest day you set |
 | No book at all | A day with no words. Nothing more is made of it |
 | A pink ribbon down a book | Today |
+| Books lying on their sides, stacked, with *paused 4 days* | Days you paused the push, one book for each (see [Goals: changing, pausing or ending a push](#goals-changing-pausing-or-ending-a-push)) |
 | *10 more days*, pencilled on the empty shelf | The days left in the push |
 
-*Finished pushes.* When a push ends, or when you replace it with a new one in Settings, its days close into one book on the shelf headed **Finished pushes**, oldest on the left, with a bookend after the newest.
+*Finished pushes.* When a push ends, or when you end it early, its days close into one book on the shelf headed **Finished pushes**, oldest on the left, with a bookend after the newest.
 
 | What you see | What it means |
 | --- | --- |
@@ -379,7 +380,7 @@ Under the list is a link, **Writing Trail**, to the full list of every detour, w
 | A book drawn in pencil (gray) | A push that ended short of its goal |
 | The name down the spine | The push's name, read top to bottom like a book on a real shelf |
 
-When the shelf fills, a new one starts below it. Point at any book or chair to see its figures. A finished push says plainly what it came to: *17 of 30 words.* if it ended short, *30 words. Goal met.* if it landed exactly, or *52 words. Goal of 30 met, 22 extra.* if it went past.
+When the shelf fills, a new one starts below it. Point at any book or chair to see its figures. A finished push says plainly what it came to: *17 of 30 words.* if it ended short, *30 words. Goal met.* if it landed exactly, *52 words. Goal of 30 met, 22 extra.* if it went past, or *Ended early, day 6 of 14: 1,240 of 5,000 words.* if you ended it early.
 
 **What counts as words written.** Only words you write in Story Canon count toward a push. A manuscript you bring in from elsewhere, or text you paste into a scene (a chapter from an old file, say), is kept in the book and counts in your book's total, but it is not counted as words written in a push. Moving a passage with cut and paste counts as nothing either way.
 

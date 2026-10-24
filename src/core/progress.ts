@@ -7,7 +7,7 @@
 
 import { Store } from './store.js';
 import { Manuscript } from './manuscript.js';
-import { settingsOf, WritingPush } from './settings.js';
+import { settingsOf, WritingPush, pausedDays, pauseOn } from './settings.js';
 
 export interface ProgressDay { day: string; words: number; future: boolean; today: boolean }
 
@@ -50,7 +50,12 @@ export class Progress {
   constructor(private store: Store, private ms: Manuscript) {}
 
   /** Net words typed on each day, keyed by day in the author's time zone. */
-  dailyWords(projectId: string, tz?: string): Map<string, number> {
+  /** A push's own words: from the moment it began, if that was partway through a day, to the moment it ended early. */
+  pushWords(projectId: string, push: WritingPush, tz?: string): Map<string, number> {
+    return this.dailyWords(projectId, tz, push.startedAt, push.endedEarly?.at);
+  }
+
+  dailyWords(projectId: string, tz?: string, from?: string, to?: string): Map<string, number> {
     const rows = this.store.db.prepare(
       `SELECT r.scene_id, r.word_count, r.reason, r.created_at FROM scene_revisions r JOIN scenes s ON s.id = r.scene_id
        WHERE s.project_id = ? ORDER BY r.scene_id, r.created_at, r.version`,
@@ -60,7 +65,7 @@ export class Progress {
     for (const r of rows) {
       if (r.scene_id !== scene) { scene = r.scene_id; prev = 0; }
       const w = written(r.reason, r.word_count - prev);
-      if (w != null) {
+      if (w != null && (!from || r.created_at >= from) && (!to || r.created_at < to)) {
         const day = dayIn(tz, new Date(r.created_at));
         byDay.set(day, (byDay.get(day) ?? 0) + w);
       }
@@ -89,10 +94,12 @@ export class Progress {
     const p = this.store.get('projects', projectId);
     const st = settingsOf(p?.profile_json ? JSON.parse(p.profile_json as string) : {});
     const today = dayIn(opts.tz, opts.now ?? new Date());
-    const words = this.dailyWords(projectId, opts.tz);
-
     const push = pushInView(st.push, today) ? st.push! : null;
-    const set = st.dayGoals;
+    const words = push ? this.pushWords(projectId, push, opts.tz) : this.dailyWords(projectId, opts.tz);
+    // A paused day asks nothing of her, like a rest day she set; its share moves to the days after it.
+    const paused = push ? pausedDays(push) : new Set<string>();
+    const set: Record<string, number> = { ...st.dayGoals };
+    for (const d of paused) set[d] = 0;
     // A push's days are measured against its own pace; any other stretch against the everyday goal.
     const everyday = st.goal.type === 'words' && st.goal.target ? st.goal.target : null;
     const start = push ? push.start : `${today.slice(0, 8)}01`;
@@ -141,7 +148,7 @@ export class Progress {
     }
     const daily = goalOf.has(today) ? goalOf.get(today)! : (set[today] ?? everyday);
 
-    const days: (ProgressDay & { goal: number | null; set: boolean })[] = range.map((d) => ({ day: d, words: w(d), future: d > today, today: d === today, goal: goalOf.get(d) ?? null, set: set[d] != null }));
+    const days: (ProgressDay & { goal: number | null; set: boolean; paused?: boolean })[] = range.map((d) => ({ day: d, words: w(d), future: d > today, today: d === today, goal: goalOf.get(d) ?? null, set: set[d] != null, ...(paused.has(d) ? { paused: true } : {}) }));
     const total = days.reduce((a, d) => a + (d.future ? 0 : d.words), 0);
     const beforeToday = days.reduce((a, d) => a + (d.day < today ? d.words : 0), 0);
 
@@ -158,6 +165,8 @@ export class Progress {
     return {
       today, start, end,
       push: push ? { name: push.name, words: push.words } : null,
+      /** The pause she is in today, if any: the day she said she would be back. */
+      paused: push && pauseOn(push, today) ? { back: pauseOn(push, today)!.back } : null,
       status: !started ? 'ahead' as const : ended ? 'ended' as const : 'running' as const,
       dailyGoal: daily,
       todaySet: set[today] != null,
@@ -167,7 +176,7 @@ export class Progress {
       behind: goal != null && started && !ended ? planned - beforeToday : null,
       /** Words her set days leave with no day to write them in. */
       shortfall,
-      setDays: Object.entries(set).filter(([d]) => d >= today).sort(([a], [b]) => a.localeCompare(b)).map(([day, n]) => ({ day, words: n })),
+      setDays: Object.entries(set).filter(([d]) => d >= today && !paused.has(d)).sort(([a], [b]) => a.localeCompare(b)).map(([day, n]) => ({ day, words: n })),
       /** The pace for the days she has not set, from today to the end. */
       perDayNeeded: goal != null ? (remaining === 0 ? 0 : pace) : null,
       /** Once today's goal is met: the pace for the days after today, counting what today brought. */
@@ -192,22 +201,26 @@ export class Progress {
     const p = this.store.get('projects', projectId);
     const st = settingsOf(p?.profile_json ? JSON.parse(p.profile_json as string) : {});
     const today = dayIn(opts.tz, opts.now ?? new Date());
-    const words = this.dailyWords(projectId, opts.tz);
-    const key = (x: { start: string; end: string; name: string }) => `${x.start}|${x.end}|${x.name ?? ''}`;
+    const key = (x: WritingPush) => x.id ?? `${x.start}|${x.end}|${x.name ?? ''}`;
     const all = [...st.pastPushes, ...(st.push ? [st.push] : [])].filter((x) => x.start <= today);
     const seen = new Set<string>();
     const pushes = all.filter((x) => (seen.has(key(x)) ? false : (seen.add(key(x)), true))).sort((a, b) => b.start.localeCompare(a.start));
     return pushes.map((push) => {
+      const words = this.pushWords(projectId, push, opts.tz);
+      const paused = pausedDays(push);
       const range: string[] = [];
       for (let d = push.start; d <= push.end; d = addDays(d, 1)) range.push(d);
       const even = push.words ? Math.ceil(push.words / range.length) : null;
       const days = range.map((d) => {
         const w = words.get(d) ?? 0, set = st.dayGoals[d];
         const goal = set ?? even;
+        if (paused.has(d)) return { day: d, words: w, rest: false, paused: true, met: false, today: d === today, future: d > today };
         return { day: d, words: w, rest: set === 0, met: goal != null ? w >= goal && w > 0 : w > 0, today: d === today, future: d > today };
       });
       const total = days.reduce((a, d) => a + (d.future ? 0 : d.words), 0);
-      return { name: push.name, start: push.start, end: push.end, goal: push.words, total, done: today > push.end, current: !!st.push && key(push) === key(st.push), days, dayNo: today <= push.end ? range.indexOf(today) + 1 : range.length, daysTotal: range.length };
+      const plannedDays = push.endedEarly ? daysBetween(push.start, push.endedEarly.plannedEnd) + 1 : range.length;
+      return { name: push.name, start: push.start, end: push.end, goal: push.words, total, done: today > push.end || !!push.endedEarly, current: !!st.push && key(push) === key(st.push), days, dayNo: today <= push.end ? range.indexOf(today) + 1 : range.length, daysTotal: range.length,
+        endedEarly: push.endedEarly ? { on: push.endedEarly.on, plannedDays } : null, paused: pauseOn(push, today) ? { back: pauseOn(push, today)!.back } : null };
     });
   }
 }

@@ -37,8 +37,9 @@ describe('past pushes are kept as shelves', () => {
     let s = mergeSettings({}, { push: a });
     s = mergeSettings({ settings: s }, { push: b });
     s = mergeSettings({ settings: s }, { push: b });
-    expect(s.pastPushes).toEqual([a]);
-    expect(settingsOf({ settings: s }).pastPushes).toEqual([a]);
+    expect(s.pastPushes).toHaveLength(1);
+    expect(s.pastPushes[0]).toMatchObject(a);
+    expect(settingsOf({ settings: s }).pastPushes[0]).toMatchObject(a);
     env = freshStore();
     const p = env.brain.createProject('Shelf Book');
     env.brain.updateSettings(p.id as string, { push: a });

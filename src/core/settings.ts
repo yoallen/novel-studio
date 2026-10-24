@@ -22,7 +22,36 @@ export type Guidance = 'quiet' | 'advisory' | 'deep';
 export type GoalType = 'none' | 'words' | 'scenes' | 'time' | 'milestones';
 
 /** A stretch of days with a word goal, such as November and 50,000 words. Dates are calendar days, YYYY-MM-DD. */
-export interface WritingPush { name: string; start: string; end: string; words: number | null }
+export interface PushPause { from: string; back: string; extend: boolean; daysAdded: number }
+export interface WritingPush {
+  name: string; start: string; end: string; words: number | null;
+  /** Which push this is, so changing its name or dates edits it rather than making a second book. */
+  id?: string;
+  /** A real deadline (a contest, a due date, November): a pause keeps its last day unless she says otherwise. */
+  deadline?: boolean;
+  /** Stretches she stepped away: no daily goal, no coach, and the days show as books lying on their sides. */
+  pauses?: PushPause[];
+  /** When a push begins partway through a day, it counts only from this moment. */
+  startedAt?: string;
+  /** When a push ended early: the day, the last day it had planned, and the moment, so later words are not its. */
+  endedEarly?: { on: string; plannedEnd: string; at: string };
+}
+
+/** A push's identity: its id, or, for a push made before pushes had ids, its first day and name. */
+export const pushId = (p: WritingPush) => p.id ?? `${p.start}|${p.name ?? ''}`;
+const localDay = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const addDay = (d: string, n: number) => new Date(Date.parse(`${d}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
+const daysFrom = (a: string, b: string) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86_400_000);
+/** A push is running from its first day through its last, unless it has ended early. */
+export const pushRunning = (p: WritingPush | null, today: string) => !!p && !p.endedEarly && p.start <= today && today <= p.end;
+/** The pause covering a day, if any (the day she comes back is not paused). */
+export const pauseOn = (p: WritingPush | null, day: string) => p?.pauses?.find((x) => x.from <= day && day < x.back) ?? null;
+/** Every paused day of a push. */
+export function pausedDays(p: WritingPush): Set<string> {
+  const out = new Set<string>();
+  for (const x of p.pauses ?? []) for (let d = x.from; d < x.back; d = addDay(d, 1)) out.add(d);
+  return out;
+}
 
 import { DEFAULT_WATCH_WORDS } from './revise.js';
 
@@ -74,6 +103,8 @@ export interface ProjectSettings {
   push: WritingPush | null;
   /** Pushes she has had before this one, kept when a new push replaces them: each is a shelf in her bookcase. */
   pastPushes: WritingPush[];
+  /** The push she has planned to begin after the one she is in ends. It starts on its own day. */
+  nextPush: WritingPush | null;
   targetWords: number | null;
   wordsPerPage: number[];
   statusLabels: Partial<Record<StatusKey, string>>;
@@ -98,7 +129,19 @@ export interface ProjectSettings {
 
 export const DEFAULT_RESERVED_MARKERS = ['Mine to write', 'Mine to build', 'Mine to design', 'Mine to choreograph', 'Mine to time', 'Mine to escalate', 'Mine to settle'];
 
-export function settingsOf(profile: Record<string, unknown> | undefined): ProjectSettings {
+export function settingsOf(profile: Record<string, unknown> | undefined, today = localDay()): ProjectSettings {
+  return promoted(readSettings(profile), today);
+}
+
+/** The planned next push takes over on its first day; the one before it goes to the finished shelf. */
+function promoted(st: ProjectSettings, today: string): ProjectSettings {
+  if (!st.nextPush || st.nextPush.start > today) return st;
+  const old = st.push;
+  const keep = old && !st.pastPushes.some((x) => pushId(x) === pushId(old)) ? [...st.pastPushes, old].slice(-60) : st.pastPushes;
+  return { ...st, push: st.nextPush, nextPush: null, pastPushes: keep };
+}
+
+function readSettings(profile: Record<string, unknown> | undefined): ProjectSettings {
   const p = (profile ?? {}) as Record<string, any>;
   const s = (p.settings ?? {}) as Partial<ProjectSettings>;
   return {
@@ -110,6 +153,7 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
     goal: s.goal ?? { type: 'none', target: null, note: '' },
     push: s.push && typeof s.push.start === 'string' && typeof s.push.end === 'string' ? s.push : null,
     pastPushes: Array.isArray(s.pastPushes) ? s.pastPushes.filter((x) => x && typeof x.start === 'string' && typeof x.end === 'string') : [],
+    nextPush: s.nextPush && typeof s.nextPush.start === 'string' && typeof s.nextPush.end === 'string' ? s.nextPush : null,
     targetWords: typeof s.targetWords === 'number' ? s.targetWords : (typeof p.target_words === 'number' ? p.target_words : null),
     wordsPerPage: Array.isArray(s.wordsPerPage) && s.wordsPerPage.length ? s.wordsPerPage : [250, 300],
     statusLabels: s.statusLabels ?? {},
@@ -145,22 +189,44 @@ export function mergeSettings(profile: Record<string, unknown>, patch: Partial<P
     if (patch[g] && !['quiet', 'advisory', 'deep'].includes(patch[g]!)) throw new ValidationError('Guidance must be Quiet, Advisory or Deep Analysis.');
   }
   if (patch.goal && !['none', 'words', 'scenes', 'time', 'milestones'].includes(patch.goal.type)) throw new ValidationError('Unknown goal type.');
-  if (patch.push) {
-    const { name, start, end, words } = patch.push;
+  const today = localDay();
+  const checkPush = (x: WritingPush, what: string) => {
+    const { start, end, words } = x;
     const isDay = (d: string) => /^\d{4}-\d{2}-\d{2}$/.test(d) && !Number.isNaN(Date.parse(`${d}T00:00:00Z`));
-    if (!isDay(start) || !isDay(end)) throw new ValidationError('A writing push needs a first and a last day.');
-    if (end < start) throw new ValidationError('The last day of the push comes before the first.');
+    if (!isDay(start) || !isDay(end)) throw new ValidationError(`${what} needs a first and a last day.`);
+    if (end < start) throw new ValidationError(`The last day of ${what.toLowerCase()} comes before the first.`);
     if ((Date.parse(end) - Date.parse(start)) / 86_400_000 > 366) throw new ValidationError('A writing push can run a year at most.');
     if (words != null && (!Number.isFinite(words) || words < 1 || words > 2_000_000)) throw new ValidationError('The push goal should be between 1 and 2,000,000 words.');
-    next.push = { name: (name ?? '').trim().slice(0, 60), start, end, words: words ?? null };
-  }
-  // A push that a new one replaces (or that she clears) is kept, so its shelf stays in the bookcase.
+  };
+  const fresh = (x: WritingPush): WritingPush => ({
+    id: `p${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
+    name: (x.name ?? '').trim().slice(0, 60), start: x.start, end: x.end, words: x.words ?? null, deadline: !!x.deadline,
+    ...(x.start <= today ? { startedAt: new Date().toISOString() } : {}),
+  });
   if ('push' in patch) {
-    const old = cur.push, now = next.push;
-    const same = (a: WritingPush, b: WritingPush | null) => !!b && a.start === b.start && a.end === b.end && (a.name ?? '') === (b.name ?? '');
-    if (old && !same(old, now) && !cur.pastPushes.some((x) => same(x, old))) next.pastPushes = [...cur.pastPushes, old].slice(-60);
-    else next.pastPushes = cur.pastPushes;
+    const old = cur.push, now = patch.push ?? null;
+    const sameAs = (a: WritingPush | null, b: WritingPush | null) => !!a && !!b && (b.id ? b.id === pushId(a) : a.start === b.start && (a.name ?? '') === (b.name ?? ''));
+    if (now) checkPush(now, 'A writing push');
+    if (old && sameAs(old, now)) {
+      // An edit: her name, dates, words and deadline change; its pauses and history stay with it.
+      next.push = { ...old, id: pushId(old), name: (now!.name ?? '').trim().slice(0, 60), start: now!.start, end: now!.end, words: now!.words ?? null, deadline: now!.deadline ?? old.deadline ?? false };
+      next.pastPushes = cur.pastPushes;
+    } else {
+      // A push that is running holds until she pauses it or ends it: a new one never starts on top of it.
+      if (pushRunning(old, today)) throw new ValidationError(`${old!.name || 'Your writing push'} is still running. Change it, pause it or end it early; plan your next push to begin after it.`);
+      next.push = now ? fresh(now) : null;
+      next.pastPushes = old && old.start <= today && !cur.pastPushes.some((x) => pushId(x) === pushId(old)) ? [...cur.pastPushes, old].slice(-60) : cur.pastPushes;
+    }
   } else next.pastPushes = cur.pastPushes;
+  if ('nextPush' in patch) {
+    const np = patch.nextPush ?? null;
+    if (np) {
+      checkPush(np, 'Your next push');
+      const after = next.push && !next.push.endedEarly ? next.push.end : null;
+      if (after && np.start <= after) throw new ValidationError(`Your next push begins after ${next.push!.name || 'this one'} ends, on ${addDay(after, 1)} or later.`);
+      next.nextPush = cur.nextPush && np.id === pushId(cur.nextPush) ? { ...cur.nextPush, name: (np.name ?? '').trim().slice(0, 60), start: np.start, end: np.end, words: np.words ?? null, deadline: !!np.deadline } : { ...fresh(np), startedAt: undefined };
+    } else next.nextPush = null;
+  } else next.nextPush = cur.nextPush;
   if (patch.dayGoals) {
     const days = Object.entries(patch.dayGoals);
     if (days.length > 400) throw new ValidationError('Too many set days.');
@@ -177,3 +243,34 @@ export function mergeSettings(profile: Record<string, unknown>, patch: Partial<P
 
 export { DEFAULT_STATUS_LABELS };
 
+
+
+/** Pause the running push until she comes back. With extend, its last day moves out by the days paused. */
+export function pausePush(st: ProjectSettings, back: string, extend: boolean, today = localDay()): ProjectSettings {
+  const p = st.push;
+  if (!pushRunning(p, today)) throw new ValidationError('There is no push running to pause.');
+  if (pauseOn(p, today)) throw new ValidationError('This push is already paused.');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(back) || back <= today) throw new ValidationError('Pick the day you will be back: tomorrow or later.');
+  const days = daysFrom(today, back);
+  if (days > 366) throw new ValidationError('A pause can last a year at most.');
+  const end = extend ? addDay(p!.end, days) : p!.end;
+  if (st.nextPush && end >= st.nextPush.start) throw new ValidationError(`Moving the last day out would run into your next push, which begins ${st.nextPush.start}. Keep the last day, or move your next push first.`);
+  return { ...st, push: { ...p!, end, pauses: [...(p!.pauses ?? []), { from: today, back, extend, daysAdded: extend ? days : 0 }] } };
+}
+
+/** Come back early: the pause ends today, and days it had added to the end come off again. */
+export function resumePush(st: ProjectSettings, today = localDay()): ProjectSettings {
+  const p = st.push, cur = pauseOn(p, today);
+  if (!p || !cur) throw new ValidationError('This push is not paused.');
+  const unused = daysFrom(today, cur.back);
+  const pauses = (p.pauses ?? []).map((x) => (x === cur ? { ...x, back: today, daysAdded: x.extend ? x.daysAdded - unused : 0 } : x)).filter((x) => x.back > x.from);
+  return { ...st, push: { ...p, end: cur.extend ? addDay(p.end, -unused) : p.end, pauses } };
+}
+
+/** End the running push early, honestly: it goes to the finished shelf as it stands, marked so. */
+export function endPushEarly(st: ProjectSettings, today = localDay(), at = new Date().toISOString()): ProjectSettings {
+  const p = st.push;
+  if (!pushRunning(p, today)) throw new ValidationError('There is no push running to end.');
+  const ended: WritingPush = { ...p!, id: pushId(p!), end: today, endedEarly: { on: today, plannedEnd: p!.end, at } };
+  return { ...st, push: null, pastPushes: [...st.pastPushes, ended].slice(-60) };
+}
