@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { doorClosed } from '../core/goals';
+import { Chair, Recap } from './Ink';
 import { W, H, SIZE, line, path, at, frame, walk, marks, labels, boxAt, labelWidth, type ShapeSegment } from './bookShape';
 
 // Drafting progress on Where was I?: the shape of the book, drawn in one pen line. Ink for what she
@@ -42,7 +43,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
           <p className="small muted" style={{ margin: '0 0 0.75rem' }}>Today, {n(Math.max(0, r.todayWords))} words. The line below fills in once {name} begins.</p>
         </>
       ) : r.status === 'ended' ? (
-        <p className="drafting-lead">{name} is done: <b>{n(r.total)}</b> words{r.goal ? ` of ${n(r.goal)}` : ''}.</p>
+        r.push ? null : <p className="drafting-lead">{name} is done: <b>{n(r.total)}</b> words{r.goal ? ` of ${n(r.goal)}` : ''}.</p>
       ) : (
         <p className="drafting-lead">{daily === 0 && r.todaySet
           ? <>Today is a rest day you set.{r.todayWords > 0 ? <> You wrote <b>{n(r.todayWords)}</b> words anyway, and they all count.</> : ''}</>
@@ -50,7 +51,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
           : <>Today, <b>{n(Math.max(0, r.todayWords))}</b> words{daily ? <> of your {n(daily)}</> : ''}.{daily && r.todayWords >= daily ? ' The day’s goal is met.' : ''}</>}</p>
       )}
 
-      <BookShape ctx={ctx} r={r} name={name} said={said} />
+      {r.status === 'ended' && r.push ? <Recap ctx={ctx} r={r} name={name} /> : <BookShape ctx={ctx} r={r} name={name} said={said} />}
       {/* The days in words, for a screen reader: the drawing says the same thing in ink. */}
       <ol className="sr-only" aria-label={`Words each day, ${longDay(r.start)} to ${longDay(r.end)}`}>
         {r.days.map((d: any) => <li key={d.day} data-mark={markOf(d)} data-today={d.today || undefined} aria-label={said(d)}>{said(d)}</li>)}
@@ -124,18 +125,12 @@ function SetDays({ ctx, r, onChanged }: { ctx: Ctx; r: any; onChanged: () => voi
   );
 }
 
-/** A wingback chair, drawn in the same fine pen: a rest day she set. */
-function Chair({ x, y, label }: { x: number; y: number; label: boolean }) {
+/** A rest day she set, on the line: the wingback chair, standing just under the line. */
+function RestChair({ x, y, label, title }: { x: number; y: number; label: boolean; title: string }) {
   return (
-    <g transform={`translate(${x - 15} ${y + 16})`} aria-hidden="true">
-      <g className="chair" strokeWidth={1} strokeLinecap="round" strokeLinejoin="round" transform="scale(1.15)">
-        <path d="M6 19 C5 9 6 2 13 1 C20 2 21 9 20 19" />
-        <path d="M6 8 C2 8 1 12 2 15 C3 17 4 18 5 19 M20 8 C24 8 25 12 24 15 C23 17 22 18 21 19" />
-        <path d="M1.5 18 C1 16 3 15.5 4 17 L4 24 M24.5 18 C25 16 23 15.5 22 17 L22 24" />
-        <path d="M4 20 C9 19 17 19 22 20 L22 24 L4 24 Z" />
-        <path d="M5 24 C5 27 4 29 3 30 M21 24 C21 27 22 29 23 30" />
-      </g>
-      {label && <text className="chair-lbl" x={36} y={30} fontSize={20}>a rest day</text>}
+    <g aria-hidden="true">
+      <Chair x={x - 22} y={y + 48} title={title} />
+      {label && <text className="chair-lbl" x={x + 26} y={y + 44} fontSize={20}>a rest day</text>}
     </g>
   );
 }
@@ -164,7 +159,7 @@ function BookShape({ ctx, r, name, said }: { ctx: Ctx; r: any; name: string; sai
     boxAt(hereX, hy + 40, here, SIZE.here, 'start'),
     boxAt(ex + 8, ey + 46, 'THE END', SIZE.end, 'end'),
     ...(pushLbl ? [boxAt(pushLbl.x, pushLbl.y, pushText, SIZE.push)] : []),
-    ...chairs.map(({ t }) => { const [x, y] = at(pts, t); return { x0: x - 16, x1: x + 130, y0: y + 10, y1: y + 52 }; }),
+    ...chairs.map(({ t }) => { const [x, y] = at(pts, t); return { x0: x - 24, x1: x + 120, y0: y + 10, y1: y + 52 }; }),
   ];
   const words = labels(pts, strip.segs, done, reserved, strip.next);
   const now = strip.segs.find((s) => s.id === strip.next);
@@ -186,7 +181,7 @@ function BookShape({ ctx, r, name, said }: { ctx: Ctx; r: any; name: string; sai
         ))}
         {/* Point at a day's tick, or a chair, for that day's exact count. */}
         {ticks.map(({ t, day }) => { const [x, y] = at(pts, t); return <g key={day}><line className="day" x1={x} x2={x} y1={y + 5} y2={y + 11} strokeWidth={0.9} opacity={0.8} /><line x1={x} x2={x} y1={y - 4} y2={y + 16} stroke="transparent" strokeWidth={9}><title>{said(dayOf(day))}</title></line></g>; })}
-        {chairs.map(({ t, day }, i) => { const [x, y] = at(pts, t); return <g key={day}><title>{said(dayOf(day))}</title><Chair x={x} y={y} label={i === 0} /></g>; })}
+        {chairs.map(({ t, day }, i) => { const [x, y] = at(pts, t); return <RestChair key={day} x={x} y={y} label={i === 0} title={said(dayOf(day))} />; })}
         <text className="the-end" x={ex + 8} y={ey + 46} fontSize={SIZE.end} textAnchor="end">THE END</text>
         <circle className="here" cx={hx} cy={hy} r={5.5}>{r.days.some((d: any) => d.today) && <title>{said(r.days.find((d: any) => d.today))}</title>}</circle>
         <path className="here-line" d={`M${hx + 6} ${hy + 16} q8 12 30 16`} strokeWidth={1} />

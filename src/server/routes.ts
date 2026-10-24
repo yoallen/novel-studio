@@ -306,6 +306,11 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const tz = z.object({ tz: z.string().max(64).optional() }).parse(req.query ?? {}).tz;
     return svc.progress.progress(pid, { tz });
   });
+  app.get('/api/projects/:id/shelves', async (req) => {
+    const pid = params(req, P).id; brain.project(pid);
+    const tz = z.object({ tz: z.string().max(64).optional() }).parse(req.query ?? {}).tz;
+    return svc.progress.shelves(pid, { tz });
+  });
   app.get('/api/projects/:id/coach', async (req) => {
     const pid = params(req, P).id; brain.project(pid);
     const q = z.object({ tz: z.string().max(64).optional(), wpm: z.coerce.number().min(0).max(200).optional() }).parse(req.query ?? {});

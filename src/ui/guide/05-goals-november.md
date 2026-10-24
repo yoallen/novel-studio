@@ -79,7 +79,7 @@ The panel on Where was I? starts with a heading in slanted purple type: the mont
 | The pink dot, with *you are here, day 12* | Where every word in the book has taken you. Before a push begins it says where the push starts; after it ends, where you finished |
 | A soft pink band, and *(push name) ends here* | The stretch of the book this push covers, and where its goal would take you |
 | A small tick under the line | Where one day's writing ended. Big days spread the ticks apart; small days bunch them up |
-| A small wingback chair, *a rest day* | A rest day you set, at the place in the book where you rested |
+| A small wingback chair, *a rest day* | A rest day you set, at the place in the book where you rested. The chair is drawn straight on: a tall back, wings that flare out past rolled arms, a cushion and short legs |
 | Nothing at all | A day with no words. Nothing moved, so nothing is marked, and nothing is held against you |
 | A beat's name in plum | The beat your next unwritten scene card sits on, from your plan |
 | A beat's name, larger and in purple | A beat you have reached |
@@ -155,7 +155,7 @@ From November 1, the shape of your book measures November's 50,000 words, and ev
 
 ### Goals: after the push ends
 
-For a week after the last day, the panel says *November is done: 51,204 words of 50,000.* with the shape showing where you finished. After that week, it goes back to showing the current month with your everyday goal.
+For a week after the last day, the panel shows the push's **recap** in place of the shape of your book: the manuscript lying on the desk, *You wrote 51,204 words.* in the coach's pen, *That's this: 205 pages that did not exist on the first day of November.*, how many days you wrote and your biggest day, and the push's full shelf of books with its bookend. If no words went down in the push, it says so plainly and kindly, and nothing more. After that week, the panel goes back to the shape of your book and the current month. The push keeps its shelf on page **4 The shelf** (see [Where was I? The shelf](#where-was-i-the-shelf)).
 
 ## Goals: the push coach
 

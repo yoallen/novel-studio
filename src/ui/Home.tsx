@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { DraftingProgress } from './Progress';
+import { ShelfPage } from './Ink';
 import { SeedStart } from './SeedStart';
 import { LaterList } from './LaterList';
 
@@ -148,6 +149,7 @@ export function Home({ ctx }: { ctx: Ctx }) {
             </ul>
           </section>
         ) : null },
+        { title: 'The shelf', filled: true, content: <ShelfPage ctx={ctx} /> },
       ]} />
     </div></div>
   );

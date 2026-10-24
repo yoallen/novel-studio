@@ -169,4 +169,32 @@ export class Progress {
       targetWords: st.targetWords,
     };
   }
+
+  /**
+   * The bookcase: one shelf for each push that has begun, newest first, with every day of it. A day's book
+   * is as thick as its words; it is in ink when the day met its goal (a day she set keeps her number,
+   * any other day an even share of the push), in pencil when it fell short. A rest day she set is a chair.
+   */
+  shelves(projectId: string, opts: { tz?: string; now?: Date } = {}) {
+    const p = this.store.get('projects', projectId);
+    const st = settingsOf(p?.profile_json ? JSON.parse(p.profile_json as string) : {});
+    const today = dayIn(opts.tz, opts.now ?? new Date());
+    const words = this.dailyWords(projectId, opts.tz);
+    const key = (x: { start: string; end: string; name: string }) => `${x.start}|${x.end}|${x.name ?? ''}`;
+    const all = [...st.pastPushes, ...(st.push ? [st.push] : [])].filter((x) => x.start <= today);
+    const seen = new Set<string>();
+    const pushes = all.filter((x) => (seen.has(key(x)) ? false : (seen.add(key(x)), true))).sort((a, b) => b.start.localeCompare(a.start));
+    return pushes.map((push) => {
+      const range: string[] = [];
+      for (let d = push.start; d <= push.end; d = addDays(d, 1)) range.push(d);
+      const even = push.words ? Math.ceil(push.words / range.length) : null;
+      const days = range.map((d) => {
+        const w = words.get(d) ?? 0, set = st.dayGoals[d];
+        const goal = set ?? even;
+        return { day: d, words: w, rest: set === 0, met: goal != null ? w >= goal && w > 0 : w > 0, today: d === today, future: d > today };
+      });
+      const total = days.reduce((a, d) => a + (d.future ? 0 : d.words), 0);
+      return { name: push.name, start: push.start, end: push.end, goal: push.words, total, done: today > push.end, current: !!st.push && key(push) === key(st.push), days, dayNo: today <= push.end ? range.indexOf(today) + 1 : range.length, daysTotal: range.length };
+    });
+  }
 }

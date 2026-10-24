@@ -72,6 +72,8 @@ export interface ProjectSettings {
   guidanceWhilePlanning: Guidance;
   goal: { type: GoalType; target: number | null; note: string };
   push: WritingPush | null;
+  /** Pushes she has had before this one, kept when a new push replaces them: each is a shelf in her bookcase. */
+  pastPushes: WritingPush[];
   targetWords: number | null;
   wordsPerPage: number[];
   statusLabels: Partial<Record<StatusKey, string>>;
@@ -105,6 +107,7 @@ export function settingsOf(profile: Record<string, unknown> | undefined): Projec
     guidanceWhilePlanning: s.guidanceWhilePlanning ?? 'advisory',
     goal: s.goal ?? { type: 'none', target: null, note: '' },
     push: s.push && typeof s.push.start === 'string' && typeof s.push.end === 'string' ? s.push : null,
+    pastPushes: Array.isArray(s.pastPushes) ? s.pastPushes.filter((x) => x && typeof x.start === 'string' && typeof x.end === 'string') : [],
     targetWords: typeof s.targetWords === 'number' ? s.targetWords : (typeof p.target_words === 'number' ? p.target_words : null),
     wordsPerPage: Array.isArray(s.wordsPerPage) && s.wordsPerPage.length ? s.wordsPerPage : [250, 300],
     statusLabels: s.statusLabels ?? {},
@@ -148,6 +151,13 @@ export function mergeSettings(profile: Record<string, unknown>, patch: Partial<P
     if (words != null && (!Number.isFinite(words) || words < 1 || words > 2_000_000)) throw new ValidationError('The push goal should be between 1 and 2,000,000 words.');
     next.push = { name: (name ?? '').trim().slice(0, 60), start, end, words: words ?? null };
   }
+  // A push that a new one replaces (or that she clears) is kept, so its shelf stays in the bookcase.
+  if ('push' in patch) {
+    const old = cur.push, now = next.push;
+    const same = (a: WritingPush, b: WritingPush | null) => !!b && a.start === b.start && a.end === b.end && (a.name ?? '') === (b.name ?? '');
+    if (old && !same(old, now) && !cur.pastPushes.some((x) => same(x, old))) next.pastPushes = [...cur.pastPushes, old].slice(-60);
+    else next.pastPushes = cur.pastPushes;
+  } else next.pastPushes = cur.pastPushes;
   if (patch.dayGoals) {
     const days = Object.entries(patch.dayGoals);
     if (days.length > 400) throw new ValidationError('Too many set days.');

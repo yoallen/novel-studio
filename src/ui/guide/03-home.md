@@ -50,20 +50,22 @@ These sit side by side in columns on a wide window, and one under another on a n
 
 **Page 3, This week:** what you did in the last seven days.
 
+**Page 4, The shelf:** your manuscript so far, drawn as the pages you would hold, and a shelf of books for every writing push.
+
 The rest of this chapter takes each section in turn, in that order.
 
-### Where was I? The three pages
+### Where was I? The four pages
 
-**What they are.** Under **Next** is a row of page tabs: **1 Today**, **2 Still open**, **3 This week**, and at the end of the row, **All pages**. One page shows at a time.
+**What they are.** Under **Next** is a row of page tabs: **1 Today**, **2 Still open**, **3 This week**, **4 The shelf**, and at the end of the row, **All pages**. One page shows at a time.
 
-**Why it is laid out this way.** A home page that shows everything at once is a wall of lists, and a wall of lists is hard to start a writing day from. Page 1 holds only what you need to begin. The other two wait until you want them.
+**Why it is laid out this way.** A home page that shows everything at once is a wall of lists, and a wall of lists is hard to start a writing day from. Page 1 holds only what you need to begin. The others wait until you want them.
 
 **How to use them:**
 
 1. Click a tab to turn to that page. The tab you are on is joined to the page below it.
-2. Look at the numbers. A page number turns ink blue when that page has something on it. **1 Today** is always blue. **2 Still open** turns blue when any of its lists has something in it. **3 This week** turns blue once this week has new words, a scene worked on or a decision made.
+2. Look at the numbers. A page number turns ink blue when that page has something on it. **1 Today** is always blue. **2 Still open** turns blue when any of its lists has something in it. **3 This week** turns blue once this week has new words, a scene worked on or a decision made. **4 The shelf** is always blue.
 3. To turn a page without going back up, use the links at the bottom of each page. They name the page before and after, such as **Page 2: Still open**.
-4. Click **All pages** to see all three, one after another, each with its number and name as a heading.
+4. Click **All pages** to see all four, one after another, each with its number and name as a heading.
 
 Story Canon remembers which page you were on for each novel while the program is open. Close the program and open it again, and Where was I? starts on **1 Today**.
 
@@ -293,6 +295,34 @@ Under the list is a link, **Writing Trail**, to the full list of every detour, w
 **Why it helps.** Writing a book is more than typing. A week with few new words may still hold ten decisions and twenty connections, and those are the work that makes next week's words come easily. This list counts the thinking as well as the typing, in plain numbers, with no judgment.
 
 **Looks wrong, but isn't.** Right after you bring in planning documents or chats, This week may say something like *51 thoughts, questions or ideas saved, sorted or not* while **Thoughts waiting to be sorted** says *Nothing waiting*. Both are true. The first counts everything created this week, including what arrived with what you brought in, sorted or not. The second shows only thoughts that still need sorting.
+
+## Where was I? The shelf
+
+**What it is.** Page **4 The shelf** holds two drawings, in the same fine pen as the shape of your book.
+
+**The manuscript so far.** Every word in your book, drawn as a manuscript lying on the desk: a title page under a binder clip, laid out the way manuscripts are sent to agents, with your name at the top left, the word count at the top right, and the title and *by* line in the middle. The name is your pen name if you set one (Settings, page **1 This novel**), and otherwise your own. More page edges peek out underneath as the book grows. Beside it are the number of pages (your words over the words per page you set in Settings, 250 unless you change it), and, if you set a target length, about how many pages the finished book will be.
+
+**Your writing pushes.** A bookcase, with one shelf for every writing push that has begun, newest at the top. Each day you wrote is a book standing on the shelf:
+
+| What you see | What it means |
+| --- | --- |
+| A thick book | A big day. A book is as thick as that day's words |
+| A slim book | A short day |
+| A book drawn in ink (purple) | A day you met that day's goal |
+| A book drawn in pencil (gray) | A day you wrote, but less than its goal |
+| A wingback chair | A rest day you set |
+| No book at all | A day with no words. Nothing more is made of it |
+| A pink ribbon down a book | Today |
+| *room for the rest*, pencilled on the empty shelf | A push still under way |
+| A bookend and **THE END** | A push that has finished |
+
+The books stand about the same height on purpose: a real shelf of books differs in thickness, not height, and a row of different heights would read as a chart. A push longer than a month fills more than one shelf, a month to each. Point at any book or chair to see that day's exact count. A push you replace with a new one in Settings keeps its shelf.
+
+**Why it helps.** The shape of your book shows where you are. The shelf shows how you got there: a run of thick books, a slim week, a chair where you rested on purpose, and over the months a bookcase of your own effort.
+
+**The common mistake** is reading a slim book as a failure. A slim book is a day you showed up. The only day with nothing on the shelf is a day with no words, and even that is just a space.
+
+**Example.** In the spring you ran a 21-day push called *Spring Chapters*; in the fall you start *Fall Draft*. On day 12 of Fall Draft, page 4 shows the manuscript at 78 pages, *At 80,000 words it will be about 320.* Below it, the Fall Draft shelf holds ten books and a chair. The thickest is the 10th, your 3,100-word day; the 4th left no book; and *room for the rest* runs along the empty shelf. Under it, the Spring Chapters shelf ends with a bookend and **THE END**.
 
 ## Using Where was I? to start each writing day
 
