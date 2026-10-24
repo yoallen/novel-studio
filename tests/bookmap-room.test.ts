@@ -33,7 +33,13 @@ function check(seed: string, now: string[], writtenUpTo: number) {
     // beat crowded by its neighbors keeps its pink name and dot, and never a stroke wandering across the map.
 
   }
-  if (now.length) expect(marks.length, `no *writing here*, ${where}`).toBeGreaterThan(0);
+  // A name set higher or lower than the line stays close, never far off the map.
+  for (const l of words) expect(Math.abs(l.y - l.tick[1]), `${l.name} too far from its beat, ${where}`).toBeLessThan(150);
+  // *writing here* is always there, except when two pink beats are crowded together at the very start, where
+  // their two pink names already say it and there is no clear room for more.
+  const spread = now.map((id) => segs.find((s) => s.id === id)!.from);
+  const crowdedStart = now.length > 1 && Math.max(...spread) < 0.08;
+  if (now.length && !crowdedStart) expect(marks.length, `no *writing here*, ${where}`).toBeGreaterThan(0);
   expect(marks[0]?.text ?? 'writing here').toBe('writing here');
   for (const m of marks) expect(Math.hypot(m.lx - m.x, m.ly - m.y), `${m.text} too far from its dot, ${where}`).toBeLessThan(180);
   // The turning points always make it, unless one is squeezed right between beats she is writing in.

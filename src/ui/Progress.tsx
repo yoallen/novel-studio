@@ -193,6 +193,7 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
         {words.map((l) => (
           <g key={l.id}>
             <line className={l.state === 'now' ? 'now-ink' : l.state === 'written' ? 'ink' : 'ahead'} x1={l.tick[0]} x2={l.tick[0]} y1={l.tick[1] - 6} y2={l.tick[1] + 6} strokeWidth={1.3} />
+            {l.leader && <path className={l.state === 'now' ? 'now-ink' : l.state === 'written' ? 'ink' : 'ahead'} d={l.leader} fill="none" strokeWidth={0.9} strokeLinecap="round" opacity={0.75} />}
             <text className={l.state === 'now' ? 'here-lbl' : l.state === 'written' ? 'lbl-ink' : 'lbl-ahead'} x={l.x} y={l.y} fontSize={l.state === 'ahead' ? SIZE.ahead : SIZE.reached} textAnchor="middle">{l.name}</text>
           </g>
         ))}

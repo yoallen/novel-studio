@@ -10,13 +10,13 @@ export type ShapeDay = { day: string; words: number; goal?: number | null; set?:
 export type ShapeSegment = { id: string; name: string; from: number; to: number; moment?: string | null; written?: boolean };
 /** How a beat stands: written in (ink), being written now (pink), or still ahead (pencil). */
 export type BeatState = 'written' | 'now' | 'ahead';
-export type ShapeLabel = { id: string; name: string; x: number; y: number; state: BeatState; tick: [number, number] };
+export type ShapeLabel = { id: string; name: string; x: number; y: number; state: BeatState; tick: [number, number]; leader?: string };
 export type Box = { x0: number; x1: number; y0: number; y1: number };
 
 // The drawing is wide, the whole width of the page, so the beats have room to breathe; THE END is written
 // past the end of the line, not under it.
-export const W = 1000, H = 360;
-const L = 20, R = 850, BASE = 275;
+export const W = 1000, H = 390;
+const L = 20, R = 850, BASE = 300;
 /** Label sizes, in drawing units: beats reached, beats ahead, and the words that must always be there. */
 export const SIZE = { reached: 34, ahead: 29, here: 31, end: 42, push: 24 };
 /** The least space between any two things on the map, in drawing units. */
@@ -124,35 +124,53 @@ export const stretchOf = (s: ShapeSegment): [number, number] => [s.from, Math.mi
  * the move into act three, the climax), then any others wherever they don't crowd a label or cross the line.
  * Beats written in and beats being written are larger; beats still ahead smaller, in pencil.
  */
-export function labels(pts: [number, number][], segs: ShapeSegment[], stateOf: (s: ShapeSegment) => BeatState, reserved: Box[] = [], only?: (s: ShapeSegment) => boolean, rows = 2): ShapeLabel[] {
+export function labels(pts: [number, number][], segs: ShapeSegment[], stateOf: (s: ShapeSegment) => BeatState, reserved: Box[] = [], only?: (s: ShapeSegment) => boolean): ShapeLabel[] {
   if (!segs.length) return [];
-  const rank = (s: ShapeSegment) => (stateOf(s) === 'now' ? -1 : s.moment && MAJOR.includes(s.moment) ? MAJOR.indexOf(s.moment) : s.moment ? 10 : 20);
+  const rank = (s: ShapeSegment) => (stateOf(s) === 'now' ? -1 : s.moment && MAJOR.includes(s.moment) ? MAJOR.indexOf(s.moment) : s.moment === 'opening' || s.moment === 'ending' ? 8 : s.moment ? 10 : 20);
   const order = segs.map((s, i) => ({ s, i })).filter(({ s }) => !only || only(s)).sort((a, b) => rank(a.s) - rank(b.s) || a.i - b.i);
+  const spots = segs.map((s) => at(pts, spotOf(s))[0]);
   const boxes: Box[] = reserved;
   const placed: (ShapeLabel & { i: number })[] = [];
   for (const { s, i } of order) {
     const t = spotOf(s), [x, y] = at(pts, t), state = stateOf(s);
     const size = state === 'ahead' ? SIZE.ahead : SIZE.reached, w = labelWidth(s.name, size);
-    // Right by its beat: above the line, then below, then nudged a little to either side, then one step
-    // further off. The first spot that touches nothing else wins. A name never floats away from its beat:
-    // one that finds no clear spot close by is left off the line (it is still in the chooser).
-    const tries: [number, number][] = [];
-    for (let dy = 0; dy < rows; dy++) for (const dx of [0, -0.3, 0.3, -0.45, 0.45]) {
-      tries.push([x + dx * w, -(GAP + dy * (size * 0.9))]);
-      tries.push([x + dx * w, GAP + dy * (size * 0.9)]);
-    }
-    for (const [cx0, off] of tries) {
+    // Right by its beat first: just above the line, then just below, barely nudged. When the beats are
+    // close together, a name may sit a little higher or lower, never far, with a fine pen line to its beat
+    // so there is no doubt which beat it names. A name that still finds no clear spot is left off the line
+    // (it is still in the chooser).
+    const tries: [number, number, boolean][] = [];
+    for (const dx of [0, -0.12, 0.12]) { tries.push([x + dx * w, -GAP, false]); tries.push([x + dx * w, GAP, false]); }
+    for (const off of [30, 52, 74, 96, 118]) for (const dx of [0, -0.2, 0.2, -0.4, 0.4, -0.6, 0.6]) { tries.push([x + dx * w, -off, true]); tries.push([x + dx * w, off, true]); }
+    for (const [cx0, off, lead] of tries) {
       const cx = Math.min(W - w / 2 - 4, Math.max(w / 2 + 4, cx0));
+      // Without a pen line, a name must sit nearer its own beat than any other.
+      if (!lead && spots.some((sx, j) => j !== i && Math.abs(sx - x) > 4 && Math.abs(sx - cx) < Math.abs(x - cx))) continue;
       const under = pts.filter(([px]) => px >= cx - w / 2 - GAP && px <= cx + w / 2 + GAP).map(([, py]) => py);
       const ly = off < 0 ? Math.min(...under) + off - size * 0.32 : Math.max(...under) + off + size * 0.78;
+      if (Math.abs(ly - y) > 130) continue; // never far off the map
       const b = boxAt(cx, ly, s.name, size);
       if (!inside(b) || onLine(pts, b) || boxes.some((o) => hits(b, o))) continue;
+      let leader: string | undefined;
+      if (lead) {
+        const up = off < 0, ex = Math.min(b.x1 - 6, Math.max(b.x0 + 6, x)), ey = up ? b.y1 + 3 : b.y0 - 3;
+        const lp = leaderPts(x, y + (up ? -11 : 11), ex, ey);
+        if (lp.slice(2).some(([px, py]) => pts.some(([qx, qy]) => Math.abs(px - qx) < 4 && Math.abs(py - qy) < 4))) continue;
+        if (strokeHits(lp.slice(2, -2), boxes, x, y)) continue;
+        for (const [px, py] of lp) boxes.push({ x0: px - 2, x1: px + 2, y0: py - 2, y1: py + 2 });
+        leader = 'M' + lp.map(([px, py]) => `${px.toFixed(1)} ${py.toFixed(1)}`).join(' L');
+      }
       boxes.push(b);
-      placed.push({ i, id: s.id, name: s.name, x: cx, y: ly, state, tick: [x, y] });
+      placed.push({ i, id: s.id, name: s.name, x: cx, y: ly, state, tick: [x, y], ...(leader ? { leader } : {}) });
       break;
     }
   }
   return placed.sort((a, b) => a.i - b.i).map(({ i: _i, ...l }) => l);
+}
+
+/** Does a pen stroke come within a few units of any word or stroke, other than the dot it starts from? */
+function strokeHits(lp: [number, number][], boxes: Box[], x: number, y: number) {
+  const mine = (o: Box) => x >= o.x0 && x <= o.x1 && y >= o.y0 && y <= o.y1;
+  return lp.some(([px, py]) => boxes.some((o) => !mine(o) && px > o.x0 - 5 && px < o.x1 + 5 && py > o.y0 - 5 && py < o.y1 + 5));
 }
 
 export type HereMark = { id: string; x: number; y: number; text: string; lx: number; ly: number; anchor: 'start' | 'end'; leader: string };
@@ -168,8 +186,9 @@ function leaderPts(x: number, y: number, ex: number, ey: number): [number, numbe
 
 /**
  * The whole map's words, placed so nothing crowds anything: THE END past the end of the line, then the
- * names of the beats she is writing in, then *writing here* / *and here* by each pink dot, its fine pen
- * stroke kept clear of every word, then the turning points, then every other beat that fits.
+ * *writing here* / *and here* by each pink dot, its fine pen stroke kept clear of every word, then the names
+ * of the beats she is writing in, then the turning points, then the first and last beats, then every other
+ * beat that fits.
  */
 export function layout(pts: [number, number][], segs: ShapeSegment[], stateOf: (s: ShapeSegment) => BeatState) {
   const [ex, ey] = at(pts, 1);
@@ -178,8 +197,7 @@ export function layout(pts: [number, number][], segs: ShapeSegment[], stateOf: (
   const nowSegs = segs.filter((s) => stateOf(s) === 'now');
   // Room for each dot, so no word sits on one.
   for (const s of nowSegs) { const [x, y] = at(pts, spotOf(s)); boxes.push({ x0: x - 7, x1: x + 7, y0: y - 7, y1: y + 7 }); }
-  const major = (s: ShapeSegment) => !!s.moment && MAJOR.includes(s.moment);
-  const nowLabels = labels(pts, segs, stateOf, boxes, (s) => stateOf(s) === 'now');
+  const placeMarks = (boxes: Box[]) => {
   const marks: HereMark[] = [];
   nowSegs.forEach((s) => {
     const [x, y] = at(pts, spotOf(s)), size = SIZE.here;
@@ -192,7 +210,8 @@ export function layout(pts: [number, number][], segs: ShapeSegment[], stateOf: (
     // Close by, never far: a stroke longer than a short reach would wander across the map, so a dot with no
     // clear spot near it keeps only its pink name. Slanting spots read best, below a little before above.
     for (let dx = 20; dx <= 130; dx += 10) for (let dy = -110; dy <= 110; dy += 10) for (const side of [1, -1] as const) {
-      if (Math.abs(dy) < 20) continue;
+      if (Math.abs(dy) < 20 || Math.abs(dy) > dx * 1.4 + 10 || Math.abs(dy) < dx * 0.4) continue; // a slant, never a straight stick
+      if (Math.hypot(dx, dy) > 145) continue;
       tries.push([x + side * dx, y + dy, side > 0 ? 'start' : 'end']);
     }
     const cost = ([lx, ly]: [number, number, unknown]) => Math.hypot(lx - x, ly - y) * (ly > y ? 0.9 : 1) + Math.abs(Math.abs(lx - x) - Math.abs(ly - y)) * 0.4;
@@ -205,7 +224,7 @@ export function layout(pts: [number, number][], segs: ShapeSegment[], stateOf: (
       const lp = leaderPts(x + Math.sign(tx - x) * 6, y + Math.sign(ty - y) * 6, tx, ty);
       // The stroke leaves from its own dot, but must not cross the line again or touch any word.
       if (lp.slice(6).some(([px, py]) => pts.some(([qx, qy]) => Math.abs(px - qx) < 4 && Math.abs(py - qy) < 4))) continue;
-      if (lp.slice(6).some(([px, py]) => boxes.some((o) => px > o.x0 - 3 && px < o.x1 + 3 && py > o.y0 - 3 && py < o.y1 + 3))) continue;
+      if (strokeHits(lp.slice(6), boxes, x, y)) continue;
       boxes.push(b);
       for (const [px, py] of lp) boxes.push({ x0: px - 2, x1: px + 2, y0: py - 2, y1: py + 2 });
       pick = { id: s.id, x, y, text, lx, ly, anchor, leader: 'M' + lp.map(([px, py]) => `${px.toFixed(1)} ${py.toFixed(1)}`).join(' L') };
@@ -213,10 +232,27 @@ export function layout(pts: [number, number][], segs: ShapeSegment[], stateOf: (
     }
     if (pick) marks.push(pick);
   });
-  // Then the turning points, so she can find her way along the line, and last every other beat that fits.
-  const turning = labels(pts, segs, stateOf, boxes, (s) => stateOf(s) !== 'now' && major(s));
-  const rest = labels(pts, segs, stateOf, boxes, (s) => stateOf(s) !== 'now' && !major(s));
+  return marks;
+  };
+  // Pink first, then the turning points, then the first and last beats (so the line always has a named start
+  // and finish), then every other beat that fits. The pink can go two ways: the words by each dot and then the
+  // pink names, or the names and then the words. Both are laid out in full and the one that names more wins:
+  // her pink beats count most, then *writing here*, then the turning points, then the rest.
+  const major = (s: ShapeSegment) => !!s.moment && MAJOR.includes(s.moment);
+  const full = (namesFirst: boolean) => {
+    const bx = [...boxes];
+    let names: ShapeLabel[] = [], marks: HereMark[] = [];
+    if (namesFirst) { names = labels(pts, segs, stateOf, bx, (s) => stateOf(s) === 'now'); marks = placeMarks(bx); }
+    else { marks = placeMarks(bx); names = labels(pts, segs, stateOf, bx, (s) => stateOf(s) === 'now'); }
+    const turning = labels(pts, segs, stateOf, bx, (s) => stateOf(s) !== 'now' && major(s));
+    const ends = labels(pts, segs, stateOf, bx, (s) => stateOf(s) !== 'now' && (s.moment === 'opening' || s.moment === 'ending'));
+    const rest = labels(pts, segs, stateOf, bx, (s) => stateOf(s) !== 'now' && !major(s) && s.moment !== 'opening' && s.moment !== 'ending');
+    const score = names.length * 1000 + (marks.length ? 300 : 0) + marks.length * 50 + turning.length * 20 + ends.length * 10 + rest.length;
+    return { bx, marks, words: [...names, ...turning, ...ends, ...rest], score };
+  };
+  const a = full(false), b = full(true), pick = b.score > a.score ? b : a;
+  const marks = pick.marks;
   const order = new Map(segs.map((s, i) => [s.id, i]));
   const dots = nowSegs.map((s) => { const [x, y] = at(pts, spotOf(s)); return { id: s.id, x, y }; });
-  return { end, dots, marks, words: [...nowLabels, ...turning, ...rest].sort((a, b) => order.get(a.id)! - order.get(b.id)!), boxes };
+  return { end, dots, marks, words: pick.words.sort((x, y) => order.get(x.id)! - order.get(y.id)!), boxes: pick.bx };
 }
