@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { doorClosed } from '../core/goals';
-import { W, H, line, path, at, walk, marks, labels, boxAt, type ShapeSegment } from './bookShape';
+import { W, H, SIZE, line, path, at, frame, walk, marks, labels, boxAt, labelWidth, type ShapeSegment } from './bookShape';
 
 // Drafting progress on Where was I?: the shape of the book, drawn in one pen line. Ink for what she
 // has written, pencil for what is ahead, a tick where each day ended, a wingback chair for a rest day
@@ -140,47 +140,59 @@ function Chair({ x, y, label }: { x: number; y: number; label: boolean }) {
   );
 }
 
-/** The shape of the book. Words alone move her along it: words written over the goal. */
+/** The shape of the book. The line is the whole book; every word in it moves her along. */
 function BookShape({ ctx, r, name, said }: { ctx: Ctx; r: any; name: string; said: (d: any) => string }) {
-  const dayOf = (day: string) => r.days.find((d: any) => d.day === day);
-  const [segs, setSegs] = useState<ShapeSegment[]>([]);
+  const [strip, setStrip] = useState<{ segs: ShapeSegment[]; next: string | null }>({ segs: [], next: null });
   useEffect(() => {
-    api.get(`/api/projects/${ctx.projectId}/strip`).then((d: any) => setSegs(d?.mode === 'beats' ? d.segments : [])).catch(() => setSegs([]));
+    api.get(`/api/projects/${ctx.projectId}/strip`).then((d: any) => setStrip(d?.mode === 'beats' ? { segs: d.segments, next: d.next ?? null } : { segs: [], next: null })).catch(() => setStrip({ segs: [], next: null }));
   }, [ctx.projectId]);
-  // A push with a word goal is the book's draft from its first word; without one, the book's own target,
-  // counting what was there before the first day shown.
-  const goal: number | null = r.push && r.goal ? r.goal : r.targetWords || null;
-  if (!goal) return null;
-  const base = r.push && r.goal ? 0 : Math.max(0, r.bookWords - r.total);
+  const f = frame({ bookWords: r.bookWords, total: r.total, target: r.targetWords, pushGoal: r.push && r.goal ? r.goal : null });
+  if (!f) return null;
+  const dayOf = (day: string) => r.days.find((d: any) => d.day === day);
   const pts = line(ctx.projectId);
-  const { done, past } = walk(r.days, goal, base);
-  const { ticks, chairs } = marks(r.days, goal, base);
+  const { done } = walk(r.days, f.length, f.base);
+  const { ticks, chairs } = marks(r.days, f.length, f.base);
   const [hx, hy] = at(pts, done), [ex, ey] = at(pts, 1);
   const dayNo = r.days.findIndex((d: any) => d.today) + 1;
   const here = r.status === 'ahead' ? `${name} starts here` : r.status === 'ended' ? 'where you finished' : r.push && dayNo > 0 ? `you are here, day ${dayNo}` : 'you are here';
-  const hereX = Math.min(hx + 44, W - 200);
-  // The beats are written around what must be there: where she is, and the end.
-  const words = labels(pts, segs, done, [boxAt(hereX, hy + 44, here, 26, 'start'), boxAt(ex + 8, ey + 48, 'THE END', 36, 'end'), ...chairs.map(({ t }) => { const [x, y] = at(pts, t); return { x0: x - 16, x1: x + 130, y0: y + 10, y1: y + 52 }; })]);
-  const inBeat = words.find((l) => l.reached && segs.some((s) => s.name === l.name && done >= s.from && done < Math.max(s.to, s.from + 0.0001)));
-  const summary = `The shape of the book: ${Math.round(done * 100)}% of the way, ${n(Math.round(done * goal))} of ${n(goal)} words${inBeat ? `, in ${inBeat.name}` : ''}${past ? ', past the end of the goal' : ''}.`;
+  const hereX = Math.min(hx + 40, W - labelWidth(here, SIZE.here) - 4);
+  // The push, as a stretch of the book. Where it would end, short of THE END, its name says so.
+  const pushEnd = f.push && f.push.to < 0.97 ? at(pts, f.push.to) : null;
+  const pushText = `${name} ends here`;
+  const pushLbl = pushEnd ? { x: Math.min(W - labelWidth(pushText, SIZE.push) / 2 - 4, pushEnd[0]), y: Math.min(H - 4, pushEnd[1] + 40) } : null;
+  const reserved = [
+    boxAt(hereX, hy + 40, here, SIZE.here, 'start'),
+    boxAt(ex + 8, ey + 46, 'THE END', SIZE.end, 'end'),
+    ...(pushLbl ? [boxAt(pushLbl.x, pushLbl.y, pushText, SIZE.push)] : []),
+    ...chairs.map(({ t }) => { const [x, y] = at(pts, t); return { x0: x - 16, x1: x + 130, y0: y + 10, y1: y + 52 }; }),
+  ];
+  const words = labels(pts, strip.segs, done, reserved, strip.next);
+  const now = strip.segs.find((s) => s.id === strip.next);
+  const summary = `The shape of the book: ${Math.round(done * 100)}% of the way, ${n(r.bookWords)} of ${n(Math.round(f.length))} words${now ? `; your next scene is in ${now.name}` : ''}${f.past ? '; past the length you set' : ''}.`;
   return (
-    <svg className="book-shape" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={summary}>
-      <path className="ahead" d={path(pts, done, 1)} fill="none" strokeWidth={1.3} strokeDasharray="1 4" strokeLinecap="round" />
-      <path className="ink" d={path(pts, 0, done)} fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-      <path className="ink" d={path(pts, 0, done)} fill="none" strokeWidth={0.6} opacity={0.35} transform="translate(.6 .9)" />
-      {words.map((l) => (
-        <g key={l.name}>
-          <line className={l.reached ? 'ink' : 'ahead'} x1={l.tick[0]} x2={l.tick[0]} y1={l.tick[1] - 6} y2={l.tick[1] + 6} strokeWidth={1.3} />
-          <text className={l.reached ? 'lbl-ink' : 'lbl-ahead'} x={l.x} y={l.y} fontSize={l.reached ? 30 : 24} textAnchor="middle" transform={l.rot ? `rotate(${l.rot} ${l.x} ${l.y})` : undefined}>{l.name}</text>
-        </g>
-      ))}
-      {/* Point at a day's tick, or a chair, for that day's exact count. */}
-      {ticks.map(({ t, day }) => { const [x, y] = at(pts, t); return <g key={day}><line className="day" x1={x} x2={x} y1={y + 5} y2={y + 11} strokeWidth={0.9} opacity={0.8} /><line x1={x} x2={x} y1={y - 4} y2={y + 16} stroke="transparent" strokeWidth={9}><title>{said(dayOf(day))}</title></line></g>; })}
-      {chairs.map(({ t, day }, i) => { const [x, y] = at(pts, t); return <g key={day}><title>{said(dayOf(day))}</title><Chair x={x} y={y} label={i === 0} /></g>; })}
-      <text className="the-end" x={ex + 8} y={ey + 48} fontSize={36} textAnchor="end">THE END</text>
-      <circle className="here" cx={hx} cy={hy} r={5.5}>{r.days.some((d: any) => d.today) && <title>{said(r.days.find((d: any) => d.today))}</title>}</circle>
-      <path className="here-line" d={`M${hx + 6} ${hy + 18} q10 14 34 18`} strokeWidth={1} />
-      <text className="here-lbl" x={hereX} y={hy + 44} fontSize={26}>{here}</text>
-    </svg>
+    <>
+      <svg className="book-shape" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={summary}>
+        {f.push && <path className="push-band" d={path(pts, f.push.from, f.push.to)} fill="none" strokeWidth={16} strokeLinecap="round" />}
+        {pushEnd && <line className="push-end" x1={pushEnd[0]} x2={pushEnd[0]} y1={pushEnd[1] - 12} y2={pushEnd[1] + 16} strokeWidth={1.4} />}
+        {pushLbl && <text className="push-lbl" x={pushLbl.x} y={pushLbl.y} fontSize={SIZE.push} textAnchor="middle">{pushText}</text>}
+        <path className="ahead" d={path(pts, done, 1)} fill="none" strokeWidth={1.3} strokeDasharray="1 4" strokeLinecap="round" />
+        <path className="ink" d={path(pts, 0, done)} fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+        <path className="ink" d={path(pts, 0, done)} fill="none" strokeWidth={0.6} opacity={0.35} transform="translate(.6 .9)" />
+        {words.map((l) => (
+          <g key={l.id}>
+            <line className={l.reached || l.now ? 'ink' : 'ahead'} x1={l.tick[0]} x2={l.tick[0]} y1={l.tick[1] - 6} y2={l.tick[1] + 6} strokeWidth={1.3} />
+            <text className={l.now ? 'lbl-now' : l.reached ? 'lbl-ink' : 'lbl-ahead'} x={l.x} y={l.y} fontSize={l.reached || l.now ? SIZE.reached : SIZE.ahead} textAnchor="middle">{l.name}</text>
+          </g>
+        ))}
+        {/* Point at a day's tick, or a chair, for that day's exact count. */}
+        {ticks.map(({ t, day }) => { const [x, y] = at(pts, t); return <g key={day}><line className="day" x1={x} x2={x} y1={y + 5} y2={y + 11} strokeWidth={0.9} opacity={0.8} /><line x1={x} x2={x} y1={y - 4} y2={y + 16} stroke="transparent" strokeWidth={9}><title>{said(dayOf(day))}</title></line></g>; })}
+        {chairs.map(({ t, day }, i) => { const [x, y] = at(pts, t); return <g key={day}><title>{said(dayOf(day))}</title><Chair x={x} y={y} label={i === 0} /></g>; })}
+        <text className="the-end" x={ex + 8} y={ey + 46} fontSize={SIZE.end} textAnchor="end">THE END</text>
+        <circle className="here" cx={hx} cy={hy} r={5.5}>{r.days.some((d: any) => d.today) && <title>{said(r.days.find((d: any) => d.today))}</title>}</circle>
+        <path className="here-line" d={`M${hx + 6} ${hy + 16} q8 12 30 16`} strokeWidth={1} />
+        <text className="here-lbl" x={hereX} y={hy + 40} fontSize={SIZE.here}>{here}</text>
+      </svg>
+      {f.measured === 'push' && <p className="small muted book-shape-note">The line is as long as {name} would make the book. Set your book's target length in <button className="btn link small" onClick={() => { openAtPage(`settings:${ctx.projectId}`, 0); ctx.go('settings'); }}>Settings</button> to place the beats truly.</p>}
+    </>
   );
 }

@@ -24,16 +24,26 @@ test('the shape of the book: words move her along it, her beats are written on i
   await views.getByRole('button', { name: /Where was I/ }).click();
 
   const shape = page.getByRole('img', { name: /^The shape of the book/ });
-  await expect(shape).toHaveAttribute('aria-label', /40% of the way, 40 of 100 words, in Fun and Games/);
+  await expect(shape).toHaveAttribute('aria-label', /40% of the way, 40 of 100 words/);
+  // With no target length, the line is as long as the push would make the book, and it says so.
+  await expect(page.locator('.book-shape-note')).toContainText('The line is as long as November would make the book');
   await expect(shape).toContainText('you are here, day 2');
   await expect(shape).toContainText('Fun and Games');
   await expect(shape).toContainText('Midpoint');
   await expect(shape).toContainText('THE END');
+  // With a target length, the line is the whole book: 40 words of 1,000 is 4%, and the push is a stretch of it.
+  await request.patch(`/api/projects/${pid}/settings`, { headers: H, data: { targetWords: 1000 } });
+  await page.reload();
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: /Where was I/ }).click();
+  await expect(shape).toHaveAttribute('aria-label', /4% of the way, 40 of 1,000 words/);
+  await expect(page.locator('.book-shape-note')).toHaveCount(0);
+  await expect(shape.locator('.push-lbl')).toHaveText('November ends here');
+  await expect(page.locator('.coach-when')).toHaveText('November, day 2 of 30');
   // No more columns: the days are still listed for a screen reader.
   await expect(page.locator('.tally')).toHaveCount(0);
   await expect(page.getByRole('list', { name: /^Words each day/ }).getByRole('listitem')).toHaveCount(30);
   // One pen: the coach's note and the shape share a hand.
-  const pen = await page.locator('.coach-body').evaluate((e) => getComputedStyle(e).fontFamily);
+  const pen = await page.locator('.coach-body').last().evaluate((e) => getComputedStyle(e).fontFamily);
   expect(pen).toContain('Just Another Hand');
   await expect(page.locator('.coach-ribbon')).toHaveCount(0);
   if (process.env.SHOT_DIR) { await page.locator('.coach').screenshot({ path: `${process.env.SHOT_DIR}/today-coach.png` }); await page.locator('.drafting').screenshot({ path: `${process.env.SHOT_DIR}/today-shape.png` }); }

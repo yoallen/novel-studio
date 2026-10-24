@@ -166,7 +166,7 @@ The section has a heading (the month's name, or your writing push's name, such a
 
 Until you set a goal, it shows your figures for this month, with a line inviting you to set a daily goal or a writing push, and a **Settings** link. Once you set one, it measures each day against that goal and tells you what each remaining day needs.
 
-**The shape of your book** is one hand-drawn line that runs from your first word to **THE END**, rising and falling the way a story's tension does. Words, and only words, move you along it: your words over your goal. In short:
+**The shape of your book** is one hand-drawn line that runs from your first word to **THE END** (your book's target length), rising and falling the way a story's tension does. Words, and only words, move you along it: every word in the book over that length. A writing push shows as a pink stretch of the line. In short:
 
 | What you see | What it means |
 | --- | --- |
@@ -175,7 +175,8 @@ Until you set a goal, it shows your figures for this month, with a line inviting
 | The pink dot | Where you are today |
 | A small tick under the line | Where one day's writing ended |
 | A small wingback chair | A rest day you set |
-| Beat names along the line | Your beat sheet's beats, larger once you have reached them |
+| A soft pink band | The stretch of the book your writing push covers |
+| Beat names along the line | Your beat sheet's beats, larger once you have reached them; the one in plum is where your next scene card sits |
 
 Point at a tick, a chair or the pink dot to see that day's exact count. The sentence above the shape says how today is going, such as *Today, 0 words of your 1,000.* Under it are figures such as *(month) so far*, **To finish on time**, **Against the plan**, **Days in a row** and **The whole book** (some appear only once you have a goal or a push). The shape is taught in full, with everything about goals, pushes, catching up, lighter days and rest days, in [Goals: the shape of your book](#goals-the-shape-of-your-book).
 

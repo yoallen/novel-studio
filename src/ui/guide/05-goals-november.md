@@ -64,7 +64,11 @@ The panel on Where was I? starts with a heading in slanted purple type: the mont
 
 **What it is.** A single hand-drawn line that runs the length of your book, from its first word on the left to **THE END** on the right. It isn't flat. It rises and falls the way a story's tension does: quiet through the set-up, wobbling as the struggle builds, dropping at the dark moment, climbing to the climax, and settling at the end. The beats of your beat sheet are written along it, in the same handwriting the coach uses.
 
-**What moves you along it: words, and only words.** Where you are on the line is your words divided by your goal. With 19,600 words of a 50,000-word push you are 39% of the way, so your pink dot sits 39% of the way along. The beats are signposts placed the same way: a beat sheet puts the Midpoint about halfway through a book, so with a 50,000-word goal it sits at about 25,000 words. Writing the Finale early still moves you forward by those words; the line shows how much book you have written, not which scenes.
+**The line is the whole book.** It runs from your first word to your book's target length, set on page **1 This novel** of Settings (for example 80,000 words). Words, and only words, move you along it: every word in the book over that length. With 49,600 words of an 80,000-word book, your pink dot sits 62% of the way along. The beats are signposts placed by the share of the book their sheet gives them, so in an 80,000-word book the Midpoint sits near 40,000 words. Change the target length and the beats move with it.
+
+**A push is a stretch of the book.** A writing push is marked on the line as a soft pink band, from where your book stood on the push's first day to where the push's goal would take it, with a small pink mark and the push's own name where it would end, such as *Fall Draft ends here*. A 50,000-word push might cover a whole short novel or only part of a longer one, and a push that starts in the middle of a book starts partway along. When the push's goal would carry you all the way to the end, the band runs to **THE END** and needs no mark.
+
+**Which beat you are in comes from your plan, not from arithmetic.** Word counts only say roughly where the beats fall. The beat your next unwritten scene card sits on, in story order, is written on the line in the coach's plum ink, and the coach names it under *Where you are in the book*. If you are writing the Finale first, that is what you will see.
 
 **What you see on it.**
 
@@ -72,25 +76,27 @@ The panel on Where was I? starts with a heading in slanted purple type: the mont
 | --- | --- |
 | A solid purple line | Ink: the part of the book you have written |
 | A faint dotted line | Pencil: the part still ahead |
-| The pink dot, with *you are here, day 12* | Where today's words have taken you. Before a push begins it says where the push starts; after it ends, where you finished |
+| The pink dot, with *you are here, day 12* | Where every word in the book has taken you. Before a push begins it says where the push starts; after it ends, where you finished |
+| A soft pink band, and *(push name) ends here* | The stretch of the book this push covers, and where its goal would take you |
 | A small tick under the line | Where one day's writing ended. Big days spread the ticks apart; small days bunch them up |
 | A small wingback chair, *a rest day* | A rest day you set, at the place in the book where you rested |
 | Nothing at all | A day with no words. Nothing moved, so nothing is marked, and nothing is held against you |
+| A beat's name in plum | The beat your next unwritten scene card sits on, from your plan |
 | A beat's name, larger and in purple | A beat you have reached |
 | A beat's name, smaller and gray | A beat still ahead |
 | **THE END** | Your goal |
 
-There isn't room to write every beat on the line, so it always writes the beat you are in and the next one, then as many others as fit without crowding. Without a beat sheet, the line is drawn the same way with no beat names on it.
+There isn't room to write every beat on the line, so it writes the beat your plan says you are in first, then the turning points every beat sheet shares (the moment the story starts moving, the move into Act Two, the Midpoint, the lowest point, the move into Act Three, the climax), then as many others as fit without crowding. Without a beat sheet, the line is drawn the same way with no beat names on it.
 
-**What the line measures against.** During a push with a word goal, the push is the length of the line. Without a push, it is your book's target length from Settings, and the words already in the book before this month count toward where you are. With neither, there is nothing to measure against, so the panel shows only its figures.
+**When no target length is set.** The line is as long as the push would make the book, and a small line under it says so: *The line is as long as Fall Draft would make the book. Set your book's target length in Settings to place the beats truly.* Without a push either, there is nothing to measure against, so the panel shows only its figures. **When the book runs past its length,** the line stretches and **THE END** moves out with you.
 
 **A day that cuts words** never walks you backwards on the line. The line holds at the farthest point you have reached, and the figures underneath give the exact count.
 
-**Why it matters.** A column chart answers "how many words did I write on the 9th?" The shape answers the question you actually carry around during a push: *how far into this book am I, and what's next?* Seeing the Midpoint 5,400 words ahead of your dot is a reason to sit down tonight.
+**Why it matters.** A column chart answers "how many words did I write on the 9th?" The shape answers the question you actually carry around during a push: *how far into this book am I, and what's next?* Seeing your dot climb toward the next beat is a reason to sit down tonight.
 
 **The common mistake** is reading the shape as a judgement of your story. The rise and fall is a common dramatic shape, the same for every novel, not a picture of your plot. It shows where you are in the length of the book, nothing else.
 
-**Example.** It's day 12 of November and you have 19,600 words of 50,000. The purple line runs from the left edge up through **Catalyst** and **Break into Two** and stops at your pink dot just past **Fun and Games**. Behind the dot are nine small ticks for the days you wrote and a little wingback chair where you took your rest day on the 7th. The 4th has no tick: you didn't write, and the line simply goes on. Ahead, in gray pencil, **Midpoint** waits about 5,400 words away, and the dotted line climbs toward **THE END**.
+**Example.** You are writing an 80,000-word novel and started a 50,000-word push you called *Fall Draft* with 30,000 words already in the book. On day 12 you have written 19,600 words in the push, so the book holds 49,600. The purple line runs from the left edge up through **Catalyst**, **Break into Two** and **Fun and Games**, and stops at your pink dot 62% of the way along. Behind the dot are nine small ticks for the days you wrote in the push and a little wingback chair where you took your rest day on the 7th. The 4th has no tick: you didn't write, and the line simply goes on. The pink band starts where the book stood on day 1 and runs to **THE END**, because 30,000 plus 50,000 is the whole book. Your next scene card sits on **Bad Guys Close In**, so that beat is written in plum, and ahead, in gray pencil, the line climbs toward **All Is Lost** and the end. (November and its 50,000 words are only an example: a push can have any name, any length and any dates.)
 
 ### Goals: pointing at a day
 
@@ -157,11 +163,11 @@ For a week after the last day, the panel says *November is done: 51,204 words of
 
 **What it shows.**
 
-- **The day:** *Day 9 of 30*, or before the push, *November starts in 5 days*.
+- **The day,** with your push's own name: *November, day 9 of 30*, or before the push, *November starts in 5 days*.
 - **A note for the day,** handwritten in plum on a slip of paper, in the same pen that writes the beats on the shape of your book. A heading and a few sentences, chosen for where you are in the push or for what just happened. Where a note teaches a craft idea, a line under it credits the teacher it comes from, such as *From Stephen King, On Writing.* The notes are written in Story Canon's own words; nothing is quoted.
 - **A line about a writer, about writing, or just for fun.** *About a writer* tells how a real novelist worked or kept going. *About writing* is a true, encouraging fact about how books get made. *Just for fun* is a light, true fact for days your brain needs a rest, mostly about words and books. Every one comes from a checked source.
 - **Where you are in the book.** The beat your next unwritten scene sits at, with one line from your beat sheet about what that beat asks.
-- **A milestone** when you cross one: the first tenth of your goal, a quarter, halfway, three quarters, ninety percent, and the goal itself. Each says what that point means for the book. A milestone stays on the page the day after, so you don't miss it.
+- **A milestone** when you cross one: the first tenth of your goal, a quarter, halfway, three quarters, ninety percent, and the goal itself. Milestones are shares of the push, not of the book, so none of them names a beat: a push may be a whole short novel or one stretch of a long one. A milestone is written at the top of the coach's note, in the same pen. A milestone stays on the page the day after, so you don't miss it.
 - **Your pace, in plain numbers.** Ahead, behind or on pace against an even share of the push, what today asks, and how much of it is still to go. If you have run sprints on this computer, it also says how many sprints that is at your own sprint pace. It never scolds: being behind is already spread over the days left.
 - **Next milestone,** with how many words to go, in a small line under the day. How far along you are is drawn just below the coach, in the shape of your book.
 - **I'm stuck.** Click it and the coach hands you the next scene card you haven't written, in story order, with what the scene must do, its turn and its conflict if you filled them in, and one question to start on. **Write this scene** opens the page.

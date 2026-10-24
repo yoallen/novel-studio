@@ -50,29 +50,26 @@ export function CoachCard({ ctx }: { ctx: Ctx }) {
 
   const when = c.phase === 'before'
     ? (c.daysUntil === 1 ? `${c.name} starts tomorrow` : `${c.name} starts in ${c.daysUntil} days`)
-    : c.phase === 'after' ? `${c.name} is done` : `Day ${c.dayNo} of ${c.daysTotal}`;
+    : c.phase === 'after' ? `${c.name} is done` : `${c.name || 'Your writing push'}, day ${c.dayNo} of ${c.daysTotal}`;
   const share = c.goal ? Math.min(1, Math.max(0, c.total / c.goal)) : null;
   const spotHead = c.spotlight ? (c.spotlight.kind === 'fun' ? 'Just for fun' : c.spotlight.kind === 'writer' ? 'About a writer' : 'About writing') : '';
 
   return (
     <section className="coach" aria-labelledby="coach-h">
       <header className="coach-top">
-        <p className="coach-when">{when}{c.phase === 'during' && c.name ? <span className="coach-push"> of {c.name}</span> : null}</p>
+        <p className="coach-when">{when}</p>
         {/* How far along is drawn below, in the shape of the book; here, only the next milestone. */}
         {share != null && c.phase === 'during' && c.next && <p className="coach-next">Next milestone: {c.next.title.toLowerCase()}, {n(c.next.toGo)} words to go.</p>}
       </header>
 
-      {c.milestone && (
-        <div className="coach-milestone" role="status">
-          <span className="coach-milestone-mark" aria-hidden="true">&#10086;</span>
-          <div>
-            <p className="coach-milestone-title">{c.milestone.title}{c.milestone.when === 'yesterday' ? ', yesterday' : ''}: {n(c.milestone.words)} words</p>
-            <p className="coach-milestone-body">{c.milestone.body}</p>
-          </div>
-        </div>
-      )}
-
+      {/* One slip of paper: a milestone, when there is one, written above the day's note in the same pen. */}
       <article className="coach-note" data-own={c.note.kind === 'own' || undefined}>
+        {c.milestone && (
+          <div className="coach-milestone" role="status">
+            <p className="coach-milestone-title">{c.milestone.title}{c.milestone.when === 'yesterday' ? ', yesterday' : ''}: {n(c.milestone.words)} words</p>
+            <p className="coach-body">{c.milestone.body}</p>
+          </div>
+        )}
         <h3 id="coach-h">{c.note.title}</h3>
         <p className="coach-body">{c.note.body}</p>
         {c.note.from && <p className="coach-from">From {c.note.from}</p>}

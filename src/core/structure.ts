@@ -366,13 +366,16 @@ export class Structure {
         mode: 'beats' as const,
         acts: ACT_NAMES,
         segments: top.map((b, i) => {
-          const at = defs.find((d) => d.key === b.attrs.template_key)?.at ?? [i / n, (i + 1) / n];
+          const def = defs.find((d) => d.key === b.attrs.template_key);
+          const at = def?.at ?? [i / n, (i + 1) / n];
           const id = b.element.id as string;
-          return { id, name: b.element.title as string, act: (b.act as string) ?? 'I', from: at[0], to: Math.max(at[1], at[0]),
+          return { id, name: b.element.title as string, act: (b.act as string) ?? 'I', from: at[0], to: Math.max(at[1], at[0]), moment: def?.moment ?? null,
             decided: cards.filter((c) => c.p.decided && parentOf(c.p.decided.beatId) === id).length,
             maybe: cards.filter((c) => !c.p.decided && c.p.candidates.some((x) => parentOf(x.beatId) === id)).length };
         }),
         here: hereBeat ? parentOf(hereBeat) : null,
+        // Where her plan says she is: the beat of the first card in story order with no words yet.
+        next: (() => { const c = this.plannedOrder(projectId).find((x) => !x.words || x.words <= 0); return c?.beatId ? parentOf(c.beatId) : null; })(),
       };
     }
     const chapters = this.ms.outline(projectId);
