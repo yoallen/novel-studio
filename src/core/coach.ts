@@ -37,7 +37,7 @@ export const MILESTONES: { share: number; title: string; body: string }[] = [
   { share: 0.5, title: 'Halfway', body: 'Everything left is less than what you\'ve already written. This is also where pushes get skipped to death, one quiet day at a time. Not this one.' },
   { share: 0.75, title: 'Three quarters', body: 'You can see the finish from here, and that\'s exactly when people start to coast. Don\'t. Finish the way you started.' },
   { share: 0.9, title: 'Ninety percent', body: 'You can finish this on ordinary days. No heroics needed, just no disappearing either.' },
-  { share: 1, title: 'You reached your goal', body: 'You said you\'d write it, and you did. That\'s a promise to yourself, kept. Enjoy it. Then decide: done for this push, or just warming up?' },
+  { share: 1, title: 'You reached your goal', body: 'You said you were going to do it, and you did! Well done. Go celebrate. Then come back later. Your book is waiting for you.' },
 ];
 
 /** The phase of day i (0-based) of a push n days long. */
