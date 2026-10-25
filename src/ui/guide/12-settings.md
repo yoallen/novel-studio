@@ -59,6 +59,7 @@ Most of this page is kept only when you press **Save settings**. That button sit
 | **Everything here is saved.** | Nothing to do. |
 | **You have changes not saved yet.** | You changed something. Press **Save settings** before you leave this page, or the change is lost. |
 | **Saved at 3:25 PM.** | Your last press worked, at that time. |
+| **Not saved.** followed by a reason, in red | Something on the page can't be kept as it is, such as a push whose last day comes before its first. The reason says what and where. Nothing on the page was saved: fix that one thing and press **Save settings** again. |
 
 A few sections save the moment you change them, and their headings carry a small tag reading **Takes effect right away**: **The collaborator**, **Appearance** and **Backups**. Two more act at once through their own buttons, with no need for **Save settings**: **Door closed** and **Your other computers**.
 
@@ -99,7 +100,7 @@ The full label reads **Author name on this book (your pen name, if it has one)**
 
 ### Settings: Target length in words
 
-The full label reads **Target length in words (optional)**. It is how long you expect the finished book to be, between 1,000 and 2,000,000 words.
+The full label reads **Target length in words (optional)**. It is how long you expect the finished book to be, up to 2,000,000 words.
 
 **Why it matters.** A **beat** is a turning point in the story, and a beat sheet says where each one falls as a share of the book: the middle turning point at about halfway, for example. To turn "about halfway" into a word count, Story Canon needs to know how long the book will be. Without a target, it can only measure against what you have drafted so far, which makes every beat's estimate tiny when you have written three chapters. With a target of 80,000 words, it can tell you the midpoint falls around word 40,000. The **Where beats fall** tab in Narrative Zoom (the view for the book's structure) and the plotting sheet you can export both use this number.
 
@@ -183,7 +184,7 @@ A **writing push** is a stretch of days with a word goal of its own, such as Nov
 
 While a push is running, this section shows it under *The push you're in*. You can change it (it stays the same push), **Pause this push**, **End this push early**, or **Plan your next push** to begin after it ends, but you can't start another push on top of it. A push that hasn't started yet can be taken away with **Don't plan this push**. See [Goals: changing, pausing or ending a push](#goals-changing-pausing-or-ending-a-push).
 
-A push can run up to a year. The last day cannot come before the first; if it does, Settings tells you so when you save.
+A push can run up to a year. The last day cannot come before the first; if it does, Settings tells you so when you save, beside the **Save settings** button, and nothing is saved until you fix it.
 
 Lighter days, rest days and the catch-up math are set from **Where was I?**, not here. See [Goals, sprints and November](#goals-sprints-and-november).
 

@@ -72,3 +72,20 @@ test('a running push is changed, paused or ended early in Settings, never replac
   await expect(page.locator('#set-push')).toContainText('Plan your next push.');
   if (shot('settings-ended')) { await page.locator('#set-push').scrollIntoViewIfNeeded(); await page.locator('#set-push').screenshot({ path: shot('settings-ended')! }); }
 });
+
+test('a refused save says so beside the button, and a small target length is fine', async ({ page, request }) => {
+  await newNovel(page, 'Save One');
+  const pid = await pidOf(request, 'Save One');
+  await request.patch(`/api/projects/${pid}/settings`, { headers: H, data: { push: { name: '', start: day(0), end: day(0), words: 25 } } });
+  await page.reload();
+  await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Settings' }).click();
+  await page.getByLabel('Target length in words (optional)').fill('40');
+  await page.getByRole('button', { name: 'Save settings' }).click();
+  await expect(page.locator('.save-bar')).toContainText(/Saved at/);
+  // A push whose last day comes before its first cannot be kept; the reason shows by the button.
+  await page.getByRole('tab', { name: /Goals/ }).click();
+  await page.locator('#set-push').getByLabel('Last day').fill(day(-3));
+  await page.getByRole('button', { name: 'Save settings' }).click();
+  await expect(page.locator('.save-bar')).toContainText('Not saved. The last day of a writing push comes before the first.');
+  if (process.env.SHOT_DIR) await page.locator('.save-bar').screenshot({ path: `${process.env.SHOT_DIR}/save-error.png` });
+});

@@ -237,7 +237,7 @@ export function mergeSettings(profile: Record<string, unknown>, patch: Partial<P
   }
   if (patch.byline != null) next.byline = String(patch.byline).trim().slice(0, 120);
   if (patch.wordsPerPage && patch.wordsPerPage.some((n) => !Number.isFinite(n) || n < 100 || n > 600)) throw new ValidationError('Words per page should be between 100 and 600.');
-  if (patch.targetWords != null && (!Number.isFinite(patch.targetWords) || patch.targetWords < 1000 || patch.targetWords > 2_000_000)) throw new ValidationError('Target length should be between 1,000 and 2,000,000 words.');
+  if (patch.targetWords != null && (!Number.isFinite(patch.targetWords) || patch.targetWords < 1 || patch.targetWords > 2_000_000)) throw new ValidationError('Target length should be between 1 and 2,000,000 words (page 1, This novel).');
   return next;
 }
 

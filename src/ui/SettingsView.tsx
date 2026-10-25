@@ -228,7 +228,10 @@ export function SettingsView({ ctx }: { ctx: Ctx }) {
 
       <div className="save-bar" role="region" aria-label="Save settings">
         <button className="btn write" onClick={() => void save()}>Save settings</button>
-        <span role="status" className="save-bar-status">{saved && !dirty ? saved : dirty ? 'You have changes not saved yet.' : 'Everything here is saved.'}</span>
+        {/* A save that was refused says so right here, beside the button, not only at the top of the page. */}
+        {error
+          ? <span role="alert" className="save-bar-status save-bar-error">Not saved. {error}</span>
+          : <span role="status" className="save-bar-status">{saved && !dirty ? saved : dirty ? 'You have changes not saved yet.' : 'Everything here is saved.'}</span>}
       </div>
     </div></div>
   );
