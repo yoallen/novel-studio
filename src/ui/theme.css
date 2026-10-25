@@ -174,7 +174,7 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 
 .main { min-height: 0; overflow: hidden; }
 .leaf > .main { grid-row: 2; }
-.scroll { overflow: auto; height: 100%; }
+.scroll { overflow: auto; height: 100%; position: relative; } /* keeps anything placed absolutely (such as text only for screen readers) inside the scrolling page, so the window itself never scrolls */
 .content { max-width: 880px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 
 /* write view: binder | page | scene panel */
