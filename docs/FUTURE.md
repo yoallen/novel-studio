@@ -37,6 +37,14 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 - Designed to be read from across the room: large type, few numbers, pages that rotate on their own.
 - The drafting-progress view on Where was I becomes Story Canon's page.
 
+## The value square (after November; Yolanda's idea, 2026-10-26)
+
+- McKee's forces of antagonism drawn as a cross with four corners: the positive value, the contrary, the contradictory, and the negation of the negation.
+- A template the writer fills in, then pulls up whenever she loses the thread of what the story is fighting over.
+- One square per value: each storyline can have its own (the A story and the B story each get one), and a novel can hold several.
+- Builds on what exists: the character page's "What works against them" fields (McKee) already hold the value and its worst form.
+- Open questions for her before any design: does a square belong to a storyline, a character, or the book; what does it show beside each corner (scenes, beats, characters standing there); where does it open from. Mockup and her approval first.
+
 ## Already approved, not yet built
 
 - Color presets ("bindings") a writer can choose.
