@@ -39,7 +39,8 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 
 ## The value square (after November; Yolanda's idea, 2026-10-26)
 
-- McKee's forces of antagonism drawn as a cross with four corners: the positive value, the contrary, the contradictory, and the negation of the negation.
+- McKee's forces of antagonism drawn as a cross with four corners, laid out as McKee draws them in Story (pp. 319 to 323): Positive upper left, Contrary upper right, Negation of the Negation lower left, Contradictory lower right. His arrows run from the Positive to each of the other three.
+- His definitions: the Contradictory is the direct opposite (justice, injustice). The Contrary sits between, somewhat negative but not fully the opposite (unfairness). The Negation of the Negation is a compound negative, qualitatively worse, at the limit of the dark powers of human nature (tyranny; hatred masquerading as love). The story must move through all three to reach the limit of human experience.
 - A template the writer fills in, then pulls up whenever she loses the thread of what the story is fighting over.
 - One square per value: each storyline can have its own (the A story and the B story each get one), and a novel can hold several.
 - Builds on what exists: the character page's "What works against them" fields (McKee) already hold the value and its worst form.
