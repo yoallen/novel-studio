@@ -130,11 +130,11 @@ The common mistake: Leaving the wider world as backdrop. If the institution neve
 
 Example: Lands: the county decides to automate the lighthouse, with a date on the letter. Fails: "Times are changing," with no letter, no date and no one doing the changing.
 
-**The worst form of their value.** From Robert McKee: the worst form of the character's value, darker than its simple opposite. If the value is love, the opposite is hate, and the negation of the negation is hate disguised as love. Useful for many books. It shows how far down the story can go. The lie that looks like their value gives you the darkest, most honest moments. Set its depth to fit this book's tone.
+**The worst form of their value.** From Robert McKee: the character's value pushed past its opposite to the limit, where things turn worse in kind, not only in degree. What that looks like is yours to find for your story. McKee's own examples: for justice, tyranny, might makes right; for love, hatred masquerading as love. Some take a mask, some rule openly, some turn inward. These are illustrations, not the only answers. Useful for many books. It shows how far down the story can go. Only a force this strong makes the positive side rise to its full strength. Set its depth to fit this book's tone.
 
-The common mistake: Stopping at the simple opposite. Love against hate is a fight; love against a smothering control that calls itself love is a tragedy.
+The common mistake: Stopping at the opposite. In one story love against hate is a fight, while love against a smothering control that calls itself love is a tragedy. Another common mistake is copying McKee's examples instead of finding your own story's worst form.
 
-Example: Lands: the baker's independence twists into cutting off everyone who ever helped her, and calling it strength. Fails: she becomes dependent, which is only the opposite.
+Example: Lands: the baker's independence twists into cutting off everyone who ever helped her, and calling it strength. Fails: she becomes dependent, which stops at an opposite.
 
 ### Characters: Identity
 

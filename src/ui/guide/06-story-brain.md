@@ -994,7 +994,7 @@ A full story uses all three.
 
 - **The value they live by**: the value under pressure in their own story.
 - **Inner force**, **Personal force**, **Extra-personal force**: what works against them at each level.
-- **The worst form of their value**: the value at its very darkest (McKee calls it the negation of the negation), set for your book's tone. A cozy mystery's darkest point is different from a tragedy's.
+- **The worst form of their value**: the value pushed past its opposite to the limit, worse in kind and not only in degree (McKee calls it the negation of the negation), set for your book's tone. A cozy mystery's darkest point is different from a tragedy's.
 
 **Why it helps.** It shows you whether your opposition is strong enough. If one of the three forces is empty, or the value never reaches its worst form, the middle of the book may sag.
 
@@ -1821,18 +1821,20 @@ Here is every word in the **Make a connection** dropdown, grouped under the same
 
 This belongs to the character's **What opposes them** page (see [Character page: What opposes them](#character-page-what-opposes-them)), and to the field **The worst form of their value**.
 
-**What it is.** Robert McKee shows that a value (something characters care about that can swing positive or negative) doesn't just have an opposite. It has a ladder down, four steps long:
+**What it is.** Robert McKee shows that a value (something characters care about that can swing positive or negative) doesn't just have an opposite. The forces against it come in degrees, and a story that goes the full distance moves through all of them. McKee names four positions (*Story*, pages 319 to 323):
 
-1. **The positive value**: trust.
-2. **The contrary**, a step down but not the opposite: doubt.
-3. **The contradictory**, the plain opposite: betrayal.
-4. **The negation of the negation**, the value at its very darkest, where something is wrong twice over: betraying yourself and calling it loyalty.
+1. **The positive**: the value itself.
+2. **The contrary**: somewhat negative, but not fully the opposite. McKee's example: for justice, unfairness, which may break no law but is neither just nor fair.
+3. **The contradictory**: the direct opposite. For justice, injustice; laws have been broken.
+4. **The negation of the negation**: a compound negative, where life turns worse in kind, not only in degree, at the limit of the dark powers of human nature. For justice, tyranny: might makes right.
 
-**Why it matters.** Most stories stop at the opposite. Strong ones push the character all the way down to the fourth step before the end, so the climb back means something.
+**Every example is one possibility, not the answer.** McKee shows a second variation for love: indifference as the contrary, hate as the contradictory, and hatred masquerading as love as the negation of the negation. Those words are his illustrations. Hate is not the only opposite of love, and a mask is not the only shape the fourth position takes: some forces rule openly, and some turn inward, as when a character comes to loathe himself. Your story decides what each position means for its own value.
 
-**How it fails.** Stopping at step three because step four feels too dark for your book. Set the fourth step for your book's tone instead: a cozy mystery's darkest point is different from a tragedy's, but both books need one.
+**Why it matters.** Most stories stop at the contradictory. Strong ones push all the way to the negation of the negation before the end, so the positive side has to rise to its full strength and the climb back means something.
 
-**Example.** For Marisol, whose value is trust: trust (she trusts the light, and Cyrus); doubt (the empty boat makes her wonder what Cyrus knows); betrayal (she learns he sent it); trusting no one, not even herself, and calling it keeping watch. That last one is her **The worst form of their value**.
+**How it fails.** Two ways. Stopping at the contradictory because the fourth position feels too dark for your book; set its depth for your book's tone instead, since a cozy mystery's darkest point is different from a tragedy's, but both books need one. Or copying McKee's words into your own story instead of finding what your value's positions really are.
+
+**Example.** For Marisol, whose value is trust: trust (she trusts the light, and Cyrus); doubt, the contrary (the empty boat makes her wonder what Cyrus knows); betrayal, the contradictory (she learns he sent it); trusting no one, not even herself, and calling it keeping watch, the negation of the negation. Another writer with the same value might choose suspicion, abandonment and a cruelty that calls itself honesty. That last position is Marisol's **The worst form of their value**.
 
 ### Reference: foils, doubles and mirrors
 
