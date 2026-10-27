@@ -512,6 +512,18 @@ export class Importer {
       const prior = this.store.db.prepare('SELECT COUNT(*) AS n FROM statements WHERE excerpt_id=? AND deleted_at IS NULL').get(it.excerptId) as { n: number };
       if (prior.n > 0) { it.already = true; it.include = false; it.note = 'Already in your records from an earlier import.'; }
     }
+    // A new version of the same document: a passage that comes back word for word, in the same place and with the same
+    // label, is already in her records from the earlier version, so it is skipped rather than added a second time.
+    // Any status she has since given it there stands.
+    const sameWords = this.store.db.prepare(`SELECT COUNT(*) AS n FROM statements s JOIN excerpts x ON x.id=s.excerpt_id
+      WHERE s.project_id=? AND s.deleted_at IS NULL AND x.source_id<>? AND x.text_hash=? AND json_extract(x.attrs_json,'$.path')=?`);
+    for (const it of items) {
+      if (it.already || !it.include) continue;
+      const x = this.store.db.prepare('SELECT text_hash, attrs_json FROM excerpts WHERE id=?').get(it.excerptId) as Row | undefined;
+      if (!x?.text_hash) continue;
+      const hit = sameWords.get(pid, sourceId, x.text_hash, JSON.stringify(it.path)) as { n: number };
+      if (hit.n > 0) { it.already = true; it.include = false; it.note = 'Already in your records, word for word, from an earlier version of this document.'; }
+    }
     // Her later decisions stay ahead of an older document; a newer document never silently replaces her decision.
     for (const it of items) {
       if (!it.include || !it.elementId || !it.field || it.status !== 'established' || it.arc) continue;

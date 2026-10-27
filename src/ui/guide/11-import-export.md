@@ -6,7 +6,7 @@ Two words first. To **import** is to bring a file from somewhere else into Story
 
 - **Nothing comes into your novel until you have looked it over.** Every import shows you a preview first.
 - **Your words come in exactly as written,** and go out exactly as written. Every file is checked word for word.
-- **Importing never overwrites anything,** and bringing in the same document twice never makes duplicates.
+- **Importing never overwrites anything,** and bringing in the same document twice, or a new version of it, never makes duplicates.
 - **Exporting never changes your novel.**
 
 ## The Import and export view
@@ -141,6 +141,8 @@ The preview opens with "Each passage keeps your label, and its exact words stay 
 - **All**.
 
 A gray note beside them may say how many passages are **already in your records** from an earlier import. Those are skipped automatically, never added twice. If you bring in a document you imported before, a warning says how many passages are new or changed.
+
+**A new version of a document you already brought in** (The Story Bible v9 after v7, say, under a new file name) works the same way. A passage that comes back word for word, under the same heading and with the same label, is skipped, and its note says "Already in your records, word for word, from an earlier version of this document." Any status you gave it since stays as you set it. Only what is new or changed goes in: a rewritten passage, a new label, a passage moved under a different heading. Why it matters: a story bible gets rewritten many times, and each version should add only what moved, not a second copy of everything that stayed.
 
 **Each passage** is grouped under its top heading and shows:
 

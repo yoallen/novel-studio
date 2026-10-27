@@ -82,7 +82,7 @@ describe('manuscript import (R-B-071, R-B-072)', () => {
   });
 });
 
-async function bibleDocx() {
+async function bibleDocx(catalyst = 'A storm cuts the island off.') {
   const d = await import('docx');
   const { Document, Packer, Paragraph, TextRun, HeadingLevel } = d;
   const lab = (label: string, text: string, italic = false) => new Paragraph({ children: [new TextRun({ text: label, bold: true, italics: italic }), new TextRun({ text, italics: !italic && label.startsWith('Over') })] });
@@ -98,7 +98,7 @@ async function bibleDocx() {
     lab('Over to me. ', "Name Marla's Lie, Ghost, Want and Need."),
     new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun('Part Three: The Structure')] }),
     new Paragraph({ heading: HeadingLevel.HEADING_3, children: [new TextRun('Catalyst (around 10 percent)')] }),
-    lab('What it is. ', 'A storm cuts the island off.'),
+    lab('What it is. ', catalyst),
     lab('One way I could play it, not a decision yet: ', 'The ferry does not come.', true),
     lab('My move. ', ''),
     new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun('Supporting Characters')] }),
@@ -144,6 +144,23 @@ describe('story bible import keeps her labels (R-B-069, R-B-070, R-B-075)', () =
     im.apply(again.id);
     expect(count()).toBe(before);
     expect(env.brain.field(arc.id as string, 'lie').current).toBeNull();
+  });
+
+  it('a new version of the same story bible adds only what changed, never a second copy of the same words', async () => {
+    const { pid, im, st } = setup('Lighthouse');
+    im.apply((await im.startDocument(pid, { name: 'Lighthouse Bible v1 10-13-26.docx', data: await bibleDocx() })).id);
+    const count = () => (env.store.db.prepare('SELECT COUNT(*) AS n FROM statements WHERE deleted_at IS NULL').get() as { n: number }).n;
+    const before = count();
+    const r = await im.startDocument(pid, { name: 'Lighthouse Bible v2 10-15-26.docx', data: await bibleDocx('A gale cuts the island off for a week.') });
+    const plan = r.plan as DocumentPlan;
+    const going = plan.items.filter((i) => i.include);
+    expect(going.map((i) => i.text)).toEqual(['A gale cuts the island off for a week.']);
+    expect(plan.items.find((i) => i.text.startsWith('A retired lighthouse keeper'))!.note).toContain('word for word, from an earlier version');
+    expect(plan.newElements).toHaveLength(0);
+    im.apply(r.id);
+    expect(count()).toBe(before + 1);
+    const catalyst = st.beats(pid).find((b) => b.attrs.template_key === 'catalyst')!;
+    expect(env.brain.field(catalyst.element.id as string, 'event').possibilities.map((s) => s.value)).toContain('A gale cuts the island off for a week.');
   });
 
   it('her later decision stays current over an older document', async () => {
