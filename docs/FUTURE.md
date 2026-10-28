@@ -46,6 +46,22 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 - Builds on what exists: the character page's "What works against them" fields (McKee) already hold the value and its worst form.
 - Open questions for her before any design: does a square belong to a storyline, a character, or the book; what does it show beside each corner (scenes, beats, characters standing there); where does it open from. Mockup and her approval first.
 
+## About Story Canon (after November; Yolanda, 2026-10-28)
+
+- The version should be visible without opening a novel, the way licensed software shows it.
+- Under Help, a small menu with **About Story Canon**. It opens a small window with the program's name, version number, build number if relevant, and a short description of the product.
+- Possibly the version at the bottom of the Library as well. Mockup and her approval first.
+
+## The storylines drawn as a braid (after November; Yolanda, 2026-10-28)
+
+- A picture of the storylines and where and when they cross, inside the novel.
+- Builds on what exists: Continuity checks > Storylines already holds the data (which scenes move which thread) as a grid of marks.
+- The picture should fit the writer's study, not a boardroom chart: threads that run, cross and part through the book. Mockup and her approval first.
+
+## The tagline (Yolanda, 2026-10-28)
+
+- The current line, "Where your story takes shape, and nothing gets lost.", is a placeholder. Her brand judgment: "this is not it." It stays until she finds the real one.
+
 ## Already approved, not yet built
 
 - Color presets ("bindings") a writer can choose.
