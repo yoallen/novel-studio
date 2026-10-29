@@ -32,9 +32,9 @@ describe('Narrative Zoom, as a novelist reads it', () => {
     const { pid, zoom } = setup();
     const act = zoom.view(pid, { level: 'act', key: 'I' }) as any;
     const at = (name: string) => act.children.find((c: any) => c.label.endsWith(name)).detail;
-    expect(at('Theme Stated')).toBe('5%, during Setup');
-    expect(at('Setup')).toBe('1% to 10%');
-    expect(at('Catalyst')).toBe('10%');
+    expect(at('Theme Stated')).toBe('5%, during Setup, one scene');
+    expect(at('Setup')).toBe('1% to 10%, several scenes');
+    expect(at('Catalyst')).toBe('10%, one scene');
   });
 
   it('credits the example from her sheet to the book it comes from, without changing her text', () => {

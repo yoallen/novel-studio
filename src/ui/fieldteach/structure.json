@@ -55,11 +55,11 @@
     "example": "Lands: the ferry captain takes her own boat into the storm to reach the island. Fails: the coast guard saves everyone while she waits on the dock."
    },
    "scene_type": {
-    "what": "How much page space the beat takes. Single Scene or Single Chapter: one contained moment. Single Beat: a quick turn inside a larger scene, sometimes one line. Multi Scene or Multi Chapters: a long stretch, like Fun and Games.",
-    "why": "Size drives pacing and placement. A stretch can't be rushed into a paragraph, and a quick turn padded into a chapter sags.",
+    "what": "How much room this beat takes in your book. Jessica Brody names two sizes. A single-scene beat is one scene or one chapter, one piece of information. A multi-scene beat spans several scenes or chapters. Brody gives each Save the Cat beat its size; this is where you record yours.",
+    "why": "Single-scene beats are actions, the hinges the story turns on; multi-scene beats are the stretches where the hero lives with what just happened. Knowing which is which tells you how many scene cards a beat should hold before you write it.",
     "need": "useful",
-    "mistake": "Giving every beat its own chapter. Theme Stated is often one line, while Fun and Games can fill a quarter of the book.",
-    "example": "Rival florists: the Catalyst is one scene (a wedding books them both). Fun and Games runs many chapters of sabotage. Theme Stated is a single beat: her aunt's remark at the counter."
+    "mistake": "Getting the size wrong in either direction. A hinge stretched across chapters loses its punch; a stretch squeezed into one scene breaks its promise.",
+    "example": "Lands: the Catalyst is one scene (the dog wrecks the garden and the war is on), and Fun and Games runs many chapters of escalating pranks. Fails: the Catalyst dawns on Kevin over three chapters, and Fun and Games is one prank."
    },
    "theme_line": {
     "what": "For the Theme Stated beat: the line, usually spoken by someone other than the hero, that hints at what she needs to learn. The theme is what the story is really about under the plot.",

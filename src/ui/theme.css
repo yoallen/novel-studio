@@ -561,6 +561,9 @@ button.chip { cursor: pointer; background: none; font: inherit; font-size: 0.812
 .beat-where { max-width: 65ch; }
 .beat-teach { margin-bottom: 2rem; max-width: 72ch; }
 .beat-teach > p { line-height: 1.6; }
+.beat-room { margin-top: 1.75rem; }
+.beat-room p { line-height: 1.6; }
+.room-question { color: var(--pencil); border-left: 2px dashed var(--pencil); padding-left: 0.9em; }
 
 /* An example from her beat sheet: slanted, marked with the fleuron, introduced and credited. */
 .sheet-example { margin: 1rem 0 0.5rem; padding: 0.6rem 0.9rem 0.7rem 1rem; border-left: 2px solid var(--margin); background: var(--wash); border-radius: 0 var(--r-md) var(--r-md) 0; max-width: 65ch; }

@@ -638,7 +638,7 @@ When nothing is open, the page says "No open questions." and explains: "Every ch
 | **raised before answered** | A question would be answered before the story **raises** it | The Board |
 | **acting before knowing** | A character who **knows** something acts on it (**depends on** it) before learning it | Who knows what |
 | **beat order** | A scene on an earlier beat comes after one on a later beat (an observation) | The Board, or the Writing Room |
-| **beat sheet** | A beat starts later than your sheet advises; a "win" at a disaster beat; the Midpoint and All Is Lost both false victories (or both false defeats) | Where beats fall, the beat pages |
+| **beat sheet** | A beat starts later than your sheet advises; a "win" at a disaster beat; the Midpoint and All Is Lost both false victories (or both false defeats); a single-scene beat whose cards spread past one scene or one chapter; a multi-scene beat with only one card | Where beats fall, the beat pages |
 | **payoff without a plant** | A clue pays off with nothing planted | Setups and payoffs |
 | **unpaid promise** | A significant clue never pays off | Setups and payoffs |
 | **storyline weave** | A storyline never shares a scene with another | Storylines |

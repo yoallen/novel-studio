@@ -64,13 +64,16 @@ export class Zoom {
     if (node.level === 'act') {
       const row = board.rows.find((r) => r.act === node.key);
       if (!row) throw new NotFoundError('act');
+      const room = this.structure.room(projectId);
       return {
         node, breadcrumb: [story, crumbAct(node.key)], title: row.name,
         children: row.beats.map((b) => {
           const l = lm.beats.find((x) => x.id === b.id);
           const at = this.placeOf(lm, b.id as string);
+          const size = room[b.id as string]?.size;
+          const sizeWords = size === 'single' ? 'one scene' : size === 'multi' ? 'several scenes' : '';
           return {
-            node: { level: 'beat', id: b.id } as ZoomNode, label: `${b.number ? b.number + '. ' : ''}${b.name}`, detail: at ?? '', point: !!l?.point,
+            node: { level: 'beat', id: b.id } as ZoomNode, label: `${b.number ? b.number + '. ' : ''}${b.name}`, detail: [at, sizeWords].filter(Boolean).join(', '), point: !!l?.point,
             cards: b.cards.map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string, drafted: !!c.scene })),
             candidates: [...b.candidates, ...b.children.flatMap((ch) => ch.candidates)].filter((c, i, all) => all.findIndex((x) => x.id === c.id) === i).map((c) => ({ node: { level: 'card', id: c.id } as ZoomNode, label: c.title as string })),
           };
@@ -88,6 +91,7 @@ export class Zoom {
         node, breadcrumb: [story, crumbAct(act), ...(parent ? [{ label: parent.element.title as string, node: { level: 'beat', id: parent.element.id } as ZoomNode }] : []), { label: b.element.title as string, node }],
         title: b.element.title, key: b.attrs.template_key, def: detail.def, world: detail.world, landmark: lm.beats.find((x) => x.id === node.id), place: this.placeOf(lm, node.id),
         length: { basis: lm.length.basis, words: lm.length.words },
+        room: this.structure.room(projectId)[node.id] ?? null,
         parent: parent ? { node: { level: 'beat', id: parent.element.id } as ZoomNode, label: parent.element.title as string, key: parent.attrs.template_key as string } : null,
         // Every card not already decided here, the ones with no spot first, so she can place what she already has.
         others: [...board.unplaced, ...board.rows.flatMap((r) => r.beats).flatMap((x) => x.cards)].filter((c) => c.placements.decided?.beatId !== node.id).filter((c, i, all) => all.findIndex((x) => x.id === c.id) === i).map((c) => ({ id: c.id as string, label: c.title as string, placed: !!(c as { onBeat?: boolean }).onBeat })),

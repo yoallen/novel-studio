@@ -220,7 +220,7 @@ const BEAT: FieldDef[] = [
   f('In this book', 'example', 'One way it could be done', { multi: true, prompt: 'Examples are never decisions.' }),
   f('In this book', 'classification', 'Disaster, discovery or win', { prompt: 'A disaster is a reversal, never a win. Finding is not winning.' }),
   f('In this book', 'caused_by_hero', 'Caused by the hero\'s own efforts?'),
-  f('In this book', 'scene_type', 'Scene type', { prompt: 'Single Scene or Single Chapter; Single Beat; or Multi Scene or Multi Chapters.' }),
+  f('In this book', 'scene_type', 'Scene type', { prompt: 'Single-scene (one scene or one chapter) or multi-scene (several scenes or chapters).' }),
   f('On the board', 'theme_line', 'The line that states the theme'),
   f('On the board', 'home', 'Home', { prompt: 'The hero at home before the story changes it: who they live with, how it feels.' }),
   f('On the board', 'work', 'Work', { prompt: 'The hero at work, or at whatever fills their days.' }),

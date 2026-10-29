@@ -214,15 +214,16 @@ function ZoomBody({ ctx, view, go, onMove, refresh }: { ctx: Ctx; view: any; go:
       <>
         <h1>{view.title}</h1>
         {view.place && <p className="small muted beat-where">At {view.place} of the book{view.length.basis === 'target' && words ? `, around word ${words[0].toLocaleString()}${words[1] !== words[0] ? ` to ${words[1].toLocaleString()}` : ''} of ${view.length.words.toLocaleString()}` : ''}.{l?.written && draftedWords > 0 && l.written.percent != null ? ` In your draft it starts ${l.written.percent}% of the way into what you have written.` : ''}</p>}
-        <ElementPage ctx={ctx} elementId={view.node.id} embedded onOpen={(id) => go({ level: 'element', id })} onChanged={refresh} leadPages={[
+        <ElementPage ctx={ctx} elementId={view.node.id} embedded subject={view.title} onOpen={(id) => go({ level: 'element', id })} onChanged={refresh} leadPages={[
           { title: 'About this beat', filled: true, content: (<>
         {d && (
           <div className="beat-teach"><h2>What this beat really does</h2>
             <p style={{ whiteSpace: 'pre-wrap' }}>{d.description}</p>
             {d.window && <p className="small"><strong>Where it goes:</strong> {d.window}</p>}
-            {d.sceneType && <p className="small"><strong>Scene type:</strong> {d.sceneType}</p>}
+            {d.sceneType && !d.brody?.size && <p className="small"><strong>Scene type:</strong> {d.sceneType}</p>}
             {d.test && <p className="small"><strong>A question to ask:</strong> {d.test}</p>}
             {d.example && <SheetExample text={d.example} from={d.exampleFrom} />}
+            {d.brody && <BeatRoom b={d.brody} room={view.room} />}
             {view.key === 'stasis_death' && view.parent && <p className="small">The six things that need fixing have their own list on <button className="btn link small" style={{ padding: 0 }} onClick={() => go(view.parent.node)}>{view.parent.label}</button>.</p>}
           </div>
         )}
@@ -676,5 +677,43 @@ export function Stuck({ ctx, onClose, fromSceneId, onShowBeat }: { ctx: Ctx; onC
         </>
       )}
     </div></div>
+  );
+}
+
+/** Brody's size for a beat, the room it takes in this book, and what she teaches about it (her teaching, our words). */
+function BeatRoom({ b, room }: { b: any; room: any }) {
+  const n = (x: number) => x.toLocaleString();
+  const pct = (x: number) => `${Math.round(x * 100)}%`;
+  const ask = room?.question ? (room.question as string).slice((room.question as string).indexOf('. ') + 2) : null;
+  return (
+    <>
+      {b.size && (
+        <section className="beat-room">
+          <h2>How much room it takes</h2>
+          {b.size === 'single'
+            ? <p><strong>A single-scene beat.</strong> One scene or one chapter: one piece of information. It is an action, a hinge the story turns on.</p>
+            : <p><strong>A multi-scene beat.</strong> It spans several scenes or chapters{b.range ? `, from ${pct(b.range[0])} to ${pct(b.range[1])} of the book` : ''}: a stretch where the hero lives with what just happened.{room?.words ? ` At your target of ${n(room.target)} words, that is about ${n(room.words)} words${room.scenes ? `: roughly ${room.scenes} scenes at your usual length of ${n(room.usual)} words` : ''}.` : ''}</p>}
+          {b.size === 'multi' && room?.words && !room.scenes && <p className="small muted">Once you have written a few scenes, Story Canon also says how many scenes that comes to at your usual length.</p>}
+          {b.size === 'multi' && room && !room.words && <p className="small muted">Set a target length in Settings, and Story Canon works out how many words this stretch comes to, and roughly how many scenes.</p>}
+          {room && (
+            <p className={ask ? 'room-question' : 'small'}>
+              <strong>In your book: {room.cards === 0 ? 'no scene cards here yet.' : `${room.cards} scene card${room.cards === 1 ? '' : 's'}${b.size === 'multi' ? ' so far' : ''}.`}</strong>
+              {ask ? ` ${ask}` : b.size === 'single' && room.cards >= 1 ? ' That fits one scene or one chapter.' : ''}
+            </p>
+          )}
+        </section>
+      )}
+      <section className="beat-room">
+        <h2>What Brody teaches</h2>
+        <p className="small"><strong>What it does:</strong> {b.does}</p>
+        <p className="small"><strong>Where Brody puts it:</strong> {b.goes}</p>
+        {b.teach.map((t: string, i: number) => <p key={i}>{t}</p>)}
+        {b.checklist.length > 0 && (<>
+          <h3 className="small">Brody's checklist</h3>
+          <ul className="small">{b.checklist.map((q: string, i: number) => <li key={i}>{q}</li>)}</ul>
+        </>)}
+        <p className="small faint">From Jessica Brody, <em>Save the Cat! Writes a Novel</em>, The Save the Cat! Beat Sheet. Her teaching, in Story Canon's words.</p>
+      </section>
+    </>
   );
 }

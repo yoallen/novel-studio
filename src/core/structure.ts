@@ -7,6 +7,7 @@ import { Brain } from './brain.js';
 import { Manuscript } from './manuscript.js';
 import { settingsOf } from './settings.js';
 import sheet from './data/save-the-cat-yolanda.json' with { type: 'json' };
+import brody from './data/brody-beats.json' with { type: 'json' };
 import { SAVE_THE_CAT_MOMENTS, StructBeat, OTHER_STRUCTURES as BUILT_IN } from './structures.js';
 import { structureRegistry } from './methods.js';
 
@@ -19,7 +20,19 @@ export interface BeatDef {
   /** The published work her sheet's example is drawn from, so it is credited and never read as her book. */
   exampleFrom?: { title: string; author: string };
   boardFields?: { field: string; label: string; options?: string[] }[];
+  /** What Jessica Brody teaches about this beat in Save the Cat! Writes a Novel, in Story Canon's words. */
+  brody?: BrodyBeat;
 }
+
+/** Brody's teaching for one beat: its size (single-scene or multi-scene), where it goes, what it does, the
+ *  moves she teaches and her self-check questions. Sizes and ranges are hers; the wording is ours. */
+export interface BrodyBeat { size?: 'single' | 'multi'; goes: string; range?: [number, number]; does: string; teach: string[]; checklist: string[] }
+const BRODY = brody as unknown as { source: string; sizes: Record<'single' | 'multi', string>; pattern: string; beats: Record<string, BrodyBeat> };
+export const BRODY_SOURCE = BRODY.source, BRODY_SIZES = BRODY.sizes, BRODY_PATTERN = BRODY.pattern;
+/** Where a single-scene beat's extra scenes most likely belong: the reaction beat around it. */
+const SPILL: Record<string, string> = { opening_image: 'Setup', theme_stated: 'Setup', catalyst: 'Debate', break_into_two: 'Fun and Games', b_story: 'Fun and Games', midpoint: 'Bad Guys Close In', all_is_lost: 'Dark Night of the Soul', break_into_three: 'Finale', final_image: 'Finale' };
+/** Her sheet keeps some places as fractions (0.5); show them as the percent she means. */
+const asWhere = (w?: string) => (w && /^0?\.\d+$/.test(w.trim()) ? `${Math.round(Number(w) * 100)}%.` : w);
 
 const RAW = sheet as unknown as { groups: Record<string, { name: string; description: string }>; beats: { source_name: string; description: string; where: string; scene_type: string; group: string }[]; examples: Record<string, string> };
 /** Works her sheet's examples come from. Her example text is never changed; only its source is named. */
@@ -30,7 +43,7 @@ const fromSheet = (prefix: string) => RAW.beats.find((b) => b.source_name.starts
 
 const B = (key: string, number: number | null, name: string, sheetName: string, act: BeatDef['act'], kind: BeatDef['kind'], extra: Partial<BeatDef> = {}): BeatDef => {
   const row = fromSheet(sheetName);
-  return { key, number, name, act, kind, group: (row?.group ?? 'thesis') as BeatDef['group'], sceneType: row?.scene_type || undefined, description: row?.description, window: row?.where, example: RAW.examples[row?.source_name ?? ''] ?? undefined, exampleFrom: EXAMPLE_CREDITS[row?.source_name ?? ''], ...extra };
+  return { key, number, name, act, kind, group: (row?.group ?? 'thesis') as BeatDef['group'], sceneType: row?.scene_type || undefined, description: row?.description, window: asWhere(row?.where), brody: BRODY.beats[key], example: RAW.examples[row?.source_name ?? ''] ?? undefined, exampleFrom: EXAMPLE_CREDITS[row?.source_name ?? ''], ...extra };
 };
 
 /** Save the Cat as she uses it: her fifteen beats, her descriptions, her worlds, her sub-beats and board fields. */
@@ -416,8 +429,37 @@ export class Structure {
   }
 
   /** Questions (never errors) about the beat sheet as it stands (R-C-009, R-C-019, R-C-023). */
+  /**
+   * How much room each Save the Cat beat takes (Brody: single-scene or multi-scene), how many scene cards it
+   * holds, and, for a multi-scene beat, about how many words and scenes its stretch of the book comes to.
+   * A single-scene beat asks when its cards spread past one scene or one chapter; a multi-scene beat asks
+   * when it holds just one card. An empty beat is not planned yet, so it never asks.
+   */
+  room(projectId: string) {
+    const board = this.board(projectId);
+    const len = this.length(projectId);
+    const lengths = (this.store.db.prepare('SELECT word_count FROM scenes WHERE project_id=? AND deleted_at IS NULL AND word_count>0').all(projectId) as Row[]).map((r) => r.word_count as number).sort((a, b) => a - b);
+    const usual = lengths.length >= 3 ? lengths[Math.floor(lengths.length / 2)]! : null;
+    const out: Record<string, { size: 'single' | 'multi'; cards: number; chapters: number; words: number | null; scenes: number | null; usual: number | null; target: number | null; question: string | null }> = {};
+    for (const b of this.beats(projectId)) {
+      const br = b.def?.brody;
+      if (!br?.size || b.element.parent_id) continue;
+      const row = board.rows.flatMap((r) => r.beats).find((x) => x.id === b.element.id);
+      const cards = row?.cards ?? [];
+      const units = new Set(cards.map((c) => (c.scene?.chapter_id as string | undefined) ?? `card:${c.id as string}`)).size;
+      const name = b.element.title as string;
+      const words = br.range && len.basis === 'target' && len.words ? Math.round(((br.range[1] - br.range[0]) * len.words) / 100) * 100 : null;
+      let question: string | null = null;
+      if (br.size === 'single' && cards.length > 1 && units > 1) question = `${name} is a single-scene beat and holds ${cards.length} scene cards. A single-scene beat lands in one scene or one chapter. Is all of this the ${name}${SPILL[b.attrs.template_key as string] ? `, or is some of it the ${SPILL[b.attrs.template_key as string]}` : ''}?`;
+      if (br.size === 'multi' && cards.length === 1) question = `${name} is a multi-scene beat with 1 scene card. It spans several scenes or chapters. Is it getting the room it needs?`;
+      out[b.element.id as string] = { size: br.size, cards: cards.length, chapters: units, words, scenes: words && usual ? Math.max(2, Math.round(words / usual)) : null, usual, target: len.basis === 'target' ? len.words : null, question };
+    }
+    return out;
+  }
+
   questions(projectId: string, profileKey = 'brody') {
     const out: { beatId: string | null; text: string }[] = [];
+    for (const [beatId, r] of Object.entries(this.room(projectId))) if (r.question) out.push({ beatId, text: r.question });
     const beats = this.beats(projectId);
     const byKey = (k: string) => beats.find((b) => b.attrs.template_key === k);
     const polarity = (k: string) => { const b = byKey(k); return b ? (this.brain.field(b.element.id as string, 'polarity').current?.value as string | undefined) : undefined; };

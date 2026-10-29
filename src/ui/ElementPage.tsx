@@ -23,7 +23,7 @@ const GROUP_TITLES: Record<string, Record<string, { title: string; about: string
 };
 
 /** `embedded`: shown inside Narrative Zoom, which already names the element and shows where it sits. */
-export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focusField, leadPages = [] }: { ctx: Ctx; elementId: string; onOpen: (id: string) => void; onChanged: () => void; embedded?: boolean; focusField?: string; leadPages?: { title: string; content: React.ReactNode; filled?: boolean }[] }) {
+export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focusField, leadPages = [], subject }: { ctx: Ctx; elementId: string; onOpen: (id: string) => void; onChanged: () => void; embedded?: boolean; focusField?: string; leadPages?: { title: string; content: React.ReactNode; filled?: boolean }[]; subject?: string }) {
   const pageKey = `ns-rec-page:${elementId}:${leadPages.length}`;
   const [pageNo, setPageNoState] = useState<number | 'all'>(() => { try { const v = sessionStorage.getItem(pageKey); return v === 'all' ? 'all' : v ? Number(v) : 0; } catch { return 0; } });
   const setPageNo = (n: number | 'all') => { setPageNoState(n); try { sessionStorage.setItem(pageKey, String(n)); } catch { /* ignore */ } };
@@ -283,7 +283,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focus
 
       {pages.map((pg, i) => (current === 'all' || current === i) && (
         <div key={pg.title} className="record-page" role={pages.length > 1 ? 'tabpanel' : undefined} aria-label={pages.length > 1 ? `Page ${i + 1}: ${pg.title}` : undefined}>
-          {pages.length > 1 && <p className="record-page-head"><span className="record-page-no">{i + 1}</span>{pg.title}</p>}
+          {pages.length > 1 && <p className="record-page-head"><span className="record-page-no">{i + 1}</span>{pg.title}{subject ? `: ${subject}` : ''}</p>}
           {i === leadPages.length && <KindTeach kind={el.kind} label={kindPlural(el.kind)} helpAnchor={slug(`${kindPlural(el.kind)}: every field`)} />}
           {pg.items.map((item) => <div key={item}>{renderItem(item)}</div>)}
           {isChar && !configured && pg.title === 'Goals, motives and values' && (
