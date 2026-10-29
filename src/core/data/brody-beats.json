@@ -4,14 +4,14 @@
     "single": "A single-scene beat. One scene or one chapter: one piece of information.",
     "multi": "A multi-scene beat. It spans several scenes or chapters."
   },
-  "pattern": "Brody's beats come in pairs of action and reaction. A single-scene beat is an action, a hinge the story turns on. The multi-scene beat after it is the reaction, the stretch where the hero lives with what just happened. The Catalyst is followed by the Debate; the All Is Lost is another Catalyst, and the Dark Night of the Soul is another Debate. Inside the Finale, the High Tower Surprise and Dig Deep Down repeat the pair once more.",
+  "pattern": "The beats come in pairs of action and reaction. A single-scene beat is an action, a hinge the story turns on. The multi-scene beat after it is the reaction, the stretch where the hero lives with what just happened. The Catalyst is followed by the Debate; the All Is Lost is another Catalyst, and the Dark Night of the Soul is another Debate. Inside the Finale, the High Tower Surprise and Dig Deep Down repeat the pair once more.",
   "beats": {
     "opening_image": {
       "size": "single",
       "goes": "1%: the first scene or chapter.",
       "does": "A quick before snapshot of the hero and the hero's world.",
       "teach": [
-        "It is an image, so show it. Open on the hero doing something, with one or two of their flaws visibly making a mess of their life. Brody's warning: it is not called the Opening Inner Monologue or the Opening Info Dump.",
+        "It is an image, so show it. Open on the hero doing something, with one or two of their flaws visibly making a mess of their life. It is not an opening inner monologue, and it is not an info dump.",
         "It also tells the reader what kind of book this is: its tone, its style, the ride they are about to take.",
         "It is a mirror beat. The Final Image is its opposite, the after picture. The further apart the two pictures are, the more the journey was worth taking."
       ],
@@ -45,7 +45,7 @@
     "stasis_death": {
       "goes": "Inside the Setup, just before the Catalyst.",
       "does": "The moment that shows the hero cannot stay as they are.",
-      "teach": ["Brody treats this as a moment inside the Setup, not a beat of its own, so it has no size of its own. It takes its room from the Setup."],
+      "teach": ["This is a moment inside the Setup, not a beat of its own, so it has no size of its own. It takes its room from the Setup."],
       "checklist": []
     },
     "catalyst": {
@@ -55,7 +55,7 @@
       "teach": [
         "It happens to the hero. It is an action, something that busts through the status quo, not a quiet realization.",
         "It often arrives as bad news, because people rarely change until something bad makes them.",
-        "Make it big. Brody's test: could the hero easily go back to their normal life tomorrow? If yes, the Catalyst is not big enough. The reader should think: how will they ever recover from that?"
+        "Make it big. The test: could the hero easily go back to their normal life tomorrow? If yes, the Catalyst is not big enough. The reader should think: how will they ever recover from that?"
       ],
       "checklist": ["Does the Catalyst happen to the hero?", "Is it an action beat, with no revelations?", "Is it big enough to break the status quo?", "Is it impossible for the hero to go back to their normal life?"]
     },
@@ -101,7 +101,7 @@
       "does": "Delivers the promise of the premise: the hero either shines or flounders in the new world.",
       "teach": [
         "This is the part the reader picked the book up for. Fun is for the reader, not necessarily for the hero.",
-        "Vary it: up, down, up, down. Brody calls it the bouncing ball. A win, then a loss, a breakthrough, then a false lead.",
+        "Vary it: up, down, up, down. It is sometimes called the bouncing ball. A win, then a loss, a breakthrough, then a false lead.",
         "Underneath the bouncing there is one overall direction, an upward path or a downward path. Choose it, because it decides the Midpoint and the rest of Act 2."
       ],
       "checklist": ["Is the hero clearly floundering or succeeding in the new world?", "Does it deliver on the promise of the premise?", "Does it show how Act 2 is the upside-down version of Act 1?"]
@@ -135,9 +135,9 @@
       "does": "The hero's rock bottom.",
       "teach": [
         "Something happens to the hero that knocks them deep into defeat. Make it bigger than the Catalyst; they must be worse off than when the book began. A timid All Is Lost makes the final change feel contrived.",
-        "Brody's whiff of death: someone dies or nearly dies, or something ends. The old world, the old self, the old way of thinking dies here so a new one can be born.",
+        "The whiff of death: someone dies or nearly dies, or something ends. The old world, the old self, the old way of thinking dies here so a new one can be born.",
         "The hero is in some way responsible, even if they did not cause the event. Without responsibility there is no lesson.",
-        "Brody calls it another Catalyst: the first pushed the hero into the Debate, this one pushes them into the Dark Night of the Soul."
+        "It works like another Catalyst: the first pushed the hero into the Debate, this one pushes them into the Dark Night of the Soul."
       ],
       "checklist": ["Does something happen to the hero?", "Is it big enough to push the hero into Act 3?", "Is there a whiff of death?", "Does it feel like another Catalyst?"]
     },
@@ -147,7 +147,7 @@
       "range": [0.75, 0.8],
       "does": "How the hero reacts to the All Is Lost, and how they break through to a resolution.",
       "teach": [
-        "It is another Debate. The All Is Lost lasted one scene; now the hero needs time to process it, which is why this beat gets several scenes or chapters. Brody calls it the wallowing beat. Not every hero wallows: some rage, some deny.",
+        "It is another Debate. The All Is Lost lasted one scene; now the hero needs time to process it, which is why this beat gets several scenes or chapters. It is sometimes called the wallowing beat. Not every hero wallows: some rage, some deny.",
         "It is the darkness before the dawn. Something deep inside is working, and it ends in the Dark Night epiphany, where the hero sees the truth in a new light.",
         "It often revolves around a question, like the Debate did.",
         "It is the one beat where the hero may move backward: the return to the familiar. Going home shows how much they have changed, because home no longer fits."
@@ -161,7 +161,7 @@
       "teach": [
         "The hero finally faces the truth: I am flawed, but now that I know that, I can fix it. They learn the theme.",
         "The mirror of the Break into Two. That was fixing things the wrong way, for the want; this is fixing them the right way, for the need.",
-        "One scene or chapter. Brody has seen it done in a page, even a paragraph."
+        "One scene or chapter. It can be done in a page, even a paragraph."
       ],
       "checklist": ["Does the hero learn the universal lesson, the theme, here?", "Does the hero make a proactive decision to fix something?", "Is the decision based on what the hero needs, and can you say why it is the right way to change?"]
     },
@@ -172,7 +172,7 @@
       "does": "The hero proves they have learned the theme and acts on it.",
       "teach": [
         "Act 3 is the synthesis: the hero blends who they were in Act 1 with what they learned in Act 2. The A and B stories intertwine.",
-        "Brody's Five-Point Finale gives the long beat road markers: gathering the team, executing the plan, the High Tower Surprise, dig deep down, and executing the new plan. The High Tower Surprise is yet another Catalyst; Dig Deep Down is yet another Debate.",
+        "The Five-Point Finale gives the long beat road markers: gathering the team, executing the plan, the High Tower Surprise, dig deep down, and executing the new plan. The High Tower Surprise is yet another Catalyst; Dig Deep Down is yet another Debate.",
         "Make the hero work for it. A finale with no struggle reads as too easy."
       ],
       "checklist": ["Is Act 3 a synthesis of Act 1 and Act 2?", "Does the hero struggle to enact the plan?", "Is there a Dig Deep Down moment that proves the theme is learned?", "Do the A and B stories intertwine?"]

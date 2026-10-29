@@ -26,8 +26,8 @@ test('a beat names itself on every page, says how much room it takes, and teache
   const room = page.locator('.beat-room').first();
   await expect(room).toContainText('A single-scene beat.');
   await expect(room.locator('.room-question')).toContainText('In your book: 3 scene cards. A single-scene beat lands in one scene or one chapter. Is all of this the Catalyst, or is some of it the Debate?');
-  await expect(page.locator('.beat-room').nth(1)).toContainText("Brody's checklist");
-  await expect(page.locator('.beat-room').nth(1)).toContainText('Her teaching, in Story Canon\'s words.');
+  await expect(page.locator('.beat-room').nth(1)).toContainText('Questions to check it');
+  await expect(page.locator('.beat-room').nth(1)).toContainText('Story Canon is not affiliated with or endorsed by Jessica Brody or Save the Cat!');
   if (process.env.SHOT_DIR) { await room.scrollIntoViewIfNeeded(); await page.screenshot({ path: `${process.env.SHOT_DIR}/room-catalyst.png` }); await page.locator('.beat-room').nth(1).scrollIntoViewIfNeeded(); await page.screenshot({ path: `${process.env.SHOT_DIR}/room-catalyst-brody.png` }); }
   await page.getByRole('tab', { name: /In this book/ }).click();
   await expect(page.locator('.record-page-head')).toHaveText(/In this book: Catalyst/);

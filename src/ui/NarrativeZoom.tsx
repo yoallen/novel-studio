@@ -680,7 +680,8 @@ export function Stuck({ ctx, onClose, fromSceneId, onShowBeat }: { ctx: Ctx; onC
   );
 }
 
-/** Brody's size for a beat, the room it takes in this book, and what she teaches about it (her teaching, our words). */
+/** A beat's size, the room it takes in this book, and the craft of the beat, drawn from Brody's book in our own words.
+ *  Headings stay neutral, so nothing suggests she worked with Story Canon; one credit line names the source. */
 function BeatRoom({ b, room }: { b: any; room: any }) {
   const n = (x: number) => x.toLocaleString();
   const pct = (x: number) => `${Math.round(x * 100)}%`;
@@ -704,15 +705,15 @@ function BeatRoom({ b, room }: { b: any; room: any }) {
         </section>
       )}
       <section className="beat-room">
-        <h2>What Brody teaches</h2>
+        <h2>Going deeper</h2>
         <p className="small"><strong>What it does:</strong> {b.does}</p>
-        <p className="small"><strong>Where Brody puts it:</strong> {b.goes}</p>
+        <p className="small"><strong>Where it usually falls:</strong> {b.goes}</p>
         {b.teach.map((t: string, i: number) => <p key={i}>{t}</p>)}
         {b.checklist.length > 0 && (<>
-          <h3 className="small">Brody's checklist</h3>
+          <h3 className="small">Questions to check it</h3>
           <ul className="small">{b.checklist.map((q: string, i: number) => <li key={i}>{q}</li>)}</ul>
         </>)}
-        <p className="small faint">From Jessica Brody, <em>Save the Cat! Writes a Novel</em>, The Save the Cat! Beat Sheet. Her teaching, in Story Canon's words.</p>
+        <p className="small faint">Drawn from Jessica Brody's <em>Save the Cat! Writes a Novel</em>, in Story Canon's own words. Story Canon is not affiliated with or endorsed by Jessica Brody or Save the Cat!</p>
       </section>
     </>
   );

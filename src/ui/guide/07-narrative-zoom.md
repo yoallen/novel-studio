@@ -247,7 +247,7 @@ If some cards only *might* go on a beat, the note above the list says how many a
 
 **Where:** **Narrative Zoom** > **Zoom** > click an act.
 
-An act page lists the act's beats in order, each with where it falls and how much room it takes, such as **3. Setup** "1% to 10%, several scenes" and **4. Catalyst** "10%, one scene". A moment that falls inside a longer beat says so: **2. Theme Stated** "5%, during Setup, one scene". The sizes are Jessica Brody's; see [Scene type: how much room the beat takes](#scene-type-how-much-room-the-beat-takes).
+An act page lists the act's beats in order, each with where it falls and how much room it takes, such as **3. Setup** "1% to 10%, several scenes" and **4. Catalyst** "10%, one scene". A moment that falls inside a longer beat says so: **2. Theme Stated** "5%, during Setup, one scene". The sizes come from Jessica Brody's *Save the Cat! Writes a Novel*; see [Scene type: how much room the beat takes](#scene-type-how-much-room-the-beat-takes).
 
 Under each beat you may see scene cards:
 
@@ -305,7 +305,7 @@ This page teaches the beat. Under the heading **What this beat really does**:
 Then, on Save the Cat beats, two more sections:
 
 - **How much room it takes**: whether this is a single-scene or a multi-scene beat, and how that fits what you have planned. Taught in full in [Scene type: how much room the beat takes](#scene-type-how-much-room-the-beat-takes).
-- **What Brody teaches**: what the beat does and where Jessica Brody puts it, the moves she teaches for it, and **Brody's checklist**, her questions for checking the beat once it is written. The section ends with its credit: *From Jessica Brody, Save the Cat! Writes a Novel, The Save the Cat! Beat Sheet. Her teaching, in Story Canon's words.* Your own sheet's lesson, above it under **What this beat really does**, is kept exactly as you wrote it; Brody's teaching sits beside it, never in place of it.
+- **Going deeper**: **What it does**, **Where it usually falls**, the moves that make the beat work, and **Questions to check it**, for checking the beat once it is written. The section ends with its credit: *Drawn from Jessica Brody's Save the Cat! Writes a Novel, in Story Canon's own words. Story Canon is not affiliated with or endorsed by Jessica Brody or Save the Cat!* The headings are Story Canon's own, so nothing reads as if she worked on the program; the credit line says where the craft comes from. Your own sheet's lesson, above it under **What this beat really does**, is kept exactly as you wrote it; this section sits beside it, never in place of it.
 
 On Stasis = Death, this page also points you to the Setup beat, where the six things that need fixing have their own list.
 
@@ -392,12 +392,12 @@ This field is a check against that. Does this turn happen because of what the he
 
 **What it is.** Jessica Brody, in *Save the Cat! Writes a Novel*, gives every beat one of two sizes:
 
-- **A single-scene beat** is one scene or one chapter. Brody calls it one piece of information. Opening Image, Theme Stated, Catalyst, Break into Two, B Story, Midpoint, All Is Lost, Break into Three and Final Image are single-scene beats.
+- **A single-scene beat** is one scene or one chapter. It is one piece of information. Opening Image, Theme Stated, Catalyst, Break into Two, B Story, Midpoint, All Is Lost, Break into Three and Final Image are single-scene beats.
 - **A multi-scene beat** spans several scenes or chapters. Setup, Debate, Fun and Games, Bad Guys Close In, Dark Night of the Soul and Finale are multi-scene beats.
 
 Stasis = Death has no size of its own: it is a moment inside the Setup. The five Finale steps take their room from the Finale.
 
-**Why it works.** Brody's beats come in pairs of action and reaction. A single-scene beat is an action, a hinge the story turns on. The multi-scene beat after it is the reaction, the stretch where the hero lives with what just happened. The Catalyst is followed by the Debate. The All Is Lost is another Catalyst, and the Dark Night of the Soul is another Debate. Inside the Finale, the High Tower Surprise and Dig Deep Down repeat the pair once more. Knowing which beats are hinges and which are stretches tells you how many scene cards each one should hold before you write a word.
+**Why it works.** The beats come in pairs of action and reaction. A single-scene beat is an action, a hinge the story turns on. The multi-scene beat after it is the reaction, the stretch where the hero lives with what just happened. The Catalyst is followed by the Debate. The All Is Lost is another Catalyst, and the Dark Night of the Soul is another Debate. Inside the Finale, the High Tower Surprise and Dig Deep Down repeat the pair once more. Knowing which beats are hinges and which are stretches tells you how many scene cards each one should hold before you write a word.
 
 **How it fails, in both directions.** A hinge stretched across several chapters loses its punch: a Catalyst that dawns on the hero slowly is no longer a blow. A stretch squeezed into one scene breaks its promise: a Fun and Games of one scene never delivers the premise the reader came for.
 
@@ -411,7 +411,7 @@ Stasis = Death has no size of its own: it is a moment inside the Setup. The five
 
 **When it asks a question.** Story Canon asks, never orders:
 
-- A single-scene beat asks when it holds more than one scene card **and** those cards fall in more than one chapter. Brody allows one scene or one chapter, so several written scenes in the same chapter do not count against it. The question reads: "Catalyst is a single-scene beat and holds 3 scene cards. A single-scene beat lands in one scene or one chapter. Is all of this the Catalyst, or is some of it the Debate?" It names the beat the extra scenes most likely belong to.
+- A single-scene beat asks when it holds more than one scene card **and** those cards fall in more than one chapter. A single-scene beat may be one scene or one chapter, so several written scenes in the same chapter do not count against it. The question reads: "Catalyst is a single-scene beat and holds 3 scene cards. A single-scene beat lands in one scene or one chapter. Is all of this the Catalyst, or is some of it the Debate?" It names the beat the extra scenes most likely belong to.
 - A multi-scene beat asks when it holds exactly one scene card: "Fun and Games is a multi-scene beat with 1 scene card. It spans several scenes or chapters. Is it getting the room it needs?"
 - An empty beat never asks. No cards means you have not planned it yet.
 
@@ -497,7 +497,7 @@ You can place cards on a step exactly as on a beat. A card decided on a step sho
 
 #### Stasis = Death
 
-A step inside **Setup**, just before the Catalyst (about 9.5% of the book). It's the moment the reader sees that if nothing changes, the hero's life will slowly go wrong. Staying put is no longer safe. Jessica Brody treats it as a moment inside the Setup, not a beat of its own, so it has no size of its own.
+A step inside **Setup**, just before the Catalyst (about 9.5% of the book). It's the moment the reader sees that if nothing changes, the hero's life will slowly go wrong. Staying put is no longer safe. It is a moment inside the Setup, not a beat of its own, so it has no size of its own.
 
 **Example.** Marisol's Stasis = Death: the supply boat skips her again, and she realizes she hasn't spoken a word aloud in nine days.
 
