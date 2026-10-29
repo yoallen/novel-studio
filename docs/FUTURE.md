@@ -62,6 +62,13 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 
 - The current line, "Where your story takes shape, and nothing gets lost.", is a placeholder. Her brand judgment: "this is not it." It stays until she finds the real one.
 
+## Before Story Canon is sold: a rights review (Yolanda asked, 2026-10-28)
+
+- Have an intellectual-property lawyer review the teaching content before any sale.
+- Trademarks: "Save the Cat!" is a registered mark (Blake Snyder Enterprises). Story Canon names it, and Brody, to say whose method is being taught. Add a clear line that Story Canon is not affiliated with or endorsed by Save the Cat!, Blake Snyder Enterprises or Jessica Brody. No logos, nothing that suggests partnership.
+- Copyright: ideas, structures and percentages are free to teach; wording is not. Story Canon's Brody teaching is paraphrased, but her checklist questions sit close to her wording, and the beat descriptions from Yolanda's BS2 Breakdown sheet may contain text copied from Snyder, Brody or savethecat.com. Check every passage against its source and rewrite anything that matches.
+- Same review for the other frameworks named in the program (McKee, Weiland, Ingermanson, Swain, Williams, the Writers Helping Writers thesauri).
+
 ## Already approved, not yet built
 
 - Color presets ("bindings") a writer can choose.
