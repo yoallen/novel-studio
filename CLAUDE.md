@@ -6,6 +6,8 @@ Standing rule (hers): check the build against Story Canon's aesthetic requiremen
 
 The aesthetic: a writer's study. Cream paper, purple cloth, Caslon (body and display), Just Another Hand for the pen, ink and pencil and her pink for status. Breathing room. No boardroom charts. Nothing crowds anything else. No em dashes, no AI-speak in any text. Visual changes get a mockup and her approval before they are built.
 
+Names and labels (hers): anything with an official name in Story Canon, a name the guide uses for it, shows that name on screen, labeled where it is. The guide and the screen always use the same words.
+
 Check by looking at real screenshots (SHOT_DIR with the e2e specs), including hard cases, not only by tests.
 
 ## Shipping
