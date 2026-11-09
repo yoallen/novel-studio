@@ -184,13 +184,28 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 .binder, .panel { overflow: auto; border-right: 1px solid var(--line); padding: 0.75rem; }
 .panel { border-right: 0; border-left: 1px solid var(--line); }
 .pagewrap { overflow: auto; background: var(--page); }
-.page { max-width: 68ch; margin: 2rem auto 6rem; background: var(--sheet); padding: 3.5rem 3.75rem; border-radius: 1px; box-shadow: 0 1px 2px rgba(29,13,40,.08), 0 12px 32px -18px rgba(29,13,40,.35); min-height: 70vh; }
+.page { --sheet-pad-x: 3.75rem; --sheet-pad-y: 3.5rem; max-width: 68ch; margin: 2rem auto 0; background: var(--sheet); padding: var(--sheet-pad-y) var(--sheet-pad-x); border-radius: 1px; box-shadow: 0 1px 3px rgba(29,13,40,.14), 0 14px 34px -16px rgba(29,13,40,.45); min-height: 70vh; }
+/* Pages: a sheet ends where the page turns, a strip of desk shows, the next sheet begins. Drawn, never typed. */
+.page[data-pages] { min-height: 0; }
+.sheet-turn { display: block; margin: 0 calc(-1 * var(--sheet-pad-x)); text-indent: 0; user-select: none; }
+.sheet-fill { display: block; height: 0; }
+.sheet-foot { display: block; text-align: center; font-family: var(--prose); font-size: 0.95rem; line-height: 1; color: var(--faint); padding: 1.25rem 0 2.25rem; }
+.sheet-gap { display: block; height: 1.9rem; background: var(--bg); box-shadow: inset 0 11px 10px -10px rgba(29,13,40,.32), inset 0 -11px 10px -10px rgba(29,13,40,.2); margin-bottom: var(--sheet-pad-y); }
+.sheet-end { display: block; margin: 0 calc(-1 * var(--sheet-pad-x)) calc(-1 * var(--sheet-pad-y)); }
+.sheet-end .sheet-foot { padding-bottom: 1.6rem; }
+.desk.focus .sheet-fill { display: none; }
+.desk.focus .sheet-gap { background: transparent; box-shadow: none; border-top: 1px dashed var(--line); height: 0; margin-bottom: 2rem; }
+.desk.focus .sheet-foot { opacity: 0.55; padding: 1rem 0 1rem; }
+.page + .wordline { max-width: 68ch; margin: 1rem auto 6rem; padding: 0 var(--sheet-pad-x, 3.75rem); }
+.wordline-counts { display: block; }
+.page:last-child { margin-bottom: 6rem; }
+.wordline-row { display: flex; gap: 1rem; justify-content: space-between; margin-top: 0.35rem; }
 .desk.focus .page { box-shadow: none; background: transparent; }
 .scene-title { font-family: var(--prose); font-size: 1.5rem; color: var(--struct); border: 0; background: transparent; width: 100%; padding: 0; margin-bottom: 1.25rem; }
 .ProseMirror { font-family: var(--prose); font-size: 1.15rem; line-height: 1.8; outline: none; min-height: 50vh; }
 .ProseMirror p { margin: 0 0 1em; }
 .ProseMirror p.is-editor-empty:first-child::before { content: attr(data-placeholder); color: var(--faint); float: left; height: 0; pointer-events: none; }
-.wordline { display: flex; gap: 1rem; justify-content: space-between; color: var(--faint); font-size: 0.875rem; margin-top: 2rem; }
+.wordline { color: var(--faint); font-size: 0.875rem; margin-top: 2rem; }
 
 .chapter { margin-bottom: 0.75rem; }
 .chapter-head { display: flex; align-items: center; gap: 0.25rem; }
@@ -287,7 +302,7 @@ label.field > span { display: block; font-size: 0.875rem; color: var(--muted); m
 @media (max-width: 900px) {
   .desk, .desk.no-panel { grid-template-columns: minmax(0, 1fr); }
   .binder, .panel { display: none; }
-  .page { padding: 1.5rem 1.25rem; margin: 1rem; }
+  .page { --sheet-pad-x: 1.25rem; --sheet-pad-y: 1.5rem; padding: 1.5rem 1.25rem; margin: 1rem; }
 }
 
 /* A radio or checkbox with a title and a line of explanation beside it. */

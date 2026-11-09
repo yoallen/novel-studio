@@ -8,6 +8,8 @@ import Placeholder from '@tiptap/extension-placeholder';
 import { api, ApiError } from './api';
 import type { Ctx } from './App';
 import { registerFlush, registerEditor, selectRange, textMap, currentEditor } from './flush';
+import { PageSheets, pagesKey, fitSheets, type PageInfo } from './pageSheets';
+import { pagePlace, pageLine, WORDS_PER_PAGE, type OutlineChapter } from '../core/pages';
 
 // Saving model (R-B-005, R-B-006):
 //  - every pause of under a second writes the text to the crash-safe journal, and the indicator says Saved;
@@ -16,7 +18,7 @@ import { registerFlush, registerEditor, selectRange, textMap, currentEditor } fr
 const JOURNAL_MS = 700;
 const COMMIT_MS = 20_000;
 
-export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; sceneId: string; onChanged: () => void; onWords?: (n: number) => void; quiet?: boolean }) {
+export function Editor({ ctx, sceneId, onChanged, onWords, quiet, chapters }: { ctx: Ctx; sceneId: string; onChanged: () => void; onWords?: (n: number) => void; quiet?: boolean; chapters?: OutlineChapter[] }) {
   const [scene, setScene] = useState<any>(null);
   const [title, setTitle] = useState('');
   const [words, setWords] = useState(0);
@@ -40,9 +42,13 @@ export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; 
   const cutBank = useRef(0);
   // Until the page can take typing, say so: nothing typed before then can be lost.
   const [opening, setOpening] = useState(true);
+  // Where this scene sits in the book's pages. Read by the page plugin on every change.
+  const pageInfo = useRef<PageInfo | null>(null);
+  const [pageExt] = useState(() => PageSheets(pageInfo));
+  const pageRef = useRef<HTMLDivElement>(null);
 
   const editor = useEditor({
-    extensions: [StarterKit.configure({ link: false }), Placeholder.configure({ placeholder: 'Write anything. A sentence counts.' }), LaterNotes],
+    extensions: [StarterKit.configure({ link: false }), Placeholder.configure({ placeholder: 'Write anything. A sentence counts.' }), LaterNotes, pageExt],
     content: { type: 'doc', content: [] },
     editable: false,
     editorProps: {
@@ -247,14 +253,37 @@ export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; 
     setConflict(null);
   }
 
+  const place = chapters ? pagePlace(chapters, sceneId, words) : null;
+  const lastPage = place ? place.firstPage + Math.max(0, Math.floor((place.offset + Math.max(words, 1) - 1) / WORDS_PER_PAGE) - Math.floor(place.offset / WORDS_PER_PAGE)) : null;
+  const firstIsWhole = place ? place.offset % WORDS_PER_PAGE === 0 : true;
+  // Tell the page plugin when the scene's place in the book moves (an earlier scene grew, say).
+  useEffect(() => {
+    const next = place ? { offset: place.offset, chapterStart: place.chapterStart } : null;
+    const cur = pageInfo.current;
+    if (cur?.offset === next?.offset && cur?.chapterStart === next?.chapterStart) return;
+    pageInfo.current = next;
+    if (editor && !editor.isDestroyed) editor.view.dispatch(editor.state.tr.setMeta(pagesKey, true));
+  });
+  // Keep every whole sheet letter-shaped as the words change and the window resizes.
+  useEffect(() => {
+    if (!editor) return;
+    let raf = 0;
+    const fit = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { if (pageRef.current) fitSheets(pageRef.current, firstIsWhole); }); };
+    fit();
+    editor.on('update', fit);
+    window.addEventListener('resize', fit);
+    return () => { cancelAnimationFrame(raf); editor.off('update', fit); window.removeEventListener('resize', fit); };
+  }, [editor, firstIsWhole, place?.firstPage, opening]);
+
   return (
-    <div className="page" data-opening={opening || undefined}>
+    <>
+    <div className="page" ref={pageRef} data-opening={opening || undefined} data-pages={place ? 'on' : undefined}>
       {error && <div className="notice error" role="alert">{error}</div>}
       {opening && <p className="opening" role="status">Opening the page…</p>}
       {scene?.reserved && <p className="hers" style={{ marginBottom: '1rem' }}>{scene.reserved}</p>}
       <input className="scene-title" aria-label="Scene title" disabled={!scene} value={title} onChange={(e) => { setTitle(e.target.value); titleRef.current = e.target.value; }} onBlur={() => void saveTitle()} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); void saveTitle(); editor?.commands.focus(); } }} />
       <EditorContent editor={editor} />
-      {!quiet && <div className="wordline"><span>{words.toLocaleString()} words in this scene{target ? `, today's goal ${target.toLocaleString()}` : ''}</span>{!hush && <span className="faint"> Ctrl+Shift+L leaves a note for later</span>}</div>}
+      {place && lastPage != null && <div className="sheet-end" aria-hidden="true"><span className="sheet-fill" /><span className="sheet-foot">{lastPage}</span></div>}
 
       {recovery && (
         <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="rec-h"><div className="dialog">
@@ -277,6 +306,16 @@ export function Editor({ ctx, sceneId, onChanged, onWords, quiet }: { ctx: Ctx; 
         </div></div>
       )}
     </div>
+    {!quiet && (
+      <div className="wordline">
+        <span className="wordline-counts">{place ? pageLine(place) : `${words.toLocaleString()} words in this scene`}</span>
+        <span className="wordline-row">
+          <span>{target ? `Today's goal: ${target.toLocaleString()} words.` : ''}</span>
+          {!hush && <span className="faint">Ctrl+Shift+L leaves a note for later</span>}
+        </span>
+      </div>
+    )}
+    </>
   );
 }
 

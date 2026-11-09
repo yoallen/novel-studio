@@ -1,11 +1,14 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest';
 import { freshStore } from './helpers.js';
 import { Progress } from '../src/core/progress.js';
 import { Structure } from '../src/core/structure.js';
 import { Coach, NOTES, SPOTLIGHTS, PHASES, EVENTS, phaseOf, type CoachNote, type Spotlight } from '../src/core/coach.js';
 
 let env: ReturnType<typeof freshStore>;
-afterEach(() => env?.cleanup());
+// These cases were written in October 2026 about November pushes set up ahead of time. Pin the clock there,
+// so a push's start is still in the future when it is set, as it was for her, whatever today's date is.
+beforeEach(() => { vi.useFakeTimers({ toFake: ['Date'] }); vi.setSystemTime(new Date('2026-10-25T12:00:00.000Z')); });
+afterEach(() => { vi.useRealTimers(); env?.cleanup(); });
 const words = (n: number) => Array.from({ length: n }, (_, i) => `w${i}`).join(' ');
 
 // A small library, so these tests are about how the coach chooses, not about the words.

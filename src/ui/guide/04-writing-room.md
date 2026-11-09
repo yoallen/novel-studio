@@ -37,11 +37,38 @@ The page is the middle of the room, and the only part you truly need.
 
 **The text.** Click under the title and type. A brand-new scene shows the gray words *Write anything. A sentence counts.* until you start. **Ctrl+B** makes words bold, **Ctrl+I** makes them italic, **Ctrl+Z** undoes your last bit of typing and **Ctrl+Y** redoes it.
 
-**The word line.** Under the text is a small gray line, for example *63 words in this scene, today's goal 1,743*. Today's goal appears only once you have set a daily goal or a writing push (see [Goals, sprints and November](#goals-sprints-and-november)). On the right of the line is a reminder, *Ctrl+Shift+L leaves a note for later*, which [Writing Room: notes for later](#writing-room-notes-for-later) explains. (The reminder is hidden while the door is closed; see [Goals: door closed](#goals-door-closed).) Notes for later are never counted in the scene's words.
+**Pages.** The text sits on sheets of paper, the way it does in a word processor. When a page fills, the sheet ends, a strip of the desk shows, and the next sheet begins, often in the middle of a sentence, exactly at the word where the page turns. Each sheet carries its page number at the foot. The pages are only drawn around your words: typing, pasting or deleting at a page turn works as if it weren't there, and nothing about pages is ever saved into your text or exported with it. [Writing Room: pages](#writing-room-pages) explains how the pages are counted, and why.
+
+**The word line.** Under the last sheet is a small gray line that counts the scene, its chapter and the whole novel, for example *Scene: 607 words, about 2½ pages. Chapter: 1,733 words, about 7 pages. Novel: 3,620 words, about 14½ pages.* Below it, *Today's goal: 1,743 words.* appears once you have set a daily goal or a writing push (see [Goals, sprints and November](#goals-sprints-and-november)). On the right is a reminder, *Ctrl+Shift+L leaves a note for later*, which [Writing Room: notes for later](#writing-room-notes-for-later) explains. (The reminder is hidden while the door is closed; see [Goals: door closed](#goals-door-closed).) Notes for later are never counted in the scene's words or its pages.
 
 **If the scene is kept for you.** When a scene is marked in **Kept for you to write or decide** (see [Writing Room: kept for you to write or decide](#writing-room-kept-for-you-to-write-or-decide)), the marker, such as *Mine to write*, appears just above the title, so you see it every time you open the page.
 
-**Example.** You open the Writing Room for the first time on *The Keeper of Gull Point*. The book has no scenes yet, so Story Canon makes Chapter 1 with one empty scene, *Scene 1*, and opens it. You click the title, type *The empty boat*, press **Enter**, and start: *The boat came in on the morning tide with nobody in it.* The word line says *11 words in this scene*.
+**Example.** You open the Writing Room for the first time on *The Keeper of Gull Point*. The book has no scenes yet, so Story Canon makes Chapter 1 with one empty scene, *Scene 1*, and opens it. You click the title, type *The empty boat*, press **Enter**, and start: *The boat came in on the morning tide with nobody in it.* The word line says *Scene: 11 words, under half a page.*, and the sheet's foot says *1*.
+
+## Writing Room: pages
+
+**What it is.** A page in Story Canon is a **standard manuscript page**: about **250 words**. That is what a page holds in the format agents and editors ask for: 12-point type, double-spaced, one-inch margins. Every 250 words, the sheet you are writing on ends and a new one begins.
+
+**How the pages are counted.**
+
+- **Across the whole book.** Page numbers run from the first page of Chapter 1 to the last page of your last chapter. If Chapter 1 ends on page 12, Chapter 2's first page is 13.
+- **Every chapter starts on a fresh page**, as it does in a manuscript, even when the chapter before ends near the top of its last page.
+- **Scenes flow.** Inside a chapter, a new scene does not start a new page. If Scene 1 ends halfway down page 3, Scene 2 begins on that same page 3. Story Canon shows one scene at a time, so Scene 2's first sheet is the rest of page 3: a shorter sheet with *3* at its foot. Page 4 follows as a full sheet.
+- **Whole sheets are the same size**, letter-shaped. A sheet with fewer lines, like the last page of a chapter, simply has more blank paper under the words.
+- **Every word in the scene counts toward pages**, pasted words included, because pages describe the manuscript as it stands. Your daily count of words written still leaves pasted words out (see [Goals: what counts as a day's words](#goals-what-counts-as-a-days-words)). The two numbers measure different things. Notes for later count toward neither.
+- **The word line rounds pages to the nearest half**: *about 2½ pages*, never *2.43 pages*, because a page count from words is an estimate, and a decimal would claim more precision than it has.
+
+**Why it works.** Writers, agents and editors all mean the same thing by "a 300-page manuscript": about 75,000 words in standard format. Counting the same way lets you think in pages the way the industry does, judge how long a scene or a chapter is running, and feel the distance you have covered. A page turning over is a small reward for showing up at the desk.
+
+**How it misleads, if you forget it is an estimate.**
+
+- **Dialogue holds fewer words per page than description.** Short lines of talk leave white space; a page of quick dialogue in a real manuscript might hold 180 words, a page of dense description 300. Story Canon counts every page as 250, so a dialogue-heavy chapter is really a little longer in pages than the count says, and a description-heavy one a little shorter.
+- **It won't match your own Word document line for line.** Your Word document's pages depend on its font, margins and spacing. Story Canon's pages follow the standard instead, which is the measure that matters when you submit.
+- **A printed book holds more per page.** A published paperback page carries about 300 to 350 words, so a 320-page manuscript becomes a shorter book.
+
+**Example.** Lands: Chapter 3 of *The Keeper of Gull Point* comes to 2,600 words. The word line says *about 10½ pages*, so Marisol's storm chapter is running about as long as the two before it, and the pacing holds. Misleads: Chapter 7 is almost all argument between Marisol and Cyrus, 2,000 words of short, sharp lines. The word line says *about 8 pages*; printed in manuscript format, all that white space between the lines would make it closer to 10. The writer who knows why isn't surprised.
+
+**In Focus.** In Focus (see [Writing Room: Focus](#writing-room-focus)), the sheets drop away like the rest of the room, but a faint dashed line still marks each page turn, with its number, so you never lose your place.
 
 ## Writing Room: how saving works
 

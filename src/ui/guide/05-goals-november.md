@@ -9,7 +9,7 @@ All of it is optional. With no goal at all, Story Canon still shows how many wor
 Your progress appears in three places:
 
 - **Where was I?**, your novel's home page, on its page **1 Today**: the **drafting progress panel**, with your push drawn as one pen line and a few figures under it. Above everything on that page is **your book map**, which shows where you are in the story itself. This is the main one, and most of this chapter is about it.
-- **The Writing Room**, in the small line under the page: *1,204 words in this scene, today's goal 1,743*. Today's goal appears there only once you have a goal.
+- **The Writing Room**, in the small line under the page: *Today's goal: 1,743 words.*, under the line that counts the scene, chapter and novel. Today's goal appears there only once you have a goal.
 - **The Writing Room binder**, at the top: the whole book's word count, and "of" your target length if you set one.
 
 With no goal and no push, the panel shows this month's figures and says *Set a daily word goal, or a writing push such as November, and this shows how you are tracking.*, with a **Settings** link.

@@ -18,7 +18,7 @@ test('notes for later: typed in the page, left out of the count, gathered on Whe
   await waitSaved(page);
   await expect(editor(page)).toContainText('[[what does she grow in October]]');
   await expect(editor(page).locator('.later-note')).toHaveText('[[what does she grow in October]]');
-  await expect(page.locator('.wordline')).toContainText('9 words in this scene');
+  await expect(page.locator('.wordline')).toContainText('Scene: 9 words');
 
   await views(page).getByRole('button', { name: 'Where was I' }).click();
   const later = page.getByRole('region', { name: 'Left for later' });

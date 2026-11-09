@@ -1,10 +1,13 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest';
 import { freshStore } from './helpers.js';
 import { Progress, dayIn } from '../src/core/progress.js';
 import { dailyGoalOn, pushPace } from '../src/core/goals.js';
 
 let env: ReturnType<typeof freshStore>;
-afterEach(() => env?.cleanup());
+// These cases were written in October 2026 about November pushes set up ahead of time. Pin the clock there,
+// so a push's start is still in the future when it is set, as it was for her, whatever today's date is.
+beforeEach(() => { vi.useFakeTimers({ toFake: ['Date'] }); vi.setSystemTime(new Date('2026-10-25T12:00:00.000Z')); });
+afterEach(() => { vi.useRealTimers(); env?.cleanup(); });
 
 const words = (n: number) => Array.from({ length: n }, (_, i) => `w${i}`).join(' ');
 
