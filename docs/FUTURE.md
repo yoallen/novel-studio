@@ -74,6 +74,11 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 - In the Writing Room the scene scrolls on with no sign of where a page would end. She wants an indication of page breaks as she writes.
 - Likely a quiet marker every manuscript page (about 250 words, the standard double-spaced page), and a page count beside the word count. Mockup and her approval first.
 
+## Read it back as a book (after November; Yolanda, 2026-11-09)
+
+- In Read it back, pages side by side that turn left and right like a book, using the same 250-word manuscript pages and page numbers as the Writing Room.
+- The Writing Room stays up and down, which is better for writing. Mockup and her approval first.
+
 ## Already approved, not yet built
 
 - Color presets ("bindings") a writer can choose.
