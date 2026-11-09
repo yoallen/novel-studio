@@ -6,8 +6,8 @@ test('a scene and a whole chapter are deleted from the list, and a chapter comes
   await newNovel(page, 'Binder');
   await heroWrite(page).click();
   await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
-  const binder = page.getByRole('complementary', { name: 'Chapters and scenes' });
-  await binder.getByRole('button', { name: 'Add chapter' }).click();
+  const binder = page.getByRole('complementary', { name: 'Binder' });
+  await binder.getByRole('button', { name: 'New chapter' }).click();
   await expect(binder.locator('.chapter')).toHaveCount(2);
   await binder.getByRole('button', { name: 'Add scene' }).last().click();
   await expect(binder.locator('.chapter').last().locator('.scene-row')).toHaveCount(2);
@@ -23,7 +23,7 @@ test('a scene and a whole chapter are deleted from the list, and a chapter comes
   await expect(binder.locator('.chapter')).toHaveCount(1);
 
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Story Trail' }).click();
-  await page.getByRole('button', { name: 'Deleted things' }).click();
+  await page.getByRole('button', { name: 'Deleted Things' }).click();
   await page.getByRole('button', { name: 'Restore with its scenes' }).click();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
   await expect(binder.locator('.chapter')).toHaveCount(2);
@@ -35,7 +35,7 @@ test('a part of the book opens above a chapter in the Writing Room', async ({ pa
   await newNovel(page, 'Parts');
   await heroWrite(page).click();
   await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
-  const binder = page.getByRole('complementary', { name: 'Chapters and scenes' });
+  const binder = page.getByRole('complementary', { name: 'Binder' });
   await binder.getByRole('button', { name: 'Start a part here' }).click();
   await binder.getByLabel('Part name').fill('Part One: Winter');
   await binder.getByLabel('Part name').press('Enter');

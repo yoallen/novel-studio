@@ -123,7 +123,7 @@ test('a thought captured while writing keeps its exact words and waits beside th
   await expect(panel.locator('div[style*="pre-wrap"]').filter({ hasText: 'funeral' })).toHaveText(dictated);
   await page.getByRole('link', { name: 'Add scene' }).or(page.getByRole('button', { name: 'Add scene' })).first().click();
   await expect(page.getByRole('complementary', { name: 'Scene plan' })).toContainText('Nothing open');
-  await page.getByRole('complementary', { name: 'Chapters and scenes' }).getByRole('button', { name: /Scene 1/ }).click();
+  await page.getByRole('complementary', { name: 'Binder' }).getByRole('button', { name: /Scene 1/ }).click();
   await page.getByRole('button', { name: 'Answered' }).click();
   await expect(page.getByRole('complementary', { name: 'Scene plan' })).toContainText('Nothing open');
 });
@@ -154,10 +154,10 @@ test('deleting is never final, and any change can be undone (R-B-063)', async ({
   await editor(page).click();
   await page.keyboard.type('Keep these words.');
   page.once('dialog', (d) => d.accept());
-  await page.getByRole('complementary', { name: 'Chapters and scenes' }).getByRole('button', { name: 'Delete this scene' }).click();
+  await page.getByRole('complementary', { name: 'Binder' }).getByRole('button', { name: 'Delete this scene' }).click();
   await expect(page.getByText('Choose a scene on the left')).toBeVisible();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Story Trail' }).click();
-  await page.getByRole('button', { name: 'Deleted things' }).click();
+  await page.getByRole('button', { name: 'Deleted Things' }).click();
   await page.getByRole('button', { name: 'Restore', exact: true }).click();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'Story Trail' }).click();
   const row = page.locator('li').filter({ hasText: 'Edit scene' }).first();

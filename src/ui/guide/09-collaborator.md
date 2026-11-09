@@ -6,7 +6,7 @@ You can use everything in the first half without the collaborator. Bringing in c
 
 ## The Conversations view: every conversation, word for word
 
-**Where:** **Conversations**, in the list on the right.
+**Where:** **Conversations**, in Views on the right.
 
 **What it is.** One page that lists every conversation kept in this novel. A **conversation** here is any back-and-forth about your book, kept word for word: a chat you brought in, a talk with the collaborator, or one you built by hand.
 

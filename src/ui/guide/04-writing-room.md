@@ -1,6 +1,6 @@
 # The Writing Room
 
-**The Writing Room** is the view where you write your book. Everything else in Story Canon exists to serve what happens here: words going onto the page. This chapter walks through the room in the order you meet it on screen: how you get in, the page and how it saves, the list of chapters and scenes on the left, the plan for each scene on the right, and the links above the page for the moments when writing gets hard. Read it before your first writing session, and come back to it whenever something in the room puzzles you. Daily word goals, sprints and November have their own chapter, [Goals, sprints and November](#goals-sprints-and-november).
+**The Writing Room** is the view where you write your book. Everything else in Story Canon exists to serve what happens here: words going onto the page. This chapter walks through the room in the order you meet it on screen: how you get in, the page and how it saves, the **Binder** on the left (your chapters and scenes), the plan for each scene on the right, and the links above the page for the moments when writing gets hard. Read it before your first writing session, and come back to it whenever something in the room puzzles you. Daily word goals, sprints and November have their own chapter, [Goals, sprints and November](#goals-sprints-and-november).
 
 ## Writing Room: getting in
 
@@ -11,7 +11,7 @@ The Writing Room is the second tab on the right edge of the window, under **Wher
 | **The Writing Room** tab | The scene you had open. If none, the scene Where was I? suggests under **Next**. If Next is your next planned scene card and it has no page yet, Story Canon makes its page first, just as **Write** does (see [Writing Room: planned, not written yet](#writing-room-planned-not-written-yet)). If there is nothing to suggest, the scene you worked on most recently. If the book has no scenes at all, a new empty scene (and a first chapter to hold it) |
 | **Write** on Where was I? | The scene named in **Next**. If that is a planned scene with no page yet, Story Canon makes its page first |
 | **Return to Writing**, the pink ribbon at the top left (or **Ctrl+Shift+W**) | The scene you were writing in, with the cursor exactly where you left it (see [Writing Room: detours and Return to Writing](#writing-room-detours-and-return-to-writing)) |
-| A scene in the list on the left, a note in **Left for later**, or **Open the page** in Narrative Zoom | That scene |
+| A scene in the Binder, a note in **Left for later**, or **Open the page** in Narrative Zoom | That scene |
 
 When a scene opens, the page shows *Opening the page…* for a moment, then puts your cursor back where it was the last time you were in that scene. Wait for the words to appear before you type, so nothing you type lands before the page is ready.
 
@@ -21,13 +21,13 @@ The room has three columns and a row of links above the page.
 
 | Where | What it is |
 | --- | --- |
-| **Left: the binder** | Your chapters and scenes in book order, with word counts and a small circle showing how far along each scene is. Below them, **Planned, not written yet** |
-| **Middle: the page** | The open scene: its title, your text, and a small line underneath with the scene's word count |
+| **Left: the Binder** | Headed **Binder**. Your chapters and scenes in book order, with word counts and a small circle showing how far along each scene is. Below them, **Planned, not written yet** |
+| **Middle: the page** | The open scene: its title, your text, and a small line underneath with the word counts and **New chapter** |
 | **Right: the side panel** | Usually the **Scene plan** for the open scene. It can show **Read it back** instead |
 | **Above the page: the links** | **Hide scene plan** (or **Show scene plan**), **Read it back**, **Show in Narrative Zoom**, **I'm stuck**, **Ask about this scene**, **Writing Trail**, **Sprint** and **Focus** |
 | **Top of the window** | The **Saved** indicator, beside the **Capture** button |
 
-If no scene is open, the page says *Choose a scene on the left, or add one, and start writing.*
+If no scene is open, the page says *Choose a scene on the left, or add one, and start writing.* The scenes to choose from are in the Binder.
 
 ## Writing Room: the page
 
@@ -39,7 +39,7 @@ The page is the middle of the room, and the only part you truly need.
 
 **Pages.** The text sits on sheets of paper, the way it does in a word processor. When a page fills, the sheet ends, a strip of the desk shows, and the next sheet begins, often in the middle of a sentence, exactly at the word where the page turns. Each sheet carries its page number at the foot. The pages are only drawn around your words: typing, pasting or deleting at a page turn works as if it weren't there, and nothing about pages is ever saved into your text or exported with it. [Writing Room: pages](#writing-room-pages) explains how the pages are counted, and why.
 
-**The word line.** Under the last sheet is a small gray line that counts the scene, its chapter and the whole novel, for example *Scene: 607 words, about 2½ pages. Chapter: 1,733 words, about 7 pages. Novel: 3,620 words, about 14½ pages.* Below it, *Today's goal: 1,743 words.* appears once you have set a daily goal or a writing push (see [Goals, sprints and November](#goals-sprints-and-november)). On the right is a reminder, *Ctrl+Shift+L leaves a note for later*, which [Writing Room: notes for later](#writing-room-notes-for-later) explains. (The reminder is hidden while the door is closed; see [Goals: door closed](#goals-door-closed).) Notes for later are never counted in the scene's words or its pages.
+**The word line.** Under the last sheet is a small gray line that counts the scene, its chapter and the whole novel, for example *Scene: 607 words, about 2½ pages. Chapter: 1,733 words, about 7 pages. Novel: 3,620 words, about 14½ pages.* Below it is **New chapter** with its keys, *Ctrl+Shift+Enter* (see [Writing Room: adding chapters and scenes](#writing-room-adding-chapters-and-scenes)), then *Today's goal: 1,743 words.* once you have set a daily goal or a writing push (see [Goals, sprints and November](#goals-sprints-and-november)). On the right is a reminder, *Ctrl+Shift+L leaves a note for later*, which [Writing Room: notes for later](#writing-room-notes-for-later) explains. (The reminder is hidden while the door is closed; see [Goals: door closed](#goals-door-closed).) Notes for later are never counted in the scene's words or its pages.
 
 **If the scene is kept for you.** When a scene is marked in **Kept for you to write or decide** (see [Writing Room: kept for you to write or decide](#writing-room-kept-for-you-to-write-or-decide)), the marker, such as *Mine to write*, appears just above the title, so you see it every time you open the page.
 
@@ -94,33 +94,58 @@ Saving happens in two layers.
 
 **Looks wrong, but isn't.** A few things wait for the saved version, not the safety copy, so they can lag behind your typing by up to twenty seconds:
 
-- **Today's words** on Where was I?, and the push line there.
+- **Today's words** on Where was I?, and Push Progress there.
 - **This week**, page 3 of Where was I?.
 - **The scene's status** moving from a not-started step to Drafting (see [Writing Room: a scene's status](#writing-room-a-scenes-status)).
 - **Left for later**, for a note you just typed.
 
 If a number seems stuck, pause for twenty seconds or click another scene, and it catches up. Your words were safe the whole time. What to do after a crash, or when the same scene is open in two windows, is at the end of this chapter, in [Writing Room: when the program closed or two windows disagree](#writing-room-when-the-program-closed-or-two-windows-disagree).
 
-## Writing Room: the binder of chapters and scenes
+## Writing Room: the Binder
 
-The **binder** is the left column. Like a ring binder on a desk, it holds your manuscript in order: each chapter, with its scenes under it. Click a scene to open it. The open scene is marked with a purple bar down its left side.
+The **Binder** is the left column of the Writing Room. Its name is at the top, in the same type as **Scene plan** on the right, with one line under it: *Your chapters and scenes, in order.* Like a ring binder on a desk, it holds your manuscript in book order: each chapter, with its scenes under it. Click a scene to open it. The open scene is marked with a purple bar down its left side.
 
-**Why it matters.** The binder is your map of the written book. You see at a glance how many scenes each chapter has, how long they are, and how far along each one is.
+**Why it matters.** The Binder is your map of the written book. You see at a glance how many scenes each chapter has, how long they are, and how far along each one is. It is also where the book's shape changes: adding scenes and chapters, splitting a chapter, moving and deleting.
 
-### Writing Room: word counts in the binder
+### Writing Room: word counts in the Binder
 
-At the top of the binder is the whole book's word count, and "of" your target length if you set one in Settings (for example *12,480 words of 80,000*). Each chapter shows its total on the right, and each scene its own count. The open scene's count changes as you type.
+At the top of the Binder, under its name, is the whole book's word count, and "of" your target length if you set one in Settings (for example *12,480 words of 80,000*). Each chapter shows its total on the right, and each scene its own count. The open scene's count changes as you type.
 
 ### Writing Room: adding chapters and scenes
 
 1. **Add scene**, under each chapter, adds a new scene at the end of that chapter, named *Scene 2*, *Scene 3* and so on, and opens it.
-2. **Add chapter**, the button at the bottom of the chapters, adds a new chapter at the end of the book with one empty scene in it, and opens that scene.
+2. **New chapter** opens a blank chapter right after the chapter you are in, with one empty scene in it, ready to write. It is in two places: the button at the bottom of the Binder, and the link under the page, beside the word counts. The keys are **Ctrl+Shift+Enter**. If no scene is open, the new chapter goes at the end of the book.
 
 If a scene you want to write is already planned in Narrative Zoom, do not use **Add scene** for it. Use **Write it** instead, as [Writing Room: planned, not written yet](#writing-room-planned-not-written-yet) explains.
 
+### Writing Room: how chapters are numbered
+
+A chapter Story Canon makes is named with a plain number: *Chapter 1*, *Chapter 2*. When **New chapter** or **Split the chapter here** puts a chapter in the middle of the book, the plain-numbered chapters after it move up by one, so the numbers always run in book order. A chapter you named yourself, such as *Prologue* or *The Storm*, is never renamed. If your plain numbers already skip on purpose (*Chapter 1*, then *Chapter 7*), Story Canon leaves all of them alone and gives the new chapter the next number in the count.
+
+### Writing Room: Split the chapter here
+
+**What it is.** **Split the chapter here** makes a new chapter begin exactly where your cursor is. It is one of the links under the open scene in the Binder, beside **↑ Up**, **↓ Down** and **Delete**.
+
+**How it works.**
+
+1. In the page, click where the new chapter should begin.
+2. In the Binder, click **Split the chapter here**.
+3. A box asks first. It names the new chapter, shows the first words that will open it, and says what moves: *Chapter 3 will begin where your cursor is in The storm:*, then the words, then *Everything after the cursor becomes the first scene of Chapter 3, and Morning after moves with it.*
+4. Click **Split the chapter here** to do it, or **Not now** to leave everything as it was.
+
+Everything after the cursor becomes the first scene of the new chapter, and every later scene in the old chapter moves with it, in the same order. If the cursor is in the middle of a word, the split falls at the start of that word. If the cursor is at the very end of a scene, the split falls between that scene and the next. If it is at the very start, the whole scene opens the new chapter.
+
+**Why it works this way.** Writers often find a chapter break after the words are down: a chapter runs long, or a scene turns at a moment that deserves a page of its own. Splitting moves the break without retyping or cutting and pasting, so nothing can be lost on the way.
+
+**Your words don't change, and none of them count as new writing.** The words are only divided between two chapters. Today's words, your push and your streak stay exactly as they were. The whole split is one step in Story Trail, so one **Undo** puts the chapter back together, every word where it was.
+
+**The common mistake** is reaching for **New chapter** when you mean to split. **New chapter** opens a *blank* chapter and moves nothing. **Split the chapter here** cuts the chapter you are in. If you want the words you already wrote to start a chapter, split. If you want an empty page for words you have not written yet, use **New chapter**.
+
+**Example.** Chapter 3 of *The Keeper of Gull Point* is 4,800 words: the storm, then the morning after. You click just before *By morning the rocks were quiet* and choose **Split the chapter here**. The box says *Chapter 4 will begin where your cursor is in The storm:*. You confirm. Chapter 3 now ends at the height of the storm, Chapter 4 opens on the quiet morning, and the old Chapter 4 is now Chapter 5. Your 600 words for the day still say 600.
+
 ### Writing Room: renaming chapters and scenes
 
-- **A chapter:** double-click its name in the binder, type the new name, and press **Enter** (or **Esc** to cancel).
+- **A chapter:** double-click its name in the Binder, type the new name, and press **Enter** (or **Esc** to cancel).
 - **A scene:** click its title at the top of the page, type, and press **Enter**.
 
 ### Writing Room: the status circles
@@ -137,19 +162,19 @@ Point at a circle to see the scene's status in words, for example *Drafting: bei
 
 ### Writing Room: moving a scene
 
-The open scene has three links under its name: **↑ Up**, **↓ Down** and **Delete**.
+The open scene has four links under its name: **↑ Up**, **↓ Down**, **Delete** and **Split the chapter here** (see [Writing Room: Split the chapter here](#writing-room-split-the-chapter-here)).
 
 1. Click the scene you want to move, so it is the open one.
 2. Click **↑ Up** or **↓ Down** to move it one place. At the top or bottom of a chapter, it moves into the chapter before or after.
 
-Chapters themselves can't be moved in the binder.
+Chapters themselves can't be moved in the Binder.
 
 ### Writing Room: deleting a scene or a chapter
 
-- **Delete**, under the open scene, removes that scene. Story Canon asks first: *Move "the scene" to Deleted? You can restore it from Story Trail, under Deleted things.*
+- **Delete**, under the open scene, removes that scene. Story Canon asks first: *Move "the scene" to Deleted Things? You can restore it from there, in Story Trail.*
 - **Delete chapter**, under each chapter, removes the chapter and every scene in it, and asks the same way, naming how many scenes go with it.
 
-Nothing deleted is really gone. **Story Trail** is the view (in the lower group of tabs on the right) that keeps the history of every change in your book. Open it, click **Deleted things**, and put the scene or chapter back, whole. See [Finding things: Search and Story Trail](#finding-things-search-and-story-trail).
+Nothing deleted is really gone. **Story Trail** is the view (in the lower group of tabs on the right) that keeps the history of every change in your book. Open it, click **Deleted Things**, and put the scene or chapter back, whole. See [Finding things: Search and Story Trail](#finding-things-search-and-story-trail).
 
 ### Writing Room: parts, for grouping chapters
 
@@ -170,7 +195,7 @@ The part's name appears in slanted purple type above that chapter. The part runs
 
 ## Writing Room: planned, not written yet
 
-**What it is.** Below the chapters in the binder is a section headed **Planned, not written yet**. It lists the scene cards in your plan (made in Narrative Zoom, the view where you plan the book's shape on beats) that don't have a page in the manuscript yet, in story order. Each shows the card's name and, in slanted type, the beat it sits on, or *might go at* a beat if it isn't settled there yet. When every card has a page, the section does not appear.
+**What it is.** Below the chapters in the Binder is a section headed **Planned, not written yet**. It lists the scene cards in your plan (made in Narrative Zoom, the view where you plan the book's shape on beats) that don't have a page in the manuscript yet, in story order. Each shows the card's name and, in slanted type, the beat it sits on, or *might go at* a beat if it isn't settled there yet. When every card has a page, the section does not appear.
 
 **Why it matters.** Your plan and your manuscript are two views of the same book. This list is the bridge between them: it shows what you planned and haven't written.
 
@@ -283,7 +308,7 @@ The second page holds facts about the scene as a piece of your manuscript: how f
 
 **What it is.** **Status** is a dropdown with the steps a scene goes through, from first idea to finished. Remember, this is the scene's status, not a fact's. The usual steps are:
 
-| Step | Meaning | Circle in the binder |
+| Step | Meaning | Circle in the Binder |
 | --- | --- | --- |
 | Idea | You know a scene goes here, roughly | Empty |
 | Planned | You have planned what it must do | Empty |
@@ -370,7 +395,7 @@ Each button takes the item off this list. It stays in the Story Brain with its n
 
 ### Writing Room: scene notes
 
-**Scene notes** is a free box for anything about the scene that isn't story: a reminder to check a fact, a line you might use. It saves when you click away. Below it are the **Earlier versions** button and a reminder that moving and deleting the scene happen in the binder.
+**Scene notes** is a free box for anything about the scene that isn't story: a reminder to check a fact, a line you might use. It saves when you click away. Below it are the **Earlier versions** button and a reminder that moving and deleting the scene happen in the Binder.
 
 ### Writing Room: earlier versions of a scene
 
@@ -487,9 +512,9 @@ Clicking **The Writing Room** tab takes you back to the page too, but it does no
 
 ### Writing Room: Focus
 
-**What it is.** **Focus**, the last link above the page, hides everything but the page: the binder, the scene plan, the links, the tabs, the story strip across the top of the window (see [The story strip across the top of the window](#the-story-strip-across-the-top-of-the-window)), and the header with the Saved indicator and the Capture button. Only your scene, its title and its word line remain.
+**What it is.** **Focus**, the last link above the page, hides everything but the page: the Binder, the scene plan, the links, the tabs, the Story Strip across the top of the window (see [The Story Strip across the top of the window](#the-story-strip-across-the-top-of-the-window)), and the header with the Saved indicator and the Capture button. Only your scene, its title and its word line remain.
 
-**Why it matters.** Sometimes the screen itself is the distraction: you keep glancing at the word count, the binder, the open questions.
+**Why it matters.** Sometimes the screen itself is the distraction: you keep glancing at the word count, the Binder, the open questions.
 
 **How to use it.**
 
@@ -594,13 +619,13 @@ If the same scene is open in two Story Canon windows and you type in both, the s
 | What you see | Why |
 | --- | --- |
 | The scene's status is still Idea after you wrote in it | The status moves to Drafting when the words become a saved version: after about twenty seconds' pause, or when you leave the scene |
-| The binder's circle is empty while the scene has words | Same reason. Or you chose a not-started status yourself; the circle follows the Status dropdown |
+| The Binder's circle is empty while the scene has words | Same reason. Or you chose a not-started status yourself; the circle follows the Status dropdown |
 | The page won't take typing | A box is waiting for a choice (kept typing, or two windows), or the page still says *Opening the page…* |
 | The status, scene notes or Earlier versions are missing from the scene plan | They are on other pages of the plan. Status is on **2 About it**; notes and **Earlier versions** are on **3 Notes**. Click the tab, or **All pages** |
 | The scene plan disappeared | **Read it back** was clicked twice, or **Hide scene plan** once. Click **Show scene plan** |
 | Show in Narrative Zoom says the scene is not on the plan | The scene has no card yet. Fill any line of its scene plan, or join it to its card |
 | No red underlines and no echoes | The door is closed (see [Goals: door closed](#goals-door-closed)), or a sprint is running |
-| A new scene isn't in Planned, not written yet | That list only holds cards from your plan with no page. A scene you added is already in the binder |
+| A new scene isn't in Planned, not written yet | That list only holds cards from your plan with no page. A scene you added is already in the Binder |
 | A card you already wrote is still in Planned, not written yet | Its page was made with **Add scene**, so they are not joined. Use **Is this scene on your plan?** on page **1 The plan** of the scene plan |
 | A note for later isn't in the Left for later list yet | The list reads the saved scene. Pause a moment, or leave the scene, and it appears |
 | No Return to Writing ribbon | You are in the Writing Room already, no scene is open, or there is no writing to return to yet |

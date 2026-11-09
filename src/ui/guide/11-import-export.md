@@ -11,7 +11,7 @@ Two words first. To **import** is to bring a file from somewhere else into Story
 
 ## The Import and export view
 
-**Where it is:** **Import and export** is one of the views in the list on the right edge of the window, below the word *and*.
+**Where it is:** **Import and export** is one of the views in Views on the right edge of the window, below the word *and*.
 
 Across the top are three smaller tabs. The one you are on is darker; the others look like links.
 
@@ -31,7 +31,7 @@ On **Bring something in**, the page opens with "Nothing goes into your novel unt
 
 **How to bring in a file:**
 
-1. Click **Import and export** in the list on the right. The **Bring something in** tab is first.
+1. Click **Import and export** in Views on the right. The **Bring something in** tab is first.
 2. Choose what you have. There are four choices, each a round button with a short description under it (see the table below).
 3. If you chose **A planning document**, a small dropdown appears, **It is a**, with three choices: **story bible**, **archive of decisions** (the screen's name for a running log of the choices you made over time) or **other planning document**. Pick the closest. It only names what kind of document it is.
 4. Click **Choose a file** and pick the file. While Story Canon reads it, the button says **Reading the file…**.

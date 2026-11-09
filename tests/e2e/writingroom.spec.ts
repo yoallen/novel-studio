@@ -76,7 +76,7 @@ test('the scene plan teaches its blanks, says Saved, and the circle follows the 
   await plan.getByLabel('Kept for you to write or decide').selectOption('Mine to choreograph');
   await expect(plan).toContainText('You stage the movement');
   // The circle key, and the binder circle following the chosen status.
-  const binder = page.getByRole('complementary', { name: 'Chapters and scenes' });
+  const binder = page.getByRole('complementary', { name: 'Binder' });
   await expect(binder.locator('[aria-current="true"] .mark')).toHaveAttribute('data-c', 'empty');
   await plan.getByLabel('Status').selectOption({ label: 'Drafting' });
   await expect(binder.locator('[aria-current="true"] .mark')).toHaveAttribute('data-c', 'half');
@@ -92,7 +92,7 @@ test('Focus hides everything but the page, with a way back; the trail does not l
   await page.getByRole('button', { name: 'Focus', exact: true }).click();
   await expect(nav(page)).toBeHidden();
   await expect(page.getByRole('button', { name: 'Capture' })).toBeHidden();
-  await expect(page.getByRole('complementary', { name: 'Chapters and scenes' })).toHaveCount(0);
+  await expect(page.getByRole('complementary', { name: 'Binder' })).toHaveCount(0);
   await page.getByRole('button', { name: 'Leave focus' }).click();
   await expect(nav(page)).toBeVisible();
   await page.getByRole('button', { name: 'Writing Trail' }).click();

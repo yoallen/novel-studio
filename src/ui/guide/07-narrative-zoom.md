@@ -74,7 +74,7 @@ When a novel has no beat sheet yet, you can choose one of these:
 | **Three-Act Structure** | The classic shape | Setup, confrontation and resolution, with turning points between |
 | **McKee's Five Parts** | Robert McKee, *Story* | Inciting incident, progressive complications, crisis, climax and resolution |
 
-Every one of them works with the Board, the beat pages, the story strip and the checks. Their beats come with a short plain description, a usual placement ("Usually around 10% of the book.") and, on some beats, a question to test it. A few things belong to Save the Cat only: the three worlds, the **Questions for this beat** page on a beat, the sheet's examples, and the choice of two placement models in **Where beats fall**.
+Every one of them works with the Board, the beat pages, the Story Strip and the checks. Their beats come with a short plain description, a usual placement ("Usually around 10% of the book.") and, on some beats, a question to test it. A few things belong to Save the Cat only: the three worlds, the **Questions for this beat** page on a beat, the sheet's examples, and the choice of two placement models in **Where beats fall**.
 
 **Which should you pick?** If you've never used one, pick **Save the Cat (Brody for novels)**. It's written for novels and Story Canon teaches it most fully. If you already think in another shape, pick that one.
 
@@ -115,14 +115,14 @@ A method with beats appears in the beat sheet list the next time you choose one.
 
 This is the one place in the guide that says where a beat sheet is chosen and changed. Other chapters link here.
 
-**What it is.** Each novel uses one beat sheet at a time: the one whose beats appear on the Board, on the story strip and in **Where beats fall**. A novel can also have none, if you find the story as you write.
+**What it is.** Each novel uses one beat sheet at a time: the one whose beats appear on the Board, on the Story Strip and in **Where beats fall**. A novel can also have none, if you find the story as you write.
 
 **Where you choose one.** There are two places, and they do the same thing:
 
 - **In Narrative Zoom**, while the novel has no beat sheet. The **Zoom** tab (and the **Board** tab) says "This novel has no beat sheet. Frameworks are lenses you choose, never requirements. Your story works without one."
   1. Open the dropdown beside that message. It lists the five built-in sheets, then any of your own methods that have beats.
   2. Click **Use this beat sheet**.
-  3. The beats appear at once: on the Zoom page, on the Board, and on the story strip at the top of the window.
+  3. The beats appear at once: on the Zoom page, on the Board, and on the Story Strip at the top of the window.
 - **In Novel setup** (open **Settings**, then **Open novel setup**), on its page **5 My storytelling toolkit**. Tick a beat sheet, such as **Save the Cat (Brody for novels)**. If the novel had none, a message says it "is now the beat sheet for this novel". Your own methods that have beats are listed here too, marked *yours*.
 
 **Where you change it.** In Novel setup, on the same page **5 My storytelling toolkit**.
@@ -137,15 +137,15 @@ Nothing is decided for you, and nothing placed on the old sheet is lost. If you 
 
 **The common mistake.** Switching beat sheets to fix a sagging middle. The sheet is a lens; if the middle sags, the new sheet will show the same gap under another name. Try **Alternate structures** first.
 
-## The story strip across the top of the window
+## The Story Strip across the top of the window
 
-**What it is.** The **story strip** is a thin map of your whole book. Once a novel is open, it runs along the very top of the window, on the purple cover above the page, from the first page of the book (left) to the last (right). It is there on every view. (The row with the novel's title, the **Saved** indicator and **Capture** is a different thing: it sits at the top of the page itself, just below the strip.)
+**What it is.** The **Story Strip** is a thin map of your whole book. Once a novel is open, it runs along the very top of the window, on the purple cover above the page, from the first page of the book (left) to the last (right). It is there on every view. (The row with the novel's title, the **Saved** indicator and **Capture** is a different thing: it sits at the top of the page itself, just below the strip.)
 
 **Why it matters.** It tells you at a glance where you are in the shape of the book, and how much of your plan is placed, without opening anything.
 
 **Do you need it?** You don't do anything with it. It draws itself from your beat sheet and your scene cards, or from your chapters if you have no beat sheet.
 
-### Story strip: what the marks mean
+### Story Strip: what the marks mean
 
 **With a beat sheet**, the strip shows your acts and beats:
 
@@ -164,13 +164,13 @@ Up to five boxes show above any one beat. A beat with more cards still shows fiv
 
 **The pin.** "The scene you have open" is the scene last opened in the Writing Room, even while you are on another view. With a beat sheet, the pin shows only when that scene's card is decided on a beat; a card that only *might* go somewhere has no fixed spot to pin.
 
-### Story strip: pointing and clicking
+### Story Strip: pointing and clicking
 
 Hold the mouse over a beat, and a small label gives its name and what is there, such as *Catalyst, 1 placed, 2 might go here*. Click any beat (or chapter) to open Narrative Zoom, on whichever tab you used last.
 
 **Example.** Above the Catalyst on the strip of *The Keeper of Gull Point* is one solid box (the card "The empty boat", decided there) and two hollow ones (two other cards that might go there). While you write "The empty boat" in the Writing Room, the pink pin stands at the Catalyst.
 
-### Story strip: when it looks wrong but is working
+### Story Strip: when it looks wrong but is working
 
 - **No pink pin.** No scene has been opened in the Writing Room yet, or the open scene's card is not decided on a beat (it only might go there, or the scene has no card).
 - **The strip shows only "Chapter 1".** Your novel has no beat sheet yet. Choose one as [Choosing a beat sheet for a novel](#choosing-a-beat-sheet-for-a-novel) explains, and the acts and beats appear.
@@ -270,7 +270,7 @@ A beat page is the beat's record (chapter 01 introduced records, fields and page
 - **Where it falls**, in one line: "At 10% of the book." If you've set a target length (see [Where beats fall: the numbers for your length](#where-beats-fall-the-numbers-for-your-length)), it adds the words: "around word 9,000 of 90,000". Once you've written scenes on this beat, it adds where the beat actually starts in what you've written so far.
 - **Kept for you**: a dropdown that marks this beat as yours alone, such as **Mine to write**. The collaborator (the optional AI writing partner) may talk about a marked beat but never writes or decides it for you. **Not marked** means no mark.
 - **Ask about this**: opens a conversation with the collaborator about this beat. See [Conversations and the collaborator](#conversations-and-the-collaborator).
-- **The legend**, one line of samples showing how each status looks on the page: **Decided (inked)**, **Developing (pencil)**, **Still open (a blank line)**, **Example, never canon**, **Suggestion (a slip, tucked in)** and **Set aside (faded, kept below)**, the last one faded with a line through it.
+- **The Legend**, one line of samples showing how each status looks on the page: **Decided (inked)**, **Developing (pencil)**, **Still open (a blank line)**, **Example, never canon**, **Suggestion (a slip, tucked in)** and **Set aside (faded, kept below)**, the last one faded with a line through it.
 - **Suggestions waiting for you**, if the collaborator has suggested anything for this beat. Accepting one turns to the page where it landed.
 
 #### Beat page: its pages
@@ -527,7 +527,7 @@ These stay at the top, whatever page of the card you are on:
 - **Write this scene** (orange). Makes the card's page in the Writing Room and takes you there. Once a page exists, this button becomes **Open the page**. See [Write this scene: from plan to page](#write-this-scene-from-plan-to-page).
 - **Move…** opens the move dialog. See [Moving a card safely with Move](#moving-a-card-safely-with-move).
 - **Scene 3 of 24** (gray): where this card falls in reading order. It appears only for cards with a place in that order, meaning a written scene or a card decided on a beat.
-- The same bar a beat has: **Kept for you**, **Ask about this**, the legend, and any **Suggestions waiting for you** (see [Beat page: the top](#beat-page-the-top)).
+- The same bar a beat has: **Kept for you**, **Ask about this**, the Legend, and any **Suggestions waiting for you** (see [Beat page: the top](#beat-page-the-top)).
 
 #### Scene card page: its pages
 

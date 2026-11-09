@@ -5,7 +5,7 @@
 import { settingsOf } from './settings.js';
 import { withoutLater, laterIn } from './later.js';
 import { type ReplaceOptions, type DocMatch, replacePattern, findInDoc, replaceInDoc, cleanFind } from './replace.js';
-import { Store, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId, latestRevisionId, restoreSceneRevision } from './store.js';
+import { Store, Writer, Row, IdRow, withFields, NotFoundError, ValidationError, ConflictError, nowIso, newId, latestRevisionId, restoreSceneRevision } from './store.js';
 
 const EMPTY_DOC = '{"type":"doc","content":[]}';
 /** Keys of the default ladder. Each novel can rename, add or remove steps in its settings. */
@@ -85,13 +85,101 @@ export class Manuscript {
     if (!p || p.deleted_at) throw new NotFoundError('novel');
     const count = (this.store.db.prepare('SELECT COUNT(*) AS n FROM chapters WHERE project_id=? AND deleted_at IS NULL').get(projectId) as { n: number }).n;
     const t = (title ?? '').trim() || `Chapter ${count + 1}`;
-    let position = this.nextPosition('chapters', 'project_id', projectId);
-    if (after) {
-      const a = this.projectOf('chapters', after);
-      const next = this.store.db.prepare('SELECT MIN(position) AS m FROM chapters WHERE project_id=? AND position>? AND deleted_at IS NULL').get(projectId, a.position) as { m: number | null };
-      position = next.m == null ? (a.position as number) + 1 : ((a.position as number) + next.m) / 2;
+    const position = this.chapterPositionAfter(projectId, after);
+    const reason = after && !(title ?? '').trim() ? `New chapter after ${this.projectOf('chapters', after).title as string}` : `Add ${t}`;
+    return this.store.batch({ projectId, actor, reason }, (w) => {
+      const c = w.insert('chapters', { project_id: projectId, title: t, position });
+      if (!(title ?? '').trim()) this.renumber(w, projectId, c.id);
+      return { ...c, title: this.store.get('chapters', c.id)!.title as string };
+    });
+  }
+
+  private chapterPositionAfter(projectId: string, after?: string | null): number {
+    if (!after) return this.nextPosition('chapters', 'project_id', projectId);
+    const a = this.projectOf('chapters', after);
+    const next = this.store.db.prepare('SELECT MIN(position) AS m FROM chapters WHERE project_id=? AND position>? AND deleted_at IS NULL').get(projectId, a.position) as { m: number | null };
+    return next.m == null ? (a.position as number) + 1 : ((a.position as number) + next.m) / 2;
+  }
+
+  /**
+   * Chapters still wearing a plain number ("Chapter 4") are numbered again in book order, so a chapter added
+   * in the middle pushes the later ones up by one. A chapter she named herself is never touched, and if her
+   * plain numbers were not already running in order (on purpose, perhaps), none of them are changed.
+   */
+  private renumber(w: Writer, projectId: string, fresh?: string) {
+    const rows = this.store.db.prepare('SELECT id, title FROM chapters WHERE project_id=? AND deleted_at IS NULL ORDER BY position').all(projectId) as Row[];
+    const plain = rows.map((r) => ({ id: r.id as string, n: /^Chapter (\d+)$/.exec(r.title as string) })).filter((r) => r.n);
+    const old = plain.filter((r) => r.id !== fresh);
+    const first = old.length ? Number(old[0]!.n![1]) : 1;
+    if (old.some((r, i) => Number(r.n![1]) !== first + i)) return;
+    // The newest chapter counts as plain too, even though its title was made from the old count.
+    plain.forEach((r, i) => { const t = `Chapter ${first + i}`; if (t !== r.n![0]) w.update('chapters', r.id, { title: t }); });
+  }
+
+  /**
+   * Split the chapter at a point inside one of its scenes. Everything from that point on, and every later
+   * scene in the chapter, becomes a new chapter right after this one. The words are only divided, never
+   * written: the two halves are saved as a split, which the daily word count leaves out. One undoable step.
+   * `before` and `after` are the two halves of the scene's page, cut by the editor at the cursor.
+   */
+  splitChapter(sceneId: string, input: { before: unknown; after: unknown; expectVersion: number }, actor = 'author') {
+    const s = this.projectOf('scenes', sceneId);
+    const c = this.projectOf('chapters', s.chapter_id as string);
+    const projectId = s.project_id as string;
+    if (s.prose_version !== input.expectVersion) throw new ConflictError('This scene changed since the split was asked for. Try it again.', {});
+    const before = validateDoc(input.before), after = validateDoc(input.after);
+    const bText = docToText(before), aText = docToText(after);
+    // Nothing may be lost or added in the cut: the two halves hold exactly the scene's words, in order.
+    const words = (t: string) => withoutLater(t).match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu) ?? [];
+    if ([...words(bText), ...words(aText)].join(' ') !== words(s.text as string).join(' ')) throw new ValidationError('The split did not match the saved scene. Nothing was changed. Try it again.');
+    const later = (this.store.db.prepare('SELECT id FROM scenes WHERE chapter_id=? AND deleted_at IS NULL AND position>? ORDER BY position').all(c.id, s.position) as Row[]).map((r) => r.id as string);
+    const hasBefore = bText.trim().length > 0, hasAfter = aText.trim().length > 0;
+    return this.store.batch({ projectId, actor, reason: `Split ${c.title as string} at "${s.title as string}"` }, (w) => {
+      const count = (this.store.db.prepare('SELECT COUNT(*) AS n FROM chapters WHERE project_id=? AND deleted_at IS NULL').get(projectId) as { n: number }).n;
+      const nc = w.insert('chapters', { project_id: projectId, title: `Chapter ${count + 1}`, position: this.chapterPositionAfter(projectId, c.id as string) });
+      const moving: string[] = [];
+      let open: string;
+      if (!hasBefore) {
+        // The cursor is at the very start: the whole scene opens the new chapter.
+        moving.push(sceneId); open = sceneId;
+      } else {
+        if (hasAfter) {
+          this.writeSplitHalf(w, sceneId, before, bText);
+          const b = w.insert('scenes', { project_id: projectId, chapter_id: nc.id, title: 'Scene 1', position: 1, doc_json: JSON.stringify(after), text: aText, word_count: countWords(aText), status: s.status });
+          const revId = newId();
+          this.store.db.prepare('INSERT INTO scene_revisions(id,scene_id,version,doc_json,text,word_count,reason,created_at) VALUES (?,?,?,?,?,?,?,?)').run(revId, b.id, 1, b.doc_json, aText, b.word_count, 'split', nowIso());
+          w.note('scenes', b.id, 'revision', null, revId);
+          open = b.id;
+        } else open = later[0] ?? '';
+      }
+      moving.push(...later);
+      moving.forEach((id, i) => w.update('scenes', id, { chapter_id: nc.id, position: i + 2 }));
+      if (!open) {
+        // The cursor was at the end of the chapter's last scene: the new chapter opens on a blank scene.
+        open = w.insert('scenes', { project_id: projectId, chapter_id: nc.id, title: 'Scene 1', position: 1, doc_json: EMPTY_DOC, text: '', word_count: 0, status: this.defaultStatus(projectId, false) }).id;
+      }
+      this.renumber(w, projectId, nc.id);
+      return { chapter: this.store.get('chapters', nc.id)!, sceneId: open };
+    });
+  }
+
+  /** Save the first half of a split scene as a new version. It is marked as a split, so it never counts as writing. */
+  private writeSplitHalf(w: Writer, id: string, doc: unknown, text: string) {
+    const s = this.store.get('scenes', id)!;
+    const prevRev = latestRevisionId(this.store, id);
+    let beforeRev = prevRev;
+    if (!prevRev && (s.text as string).length) {
+      beforeRev = newId();
+      this.store.db.prepare('INSERT INTO scene_revisions(id,scene_id,version,doc_json,text,word_count,reason,created_at) VALUES (?,?,?,?,?,?,?,?)')
+        .run(beforeRev, id, s.prose_version, s.doc_json, s.text, s.word_count, 'baseline', nowIso());
     }
-    return this.store.batch({ projectId, actor, reason: `Add ${t}` }, (w) => w.insert('chapters', { project_id: projectId, title: t, position }));
+    const docJson = JSON.stringify(doc), words = countWords(text);
+    w.update('scenes', id, { doc_json: docJson, text, word_count: words, prose_version: (s.prose_version as number) + 1 });
+    const revId = newId();
+    this.store.db.prepare('INSERT INTO scene_revisions(id,scene_id,version,doc_json,text,word_count,reason,created_at) VALUES (?,?,?,?,?,?,?,?)')
+      .run(revId, id, (s.prose_version as number) + 1, docJson, text, words, 'split', nowIso());
+    w.note('scenes', id, 'revision', beforeRev, revId);
+    this.store.db.prepare('DELETE FROM autosave_journal WHERE scene_id=?').run(id);
   }
 
   renameChapter(id: string, title: string, expectVersion?: number, actor = 'author') {

@@ -65,7 +65,9 @@ export function undoMeaning(reason: string): string {
   if (/^Link /.test(r)) return 'Removes this connection.';
   if (/^Brought \d+ /.test(r)) return 'Removes the records you brought. The originals in the other novel stay as they are.';
   if (/^Replace "/.test(r)) return 'Puts back the old words in every scene this replace changed.';
-  if (/^Add /.test(r)) return 'Removes what was added. It can be restored from Deleted things.';
+  if (/^Split /.test(r)) return 'Puts the chapter back together, with every word where it was.';
+  if (/^New chapter after /.test(r)) return 'Removes the new chapter. It can be restored from Deleted Things.';
+  if (/^Add /.test(r)) return 'Removes what was added. It can be restored from Deleted Things.';
   if (/^Delete /.test(r)) return 'Brings it back.';
   return 'Puts things back the way they were just before this change.';
 }

@@ -35,7 +35,7 @@ The chapter [Your first hour: the Library and a new novel](#your-first-hour-the-
 
 A **view** is one of the main screens of a novel, picked from the list of names down the right edge of the window: **Where was I?**, **The Writing Room**, **Story Brain**, **Narrative Zoom**, **Conversations**, then **Search**, **Story Trail**, **Import and export**, **Settings** and **Help**. The view you are on is lit cream and bold in that list. [Welcome to Story Canon](#welcome-to-story-canon) says what each one is for.
 
-- **Why it matters:** this guide often says "in the Story Brain view" or "open the Writing Room". That always means: click that name in the list on the right.
+- **Why it matters:** this guide often says "in the Story Brain view" or "open the Writing Room". That always means: click that name in Views on the right.
 - **Example:** to look up Port Ellery, you open the **Story Brain** view. To write about it, you open **The Writing Room** view.
 
 ### Scene
@@ -166,7 +166,7 @@ The full steps are in [Writing Room: Capture while writing](#writing-room-captur
 
 ### Help and F1
 
-**Help** is this guide, inside the program. Press **F1** on your keyboard to open it, or click **Help** (the last name in the list on the right inside a novel, or the **Help** button in the Library). The details are in [Getting help](#getting-help).
+**Help** is this guide, inside the program. Press **F1** on your keyboard to open it, or click **Help** (the last name in Views on the right inside a novel, or the **Help** button in the Library). The details are in [Getting help](#getting-help).
 
 - **Example:** you are not sure what a beat sheet is. Press **F1**, type *beat* in **Search the guide**, and click the section you want.
 
@@ -182,7 +182,7 @@ The full steps are in [Writing Room: Capture while writing](#writing-room-captur
 | --- | --- |
 | **Novel** | One book you are working on. |
 | **Library** | Your shelf of novels, the first screen. |
-| **View** | One of the main screens, picked from the list on the right. |
+| **View** | One of the main screens, picked from Views on the right. |
 | **Scene** | One stretch of your written book, in the Writing Room. |
 | **Chapter** | A group of scenes, in order. |
 | **Record** | One thing in your story with its own page in the Story Brain. |
@@ -202,21 +202,21 @@ The full steps are in [Writing Room: Capture while writing](#writing-room-captur
 
 ## Reading a record
 
-When you open a record in the Story Brain, you see its name in large letters, a line of small controls, the status legend, and then the row of page tabs with the page itself below. The Story Brain chapter walks through every part from top to bottom: [The Story Brain](#the-story-brain). Two parts are worth knowing on your first day: the legend and the pages.
+When you open a record in the Story Brain, you see its name in large letters, a line of small controls, the **Legend** (the key to the status inks), and then the row of page tabs with the page itself below. The Story Brain chapter walks through every part from top to bottom: [The Story Brain](#the-story-brain). Two parts are worth knowing on your first day: the Legend and the pages.
 
-### Reading a record: the status legend
+### Reading a record: the Legend
 
 Just under the record's name is a line of six small samples, one for each status:
 
 *Decided (inked)*, *Developing (pencil)*, *Still open (a blank line)*, *Example, never canon*, *Suggestion (a slip, tucked in)*, *Set aside (faded, kept below)*
 
-Each sample is drawn the way that status looks on the page, so the legend is a key you can glance at whenever you forget which look is which. The last one is faded, with a line through it. "Kept below" means a set-aside fact is not on the field itself: it is folded away under the field, behind the link **Show earlier and set-aside versions**, until you open it. If you renamed the status words in **Settings**, the legend shows your words.
+Each sample is drawn the way that status looks on the page, so the Legend is a key you can glance at whenever you forget which look is which. The last one is faded, with a line through it. "Kept below" means a set-aside fact is not on the field itself: it is folded away under the field, behind the link **Show earlier and set-aside versions**, until you open it. If you renamed the status words in **Settings**, the Legend shows your words.
 
-**Example.** On Cyrus Hale's record, one line is ink blue and two are pencil gray. A glance at the legend tells you: one decided, two still being worked on.
+**Example.** On Cyrus Hale's record, one line is ink blue and two are pencil gray. A glance at the Legend tells you: one decided, two still being worked on.
 
 ### Record pages: the numbered tabs
 
-Under the legend is the row of page tabs. Each tab shows a page number in a small circle and the page's name.
+Under the Legend is the row of page tabs. Each tab shows a page number in a small circle and the page's name.
 
 - **The page you are on** is the tab joined to the page, in bold purple.
 - **A page number turns ink blue** (a filled blue circle) when that page has something written on it. Hold the mouse over a tab and it says *Something is written on this page* or *Nothing on this page yet*.
@@ -239,9 +239,9 @@ Story Canon teaches in two places: in **Help**, which holds this whole guide, an
 ### Opening Help inside a novel
 
 1. Press **F1** on your keyboard, from any view. Help opens at the start of the guide. (While a sprint, a timed stretch of writing, is running, **F1** does nothing, because a sprint keeps you on the page.)
-2. Or click **Help**, the last of the small names in the list on the right.
+2. Or click **Help**, the last of the small names in Views on the right.
 
-To leave Help, click any other name in the list on the right, or the pink **Return to Writing** ribbon if you came from the page.
+To leave Help, click any other name in Views on the right, or the pink **Return to Writing** ribbon if you came from the page.
 
 ### Opening Help from the Library
 

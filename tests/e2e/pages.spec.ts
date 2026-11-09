@@ -65,7 +65,7 @@ test('the Writing Room shows Word-style pages that never touch the text', async 
 
   // A new chapter opens on a fresh page: Chapter 1 ends on page 3, so Chapter 2 starts on page 4.
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: 'The Writing Room' }).click();
-  await page.getByRole('button', { name: 'Add chapter' }).click();
+  await page.getByRole('complementary', { name: 'Binder' }).getByRole('button', { name: 'New chapter' }).click();
   await expect(editor(page)).toHaveAttribute('contenteditable', 'true');
   await editor(page).click();
   await writeWords(page, 3, 1000);

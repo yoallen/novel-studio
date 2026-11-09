@@ -8,7 +8,7 @@ Press **F1** from anywhere, including the Library, to open Help, and type a word
 
 ### Where is my novel's home page?
 
-It is **Where was I?**, the first view in the list on the right. The list shows the words "your novel's home page" under its name, and the top of the page says "This is (your title)'s home page." Story Canon opens every novel there, and it picks up where you left off: the next thing to write at the top, then four numbered pages. **1 Today** has how your words are going and notes you left for later; **2 Still open** has questions still open and your latest decisions; **3 This week** sums up the last seven days; **4 The shelf** shows your manuscript so far and a shelf for every writing push. Whenever you lose your place, click **Where was I?**. See [Where was I? Your novel's home page](#where-was-i-your-novels-home-page).
+It is **Where was I?**, the first view in Views on the right. The list shows the words "your novel's home page" under its name, and the top of the page says "This is (your title)'s home page." Story Canon opens every novel there, and it picks up where you left off: the next thing to write at the top, then four numbered pages. **1 Today** has how your words are going and notes you left for later; **2 Still open** has questions still open and your latest decisions; **3 This week** sums up the last seven days; **4 The shelf** shows your manuscript so far and a shelf for every writing push. Whenever you lose your place, click **Where was I?**. See [Where was I? Your novel's home page](#where-was-i-your-novels-home-page).
 
 ### How do I get back to all my novels?
 
@@ -16,7 +16,7 @@ Click **Library** at the top left of any page. The Library lists every novel on 
 
 ### Where is the help for the screen I am on?
 
-Press **F1**, or click **Help**, the last view in the list on the right. In the Library, before any novel is open, there is a **Help** button at the top right of the window, on the purple edge. Under many fields on a record, a **Why it matters** link teaches what that field is for. At the end of the **About** fold at the top of a record, **Read the full chapter in Help** opens the reference for that kind of record (see [Every kind and every field](#every-kind-and-every-field)). At the top of each continuity check, **How this view works** explains that check. See [Getting help](#getting-help).
+Press **F1**, or click **Help**, the last view in Views on the right. In the Library, before any novel is open, there is a **Help** button at the top right of the window, on the purple edge. Under many fields on a record, a **Why it matters** link teaches what that field is for. At the end of the **About** fold at the top of a record, **Read the full chapter in Help** opens the reference for that kind of record (see [Every kind and every field](#every-kind-and-every-field)). At the top of each continuity check, **How this view works** explains that check. See [Getting help](#getting-help).
 
 ### I pressed Capture. Where did my thought go?
 
@@ -84,7 +84,7 @@ The color of the words shows each fact's status, like ink on a page:
 | **Suggestion** | On a white slip, tucked in at a slight angle, in a handwriting typeface. Someone else's idea, waiting for you. |
 | **Set aside** | Folded away under the field, out of sight. Click **Show earlier and set-aside versions** to see it, faded, with a line through it. Retired, but kept. |
 
-The legend under a record's name shows a small sample of all six, so you can glance at it whenever you forget which look is which. The last sample, *Set aside (faded, kept below)*, has a line through it, and "kept below" reminds you that set-aside facts are folded away under their field. See [Reading a record: the status legend](#reading-a-record-the-status-legend).
+The Legend under a record's name shows a small sample of all six, so you can glance at it whenever you forget which look is which. The last sample, *Set aside (faded, kept below)*, has a line through it, and "kept below" reminds you that set-aside facts are folded away under their field. See [Reading a record: the status legend](#reading-a-record-the-status-legend).
 
 ### I renamed "Decided" in Settings. Did the blue ink change?
 
@@ -104,7 +104,7 @@ No. You most likely left the page without pressing **Save settings**. The line b
 
 ### I deleted a scene by mistake. Is it gone?
 
-No. Deleting moves it to **Deleted things**. Click **Story Trail** in the list of views, then **Deleted things**, then **Restore** beside the scene. A deleted chapter comes back whole with **Restore with its scenes**. See [Finding things: Search and Story Trail](#finding-things-search-and-story-trail).
+No. Deleting moves it to **Deleted Things**. Click **Story Trail** in Views, then **Deleted Things**, then **Restore** beside the scene. A deleted chapter comes back whole with **Restore with its scenes**. See [Finding things: Search and Story Trail](#finding-things-search-and-story-trail).
 
 ### I clicked Undo, but the old row is still in the Story Trail. Did it work?
 
@@ -277,7 +277,7 @@ Each names the kind of work waiting for you: writing it, staging the movement, t
 
 ### The circle beside my scene does not match how much I wrote.
 
-The circle follows the scene's **Status** step, not its word count. It is empty before the first step ticked **Counts as drafted**, half filled at that step, and full after it. Change the scene's **Status** on the **About it** page of its scene plan. See [Settings: Counts as drafted, and the circles in the binder](#settings-counts-as-drafted-and-the-circles-in-the-binder).
+The circle follows the scene's **Status** step, not its word count. It is empty before the first step ticked **Counts as drafted**, half filled at that step, and full after it. Change the scene's **Status** on the **About it** page of its scene plan. See [Settings: Counts as drafted, and the circles in the Binder](#settings-counts-as-drafted-and-the-circles-in-the-binder).
 
 ### Is a scene's "Status" the same as Decided or Developing?
 
@@ -305,7 +305,7 @@ The Story Brain counts every beat record, including the smaller steps inside bea
 
 ### My planned scenes do not show in the Writing Room. Where are they?
 
-Scene cards you planned but have not written wait in the Writing Room's binder, below your chapters, under **Planned, not written yet**, each with **Write it**. Clicking **Write it** gives the scene a page in the right place. See [The Writing Room](#the-writing-room).
+Scene cards you planned but have not written wait in the Writing Room's Binder, below your chapters, under **Planned, not written yet**, each with **Write it**. Clicking **Write it** gives the scene a page in the right place. See [The Writing Room](#the-writing-room).
 
 ### The pink "Return to Writing" ribbon is not showing.
 

@@ -10,20 +10,20 @@ Open Story Canon from its desktop shortcut. (If you ever open it some other way,
 
 **Every time after that,** Story Canon opens the novel you had open last, on its home page, **Where was I?**. You do not have to pass through the Library each day. When you want the Library, you go to it.
 
-### Getting around: the header, the Library link and the book switcher
+### Getting around: the header, the Library link and the **Novel Switch**
 
 Once a novel is open, the **header** is the row of buttons across the top of the page, with a thin line under it. Reading from the left, it holds:
 
 1. The pink **Return to Writing** ribbon, once you have been writing.
 2. **Library**, a small link. Click it to go to the Library from any screen.
-3. The title of the open novel, with a small arrow. Click it and a menu lists all your novels (with each one's stage in gray, if it has one). Click another title to switch books without going through the Library. Each book opens where you left it.
+3. The **Novel Switch**: the title of the open novel, with a small arrow and the words *Novel Switch* beside it. Click the title and a menu lists all your novels (with each one's stage in gray, if it has one). Click another title to switch books without going through the Library. Each book opens where you left it.
 4. On the right: the **Saved** indicator (in the Writing Room only), the name of the view you are in, and the **Capture** button.
 
-Above the page, on the purple cover across the top of the window, runs the **story strip**, a thin map of your whole book, explained in [Narrative Zoom](#narrative-zoom). The list of views runs down the right edge of the window. The first one is **Where was I?**, with the words *your novel's home page* in small type under its name.
+Above the page, on the purple cover across the top of the window, runs the **Story Strip**, a thin map of your whole book, explained in [Narrative Zoom](#narrative-zoom). The list of views runs down the right edge of the window. The first one is **Where was I?**, with the words *your novel's home page* in small type under its name.
 
 ### Help, from the very first screen
 
-The Library has its own **Help** button at the top right of the window, on the purple edge. Click it, or press **F1**, and the whole guide opens over the Library. Press **Esc**, or click **Close Help**, to go back. Inside a novel, Help is one of the views in the list on the right, and F1 works there too.
+The Library has its own **Help** button at the top right of the window, on the purple edge. Click it, or press **F1**, and the whole guide opens over the Library. Press **Esc**, or click **Close Help**, to go back. Inside a novel, Help is one of the views in Views on the right, and F1 works there too.
 
 ## About you: telling Story Canon who you are
 
@@ -378,12 +378,12 @@ The list holds:
 The program's own one-line description under each name says the same thing in its own words. You don't need to know any of these to start.
 
 1. Tick a method to use it. None is required, and using several together is normal.
-2. When you tick your first beat sheet, a message says, for example, *Save the Cat (Brody for novels) is now the beat sheet for this novel.* The **story strip**, the thin map of your book on the purple cover above the page, fills in with acts and beats.
+2. When you tick your first beat sheet, a message says, for example, *Save the Cat (Brody for novels) is now the beat sheet for this novel.* The **Story Strip**, the thin map of your book on the purple cover above the page, fills in with acts and beats.
 3. A box called **How I use it** appears under each ticked method (*your own note, yours to change*). Write what the method does for you in this book. Click away to keep it.
 4. A method of your own is marked *yours*, with an **Edit** link that opens **My methods**, the page where your own methods live. When it is ticked and has questions of its own, they show under it after **Asks:**.
 5. **Make a method of my own** opens **My methods**, where you can add a method from any teacher or book, with its own beats, questions and fields. Every novel can use it.
 
-**I find my story as I write** is for writers who don't outline. Tick it with no beat sheet and the book has no beat sheet: the story strip shows your chapters instead of beats.
+**I find my story as I write** is for writers who don't outline. Tick it with no beat sheet and the book has no beat sheet: the Story Strip shows your chapters instead of beats.
 
 **The common mistake** is ticking every method because they all sound useful. Each adds fields to your record pages. Tick the ones you actually think in. You can add more any time.
 
@@ -391,7 +391,7 @@ The program's own one-line description under each name says the same thing in it
 
 ### Novel setup: the beat sheet that drives the board
 
-When two or more beat sheets are ticked, a line appears at the bottom of the toolkit: **The beat sheet that drives the board:** with a menu. The beat sheet chosen there is the one used by the **Board** (in Narrative Zoom, where you place scene cards on beats), by the story strip, and by **I'm stuck** (the helper for when you don't know what comes next). The others stay available as other ways to look at the book.
+When two or more beat sheets are ticked, a line appears at the bottom of the toolkit: **The beat sheet that drives the board:** with a menu. The beat sheet chosen there is the one used by the **Board** (in Narrative Zoom, where you place scene cards on beats), by the Story Strip, and by **I'm stuck** (the helper for when you don't know what comes next). The others stay available as other ways to look at the book.
 
 Beside it, **Offer my placed scenes on the matching beats** (ticked at first) means: when you switch beat sheets, scene cards you had placed are offered on the matching beats of the new sheet as suggestions, waiting for you to decide. A message says so when it happens.
 
@@ -466,7 +466,7 @@ The gray words inside each box hint at an answer.
 
 ### Plant the seed: step by step
 
-1. Click **Where was I?** in the list on the right.
+1. Click **Where was I?** in Views on the right.
 2. Answer any of the six questions. Skip the rest.
 3. Click **Plant it**. (It stays gray until at least one box has words.)
 4. Story Canon opens the **Story Brain** on your list of characters, where your new lead is waiting. Click the name to open the record.
@@ -494,7 +494,7 @@ She clicks **Plant it**. The Story Brain opens with one character, *Marisol Vega
 
 ## Where you land: Where was I?
 
-When the first hour is over, your novel has a home. **Where was I?** is the novel's home page: the first view in the list on the right, with *your novel's home page* under its name. Every time you come back to this book, Story Canon opens it there (unless you just started it with **Start writing**, **Set it up first** or **Start from a manuscript or story bible**, which open the Writing Room, Novel setup or Import and export the first time).
+When the first hour is over, your novel has a home. **Where was I?** is the novel's home page: the first view in Views on the right, with *your novel's home page* under its name. Every time you come back to this book, Story Canon opens it there (unless you just started it with **Start writing**, **Set it up first** or **Start from a manuscript or story bible**, which open the Writing Room, Novel setup or Import and export the first time).
 
 Its top says so: *This is (your title)'s home page.* Below that it shows the one next thing to do, with an orange **Write** button, and then, on four numbered pages (**Today**, **Still open**, **This week** and **The shelf**), everything else you would otherwise have to remember. Whenever you lose your place, click **Where was I?**.
 

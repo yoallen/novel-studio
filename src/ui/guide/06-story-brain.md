@@ -225,7 +225,7 @@ Click a record's name, and its page opens. Every kind of record uses the same la
 2. **The record's name.**
 3. A line only some kinds have: **Whose move is this?** on a hidden move, **Between** on a relationship, **This question is** on a question.
 4. **Kept for you**, any chips, **Ask about this**, and sometimes **Where did this come from?**
-5. **The legend**: a key to the status inks.
+5. **The Legend**: a key to the status inks.
 6. **Suggestions waiting for you**, if the collaborator has suggested something for this record.
 7. On a character, **Fill in one line**.
 8. **The page tabs**: the numbered pages and **All pages**.
@@ -301,11 +301,11 @@ Some records show a small rounded label (a **chip**) on the same line:
 
 On some records, a **Where did this come from?** link sits on the same line. It appears only when the whole record came from a conversation, such as a line you kept from a chat. Click it to see the conversation and the exact message. (Facts have their own **Where did this come from?** too; see [Where did this come from? for one fact](#where-did-this-come-from-for-one-fact).)
 
-### The status legend and the status inks
+### The Legend and the status inks
 
-Under that line is a row of six small samples. This is the **legend**, a key like the one on a map. Each fact on the page wears one of these looks, so you can tell at a glance what is settled and what is not. The words are colored the way the facts below them are, which is why the colors are called **inks**.
+Under that line is a row of six small samples. This is the **Legend**, named at its start in slanted purple type, *Legend*: a key like the one on a map. Each fact on the page wears one of these looks, so you can tell at a glance what is settled and what is not. The words are colored the way the facts below them are, which is why the colors are called **inks**.
 
-| In the legend | How a fact with this status looks on the page |
+| In the Legend | How a fact with this status looks on the page |
 | --- | --- |
 | **Decided (inked)**, beside a small blue square | The words in ink blue, with a small blue square before them. |
 | **Developing (pencil)**, beside a short dashed line | The words in pencil gray, with a dashed underline. |
@@ -318,11 +318,11 @@ Under that line is a row of six small samples. This is the **legend**, a key lik
 
 In dark mode the inks are lighter versions of the same colors, so they still read clearly.
 
-The legend is not clickable. If you renamed the status words in **Settings** (on its page **3 Writing**, under **Words for decisions**), the legend uses your words, and the looks stay the same. Each status is taught in full in [How each status looks and behaves on a record](#how-each-status-looks-and-behaves-on-a-record).
+The Legend is not clickable. If you renamed the status words in **Settings** (on its page **3 Writing**, under **Words for decisions**), the Legend uses your words, and the looks stay the same. Each status is taught in full in [How each status looks and behaves on a record](#how-each-status-looks-and-behaves-on-a-record).
 
 ### Suggestions waiting for you on a record
 
-If the collaborator has suggested something for this record, a section headed **Suggestions waiting for you** appears under the legend, above the page tabs, so you see it whichever page you are on. Each suggestion shows the idea on a slip and these buttons:
+If the collaborator has suggested something for this record, a section headed **Suggestions waiting for you** appears under the Legend, above the page tabs, so you see it whichever page you are on. Each suggestion shows the idea on a slip and these buttons:
 
 | Button | What it does |
 | --- | --- |
@@ -1301,7 +1301,7 @@ A character record on its own doesn't know which scenes the character is in. Thr
 
 ## The other kinds of records
 
-Every other kind works exactly like a character: the same name, Kept for you, legend, pages, fields, margin and connections. This part says briefly what each kind is for, which pages it has, and anything special about it. Each kind's full list of fields, with its teaching, is in [Every kind and every field](#every-kind-and-every-field).
+Every other kind works exactly like a character: the same name, Kept for you, Legend, pages, fields, margin and connections. This part says briefly what each kind is for, which pages it has, and anything special about it. Each kind's full list of fields, with its teaching, is in [Every kind and every field](#every-kind-and-every-field).
 
 ### Relationship records
 

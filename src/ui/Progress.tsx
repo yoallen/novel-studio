@@ -56,7 +56,7 @@ export function DraftingProgress({ ctx }: { ctx: Ctx }) {
       )}
 
       {r.status === 'ended' && r.push ? <Recap ctx={ctx} r={r} name={name} />
-        : r.push && r.goal ? <PushLine r={r} name={name} said={said} /> : null}
+        : r.push && r.goal ? <><span className="push-name" aria-hidden="true">Push Progress</span><PushLine r={r} name={name} said={said} /></> : null}
       {/* The days in words, for a screen reader: the drawing says the same thing in ink. */}
       <ol className="sr-only" aria-label={`Words each day, ${longDay(r.start)} to ${longDay(r.end)}`}>
         {r.days.map((d: any) => <li key={d.day} data-mark={markOf(d)} data-today={d.today || undefined} aria-label={said(d)}>{said(d)}</li>)}
@@ -185,7 +185,7 @@ export function BookMap({ ctx }: { ctx: Ctx }) {
           <p className="small muted" style={{ margin: '0.4rem 0 0' }}>Finished {longDay(String(finished.completed_at).slice(0, 10))}, {n(finished.words ?? 0)} words. Your pages are kept as they stood; the {String(current?.name ?? 'next draft').toLowerCase()} begins where they are.</p>
         </div>
       )}
-      <h3 id="map-h">Your book<span className="book-map-figures">, {n(r.bookWords)}{r.targetWords ? ` of ${n(r.targetWords)}` : ''} words</span></h3>
+      <h3 id="map-h">Your Book Map<span className="book-map-figures">, {n(r.bookWords)}{r.targetWords ? ` of ${n(r.targetWords)}` : ''} words</span></h3>
       <svg className="book-shape" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={summary}>
         <path className="ahead" d={path(pts, 0, 1)} fill="none" strokeWidth={1.3} strokeDasharray="1 4" strokeLinecap="round" />
         {strip.segs.filter((sg) => stateOf(sg) !== 'ahead').map((sg) => { const [a0, b0] = stretchOf(sg); const st = stateOf(sg); return <g key={sg.id}>

@@ -22,7 +22,7 @@ import { flushEditor, currentEditor } from './flush';
 
 export type View = 'home' | 'write' | 'brain' | 'zoom' | 'conversations' | 'search' | 'trail' | 'history' | 'trash' | 'files' | 'settings' | 'setup' | 'drafts' | 'methods' | 'help';
 const VIEW_NAMES: Record<View, string> = {
-  home: 'Where was I?', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted', files: 'Import and export', settings: 'Settings', setup: 'Novel setup', drafts: 'Drafts', methods: 'My methods', help: 'Help',
+  home: 'Where was I?', write: 'The Writing Room', brain: 'Story Brain', zoom: 'Narrative Zoom', conversations: 'Conversations', search: 'Search', trail: 'Writing Trail', history: 'Story Trail', trash: 'Deleted Things', files: 'Import and export', settings: 'Settings', setup: 'Novel setup', drafts: 'Drafts', methods: 'My methods', help: 'Help',
 };
 
 export interface Ctx {
@@ -253,6 +253,7 @@ export function App() {
       </div>
       {/* The views, cut into the fore-edge like a dictionary's thumb index. */}
       <nav aria-label="Views" className="thumbs">
+        <span className="and views-name" aria-hidden="true">Views</span>
         {PRIMARY.map(tab)}
         <span className="and" aria-hidden="true">and</span>
         <div className="minor">{SECONDARY.map(tab)}</div>
@@ -292,7 +293,7 @@ function Strip({ projectId, sceneId, refresh, onOpen }: { projectId: string; sce
   const placed = segs.reduce((n, x) => n + x.decided, 0), maybe = segs.reduce((n, x) => n + x.maybe, 0);
   const summary = d.mode === 'beats' ? `${placed} card${placed === 1 ? '' : 's'} placed, ${maybe} that might go somewhere${here ? `, you are at ${here.name}` : ''}` : `${segs.length} chapter${segs.length === 1 ? '' : 's'}${here ? `, you are in ${here.name}` : ''}`;
   return (
-    <div className="strip" role="group" aria-label={`The book's shape: ${summary}`}>
+    <div className="strip" role="group" aria-label={`Story Strip: ${summary}`}>
       <div className="line">
         {acts.map((x, i) => {
           const next = acts[i + 1];
@@ -313,6 +314,7 @@ function Strip({ projectId, sceneId, refresh, onOpen }: { projectId: string; sce
         })}
         {here && <span className="here" style={{ left: pct((here.from + here.to) / 2) }} title={`You are at ${here.name}`} />}
       </div>
+      <em className="strip-name" aria-hidden="true">Story Strip</em>
     </div>
   );
 }
@@ -324,7 +326,8 @@ function BookSwitcher({ current, title, onOpen }: { current: string; title: stri
   useEffect(() => { if (open) api.get('/api/library').then(setBooks).catch(() => {}); }, [open]);
   return (
     <span className="switcher">
-      <button className="title" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((o) => !o)} title="Switch to another novel">{title} <span aria-hidden="true" className="faint">▾</span></button>
+      <button className="title" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((o) => !o)} title="Novel Switch: switch to another novel">{title} <span aria-hidden="true" className="faint">▾</span></button>
+      <span className="switcher-name" aria-hidden="true">Novel Switch</span>
       {open && (
         <ul role="menu" className="switch-menu" onMouseLeave={() => setOpen(false)}>
           {books.map((b) => (

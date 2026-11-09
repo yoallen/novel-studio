@@ -215,9 +215,9 @@ Under the list, **Add a step** adds one named "New step" at the end, already tic
 
 **Do most writers need it?** No. The starting steps fit most ways of working. Change them if your own process has a step they lack.
 
-### Settings: Counts as drafted, and the circles in the binder
+### Settings: Counts as drafted, and the circles in the Binder
 
-The **binder** is the list of chapters and scenes down the side of the Writing Room. Each scene in it has a small circle before its name. The circle follows the scene's status step, not its word count:
+The **Binder** is the list of chapters and scenes down the left side of the Writing Room. Each scene in it has a small circle before its name. The circle follows the scene's status step, not its word count:
 
 | Circle | Meaning | For the starting steps |
 | --- | --- | --- |
@@ -227,7 +227,7 @@ The **binder** is the list of chapters and scenes down the side of the Writing R
 
 The rule: steps before the first one ticked **Counts as drafted** show an empty circle. The first ticked step shows a half circle. Every step after it shows a full circle. The gray line in this section of Settings says the same thing, and the scene plan in the Writing Room shows the key under the **Status** dropdown (page **2 About it**), with your own step names.
 
-**The common mistake** is ticking **Counts as drafted** on a planning step such as **Ready to draft**. The binder would then show scenes with no prose as half written.
+**The common mistake** is ticking **Counts as drafted** on a planning step such as **Ready to draft**. The Binder would then show scenes with no prose as half written.
 
 **Example.** You like to read every finished scene aloud before calling it done. Click **Add a step**, rename "New step" to "Read aloud," and use **↑** to move it just after **Revised**. It is already ticked **Counts as drafted**. Save. Scenes at "Read aloud" show a full circle.
 
@@ -248,7 +248,7 @@ Every fact in Story Canon carries a status. Six boxes let you rename the words f
 | **Shown instead of "Suggestion"** | Someone else's idea, waiting for you. |
 | **Shown instead of "Set aside"** | Retired, but kept. |
 
-**When to use it:** your own notes already say "Locked" instead of "Decided," or you think in "Ink" and "Pencil." Use your words. After you press **Save settings**, they appear everywhere: on records, in the legend under a record's name, in search, in exports, and in what the collaborator is told.
+**When to use it:** your own notes already say "Locked" instead of "Decided," or you think in "Ink" and "Pencil." Use your words. After you press **Save settings**, they appear everywhere: on records, in the Legend under a record's name, in search, in exports, and in what the collaborator is told.
 
 Renaming changes only the word on screen. It never changes what the status means or how it looks. A fact you call "Locked" is still written in blue ink with a small blue square, because it is still Decided underneath. (Each status's look is taught in [The words Story Canon uses, and getting help](#the-words-story-canon-uses-and-getting-help).)
 

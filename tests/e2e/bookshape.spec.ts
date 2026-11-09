@@ -68,7 +68,7 @@ test('the book map and the push are separate: beats belong to the book, the push
   await request.patch(`/api/projects/${pid}/settings`, { headers: H, data: { targetWords: 1000 } });
   await page.reload();
   await page.getByRole('navigation', { name: 'Views' }).getByRole('button', { name: /Where was I/ }).click();
-  await expect(map.locator('h3')).toHaveText('Your book, 40 of 1,000 words');
+  await expect(map.locator('h3')).toHaveText('Your Book Map, 40 of 1,000 words');
   await expect(map).not.toContainText('writing here');
   // The map sits above Next.
   const mapTop = (await map.boundingBox())!.y, nextTop = (await page.locator('.hero').boundingBox())!.y;

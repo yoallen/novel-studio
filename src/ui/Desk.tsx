@@ -1,11 +1,11 @@
 import { ReadBack } from './ReadBack';
 import { askAbout } from './ConversationsView';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from './api';
 import type { Ctx } from './App';
 import { Editor } from './Editor';
 import { ScenePanel } from './ScenePanel';
-import { flushEditor } from './flush';
+import { flushEditor, currentEditor } from './flush';
 import { sceneCircle, CIRCLE_WORDS } from '../core/labels';
 
 // The writing desk: binder, page, and the scene's plan beside it. Focus mode hides everything but the page (R-B-004):
@@ -18,6 +18,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
   const [focus, setFocus] = useState(false);
   const [error, setError] = useState('');
   const [tick, setTick] = useState(0);
+  const newChapterRef = useRef<() => Promise<void>>(async () => {});
   const [live, setLive] = useState<{ id: string; words: number } | null>(null);
 
   const loadOutline = useCallback(() => api.get(`/api/projects/${ctx.projectId}/outline`).then(setOutline).catch((e) => setError(e.message)), [ctx.projectId]);
@@ -32,10 +33,11 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
     const onKey = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f') { e.preventDefault(); setFocus((f) => !f); }
       if (e.key === 'Escape' && focus) setFocus(false);
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Enter' && !ctx.sprinting) { e.preventDefault(); void newChapterRef.current(); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [focus]);
+  }, [focus, ctx.sprinting]);
   // Focus reaches past the desk: the whole window goes quiet while it is on.
   useEffect(() => {
     const app = document.querySelector('.app');
@@ -67,7 +69,35 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
   // The circle follows the status she chose: empty, half (being written) or full (written).
   const circle = (status: string) => sceneCircle(ladder, status);
 
-  async function addChapter() { const c = await api.post(`/api/projects/${ctx.projectId}/chapters`, {}); const s = await api.post(`/api/chapters/${c.id}/scenes`, {}); setTick((t) => t + 1); ctx.openScene(s.id); }
+  // New chapter: a blank chapter right after the one she is in (or at the end), open and ready to write.
+  async function newChapter() {
+    try {
+      if (sceneId) await flushEditor();
+      const here = outline?.chapters?.find((c: any) => c.scenes.some((s: any) => s.id === sceneId));
+      const c = await api.post(`/api/projects/${ctx.projectId}/chapters`, { after: here?.id ?? null });
+      const s = await api.post(`/api/chapters/${c.id}/scenes`, {});
+      setTick((t) => t + 1); ctx.openScene(s.id);
+    } catch (e) { setError((e as Error).message); }
+  }
+  newChapterRef.current = newChapter;
+  // Split the chapter here: asks first, then cuts at the cursor in one undoable step.
+  const [split, setSplit] = useState<SplitPlan | null>(null);
+  async function askSplit(s: any) {
+    const ed = currentEditor();
+    if (!ed) return;
+    await flushEditor();
+    const plan = planSplit(ed, outline.chapters, s);
+    if (typeof plan === 'string') { setError(plan); return; }
+    setSplit(plan);
+  }
+  async function doSplit() {
+    if (!split) return;
+    try {
+      const fresh = await api.get(`/api/scenes/${split.sceneId}`);
+      const r = await api.post(`/api/scenes/${split.sceneId}/split-chapter`, { before: split.before, after: split.after, expectVersion: fresh.prose_version });
+      setSplit(null); setEditorNonce((n) => n + 1); setTick((t) => t + 1); ctx.openScene(r.sceneId);
+    } catch (e) { setSplit(null); setError((e as Error).message); }
+  }
   async function addScene(chapterId: string, afterSceneId?: string) { const s = await api.post(`/api/chapters/${chapterId}/scenes`, { afterSceneId: afterSceneId ?? null }); setTick((t) => t + 1); ctx.openScene(s.id); }
   const [renaming, setRenaming] = useState<{ id: string; title: string } | null>(null);
   const [editorNonce, setEditorNonce] = useState(0);
@@ -88,7 +118,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
     else if (dir === 1 && ci < chapters.length - 1) await api.post(`/api/scenes/${s.id}/move`, { chapterId: chapters[ci + 1].id, index: 0 });
     setTick((t) => t + 1);
   }
-  // Deleting moves things to Deleted things in Story Trail; nothing is lost.
+  // Deleting moves things to Deleted Things in Story Trail; nothing is lost.
   const [partEdit, setPartEdit] = useState<{ id: string; title: string } | null>(null);
   async function savePart() {
     if (!partEdit) return;
@@ -97,7 +127,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
     setPartEdit(null); setTick((t) => t + 1);
   }
   async function deleteScene(s: any) {
-    if (!window.confirm(`Move "${s.title}" to Deleted? You can restore it from Story Trail, under Deleted things.`)) return;
+    if (!window.confirm(`Move "${s.title}" to Deleted Things? You can restore it from there, in Story Trail.`)) return;
     if (s.id === sceneId) await flushEditor();
     await api.del(`/api/scenes/${s.id}`).catch((e) => setError(e.message));
     if (s.id === sceneId) ctx.closeScene();
@@ -105,7 +135,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
   }
   async function deleteChapter(c: any) {
     const n = c.scenes.length;
-    if (!window.confirm(`Move "${c.title}"${n ? ` and its ${n} scene${n === 1 ? '' : 's'}` : ''} to Deleted? You can restore it whole from Story Trail, under Deleted things.`)) return;
+    if (!window.confirm(`Move "${c.title}"${n ? ` and its ${n} scene${n === 1 ? '' : 's'}` : ''} to Deleted Things? You can restore it whole from there, in Story Trail.`)) return;
     if (c.scenes.some((x: any) => x.id === sceneId)) { await flushEditor(); ctx.closeScene(); }
     await api.del(`/api/chapters/${c.id}`).catch((e) => setError(e.message));
     setTick((t) => t + 1);
@@ -116,10 +146,12 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
   return (
     <div className={cls}>
       {!quiet && (
-        <aside className="binder" aria-label="Chapters and scenes">
+        <aside className="binder" aria-label="Binder">
           {error && <div className="notice error">{error}</div>}
           {outline && (
             <>
+              <h2 className="binder-head">Binder</h2>
+              <p className="small muted binder-sub">Your chapters and scenes, in order.</p>
               <p className="small muted" style={{ margin: '0 0 0.75rem' }}>{(outline.totalWords + liveDelta(outline, live)).toLocaleString()} words{ctx.settings.targetWords ? ` of ${Number(ctx.settings.targetWords).toLocaleString()}` : ''}</p>
               {outline.chapters.map((c: any) => (
                 <div className="chapter" key={c.id}>
@@ -145,7 +177,8 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
                         <span className="scene-tools" role="group" aria-label="This scene">
                           <button className="btn link small" aria-label="Move scene up" onClick={() => void moveScene(s, -1)}>↑ Up</button>
                           <button className="btn link small" aria-label="Move scene down" onClick={() => void moveScene(s, 1)}>↓ Down</button>
-                          <button className="btn link small" aria-label="Delete this scene" title="Moves this scene to Deleted. You can restore it from Story Trail, under Deleted things." onClick={() => void deleteScene(s)}>Delete</button>
+                          <button className="btn link small" aria-label="Delete this scene" title="Moves this scene to Deleted Things. You can restore it from Story Trail." onClick={() => void deleteScene(s)}>Delete</button>
+                          <button className="btn link small" title="Start a new chapter at the cursor. Asks first." onClick={() => void askSplit(s)}>Split the chapter here</button>
                         </span>
                       )}
                     </div>
@@ -159,7 +192,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
                   </div>
                 </div>
               ))}
-              <button className="btn small" onClick={() => void addChapter()}>Add chapter</button>
+              <button className="btn small" title="A blank chapter right after this one (Ctrl+Shift+Enter)" onClick={() => void newChapter()}>New chapter</button>
               {planned.length > 0 && (
                 <section className="planned" aria-label="Planned, not written yet">
                   <h3>Planned, not written yet</h3>
@@ -194,9 +227,18 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
             <div className="row"><button className="btn link small" onClick={() => { setNotOnPlan(false); ctx.go('zoom'); }}>Open Narrative Zoom anyway</button><button className="btn link small" onClick={() => setNotOnPlan(false)}>Close</button></div>
           </div>
         )}
-        {sceneId ? <Editor key={sceneId + ':' + editorNonce} ctx={ctx} sceneId={sceneId} quiet={ctx.sprinting} chapters={outline?.chapters} onChanged={() => { setLive(null); setTick((t) => t + 1); }} onWords={(n) => setLive({ id: sceneId, words: n })} />
+        {sceneId ? <Editor key={sceneId + ':' + editorNonce} ctx={ctx} sceneId={sceneId} quiet={ctx.sprinting} chapters={outline?.chapters} onNewChapter={() => void newChapter()} onChanged={() => { setLive(null); setTick((t) => t + 1); }} onWords={(n) => setLive({ id: sceneId, words: n })} />
           : <div className="page"><p className="muted">Choose a scene on the left, or add one, and start writing.</p></div>}
       </div>
+      {split && (
+        <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="split-h"><div className="dialog">
+          <h2 id="split-h">Split the chapter here?</h2>
+          <p>{split.lead}</p>
+          {split.excerpt && <blockquote className="split-excerpt">{split.excerpt}</blockquote>}
+          <p>{split.what} Your words don't change, and none of them count as new writing. It's one step in the Story Trail, so you can undo it.</p>
+          <div className="row"><button className="btn write" autoFocus onClick={() => void doSplit()}>Split the chapter here</button><button className="btn" onClick={() => setSplit(null)}>Not now</button></div>
+        </div></div>
+      )}
       {!quiet && panel && sceneId && reading && <aside className="panel" aria-label="Read it back"><ReadBack ctx={ctx} /></aside>}
       {!quiet && panel && sceneId && !reading && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} tick={tick} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
     </div>
@@ -207,4 +249,36 @@ function liveDelta(outline: any, live: { id: string; words: number } | null): nu
   if (!live) return 0;
   for (const c of outline.chapters) for (const s of c.scenes) if (s.id === live.id) return live.words - s.word_count;
   return 0;
+}
+
+interface SplitPlan { sceneId: string; before: unknown; after: unknown; lead: string; excerpt: string; what: string }
+
+/**
+ * Where a split would fall and what it would do, in words. The cut never lands inside a word: a cursor in the
+ * middle of one moves back to the word's start, so both halves together hold exactly the scene's words.
+ */
+function planSplit(ed: NonNullable<ReturnType<typeof currentEditor>>, chapters: any[], s: any): SplitPlan | string {
+  const { doc } = ed.state;
+  let pos = ed.state.selection.from;
+  const $p = doc.resolve(pos);
+  if ($p.parent.isTextblock) {
+    const text = $p.parent.textContent;
+    let off = $p.parentOffset;
+    while (off > 0 && /[\p{L}\p{N}'’\-]/u.test(text[off - 1]!) && /[\p{L}\p{N}'’\-]/u.test(text[off] ?? ' ')) off--;
+    pos = $p.start() + off;
+  }
+  const before = doc.cut(0, pos), after = doc.cut(pos);
+  const hasBefore = /[\p{L}\p{N}]/u.test(before.textContent), hasAfter = /[\p{L}\p{N}]/u.test(after.textContent);
+  const ci = chapters.findIndex((c) => c.id === s.chapter_id);
+  const ch = chapters[ci];
+  const later = ch.scenes.slice(ch.scenes.findIndex((x: any) => x.id === s.id) + 1).map((x: any) => x.title as string);
+  if (!hasBefore && ch.scenes[0]?.id === s.id) return `${s.title} already begins ${ch.title}. Put the cursor where the new chapter should start, then choose Split the chapter here.`;
+  if (!hasAfter && !later.length) return `${s.title} is the last scene of ${ch.title}, and the cursor is at its end. To start a blank chapter after it, choose New chapter.`;
+  const name = /^Chapter \d+$/.test(ch.title) ? `Chapter ${Number(/\d+/.exec(ch.title)![0]) + 1}` : 'a new chapter';
+  const Name = name[0]!.toUpperCase() + name.slice(1);
+  const movers = later.length === 0 ? '' : later.length === 1 ? `${later[0]} moves with it` : later.length === 2 ? `${later[0]} and ${later[1]} move with it` : `the ${later.length} scenes after it move with it`;
+  const excerptOf = (t: string) => { const w = t.replace(/\s+/g, ' ').trim(); return w.length > 140 ? `${w.slice(0, 140).replace(/\s\S*$/, '')}…` : w; };
+  if (!hasBefore) return { sceneId: s.id, before: before.toJSON(), after: after.toJSON(), lead: `${Name} will begin with ${s.title}.`, excerpt: '', what: `${s.title} becomes the first scene of ${name}${movers ? `, and ${movers}` : ''}.` };
+  if (!hasAfter) return { sceneId: s.id, before: before.toJSON(), after: after.toJSON(), lead: `${Name} will begin right after ${s.title}, with ${later[0]}.`, excerpt: '', what: `${later.length === 1 ? `${later[0]} becomes` : `${later.length === 2 ? `${later[0]} and ${later[1]}` : `The ${later.length} scenes after ${s.title}`} become`} ${name}.` };
+  return { sceneId: s.id, before: before.toJSON(), after: after.toJSON(), lead: `${Name} will begin where your cursor is in ${s.title}:`, excerpt: excerptOf(after.textBetween(0, after.content.size, ' ')), what: `Everything after the cursor becomes the first scene of ${name}${movers ? `, and ${movers}` : ''}.` };
 }

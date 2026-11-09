@@ -54,7 +54,7 @@ export function HistoryView({ ctx }: { ctx: Ctx }) {
   }
   return (
     <div className="scroll"><div className="content">
-      <div className="row"><h1 className="grow">Story Trail</h1><button className="btn link small" onClick={() => ctx.go('trash')}>Deleted things</button></div>
+      <div className="row"><h1 className="grow">Story Trail</h1><button className="btn link small" onClick={() => ctx.go('trash')}>Deleted Things</button></div>
       <p className="muted">How your story evolved: every idea, decision and revision, newest first. Undo any one of them without losing what came after.</p>
       {error && <div className="notice error">{error}</div>}
       {blocked && <div className="notice" role="alert">{blocked.message}<div className="row" style={{ marginTop: '0.5rem' }}><button className="btn small" onClick={() => void undo(blocked.id, true)}>Undo anyway</button><button className="btn small" onClick={() => setBlocked(null)}>Leave it</button></div></div>}
@@ -100,7 +100,7 @@ export function TrashView({ ctx }: { ctx: Ctx }) {
   async function restore(url: string) { await api.post(url).catch((e) => setError(e.message)); await load(); }
   return (
     <div className="scroll"><div className="content">
-      <h1>Deleted</h1>
+      <h1>Deleted Things</h1>
       <p className="muted">Nothing deleted here is gone. Restore anything, any time.</p>
       {error && <div className="notice error">{error}</div>}
       {d && (

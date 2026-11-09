@@ -44,7 +44,7 @@ test('work done on the other computer comes in with one click, and the Surface s
     await Promise.all([page.waitForEvent('load'), notice.getByRole('button', { name: 'Bring it in' }).click()]);
     await expect(notice).toHaveCount(0);
     await views.getByRole('button', { name: 'The Writing Room' }).click();
-    await expect(page.getByRole('complementary', { name: 'Chapters and scenes' })).toContainText('Lunch scene');
+    await expect(page.getByRole('complementary', { name: 'Binder' })).toContainText('Lunch scene');
     // Looking around is not writing: visiting every room leaves nothing to share.
     for (const v of ['Where was I', 'Story Brain', 'Narrative Zoom', 'Conversations', 'Search', 'Story Trail', 'Import and export']) {
       await views.getByRole('button', { name: v }).click();

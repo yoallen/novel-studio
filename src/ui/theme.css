@@ -1024,3 +1024,15 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .deadline-check { max-width: none; margin: 0.25rem 0 0.9rem; }
 .push-perday { margin: 0 0 0.6rem; }
 .save-bar-error { color: var(--danger, #b3261e); font-weight: 600; }
+
+/* Names on screen: every part the guide names says its name where it is. */
+.binder .binder-head { font-size: 1.125rem; margin: 0; }
+.binder .binder-sub { margin: 0.1rem 0 0.75rem; }
+.wordline-new { white-space: nowrap; }
+.wordline-row .grow { flex: 1; }
+.split-excerpt { font-family: var(--prose); font-size: 1.0625rem; line-height: 1.6; color: var(--ink); border-left: 2px solid var(--line-strong); margin: 0.75rem 0; padding: 0.1rem 0 0.1rem 1rem; }
+.strip .strip-name { flex: none; align-self: flex-start; margin: 12px 0 0 0.9rem; font-family: var(--book); font-size: 0.75rem; color: var(--cloth-ink); opacity: .85; white-space: nowrap; }
+.thumbs .views-name { display: block; padding-top: 0; }
+.switcher-name { font-family: var(--ui); font-size: 0.6875rem; color: var(--faint); margin-left: 0.4rem; white-space: nowrap; }
+.legend .legend-name, .push-name { font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.875rem; }
+.push-name { display: block; margin: 0 0 0.25rem; }

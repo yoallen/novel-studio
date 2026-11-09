@@ -249,6 +249,7 @@ export function ElementPage({ ctx, elementId, onOpen, onChanged, embedded, focus
         {(el.attrs?.turn_id) && <button className="btn link small" onClick={() => void api.get(`/api/origin?element=${el.id}`).then(setOrigin)}>Where did this come from?</button>}
       </div>
       <div className="legend" aria-hidden="true">
+        <span className="legend-name">Legend</span>
         <span className="st" data-s="established">{statusWord(ctx.settings, 'established')} (inked)</span>
         <span className="st" data-s="developing">{statusWord(ctx.settings, 'developing')} (pencil)</span>
         <span className="st" data-s="unanswered">{statusWord(ctx.settings, 'unanswered')} (a blank line)</span>

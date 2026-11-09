@@ -18,7 +18,7 @@ import { pagePlace, pageLine, WORDS_PER_PAGE, type OutlineChapter } from '../cor
 const JOURNAL_MS = 700;
 const COMMIT_MS = 20_000;
 
-export function Editor({ ctx, sceneId, onChanged, onWords, quiet, chapters }: { ctx: Ctx; sceneId: string; onChanged: () => void; onWords?: (n: number) => void; quiet?: boolean; chapters?: OutlineChapter[] }) {
+export function Editor({ ctx, sceneId, onChanged, onWords, quiet, chapters, onNewChapter }: { ctx: Ctx; sceneId: string; onChanged: () => void; onWords?: (n: number) => void; quiet?: boolean; chapters?: OutlineChapter[]; onNewChapter?: () => void }) {
   const [scene, setScene] = useState<any>(null);
   const [title, setTitle] = useState('');
   const [words, setWords] = useState(0);
@@ -310,7 +310,8 @@ export function Editor({ ctx, sceneId, onChanged, onWords, quiet, chapters }: { 
       <div className="wordline">
         <span className="wordline-counts">{place ? pageLine(place) : `${words.toLocaleString()} words in this scene`}</span>
         <span className="wordline-row">
-          <span>{target ? `Today's goal: ${target.toLocaleString()} words.` : ''}</span>
+          {onNewChapter && <span className="wordline-new"><button className="btn link small" onClick={onNewChapter}>New chapter</button> <span className="faint">Ctrl+Shift+Enter</span></span>}
+          <span className="grow">{target ? `Today's goal: ${target.toLocaleString()} words.` : ''}</span>
           {!hush && <span className="faint">Ctrl+Shift+L leaves a note for later</span>}
         </span>
       </div>

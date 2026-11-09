@@ -56,7 +56,7 @@ The connection now shows on both records, read the right way round on each. Clic
 
 ## Where the continuity checks are
 
-**Where:** open **Narrative Zoom** from the list on the right. Under the first row of tabs (Zoom, Board, Where beats fall, Alternate structures) is a second row labeled **Continuity checks**. Click any name in that row. The one you are on turns into a filled pill.
+**Where:** open **Narrative Zoom** from Views on the right. Under the first row of tabs (Zoom, Board, Where beats fall, Alternate structures) is a second row labeled **Continuity checks**. Click any name in that row. The one you are on turns into a filled pill.
 
 The checks, in the order they appear:
 

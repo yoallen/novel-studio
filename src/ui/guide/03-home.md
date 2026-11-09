@@ -4,7 +4,7 @@
 
 ## Where was I? What the page is for
 
-**What it is.** Where was I? is the first view in the list on the right, with *your novel's home page* in small type under its name. Story Canon opens a novel on this page every time you come back to it. Its job is to answer one question before you have finished your coffee: *what do I do next?*
+**What it is.** Where was I? is the first view in Views on the right, with *your novel's home page* in small type under its name. Story Canon opens a novel on this page every time you come back to it. Its job is to answer one question before you have finished your coffee: *what do I do next?*
 
 It does that by gathering in one place everything you would otherwise have to remember: the next scene to write, how your writing days are going, the last lines you wrote, the notes you left in your pages, the questions still open, the decisions you made lately, the thoughts you saved and have not sorted, the times you stepped away from the page, and what you did this week.
 
@@ -23,7 +23,7 @@ The page has two parts. The top part is always in view. Under it, the rest of th
 | Section | What it is | When you see it |
 | --- | --- | --- |
 | The page's top | *Where was I?*, *This is (your title)'s home page.* and a short paragraph | Always |
-| **Your book map** | The whole book drawn as one pen line, with your beats along it and the beats you are writing now | Always (the beats appear once the novel has a beat sheet) |
+| **Your Book Map** | The whole book drawn as one pen line, with your beats along it and the beats you are writing now | Always (the beats appear once the novel has a beat sheet) |
 | **Next** and **Write** | The one next step, in large type, and the orange button that takes you there | Always |
 | *Unsaved typing was kept* | Typing from a window that closed unexpectedly, waiting for you | Only after the program closed unexpectedly |
 
@@ -80,11 +80,11 @@ At the very top, the heading **Where was I?**, then the line *This is (your titl
 
 *Story Canon opens here every time you come back to this book. It picks up where you left off: the next thing to write, how your words are going, notes you left for later, questions still open, and what you decided most recently. Whenever you lose your place, come back here.*
 
-That last sentence is the whole idea. If you get lost anywhere in the program, click **Where was I?** in the list on the right.
+That last sentence is the whole idea. If you get lost anywhere in the program, click **Where was I?** in Views on the right.
 
-## Where was I? Your book map
+## Where was I? Your Book Map
 
-**What it is.** Under the opening paragraph, with room above and below, is **your book map**: the whole book drawn as a single hand-inked line, from its first word on the left to **THE END** on the right. The heading above it says *Your book* and how many words the book holds, with your target length if you set one, such as *Your book, 49,600 of 80,000 words*. The line isn't flat. It rises and falls the way a story's tension does: quiet through the set-up, wobbling as the struggle builds, dropping at the dark moment, climbing to the climax, and settling at the end. The beats of your beat sheet are written along it, in the same handwriting the coach uses.
+**What it is.** Under the opening paragraph, with room above and below, is **Your Book Map**: the whole book drawn as a single hand-inked line, from its first word on the left to **THE END** on the right. The heading above it names it, *Your Book Map*, then how many words the book holds, with your target length if you set one, such as *Your Book Map, 49,600 of 80,000 words*. The line isn't flat. It rises and falls the way a story's tension does: quiet through the set-up, wobbling as the struggle builds, dropping at the dark moment, climbing to the climax, and settling at the end. The beats of your beat sheet are written along it, in the same handwriting the coach uses.
 
 **Where you are comes from you, not from your word count.** Words can't tell Story Canon where you are in a story. You might write the Finale first, or have 40,000 words that are all set-up. So the map shows three things, and none of them is worked out from a count:
 
@@ -101,7 +101,7 @@ The word count appears only in the heading. Setting or changing your target leng
 3. Click **Done**.
 4. To go back to letting Story Canon follow your scenes, open the row again and click **Let Story Canon follow my scenes**, or take every check mark off.
 
-**A writing push never appears on the map.** A push measures words toward its own goal, not a place in the story, so it has its own line further down the page (see [Goals: the push line](#goals-the-push-line)).
+**A writing push never appears on the map.** A push measures words toward its own goal, not a place in the story, so it has its own line further down the page (see [Goals: Push Progress](#goals-push-progress)).
 
 | What you see | What it means |
 | --- | --- |
@@ -124,7 +124,7 @@ The word count appears only in the heading. Setting or changing your target leng
 
 ### Where was I? Finishing a draft
 
-**What it is.** Only you know when you have written the end. Story Canon can't tell from a word count: a book meant to be 80,000 words might end at 74,000 or run to 92,000. So under your book map, from the day you make the book, is a small link, **I finished this draft**. It is always there, and Story Canon never guesses when you are close: you might set 80,000 words and find the story is complete at 60,000. Click it only when it's true.
+**What it is.** Only you know when you have written the end. Story Canon can't tell from a word count: a book meant to be 80,000 words might end at 74,000 or run to 92,000. So under your Book Map, from the day you make the book, is a small link, **I finished this draft**. It is always there, and Story Canon never guesses when you are close: you might set 80,000 words and find the story is complete at 60,000. Click it only when it's true.
 
 **How to use it.**
 
@@ -169,7 +169,7 @@ Planning is never required first. You can always click **Write** and start.
 
 Sometimes you know better than the program what comes next: "Draft the scene where Ana sees the boat", or "Fix the tide times in chapter 6 before anything else". You can say so.
 
-1. Click **Settings** in the list on the right.
+1. Click **Settings** in Views on the right.
 2. On page **1 This novel**, find **Your next writing action**, under the novel's title and length. (Its small print says *Leave empty and the program suggests one from where you left off.*)
 3. Type your next step in your own words.
 4. Click **Save settings** at the bottom of the window.
@@ -216,13 +216,13 @@ During a writing push, and for two weeks before and one week after it, a coach s
 
 Below the stage row is your drafting progress. It can measure your days against a daily goal, or against a **writing push**: a stretch of days with a word target, such as November and 50,000 words. Both are set in **Settings**.
 
-The section has a heading (the month's name, or your writing push's name, such as **November**), a sentence about today, during a push **the push line**, and a few figures underneath.
+The section has a heading (the month's name, or your writing push's name, such as **November**), a sentence about today, during a push **Push Progress**, and a few figures underneath.
 
 **What it answers.** *How are my writing days going, and am I on track?*
 
 Until you set a goal, it shows your figures for this month, with a line inviting you to set a daily goal or a writing push, and a **Settings** link. Once you set one, it measures each day against that goal and tells you what each remaining day needs.
 
-**The push line** is one hand-drawn pen line from the first word of your push to its goal. Only the push's words move you along it; it never names a beat, because a push is a promise about words, not a place in the story (that is what your book map, at the top of the page, is for). In short:
+**Push Progress**, named above it in slanted purple type, is one hand-drawn pen line from the first word of your push to its goal. Only the push's words move you along it; it never names a beat, because a push is a promise about words, not a place in the story (that is what your Book Map, at the top of the page, is for). In short:
 
 | What you see | What it means |
 | --- | --- |
@@ -233,7 +233,7 @@ Until you set a goal, it shows your figures for this month, with a line inviting
 | A small tick under the line | Where one day's writing ended |
 | A small wingback chair | A rest day you set |
 
-Point at a tick or a chair to see that day's exact count. The sentence above the line says how today is going, such as *Today's share of Fall Draft is 1,743 words. You've written 600.* Under it are figures such as *(month) so far*, **To finish on time**, **Against the plan** and **Days in a row** (some appear only once you have a goal or a push). Everything about goals, pushes, catching up, lighter days and rest days is in [Goals: the push line](#goals-the-push-line) and the sections around it.
+Point at a tick or a chair to see that day's exact count. The sentence above the line says how today is going, such as *Today's share of Fall Draft is 1,743 words. You've written 600.* Under it are figures such as *(month) so far*, **To finish on time**, **Against the plan** and **Days in a row** (some appear only once you have a goal or a push). Everything about goals, pushes, catching up, lighter days and rest days is in [Goals: Push Progress](#goals-push-progress) and the sections around it.
 
 **Looks wrong, but isn't.** Words you type today can take a little while to appear in the sentence about today, because a day's words are counted from saved versions of your scenes, and a version is saved after a short pause in typing or when you leave the scene. Come back from the Writing Room, and the count catches up. How versions are saved is taught in [The Writing Room](#the-writing-room).
 
@@ -249,7 +249,7 @@ The note goes away as soon as you change anything in Novel setup: one tick is en
 
 **Why it helps.** Rereading your last paragraph is the oldest trick for getting back into a scene. Where you stopped shows you the thread before you even open the page.
 
-**How to use it.** Read the lines. If they bring the scene back, click **Write** at the top of the page (or **The Writing Room** in the list on the right), and you land at your cursor, in that scene.
+**How to use it.** Read the lines. If they bring the scene back, click **Write** at the top of the page (or **The Writing Room** in Views on the right), and you land at your cursor, in that scene.
 
 **Example.** Where you stopped shows *Chapter 1, The empty boat*, and then: *…The oars were shipped, neat as a sailor's bed. Whoever had rowed this boat had not been in a hurry to leave it.* Marisol's unease comes back at once, and so does the next line.
 
@@ -351,7 +351,7 @@ Under the list is a link, **Writing Trail**, to the full list of every detour, w
 
 ## Where was I? The shelf
 
-**What it is.** Page **4 The shelf** holds two drawings, in the same fine pen as your book map.
+**What it is.** Page **4 The shelf** holds two drawings, in the same fine pen as your Book Map.
 
 **The manuscript so far.** Every word in your book, drawn as a manuscript lying on the desk: a title page under a binder clip, laid out the way manuscripts are sent to agents, with your name at the top left, the word count at the top right, and the title and *by* line in the middle. The name is your pen name if you set one (Settings, page **1 This novel**), and otherwise your own. More page edges peek out underneath as the book grows. Beside it are the number of pages (your words over the words per page you set in Settings, 250 unless you change it), and, if you set a target length, about how many pages the finished book will be.
 
@@ -384,7 +384,7 @@ When the shelf fills, a new one starts below it. Point at any book or chair to s
 
 **What counts as words written.** Only words you write in Story Canon count toward a push. A manuscript you bring in from elsewhere, or text you paste into a scene (a chapter from an old file, say), is kept in the book and counts in your book's total, but it is not counted as words written in a push. Moving a passage with cut and paste counts as nothing either way.
 
-**Why it helps.** Your book map shows where you are. The shelf shows how you got there: a run of thick books, a slim week, a chair where you rested on purpose, and over the months a bookcase of your own effort, one book for every push.
+**Why it helps.** Your Book Map shows where you are. The shelf shows how you got there: a run of thick books, a slim week, a chair where you rested on purpose, and over the months a bookcase of your own effort, one book for every push.
 
 **The common mistake** is reading a slim or pencil book as a failure. A slim book is a day, or a push, you showed up for. The only day with nothing on the shelf is a day with no words, and even that is just a space.
 
@@ -397,7 +397,7 @@ Here is a routine that takes about two minutes. Do it in this order.
 1. **Open the book.** Where was I? is the first page you see, on **1 Today** (or the page you last looked at, if the program has stayed open).
 2. **Read Next.** If it is the right step, keep it in mind. If it isn't, you can still choose any scene in the Writing Room.
 3. **Read Where you stopped.** Let the last lines bring the scene back.
-4. **Glance at your progress.** Read the sentence about today and, during a writing push, **To finish on time**. That is today's number. A glance at your book map, at the top, tells you which beats are written and which you are writing now.
+4. **Glance at your progress.** Read the sentence about today and, during a writing push, **To finish on time**. That is today's number. A glance at your Book Map, at the top, tells you which beats are written and which you are writing now.
 5. **Turn to 2 Still open and scan Latest decisions and Questions still open.** Look only for anything that touches today's scene. If one question blocks you, answer it now; leave the rest.
 6. **Check Detours still open**, on the same page. If yesterday ended in a detour, the **Return to Writing** ribbon takes you back to exactly where you were.
 7. **Click Write**, which stays at the top whatever page you are on.
@@ -417,10 +417,10 @@ On a slow day, or at the end of a week, add two more steps: clear a few notes fr
 | The sentence about today still says 0 words just after you typed | A day's words are counted from saved versions. A version is saved after a short pause in typing, or when you leave the scene. Wait a moment, or come back from the Writing Room, and the count catches up |
 | Next ignores your planned scenes | You have a scene open with words in it, so Next keeps you there. Planned scenes come next once nothing is under way, and they are always listed in the Writing Room under **Planned, not written yet** |
 | A question you never typed is in Questions still open | It arrived with planning you brought in, or from a conversation. Click it to see its record and where it came from |
-| Detours still open keeps listing a detour you came back from | You came back with the list on the right or a scene link, not with **Return to Writing**. Click the ribbon, or press **Ctrl+Shift+W**, once |
+| Detours still open keeps listing a detour you came back from | You came back with Views on the right or a scene link, not with **Return to Writing**. Click the ribbon, or press **Ctrl+Shift+W**, once |
 | The page can't be typed on after you open a scene from the *Unsaved typing was kept* notice | The scene is waiting for you to choose **Use the kept typing** or **Keep the saved version** |
 | The *Set up this novel* note won't go away | You have not changed anything in Novel setup yet. One tick there is enough |
-| Your book map shows no pink dot | You haven't written in a scene on a beat yet, and haven't chosen one. Click **Choose** under the map, or write in a scene planned on a beat |
-| The push line doesn't show | There is no writing push with a word goal. See [Goals, sprints and November](#goals-sprints-and-november) |
+| Your Book Map shows no pink dot | You haven't written in a scene on a beat yet, and haven't chosen one. Click **Choose** under the map, or write in a scene planned on a beat |
+| Push Progress doesn't show | There is no writing push with a word goal. See [Goals, sprints and November](#goals-sprints-and-november) |
 | Your questions and decisions seem to be gone | They are on page **2 Still open**. Click its tab, or **All pages** to see everything at once |
 | Where was I? opens on page 2 or 3 instead of Today | Story Canon remembers the page you were on while the program is open. Click **1 Today**. After you close and reopen the program, it starts on Today again |

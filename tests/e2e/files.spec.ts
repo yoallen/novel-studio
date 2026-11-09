@@ -32,7 +32,7 @@ test('a Word manuscript comes in after she looks it over, and goes out again as 
   await page.getByRole('button', { name: 'Add these chapters to my novel' }).click();
   await expect(page.getByRole('status')).toContainText('Every character of the accepted text is in the novel.');
   await page.getByRole('button', { name: 'Go to the Writing Room' }).click();
-  await expect(page.getByRole('complementary', { name: 'Chapters and scenes' })).toContainText('In Which the Dogs Escape');
+  await expect(page.getByRole('complementary', { name: 'Binder' })).toContainText('In Which the Dogs Escape');
 
   await nav(page).getByRole('button', { name: 'Import and export' }).click();
   await page.getByRole('tab', { name: 'Send something out' }).click();

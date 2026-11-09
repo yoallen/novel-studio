@@ -69,10 +69,13 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 - Copyright: ideas, structures and percentages are free to teach; wording is not. Story Canon's Brody teaching is paraphrased, but her checklist questions sit close to her wording, and the beat descriptions from Yolanda's BS2 Breakdown sheet may contain text copied from Snyder, Brody or savethecat.com. Check every passage against its source and rewrite anything that matches.
 - Same review for the other frameworks named in the program (McKee, Weiland, Ingermanson, Swain, Williams, the Writers Helping Writers thesauri).
 
-## Page breaks while writing (after November; Yolanda, 2026-11-09)
+## Page breaks while writing (built in 0.1.53; Yolanda, 2026-11-09)
 
-- In the Writing Room the scene scrolls on with no sign of where a page would end. She wants an indication of page breaks as she writes.
-- Likely a quiet marker every manuscript page (about 250 words, the standard double-spaced page), and a page count beside the word count. Mockup and her approval first.
+- Built: Word-style pages every 250 words, across the whole book, each chapter on a fresh page, with the three-level word line.
+
+## Start a new page here (after November; Yolanda, 2026-11-09)
+
+- A manual page break inside a chapter, Ctrl+Enter, like Word. It would change page numbers only, never words. Mockup and her approval first.
 
 ## Read it back as a book (after November; Yolanda, 2026-11-09)
 

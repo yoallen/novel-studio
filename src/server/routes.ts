@@ -222,6 +222,10 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
     const b = body(req, z.object({ title: z.string().max(300).optional(), text: z.string().max(20_000_000).optional(), doc: doc.optional(), afterSceneId: id.nullable().optional(), status: z.string().max(40).optional() }));
     return ms.addScene(params(req, P).id, b);
   });
+  app.post('/api/scenes/:id/split-chapter', async (req) => {
+    const b = body(req, z.object({ before: doc, after: doc, expectVersion: z.number().int() }));
+    return ms.splitChapter(params(req, P).id, b);
+  });
   app.get('/api/scenes/:id', async (req) => ms.scene(params(req, P).id));
   app.patch('/api/scenes/:id', async (req) => {
     const b = body(req, z.object({ title: z.string().max(300).optional(), status: z.string().max(40).optional(), povElementId: id.nullable().optional(), planElementId: id.nullable().optional(), confirmed: z.boolean().optional(), reserved: z.string().max(120).nullable().optional(), notes: z.string().max(200_000).optional(), expectVersion: z.number().int().optional() }));

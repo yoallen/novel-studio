@@ -11,7 +11,7 @@ Story Canon has several ways to find and recover things. They overlap on purpose
 | Find a word, a name or a line you remember | **Search** | The **Search** view, or **Ctrl+K** |
 | Find a thought you saved with Capture | **Questions and ideas** | The Story Brain, at the top of its list |
 | Take back one change you made, even an old one | **Undo** in the **Story Trail** | The **Story Trail** view |
-| Bring back a scene, chapter or record you deleted | **Deleted things** | The **Story Trail** view, top right |
+| Bring back a scene, chapter or record you deleted | **Deleted Things** | The **Story Trail** view, top right |
 | Get back an older wording of one scene | **Earlier versions** | The Writing Room, at the bottom of the scene plan's page **3 Notes** |
 | Survive a broken computer | **Backups** and **archives** | **Settings**, page **8 Other computers and backups** |
 
@@ -25,11 +25,11 @@ Two more safety nets live elsewhere. A **kept draft** is a saved copy of the who
 
 **Do you need it?** Yes. Every writer uses Search, usually several times a day once the book is under way.
 
-**Where it is.** **Search** is one of the views in the list on the right edge of the window, below the word *and*. You can also press **Ctrl+K** from anywhere in the novel. (During a sprint, Ctrl+K does nothing, because a sprint keeps you on the page. A **sprint** is a set stretch of time with nothing but writing; see [Goals, sprints and November](#goals-sprints-and-november).)
+**Where it is.** **Search** is one of the views in Views on the right edge of the window, below the word *and*. You can also press **Ctrl+K** from anywhere in the novel. (During a sprint, Ctrl+K does nothing, because a sprint keeps you on the page. A **sprint** is a set stretch of time with nothing but writing; see [Goals, sprints and November](#goals-sprints-and-november).)
 
 ### Search, step by step
 
-1. Click **Search** in the list on the right, or press **Ctrl+K**. The cursor is already in the box marked **A name, a phrase, a line you remember**.
+1. Click **Search** in Views on the right, or press **Ctrl+K**. The cursor is already in the box marked **A name, a phrase, a line you remember**.
 2. Type what you remember. Results appear as you type; there is no button to press. Capital letters do not matter.
 3. Look over the results. If there are many, narrow them (see [Narrowing search results](#narrowing-search-results)).
 4. Click a result's underlined title. Story Canon opens it right where it lives (see [Where a search result opens](#where-a-search-result-opens)).
@@ -41,7 +41,7 @@ To empty the box and start again, click the small **×** at its right end. If no
 The gray line under the box says it plainly: Search looks at everything inside this novel, meaning your pages, records, and the conversations and documents you brought in. Two things follow from that.
 
 - **Only this novel.** Search looks in the novel that is open now. To search another of your novels, open that one first from the Library.
-- **Not what you deleted.** Things in **Deleted things** are not searched. Restore them first (see [Deleted things: restoring what you removed](#deleted-things-restoring-what-you-removed)).
+- **Not what you deleted.** Things in **Deleted Things** are not searched. Restore them first (see [Deleted Things: restoring what you removed](#deleted-things-restoring-what-you-removed)).
 - **Only what you brought in.** A chat that lives only in Claude or ChatGPT is not in Story Canon until you bring it in from the **Conversations** view (see [Conversations and the collaborator](#conversations-and-the-collaborator)). A planning document is searchable once you have brought it in on the **Import and export** view, even passages you did not put into any record (see [Bringing things in and sending things out](#bringing-things-in-and-sending-things-out)).
 
 ### Narrowing search results
@@ -101,7 +101,7 @@ If you were writing when you searched, the **Return to Writing** ribbon appears 
 
 **Do you need it?** Not every day. When you do, it saves you hours, and the preview means you can use it without fear.
 
-**Where it is.** Open **Search** (in the list on the right, or **Ctrl+K**). Under the search box, click the link **Replace in your pages**. The panel opens in place of the search results. Click **Close replace** to go back to searching.
+**Where it is.** Open **Search** (in Views on the right, or **Ctrl+K**). Under the search box, click the link **Replace in your pages**. The panel opens in place of the search results. Click **Close replace** to go back to searching.
 
 ### Replace, step by step
 
@@ -170,7 +170,7 @@ Each row in the trail has these parts:
 
 **Undo** takes back just that one change, even an old one, and leaves everything after it alone.
 
-1. Click **Story Trail** in the list on the right.
+1. Click **Story Trail** in Views on the right.
 2. Find the change. The newest are at the top.
 3. Read its gray "Undo:" line, so you know exactly what will happen.
 4. Click **Undo**.
@@ -179,7 +179,7 @@ What undo does depends on the change:
 
 | The change was | Undo |
 | --- | --- |
-| Adding something (a scene, a record, a question) | Removes it to **Deleted things**, where it can be restored. |
+| Adding something (a scene, a record, a question) | Removes it to **Deleted Things**, where it can be restored. |
 | Deleting something | Brings it back. |
 | Editing or moving something | Puts it back the way it was just before. |
 | Replacing words in your pages | Puts back the old words in every scene the replace changed, in one step. |
@@ -197,7 +197,7 @@ The original row stays where it was, so the history stays complete, but it chang
 
 The key at the top of the trail says the rule: "Struck through means the change was undone and is no longer in effect. Everything else is in effect now."
 
-**Example.** You undo "Added the question "Does Cyrus own a second boat?"". At the top of the trail a new slanted row appears, "Undid: Added the question…", with **Put it back**. Further down, the original row is struck through and says "Not in effect." The question is now in **Deleted things**. A minute later you change your mind and click **Put it back**; the question returns.
+**Example.** You undo "Added the question "Does Cyrus own a second boat?"". At the top of the trail a new slanted row appears, "Undid: Added the question…", with **Put it back**. Further down, the original row is struck through and says "Not in effect." The question is now in **Deleted Things**. A minute later you change your mind and click **Put it back**; the question returns.
 
 ### When Undo asks first
 
@@ -217,17 +217,17 @@ The names are close, so here is one line on each.
 - The **Story Trail** (this view) is every change to your novel: records, scenes, settings, conversations.
 - The **Writing Trail** is part of the Writing Room. It lists each **detour**, meaning each time you stepped away from the page to look something up, so you can get back. It changes nothing in your story. See [Writing Room: detours and Return to Writing](#writing-room-detours-and-return-to-writing).
 
-## Deleted things: restoring what you removed
+## Deleted Things: restoring what you removed
 
-**What it is.** Nothing you delete in Story Canon is really gone. It moves to **Deleted things**, and you can restore it any time.
+**What it is.** Nothing you delete in Story Canon is really gone. It moves to **Deleted Things**, and you can restore it any time.
 
 **Why it matters.** You can clear out a scene that is not working without worrying that you will want a line from it later. Deleting is safe, so you can keep your binder tidy.
 
 **Do you need it?** Only when you change your mind about something you deleted. It is always there, with no setup.
 
-**Where it is.** Click **Story Trail** in the list on the right, then the link **Deleted things** at the top right. The page is headed **Deleted**, with "Nothing deleted here is gone. Restore anything, any time." The **Story Trail** entry in the list stays lit while you are there.
+**Where it is.** Click **Story Trail** in Views on the right, then the link **Deleted Things** at the top right. The page is headed **Deleted**, with "Nothing deleted here is gone. Restore anything, any time." The **Story Trail** entry in the list stays lit while you are there.
 
-**What sends things here.** The **Delete** link under a scene in the Writing Room, the **Delete chapter** link, the **Delete** button at the bottom of a record, and undoing something you added. Each delete asks first in a small window, such as "Move "The empty boat" to Deleted? You can restore it from Story Trail, under Deleted things." (For a chapter, the window also says how many scenes go with it.) Click **OK** to go ahead or **Cancel** to keep it.
+**What sends things here.** The **Delete** link under a scene in the Writing Room, the **Delete chapter** link, the **Delete** button at the bottom of a record, and undoing something you added. Each delete asks first in a small window, such as "Move "The empty boat" to Deleted? You can restore it from Story Trail, under Deleted Things." (For a chapter, the window also says how many scenes go with it.) Click **OK** to go ahead or **Cancel** to keep it.
 
 The page has three lists:
 
@@ -241,15 +241,15 @@ A list with nothing in it says **None.**
 
 **How to restore, step by step:**
 
-1. Click **Story Trail** in the list on the right.
-2. Click **Deleted things** at the top right.
+1. Click **Story Trail** in Views on the right.
+2. Click **Deleted Things** at the top right.
 3. Find the item and click **Restore** (or **Restore with its scenes** for a chapter).
 
 It leaves the list and is back where it was. You can also find the row for that delete in the Story Trail (such as "Delete scene "The empty boat"") and click **Undo**, which does the same thing.
 
 **The common mistake** is restoring a deleted chapter one scene at a time. **Restore with its scenes** does it in one click and keeps the scenes in their order.
 
-**Example.** You deleted the chapter "Fog Week" with its four scenes, then realized the lighthouse logbook scene in it is the one where Marisol finds Eli's handwriting. You open **Deleted things**, click **Restore with its scenes** beside "Fog Week", and the whole chapter is back in the binder.
+**Example.** You deleted the chapter "Fog Week" with its four scenes, then realized the lighthouse logbook scene in it is the one where Marisol finds Eli's handwriting. You open **Deleted Things**, click **Restore with its scenes** beside "Fog Week", and the whole chapter is back in the Binder.
 
 ## Earlier versions of a scene
 
@@ -261,4 +261,4 @@ A new version is made after you pause typing for about twenty seconds, when you 
 
 ## Backups and archives
 
-Search, the Story Trail, Deleted things and earlier versions all work inside the program. **Backups** and **archives** are for the day the program, or the computer, is not there. A **backup** is a complete spare copy of all your novels, made by itself while you work; an **archive** is one file holding a single novel with its whole history, which you make when you want to store a book or carry it somewhere. You will rarely go looking for anything in them, but they are what makes "nothing is ever lost" true even if your computer breaks. Both live in **Settings**, on page **8 Other computers and backups**, and both are taught in full, with the one thing every writer should do once (put backups somewhere other than this computer), in [Settings and your other computers](#settings-and-your-other-computers).
+Search, the Story Trail, Deleted Things and earlier versions all work inside the program. **Backups** and **archives** are for the day the program, or the computer, is not there. A **backup** is a complete spare copy of all your novels, made by itself while you work; an **archive** is one file holding a single novel with its whole history, which you make when you want to store a book or carry it somewhere. You will rarely go looking for anything in them, but they are what makes "nothing is ever lost" true even if your computer breaks. Both live in **Settings**, on page **8 Other computers and backups**, and both are taught in full, with the one thing every writer should do once (put backups somewhere other than this computer), in [Settings and your other computers](#settings-and-your-other-computers).

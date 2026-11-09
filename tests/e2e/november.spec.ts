@@ -73,7 +73,7 @@ test('a lighter day, then a sprint with nothing but the page', async ({ page }) 
   await dlg.getByRole('button', { name: 'Start the sprint' }).click();
   await expect(page.locator('.app')).toHaveAttribute('data-sprint', 'true');
   await expect(page.getByRole('navigation', { name: 'Views' })).toBeHidden();
-  await expect(page.getByRole('group', { name: /^The book's shape/ })).toHaveCount(0);
+  await expect(page.getByRole('group', { name: /^Story Strip/ })).toHaveCount(0);
   await expect(page.locator('.binder')).toHaveCount(0);
   await expect(page.locator('.wordline')).toHaveCount(0);
   await expect(page.getByRole('timer')).toContainText('15 min');
