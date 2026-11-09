@@ -82,6 +82,18 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 - In Read it back, pages side by side that turn left and right like a book, using the same 250-word manuscript pages and page numbers as the Writing Room.
 - The Writing Room stays up and down, which is better for writing. Mockup and her approval first.
 
+## Teaching in the moment (after November; Yolanda, 2026-11-09)
+
+- Her point: most writers will start using Story Canon without reading the guide, then hit a wall. Help should arrive at the moment of need, inside the program, so there is no "record scratch."
+- "Common Things You Can Do In This Room": a short list in each room (the Writing Room's would sit with the Binder), written as jobs in the writer's words ("Start a chapter here", "Move a scene", "Bring back something I deleted"), each opening a mini tutorial. Her idea.
+- Show me, on her own book: a pen arrow points to the real button and walks the steps. First-time welcomes once per room, with "show me again". A practice book (The Keeper of Gull Point) to experiment in freely. A quiet "Looking for this?" when someone seems stuck. Help that understands a question in plain words, with or without AI. Thirty-second videos placed beside the feature, also used for the outside video library.
+- Rule: help offers, never blocks, never interrupts writing; door closed silences it. Mockups and her approval first.
+
+## Dark mode, and a beta reader round trip (after November; from the Dabble comparison, 2026-11-09)
+
+- Dark mode as one of the color bindings.
+- Beta readers: send a review copy, their reactions come back and land on the scene they belong to.
+
 ## Already approved, not yet built
 
 - Color presets ("bindings") a writer can choose.
