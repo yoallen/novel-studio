@@ -39,6 +39,8 @@ Press the keys together. **Ctrl** is the key in the bottom-left corner of your k
 | **Ctrl+Shift+F** | Focus: hide everything but the page; press again to come back | The Writing Room |
 | **Esc** | Leave Focus, close a small window such as Capture, or close Help in the Library | The Writing Room, any small window, the Library |
 | **Ctrl+Shift+L** | Leave a note for later, \[\[like this\]\], and keep writing | On the page |
+| **Ctrl+Shift+M** | Open or close Remind me beside the page | The Writing Room (not during a sprint or Focus) |
+| **Ctrl+Shift+Enter** | New chapter, right after the one you are in | The Writing Room (not during a sprint) |
 | **Ctrl+Enter** | Save what you typed in Capture | The Capture window |
 | **Ctrl+Z** and **Ctrl+Y** | Undo and redo your typing | On the page |
 | **Ctrl and +**, **Ctrl and -**, **Ctrl and 0** | Make everything bigger, smaller, or back to normal size | Anywhere |

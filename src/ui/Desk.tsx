@@ -5,6 +5,7 @@ import { api } from './api';
 import type { Ctx } from './App';
 import { Editor } from './Editor';
 import { ScenePanel } from './ScenePanel';
+import { RemindMe } from './RemindMe';
 import { flushEditor, currentEditor } from './flush';
 import { sceneCircle, CIRCLE_WORDS } from '../core/labels';
 
@@ -13,12 +14,15 @@ import { sceneCircle, CIRCLE_WORDS } from '../core/labels';
 // and Ctrl+Shift+N still captures a thought.
 export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
   const [outline, setOutline] = useState<any>(null);
-  const [reading, setReading] = useState(false);
+  // What the panel beside the page shows: the scene plan, Read it back, or Remind me.
+  const [side, setSide] = useState<'plan' | 'read' | 'remind'>('plan');
+  const toggleSide = (s: 'plan' | 'read' | 'remind') => { if (panel && side === s) { setPanel(false); setSide('plan'); } else { setSide(s); setPanel(true); } };
   const [panel, setPanel] = useState<boolean>(() => { try { return localStorage.getItem('ns-panel') !== '0'; } catch { return true; } });
   const [focus, setFocus] = useState(false);
   const [error, setError] = useState('');
   const [tick, setTick] = useState(0);
   const newChapterRef = useRef<() => Promise<void>>(async () => {});
+  const toggleSideRef = useRef<(s: 'plan' | 'read' | 'remind') => void>(() => {});
   const [live, setLive] = useState<{ id: string; words: number } | null>(null);
 
   const loadOutline = useCallback(() => api.get(`/api/projects/${ctx.projectId}/outline`).then(setOutline).catch((e) => setError(e.message)), [ctx.projectId]);
@@ -34,6 +38,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f') { e.preventDefault(); setFocus((f) => !f); }
       if (e.key === 'Escape' && focus) setFocus(false);
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Enter' && !ctx.sprinting) { e.preventDefault(); void newChapterRef.current(); }
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'm' && !ctx.sprinting && !focus) { e.preventDefault(); toggleSideRef.current('remind'); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -80,6 +85,7 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
     } catch (e) { setError((e as Error).message); }
   }
   newChapterRef.current = newChapter;
+  toggleSideRef.current = toggleSide;
   // Split the chapter here: asks first, then cuts at the cursor in one undoable step.
   const [split, setSplit] = useState<SplitPlan | null>(null);
   async function askSplit(s: any) {
@@ -211,8 +217,9 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
       )}
       <div className="pagewrap">
         <div className="row" style={{ justifyContent: 'flex-end', padding: '0.5rem 1rem 0' }}>
-          {!quiet && <button className="btn link small" onClick={() => { setReading(false); setPanel((p) => !(p && !reading)); }}>{panel && !reading ? 'Hide scene plan' : 'Show scene plan'}</button>}
-          {!quiet && sceneId && <button className="btn link small" aria-pressed={panel && reading} onClick={() => { if (panel && reading) { setPanel(false); setReading(false); } else { setReading(true); setPanel(true); } }}>Read it back</button>}
+          {!quiet && <button className="btn link small" onClick={() => toggleSide('plan')}>{panel && side === 'plan' ? 'Hide scene plan' : 'Show scene plan'}</button>}
+          {!quiet && sceneId && <button className="btn link small" aria-pressed={panel && side === 'read'} onClick={() => toggleSide('read')}>Read it back</button>}
+          {!quiet && sceneId && <button className="btn link small" aria-pressed={panel && side === 'remind'} title="Your story and your craft, without leaving the page (Ctrl+Shift+M)" onClick={() => toggleSide('remind')}>Remind me</button>}
           {!quiet && sceneId && <button className="btn link small" onClick={() => void showPlace()} title="Where this scene sits in your plan: its card and its beat">Show in Narrative Zoom</button>}
           {!quiet && <button className="btn link small" onClick={() => ctx.openStuck(sceneId ?? undefined)}>I'm stuck</button>}
           {!quiet && sceneId && <button className="btn link small" onClick={() => void askAboutScene()}>Ask about this scene</button>}
@@ -239,8 +246,9 @@ export function Desk({ ctx, sceneId }: { ctx: Ctx; sceneId: string | null }) {
           <div className="row"><button className="btn write" autoFocus onClick={() => void doSplit()}>Split the chapter here</button><button className="btn" onClick={() => setSplit(null)}>Not now</button></div>
         </div></div>
       )}
-      {!quiet && panel && sceneId && reading && <aside className="panel" aria-label="Read it back"><ReadBack ctx={ctx} /></aside>}
-      {!quiet && panel && sceneId && !reading && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} tick={tick} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
+      {!quiet && panel && sceneId && side === 'read' && <aside className="panel" aria-label="Read it back"><ReadBack ctx={ctx} /></aside>}
+      {!quiet && panel && sceneId && side === 'remind' && <aside className="panel" aria-label="Remind me"><RemindMe key={sceneId} ctx={ctx} sceneId={sceneId} onShowPlan={() => setSide('plan')} /></aside>}
+      {!quiet && panel && sceneId && side === 'plan' && <aside className="panel" aria-label="Scene plan"><ScenePanel key={sceneId} ctx={ctx} sceneId={sceneId} tick={tick} onChanged={() => setTick((t) => t + 1)} onReloadPage={() => setEditorNonce((n) => n + 1)} /></aside>}
     </div>
   );
 }

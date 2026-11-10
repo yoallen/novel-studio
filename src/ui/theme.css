@@ -1036,3 +1036,32 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .switcher-name { font-family: var(--ui); font-size: 0.6875rem; color: var(--faint); margin-left: 0.4rem; white-space: nowrap; }
 .legend .legend-name, .push-name { font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.875rem; }
 .push-name { display: block; margin: 0 0 0.25rem; }
+
+/* Remind me: the story's memory beside the page. */
+.remind .remind-head { font-size: 1.125rem; margin: 0; }
+.remind .remind-sub { margin: 0.1rem 0 0.75rem; }
+.remind .remind-group { font-family: var(--book); font-style: italic; color: var(--margin); font-size: 0.9375rem; margin: 1.1rem 0 0.35rem; }
+.remind .remind-list, .remind .remind-people, .remind .remind-beats { list-style: none; padding: 0; margin: 0; }
+.remind .remind-list li { margin: 0 0 0.55rem; }
+.remind .remind-q { border: 0; background: none; padding: 0; text-align: left; font-family: var(--book); font-size: 1rem; color: var(--struct); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: pointer; }
+.remind .remind-q:hover, .remind .remind-q:focus-visible { color: var(--ink); }
+.remind .remind-hint { display: block; font-size: 0.8125rem; color: var(--faint); margin-top: 0.1rem; }
+.remind .remind-keys { margin-top: 1.25rem; }
+.remind .remind-back { margin: 0 0 0.75rem; }
+.remind .remind-title { font-family: var(--book); font-style: italic; font-weight: 400; color: var(--margin); font-size: 1.125rem; margin: 0 0 0.6rem; }
+.remind .remind-people li { margin: 0 0 0.95rem; }
+.remind .remind-name { display: flex; gap: 0.6rem; align-items: baseline; flex-wrap: wrap; }
+.remind .remind-name b { font-family: var(--book); font-size: 1.0625rem; color: var(--struct); }
+.remind .remind-line { font-size: 0.9375rem; margin: 0.15rem 0 0.25rem; }
+.remind .remind-yours { font-family: var(--prose); }
+.remind .remind-bullets { font-size: 0.9375rem; padding-left: 1.1rem; margin: 0 0 0.75rem; }
+.remind .remind-bullets li { margin: 0 0 0.25rem; }
+.remind .remind-facts { display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 0.9rem; font-size: 0.9375rem; margin: 0 0 0.5rem; }
+.remind .remind-facts dt { color: var(--muted); }
+.remind .remind-facts dd { margin: 0; }
+.remind .remind-links { display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem; margin: 0.5rem 0; }
+.remind .remind-search { width: 100%; margin: 0 0 0.75rem; }
+.remind .remind-waiting { color: var(--yours); }
+.remind .remind-beats li { margin: 0 0 0.35rem; }
+.remind .remind-beats li.sub { padding-left: 1rem; }
+.remind .remind-beats li.sub .remind-q { font-size: 0.9375rem; }

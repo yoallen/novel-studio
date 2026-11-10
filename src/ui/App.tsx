@@ -38,6 +38,8 @@ export interface Ctx {
   showInMap: (sceneId: string) => void;
   /** Open I'm stuck. Given the open scene's id (from the Writing Room), it starts at that scene's beat. */
   openStuck: (fromSceneId?: unknown) => void;
+  /** Open one beat's page in Narrative Zoom. */
+  showBeat: (beatId: string) => void;
   currentSceneId: string | null;
   /** A sprint is running: the page is all there is. */
   sprinting: boolean;
@@ -207,7 +209,8 @@ export function App() {
   const ctx: Ctx = { projectId, project, settings, refreshProject, openScene, closeScene: () => { setSceneId(null); api.put(`/api/projects/${projectId}/writing-state`, { sceneId: null }).catch(() => {}); }, go, setSaveState: setSave, capture: () => setCapturing(true), currentSceneId: sceneId, cursorRef,
     sprinting: !!sprint, startSprint: () => setChoosingSprint(true),
     showInMap: (sid: string) => { void api.get(`/api/scenes/${sid}/locate`).then((node) => { setZoomReq({ node, nonce: Date.now() }); go('zoom'); }).catch((e) => setError(e.message)); },
-    openStuck: (from?: unknown) => setStuck({ sceneId: typeof from === 'string' ? from : null }) };
+    openStuck: (from?: unknown) => setStuck({ sceneId: typeof from === 'string' ? from : null }),
+    showBeat: (id: string) => { setZoomReq({ node: { level: 'beat', id }, nonce: Date.now() }); go('zoom'); } };
   const saveText = save.state === 'saving' ? 'Saving…' : save.state === 'saved' ? 'Saved' : save.state === 'unsaved' ? 'Not saved yet' : save.state === 'error' ? (save.message ?? 'Not saved') : '';
 
   const PRIMARY: View[] = ['home', 'write', 'brain', 'zoom', 'conversations'];

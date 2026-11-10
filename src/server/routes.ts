@@ -14,6 +14,7 @@ import { exportArchive, importArchive, planImport, snapshot, listSnapshots } fro
 import { NotFoundError } from '../core/store.js';
 import { describeChange, undoMeaning } from '../core/trailwords.js';
 import { DEFAULT_STATUS_LABELS } from '../core/labels.js';
+import { Remind } from '../core/remind.js';
 
 const id = z.string().min(1).max(64);
 const P = z.object({ id });
@@ -221,6 +222,26 @@ export function registerRoutes(app: FastifyInstance, svc: Services) {
   app.post('/api/chapters/:id/scenes', async (req) => {
     const b = body(req, z.object({ title: z.string().max(300).optional(), text: z.string().max(20_000_000).optional(), doc: doc.optional(), afterSceneId: id.nullable().optional(), status: z.string().max(40).optional() }));
     return ms.addScene(params(req, P).id, b);
+  });
+  // ----- Remind me: answers beside the page -----
+  const remind = new Remind(store, brain, ms, structure, continuity, ripple);
+  const RT = z.object({ id, topic: z.enum(['menu', 'characters', 'voice', 'storylines', 'knows', 'decided', 'promises', 'next', 'beat', 'beats', 'scene']) });
+  app.get('/api/scenes/:id/remind/:topic', async (req) => {
+    const p = params(req, RT); const q = query(req, z.object({ q: z.string().max(200).optional(), beat: id.optional() }));
+    const pid = ms.scene(p.id).project_id as string;
+    switch (p.topic) {
+      case 'menu': return remind.menu(p.id);
+      case 'characters': return remind.characters(pid);
+      case 'voice': return remind.voice(p.id);
+      case 'storylines': return remind.storylines(p.id);
+      case 'knows': return remind.knows(p.id);
+      case 'decided': return remind.decided(pid, q.q ?? '');
+      case 'promises': return remind.promises(p.id);
+      case 'next': return remind.next(p.id);
+      case 'beats': return remind.beats(pid);
+      case 'scene': return remind.scene(p.id);
+      case 'beat': { const b = q.beat ?? remind.menu(p.id).beat?.id; if (!b) throw new NotFoundError('beat'); return remind.beat(pid, b); }
+    }
   });
   app.post('/api/scenes/:id/split-chapter', async (req) => {
     const b = body(req, z.object({ before: doc, after: doc, expectVersion: z.number().int() }));

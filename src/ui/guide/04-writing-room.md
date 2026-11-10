@@ -23,8 +23,8 @@ The room has three columns and a row of links above the page.
 | --- | --- |
 | **Left: the Binder** | Headed **Binder**. Your chapters and scenes in book order, with word counts and a small circle showing how far along each scene is. Below them, **Planned, not written yet** |
 | **Middle: the page** | The open scene: its title, your text, and a small line underneath with the word counts and **New chapter** |
-| **Right: the side panel** | Usually the **Scene plan** for the open scene. It can show **Read it back** instead |
-| **Above the page: the links** | **Hide scene plan** (or **Show scene plan**), **Read it back**, **Show in Narrative Zoom**, **I'm stuck**, **Ask about this scene**, **Writing Trail**, **Sprint** and **Focus** |
+| **Right: the side panel** | Usually the **Scene plan** for the open scene. It can show **Read it back** or **Remind me** instead |
+| **Above the page: the links** | **Hide scene plan** (or **Show scene plan**), **Read it back**, **Remind me**, **Show in Narrative Zoom**, **I'm stuck**, **Ask about this scene**, **Writing Trail**, **Sprint** and **Focus** |
 | **Top of the window** | The **Saved** indicator, beside the **Capture** button |
 
 If no scene is open, the page says *Choose a scene on the left, or add one, and start writing.* The scenes to choose from are in the Binder.
@@ -416,7 +416,7 @@ Restoring a version is not writing, so it never counts toward your words for the
 
 ## Writing Room: the links above the page
 
-The row of links above the page holds the tools for the moments when writing gets hard: hearing it, being stuck, needing to see the bigger picture, and shutting out the world. They are described here from left to right, after **Hide scene plan**, which is covered above.
+The row of links above the page holds the tools for the moments when writing gets hard: hearing it, remembering your story, being stuck, needing to see the bigger picture, and shutting out the world. They are described here from left to right, after **Hide scene plan**, which is covered above.
 
 ### Writing Room: Read it back
 
@@ -440,6 +440,40 @@ The row of links above the page holds the tools for the moments when writing get
 While the door is closed (a setting that stops Story Canon judging your draft until a day you choose, taught in [Goals: door closed](#goals-door-closed)), Echoes, watch words and Long sentences wait, and a line says so, with **Look anyway** to see them on purpose. **Hear it** always works.
 
 **The common mistake** is fixing every chip. The panel points; you decide.
+
+### Writing Room: Remind me
+
+**What it is.** **Remind me** answers the questions that stop a draft cold, right beside the page: who is this person again, whose voice is this chapter in, what does she know yet, what does this beat need. Click **Remind me** in the row above the page, or press **Ctrl+Shift+M**, and it takes the place of the scene plan on the right. Your scene stays exactly where it was, cursor and all. Press **Ctrl+Shift+M** again, or click **Remind me** again, to close it.
+
+**Why it works this way.** Everything Remind me shows is already kept somewhere in Story Canon: in the Story Brain, in your plan in Narrative Zoom, in the continuity checks. The trouble is that going to look is a detour, and a detour mid-scene costs the sentence you were holding. Remind me brings the answer to the page instead. It only reads: nothing you see there changes, and it never adds a detour to the Writing Trail.
+
+**What you can ask.** The list has two groups. Click any question to see its answer, and **← All reminders** to go back.
+
+*Your story*
+
+| Question | What it shows | Where the full answer lives |
+| --- | --- | --- |
+| **Remind me, who are my characters?** | Every character, main characters first, with their role and their **Who they are** line | Each one's record in the Story Brain |
+| **Whose voice is this?** | This scene's viewpoint character, person (first "I", second "you", third "she" or "he"), tense and distance, and whether it was set for the scene or for the whole chapter. Under it, how that character sounds: their accent and rhythm, and their sayings and verbal habits, from the **Language and voice** page of their record. The list shows the short answer under the question, such as *Marisol Vega, third person, past tense* | The scene plan's page **2 About it**, and the character's record |
+| **Where did I leave a storyline?** | Each storyline, the last scene card that moved it up to this point in the book, and the next one planned to | Narrative Zoom, **Continuity checks**, **Storylines** |
+| **What does (your viewpoint character) know right now?** | What she knows, suspects or believes wrongly as of this scene, and, kept apart, what she only learns later | **Continuity checks**, **Who knows what** |
+| **What did I decide about…** | Type a name, a place or any word. It finds what you marked **Decided** that mentions it, newest first | The record each answer comes from |
+| **What did I promise the reader?** | Every setup you planted, with where it pays off. The ones still waiting for a payoff come first, in your pink | **Continuity checks**, **Setups and payoffs** |
+| **What comes next in my plan?** | The beat this scene sits on, the next beat, and the next scene cards you planned but haven't written | Narrative Zoom, and **Planned, not written yet** in the Binder |
+
+*Your craft*
+
+| Question | What it shows |
+| --- | --- |
+| **What does this beat need?** | Appears when this scene's card is on a beat. Where the beat falls in the book, how much room it takes, what it does, the teaching, and the **Questions to check it**. A link opens the beat in Narrative Zoom |
+| **Remind me about a beat…** | Every beat of your beat sheet. Choose any one to read the same reminder |
+| **What makes a scene work?** | The questions of the scene plan (what the scene must do, the objective, the conflict, the outcome, the value at the start and the end, what turns it), each with why it matters and, under it, what you answered for this scene |
+
+**When something is blank.** Remind me never guesses. If you haven't set a viewpoint, or written who a character is, it says so plainly and tells you where that would go. Viewpoint, for instance, only matters if you work that way; if you don't, the answer simply says there is nothing set.
+
+**The common mistake** is treating Remind me as the place to fix things. It is a glance, not a desk. If an answer shows something wrong, such as a character's line that is out of date, finish the sentence you are on first, then use the link to open the record and change it there. During a first draft, the glance is the point.
+
+**Example.** Lands: forty thousand words into *The Keeper of Gull Point*, you are writing the storm and stop: does Marisol know yet that Cyrus cut the page from the harbor ledger? You press **Ctrl+Shift+M** and choose **What does Marisol know right now?**. Under *Not yet. Marisol learns these later* is *Cyrus cut the page (in The storm)*. So she can't know it before this scene ends. You close Remind me and keep writing, sure of it, two seconds later. Misleads: you ask the same thing in a book where nothing was connected in **Who knows what**. The answer says nothing is on record, which does not mean she knows nothing. Remind me can only remember what you told Story Canon.
 
 ### Writing Room: Show in Narrative Zoom
 
