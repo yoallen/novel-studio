@@ -96,6 +96,12 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 - Dark mode as one of the color bindings.
 - Beta readers: send a review copy, their reactions come back and land on the scene they belong to.
 
+## Two small gaps she found while drafting (after November; Yolanda, 2026-11-09)
+
+- Renaming is invisible: a scene's title box and a chapter's double-click give no hint on screen. Add a visible cue (a "Rename" link or pencil hint) in the Binder and on the scene title. Her naming rule applies.
+- A Beat choice in the scene plan, so she can put a scene on Opening Image (or any beat) without leaving the page for Narrative Zoom. Today it takes filling a plan line, then placing the card in Narrative Zoom. It would also feed Remind me's "What does this beat need?"
+- Mockups and her approval first.
+
 ## Already approved, not yet built
 
 - Color presets ("bindings") a writer can choose.
