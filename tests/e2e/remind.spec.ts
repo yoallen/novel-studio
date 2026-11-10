@@ -82,3 +82,17 @@ test('Remind me teaches the beat the scene sits on, and any beat on request', as
   await panel.getByRole('button', { name: 'Open this beat in Narrative Zoom' }).click();
   await expect(page.locator('.running .where')).toHaveText('Narrative Zoom');
 });
+
+// The links above the page stay in reach, however far down the scene she is.
+test('the links above the page stay put while the pages scroll', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await newNovel(page, 'Long Scene');
+  await heroWrite(page).click(); await editor(page).click();
+  for (let i = 0; i < 6; i++) { await page.keyboard.insertText('The boat came in on the morning tide with nobody in it, and she watched it from the gallery until the light went gray. '.repeat(6)); await page.keyboard.press('Enter'); }
+  await waitSaved(page);
+  await page.locator('.pagewrap').evaluate((e) => { e.scrollTop = e.scrollHeight; });
+  const link = page.getByRole('button', { name: 'Remind me', exact: true });
+  await expect(link).toBeInViewport();
+  await link.click();
+  await expect(page.getByRole('complementary', { name: 'Remind me' })).toBeVisible();
+});

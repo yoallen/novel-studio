@@ -416,7 +416,7 @@ Restoring a version is not writing, so it never counts toward your words for the
 
 ## Writing Room: the links above the page
 
-The row of links above the page holds the tools for the moments when writing gets hard: hearing it, remembering your story, being stuck, needing to see the bigger picture, and shutting out the world. They are described here from left to right, after **Hide scene plan**, which is covered above.
+The row of links above the page holds the tools for the moments when writing gets hard: hearing it, remembering your story, being stuck, needing to see the bigger picture, and shutting out the world. The row stays pinned at the top of the writing column while you scroll, so every link is in reach on page 40 as well as page 1. They are described here from left to right, after **Hide scene plan**, which is covered above.
 
 ### Writing Room: Read it back
 

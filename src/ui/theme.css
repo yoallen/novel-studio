@@ -1065,3 +1065,6 @@ mark.search-mark { background: color-mix(in srgb, var(--orange) 28%, transparent
 .remind .remind-beats li { margin: 0 0 0.35rem; }
 .remind .remind-beats li.sub { padding-left: 1rem; }
 .remind .remind-beats li.sub .remind-q { font-size: 0.9375rem; }
+
+/* The links above the page stay in reach: the pages scroll under them, never away with them. */
+.pagewrap > .row:first-child { position: sticky; top: 0; z-index: 5; background: var(--page); padding-bottom: 0.5rem; box-shadow: 0 1px 0 var(--line), 0 6px 10px -8px rgba(82, 40, 117, 0.25); }
