@@ -102,6 +102,18 @@ Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, F
 - A Beat choice in the scene plan, so she can put a scene on Opening Image (or any beat) without leaving the page for Narrative Zoom. Today it takes filling a plan line, then placing the card in Narrative Zoom. It would also feed Remind me's "What does this beat need?"
 - Mockups and her approval first.
 
+## Beat teaching, deepened (after November; from her STC Beats Teaching Guide v1.0, 2026-11-11)
+
+- Her own guide (24,000 words, organized from her raw notes) shows what Story Canon's beat pages lack. She will use it beside Story Canon during November; build in December.
+- Moment, section and snapshot beats (plus the B Story as a running thread), sharper than single and multi scene. Would have prevented the Opening Image length confusion.
+- Ranges in words and chapters at her target length for each beat, not only a starting point.
+- Deeper teaching per beat: rules, how it fails, common forms (four types of Catalyst, four shapes of Debate, false victory and false defeat at the Midpoint, the five stages of the Finale).
+- The threads under every beat: Want and Need, A Story and B Story, the flaw, the theme cycle.
+- The multi-POV beat split ("whose beat is it?").
+- Where the sources differ: follow Brody's novel percentages, note Snyder's screenplay pages.
+- NOT for the program: "Applying It to Your Comedy" and "Questions for Your Story" belong to her book.
+- Before building: check every number against Brody's book itself, write in Story Canon's own words, credit as the beat pages do, and include it in the rights review. Mockups and her approval first.
+
 ## Already approved, not yet built
 
 - Color presets ("bindings") a writer can choose.
