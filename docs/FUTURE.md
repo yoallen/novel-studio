@@ -2,6 +2,13 @@
 
 Ideas Yolanda has approved for later. Nothing here is in the program yet. Newest first.
 
+## Guiding principle after the freeze: Headlights (Yolanda, 2026-11-16)
+
+- Her words: the Doctorow line "It's like driving a car at night: you never see further than your headlights, but you can make the whole trip that way" is "how I feel, truthfully," and how Story Canon should be built once the freeze is over. Headlights. Even High Beam.
+- Headlights: while drafting, Story Canon lights the next stretch of road (this scene, the next beat, what she needs to remember right now) and keeps the rest of the map out of the way. The map still exists; she just doesn't have to look at it.
+- High Beam (her phrase): a deliberate way to see further when she chooses to, then dip back. Mockups and her approval first.
+- Weigh every after-November item against this: does it light the next few feet of road, or does it make her stare at the whole map?
+
 ## Later: series, companion novels and starter kits
 
 Shaped by her catalog and her reading (King, Rowling, Jemisin, Barker, Gaiman, Flynn, Miller).
